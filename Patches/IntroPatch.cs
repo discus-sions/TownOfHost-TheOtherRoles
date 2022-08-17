@@ -140,6 +140,7 @@ namespace TownOfHost
                 case RoleType.Coven:
                     __instance.TeamTitle.text = "COVEN";
                     __instance.TeamTitle.color = Utils.GetRoleColor(CustomRoles.Coven);
+                    __instance.ImpostorText.gameObject.SetActive(true);
                     __instance.ImpostorText.text = GetString("CovenInfo");
                     __instance.BackgroundBar.material.color = Utils.GetRoleColor(CustomRoles.Coven);
                     break;
