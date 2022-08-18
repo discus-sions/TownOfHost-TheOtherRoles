@@ -545,6 +545,15 @@ namespace TownOfHost
                 }
             }
 
+            if (target != null) //Sleuth Report for Non-Buttons
+            {
+                if (__instance.Is(CustomRoles.Sleuth))
+                {
+                    //Main.MayorUsedButtonCount[__instance.PlayerId] += 1;
+                    Utils.SendMessage(Utils.GetRoleName(target.GetCustomRole()), __instance.PlayerId);
+                }
+            }
+
             if (Options.SyncButtonMode.GetBool() && target == null)
             {
                 Logger.Info("最大:" + Options.SyncedButtonCount.GetInt() + ", 現在:" + Options.UsedButtonCount, "ReportDeadBody");
@@ -577,10 +586,6 @@ namespace TownOfHost
                 }
                 else
                     Logger.Info("Vampireに噛まれている" + bitten?.Data?.PlayerName + "はすでに死んでいました。", "ReportDeadBody");
-            }
-            if (__instance.Is(CustomRoles.Sleuth) && target != null)
-            {
-                Utils.SendMessage(target.GetNameWithRole(), __instance.PlayerId);
             }
             Main.BitPlayers = new Dictionary<byte, (byte, float)>();
             Main.PuppeteerList.Clear();
@@ -1200,6 +1205,8 @@ namespace TownOfHost
                     pc?.ReportDeadBody(null);
                 }
             }
+            if (pc.Is(CustomRoles.Jester) && !Options.JesterCanVent.GetBool())
+                pc.MyPhysics.RpcBootFromVent(__instance.Id);
         }
     }
     [HarmonyPatch(typeof(PlayerPhysics), nameof(PlayerPhysics.CoEnterVent))]

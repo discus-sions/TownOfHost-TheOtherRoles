@@ -321,6 +321,9 @@ namespace TownOfHost
                         : 300f;
                     opt.RoleOptions.EngineerInVentMaxTime = 1;
                     break;
+                case CustomRoles.Jester:
+                    opt.SetVision(player, Options.JesterHasImpostorVision.GetBool());
+                    goto InfinityVent;
                 case CustomRoles.Mare:
                     Mare.ApplyGameOptions(opt, player.PlayerId);
                     break;
