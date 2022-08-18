@@ -30,8 +30,8 @@ EvilWatcher,Evil Watcher,イビルウォッチャー,邪恶的窥视者,邪惡�
 Puppeteer,Puppeteer,パペッティア,傀儡师,傀儡師
 TimeThief,TimeThief,タイムシーフ,蚀时者,時間小偷
 Sniper,Sniper,スナイパー,狙击手,狙擊手
-Silencer,Silencer,Silencer,Silencer
-CorruptedSheriff,CorruptedSheriff,CorruptedSheriff,CorruptedSheriff
+Silencer,Silencer,Silencer,沉默者,
+CorruptedSheriff,CorruptedSheriff,CorruptedSheriff,无能的警长,
 
 # マッドメイト系役職
 Madmate,Madmate,マッドメイト,叛徒,叛徒
@@ -55,8 +55,8 @@ SpeedBooster,SpeedBooster,スピードブースター,增速者,加速器
 Doctor,Doctor,ドクター,医生,醫生
 Trapper,Trapper,トラッパー,陷阱师,設陷者
 Dictator,Dictator,ディクテーター,独裁者,獨裁主義者
-Child,Child,Child,Child
-Sleuth,Sleuth,Sleuth,Sleuth
+Child,Child,Child,小人
+Sleuth,Sleuth,Sleuth,侦探
 
 # 第三陣営役職
 Jester,Jester,ジェスター,小丑,小丑
@@ -71,11 +71,11 @@ Opportunist,Opportunist,オポチュニスト,投机者,投機主義者
 Egoist,Egoist,エゴイスト,野心家,利己主義者
 Lovers,Lovers,恋人,恋人,戀人
 Jackal,Jackal,ジャッカル,豺狼,豺狼
-PlagueBearer,PlagueBearer,PlagueBearer,PlagueBearer
-Pestilence,Pestilence,Pestilence,Pestilence
+PlagueBearer,PlagueBearer,PlagueBearer,毒医
+Pestilence,Pestilence,Pestilence,传染者
 
 # Coven 
-Coven,Coven,Coven,Coven
+Coven,Coven,Coven,巫师
 
 # HideAndSeek
 HASFox,Fox,狐,狐狸,狐妖
@@ -134,8 +134,8 @@ SpeedBoosterInfo,Boost the players,走らせろ,让其他人跑起来吧,讓其�
 DoctorInfo,Access vitals and cause of death,斯くして奴は死んだ,调查他人死因,看見他們的死因
 TrapperInfo,Trap your enemies,敵を罠にはめよう,引诱敌人落入你的陷阱当中,讓你的敵人受困於陷阱中
 DictatorInfo,Hang your enemy based on your own judgement,独裁政治をしよう,让我统治世界，拥有无上的权利,讓所有人臣服於你
-ChildInfo,No one will Harm You,No one will Harm You,No one will Harm You
-SleuthInfo,Discover the Unknown,Discover the Unknown,Discover the Unknown
+ChildInfo,No one will Harm You,No one will Harm You,在你长大之前没有人可以伤害你
+SleuthInfo,Discover the Unknown,Discover the Unknown,发现了一些线索
 
 # 第三陣営役職
 ArsonistInfo,Let them burn,燃やせ,火焰给我燃烧起来吧！,"燒吧,燒吧,燃燒吧"
@@ -151,11 +151,11 @@ ExecutionerInfo,Get your target voted out,ターゲットを追放させよう,�
 EgoistInfo,Replace the Impostor win,インポスター勝利を独占しよう,我们要把属于内鬼的胜利给夺走！,讓我們來奪取狼人的勝利
 LoversInfo,Survive with your lover,恋人と生きて幸せを掴もう,你坠入了爱河，成为了一对恋人，一起活到最后吧！,你墜入了愛河(心理)
 JackalInfo,Kill Everyone and Last Alone,すべてを殺せ,快去杀光所有人，一只苍蝇都不要剩下！,殺光所有人不留活口
-PlagueBearerInfo,Infect Everyone and Become Pestilence,Infect Everyone and Become Pestilence,Infect Everyone and Become Pestilence
-PestilenceInfo,Kill Everyone and Leave None,Kill Everyone and Leave None,Kill Everyone and Leave None
+PlagueBearerInfo,Infect Everyone and Become Pestilence,Infect Everyone and Become Pestilence,把所有人都给传染了，引发大型瘟疫
+PestilenceInfo,Kill Everyone and Leave None,Kill Everyone and Leave None,把所有人杀都杀光一只蚊子都不要剩
 
 # Coven 
-CovenInfo,Support your Leader,Support your Leader,Support your Leader
+CovenInfo,Support your Leader,Support your Leader,支援你的领袖
 
 # HideAndSeek
 HASFoxInfo,Stay alive,とにかく生き残りましょう,活下去吧！活到最后你就成为了赢家！,活到最後就是屬於你和贏家的一片天
@@ -179,8 +179,8 @@ MafiaInfoLong,"(Impostors):\nInitially, the Mafias cannot kill (still have a but
 PuppeteerInfoLong,"(Impostors):\nThey can perform secondhand kills but cannot kill like other Impostors.\nTheir direct kill is blocked, but instead, the protected player forcibly kills another player first getting in kill range.",(インポスター陣営):\nキルした対象に、対象が次に近づいたクルーをキルさせる事ができる。\n対象がキルした相手がキルされた瞬間に発動するものであった場合、対象にその効果が反映される。\n普通のキルを行うことはできない。,(内鬼阵营):\n傀儡师的击杀对象会击杀其遇到的下一个船员。\n若后者在接触的同时死亡，则前者死亡。\n傀儡师不可以执行正常击杀。,"(狼人陣營):\n當傀儡師嘗試殺人時,\n他會下咒離他最近的一個人,接著如果碰到非狼人陣營的人並且在殺人範圍內,\n被下咒對象將會砍死他且效果不再持續,\n傀儡師無法正常殺人。"
 TimeThiefInfoLong,"(Impostors):\nEvery kill cuts down discussion and voting time in meeting.\nDepending on option, the lost time is returned after they die.",(インポスター陣営):\nキルを行うと会議時間が減少する。\nタイムシーフが追放または殺害されると、失われた会議時間が返ってきます。,(内鬼阵营):\n蚀时者每击杀一个人，会议持续时间将减少一定时间。\n如果蚀时者死亡，被偷取的时间的会议时间会返还。,"(狼人陣營):\n時間小偷每次殺人將會減少會議時間\n如果時間小偷被丟出或被殺死,減少的會議時間將會回來"
 SniperInfoLong,(Impostors):\nSniper can shoot players so far away.\nthey kill a player on the extension line from Shapeshift point to release point.\nYou can perform normal kills after all bullets run out.,(インポスター陣営):\n遠くの敵を狙撃できるインポスター。\nシェイプシフトした地点から解除した地点の延長線上の敵を一人撃ち抜く。\n撃ちきるまで通常キル出来ない。,(内鬼阵营):\n狙击手拥有远距离击杀的能力。\n狙击手化形后，其击杀能够将其现在为止与化形时所处位置连线及其延长线上的一名玩家击杀。\n狙击手的子弹耗尽前，狙击手不可以进行通常击杀。",(狼人陣營):\n狙擊遠處的敵人\n子彈將從變形處延伸到取消變形處並往直線前進並殺死在這條線上非狼人陣營的人\n狙擊手無法正常殺人在狙擊手用光子彈前。"
-SilencerInfoLong,"(Impostors):\nThe first killing attempt will silence the crewmate in the next meeting. After that, you are a regular impostor.","(Impostors):\nThe first killing attempt will silence the crewmate in the next meeting. After that, you are a regular impostor.","(Impostors):\nThe first killing attempt will silence the crewmate in the next meeting. After that, you are a regular impostor."
-CorruptedSheriffInfoLong,"(Impostors):\nA Corrupted Sheriff, or Traitor, spawns when the last Impostor is voted off inside a meeting. No Traitor will spawn if the Impostor died by other means. The Traitor will replace the Sheriff role always when Corrupted Sheriff is not at 0%. You can also make it so there is a minimum number of players for Traitor to spawn. Otherwise, it is just a regular Impostor with nothing different.","(Impostors):\nA Corrupted Sheriff, or Traitor, spawns when the last Impostor is voted off inside a meeting. No Traitor will spawn if the Impostor died by other means. The Traitor will replace the Sheriff role always when Corrupted Sheriff is not at 0%. You can also make it so there is a minimum number of players for Traitor to spawn.","(Impostors):\nA Corrupted Sheriff, or Traitor, spawns when the last Impostor is voted off inside a meeting. No Traitor will spawn if the Impostor died by other means. The Traitor will replace the Sheriff role always when Corrupted Sheriff is not at 0%. You can also make it so there is a minimum number of players for Traitor to spawn."
+SilencerInfoLong,"(Impostors):\nThe first killing attempt will silence the crewmate in the next meeting. After that, you are a regular impostor.","(Impostors):\nThe first killing attempt will silence the crewmate in the next meeting. After that, you are a regular impostor.","(内鬼阵营):n第一次尝试杀人将在下一次会议上让船员朋友沉默。在那之后，你就是一名普通的内鬼了."
+CorruptedSheriffInfoLong,"(Impostors):\nA Corrupted Sheriff, or Traitor, spawns when the last Impostor is voted off inside a meeting. No Traitor will spawn if the Impostor died by other means. The Traitor will replace the Sheriff role always when Corrupted Sheriff is not at 0%. You can also make it so there is a minimum number of players for Traitor to spawn. Otherwise, it is just a regular Impostor with nothing different.","(Impostors):\nA Corrupted Sheriff, or Traitor, spawns when the last Impostor is voted off inside a meeting. No Traitor will spawn if the Impostor died by other means. The Traitor will replace the Sheriff role always when Corrupted Sheriff is not at 0%. You can also make it so there is a minimum number of players for Traitor to spawn.","(内鬼阵营）：当最后一个内鬼在会议中被投票淘汰时，就会产生一个无能的警长，或叛徒。如果内鬼以其他方式死亡，则不会产生叛徒。当无能的警长没有达到0%时，叛徒将永远取代警长的角色。你也设置最低叛徒数量。"
 
 # マッドメイト系役職
 MadmateInfoLong,"(Impostors):\nCrewmate, but they belong to team Impostors, but they don't know who are Impostors.\nImpostor and are unrecognizable to each other. Can use vent, no tasks.",(インポスター陣営):\nクルーだがインポスターの味方をする。\nインポスターと互いに認識できない。\nベントが使え、タスクはない。,(内鬼阵营):\n叛徒不可以击杀或者破坏，可以跳管道。,"(狼人陣營):\n船員,但是他們屬於狼人陣營.\n狼人無法知道叛徒是誰,\n他可以跳洞且沒有任務。"
@@ -203,8 +203,8 @@ SpeedBoosterInfoLong,(Crewmates):Finishing all the tasks boosts the player speed
 DoctorInfoLong,"(Crewmates):\nThe Doctors have a portable vitals panel just like the vanilla Role Scientists.\nIn addtion, the Doctors can see all causes of death in meetings.",(クルーメイト陣営):\nプレイヤーの死因を知ることができる。\nまた、充電がある限りどこでもバイタルを確認できる。,(船员阵营):\n医生可以确认所有死亡玩家的死因。\n医生可以远程观看生命监测装置，观看持续时间与设备充能挂钩。,"(船員):\n醫生可以知道每個玩家的死因\n還有醫生有一個跟科學家一樣的心電圖,它也需要充電。"
 TrapperInfoLong,(Crewmates):\nThe Trappers forbid the killer to move in the least for a configurable seconds.,(クルーメイト陣営):\nキルされると、キルした人を数秒間移動不可にすることができる。(設定有),(船员阵营):\n陷阱师被击杀时，凶手一段时间内将不能移动。,"(船員):\n如果設限者被殺,殺他的兇手將會被困在原地幾秒(可以設定)"
 DictatorInfoLong,"(Crewmates):\nWhen you vote for someone in a meeting, they forcibly break that meeting and exile the player they vote for.\nAfter exercising the force, the Dictators die just after meeting.",(クルーメイト陣営):\n会議中に誰かに投票をすると、会議を強制終了させて投票先を吊る事ができる。\n投票したタイミングでディクテーターは死ぬ。,(船员阵营):\n会议阶段独裁者投票后，可以选择强制结束会议并放逐其投票对象。\n这技能发动后独裁者将会死亡。,"(船員):\n如果獨裁主義者在會議上投票給某位玩家,\n獨裁主義者將強制結束會議並無視場上票數將獨裁主義者投的那個人投出\n但是獨裁主義者將死於他投票的瞬間。"
-ChildInfoLong,"(Crewmates):\nWhen you die by voting or killing, you instantly win. (Arsonist still wins even if Child is killed.)","(Crewmates):\nWhen you die by voting or killing, you instantly win.","(Crewmates):\nWhen you die by voting or killing, you instantly win."
-SleuthInfoLong,"(Crewmates):\nWhen a body is reported, you know the role of the body. You can make it so the Sleuth has to report.","(Crewmates):\nWhen a body is reported, you know the role of the body. You can make it so the Sleuth has to report.","(Crewmates):\nWhen a body is reported, you know the role of the body. You can make it so the Sleuth has to report."
+ChildInfoLong,"(Crewmates):\nWhen you die by voting or killing, you instantly win. (Arsonist still wins even if Child is killed.)","(Crewmates):\nWhen you die by voting or killing, you instantly win.","(船员阵营):\n你被票出去或者被杀掉会因为你是小孩而获得胜利."
+SleuthInfoLong,"(Crewmates):\nWhen a body is reported, you know the role of the body. You can make it so the Sleuth has to report.","(Crewmates):\nWhen a body is reported, you know the role of the body. You can make it so the Sleuth has to report.","(船员阵营):\n当报告尸体时你知道关于尸体的线索，你可以让侦探必须报告."
 
 # 第三陣営役職
 ArsonistInfoLong,(Neutrals):\nThey can douse other players by using the kill button and remaining next to the player for a few seconds.\nAfter dousing everyone alive the Arsonists can enter the vents to ignite which results in Arsonist win.,(第三陣営):\nキルボタンを使おうとすると、ターゲットに油を塗れる。\nすべてのクルーに油を塗ったら船を燃やして勝利する。,(独立阵营):\n在一名玩家附近时点击击杀按钮，纵火犯可以给那名玩家涂油。\n所有存活玩家都被纵火犯涂油后，纵火犯点火将会单独获得胜利。,"(中立):\n當縱火犯嘗試使用殺人鍵,它將對他身邊最近的一個人澆上油,\n當他對所有玩家澆上油之後,縱火縱火犯點火即勝利。"
@@ -215,11 +215,11 @@ SchrodingerCatInfoLong,"(Neutrals):\nWhen killed, they prevents the kill and bel
 OpportunistInfoLong,(Neutrals):\nThey win the game with any other Roles only if they are just alive at the game end.,(第三陣営):\n試合終了時に生存していれば追加勝利となる。,(独立阵营):\n若投机者在游戏结束时存活，则投机者跟随获胜玩家一同获得胜利。,"(中立):\n如果投機主義者活到最後,他將跟著遊戲結束獲勝的陣營一起獲勝。"
 EgoistInfoLong,"(Neutrals):\nAfter all the Impostors has gone, the Egoists Replace Impostor win.\nThe Impostors and Egoists can see each other.",(第三陣営):\n味方がすべて死んだ状態でインポスターが勝つと単独勝利する。\nインポスターは誰がエゴイストか分かる。エゴイストも、誰がインポスターか分かる。,(独立阵营):\n规则上野心家属于内鬼阵营。野心家与内鬼阵营玩家互认且不可以击杀对方。\n内鬼阵营玩家全部死亡后，若野心家存活且内鬼阵营达成胜利条件，则野心家单独获得胜利。,"(中立):\n如果所有的狼人都死光了且利己主義者活著,利己主義者將獨自獲勝。\n(狼人和利己主義者互相知道對方但是不可以互刀對方)"
 JackalInfoLong,(Neutrals):\nJackal can kill every Crewmates and Impostors.\nJackal can win when living players are only 1 jackal and 1 crew.,(第三陣営):\nジャッカルはすべてのプレイヤーを殺すことができる。\n生き残っているプレイヤーがジャッカル1人とクルー1人の時、ジャッカルが勝利する。,(独立阵营):\n豺狼需要击杀所有人。\n存活的玩家只剩豺狼和一名其他船员时，豺狼获得胜利。,"(中立):\n豺狼需要殺死所有人來獲得勝利,\n如果場上存活的玩家只剩下豺狼和另一名不帶刀職業時,豺狼將獲勝。"
-PlagueBearerInfoLong,"(Neutrals):\nYou're kill button is an Infect button. Infect everyone until you become Pestilence.","(Neutrals):\nYou're kill button is an Infect button. Infect everyone until you become Pestilence.","(Neutrals):\nYou're kill button is an Infect button. Infect everyone until you become Pestilence."
-PestilenceInfoLong,"(Neutrals):\nPestilence cannot die and can only be voted. When someone tries to kill Pestilence, they die instead. Even their Lover dying won't bring the Pestilence down.","(Neutrals):\nPestilence cannot die and can only be voted. When someone triesto kill Pestilence, they die instead.","(Neutrals):\nPestilence cannot die and can only be voted. When someone triesto kill Pestilence, they die instead."
+PlagueBearerInfoLong,"(Neutrals):\nYou're kill button is an Infect button. Infect everyone until you become Pestilence.","(Neutrals):\nYou're kill button is an Infect button. Infect everyone until you become Pestilence.","(中立阵营):\n你的击杀按钮变成了感染，你需要将所有人感染造成瘟疫."
+PestilenceInfoLong,"(Neutrals):\nPestilence cannot die and can only be voted. When someone tries to kill Pestilence, they die instead. Even their Lover dying won't bring the Pestilence down.","(Neutrals):\nPestilence cannot die and can only be voted. When someone triesto kill Pestilence, they die instead.","(中立阵营):\n毒医不能被杀死，当有人试图击杀他是他会受到反伤而死."
 
 # Coven
-CovenInfoLong,"(Coven):\nNothing special about regular Coven. They just help support the Leader.","(Coven):\nNothing special about regular Coven. They just help support the Leader.","(Coven):\nNothing special about regular Coven. They just help support the Leader."
+CovenInfoLong,"(Coven):\nNothing special about regular Coven. They just help support the Leader.","(Coven):\nNothing special about regular Coven. They just help support the Leader.","(法师):\n普通的法师没什么特别之处他们只会支援领袖."
 
 # HideAndSeek
 HASFoxInfoLong,(HideAndSeek):\nThey win the game with other Roles (except Troll) only if they are alive at the game end.,(かくれんぼ):\nトロールを除くいずれかの陣営が勝利したときに生き残っていれば、勝利した陣営に追加で勝利することができる。,（躲猫猫）:\n狐狸活到最后便与获胜阵营一同获胜。,"(躲貓貓):\n除了其他的中立陣營以外,只要狐妖活下來即可獲勝\n他們將跟著遊戲結束的獲勝陣營一起獲勝。"
@@ -301,8 +301,8 @@ CanMakeMadmateCount,SidekickMadmate Maximum,マッドメイトを作れる人数
 MadSnitchCanVent,MadSnitch Can Use Vent,マッドスニッチがベントを使える,背叛的告密者可以使用管道,背叛的告密者可以使用管道
 MadSnitchTasks,MadSnitch Tasks,マッドスニッチのタスク数,背叛的告密者任务数,背叛告密者任務數量
 MadGuardianCanSeeWhoTriedToKill,MadGuardian Can See Who Tried To Kill,マッドガーディアンが自身の殺害未遂者を知ることができる,堕落守卫可以得知对其进行击杀尝试的玩家,背叛天使可以看到是誰嘗試殺害自己
-ChildKnown,Child is Known to Everyone,Child is Known to Everyone,Child is Known to Everyone
-JesterVent,Jester Can Vent,Jester Can Vent,Jester Can Vent
+ChildKnown,Child is Known to Everyone,Child is Known to Everyone,所有人都知道谁是小孩
+JesterVent,Jester Can Vent,Jester Can Vent,小丑可以跳管道
 JesterHasImpostorVision,Jester Has Impostor Vision,JesterHasImpostorVision,JesterHasImpostorVision
 MadmateCanFixLightsOut,Madmates Can Fix Lights Out,マッドメイト系役職が停電を直すことができる,叛徒职业可以修理照明破坏,叛徒職業的玩家可以修理電燈
 MadmateCanFixComms,Madmates Can Fix Comms,マッドメイト系役職が通信障害を直すことができる,叛徒职业可以修理通讯,叛徒職業的玩家可以修理通訊
@@ -325,9 +325,9 @@ SheriffCanKillExecutioner,Sheriff Can Kill Executioner,シェリフがエクス�
 SheriffCanKillOpportunist,Sheriff Can Kill Opportunist,シェリフがオポチュニストをキルできる,警长可以执法投机者,警長可以槍死投機主義者
 SheriffCanKillMadmate,Sheriff Can Kill Madmates,シェリフがマッドメイトをキルできる,警长可以执法叛徒,警長可以槍死叛徒
 SheriffCanKillEgoist,Sheriff Can Kill Egoist,シェリフがエゴイストをキルできる,警长可以执法野心家,警長可以槍死利己主義者
-SheriffCanKillPB,Sheriff Can Kill PlagueBearer,Sheriff Can Kill PlagueBearer,Sheriff Can Kill PlagueBearer
-SleuthReport,Sleuth Has to Report,Sleuth Has to Report,Sleuth Has to Report
-SkipInfect,Skip PlagueBearer Infection,Sleuth Has to Report,Sleuth Has to Report
+SheriffCanKillPB,Sheriff Can Kill PlagueBearer,Sheriff Can Kill PlagueBearer,警长可以击杀毒医
+SleuthReport,Sleuth Has to Report,Sleuth Has to Report,侦探必须报告
+SkipInfect,Skip PlagueBearer Infection,Skip PlagueBearer Infection,跳过传染者进行感染
 SheriffCanKillEgoShrodingerCat,Sheriff Can Kill EgoistSide ShrodingerCat,シェリフがエゴイスト陣営のシュレディンガーの猫をキルできる,警长可以执法自私阵营的薛定谔的猫,警長可以槍死利己主義者方的薛定諤的貓
 SheriffCanKillJackal,Sheriff Can Kill Jackal,シェリフがジャッカルをキルできる,警长可以执法豺狼,警長可以槍死豺狼
 SheriffCanKillJShrodingerCat,Sheriff Can Kill JackalSide ShrodingerCat,シェリフがジャッカル陣営のシュレディンガーの猫をキルできる,警长可以执法豺狼阵营的薛定谔的猫,警長可以槍死豺狼方的薛定諤的貓
@@ -367,9 +367,9 @@ JackalKillCooldown,Jackal Kill Cooldown,ジャッカルのキルクール,豺狼
 JackalCanVent,Jackal Can Use Vents,ジャッカルがベントを使用できる,豺狼可以使用管道,豺狼可以跳管道
 JackalCanUseSabotage,Jackal Can Use Sabotage,ジャッカルがサボタージュを使用できる,豺狼可以破坏,豺狼可以破壞
 JackalHasImpostorVision,Jackal Has Impostor Vision,ジャッカルがインポスターと同じ視界を持つ,豺狼拥有内鬼视野,豺狼擁有狼人的視野
-TraitorSpawn,Min Number of Players Needed for CorruptedSheriff,Number of Players Needed for Traitor,Number of Players Needed for Traitor,Number of Players Needed for Traitor
-TurnCorrupt,Sheriff Can Turn Corrupted,Number of Players Needed for Traitor,Number of Players Needed for Traitor,Number of Players Needed for Traitor
-EgoistKillCooldown,Egoist KillCooldown,エゴイストのキルクール
+TraitorSpawn,Min Number of Players Needed for CorruptedSheriff,Number of Players Needed for Traitor,成为叛徒的玩家数量,Number of Players Needed for Traitor
+TurnCorrupt,Sheriff Can Turn Corrupted,Number of Players Needed for Traitor,警长可以成为叛徒,Number of Players Needed for Traitor
+EgoistKillCooldown,Egoist KillCooldown,エゴイストのキルクール,自负者击杀冷却时间
 
 
 ## かくれんぼ設定
