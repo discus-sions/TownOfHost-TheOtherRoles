@@ -110,6 +110,8 @@ namespace TownOfHost
         public static CustomOption JackalCanUseSabotage;
         public static CustomOption JackalHasImpostorVision;
 
+        public static CustomOption JesterHasImpostorVision;
+
         public static CustomOption SilenceCooldown;
 
         // HideAndSeek
@@ -346,6 +348,8 @@ namespace TownOfHost
             InfectionSkip = CustomOption.Create(50440, Color.white, "SkipInfect", false, CustomRoleSpawnChances[CustomRoles.PlagueBearer]);
             SetupRoleOptions(50000, CustomRoles.Jester);
             JesterCanVent = CustomOption.Create(50010, Color.white, "JesterVent", false, CustomRoleSpawnChances[CustomRoles.Jester]);
+            JesterHasImpostorVision = CustomOption.Create(50913, Color.white, "JesterHasImpostorVision", false, CustomRoleSpawnChances[CustomRoles.Jester]);
+
             SetupRoleOptions(50100, CustomRoles.Opportunist);
             SetupRoleOptions(50200, CustomRoles.Terrorist);
             CanTerroristSuicideWin = CustomOption.Create(50210, Color.white, "CanTerroristSuicideWin", false, CustomRoleSpawnChances[CustomRoles.Terrorist], false)

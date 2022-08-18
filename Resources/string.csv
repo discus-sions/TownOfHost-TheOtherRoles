@@ -2,6 +2,7 @@ id,0,11,13,14
 ## Translators
 #13 SChinese:fivefirex&ZeMingOH233  2T&MC-AS-Huier&xiaojin (Edit: Tanakanira)
 #14 TChinese: NetherDragon_Tw (Edit: Soukunsandesu)
+#15 Schincese New Roles: MC-AS-Huier
 
 ## 役職
 Neutral,Neutral,第三陣営,中立阵营,中立陣營
@@ -92,7 +93,7 @@ TeamImpostor,Team Impostors,インポスター陣営,内鬼阵营,狼人陣營
 
 ## 役職説明ショート
 NeutralInfo,NEUTRAL - A team on their own.,他のどの陣営にも属さない孤高の陣営,不属于其他阵营的独立阵营,你屬於一個獨立陣營且不受其他陣營或職業的獲勝條件引響
-CovenInfo,COVEN - A team of Witches on their own.,他のどの陣営にも属さない孤高の陣営,不属于其他阵营的独立阵营,你屬於一個獨立陣營且不受其他陣營或職業的獲勝條件引響
+CovenIntroInfo,COVEN - A team of Witches on their own.,他のどの陣営にも属さない孤高の陣営,不属于其他阵营的独立阵营,你屬於一個獨立陣營且不受其他陣營或職業的獲勝條件引響
 
 # 特殊インポスター役職
 BountyHunterInfo,Hunt your bounty down,標的を確実に仕留めよう,猎杀你的赏金目标,將你的目標拿下
@@ -302,6 +303,7 @@ MadSnitchTasks,MadSnitch Tasks,マッドスニッチのタスク数,背叛的告
 MadGuardianCanSeeWhoTriedToKill,MadGuardian Can See Who Tried To Kill,マッドガーディアンが自身の殺害未遂者を知ることができる,堕落守卫可以得知对其进行击杀尝试的玩家,背叛天使可以看到是誰嘗試殺害自己
 ChildKnown,Child is Known to Everyone,Child is Known to Everyone,所有人都知道谁是小孩
 JesterVent,Jester Can Vent,Jester Can Vent,小丑可以跳管道
+JesterHasImpostorVision,Jester Has Impostor Vision,JesterHasImpostorVision,JesterHasImpostorVision
 MadmateCanFixLightsOut,Madmates Can Fix Lights Out,マッドメイト系役職が停電を直すことができる,叛徒职业可以修理照明破坏,叛徒職業的玩家可以修理電燈
 MadmateCanFixComms,Madmates Can Fix Comms,マッドメイト系役職が通信障害を直すことができる,叛徒职业可以修理通讯,叛徒職業的玩家可以修理通訊
 MadmateHasImpostorVision,Madmates Have Impostor Vision,マッドメイト系役職の視野がインポスターと同じ,叛徒职业拥有内鬼视野,叛徒職業的玩家有跟狼人一樣的視野
