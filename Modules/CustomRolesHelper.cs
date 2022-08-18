@@ -65,7 +65,7 @@ namespace TownOfHost
         public static bool IsCoven(this CustomRoles role)
         {
             return
-                role is CustomRoles.Crewmate or
+                role is CustomRoles.Coven or
                 CustomRoles.Engineer or
                 CustomRoles.Scientist or
                 CustomRoles.GuardianAngel or
@@ -132,5 +132,12 @@ namespace TownOfHost
         Neutral,
         Madmate,
         Coven
+    }
+    public enum RoleTeam
+    {
+        None,
+        Evil,
+        Killing
+        Support
     }
 }
