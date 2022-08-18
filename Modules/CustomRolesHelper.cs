@@ -46,6 +46,7 @@ namespace TownOfHost
                 CustomRoles.Jackal or
                 CustomRoles.PlagueBearer or
                 CustomRoles.Pestilence or
+                CustomRoles.Juggernaut or
                 CustomRoles.JSchrodingerCat or
                 CustomRoles.HASTroll or
                 CustomRoles.HASFox;
@@ -66,11 +67,7 @@ namespace TownOfHost
         {
             return
                 role is CustomRoles.Coven or
-                CustomRoles.Engineer or
-                CustomRoles.Scientist or
-                CustomRoles.GuardianAngel or
-                CustomRoles.Impostor or
-                CustomRoles.Shapeshifter;
+                CustomRoles.Coven;
         }
 
         public static RoleType GetRoleType(this CustomRoles role)
@@ -137,7 +134,8 @@ namespace TownOfHost
     {
         None,
         Evil,
-        Killing
-        Support
+        Killing,
+        Support,
+        Protective
     }
 }

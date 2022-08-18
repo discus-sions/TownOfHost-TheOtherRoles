@@ -86,7 +86,7 @@ namespace TownOfHost
         public static int SKMadmateNowCount;
         public static bool witchMeeting;
         public static bool isCursed;
-        public static bool firstKill;
+        public static List<PlayerControl> firstKill = new();
         public static List<PlayerControl> SilencedPlayer = new();
         public static bool isSilenced;
         public static bool isShipStart;
@@ -104,6 +104,7 @@ namespace TownOfHost
         public static bool introDestroyed = false;
         public static int DiscussionTime;
         public static int VotingTime;
+        public static int JugKillAmounts;
         public static byte currentDousingTarget;
 
         //plague info.
@@ -150,11 +151,13 @@ namespace TownOfHost
             PlagueBearerTimer = new Dictionary<byte, (PlayerControl, float)>();
             ExecutionerTarget = new Dictionary<byte, byte>();
             MayorUsedButtonCount = new Dictionary<byte, int>();
+            //firstKill = new Dictionary<byte, (PlayerControl, float)>();
             winnerList = new();
             VisibleTasksCount = false;
             MessagesToSend = new List<(string, byte)>();
             currentDousingTarget = 255;
             currentInfectingTarget = 255;
+            JugKillAmounts = 0;
 
             IgnoreWinnerCommand = Config.Bind("Other", "IgnoreWinnerCommand", true);
             WebhookURL = Config.Bind("Other", "WebhookURL", "none");
@@ -213,6 +216,7 @@ namespace TownOfHost
                     {CustomRoles.Egoist, "#5600ff"},
                     {CustomRoles.EgoSchrodingerCat, "#5600ff"},
                     {CustomRoles.Jackal, "#00b4eb"},
+                    {CustomRoles.Juggernaut, "#882ee8"},
                     {CustomRoles.JSchrodingerCat, "#00b4eb"},
                     //HideAndSeek
                     {CustomRoles.HASFox, "#e478ff"},
@@ -339,6 +343,7 @@ namespace TownOfHost
         Pestilence,
         EgoSchrodingerCat,//エゴイスト陣営のシュレディンガーの猫
         Jester,
+        Juggernaut,
         Opportunist,
         SchrodingerCat,//第三陣営のシュレディンガーの猫
         Terrorist,
@@ -373,6 +378,7 @@ namespace TownOfHost
         Egoist = CustomRoles.Egoist,
         Pestilence = CustomRoles.Pestilence,
         Jackal = CustomRoles.Jackal,
+        Juggernaut = CustomRoles.Juggernaut,
         HASTroll = CustomRoles.HASTroll,
     }
     public enum AdditionalWinners

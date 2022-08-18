@@ -301,8 +301,10 @@ namespace TownOfHost
                 { CustomRoles.SchrodingerCat, "sc" },
                 { CustomRoles.Terrorist, "te" },
                 { CustomRoles.Jackal, "jac" },
+                { CustomRoles.Juggernaut, "jn"},
                 { CustomRoles.PlagueBearer, "pb" },
                 { CustomRoles.Pestilence, "pesti" },
+                { (CustomRoles)(-6), $"== {GetString("CovenChat")} ==" }, //区切り用
                 { CustomRoles.Coven, "co" },
                 //Sub役職
                 { (CustomRoles)(-6), $"== {GetString("SubRole")} ==" }, //区切り用

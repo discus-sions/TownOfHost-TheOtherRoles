@@ -7,6 +7,7 @@ id,0,11,13,14
 ## 役職
 Neutral,Neutral,第三陣営,中立阵营,中立陣營
 SubRole,Sub Role,サブ役職,附加职业,附加職業
+CovenChat,Coven Roles,Coven Roles,Coven Roles
 
 # バニラ役職
 Crewmate,Crewmate,クルーメイト,船员,船員
@@ -73,6 +74,7 @@ Lovers,Lovers,恋人,恋人,戀人
 Jackal,Jackal,ジャッカル,豺狼,豺狼
 PlagueBearer,PlagueBearer,PlagueBearer,毒医
 Pestilence,Pestilence,Pestilence,传染者
+Juggernaut,Juggernaut,Juggernaut,Juggernaut
 
 # Coven 
 Coven,Coven,Coven,巫师
@@ -153,6 +155,7 @@ LoversInfo,Survive with your lover,恋人と生きて幸せを掴もう,你坠�
 JackalInfo,Kill Everyone and Last Alone,すべてを殺せ,快去杀光所有人，一只苍蝇都不要剩下！,殺光所有人不留活口
 PlagueBearerInfo,Infect Everyone and Become Pestilence,Infect Everyone and Become Pestilence,把所有人都给传染了，引发大型瘟疫
 PestilenceInfo,Kill Everyone and Leave None,Kill Everyone and Leave None,把所有人杀都杀光一只蚊子都不要剩
+JuggernautInfo,Your cooldown decreaes with Each Kill,Your cooldown decreaes with Each Kill,Your cooldown decreaes with Each Kill
 
 # Coven 
 CovenInfo,Support your Leader,Support your Leader,支援你的领袖
@@ -217,6 +220,7 @@ EgoistInfoLong,"(Neutrals):\nAfter all the Impostors has gone, the Egoists Repla
 JackalInfoLong,(Neutrals):\nJackal can kill every Crewmates and Impostors.\nJackal can win when living players are only 1 jackal and 1 crew.,(第三陣営):\nジャッカルはすべてのプレイヤーを殺すことができる。\n生き残っているプレイヤーがジャッカル1人とクルー1人の時、ジャッカルが勝利する。,(独立阵营):\n豺狼需要击杀所有人。\n存活的玩家只剩豺狼和一名其他船员时，豺狼获得胜利。,"(中立):\n豺狼需要殺死所有人來獲得勝利,\n如果場上存活的玩家只剩下豺狼和另一名不帶刀職業時,豺狼將獲勝。"
 PlagueBearerInfoLong,"(Neutrals):\nYou're kill button is an Infect button. Infect everyone until you become Pestilence.","(Neutrals):\nYou're kill button is an Infect button. Infect everyone until you become Pestilence.","(中立阵营):\n你的击杀按钮变成了感染，你需要将所有人感染造成瘟疫."
 PestilenceInfoLong,"(Neutrals):\nPestilence cannot die and can only be voted. When someone tries to kill Pestilence, they die instead. Even their Lover dying won't bring the Pestilence down.","(Neutrals):\nPestilence cannot die and can only be voted. When someone triesto kill Pestilence, they die instead.","(中立阵营):\n毒医不能被杀死，当有人试图击杀他是他会受到反伤而死."
+JuggernautInfoLong,"(Neutrals):\nThe Juggernaut's kill cooldown decreases with each kill.","(Neutrals):\nThe Juggernaut's kill cooldown decreases with each kill.","(Neutrals):\nThe Juggernaut's kill cooldown decreases with each kill."
 
 # Coven
 CovenInfoLong,"(Coven):\nNothing special about regular Coven. They just help support the Leader.","(Coven):\nNothing special about regular Coven. They just help support the Leader.","(法师):\n普通的法师没什么特别之处他们只会支援领袖."
@@ -328,11 +332,13 @@ SheriffCanKillEgoist,Sheriff Can Kill Egoist,シェリフがエゴイストを�
 SheriffCanKillPB,Sheriff Can Kill PlagueBearer,Sheriff Can Kill PlagueBearer,警长可以击杀毒医
 SleuthReport,Sleuth Has to Report,Sleuth Has to Report,侦探必须报告
 SkipInfect,Skip PlagueBearer Infection,Skip PlagueBearer Infection,跳过传染者进行感染
+
 SheriffCanKillEgoShrodingerCat,Sheriff Can Kill EgoistSide ShrodingerCat,シェリフがエゴイスト陣営のシュレディンガーの猫をキルできる,警长可以执法自私阵营的薛定谔的猫,警長可以槍死利己主義者方的薛定諤的貓
 SheriffCanKillJackal,Sheriff Can Kill Jackal,シェリフがジャッカルをキルできる,警长可以执法豺狼,警長可以槍死豺狼
 SheriffCanKillJShrodingerCat,Sheriff Can Kill JackalSide ShrodingerCat,シェリフがジャッカル陣営のシュレディンガーの猫をキルできる,警长可以执法豺狼阵营的薛定谔的猫,警長可以槍死豺狼方的薛定諤的貓
 SheriffCanKillCrewmatesAsIt,Sheriff Can Kill Crewmates As It,シェリフがそのままクルーをキルできる,警长尝试执法船员时会和被执法者同归于尽,警長走火時會讓嘗試槍的玩家同歸於盡
 SheriffShotLimit,Sheriff Shot Limit,シェリフのキル可能回数,警长最大执法次数,警長最大子彈數量
+SheriffCanKillJug,Sheriff Can Kill Juggernaut,シェリフのキル可能回数,警长最大执法次数,警長最大子彈數量
 DoctorTaskCompletedBatteryCharge,Doctor Battery Duration,ドクターがタスクを終わらせたときにセットされるバイタルの秒数,科学家每完成一个任务增加的设备充能数,醫生完成任務充電秒數
 SnitchEnableTargetArrow,Snitch Can See Target Arrow,ターゲットを示す矢印が見える,告密者完成任务后可以通过箭头确认所有被发现目标,告密者完成任務後可以看到目標的箭頭
 SnitchCanGetArrowColor,Snitch Can See Colored Arrow,矢印の色で陣営がわかる,告密者对不同阵营的目标使用不同颜色的箭头确认,對不同陣營的目標使用不同顏色的箭頭標示
@@ -370,6 +376,9 @@ JackalHasImpostorVision,Jackal Has Impostor Vision,ジャッカルがインポ�
 TraitorSpawn,Min Number of Players Needed for CorruptedSheriff,Number of Players Needed for Traitor,成为叛徒的玩家数量,Number of Players Needed for Traitor
 TurnCorrupt,Sheriff Can Turn Corrupted,Number of Players Needed for Traitor,警长可以成为叛徒,Number of Players Needed for Traitor
 EgoistKillCooldown,Egoist KillCooldown,エゴイストのキルクール,自负者击杀冷却时间
+JuggerKillCooldown,Juggernaut Kill Cooldown,ジャッカルのキルクール,豺狼击杀冷却,豺狼殺人冷卻
+JuggerDecrease,Juggernaut Cooldown Decrease,ジャッカルのキルクール,豺狼击杀冷却,豺狼殺人冷卻
+JuggerCanVent,Juggernaut Can Use Vents,ジャッカルがベントを使用できる,豺狼可以使用管道,豺狼可以跳管道
 
 
 ## かくれんぼ設定

@@ -40,13 +40,14 @@ namespace TownOfHost
 
             Main.SpelledPlayer = new List<PlayerControl>();
             Main.witchMeeting = false;
-            Main.firstKill = true;
+            Main.firstKill = new List<PlayerControl>();
             Main.isSilenced = false;
             Main.SilencedPlayer = new List<PlayerControl>();
             Main.CheckShapeshift = new Dictionary<byte, bool>();
             Main.SpeedBoostTarget = new Dictionary<byte, byte>();
             Main.MayorUsedButtonCount = new Dictionary<byte, int>();
             Main.targetArrows = new();
+            Main.JugKillAmounts = 0;
 
             Options.UsedButtonCount = 0;
             Main.RealOptionsData = PlayerControl.GameOptions.DeepCopy();
@@ -165,6 +166,7 @@ namespace TownOfHost
                 AssignDesyncRole(CustomRoles.Sheriff, AllPlayers, sender, BaseRole: RoleTypes.Impostor);
                 AssignDesyncRole(CustomRoles.Arsonist, AllPlayers, sender, BaseRole: RoleTypes.Impostor);
                 AssignDesyncRole(CustomRoles.Jackal, AllPlayers, sender, BaseRole: RoleTypes.Impostor);
+                AssignDesyncRole(CustomRoles.Juggernaut, AllPlayers, sender, BaseRole: RoleTypes.Impostor);
                 AssignDesyncRole(CustomRoles.PlagueBearer, AllPlayers, sender, BaseRole: RoleTypes.Impostor);
             }
             if (sender.CurrentState == CustomRpcSender.State.InRootMessage) sender.EndMessage();

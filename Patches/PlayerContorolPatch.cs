@@ -220,6 +220,14 @@ namespace TownOfHost
                 switch (killer.GetCustomRole())
                 {
                     //==========インポスター役職==========//
+                    case CustomRoles.Juggernaut:
+                        //if (!Main.firstKill.Contains(killer))
+                        //    Main.firstKill.Contains(killer);
+                        Main.JugKillAmounts++;
+                        Main.AllPlayerKillCooldown[killer.PlayerId] = Main.JugKillAmounts * Options.JuggerDecrease.GetFloat();
+                        killer.RpcMurderPlayer(target);
+
+                        break;
                     case CustomRoles.BountyHunter: //キルが発生する前にここの処理をしないとバグる
                         BountyHunter.OnCheckMurder(killer, target);
                         break;
@@ -258,21 +266,21 @@ namespace TownOfHost
                         return false;
                     case CustomRoles.Silencer:
                         //Silenced Player
-                        if (!Main.firstKill && !Main.SilencedPlayer.Contains(target))
+                        if (!Main.firstKill.Contains(killer) && !Main.SilencedPlayer.Contains(target))
                         {
                             killer.RpcMurderPlayer(target);
                             return false;
                             break;
                         }
-                        else if (Main.firstKill == true && !Main.SilencedPlayer.Contains(target))
+                        else if (Main.firstKill.Contains(killer) && !Main.SilencedPlayer.Contains(target))
                         {
-                            Main.firstKill = false;
+                            Main.firstKill.Add(killer);
                             killer.RpcGuardAndKill(target);
                             Main.SilencedPlayer.Add(target);
                             RPC.RpcDoSilence(target.PlayerId);
                             break;
                         }
-                        if (!Main.firstKill && !Main.SilencedPlayer.Contains(target)) return false;
+                        if (!Main.firstKill.Contains(killer) && !Main.SilencedPlayer.Contains(target)) return false;
                         break;
                     case CustomRoles.Witch:
                         if (killer.IsSpellMode() && !Main.SpelledPlayer.Contains(target))
