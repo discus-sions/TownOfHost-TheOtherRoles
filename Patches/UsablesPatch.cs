@@ -48,6 +48,8 @@ namespace TownOfHost
                 canUse = couldUse = VentForTrigger = true;
             else if (pc.Object.Is(CustomRoles.Jackal))
                 canUse = couldUse = Options.JackalCanVent.GetBool();
+            else if (pc.Object.Is(CustomRoles.Jester))
+                canUse = couldUse = Options.JesterCanVent.GetBool();
             else if (pc.Object.Is(CustomRoles.Pestilence))
                 canUse = couldUse = Options.PestiCanVent.GetBool();
             else if (pc.Role.TeamType == RoleTeamTypes.Impostor || pc.Role.Role == RoleTypes.Engineer) // インポスター陣営ベースの役職とエンジニアベースの役職は常にtrue
