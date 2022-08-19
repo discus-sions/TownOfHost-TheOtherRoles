@@ -166,7 +166,7 @@ namespace TownOfHost
                 }
                 Main.SpelledPlayer.Clear();
                 Main.SilencedPlayer.Clear();
-                Main.firstKill = true;
+                Main.firstKill.Clear();
 
                 if (CustomRoles.Lovers.IsEnable() && Main.isLoversDead == false && Main.LoversPlayers.Find(lp => lp.PlayerId == exileId) != null)
                 {

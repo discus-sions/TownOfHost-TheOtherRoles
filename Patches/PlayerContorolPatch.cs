@@ -221,12 +221,14 @@ namespace TownOfHost
                 {
                     //==========インポスター役職==========//
                     case CustomRoles.Juggernaut:
-                        //if (!Main.firstKill.Contains(killer))
-                        //    Main.firstKill.Contains(killer);
+                        //calculating next kill cooldown
                         Main.JugKillAmounts++;
-                        Main.AllPlayerKillCooldown[killer.PlayerId] = Main.JugKillAmounts * Options.JuggerDecrease.GetFloat();
+                        float DecreasedAmount = Main.JugKillAmounts * Options.JuggerDecrease.GetFloat();
+                        Main.AllPlayerKillCooldown[killer.PlayerId] = Options.JuggerKillCooldown.GetFloat() - DecreasedAmount;
+                        if (Main.AllPlayerKillCooldown[killer.PlayerId] < 1)
+                            Main.AllPlayerKillCooldown[killer.PlayerId] = 1;
+                        //after calculating make the kill happen ?
                         killer.RpcMurderPlayer(target);
-
                         break;
                     case CustomRoles.BountyHunter: //キルが発生する前にここの処理をしないとバグる
                         BountyHunter.OnCheckMurder(killer, target);

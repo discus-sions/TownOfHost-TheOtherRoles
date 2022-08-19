@@ -379,7 +379,7 @@ namespace TownOfHost
             SetupRoleOptions(60000, CustomRoles.Coven);
             SetupSingleRoleOptions(70000, CustomRoles.Juggernaut, 1);
             JuggerKillCooldown = CustomOption.Create(60010, Color.white, "JuggerKillCooldown", 30, 2.5f, 180, 2.5f, CustomRoleSpawnChances[CustomRoles.Juggernaut]);
-            JuggerDecrease = CustomOption.Create(60010, Color.white, "JuggerDecrease", 30, 1f, 60, 2.5f, CustomRoleSpawnChances[CustomRoles.Juggernaut]);
+            JuggerDecrease = CustomOption.Create(60010, Color.white, "JuggerDecrease", 30, 2.5f, 60, 2.5f, CustomRoleSpawnChances[CustomRoles.Juggernaut]);
             JuggerCanVent = CustomOption.Create(60011, Color.white, "JuggerCanVent", true, CustomRoleSpawnChances[CustomRoles.Juggernaut]);
             //NumOfCoven = CustomOption.Create(60010, Color.white, "ArsonistDouseTime", 3, 1, 3, 1, CustomRoleSpawnChances[CustomRoles.Coven]);
 

@@ -166,6 +166,7 @@ namespace TownOfHost
                     if (cRole == CustomRoles.JSchrodingerCat) hasTasks = false;
                     if (cRole == CustomRoles.Egoist) hasTasks = false;
                     if (cRole == CustomRoles.Jackal) hasTasks = false;
+                    if (cRole == CustomRoles.Juggernaut) hasTasks = false;
                     if (cRole == CustomRoles.PlagueBearer) hasTasks = false;
                     if (cRole == CustomRoles.Pestilence) hasTasks = false;
                     if (cRole == CustomRoles.Coven) hasTasks = false;

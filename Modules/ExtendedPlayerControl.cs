@@ -314,6 +314,10 @@ namespace TownOfHost
                     opt.RoleOptions.ScientistCooldown = 0f;
                     opt.RoleOptions.ScientistBatteryCharge = Options.DoctorTaskCompletedBatteryCharge.GetFloat();
                     break;
+                case CustomRoles.Juggernaut:
+                    opt.SetVision(player, true);
+                    goto InfinityVent;
+                    break;
                 case CustomRoles.Mayor:
                     opt.RoleOptions.EngineerCooldown =
                         Main.MayorUsedButtonCount.TryGetValue(player.PlayerId, out var count) && count < Options.MayorNumOfUseButton.GetInt()
@@ -548,7 +552,8 @@ namespace TownOfHost
         }
         public static void ResetKillCooldown(this PlayerControl player)
         {
-            Main.AllPlayerKillCooldown[player.PlayerId] = Options.DefaultKillCooldown; //キルクールをデフォルトキルクールに変更
+            if (!player.Is(CustomRoles.Juggernaut))
+                Main.AllPlayerKillCooldown[player.PlayerId] = Options.DefaultKillCooldown; //キルクールをデフォルトキルクールに変更
             switch (player.GetCustomRole())
             {
                 case CustomRoles.SerialKiller:
@@ -616,6 +621,11 @@ namespace TownOfHost
                     bool CanUse = player.IsDouseDone();
                     DestroyableSingleton<HudManager>.Instance.ImpostorVentButton.ToggleVisible(CanUse && !player.Data.IsDead);
                     player.Data.Role.CanVent = CanUse;
+                    return;
+                case CustomRoles.Juggernaut:
+                    bool jug_canUse = Options.JuggerCanVent.GetBool();
+                    DestroyableSingleton<HudManager>.Instance.ImpostorVentButton.ToggleVisible(jug_canUse && !player.Data.IsDead);
+                    player.Data.Role.CanVent = jug_canUse;
                     return;
                 case CustomRoles.Jackal:
                     bool jackal_canUse = Options.JackalCanVent.GetBool();
@@ -708,6 +718,7 @@ namespace TownOfHost
                 CustomRoles.Egoist or
                 CustomRoles.Jackal or
                 CustomRoles.PlagueBearer or
+                CustomRoles.Juggernaut or
                 CustomRoles.Pestilence;
         }
 

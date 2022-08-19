@@ -304,6 +304,7 @@ namespace TownOfHost
                 { CustomRoles.Juggernaut, "jn"},
                 { CustomRoles.PlagueBearer, "pb" },
                 { CustomRoles.Pestilence, "pesti" },
+                { CustomRoles.Juggernaut, "jug"},
                 { (CustomRoles)(-6), $"== {GetString("CovenChat")} ==" }, //区切り用
                 { CustomRoles.Coven, "co" },
                 //Sub役職
