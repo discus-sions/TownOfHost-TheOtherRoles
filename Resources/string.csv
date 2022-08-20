@@ -7,7 +7,7 @@ id,0,11,13,14
 ## 役職
 Neutral,Neutral,第三陣営,中立阵营,中立陣營
 SubRole,Sub Role,サブ役職,附加职业,附加職業
-CovenChat,Coven Roles,Coven Roles,Coven Roles
+CovenChat,Coven Roles,Coven Roles,巫师阵营,巫師陣營
 
 # バニラ役職
 Crewmate,Crewmate,クルーメイト,船员,船員
@@ -32,7 +32,7 @@ Puppeteer,Puppeteer,パペッティア,傀儡师,傀儡師
 TimeThief,TimeThief,タイムシーフ,蚀时者,時間小偷
 Sniper,Sniper,スナイパー,狙击手,狙擊手
 Silencer,Silencer,Silencer,沉默者,
-CorruptedSheriff,CorruptedSheriff,CorruptedSheriff,无能的警长,
+CorruptedSheriff,CorruptedSheriff,CorruptedSheriff,无能的警长,腐敗的警官
 
 # マッドメイト系役職
 Madmate,Madmate,マッドメイト,叛徒,叛徒
@@ -56,8 +56,8 @@ SpeedBooster,SpeedBooster,スピードブースター,增速者,加速器
 Doctor,Doctor,ドクター,医生,醫生
 Trapper,Trapper,トラッパー,陷阱师,設陷者
 Dictator,Dictator,ディクテーター,独裁者,獨裁主義者
-Child,Child,Child,小人
-Sleuth,Sleuth,Sleuth,侦探
+Child,Child,Child,小人,小孩
+Sleuth,Sleuth,Sleuth,侦探,偵探
 
 # 第三陣営役職
 Jester,Jester,ジェスター,小丑,小丑
@@ -72,12 +72,12 @@ Opportunist,Opportunist,オポチュニスト,投机者,投機主義者
 Egoist,Egoist,エゴイスト,野心家,利己主義者
 Lovers,Lovers,恋人,恋人,戀人
 Jackal,Jackal,ジャッカル,豺狼,豺狼
-PlagueBearer,PlagueBearer,PlagueBearer,毒医
-Pestilence,Pestilence,Pestilence,传染者
-Juggernaut,Juggernaut,Juggernaut,Juggernaut
+PlagueBearer,PlagueBearer,PlagueBearer,毒医,疫醫
+Pestilence,Pestilence,Pestilence,传染者,感染者
+Juggernaut,Juggernaut,Juggernaut,大人,巨人
 
 # Coven 
-Coven,Coven,Coven,巫师
+Coven,Coven,Coven,巫师,巫師
 
 # HideAndSeek
 HASFox,Fox,狐,狐狸,狐妖
@@ -112,9 +112,9 @@ AfterMafiaInfo,It's time to kill,サボを活用して皆殺しにしよう,杀�
 PuppeteerInfo,Force the Crewmate to kill,敵を操って皆殺しにしよう,操纵敌人，杀光船员,操控對象並殺光所有船員
 TimeThiefInfo,Kill the Crewmates to steal discussion time,敵を殺し、会議時間を奪おう,杀死所有船员并偷取时间,殺光你的敵人並將會議時間縮短
 SniperInfo,Shoot the Crewmates in the distance,狙い撃つぜ,瞄准敌人，射击！,讓你的敵人在你的狙擊下死亡
-SilencerInfo,Silence Crewmates in Meetings,Silence Crewmates in Meetings,Silence Crewmates in Meetings
+SilencerInfo,Silence Crewmates in Meetings,Silence Crewmates in Meetings,在会议上让船员阵营保持沉默，在會議上使船員保持沉默
 LastImpostorInfo,You are the last one,残ったのはあなただけ,你是最后的希望…,你是狼村最後的希望...
-CorruptedSheriffInfo,You betrayed the Crewmates,You betrayed the Crewmates,You betrayed the Crewmates
+CorruptedSheriffInfo,You betrayed the Crewmates,You betrayed the Crewmates,你禁受不住眼前的利益，成为了一个叛徒,你成為了一位叛徒
 
 # マッドメイト系役職
 MadmateInfo,Help the Impostors,インポスターの援助をしよう,帮助内鬼,幫助狼人
@@ -136,8 +136,8 @@ SpeedBoosterInfo,Boost the players,走らせろ,让其他人跑起来吧,讓其�
 DoctorInfo,Access vitals and cause of death,斯くして奴は死んだ,调查他人死因,看見他們的死因
 TrapperInfo,Trap your enemies,敵を罠にはめよう,引诱敌人落入你的陷阱当中,讓你的敵人受困於陷阱中
 DictatorInfo,Hang your enemy based on your own judgement,独裁政治をしよう,让我统治世界，拥有无上的权利,讓所有人臣服於你
-ChildInfo,No one will Harm You,No one will Harm You,在你长大之前没有人可以伤害你
-SleuthInfo,Discover the Unknown,Discover the Unknown,发现了一些线索
+ChildInfo,No one will Harm You,No one will Harm You,在你长大之前没有人敢伤害你,在你長大前都不敢擊殺你
+SleuthInfo,Discover the Unknown,Discover the Unknown,你发现了一些关于死者的线索,你發現了一些線索
 
 # 第三陣営役職
 ArsonistInfo,Let them burn,燃やせ,火焰给我燃烧起来吧！,"燒吧,燒吧,燃燒吧"
@@ -153,12 +153,12 @@ ExecutionerInfo,Get your target voted out,ターゲットを追放させよう,�
 EgoistInfo,Replace the Impostor win,インポスター勝利を独占しよう,我们要把属于内鬼的胜利给夺走！,讓我們來奪取狼人的勝利
 LoversInfo,Survive with your lover,恋人と生きて幸せを掴もう,你坠入了爱河，成为了一对恋人，一起活到最后吧！,你墜入了愛河(心理)
 JackalInfo,Kill Everyone and Last Alone,すべてを殺せ,快去杀光所有人，一只苍蝇都不要剩下！,殺光所有人不留活口
-PlagueBearerInfo,Infect Everyone and Become Pestilence,Infect Everyone and Become Pestilence,把所有人都给传染了，引发大型瘟疫
-PestilenceInfo,Kill Everyone and Leave None,Kill Everyone and Leave None,把所有人杀都杀光一只蚊子都不要剩
-JuggernautInfo,Your cooldown decreaes with Each Kill,Your cooldown decreaes with Each Kill,Your cooldown decreaes with Each Kill
+PlagueBearerInfo,Infect Everyone and Become Pestilence,Infect Everyone and Become Pestilence,请把所有人都感染了，引起大型瘟疫,快去把所有人都感染
+PestilenceInfo,Kill Everyone and Leave None,Kill Everyone and Leave None,把所有人杀都杀光一只蚊子都不要剩,殺光所有人
+JuggernautInfo,Your cooldown decreaes with Each Kill,Your cooldown decreaes with Each Kill,你杀的人越多就会越兴奋，击杀冷却时间也会越短,殺人會讓擊殺冷卻時間縮短
 
 # Coven 
-CovenInfo,Support your Leader,Support your Leader,支援你的领袖
+CovenInfo,Support your Leader,Support your Leader,支援你的领袖,支援你的領袖
 
 # HideAndSeek
 HASFoxInfo,Stay alive,とにかく生き残りましょう,活下去吧！活到最后你就成为了赢家！,活到最後就是屬於你和贏家的一片天
@@ -183,7 +183,7 @@ PuppeteerInfoLong,"(Impostors):\nThey can perform secondhand kills but cannot ki
 TimeThiefInfoLong,"(Impostors):\nEvery kill cuts down discussion and voting time in meeting.\nDepending on option, the lost time is returned after they die.",(インポスター陣営):\nキルを行うと会議時間が減少する。\nタイムシーフが追放または殺害されると、失われた会議時間が返ってきます。,(内鬼阵营):\n蚀时者每击杀一个人，会议持续时间将减少一定时间。\n如果蚀时者死亡，被偷取的时间的会议时间会返还。,"(狼人陣營):\n時間小偷每次殺人將會減少會議時間\n如果時間小偷被丟出或被殺死,減少的會議時間將會回來"
 SniperInfoLong,(Impostors):\nSniper can shoot players so far away.\nthey kill a player on the extension line from Shapeshift point to release point.\nYou can perform normal kills after all bullets run out.,(インポスター陣営):\n遠くの敵を狙撃できるインポスター。\nシェイプシフトした地点から解除した地点の延長線上の敵を一人撃ち抜く。\n撃ちきるまで通常キル出来ない。,(内鬼阵营):\n狙击手拥有远距离击杀的能力。\n狙击手化形后，其击杀能够将其现在为止与化形时所处位置连线及其延长线上的一名玩家击杀。\n狙击手的子弹耗尽前，狙击手不可以进行通常击杀。",(狼人陣營):\n狙擊遠處的敵人\n子彈將從變形處延伸到取消變形處並往直線前進並殺死在這條線上非狼人陣營的人\n狙擊手無法正常殺人在狙擊手用光子彈前。"
 SilencerInfoLong,"(Impostors):\nThe first killing attempt will silence the crewmate in the next meeting. After that, you are a regular impostor.","(Impostors):\nThe first killing attempt will silence the crewmate in the next meeting. After that, you are a regular impostor.","(内鬼阵营):n第一次尝试杀人将在下一次会议上让船员朋友沉默。在那之后，你就是一名普通的内鬼了."
-CorruptedSheriffInfoLong,"(Impostors):\nA Corrupted Sheriff, or Traitor, spawns when the last Impostor is voted off inside a meeting. No Traitor will spawn if the Impostor died by other means. The Traitor will replace the Sheriff role always when Corrupted Sheriff is not at 0%. You can also make it so there is a minimum number of players for Traitor to spawn. Otherwise, it is just a regular Impostor with nothing different.","(Impostors):\nA Corrupted Sheriff, or Traitor, spawns when the last Impostor is voted off inside a meeting. No Traitor will spawn if the Impostor died by other means. The Traitor will replace the Sheriff role always when Corrupted Sheriff is not at 0%. You can also make it so there is a minimum number of players for Traitor to spawn.","(内鬼阵营）：当最后一个内鬼在会议中被投票淘汰时，就会产生一个无能的警长，或叛徒。如果内鬼以其他方式死亡，则不会产生叛徒。当无能的警长没有达到0%时，叛徒将永远取代警长的角色。你也设置最低叛徒数量。"
+CorruptedSheriffInfoLong,"(Impostors):\nA Corrupted Sheriff, or Traitor, spawns when the last Impostor is voted off inside a meeting. No Traitor will spawn if the Impostor died by other means. The Traitor will replace the Sheriff role always when Corrupted Sheriff is not at 0%. You can also make it so there is a minimum number of players for Traitor to spawn. Otherwise, it is just a regular Impostor with nothing different.","(Impostors):\nA Corrupted Sheriff, or Traitor, spawns when the last Impostor is voted off inside a meeting. No Traitor will spawn if the Impostor died by other means. The Traitor will replace the Sheriff role always when Corrupted Sheriff is not at 0%. You can also make it so there is a minimum number of players for Traitor to spawn.","(内鬼阵营）：当最后一个内鬼在会议中被投票淘汰时，就会产生一个无能的警长，或叛徒。如果内鬼以其他方式死亡，则不会产生叛徒。当无能的警长没有达到0%时，叛徒将永远取代警长的角色。你也设置最低叛徒数量。","(內鬼陣營):當最後一個內鬼在會議中被投票淘汰時，就會產生一個無能的警長，或叛徒。如果內鬼以其他方式死亡，則不會產生叛徒。當腐败的警長沒有達到0%時，叛徒將永遠取代警長的角色。你也設置最低叛徒數量。"
 
 # マッドメイト系役職
 MadmateInfoLong,"(Impostors):\nCrewmate, but they belong to team Impostors, but they don't know who are Impostors.\nImpostor and are unrecognizable to each other. Can use vent, no tasks.",(インポスター陣営):\nクルーだがインポスターの味方をする。\nインポスターと互いに認識できない。\nベントが使え、タスクはない。,(内鬼阵营):\n叛徒不可以击杀或者破坏，可以跳管道。,"(狼人陣營):\n船員,但是他們屬於狼人陣營.\n狼人無法知道叛徒是誰,\n他可以跳洞且沒有任務。"
@@ -307,7 +307,7 @@ MadSnitchTasks,MadSnitch Tasks,マッドスニッチのタスク数,背叛的告
 MadGuardianCanSeeWhoTriedToKill,MadGuardian Can See Who Tried To Kill,マッドガーディアンが自身の殺害未遂者を知ることができる,堕落守卫可以得知对其进行击杀尝试的玩家,背叛天使可以看到是誰嘗試殺害自己
 ChildKnown,Child is Known to Everyone,Child is Known to Everyone,所有人都知道谁是小孩
 JesterVent,Jester Can Vent,Jester Can Vent,小丑可以跳管道
-JesterHasImpostorVision,Jester Has Impostor Vision,JesterHasImpostorVision,JesterHasImpostorVision
+JesterHasImpostorVision,Jester Has Impostor Vision,JesterHasImpostorVision,小丑拥有内鬼的视野
 MadmateCanFixLightsOut,Madmates Can Fix Lights Out,マッドメイト系役職が停電を直すことができる,叛徒职业可以修理照明破坏,叛徒職業的玩家可以修理電燈
 MadmateCanFixComms,Madmates Can Fix Comms,マッドメイト系役職が通信障害を直すことができる,叛徒职业可以修理通讯,叛徒職業的玩家可以修理通訊
 MadmateHasImpostorVision,Madmates Have Impostor Vision,マッドメイト系役職の視野がインポスターと同じ,叛徒职业拥有内鬼视野,叛徒職業的玩家有跟狼人一樣的視野
@@ -404,8 +404,8 @@ DeathReason.Sniped,Sniped,狙撃,狙杀,被狙
 DeathReason.Execution,Executed,処刑,处刑,處刑
 DeathReason.Disconnected,Disconnected,回線切断,断连,斷線
 DeathReason.Fell,Fall,転落,摔死,摔死
-DeathReason.EarDamage,Ear Damage,Ear Damage,Ear Damage,Ear Damage
-DeathReason.Screamed,Screamed,Screamed,Screamed,Screamed
+DeathReason.EarDamage,Ear Damage,Ear Damage,耳朵受伤,Ear Damage
+DeathReason.Screamed,Screamed,Screamed,尖叫,Screamed
 DeathReason.etc,Unknown,その他,其他,其他
 Alive,Alive,生存,存活,存活
 Win," Wins",勝利,胜利,勝利
@@ -437,7 +437,7 @@ Message.MessageWaitHelp,Specify the first argument in seconds.,第一引数を�
 Message.TemplateNotFoundHost,"No messages matching "{0}" were found.\nPlease add to template.txt like.\n{0}:contents\n\nDefined Tags:\n{1}",「{0}」に該当するメッセージが見つかりませんでした。\n{0}:内容\nのようにtemplate.txtに追記してください。\n\n定義されているタグ:\n{1},未找到与“{0}”对应的消息。 \n{0}: 内容\n 请添加到 template.txt。 \n\n标签定义：\n{1},"沒有找到與「{0}」相關的訊息,\n請將內容加入template.txt作為{0}的定義內容。\n\n定義標籤:\n{1}"
 Message.TemplateNotFoundClient,"No messages matching "{0}" were found.",「{0}」に該当するメッセージが見つかりませんでした。,未找到与“{0}”相关的消息。,沒有找到與「{0}」相關的訊息
 Message.SyncButtonLeft,The emergency meeting button can be used {0} more times,緊急会議ボタンはあと{0}回使用できます,您可以多次使用紧急会议按钮 {0},"全場拍桌數量還剩下{0}次,請謹慎拍桌"
-Message.Executed,{0} got guessed or misguessed.,{0}を処刑しました,,{0}被處刑了
+Message.Executed,{0} got guessed or misguessed.,{0}を処刑しました,{0}被处刑了,{0}被處刑了
 Message.HideGameSettings,Game settings are hidden by the host.,ゲーム設定はホストによって秘匿されています。,游戏设置被房主隐藏。,遊戲設定被房主隱藏。
 
 ## 警告
