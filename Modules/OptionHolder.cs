@@ -59,6 +59,15 @@ namespace TownOfHost
             CustomRoles.Crewmate, CustomRoles.Jester, CustomRoles.Opportunist,
         };
 
+        public static readonly string[] PestiAttacksVetString =
+        {
+            "VetKillsPesti", "Trade", "PestiKillsVet"
+        };
+        public static readonly CustomRoles[] CRolePestiAttacksVet =
+        {
+            CustomRoles.Crewmate, CustomRoles.Jester, CustomRoles.Opportunist,
+        };
+
         // 各役職の詳細設定
         public static CustomOption EnableGM;
         public static CustomOption EnableLastImpostor;
@@ -191,6 +200,27 @@ namespace TownOfHost
         public static CustomOption GhostCanSeeOtherRoles;
         public static CustomOption GhostCanSeeOtherVotes;
         public static CustomOption HideGameSettings;
+        public static CustomOption BodiesAmount;
+
+        //coven
+        //coven main info
+        public static CustomOption CovenKillCooldown;
+        public static CustomOption CovenMeetings;
+        //role info
+        public static CustomOption HexMasterOn;
+        public static CustomOption PotionMasterOn;
+        public static CustomOption VampireDitchesOn;
+        public static CustomOption MedusaOn;
+        public static CustomOption MimicOn;
+        public static CustomOption NecromancerOn;
+        public static CustomOption ConjurorOn;
+
+        //VETERAN
+        public static CustomOption VetCD;
+        public static CustomOption VetDuration;
+        public static CustomOption NumOfVets;
+        public static CustomOption CrewRolesVetted;
+        public static CustomOption PestiAttacksVet;
         public static readonly string[] suffixModes =
         {
             "SuffixMode.None",
@@ -314,6 +344,12 @@ namespace TownOfHost
             EvilWatcherChance = CustomOption.Create(30010, Color.white, "EvilWatcherChance", 0, 0, 100, 10, CustomRoleSpawnChances[CustomRoles.Watcher]);
             // Crewmate
             SetupRoleOptions(20000, CustomRoles.Bait);
+            SetupSingleRoleOptions(20010, CustomRoles.Veteran, 1);
+            NumOfVets = CustomOption.Create(20011, Color.white, "NVet", 15, 1, 15, 1, CustomRoleSpawnChances[CustomRoles.Veteran]);
+            VetCD = CustomOption.Create(20012, Color.white, "VetCD", 30, 2.5f, 180, 2.5f, CustomRoleSpawnChances[CustomRoles.Veteran]);
+            VetDuration = CustomOption.Create(20013, Color.white, "VetDur", 30, 2.5f, 180, 2.5f, CustomRoleSpawnChances[CustomRoles.Veteran]);
+            CrewRolesVetted = CustomOption.Create(20014, Color.white, "CRGV", false, CustomRoleSpawnChances[CustomRoles.Veteran]);
+            PestiAttacksVet = CustomOption.Create(20015, Color.white, "PestiAttacks", PestiAttacksVetString, PestiAttacksVetString[2], CustomRoleSpawnChances[CustomRoles.Veteran]);
             SetupRoleOptions(20100, CustomRoles.Lighter);
             LighterTaskCompletedVision = CustomOption.Create(20110, Color.white, "LighterTaskCompletedVision", 2f, 0f, 5f, 0.25f, CustomRoleSpawnChances[CustomRoles.Lighter]);
             LighterTaskCompletedDisableLightOut = CustomOption.Create(20111, Color.white, "LighterTaskCompletedDisableLightOut", true, CustomRoleSpawnChances[CustomRoles.Lighter]);
@@ -376,11 +412,22 @@ namespace TownOfHost
             JackalCanUseSabotage = CustomOption.Create(50912, Color.white, "JackalCanUseSabotage", false, CustomRoleSpawnChances[CustomRoles.Jackal]);
             JackalHasImpostorVision = CustomOption.Create(50913, Color.white, "JackalHasImpostorVision", true, CustomRoleSpawnChances[CustomRoles.Jackal]);
 
-            SetupRoleOptions(60000, CustomRoles.Coven);
+            SetupSingleRoleOptions(60000, CustomRoles.Coven, 3);
+            CovenKillCooldown = CustomOption.Create(60010, Color.white, "CovenKillCooldown", 30, 2.5f, 180, 2.5f, CustomRoleSpawnChances[CustomRoles.Coven]);
+            CovenMeetings = CustomOption.Create(60011, Color.white, "CovenMeetings", 15, 1, 15, 1, CustomRoleSpawnChances[CustomRoles.Coven]);
+            HexMasterOn = CustomOption.Create(60012, Color.white, "HexMasterOn", false, CustomRoleSpawnChances[CustomRoles.Coven]);
+            PotionMasterOn = CustomOption.Create(60013, Color.white, "PotionMasterOn", false, CustomRoleSpawnChances[CustomRoles.Coven]);
+            VampireDitchesOn = CustomOption.Create(60014, Color.white, "VampireDitchesOn", false, CustomRoleSpawnChances[CustomRoles.Coven]);
+            MedusaOn = CustomOption.Create(60015, Color.white, "MedusaOn", false, CustomRoleSpawnChances[CustomRoles.Coven]);
+            MimicOn = CustomOption.Create(60016, Color.white, "MimicOn", false, CustomRoleSpawnChances[CustomRoles.Coven]);
+            NecromancerOn = CustomOption.Create(60017, Color.white, "NecromancerOn", false, CustomRoleSpawnChances[CustomRoles.Coven]);
+            ConjurorOn = CustomOption.Create(60018, Color.white, "ConjurorOn", false, CustomRoleSpawnChances[CustomRoles.Coven]);
             SetupSingleRoleOptions(70000, CustomRoles.Juggernaut, 1);
             JuggerKillCooldown = CustomOption.Create(60010, Color.white, "JuggerKillCooldown", 30, 2.5f, 180, 2.5f, CustomRoleSpawnChances[CustomRoles.Juggernaut]);
-            JuggerDecrease = CustomOption.Create(60010, Color.white, "JuggerDecrease", 30, 2.5f, 60, 2.5f, CustomRoleSpawnChances[CustomRoles.Juggernaut]);
-            JuggerCanVent = CustomOption.Create(60011, Color.white, "JuggerCanVent", true, CustomRoleSpawnChances[CustomRoles.Juggernaut]);
+            JuggerDecrease = CustomOption.Create(60011, Color.white, "JuggerDecrease", 30, 2.5f, 60, 2.5f, CustomRoleSpawnChances[CustomRoles.Juggernaut]);
+            JuggerCanVent = CustomOption.Create(60012, Color.white, "JuggerCanVent", true, CustomRoleSpawnChances[CustomRoles.Juggernaut]);
+            SetupSingleRoleOptions(80000, CustomRoles.Vulture, 1);
+            BodiesAmount = CustomOption.Create(50510, Color.white, "Bodies", 10, 1, 10, 1, CustomRoleSpawnChances[CustomRoles.Vulture]);
             //NumOfCoven = CustomOption.Create(60010, Color.white, "ArsonistDouseTime", 3, 1, 3, 1, CustomRoleSpawnChances[CustomRoles.Coven]);
 
             // Attribute

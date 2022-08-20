@@ -41,6 +41,7 @@ namespace TownOfHost
             Main.SpelledPlayer = new List<PlayerControl>();
             Main.witchMeeting = false;
             Main.firstKill = new List<PlayerControl>();
+            Main.unreportableBodies = new List<PlayerControl>();
             Main.isSilenced = false;
             Main.SilencedPlayer = new List<PlayerControl>();
             Main.CheckShapeshift = new Dictionary<byte, bool>();
@@ -48,11 +49,28 @@ namespace TownOfHost
             Main.MayorUsedButtonCount = new Dictionary<byte, int>();
             Main.targetArrows = new();
             Main.JugKillAmounts = 0;
+            Main.AteBodies = 0;
+
+            ////////////// COVEN INFO //////////////    
+            Main.CovenMeetings = 0;
+            Main.HasNecronomicon = false;
+            Main.HexMasterOn = false;
+            Main.PotionMasterOn = false;
+            Main.VampireDitchesOn = false;
+            Main.MedusaOn = false;
+            Main.MimicOn = false;
+            Main.NecromancerOn = false;
+            Main.ConjurorOn = false;
+            Main.ChoseWitch = false;
+            Main.WitchProteced = false;
+            ////////////// COVEN INFO //////////////    
 
             Options.UsedButtonCount = 0;
             Main.RealOptionsData = PlayerControl.GameOptions.DeepCopy();
 
             Main.introDestroyed = false;
+            Main.VettedThisRound = false;
+            Main.VetIsAlerted = false;
 
             Main.DiscussionTime = Main.RealOptionsData.DiscussionTime;
             Main.VotingTime = Main.RealOptionsData.VotingTime;
@@ -61,6 +79,7 @@ namespace TownOfHost
             Main.LastNotifyNames = new();
 
             Main.currentDousingTarget = 255;
+            Main.VetAlerts = 0;
             Main.PlayerColors = new();
             //名前の記録
             Main.AllPlayerNames = new();
@@ -140,6 +159,12 @@ namespace TownOfHost
                 if (Options.MadSnitchCanVent.GetBool())
                     AdditionalEngineerNum += CustomRoles.MadSnitch.GetCount();
 
+                if (Options.JesterCanVent.GetBool())
+                    AdditionalEngineerNum += CustomRoles.Jester.GetCount();
+
+                if (CustomRoles.Veteran.IsEnable())
+                    AdditionalEngineerNum += CustomRoles.Veteran.GetCount();
+
                 roleOpt.SetRoleRate(RoleTypes.Engineer, EngineerNum + AdditionalEngineerNum, AdditionalEngineerNum > 0 ? 100 : roleOpt.GetChancePerGame(RoleTypes.Engineer));
 
                 int ShapeshifterNum = roleOpt.GetNumPerGame(RoleTypes.Shapeshifter);
@@ -168,6 +193,15 @@ namespace TownOfHost
                 AssignDesyncRole(CustomRoles.Jackal, AllPlayers, sender, BaseRole: RoleTypes.Impostor);
                 AssignDesyncRole(CustomRoles.Juggernaut, AllPlayers, sender, BaseRole: RoleTypes.Impostor);
                 AssignDesyncRole(CustomRoles.PlagueBearer, AllPlayers, sender, BaseRole: RoleTypes.Impostor);
+
+                //COVEN 
+                AssignDesyncRole(CustomRoles.Witch, AllPlayers, sender, BaseRole: RoleTypes.Shapeshifter);
+                AssignDesyncRole(CustomRoles.HexMaster, AllPlayers, sender, BaseRole: RoleTypes.Impostor);
+                AssignDesyncRole(CustomRoles.PotionMaster, AllPlayers, sender, BaseRole: RoleTypes.Shapeshifter);
+                AssignDesyncRole(CustomRoles.Poisoner, AllPlayers, sender, BaseRole: RoleTypes.Impostor);
+                AssignDesyncRole(CustomRoles.Medusa, AllPlayers, sender, BaseRole: RoleTypes.Impostor);
+                AssignDesyncRole(CustomRoles.Mimic, AllPlayers, sender, BaseRole: RoleTypes.Impostor);
+                AssignDesyncRole(CustomRoles.Necromancer, AllPlayers, sender, BaseRole: RoleTypes.Impostor);
             }
             if (sender.CurrentState == CustomRpcSender.State.InRootMessage) sender.EndMessage();
             //以下、バニラ側の役職割り当てが入る
@@ -256,6 +290,7 @@ namespace TownOfHost
                 AssignCustomRolesFromList(CustomRoles.Jester, Options.JesterCanVent.GetBool() ? Engineers : Crewmates);
                 AssignCustomRolesFromList(CustomRoles.Madmate, Engineers);
                 AssignCustomRolesFromList(CustomRoles.Bait, Crewmates);
+                AssignCustomRolesFromList(CustomRoles.Veteran, Engineers);
                 AssignCustomRolesFromList(CustomRoles.Sleuth, Crewmates);
                 AssignCustomRolesFromList(CustomRoles.Child, Crewmates);
                 AssignCustomRolesFromList(CustomRoles.MadGuardian, Crewmates);
@@ -267,6 +302,7 @@ namespace TownOfHost
                 AssignCustomRolesFromList(CustomRoles.Mafia, Impostors);
                 AssignCustomRolesFromList(CustomRoles.Terrorist, Engineers);
                 AssignCustomRolesFromList(CustomRoles.Executioner, Crewmates);
+                AssignCustomRolesFromList(CustomRoles.Vulture, Crewmates);
                 AssignCustomRolesFromList(CustomRoles.Vampire, Impostors);
                 AssignCustomRolesFromList(CustomRoles.BountyHunter, Shapeshifters);
                 AssignCustomRolesFromList(CustomRoles.Witch, Impostors);
@@ -300,6 +336,26 @@ namespace TownOfHost
                         Main.AllPlayerCustomRoles[pc.PlayerId] = CustomRoles.NiceWatcher;
                     if (pc.Is(CustomRoles.PlagueBearer) && Options.InfectionSkip.GetBool())
                         Main.AllPlayerCustomRoles[pc.PlayerId] = CustomRoles.Pestilence;
+                    if (pc.Is(CustomRoles.Vampire) && Options.VampireDitchesOn.GetBool())
+                        Main.AllPlayerCustomRoles[pc.PlayerId] = CustomRoles.Poisoner;
+                }
+                //if (CustomRoles.Veteran.IsEnable())
+                //    Main.VetAlerts = Options.NumOfVets.GetInt();
+                foreach (var pc in PlayerControl.AllPlayerControls)
+                {
+                    //time for coven
+                    if (CustomRolesHelper.GetRoleType(pc.GetCustomRole()) == RoleType.Coven)
+                    {
+                        //if they are coven.
+                        if (pc.Is(CustomRoles.Coven))
+                        {
+
+                        }
+                        else
+                        {
+                            //Poisoner
+                        }
+                    }
                 }
                 foreach (var pair in Main.AllPlayerCustomRoles)
                 {
@@ -336,6 +392,9 @@ namespace TownOfHost
                                 //their name will have (C)
                                 pc.name += Helpers.ColorString(Utils.GetRoleColor(CustomRoles.Jackal), " (C)");
                             }
+                            break;
+                        case CustomRoles.Veteran:
+                            Main.VetAlerts = Options.NumOfVets.GetInt();
                             break;
                         case CustomRoles.FireWorks:
                             FireWorks.Add(pc.PlayerId);

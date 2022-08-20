@@ -5,7 +5,7 @@ id,0,11,13,14
 #15 Schincese New Roles: MC-AS-Huier
 
 ## 役職
-Neutral,Neutral,第三陣営,中立阵营,中立陣營
+Neutral,Neutral and Coven,第三陣営,中立阵营,中立陣營
 SubRole,Sub Role,サブ役職,附加职业,附加職業
 CovenChat,Coven Roles,Coven Roles,Coven Roles
 
@@ -46,6 +46,7 @@ Watcher,Watcher,ウォッチャー,窥视者,觀察者
 # 特殊クルー役職
 NiceWatcher,Nice Watcher,ナイスウォッチャー,正义的窥视者,正義的觀察者
 Bait,Bait,ベイト,诱饵,誘餌
+Veteran,Veteran,Veteran,Veteran
 Lighter,Lighter,ライター,执灯人,小燈人
 Mayor,Mayor,メイヤー,市长,市長
 SabotageMaster,SabotageMaster,サボタージュマスター,修理大师,破壞大師
@@ -75,9 +76,18 @@ Jackal,Jackal,ジャッカル,豺狼,豺狼
 PlagueBearer,PlagueBearer,PlagueBearer,毒医
 Pestilence,Pestilence,Pestilence,传染者
 Juggernaut,Juggernaut,Juggernaut,Juggernaut
+Vulture,Vulture,Vulture,Vulture
 
 # Coven 
 Coven,Coven,Coven,巫师
+Poisoner,Poisoner,Poisoner,Poisoner
+CovenWitch,Witch,Witch,Witch
+HexMaster,Hex Master,Hex Master,Hex Master
+PotionMaster,Potion Master,Potion Master,Potion Master
+Medusa,Medusa,Medusa,Medusa
+Mimic,Mimic,Mimic,Mimic
+Necromancer,Necromancer,Necromancer,Necromancer
+Conjuror,Conjuror,Conjuror,Conjuror
 
 # HideAndSeek
 HASFox,Fox,狐,狐狸,狐妖
@@ -127,11 +137,12 @@ WatcherInfo,Keep your eyes on everyone's votes,みんなの投票に目を光ら
 
 # 特殊クルー役職
 BaitInfo,Bait your enemies,敵を罠にはめよう,诱骗敌人，让敌人落入你的陷阱,"犧牲小我,完成大我"
+VeteranInfo,Alert to Kill anyone who Interacts with You,Alert to Kill anyone who Interacts with You,Alert to Kill anyone who Interacts with You
 LighterInfo,Light all over,すべてを照らそう,照亮黑暗，让别人看清楚,照亮黑暗中的一切吧
 MayorInfo,Your vote counts twice,自分の票が何倍もの力を持っている,你的投票更有分量,"你的票數更多,更有料"
 SabotageMasterInfo,Fix sabotages faster,より早くサボタージュを直そう,请尽快修理破坏,盡快維修船上的破壞
 SheriffInfo,Shoot the Impostors,インポスターを撃ち抜け,把内鬼统统执法掉,執法狼人們
-SnitchInfo,Finish your tasks to find the Impostors,タスクを早く済ませよう,完成任务来找出内鬼,完成你的所有任務來找到狼人們
+SnitchInfo,Finish your tasks to snitch out the Killers,タスクを早く済ませよう,完成任务来找出内鬼,完成你的所有任務來找到狼人們
 SpeedBoosterInfo,Boost the players,走らせろ,让其他人跑起来吧,讓其他人跑得更快
 DoctorInfo,Access vitals and cause of death,斯くして奴は死んだ,调查他人死因,看見他們的死因
 TrapperInfo,Trap your enemies,敵を罠にはめよう,引诱敌人落入你的陷阱当中,讓你的敵人受困於陷阱中
@@ -140,10 +151,10 @@ ChildInfo,No one will Harm You,No one will Harm You,在你长大之前没有人�
 SleuthInfo,Discover the Unknown,Discover the Unknown,发现了一些线索
 
 # 第三陣営役職
-ArsonistInfo,Let them burn,燃やせ,火焰给我燃烧起来吧！,"燒吧,燒吧,燃燒吧"
+ArsonistInfo,Douse and ignite to kill everyone,燃やせ,火焰给我燃烧起来吧！,"燒吧,燒吧,燃燒吧"
 JesterInfo,Get voted out,追放されよう,想办法让人怀疑把你投出去,想個辦法讓你被投出去
 OpportunistInfo,Stay alive,とにかく生き残りましょう,苟着吧，苟也是个不错的选择,做點什麼事來讓你存活
-SchrodingerCatInfo,Get killed and join killer team,殺された陣営に所属しろ,加入击杀你的阵营,打不過就加入
+SchrodingerCatInfo,Side with your enemies,殺された陣営に所属しろ,加入击杀你的阵营,打不過就加入
 CSchrodingerCatInfo,You are now on Team Crewmates,クルーメイトの味方になった,你加入了船员阵营，要帮助船员找出内鬼,"你現在變成船員了,幫助船員們找出狼和中立帶刀者"
 MSchrodingerCatInfo,You are now on Team Impostors,インポスターの味方になった,你加入了内鬼阵营，要掩护内鬼同伴,"你現在變成狼人了,但是你不能砍人,盡量掩護你的隊友的身分"
 EgoSchrodingerCatInfo,You are now on Team Egoists,エゴイストの味方になった,你成为了野心家的伙伴,"你是利己主義者的跟班"
@@ -156,9 +167,18 @@ JackalInfo,Kill Everyone and Last Alone,すべてを殺せ,快去杀光所有人
 PlagueBearerInfo,Infect Everyone and Become Pestilence,Infect Everyone and Become Pestilence,把所有人都给传染了，引发大型瘟疫
 PestilenceInfo,Kill Everyone and Leave None,Kill Everyone and Leave None,把所有人杀都杀光一只蚊子都不要剩
 JuggernautInfo,Your cooldown decreaes with Each Kill,Your cooldown decreaes with Each Kill,Your cooldown decreaes with Each Kill
+VultureInfo,Eat bodies by clicking Report,Eat bodies by clicking Report,Eat bodies by clicking Report
 
 # Coven 
 CovenInfo,Support your Leader,Support your Leader,支援你的领袖
+PoisonerInfo,Poison a crewmate to kill them in a few seconds,PoisonerInfo,PoisonerInfo
+CovenWitchInfo,Taglock players to kill others,WitchInfo,WitchInfo
+HexMasterInfo,Hex everyone to then kill them all with a Hex Bomb,Hex MasterInfo,Hex MasterInfo
+PotionMasterInfo,Use your potions and kill everyone.,Potion MasterInfo,Potion MasterInfo
+MedusaInfo,Stone gaze to kill anyone who interacts with you,MedusaInfo,MedusaInfo
+MimicInfo,Mimic an unused Impostor role,MimicInfo,MimicInfo
+NecromancerInfo,Become a killing role from outside the Coven,NecromancerInfo,NecromancerInfo
+ConjurorInfo,Place acid traps to kill the next player that enters it,ConjurorInfo,ConjurorInfo
 
 # HideAndSeek
 HASFoxInfo,Stay alive,とにかく生き残りましょう,活下去吧！活到最后你就成为了赢家！,活到最後就是屬於你和贏家的一片天
@@ -196,6 +216,7 @@ WatcherInfoLong,(Impostors or Crewmates):\nThe Watchers can see colored votes re
 
 # 特殊クルー役職
 BaitInfoLong,"(Crewmates):\nWhen killed, they force the killer to self report in no time.",(クルーメイト陣営):\nキルされた時に、自身をキルした人に\n強制的にセルフレポートさせる事ができる。,(船员阵营):\n诱饵被击杀时，击杀诱饵的凶手将被迫报告。,"(船員):\n當被殺時,兇手將強制自行舉報"
+VeteranInfo,"(Crewmates):\nVeteran can vent to activate their Alert function. When alerted, any role that interacts with the Veteran, will die. Settings can choose the duration, cooldown, and how many alerts. Only 1 Veteran can exist per game.","(Crewmates):\nVeteran can vent to activate their Alert function. When alerted, any role that interacts with the Veteran, will die. Settings can choose the duration, cooldown, and how many alerts. Only 1 Veteran can exist per game.","(Crewmates):\nVeteran can vent to activate their Alert function. When alerted, any role that interacts with the Veteran, will die. Settings can choose the duration, cooldown, and how many alerts. Only 1 Veteran can exist per game."
 LighterInfoLong,"(Crewmates):\nAfter finishing all the task, The lighters have their vision expanded and ignore lights out.",(クルーメイト陣営):\nタスクを終わらせると、自分の視界を広げることができる。,(船员阵营):\n执灯人完成任务后，视野会扩大，且不受照明破坏影响。,"(船員):\n當做完所有任務時可以增大視野且不受關燈影響"
 MayorInfoLong,"(Crewmates):\nThe Mayors' votes count twice or more.\nDepending on the options, they can call emergency meeting by entering vents.",(クルーメイト陣営):\n会議の票を複数持ち、まとめて一人または\nスキップに入れることができる。(設定有),(船员阵营):\n市长的一票等价于多个玩家的票数。(可以进行设置),"(船員):\n可以一次投很多票並可以將它灌到一個人身上或跳過 (可以設定票數)"
 SabotageMasterInfoLong,"(Crewmates):\nthey can fix both of Communications in MIRA HQ, Reactor and O2 by fixing either.\nLights can be fixed by touching a single lever.\nOpening a door will open all the linked doors.",(クルーメイト陣営):\nリアクター・O2・通信妨害を一人で修理可能。\n停電は一箇所のレバーに触れる事で全て直る。\nドアを開けるとその部屋の全てのドアが開く。,(船员阵营):\n氧气泄露、核反应堆熔毁以及米拉总部的通讯破坏维修大师只需要修复一边则另一边即可同时被修复。\n维修大师只需要按一个开关便可以修复照明破坏。\n维修大师打开波鲁斯与飞艇地图的门时维修大师所在房间的所有门同时打开。,"(船員):\n反應堆,氧氣,通訊以及其他破壞可以破壞大師一個人修復\n關燈可以通過拉一根拉桿來\n開門將開啟該房間所有關閉中的的門。"
@@ -221,9 +242,18 @@ JackalInfoLong,(Neutrals):\nJackal can kill every Crewmates and Impostors.\nJack
 PlagueBearerInfoLong,"(Neutrals):\nYou're kill button is an Infect button. Infect everyone until you become Pestilence.","(Neutrals):\nYou're kill button is an Infect button. Infect everyone until you become Pestilence.","(中立阵营):\n你的击杀按钮变成了感染，你需要将所有人感染造成瘟疫."
 PestilenceInfoLong,"(Neutrals):\nPestilence cannot die and can only be voted. When someone tries to kill Pestilence, they die instead. Even their Lover dying won't bring the Pestilence down.","(Neutrals):\nPestilence cannot die and can only be voted. When someone triesto kill Pestilence, they die instead.","(中立阵营):\n毒医不能被杀死，当有人试图击杀他是他会受到反伤而死."
 JuggernautInfoLong,"(Neutrals):\nThe Juggernaut's kill cooldown decreases with each kill.","(Neutrals):\nThe Juggernaut's kill cooldown decreases with each kill.","(Neutrals):\nThe Juggernaut's kill cooldown decreases with each kill."
+VultureInfoLong,"(Neutrals):\nThe Vulture has to eat a certain number of bodies to win. Due to techincal limitations, we cannot make the body disappear, but we can make the body unreportable. Because of this, the number of bodies aten by the Vulture will display at every meeting.","(Neutrals):\nThe Vulture has to eat a certain number of bodies to win. Due to techincal limitations, we cannot make the body disappear, but we can make the body unreportable. Because of this, the number of bodies aten by the Vulture will display at every meeting.","(Neutrals):\nThe Vulture has to eat a certain number of bodies to win. Due to techincal limitations, we cannot make the body disappear, but we can make the body unreportable. Because of this, the number of bodies aten by the Vulture will display at every meeting."
 
 # Coven
 CovenInfoLong,"(Coven):\nNothing special about regular Coven. They just help support the Leader.","(Coven):\nNothing special about regular Coven. They just help support the Leader.","(法师):\n普通的法师没什么特别之处他们只会支援领袖."
+PoisonerInfoLong,"(Coven):\nThe Poisoner works exactly like the Vampire. Same cooldown and everything. This will remove Vamp from Impostor Team and join Coven.","(Coven):\nInfo unfinished.","(Coven):\nInfo unfinished."
+CovenWitchInfoLong,"(Coven):\nInfo unfinished.","(Coven):\nInfo unfinished.","(Coven):\nInfo unfinished."
+HexMasterInfoLong,"(Coven):\nInfo unfinished.","(Coven):\nInfo unfinished.","(Coven):\nInfo unfinished."
+PotionMasterInfoLong,"(Coven):\nInfo unfinished.","(Coven):\nInfo unfinished.","(Coven):\nInfo unfinished."
+MedusaInfoLong,"(Coven):\nInfo unfinished.","(Coven):\nInfo unfinished.","(Coven):\nInfo unfinished."
+MimicInfoLong,"(Coven):\nInfo unfinished.","(Coven):\nInfo unfinished.","(Coven):\nInfo unfinished."
+NecromancerInfoLong,"(Coven):\nInfo unfinished.","(Coven):\nInfo unfinished.","(Coven):\nInfo unfinished."
+ConjurorInfoLong,"(Coven):\nInfo unfinished.","(Coven):\nInfo unfinished.","(Coven):\nInfo unfinished."
 
 # HideAndSeek
 HASFoxInfoLong,(HideAndSeek):\nThey win the game with other Roles (except Troll) only if they are alive at the game end.,(かくれんぼ):\nトロールを除くいずれかの陣営が勝利したときに生き残っていれば、勝利した陣営に追加で勝利することができる。,（躲猫猫）:\n狐狸活到最后便与获胜阵营一同获胜。,"(躲貓貓):\n除了其他的中立陣營以外,只要狐妖活下來即可獲勝\n他們將跟著遊戲結束的獲勝陣營一起獲勝。"
@@ -330,9 +360,10 @@ SheriffCanKillOpportunist,Sheriff Can Kill Opportunist,シェリフがオポチ�
 SheriffCanKillMadmate,Sheriff Can Kill Madmates,シェリフがマッドメイトをキルできる,警长可以执法叛徒,警長可以槍死叛徒
 SheriffCanKillEgoist,Sheriff Can Kill Egoist,シェリフがエゴイストをキルできる,警长可以执法野心家,警長可以槍死利己主義者
 SheriffCanKillPB,Sheriff Can Kill PlagueBearer,Sheriff Can Kill PlagueBearer,警长可以击杀毒医
+SheriffCanKillVulture,Sheriff Can Kill Vulture,SheriffCanKillVulture,SheriffCanKillVulture
 SleuthReport,Sleuth Has to Report,Sleuth Has to Report,侦探必须报告
 SkipInfect,Skip PlagueBearer Infection,Skip PlagueBearer Infection,跳过传染者进行感染
-
+Bodies,Bodies Needed To Be Eaten,Bodies Needed To Be Eaten,Bodies Needed To Be Eaten
 SheriffCanKillEgoShrodingerCat,Sheriff Can Kill EgoistSide ShrodingerCat,シェリフがエゴイスト陣営のシュレディンガーの猫をキルできる,警长可以执法自私阵营的薛定谔的猫,警長可以槍死利己主義者方的薛定諤的貓
 SheriffCanKillJackal,Sheriff Can Kill Jackal,シェリフがジャッカルをキルできる,警长可以执法豺狼,警長可以槍死豺狼
 SheriffCanKillJShrodingerCat,Sheriff Can Kill JackalSide ShrodingerCat,シェリフがジャッカル陣営のシュレディンガーの猫をキルできる,警长可以执法豺狼阵营的薛定谔的猫,警長可以槍死豺狼方的薛定諤的貓
@@ -380,6 +411,24 @@ JuggerKillCooldown,Juggernaut Kill Cooldown,ジャッカルのキルクール,�
 JuggerDecrease,Juggernaut Cooldown Decrease,ジャッカルのキルクール,豺狼击杀冷却,豺狼殺人冷卻
 JuggerCanVent,Juggernaut Can Use Vents,ジャッカルがベントを使用できる,豺狼可以使用管道,豺狼可以跳管道
 
+VetCD,Alert Cooldown,Alert Cooldown,Alert Cooldown
+VetDur,Alert Duration,Alert Duration,Alert Duration
+CRGV,Crew Roles get Vetted,Crew Roles get Vetted,Crew Roles get Vetted
+PestiAttacks,If Pestilence Attacks Veteran,If Pestilence Attacks Veteran,If Pestilence Attacks Veteran
+NVet,Number of Alerts,Number of Alerts,Number of Alerts
+Trade,Trade,Trade,Trade,
+PestiKillsVet,Pestilence Kills Veteran,PestiKillsVet,PestiKillsVet
+VetKillsPesti,Veteran Kills Pestilence,VetKillsPesti,VetKillsPesti
+
+CovenKillCooldown,Coven Kill Cooldown,Coven Kill Cooldown,Coven Kill Cooldown
+CovenMeetings,Meetings until Necronomicon,Meetings until Necronomicon,Meetings until Necronomicon
+HexMasterOn,Hex Master On,Hex Master On,Hex Master On
+PotionMasterOn,Potion Master On,Potion Master On,Potion Master On
+VampireDitchesOn,Vampire Joins Coven,Vampire Joins Coven,Vampire Joins Coven
+MedusaOn,Medusa On,Medusa On, Medusa On
+MimicOn,Mimic On,Mimic On, Mimic On
+NecromancerOn,Necromancer On,Necromancer On,Necromancer On
+ConjurorOn,Conjuror On,Conjuror On,ConjurorOn
 
 ## かくれんぼ設定
 HideAndSeekOptions,HideAndSeek Options,かくれんぼの設定,躲猫猫设置,躲貓貓設定

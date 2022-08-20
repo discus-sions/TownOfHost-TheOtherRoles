@@ -36,6 +36,7 @@ namespace TownOfHost
         {
             return
                 role is CustomRoles.Jester or
+                CustomRoles.Vulture or
                 CustomRoles.Opportunist or
                 CustomRoles.SchrodingerCat or
                 CustomRoles.Terrorist or
@@ -67,7 +68,14 @@ namespace TownOfHost
         {
             return
                 role is CustomRoles.Coven or
-                CustomRoles.Coven;
+                CustomRoles.Poisoner or
+                CustomRoles.HexMaster or
+                CustomRoles.PotionMaster or
+                CustomRoles.CovenWitch or
+                CustomRoles.Medusa or
+                CustomRoles.Mimic or
+                CustomRoles.Conjuror or
+                CustomRoles.Necromancer;
         }
 
         public static RoleType GetRoleType(this CustomRoles role)
@@ -77,6 +85,15 @@ namespace TownOfHost
             if (role.IsNeutral()) type = RoleType.Neutral;
             if (role.IsMadmate()) type = RoleType.Madmate;
             if (role.IsCoven()) type = RoleType.Coven;
+            return type;
+        }
+        public static RoleTeam GetRoleTeam(this CustomRoles role)
+        {
+            RoleTeam type = RoleTeam.None;
+            if (role.IsImpostor()) type = RoleTeam.Evil;
+            if (role.IsNeutral()) type = RoleTeam.Killing;
+            if (role.IsMadmate()) type = RoleTeam.Benign;
+            if (role.IsCoven()) type = RoleTeam.Support;
             return type;
         }
         public static void SetCount(this CustomRoles role, int num) => Options.SetRoleCount(role, num);
@@ -135,6 +152,7 @@ namespace TownOfHost
         None,
         Evil,
         Killing,
+        Benign,
         Support,
         Protective
     }

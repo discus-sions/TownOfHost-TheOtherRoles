@@ -87,6 +87,7 @@ namespace TownOfHost
         public static bool witchMeeting;
         public static bool isCursed;
         public static List<PlayerControl> firstKill = new();
+        public static List<PlayerControl> unreportableBodies = new();
         public static List<PlayerControl> SilencedPlayer = new();
         public static bool isSilenced;
         public static bool isShipStart;
@@ -105,7 +106,9 @@ namespace TownOfHost
         public static int DiscussionTime;
         public static int VotingTime;
         public static int JugKillAmounts;
+        public static int AteBodies;
         public static byte currentDousingTarget;
+        public static int VetAlerts;
 
         //plague info.
         public static byte currentInfectingTarget;
@@ -114,6 +117,23 @@ namespace TownOfHost
 
         public static Main Instance;
 
+        //coven
+        //coven main info
+        public static int CovenMeetings;
+        public static bool HasNecronomicon;
+        public static bool ChoseWitch;
+        public static bool WitchProteced;
+        //role info
+        public static bool HexMasterOn;
+        public static bool PotionMasterOn;
+        public static bool VampireDitchesOn;
+        public static bool MedusaOn;
+        public static bool MimicOn;
+        public static bool NecromancerOn;
+        public static bool ConjurorOn;
+
+        public static bool VettedThisRound;
+        public static bool VetIsAlerted;
         public override void Load()
         {
             Instance = this;
@@ -158,6 +178,21 @@ namespace TownOfHost
             currentDousingTarget = 255;
             currentInfectingTarget = 255;
             JugKillAmounts = 0;
+            AteBodies = 0;
+            CovenMeetings = 0;
+            VetAlerts = 0;
+            VettedThisRound = false;
+            WitchProteced = false;
+            HexMasterOn = false;
+            PotionMasterOn = false;
+            VampireDitchesOn = false;
+            MedusaOn = false;
+            MimicOn = false;
+            NecromancerOn = false;
+            ConjurorOn = false;
+            ChoseWitch = false;
+            HasNecronomicon = false;
+            VetIsAlerted = false;
 
             IgnoreWinnerCommand = Config.Bind("Other", "IgnoreWinnerCommand", true);
             WebhookURL = Config.Bind("Other", "WebhookURL", "none");
@@ -180,53 +215,55 @@ namespace TownOfHost
                     //バニラ役職
                     {CustomRoles.Crewmate, "#ffffff"},
                     {CustomRoles.Engineer, "#b6f0ff"},
-                    {CustomRoles.Scientist, "#b6f0ff"},
-                    {CustomRoles.GuardianAngel, "#ffffff"},
-                    {CustomRoles.CorruptedSheriff, "#ff0000"},
+                    { CustomRoles.Scientist, "#b6f0ff"},
+                    { CustomRoles.GuardianAngel, "#ffffff"},
+                    { CustomRoles.CorruptedSheriff, "#ff0000"},
                     //インポスター、シェイプシフター
                     //特殊インポスター役職
                     //マッドメイト系役職
                         //後で追加
                     //両陣営可能役職
-                    {CustomRoles.Watcher, "#800080"},
+                    { CustomRoles.Watcher, "#800080"},
                     //特殊クルー役職
-                    {CustomRoles.NiceWatcher, "#800080"}, //ウォッチャーの派生
-                    {CustomRoles.Bait, "#00f7ff"},
-                    {CustomRoles.SabotageMaster, "#0000ff"},
-                    {CustomRoles.Snitch, "#b8fb4f"},
-                    {CustomRoles.Mayor, "#204d42"},
-                    {CustomRoles.Sheriff, "#f8cd46"},
-                    {CustomRoles.Lighter, "#eee5be"},
-                    {CustomRoles.SpeedBooster, "#00ffff"},
-                    {CustomRoles.Doctor, "#80ffdd"},
-                    {CustomRoles.Child, "#FFFFFF"},
-                    {CustomRoles.Trapper, "#5a8fd0"},
-                    {CustomRoles.Dictator, "#df9b00"},
-                    {CustomRoles.Sleuth, "#800000"},
-                    {CustomRoles.PlagueBearer, "#F1F89E"},
-                    {CustomRoles.Pestilence, "#393939"},
-                    {CustomRoles.CSchrodingerCat, "#ffffff"}, //シュレディンガーの猫の派生
+                    { CustomRoles.NiceWatcher, "#800080"}, //ウォッチャーの派生
+                    { CustomRoles.Bait, "#00f7ff"},
+                    { CustomRoles.SabotageMaster, "#0000ff"},
+                    { CustomRoles.Snitch, "#b8fb4f"},
+                    { CustomRoles.Mayor, "#204d42"},
+                    { CustomRoles.Sheriff, "#f8cd46"},
+                    { CustomRoles.Lighter, "#eee5be"},
+                    { CustomRoles.SpeedBooster, "#00ffff"},
+                    { CustomRoles.Doctor, "#80ffdd"},
+                    { CustomRoles.Child, "#FFFFFF"},
+                    { CustomRoles.Trapper, "#5a8fd0"},
+                    { CustomRoles.Dictator, "#df9b00"},
+                    { CustomRoles.Sleuth, "#800000"},
+                    { CustomRoles.PlagueBearer, "#F1F89E"},
+                    { CustomRoles.Pestilence, "#393939"},
+                    { CustomRoles.Vulture, "#a36727"},
+                    { CustomRoles.CSchrodingerCat, "#ffffff"}, //シュレディンガーの猫の派生
                     //第三陣営役職
-                    {CustomRoles.Arsonist, "#ff6633"},
-                    {CustomRoles.Jester, "#ec62a5"},
-                    {CustomRoles.Terrorist, "#00ff00"},
-                    {CustomRoles.Executioner, "#611c3a"},
-                    {CustomRoles.Opportunist, "#00ff00"},
-                    {CustomRoles.SchrodingerCat, "#696969"},
-                    {CustomRoles.Egoist, "#5600ff"},
-                    {CustomRoles.EgoSchrodingerCat, "#5600ff"},
-                    {CustomRoles.Jackal, "#00b4eb"},
-                    {CustomRoles.Juggernaut, "#882ee8"},
-                    {CustomRoles.JSchrodingerCat, "#00b4eb"},
+                    { CustomRoles.Arsonist, "#ff6633"},
+                    { CustomRoles.Jester, "#ec62a5"},
+                    { CustomRoles.Terrorist, "#00ff00"},
+                    { CustomRoles.Executioner, "#611c3a"},
+                    { CustomRoles.Opportunist, "#00ff00"},
+                    { CustomRoles.SchrodingerCat, "#696969"},
+                    { CustomRoles.Egoist, "#5600ff"},
+                    { CustomRoles.EgoSchrodingerCat, "#5600ff"},
+                    { CustomRoles.Jackal, "#00b4eb"},
+                    { CustomRoles.Juggernaut, "#882ee8"},
+                    { CustomRoles.JSchrodingerCat, "#00b4eb"},
                     //HideAndSeek
-                    {CustomRoles.HASFox, "#e478ff"},
-                    {CustomRoles.HASTroll, "#00ff00"},
+                    { CustomRoles.HASFox, "#e478ff"},
+                    { CustomRoles.HASTroll, "#00ff00"},
                     // GM
-                    {CustomRoles.GM, "#ff5b70"},
+                    { CustomRoles.GM, "#ff5b70"},
                     //サブ役職
-                    {CustomRoles.NoSubRoleAssigned, "#ffffff"},
-                    {CustomRoles.Lovers, "#ffaaaa"},
-                    {CustomRoles.Coven, "#592e98"},
+                    { CustomRoles.NoSubRoleAssigned, "#ffffff"},
+                    { CustomRoles.Lovers, "#ffaaaa"},
+                    { CustomRoles.Coven, "#592e98"},
+                    { CustomRoles.Veteran, "#978046"},
                 };
                 foreach (var role in Enum.GetValues(typeof(CustomRoles)).Cast<CustomRoles>())
                 {
@@ -238,9 +275,13 @@ namespace TownOfHost
                         case RoleType.Madmate:
                             roleColors.TryAdd(role, "#ff0000");
                             break;
+                        case RoleType.Coven:
+                            roleColors.TryAdd(role, "#592e98");
+                            break;
                         default:
                             break;
                     }
+                    //switch (role.GetRole)
                 }
             }
             catch (ArgumentException ex)
@@ -315,7 +356,7 @@ namespace TownOfHost
         CorruptedSheriff,
         SKMadmate,
         MSchrodingerCat,//インポスター陣営のシュレディンガーの猫
-        //両陣営
+                        //両陣営
         Watcher,
         //Crewmate(Vanilla)
         Engineer,
@@ -335,12 +376,14 @@ namespace TownOfHost
         Doctor,
         Child,
         Sleuth,
+        Veteran,
         CSchrodingerCat,//クルー陣営のシュレディンガーの猫
-        //Neutral
+                        //Neutral
         Arsonist,
         Egoist,
         PlagueBearer,
         Pestilence,
+        Vulture,
         EgoSchrodingerCat,//エゴイスト陣営のシュレディンガーの猫
         Jester,
         Juggernaut,
@@ -350,7 +393,7 @@ namespace TownOfHost
         Executioner,
         Jackal,
         JSchrodingerCat,//ジャッカル陣営のシュレディンガーの猫
-        //HideAndSeek
+                        //HideAndSeek
         HASFox,
         HASTroll,
         //GM
@@ -359,7 +402,15 @@ namespace TownOfHost
         NoSubRoleAssigned = 500,
         Lovers,
         //coven
-        Coven
+        Coven,
+        Poisoner,
+        CovenWitch,
+        HexMaster,
+        PotionMaster,
+        Medusa,
+        Mimic,
+        Necromancer,
+        Conjuror
     }
     //WinData
     public enum CustomWinner
@@ -375,11 +426,13 @@ namespace TownOfHost
         Child = CustomRoles.Child,
         Executioner = CustomRoles.Executioner,
         Arsonist = CustomRoles.Arsonist,
+        Vulture = CustomRoles.Vulture,
         Egoist = CustomRoles.Egoist,
         Pestilence = CustomRoles.Pestilence,
         Jackal = CustomRoles.Jackal,
         Juggernaut = CustomRoles.Juggernaut,
         HASTroll = CustomRoles.HASTroll,
+        Coven = CustomRoles.Coven,
     }
     public enum AdditionalWinners
     {

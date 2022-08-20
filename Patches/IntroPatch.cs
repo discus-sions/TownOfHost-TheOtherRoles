@@ -134,7 +134,7 @@ namespace TownOfHost
                     PlayerControl.LocalPlayer.Data.Role.IntroSound = GetIntroSound(RoleTypes.Impostor);
                     break;
                 case RoleType.Crewmate:
-                    __instance.TeamTitle.color = Utils.GetRoleColor(role);
+                    //__instance.TeamTitle.color = Utils.GetRoleColor(role);
                     __instance.BackgroundBar.material.color = Utils.GetRoleColor(role);
                     break;
                 case RoleType.Coven:
@@ -171,7 +171,7 @@ namespace TownOfHost
 
                 case CustomRoles.Sheriff:
                     PlayerControl.LocalPlayer.Data.Role.IntroSound = GetIntroSound(RoleTypes.Crewmate);
-                    __instance.BackgroundBar.material.color = Palette.CrewmateBlue;
+                    //__instance.BackgroundBar.material.color = Palette.CrewmateBlue;
                     break;
                 case CustomRoles.Arsonist:
                     PlayerControl.LocalPlayer.Data.Role.IntroSound = GetIntroSound(RoleTypes.Crewmate);
@@ -185,6 +185,7 @@ namespace TownOfHost
                     PlayerControl.LocalPlayer.Data.Role.IntroSound = GetIntroSound(RoleTypes.Impostor);
                     break;
 
+                case CustomRoles.Veteran:
                 case CustomRoles.Mayor:
                     PlayerControl.LocalPlayer.Data.Role.IntroSound = GetIntroSound(RoleTypes.Crewmate);
                     break;

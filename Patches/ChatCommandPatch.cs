@@ -232,6 +232,7 @@ namespace TownOfHost
                             {
                                 Utils.SendMessage("You are currently Silenced. Try talking again when you aren't silenced.", p.PlayerId);
                                 args[0] = "";
+                                canceled = true;
                             }
                         }
                         break;
@@ -286,6 +287,7 @@ namespace TownOfHost
                 { CustomRoles.Doctor, "doc" },
                 { CustomRoles.Lighter, "li" },
                 { CustomRoles.Mayor, "my" },
+                { CustomRoles.Veteran, "vet" },
                 { CustomRoles.SabotageMaster, "sa" },
                 { CustomRoles.Sheriff, "sh" },
                 { CustomRoles.Snitch, "sn" },
@@ -305,7 +307,7 @@ namespace TownOfHost
                 { CustomRoles.PlagueBearer, "pb" },
                 { CustomRoles.Pestilence, "pesti" },
                 { CustomRoles.Juggernaut, "jug"},
-                { (CustomRoles)(-6), $"== {GetString("CovenChat")} ==" }, //区切り用
+                { CustomRoles.Vulture, "vu"},
                 { CustomRoles.Coven, "co" },
                 //Sub役職
                 { (CustomRoles)(-6), $"== {GetString("SubRole")} ==" }, //区切り用

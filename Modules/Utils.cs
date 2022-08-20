@@ -132,6 +132,14 @@ namespace TownOfHost
             if (p.Disconnected) hasTasks = false;
             if (p.Role.IsImpostor)
                 hasTasks = false; //タスクはCustomRoleを元に判定する
+            foreach (var pc in PlayerControl.AllPlayerControls)
+            {
+                //time for coven
+                if (CustomRolesHelper.GetRoleType(pc.GetCustomRole()) == RoleType.Coven)
+                {
+                    hasTasks = false;
+                }
+            }
             if (Options.CurrentGameMode == CustomGameMode.HideAndSeek)
             {
                 if (p.IsDead) hasTasks = false;
@@ -170,6 +178,7 @@ namespace TownOfHost
                     if (cRole == CustomRoles.PlagueBearer) hasTasks = false;
                     if (cRole == CustomRoles.Pestilence) hasTasks = false;
                     if (cRole == CustomRoles.Coven) hasTasks = false;
+                    if (cRole == CustomRoles.Vulture) hasTasks = false;
                 }
                 var cSubRoleFound = Main.AllPlayerCustomSubRoles.TryGetValue(p.PlayerId, out var cSubRole);
                 if (cSubRoleFound)
@@ -222,6 +231,9 @@ namespace TownOfHost
                     break;
                 case CustomRoles.Sniper:
                     ProgressText += $" {Sniper.GetBulletCount(playerId)}";
+                    break;
+                case CustomRoles.Vulture:
+                    ProgressText = Helpers.ColorString(GetRoleColor(CustomRoles.Vulture), $"({Main.AteBodies}/{Options.BodiesAmount.GetInt()})");
                     break;
                 default:
                     //タスクテキスト

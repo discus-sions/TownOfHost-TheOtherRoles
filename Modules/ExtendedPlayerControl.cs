@@ -257,6 +257,7 @@ namespace TownOfHost
             {
                 case RoleType.Impostor:
                     opt.RoleOptions.ShapeshifterCooldown = Options.DefaultShapeshiftCooldown.GetFloat();
+                    //opt.SetVision(player, true);
                     break;
                 case RoleType.Madmate:
                     opt.RoleOptions.EngineerCooldown = Options.MadmateVentCooldown.GetFloat();
@@ -291,6 +292,7 @@ namespace TownOfHost
                     break;
                 case CustomRoles.Sheriff:
                 case CustomRoles.Arsonist:
+                case CustomRoles.Vulture:
                     opt.SetVision(player, false);
                     break;
                 case CustomRoles.PlagueBearer:
@@ -316,7 +318,8 @@ namespace TownOfHost
                     break;
                 case CustomRoles.Juggernaut:
                     opt.SetVision(player, true);
-                    goto InfinityVent;
+                    if (Options.JuggerCanVent.GetBool())
+                        goto InfinityVent;
                     break;
                 case CustomRoles.Mayor:
                     opt.RoleOptions.EngineerCooldown =
@@ -325,9 +328,29 @@ namespace TownOfHost
                         : 300f;
                     opt.RoleOptions.EngineerInVentMaxTime = 1;
                     break;
+                case CustomRoles.Veteran:
+                    //12 lines of code calculating your next Engineer CD
+                    if (Main.VetAlerts != Options.NumOfVets.GetInt())
+                    {
+                        //5 lines of code calculating the next Vet CD.
+                        if (!Main.VettedThisRound)
+                            opt.RoleOptions.EngineerCooldown = Options.VetCD.GetFloat();
+                        else
+                            opt.RoleOptions.EngineerCooldown = Options.VetCD.GetFloat() + Options.VetDuration.GetFloat();
+                    }
+                    else
+                    {
+                        opt.RoleOptions.EngineerCooldown = 999;
+                    }
+                    opt.RoleOptions.EngineerInVentMaxTime = 1;
+                    break;
                 case CustomRoles.Jester:
                     opt.SetVision(player, Options.JesterHasImpostorVision.GetBool());
-                    goto InfinityVent;
+                    if (Utils.IsActive(SystemTypes.Electrical) && Options.JesterHasImpostorVision.GetBool())
+                        opt.CrewLightMod *= 5;
+                    if (Options.JesterCanVent.GetBool())
+                        goto InfinityVent;
+                    break;
                 case CustomRoles.Mare:
                     Mare.ApplyGameOptions(opt, player.PlayerId);
                     break;
@@ -556,6 +579,12 @@ namespace TownOfHost
                 Main.AllPlayerKillCooldown[player.PlayerId] = Options.DefaultKillCooldown; //キルクールをデフォルトキルクールに変更
             switch (player.GetCustomRole())
             {
+                case CustomRoles.Juggernaut:
+                    float DecreasedAmount = Main.JugKillAmounts * Options.JuggerDecrease.GetFloat();
+                    Main.AllPlayerKillCooldown[player.PlayerId] = Options.JuggerKillCooldown.GetFloat() - DecreasedAmount;
+                    if (Main.AllPlayerKillCooldown[player.PlayerId] < 1)
+                        Main.AllPlayerKillCooldown[player.PlayerId] = 1;
+                    break;
                 case CustomRoles.SerialKiller:
                     SerialKiller.ApplyKillCooldown(player.PlayerId); //シリアルキラーはシリアルキラーのキルクールに。
                     break;
@@ -608,6 +637,19 @@ namespace TownOfHost
                 killer.CustomSyncSettings();
                 RPC.PlaySoundRPC(killer.PlayerId, Sounds.TaskComplete);
             }, Options.TrapperBlockMoveTime.GetFloat(), "Trapper BlockMove");
+        }
+        public static void VetAlerted(this PlayerControl veteran)
+        {
+            if (veteran.Is(CustomRoles.Veteran))
+            {
+                Main.VetAlerts++;
+                Main.VettedThisRound = true;
+                Main.VetIsAlerted = true;
+                new LateTask(() =>
+                {
+                    Main.VetIsAlerted = false;
+                }, Options.VetDuration.GetFloat(), "Trapper BlockMove");
+            }
         }
         public static void CanUseImpostorVent(this PlayerControl player)
         {

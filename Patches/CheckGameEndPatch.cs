@@ -33,6 +33,7 @@ namespace TownOfHost
                     if (CheckAndEndGameForEveryoneDied(__instance, statistics)) return false;
                     if (CheckAndEndGameForImpostorWin(__instance, statistics)) return false;
                     if (CheckAndEndGameForJackalWin(__instance, statistics)) return false;
+                    if (CheckAndEndGameForVultureWin(__instance, statistics)) return false;
                     if (CheckAndEndGameForPestiWin(__instance, statistics)) return false;
                     if (CheckAndEndGameForCrewmateWin(__instance, statistics)) return false;
                 }
@@ -133,6 +134,29 @@ namespace TownOfHost
                 writer.Write((byte)CustomWinner.Jackal);
                 AmongUsClient.Instance.FinishRpcImmediately(writer);
                 RPC.JackalWin();
+
+                ResetRoleAndEndGame(endReason, false);
+                return true;
+            }
+            return false;
+        }
+        public static bool CheckAndEndGameForVultureWin(ShipStatus __instance, PlayerStatistics statistics)
+        {
+            if (Main.AteBodies == Options.BodiesAmount.GetFloat())
+            {
+                //Vulture wins.
+                __instance.enabled = false;
+                var endReason = TempData.LastDeathReason switch
+                {
+                    DeathReason.Exile => GameOverReason.ImpostorByVote,
+                    DeathReason.Kill => GameOverReason.ImpostorByKill,
+                    _ => GameOverReason.ImpostorByVote,
+                };
+
+                MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.EndGame, Hazel.SendOption.Reliable, -1);
+                writer.Write((byte)CustomWinner.Vulture);
+                AmongUsClient.Instance.FinishRpcImmediately(writer);
+                RPC.VultureWin();
 
                 ResetRoleAndEndGame(endReason, false);
                 return true;
@@ -261,7 +285,7 @@ namespace TownOfHost
             {
                 var LoseImpostorRole = Main.AliveImpostorCount == 0 ? pc.Is(RoleType.Impostor) : pc.Is(CustomRoles.Egoist);
                 if (pc.Is(CustomRoles.Sheriff) ||
-                    (!(Main.currentWinner == CustomWinner.Arsonist) && pc.Is(CustomRoles.Arsonist)) ||
+                    (!(Main.currentWinner == CustomWinner.Arsonist) && pc.Is(CustomRoles.Arsonist)) || (Main.currentWinner != CustomWinner.Vulture && pc.Is(CustomRoles.Vulture)) ||
                     (Main.currentWinner != CustomWinner.Jackal && pc.Is(CustomRoles.Jackal)) || (Main.currentWinner != CustomWinner.Pestilence && pc.Is(CustomRoles.Pestilence)) ||
                     LoseImpostorRole)
                 {

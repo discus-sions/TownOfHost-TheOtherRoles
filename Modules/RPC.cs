@@ -300,6 +300,9 @@ namespace TownOfHost
                     case CustomWinner.Jackal:
                         JackalWin();
                         break;
+                    case CustomWinner.Vulture:
+                        VultureWin();
+                        break;
                     case CustomWinner.Pestilence:
                         PestiWin();
                         break;
@@ -361,6 +364,11 @@ namespace TownOfHost
         public static void JackalWin()
         {
             Main.currentWinner = CustomWinner.Jackal;
+            CustomWinTrigger(0);
+        }
+        public static void VultureWin()
+        {
+            Main.currentWinner = CustomWinner.Vulture;
             CustomWinTrigger(0);
         }
         public static void PestiWin()
