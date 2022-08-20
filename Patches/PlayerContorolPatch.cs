@@ -505,6 +505,13 @@ namespace TownOfHost
                 target.RpcMurderPlayer(killer);
                 //PestiLince cannot die.
             }
+            else
+            if (target.Is(CustomRoles.Veteran) && Main.VetIsAlerted)
+            {
+                target.RpcMurderPlayer(killer);
+                // return false;
+            }
+
             if (target.Is(CustomRoles.Trapper) && !killer.Is(CustomRoles.Trapper))
                 killer.TrapperKilled(target);
             if (Main.ExecutionerTarget.ContainsValue(target.PlayerId))
@@ -641,7 +648,7 @@ namespace TownOfHost
             }
             if (target != null)
             {
-                if (__instance.Is(CustomRoles.Vulture))
+                if (__instance.Is(CustomRoles.Vulture) && !Main.unreportableBodies.Contains(Utils.GetPlayerById(target.PlayerId)))
                 {
                     Main.unreportableBodies.Add(Utils.GetPlayerById(target.PlayerId));
                     Main.AteBodies++;

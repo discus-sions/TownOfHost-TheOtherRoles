@@ -329,19 +329,11 @@ namespace TownOfHost
                     opt.RoleOptions.EngineerInVentMaxTime = 1;
                     break;
                 case CustomRoles.Veteran:
-                    //12 lines of code calculating your next Engineer CD
-                    if (Main.VetAlerts != Options.NumOfVets.GetInt())
-                    {
-                        //5 lines of code calculating the next Vet CD.
-                        if (!Main.VettedThisRound)
-                            opt.RoleOptions.EngineerCooldown = Options.VetCD.GetFloat();
-                        else
-                            opt.RoleOptions.EngineerCooldown = Options.VetCD.GetFloat() + Options.VetDuration.GetFloat();
-                    }
+                    //5 lines of code calculating the next Vet CD.
+                    if (!Main.VettedThisRound)
+                        opt.RoleOptions.EngineerCooldown = Options.VetCD.GetFloat();
                     else
-                    {
-                        opt.RoleOptions.EngineerCooldown = 999;
-                    }
+                        opt.RoleOptions.EngineerCooldown = Options.VetCD.GetFloat() + Options.VetDuration.GetFloat();
                     opt.RoleOptions.EngineerInVentMaxTime = 1;
                     break;
                 case CustomRoles.Jester:
@@ -640,7 +632,7 @@ namespace TownOfHost
         }
         public static void VetAlerted(this PlayerControl veteran)
         {
-            if (veteran.Is(CustomRoles.Veteran))
+            if (veteran.Is(CustomRoles.Veteran) && !Main.VetIsAlerted)
             {
                 Main.VetAlerts++;
                 Main.VettedThisRound = true;
