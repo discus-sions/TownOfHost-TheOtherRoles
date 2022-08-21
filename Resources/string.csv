@@ -387,6 +387,7 @@ SerialKillerCooldown,SerialKiller Kill Cooldown,シリアルキラーのキル�
 SerialKillerLimit,Time Limit To Suiside(s),シリアルキラーが自爆する時間,嗜血杀手自杀倒计时,連環殺手自殺倒數
 ArsonistDouseTime,Arsonist Douse Duration,アーソニストの塗り時間,纵火犯涂油所需时间,縱火犯澆油所需時間
 ArsonistCooldown,Arsonist Douse Cooldown,アーソニストのクールダウン,纵火犯涂油冷却,縱火犯澆油冷卻
+TourArso,TOuR Arsonist,TOuR Arsonist,TOuR Arsonist
 InfectCD,Infect Cooldown,アーソニストの塗り時間,纵火犯涂油所需时间,縱火犯澆油所需時間
 PestiKillCooldown,Pestilence Kill Cooldown,アーソニストのクールダウン,纵火犯涂油冷却,縱火犯澆油冷卻
 PestiCanVent,Pestilence Can Vent,アーソニストのクールダウン,纵火犯涂油冷却,縱火犯澆油冷卻

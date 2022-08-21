@@ -1516,6 +1516,25 @@ namespace TownOfHost
                     RPC.ArsonistWin(__instance.myPlayer.PlayerId);
                     return true;
                 }
+                if (__instance.myPlayer.Is(CustomRoles.Arsonist))
+                {
+                    List<PlayerControl> doused = Utils.GetDousedPlayer(__instance.myPlayer.PlayerId);
+                    foreach (var pc in doused)
+                    {
+                        if (!pc.Data.IsDead)
+                        {
+                            if (pc != __instance.myPlayer)
+                            {
+                                //生存者は焼殺
+                                pc.RpcMurderPlayer(pc);
+                                PlayerState.SetDeathReason(pc.PlayerId, PlayerState.DeathReason.Torched);
+                                PlayerState.SetDead(pc.PlayerId);
+                            }
+                            else
+                                RPC.PlaySoundRPC(pc.PlayerId, Sounds.KillSound);
+                        }
+                    }
+                }
                 if (__instance.myPlayer.Is(CustomRoles.Sheriff) ||
                 __instance.myPlayer.Is(CustomRoles.SKMadmate) ||
                 __instance.myPlayer.Is(CustomRoles.Arsonist) ||

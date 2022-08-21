@@ -105,6 +105,7 @@ namespace TownOfHost
         public static CustomOption CanTerroristSuicideWin;
         public static CustomOption ArsonistDouseTime;
         public static CustomOption ArsonistCooldown;
+        public static CustomOption TOuRArso;
 
         public static CustomOption NumOfCoven;
 
@@ -385,6 +386,7 @@ namespace TownOfHost
             SetupRoleOptions(50500, CustomRoles.Arsonist);
             ArsonistDouseTime = CustomOption.Create(50510, Color.white, "ArsonistDouseTime", 3, 0, 10, 1, CustomRoleSpawnChances[CustomRoles.Arsonist]);
             ArsonistCooldown = CustomOption.Create(50511, Color.white, "ArsonistCooldown", 10, 5, 100, 1, CustomRoleSpawnChances[CustomRoles.Arsonist]);
+            TOuRArso = CustomOption.Create(50512, Color.white, "TourArso", false, CustomRoleSpawnChances[CustomRoles.Arsonist]);
             SetupRoleOptions(50550, CustomRoles.PlagueBearer);
             InfectCooldown = CustomOption.Create(50560, Color.white, "InfectCD", 30, 2.5f, 180, 2.5f, CustomRoleSpawnChances[CustomRoles.PlagueBearer]);
             PestilKillCooldown = CustomOption.Create(50561, Color.white, "PestiKillCooldown", 30, 2.5f, 180, 2.5f, CustomRoleSpawnChances[CustomRoles.PlagueBearer]);
