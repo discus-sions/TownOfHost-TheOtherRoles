@@ -360,6 +360,18 @@ namespace TownOfHost
                         opt.RoleOptions.EngineerCooldown = Options.VetCD.GetFloat() + Options.VetDuration.GetFloat();
                     opt.RoleOptions.EngineerInVentMaxTime = 1;
                     break;
+                case CustomRoles.GuardianAngelTOU:
+                    if (Main.IsRoundOneGA)
+                    {
+                        opt.RoleOptions.EngineerCooldown = 10f;
+                        Main.IsRoundOneGA = false;
+                    }
+                    else if (!Main.ProtectedThisRound)
+                        opt.RoleOptions.EngineerCooldown = Options.GuardCD.GetFloat();
+                    else
+                        opt.RoleOptions.EngineerCooldown = Options.GuardCD.GetFloat() + Options.GuardDur.GetFloat();
+                    opt.RoleOptions.EngineerInVentMaxTime = 1;
+                    break;
                 case CustomRoles.Jester:
                     opt.SetVision(player, Options.JesterHasImpostorVision.GetBool());
                     if (Utils.IsActive(SystemTypes.Electrical) && Options.JesterHasImpostorVision.GetBool())
@@ -664,7 +676,20 @@ namespace TownOfHost
                 new LateTask(() =>
                 {
                     Main.VetIsAlerted = false;
-                }, Options.VetDuration.GetFloat(), "Trapper BlockMove");
+                }, Options.VetDuration.GetFloat(), "Veteran Duration");
+            }
+        }
+        public static void GaProtect(this PlayerControl ga)
+        {
+            if (ga.Is(CustomRoles.GuardianAngelTOU) && !Main.IsProtected)
+            {
+                Main.ProtectsSoFar++;
+                Main.ProtectedThisRound = true;
+                Main.IsProtected = true;
+                new LateTask(() =>
+                {
+                    Main.IsProtected = false;
+                }, Options.VetDuration.GetFloat(), "Guardian Angel Protect Duration");
             }
         }
         public static void CanUseImpostorVent(this PlayerControl player)
@@ -779,7 +804,11 @@ namespace TownOfHost
                 CustomRoles.Jackal or
                 CustomRoles.PlagueBearer or
                 CustomRoles.Juggernaut or
-                CustomRoles.Pestilence;
+                CustomRoles.Pestilence or
+                CustomRoles.PlagueBearer or
+                CustomRoles.CorruptedSheriff or
+                CustomRoles.TheGlitch or
+                CustomRoles.Werewolf;
         }
 
         //汎用

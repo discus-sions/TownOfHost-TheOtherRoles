@@ -150,7 +150,7 @@ namespace TownOfHost
                 }
             }
             if (Main.currentWinner == CustomWinner.Child && CustomRoles.Child.IsEnable())
-            { //Executioner単独勝利
+            {
                 winner = new();
                 foreach (var p in PlayerControl.AllPlayerControls)
                 {
@@ -198,6 +198,25 @@ namespace TownOfHost
                             Main.additionalwinners.Add(AdditionalWinners.Executioner);
                         }
                     }
+                if (pc.Is(CustomRoles.GuardianAngelTOU))
+                {
+                    /*PlayerControl protecting = Utils.GetPlayerById(Main.GuardianAngelTarget[pc.PlayerId]);
+                    foreach (var p in winner)
+                    {
+                        if (p == protecting) continue;
+                        winner.Add(pc);
+                        Main.additionalwinners.Add(AdditionalWinners.GuardianAngel);
+                    }*/
+                    foreach (var protect in Main.GuardianAngelTarget)
+                    {
+                        if (pc.PlayerId == protect.Key && winner.Contains(Utils.GetPlayerById(protect.Value)))
+                        {
+                            //if (p == protecting) continue;
+                            winner.Add(pc);
+                            Main.additionalwinners.Add(AdditionalWinners.GuardianAngel);
+                        }
+                    }
+                }
             }
 
             //HideAndSeek専用

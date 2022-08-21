@@ -179,6 +179,7 @@ namespace TownOfHost
                     if (cRole == CustomRoles.Pestilence) hasTasks = false;
                     if (cRole == CustomRoles.Coven) hasTasks = false;
                     if (cRole == CustomRoles.Vulture) hasTasks = false;
+                    if (cRole == CustomRoles.GuardianAngelTOU) hasTasks = false;
                 }
                 var cSubRoleFound = Main.AllPlayerCustomSubRoles.TryGetValue(p.PlayerId, out var cSubRole);
                 if (cSubRoleFound)
@@ -231,6 +232,9 @@ namespace TownOfHost
                     break;
                 case CustomRoles.Veteran:
                     ProgressText += Helpers.ColorString(GetRoleColor(CustomRoles.Veteran), $"({Main.VetAlerts}/{Options.NumOfVets.GetInt()})");
+                    break;
+                case CustomRoles.GuardianAngelTOU:
+                    ProgressText += Helpers.ColorString(GetRoleColor(CustomRoles.GuardianAngelTOU), $"({Main.ProtectsSoFar}/{Options.NumOfProtects.GetInt()})");
                     break;
                 case CustomRoles.Sniper:
                     ProgressText += $" {Sniper.GetBulletCount(playerId)}";

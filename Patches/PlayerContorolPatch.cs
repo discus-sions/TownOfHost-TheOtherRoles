@@ -222,6 +222,14 @@ namespace TownOfHost
                     //they are both coven
                     return false;
                 }
+                foreach (var protect in Main.GuardianAngelTarget)
+                {
+                    if (target.PlayerId == protect.Key && Main.IsProtected)
+                    {
+                        killer.RpcGuardAndKill(target);
+                        return false;
+                    }
+                }
                 switch (killer.GetCustomRole())
                 {
                     //==========インポスター役職==========//
@@ -689,6 +697,7 @@ namespace TownOfHost
             Main.ArsonistTimer.Clear();
             Main.PlagueBearerTimer.Clear();
             Main.IsRoundOne = false;
+            Main.IsRoundOneGA = false;
             if (target == null) //ボタン
             {
                 if (__instance.Is(CustomRoles.Mayor))
@@ -1480,6 +1489,14 @@ namespace TownOfHost
                 }
                 pc?.MyPhysics?.RpcBootFromVent(__instance.Id);
             }
+            if (pc.Is(CustomRoles.GuardianAngelTOU))
+            {
+                if (Main.GAprotects != Options.NumOfProtects.GetInt())
+                {
+
+                }
+                pc?.MyPhysics?.RpcBootFromVent(__instance.Id);
+            }
             if (pc.Is(CustomRoles.Jester) && !Options.JesterCanVent.GetBool())
                 pc.MyPhysics.RpcBootFromVent(__instance.Id);
         }
@@ -1492,7 +1509,7 @@ namespace TownOfHost
             if (AmongUsClient.Instance.AmHost)
             {
                 if (AmongUsClient.Instance.IsGameStarted &&
-                    __instance.myPlayer.IsDouseDone())
+                    __instance.myPlayer.IsDouseDone() && !Options.TOuRArso.GetBool())
                 {
                     foreach (var pc in PlayerControl.AllPlayerControls)
                     {
@@ -1516,7 +1533,7 @@ namespace TownOfHost
                     RPC.ArsonistWin(__instance.myPlayer.PlayerId);
                     return true;
                 }
-                if (__instance.myPlayer.Is(CustomRoles.Arsonist))
+                if (__instance.myPlayer.Is(CustomRoles.Arsonist) && Options.TOuRArso.GetBool())
                 {
                     List<PlayerControl> doused = Utils.GetDousedPlayer(__instance.myPlayer.PlayerId);
                     foreach (var pc in doused)

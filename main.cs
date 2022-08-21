@@ -79,6 +79,7 @@ namespace TownOfHost
         public static Dictionary<byte, (PlayerControl, float)> ArsonistTimer = new();
         public static Dictionary<byte, float> AirshipMeetingTimer = new();
         public static Dictionary<byte, byte> ExecutionerTarget = new(); //Key : Executioner, Value : target
+        public static Dictionary<byte, byte> GuardianAngelTarget = new(); //Key : GA, Value : target
         public static Dictionary<byte, byte> PuppeteerList = new(); // Key: targetId, Value: PuppeteerId
         public static Dictionary<byte, byte> SpeedBoostTarget = new();
         public static Dictionary<byte, int> MayorUsedButtonCount = new();
@@ -136,10 +137,17 @@ namespace TownOfHost
         public static bool VettedThisRound;
         public static bool VetIsAlerted;
 
+        public static int GAprotects;
+
         //TEAM TRACKS
         public static int TeamCovenAlive;
         public static bool TeamPestiAlive;
         public static bool TeamJuggernautAlive;
+        public static bool ProtectedThisRound;
+        public static bool HasProtected;
+        public static int ProtectsSoFar;
+        public static bool IsProtected;
+        public static bool IsRoundOneGA;
         public override void Load()
         {
             Instance = this;
@@ -176,6 +184,7 @@ namespace TownOfHost
             ArsonistTimer = new Dictionary<byte, (PlayerControl, float)>();
             PlagueBearerTimer = new Dictionary<byte, (PlayerControl, float)>();
             ExecutionerTarget = new Dictionary<byte, byte>();
+            GuardianAngelTarget = new Dictionary<byte, byte>();
             MayorUsedButtonCount = new Dictionary<byte, int>();
             //firstKill = new Dictionary<byte, (PlayerControl, float)>();
             winnerList = new();
@@ -186,7 +195,12 @@ namespace TownOfHost
             JugKillAmounts = 0;
             AteBodies = 0;
             CovenMeetings = 0;
+            GAprotects = 0;
+            ProtectedThisRound = false;
+            HasProtected = false;
             VetAlerts = 0;
+            ProtectsSoFar = 0;
+            IsProtected = false;
             VettedThisRound = false;
             WitchProtected = false;
             HexMasterOn = false;
@@ -200,6 +214,7 @@ namespace TownOfHost
             HasNecronomicon = false;
             VetIsAlerted = false;
             IsRoundOne = false;
+            IsRoundOneGA = false;
 
             TeamJuggernautAlive = false;
             TeamPestiAlive = false;
@@ -257,7 +272,7 @@ namespace TownOfHost
                     { CustomRoles.Arsonist, "#ff6633"},
                     { CustomRoles.Jester, "#ec62a5"},
                     { CustomRoles.Terrorist, "#00ff00"},
-                    { CustomRoles.Executioner, "#611c3a"},
+                    { CustomRoles.Executioner, "#C96600"},
                     { CustomRoles.Opportunist, "#00ff00"},
                     { CustomRoles.SchrodingerCat, "#696969"},
                     { CustomRoles.Egoist, "#5600ff"},
@@ -275,6 +290,9 @@ namespace TownOfHost
                     { CustomRoles.Lovers, "#ffaaaa"},
                     { CustomRoles.Coven, "#592e98"},
                     { CustomRoles.Veteran, "#978046"},
+                    { CustomRoles.GuardianAngelTOU, "#26FEFE"},
+                    { CustomRoles.TheGlitch, "#00FA05"},
+                    { CustomRoles.Werewolf, "#B2762A"},
                 };
                 foreach (var role in Enum.GetValues(typeof(CustomRoles)).Cast<CustomRoles>())
                 {
@@ -395,6 +413,9 @@ namespace TownOfHost
         PlagueBearer,
         Pestilence,
         Vulture,
+        TheGlitch,
+        Werewolf,
+        GuardianAngelTOU,
         EgoSchrodingerCat,//エゴイスト陣営のシュレディンガーの猫
         Jester,
         Juggernaut,
@@ -452,6 +473,7 @@ namespace TownOfHost
         SchrodingerCat = CustomRoles.SchrodingerCat,
         Executioner = CustomRoles.Executioner,
         HASFox = CustomRoles.HASFox,
+        GuardianAngel = CustomRoles.GuardianAngelTOU
     }
     /*public enum CustomRoles : byte
     {

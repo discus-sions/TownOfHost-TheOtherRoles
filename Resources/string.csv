@@ -77,6 +77,10 @@ PlagueBearer,PlagueBearer,PlagueBearer,毒医
 Pestilence,Pestilence,Pestilence,传染者
 Juggernaut,Juggernaut,Juggernaut,Juggernaut
 Vulture,Vulture,Vulture,Vulture
+Werewolf,Werewolf,Werewolf,Werewolf
+TheGlitch,The Glitch,The Glitch,The Glitch
+GuardianAngelTOU,Guardian Angel,Guardian Angel,Guardian Angel
+
 
 # Coven 
 Coven,Coven,Coven,巫师
@@ -168,6 +172,9 @@ PlagueBearerInfo,Infect Everyone and Become Pestilence,Infect Everyone and Becom
 PestilenceInfo,Kill Everyone and Leave None,Kill Everyone and Leave None,把所有人杀都杀光一只蚊子都不要剩
 JuggernautInfo,Your cooldown decreaes with Each Kill,Your cooldown decreaes with Each Kill,Your cooldown decreaes with Each Kill
 VultureInfo,Eat bodies by clicking Report,Eat bodies by clicking Report,Eat bodies by clicking Report
+WerewolfInfo,Rampage to Kill Everyone,Rampage to Kill Everyone,Rampage to Kill Everyone
+TheGlitch,for each PlayerControl Glitch.MurderPlayer,for each PlayerControl Glitch.MurderPlayer,for each PlayerControl Glitch.MurderPlayer
+GuardianAngelTOUInfo,Protect your Target from Attacks,Protect your Target from Attacks,Protect your Target from Attacks
 
 # Coven 
 CovenInfo,Support your Leader,Support your Leader,支援你的领袖
@@ -243,6 +250,9 @@ PlagueBearerInfoLong,"(Neutrals):\nYou're kill button is an Infect button. Infec
 PestilenceInfoLong,"(Neutrals):\nPestilence cannot die and can only be voted. When someone tries to kill Pestilence, they die instead. Even their Lover dying won't bring the Pestilence down.","(Neutrals):\nPestilence cannot die and can only be voted. When someone triesto kill Pestilence, they die instead.","(中立阵营):\n毒医不能被杀死，当有人试图击杀他是他会受到反伤而死."
 JuggernautInfoLong,"(Neutrals):\nThe Juggernaut's kill cooldown decreases with each kill.","(Neutrals):\nThe Juggernaut's kill cooldown decreases with each kill.","(Neutrals):\nThe Juggernaut's kill cooldown decreases with each kill."
 VultureInfoLong,"(Neutrals):\nThe Vulture has to eat a certain number of bodies to win. Due to techincal limitations, we cannot make the body disappear, but we can make the body unreportable. Because of this, the number of bodies aten by the Vulture will display at every meeting.","(Neutrals):\nThe Vulture has to eat a certain number of bodies to win. Due to techincal limitations, we cannot make the body disappear, but we can make the body unreportable. Because of this, the number of bodies aten by the Vulture will display at every meeting.","(Neutrals):\nThe Vulture has to eat a certain number of bodies to win. Due to techincal limitations, we cannot make the body disappear, but we can make the body unreportable. Because of this, the number of bodies aten by the Vulture will display at every meeting."
+WerewolfInfoLong,"(Neutrals):\nThe Werewolf can vent to activate their rampage function. While rampaged, they have a short kill cooldown and can only kill for a short amount of time. After the Rampage Duration, they can no longer kill. You can choose if the Werewolf can vent during rampage.","(Neutral):\nInfo unfinished.","(Neutral):\nInfo unfinished."
+TheGlitchInfoLong,"(Neutrals):\nThe Glitch is a neutral killing role with the ability to shapeshift. While shifted, they can kill regularly, however when not shifted they can press the kill button to taglock someone. When they vent, that taglocked person cannot report or vent.","(Neutral):\nInfo unfinished.","(Neutral):\nInfo unfinished."
+GuardianAngelTOUInfoLong,"(Neutral):\nInfo unfinished.","(Neutral):\nInfo unfinished.","(Neutral):\nInfo unfinished."
 
 # Coven
 CovenInfoLong,"(Coven):\nNothing special about regular Coven. They just help support the Leader.","(Coven):\nNothing special about regular Coven. They just help support the Leader.","(法师):\n普通的法师没什么特别之处他们只会支援领袖."
@@ -433,6 +443,23 @@ MedusaOn,Medusa On,Medusa On, Medusa On
 MimicOn,Mimic On,Mimic On, Mimic On
 NecromancerOn,Necromancer On,Necromancer On,Necromancer On
 ConjurorOn,Conjuror On,Conjuror On,ConjurorOn
+
+NProtects,Number of Protects,NumOfProtects,NumOfProtects
+PCD,Protect Cooldown,Translation Unavailble,Translation Unavailble
+PDur,Protect Duration,Translation Unavailble,Translation Unavailble
+GAKR,GA Knows Target Role,Translation Unavailble,Translation Unavailble
+TKGA,Target knows GA Exists,Translation Unavailble,Translation Unavailble
+WhenGAdies,When Target dies GA Becomes,Translation Unavailble,Translation Unavailble
+
+CanVentR,Can Vent while Rampaged,Translation Unavailble,Translation Unavailble
+RCD,Rampage Cooldown,Translation Unavailble,Translation Unavailble
+RDur,Rampage Duration,Translation Unavailble,Translation Unavailble
+
+## Global
+RBC,Role Block Cooldown,Translation Unavailble,Translation Unavailble
+CanVent,Can Vent,Translation Unavailble,Translation Unavailble
+KillCD,Kill Cooldown,Translation Unavailble,Translation Unavailble
+GRB,Global RoleBlock Duration,Translation Unavailble,Translation Unavailble
 
 ## かくれんぼ設定
 HideAndSeekOptions,HideAndSeek Options,かくれんぼの設定,躲猫猫设置,躲貓貓設定

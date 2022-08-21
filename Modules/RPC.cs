@@ -31,6 +31,8 @@ namespace TownOfHost
         SetLoversPlayers,
         SetExecutionerTarget,
         RemoveExecutionerTarget,
+        SetGATarget,
+        RemoveGATarget,
         SendFireWorksState,
         SetCurrentDousingTarget,
         SetCurrentInfectingTarget,
@@ -186,6 +188,15 @@ namespace TownOfHost
                 case CustomRPC.RemoveExecutionerTarget:
                     byte Key = reader.ReadByte();
                     Main.ExecutionerTarget.Remove(Key);
+                    break;
+                case CustomRPC.SetGATarget:
+                    byte gaId = reader.ReadByte();
+                    byte targetIds = reader.ReadByte();
+                    Main.ExecutionerTarget[gaId] = targetIds;
+                    break;
+                case CustomRPC.RemoveGATarget:
+                    byte Keys = reader.ReadByte();
+                    Main.ExecutionerTarget.Remove(Keys);
                     break;
                 case CustomRPC.SendFireWorksState:
                     FireWorks.ReceiveRPC(reader);
@@ -488,6 +499,13 @@ namespace TownOfHost
             writer.Write(targetId);
             AmongUsClient.Instance.FinishRpcImmediately(writer);
         }
+        public static void SendGATarget(byte gaId, byte targetId)
+        {
+            MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.SetGATarget, Hazel.SendOption.Reliable, -1);
+            writer.Write(gaId);
+            writer.Write(targetId);
+            AmongUsClient.Instance.FinishRpcImmediately(writer);
+        }
         public static void CustomWinTrigger(byte winnerID)
         {
             List<PlayerControl> Impostors = new();
@@ -536,6 +554,13 @@ namespace TownOfHost
         {
             if (!AmongUsClient.Instance.AmHost) return;
             MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.RemoveExecutionerTarget, Hazel.SendOption.Reliable, -1);
+            writer.Write(Key);
+            AmongUsClient.Instance.FinishRpcImmediately(writer);
+        }
+        public static void RemoveGAKey(byte Key)
+        {
+            if (!AmongUsClient.Instance.AmHost) return;
+            MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.RemoveGATarget, Hazel.SendOption.Reliable, -1);
             writer.Write(Key);
             AmongUsClient.Instance.FinishRpcImmediately(writer);
         }

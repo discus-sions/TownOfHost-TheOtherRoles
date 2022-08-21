@@ -31,6 +31,7 @@ namespace TownOfHost
             Main.isCurseAndKill = new Dictionary<byte, bool>();
             Main.AirshipMeetingTimer = new Dictionary<byte, float>();
             Main.ExecutionerTarget = new Dictionary<byte, byte>();
+            Main.GuardianAngelTarget = new Dictionary<byte, byte>();
             Main.SKMadmateNowCount = 0;
             Main.isCursed = false;
             Main.PuppeteerList = new Dictionary<byte, byte>();
@@ -75,6 +76,10 @@ namespace TownOfHost
             Main.VettedThisRound = false;
             Main.VetIsAlerted = false;
             Main.IsRoundOne = true;
+            Main.IsRoundOneGA = true;
+            Main.GAprotects = 0;
+            Main.ProtectedThisRound = false;
+            Main.HasProtected = false;
 
             Main.DiscussionTime = Main.RealOptionsData.DiscussionTime;
             Main.VotingTime = Main.RealOptionsData.VotingTime;
@@ -84,6 +89,8 @@ namespace TownOfHost
 
             Main.currentDousingTarget = 255;
             Main.VetAlerts = 0;
+            Main.ProtectsSoFar = 0;
+            Main.IsProtected = false;
             Main.PlayerColors = new();
             //名前の記録
             Main.AllPlayerNames = new();
@@ -197,6 +204,8 @@ namespace TownOfHost
                 AssignDesyncRole(CustomRoles.Jackal, AllPlayers, sender, BaseRole: RoleTypes.Impostor);
                 AssignDesyncRole(CustomRoles.Juggernaut, AllPlayers, sender, BaseRole: RoleTypes.Impostor);
                 AssignDesyncRole(CustomRoles.PlagueBearer, AllPlayers, sender, BaseRole: RoleTypes.Impostor);
+                AssignDesyncRole(CustomRoles.TheGlitch, AllPlayers, sender, BaseRole: RoleTypes.Shapeshifter);
+                AssignDesyncRole(CustomRoles.Werewolf, AllPlayers, sender, BaseRole: RoleTypes.Impostor);
 
                 //COVEN 
                 AssignDesyncRole(CustomRoles.Witch, AllPlayers, sender, BaseRole: RoleTypes.Shapeshifter);
@@ -297,6 +306,7 @@ namespace TownOfHost
                 AssignCustomRolesFromList(CustomRoles.Veteran, Engineers);
                 AssignCustomRolesFromList(CustomRoles.Sleuth, Crewmates);
                 AssignCustomRolesFromList(CustomRoles.Child, Crewmates);
+                AssignCustomRolesFromList(CustomRoles.GuardianAngelTOU, Engineers);
                 AssignCustomRolesFromList(CustomRoles.MadGuardian, Crewmates);
                 AssignCustomRolesFromList(CustomRoles.MadSnitch, Options.MadSnitchCanVent.GetBool() ? Engineers : Crewmates);
                 AssignCustomRolesFromList(CustomRoles.Mayor, Options.MayorHasPortableButton.GetBool() ? Engineers : Crewmates);
@@ -484,6 +494,20 @@ namespace TownOfHost
                             Main.ExecutionerTarget.Add(pc.PlayerId, Target.PlayerId);
                             RPC.SendExecutionerTarget(pc.PlayerId, Target.PlayerId);
                             Logger.Info($"{pc.GetNameWithRole()}:{Target.GetNameWithRole()}", "Executioner");
+                            break;
+                        case CustomRoles.GuardianAngelTOU:
+                            List<PlayerControl> protectList = new();
+                            rand = new Random();
+                            foreach (var target in PlayerControl.AllPlayerControls)
+                            {
+                                if (pc == target) continue;
+
+                                protectList.Add(target);
+                            }
+                            var Person = protectList[rand.Next(protectList.Count)];
+                            Main.GuardianAngelTarget.Add(pc.PlayerId, Person.PlayerId);
+                            RPC.SendGATarget(pc.PlayerId, Person.PlayerId);
+                            Logger.Info($"{pc.GetNameWithRole()}:{Person.GetNameWithRole()}", "Guardian Angel");
                             break;
                         case CustomRoles.Egoist:
                             Egoist.Add(pc.PlayerId);
