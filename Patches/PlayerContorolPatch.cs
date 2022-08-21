@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System;
 using HarmonyLib;
 using Hazel;
 using UnityEngine;
@@ -564,6 +565,31 @@ namespace TownOfHost
                 Main.ExecutionerTarget.Remove(target.PlayerId);
                 RPC.RemoveExecutionerKey(target.PlayerId);
             }
+
+            if (Main.GuardianAngelTarget.ContainsValue(target.PlayerId))
+            {
+                List<byte> RemoveGAKey = new();
+                foreach (var gaTarget in Main.GuardianAngelTarget)
+                {
+                    var ga = Utils.GetPlayerById(gaTarget.Key);
+                    if (ga == null) continue;
+                    if (target.PlayerId == gaTarget.Value && !ga.Data.IsDead)
+                    {
+                        ga.RpcSetCustomRole(Options.CRoleGuardianAngelChangeRoles[Options.WhenGaTargetDies.GetSelection()]); //対象がキルされたらオプションで設定した役職にする
+                        RemoveGAKey.Add(gaTarget.Key);
+                    }
+                }
+                foreach (var RemoveKey in RemoveGAKey)
+                {
+                    Main.GuardianAngelTarget.Remove(RemoveKey);
+                    RPC.RemoveGAKey(RemoveKey);
+                }
+            }
+            if (target.Is(CustomRoles.GuardianAngelTOU) && Main.GuardianAngelTarget.ContainsKey(target.PlayerId))
+            {
+                Main.GuardianAngelTarget.Remove(target.PlayerId);
+                RPC.RemoveGAKey(target.PlayerId);
+            }
             if (target.Is(CustomRoles.TimeThief))
                 target.ResetVotingTime();
 
@@ -711,7 +737,60 @@ namespace TownOfHost
                 if (__instance.Is(CustomRoles.Sleuth))
                 {
                     //Main.MayorUsedButtonCount[__instance.PlayerId] += 1;
-                    Utils.SendMessage("The body you reported had a clue about their role. They were " + Utils.GetRoleName(target.GetCustomRole()), __instance.PlayerId);
+                    Utils.SendMessage("The body you reported had a clue about their role. They were " + Utils.GetRoleName(target.GetCustomRole()) + ".", __instance.PlayerId);
+                }
+            }
+
+            if (target != null) //Sleuth Report for Non-Buttons
+            {
+                if (__instance.Is(CustomRoles.Amnesiac))
+                {
+                    Utils.SendMessage("You stole that person's role! They were " + Utils.GetRoleName(target.GetCustomRole()) + ".", __instance.PlayerId);
+                    Utils.SendMessage("The Amnesiac stole your role! Because of this, your role has been reset to the default one.", target.PlayerId);
+                    __instance.RpcSetCustomRole(target.GetCustomRole());
+                    switch (target.GetCustomRole())
+                    {
+                        case CustomRoles.Arsonist:
+                            foreach (var ar in PlayerControl.AllPlayerControls)
+                                Main.isDoused.Add((__instance.PlayerId, ar.PlayerId), false);
+                            break;
+                        case CustomRoles.GuardianAngelTOU:
+                            var rand = new System.Random();
+                            List<PlayerControl> protectList = new();
+                            rand = new System.Random();
+                            foreach (var player in PlayerControl.AllPlayerControls)
+                            {
+                                if (__instance == player) continue;
+
+                                protectList.Add(player);
+                            }
+                            var Person = protectList[rand.Next(protectList.Count)];
+                            Main.GuardianAngelTarget.Add(__instance.PlayerId, Person.PlayerId);
+                            RPC.SendGATarget(__instance.PlayerId, Person.PlayerId);
+                            Logger.Info($"{__instance.GetNameWithRole()}:{Person.GetNameWithRole()}", "Guardian Angel");
+                            break;
+                        case CustomRoles.PlagueBearer:
+                            foreach (var ar in PlayerControl.AllPlayerControls)
+                                Main.isInfected.Add((__instance.PlayerId, ar.PlayerId), false);
+                            break;
+                        case CustomRoles.Executioner:
+                            List<PlayerControl> targetList = new();
+                            var randd = new System.Random();
+                            randd = new System.Random();
+                            foreach (var player in PlayerControl.AllPlayerControls)
+                            {
+                                if (__instance == player) continue;
+                                else if (!Options.ExecutionerCanTargetImpostor.GetBool() && player.GetCustomRole().IsImpostor()) continue;
+
+                                targetList.Add(player);
+                            }
+                            var Target = targetList[randd.Next(targetList.Count)];
+                            Main.ExecutionerTarget.Add(__instance.PlayerId, Target.PlayerId);
+                            RPC.SendExecutionerTarget(__instance.PlayerId, Target.PlayerId);
+                            Logger.Info($"{__instance.GetNameWithRole()}:{Target.GetNameWithRole()}", "Executioner");
+                            break;
+                    }
+                    Utils.GetPlayerById(target.PlayerId).SetDefaultRole();
                 }
             }
             if (!Main.HasNecronomicon)

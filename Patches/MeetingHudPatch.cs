@@ -162,6 +162,19 @@ namespace TownOfHost
                             RPC.RemoveExecutionerKey(Executioner);
                             Utils.NotifyRoles();
                         }
+                        if (Main.GuardianAngelTarget.ContainsValue(p.PlayerId) && exileId != p.PlayerId)
+                        {
+                            byte GA = 0x73;
+                            Main.GuardianAngelTarget.Do(x =>
+                            {
+                                if (x.Value == p.PlayerId)
+                                    GA = x.Key;
+                            });
+                            Utils.GetPlayerById(GA).RpcSetCustomRole(Options.CRoleGuardianAngelChangeRoles[Options.WhenGaTargetDies.GetSelection()]);
+                            Main.GuardianAngelTarget.Remove(GA);
+                            RPC.RemoveExecutionerKey(GA);
+                            Utils.NotifyRoles();
+                        }
                     }
                 }
                 Main.SpelledPlayer.Clear();

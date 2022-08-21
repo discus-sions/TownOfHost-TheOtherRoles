@@ -334,6 +334,13 @@ namespace TownOfHost
                     __instance.ImpostorVentButton.ToggleVisible(true);
                     __instance.AbilityButton.ToggleVisible(false);
                     break;
+                case CustomRoles.Amnesiac:
+                    if (player.Data.Role.Role != RoleTypes.GuardianAngel)
+                        __instance.KillButton.ToggleVisible(false);
+                    __instance.SabotageButton.ToggleVisible(false);
+                    __instance.ImpostorVentButton.ToggleVisible(false);
+                    __instance.AbilityButton.ToggleVisible(false);
+                    break;
             }
             switch (player.GetRoleType())
             {

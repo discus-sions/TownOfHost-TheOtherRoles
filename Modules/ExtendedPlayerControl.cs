@@ -28,6 +28,27 @@ namespace TownOfHost
                 AmongUsClient.Instance.FinishRpcImmediately(writer);
             }
         }
+        public static void SetDefaultRole(this PlayerControl player)
+        {
+            switch (player.GetRoleType())
+            {
+                case RoleType.Crewmate:
+                    player.RpcSetCustomRole(CustomRoles.Crewmate);
+                    break;
+                case RoleType.Impostor:
+                    player.RpcSetCustomRole(CustomRoles.Impostor);
+                    break;
+                case RoleType.Neutral:
+                    player.RpcSetCustomRole(CustomRoles.Opportunist);
+                    break;
+                case RoleType.Coven:
+                    player.RpcSetCustomRole(CustomRoles.Coven);
+                    break;
+                case RoleType.Madmate:
+                    player.RpcSetCustomRole(CustomRoles.Madmate);
+                    break;
+            }
+        }
         public static void RpcSetCustomRole(byte PlayerId, CustomRoles role)
         {
             if (AmongUsClient.Instance.AmHost)
@@ -311,6 +332,7 @@ namespace TownOfHost
                     break;
                 case CustomRoles.Sheriff:
                 case CustomRoles.Arsonist:
+                case CustomRoles.Amnesiac:
                 case CustomRoles.Vulture:
                     opt.SetVision(player, false);
                     break;
@@ -542,6 +564,7 @@ namespace TownOfHost
                 CustomRoles.FireWorks => FireWorks.CanUseKillButton(pc),
                 CustomRoles.Sniper => Sniper.CanUseKillButton(pc),
                 CustomRoles.Sheriff => Sheriff.CanUseKillButton(pc),
+                CustomRoles.Arsonist => false,
                 CustomRoles.PlagueBearer => true,
                 CustomRoles.Pestilence => true,
                 _ => canUse,
@@ -696,6 +719,7 @@ namespace TownOfHost
         {
             switch (player.GetCustomRole())
             {
+                case CustomRoles.Amnesiac:
                 case CustomRoles.Sheriff:
                     DestroyableSingleton<HudManager>.Instance.ImpostorVentButton.ToggleVisible(false);
                     player.Data.Role.CanVent = false;

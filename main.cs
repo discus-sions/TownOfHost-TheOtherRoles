@@ -293,6 +293,7 @@ namespace TownOfHost
                     { CustomRoles.GuardianAngelTOU, "#26FEFE"},
                     { CustomRoles.TheGlitch, "#00FA05"},
                     { CustomRoles.Werewolf, "#B2762A"},
+                    { CustomRoles.Amnesiac, "#81DDFC"},
                 };
                 foreach (var role in Enum.GetValues(typeof(CustomRoles)).Cast<CustomRoles>())
                 {
@@ -418,6 +419,7 @@ namespace TownOfHost
         GuardianAngelTOU,
         EgoSchrodingerCat,//エゴイスト陣営のシュレディンガーの猫
         Jester,
+        Amnesiac,
         Juggernaut,
         Opportunist,
         SchrodingerCat,//第三陣営のシュレディンガーの猫

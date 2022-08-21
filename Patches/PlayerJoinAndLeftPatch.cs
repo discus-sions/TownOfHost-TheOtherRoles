@@ -69,6 +69,12 @@ namespace TownOfHost
                     Main.ExecutionerTarget.Remove(data.Character.PlayerId);
                     RPC.RemoveExecutionerKey(data.Character.PlayerId);
                 }
+                if (data.Character.Is(CustomRoles.GuardianAngelTOU) && Main.GuardianAngelTarget.ContainsKey(data.Character.PlayerId))
+                {
+                    data.Character.RpcSetCustomRole(Options.CRoleGuardianAngelChangeRoles[Options.WhenGaTargetDies.GetSelection()]);
+                    Main.GuardianAngelTarget.Remove(data.Character.PlayerId);
+                    RPC.RemoveGAKey(data.Character.PlayerId);
+                }
                 if (Main.ExecutionerTarget.ContainsValue(data.Character.PlayerId))
                 {
                     byte Executioner = 0x73;
@@ -80,6 +86,19 @@ namespace TownOfHost
                     Utils.GetPlayerById(Executioner).RpcSetCustomRole(Options.CRoleExecutionerChangeRoles[Options.ExecutionerChangeRolesAfterTargetKilled.GetSelection()]);
                     Main.ExecutionerTarget.Remove(Executioner);
                     RPC.RemoveExecutionerKey(Executioner);
+                    Utils.NotifyRoles();
+                }
+                if (Main.GuardianAngelTarget.ContainsValue(data.Character.PlayerId))
+                {
+                    byte GA = 0x73;
+                    Main.ExecutionerTarget.Do(x =>
+                    {
+                        if (x.Value == data.Character.PlayerId)
+                            GA = x.Key;
+                    });
+                    Utils.GetPlayerById(GA).RpcSetCustomRole(Options.CRoleGuardianAngelChangeRoles[Options.WhenGaTargetDies.GetSelection()]);
+                    Main.GuardianAngelTarget.Remove(GA);
+                    RPC.RemoveGAKey(GA);
                     Utils.NotifyRoles();
                 }
                 if (PlayerState.GetDeathReason(data.Character.PlayerId) == PlayerState.DeathReason.etc) //死因が設定されていなかったら

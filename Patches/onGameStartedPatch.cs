@@ -206,6 +206,7 @@ namespace TownOfHost
                 AssignDesyncRole(CustomRoles.PlagueBearer, AllPlayers, sender, BaseRole: RoleTypes.Impostor);
                 AssignDesyncRole(CustomRoles.TheGlitch, AllPlayers, sender, BaseRole: RoleTypes.Shapeshifter);
                 AssignDesyncRole(CustomRoles.Werewolf, AllPlayers, sender, BaseRole: RoleTypes.Impostor);
+                AssignDesyncRole(CustomRoles.Amnesiac, AllPlayers, sender, BaseRole: RoleTypes.Impostor);
 
                 //COVEN 
                 AssignDesyncRole(CustomRoles.Witch, AllPlayers, sender, BaseRole: RoleTypes.Shapeshifter);
@@ -541,6 +542,9 @@ namespace TownOfHost
 
                 if (Options.MadSnitchCanVent.GetBool())
                     EngineerNum -= CustomRoles.MadSnitch.GetCount();
+
+                if (CustomRoles.GuardianAngelTOU.IsEnable())
+                    EngineerNum -= CustomRoles.GuardianAngelTOU.GetCount();
 
                 roleOpt.SetRoleRate(RoleTypes.Engineer, EngineerNum, roleOpt.GetChancePerGame(RoleTypes.Engineer));
 

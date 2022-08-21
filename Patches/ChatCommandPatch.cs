@@ -303,12 +303,16 @@ namespace TownOfHost
                 { CustomRoles.SchrodingerCat, "sc" },
                 { CustomRoles.Terrorist, "te" },
                 { CustomRoles.Jackal, "jac" },
-                { CustomRoles.Juggernaut, "jn"},
+                //{ CustomRoles.Juggernaut, "jn"},
                 { CustomRoles.PlagueBearer, "pb" },
                 { CustomRoles.Pestilence, "pesti" },
                 { CustomRoles.Juggernaut, "jug"},
                 { CustomRoles.Vulture, "vu"},
                 { CustomRoles.Coven, "co" },
+                { CustomRoles.TheGlitch, "gl" },
+                { CustomRoles.Werewolf, "ww" },
+                { CustomRoles.Amnesiac, "amne" },
+                { CustomRoles.GuardianAngelTOU, "ga" },
                 //Sub役職
                 { (CustomRoles)(-6), $"== {GetString("SubRole")} ==" }, //区切り用
                 {CustomRoles.Lovers, "lo" },

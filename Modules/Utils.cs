@@ -160,6 +160,7 @@ namespace TownOfHost
                     if (cRole == CustomRoles.MadSnitch && ForRecompute) hasTasks = false;
                     if (cRole == CustomRoles.Opportunist) hasTasks = false;
                     if (cRole == CustomRoles.Sheriff) hasTasks = false;
+                    if (cRole == CustomRoles.Amnesiac) hasTasks = false;
                     if (cRole == CustomRoles.Madmate) hasTasks = false;
                     if (cRole == CustomRoles.SKMadmate) hasTasks = false;
                     if (cRole == CustomRoles.Terrorist && ForRecompute) hasTasks = false;
@@ -709,6 +710,7 @@ namespace TownOfHost
                     || seer.Is(CustomRoles.Lovers)
                     || Main.SpelledPlayer.Count > 0
                     || Main.SilencedPlayer.Count > 0
+                    || seer.Is(CustomRoles.GuardianAngelTOU)
                     || seer.Is(CustomRoles.Executioner)
                     || seer.Is(CustomRoles.Doctor) //seerがドクター
                     || seer.Is(CustomRoles.Puppeteer)
@@ -810,6 +812,13 @@ namespace TownOfHost
                             if ((seer.PlayerId == ExecutionerTarget.Key || seer.Data.IsDead) && //seerがKey or Dead
                             target.PlayerId == ExecutionerTarget.Value) //targetがValue
                                 TargetMark += $"<color={Utils.GetRoleColorCode(CustomRoles.Executioner)}>♦</color>";
+                        }
+
+                        foreach (var GATarget in Main.GuardianAngelTarget)
+                        {
+                            if ((seer.PlayerId == GATarget.Key || seer.Data.IsDead) && //seerがKey or Dead
+                            target.PlayerId == GATarget.Value) //targetがValue
+                                TargetMark += $"<color={Utils.GetRoleColorCode(CustomRoles.GuardianAngel)}>♦</color>";
                         }
 
                         string TargetDeathReason = "";

@@ -192,11 +192,11 @@ namespace TownOfHost
                 case CustomRPC.SetGATarget:
                     byte gaId = reader.ReadByte();
                     byte targetIds = reader.ReadByte();
-                    Main.ExecutionerTarget[gaId] = targetIds;
+                    Main.GuardianAngelTarget[gaId] = targetIds;
                     break;
                 case CustomRPC.RemoveGATarget:
                     byte Keys = reader.ReadByte();
-                    Main.ExecutionerTarget.Remove(Keys);
+                    Main.GuardianAngelTarget.Remove(Keys);
                     break;
                 case CustomRPC.SendFireWorksState:
                     FireWorks.ReceiveRPC(reader);

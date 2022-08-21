@@ -80,7 +80,7 @@ Vulture,Vulture,Vulture,Vulture
 Werewolf,Werewolf,Werewolf,Werewolf
 TheGlitch,The Glitch,The Glitch,The Glitch
 GuardianAngelTOU,Guardian Angel,Guardian Angel,Guardian Angel
-
+Amnesiac,Amnesiac,Amnesiac,Amnesiac
 
 # Coven 
 Coven,Coven,Coven,巫师
@@ -175,6 +175,7 @@ VultureInfo,Eat bodies by clicking Report,Eat bodies by clicking Report,Eat bodi
 WerewolfInfo,Rampage to Kill Everyone,Rampage to Kill Everyone,Rampage to Kill Everyone
 TheGlitch,for each PlayerControl Glitch.MurderPlayer,for each PlayerControl Glitch.MurderPlayer,for each PlayerControl Glitch.MurderPlayer
 GuardianAngelTOUInfo,Protect your Target from Attacks,Protect your Target from Attacks,Protect your Target from Attacks
+AmnesiacInfo,Report a body to Steal a Role,AmnesiacInfo,AmnesiacInfo
 
 # Coven 
 CovenInfo,Support your Leader,Support your Leader,支援你的领袖
@@ -253,6 +254,7 @@ VultureInfoLong,"(Neutrals):\nThe Vulture has to eat a certain number of bodies 
 WerewolfInfoLong,"(Neutrals):\nThe Werewolf can vent to activate their rampage function. While rampaged, they have a short kill cooldown and can only kill for a short amount of time. After the Rampage Duration, they can no longer kill. You can choose if the Werewolf can vent during rampage.","(Neutral):\nInfo unfinished.","(Neutral):\nInfo unfinished."
 TheGlitchInfoLong,"(Neutrals):\nThe Glitch is a neutral killing role with the ability to shapeshift. While shifted, they can kill regularly, however when not shifted they can press the kill button to taglock someone. When they vent, that taglocked person cannot report or vent.","(Neutral):\nInfo unfinished.","(Neutral):\nInfo unfinished."
 GuardianAngelTOUInfoLong,"(Neutral):\nInfo unfinished.","(Neutral):\nInfo unfinished.","(Neutral):\nInfo unfinished."
+AmnesiacInfoLong,"(Neutral):\nSteal someone's role by clikcing the report button.","(Neutral):\nInfo unfinished.","(Neutral):\nInfo unfinished."
 
 # Coven
 CovenInfoLong,"(Coven):\nNothing special about regular Coven. They just help support the Leader.","(Coven):\nNothing special about regular Coven. They just help support the Leader.","(法师):\n普通的法师没什么特别之处他们只会支援领袖."
