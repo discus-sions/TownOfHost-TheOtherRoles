@@ -1163,9 +1163,9 @@ namespace TownOfHost
                             RealName += Helpers.ColorString(Utils.GetRoleColor(CustomRoles.Jackal), " (C)");
                         if (target.Is(CustomRoles.Arsonist) && target.IsDouseDone())
                             RealName = Helpers.ColorString(Utils.GetRoleColor(CustomRoles.Arsonist), GetString("EnterVentToWin"));
-                        if (target.Is(CustomRoles.PlagueBearer) && target.IsInfectDone())
-                            target.RpcSetCustomRole(CustomRoles.Pestilence);
                     }
+                    if (target.Is(CustomRoles.PlagueBearer) && target.IsInfectDone())
+                        target.RpcSetCustomRole(CustomRoles.Pestilence);
                     //タスクを終わらせたMadSnitchがインポスターを確認できる
                     else if (seer.Is(CustomRoles.MadSnitch) && //seerがMadSnitch
                         target.GetCustomRole().IsImpostor() && //targetがインポスター
