@@ -1159,8 +1159,8 @@ namespace TownOfHost
                     if (target.AmOwner && AmongUsClient.Instance.IsGameStarted)
                     { //targetが自分自身
                         RealName = Helpers.ColorString(target.GetRoleColor(), RealName); //名前の色を変更
-                                                                                         //if (target.Is(CustomRoles.Child) && Options.ChildKnown.GetBool())
-                                                                                         //     RealName += Helpers.ColorString(Utils.GetRoleColor(CustomRoles.Jackal), " (C)");
+                                                                                         //   if (target.Is(CustomRoles.Child) && Options.ChildKnown.GetBool())
+                                                                                         //            RealName += Helpers.ColorString(Utils.GetRoleColor(CustomRoles.Jackal), " (C)");
                         if (target.Is(CustomRoles.Arsonist) && target.IsDouseDone())
                             RealName = Helpers.ColorString(Utils.GetRoleColor(CustomRoles.Arsonist), GetString("EnterVentToWin"));
                     }

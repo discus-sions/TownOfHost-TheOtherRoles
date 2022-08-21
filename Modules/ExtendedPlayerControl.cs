@@ -676,7 +676,9 @@ namespace TownOfHost
                     player.Data.Role.CanVent = false;
                     return;
                 case CustomRoles.Arsonist:
-                    bool CanUse = player.IsDouseDone() || Options.TOuRArso.GetBool();
+                    bool CanUse = player.IsDouseDone();
+                    if (Options.TOuRArso.GetBool())
+                        CanUse = true;
                     DestroyableSingleton<HudManager>.Instance.ImpostorVentButton.ToggleVisible(CanUse && !player.Data.IsDead);
                     player.Data.Role.CanVent = CanUse;
                     return;
