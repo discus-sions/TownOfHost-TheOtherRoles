@@ -109,6 +109,7 @@ namespace TownOfHost
         public static int AteBodies;
         public static byte currentDousingTarget;
         public static int VetAlerts;
+        public static bool IsRoundOne;
 
         //plague info.
         public static byte currentInfectingTarget;
@@ -198,6 +199,7 @@ namespace TownOfHost
             ChoseWitch = false;
             HasNecronomicon = false;
             VetIsAlerted = false;
+            IsRoundOne = false;
 
             TeamJuggernautAlive = false;
             TeamPestiAlive = false;

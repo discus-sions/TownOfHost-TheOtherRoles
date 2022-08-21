@@ -688,6 +688,7 @@ namespace TownOfHost
             SerialKiller.OnReportDeadBody();
             Main.ArsonistTimer.Clear();
             Main.PlagueBearerTimer.Clear();
+            Main.IsRoundOne = false;
             if (target == null) //ボタン
             {
                 if (__instance.Is(CustomRoles.Mayor))
@@ -1477,6 +1478,7 @@ namespace TownOfHost
                 {
                     pc.VetAlerted();
                 }
+                pc?.MyPhysics?.RpcBootFromVent(__instance.Id);
             }
             if (pc.Is(CustomRoles.Jester) && !Options.JesterCanVent.GetBool())
                 pc.MyPhysics.RpcBootFromVent(__instance.Id);

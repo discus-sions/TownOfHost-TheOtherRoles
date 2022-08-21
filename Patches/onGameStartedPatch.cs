@@ -74,6 +74,7 @@ namespace TownOfHost
             Main.introDestroyed = false;
             Main.VettedThisRound = false;
             Main.VetIsAlerted = false;
+            Main.IsRoundOne = true;
 
             Main.DiscussionTime = Main.RealOptionsData.DiscussionTime;
             Main.VotingTime = Main.RealOptionsData.VotingTime;
@@ -443,7 +444,7 @@ namespace TownOfHost
                             }
                             break;
                         case CustomRoles.Veteran:
-                            Main.VetAlerts = Options.NumOfVets.GetInt();
+                            //Main.VetAlerts = Options.NumOfVets.GetInt();
                             break;
                         case CustomRoles.FireWorks:
                             FireWorks.Add(pc.PlayerId);
