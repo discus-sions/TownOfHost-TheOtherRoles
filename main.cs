@@ -122,7 +122,7 @@ namespace TownOfHost
         public static int CovenMeetings;
         public static bool HasNecronomicon;
         public static bool ChoseWitch;
-        public static bool WitchProteced;
+        public static bool WitchProtected;
         //role info
         public static bool HexMasterOn;
         public static bool PotionMasterOn;
@@ -134,6 +134,11 @@ namespace TownOfHost
 
         public static bool VettedThisRound;
         public static bool VetIsAlerted;
+
+        //TEAM TRACKS
+        public static int TeamCovenAlive;
+        public static bool TeamPestiAlive;
+        public static bool TeamJuggernautAlive;
         public override void Load()
         {
             Instance = this;
@@ -182,7 +187,7 @@ namespace TownOfHost
             CovenMeetings = 0;
             VetAlerts = 0;
             VettedThisRound = false;
-            WitchProteced = false;
+            WitchProtected = false;
             HexMasterOn = false;
             PotionMasterOn = false;
             VampireDitchesOn = false;
@@ -193,6 +198,10 @@ namespace TownOfHost
             ChoseWitch = false;
             HasNecronomicon = false;
             VetIsAlerted = false;
+
+            TeamJuggernautAlive = false;
+            TeamPestiAlive = false;
+            TeamCovenAlive = 3;
 
             IgnoreWinnerCommand = Config.Bind("Other", "IgnoreWinnerCommand", true);
             WebhookURL = Config.Bind("Other", "WebhookURL", "none");

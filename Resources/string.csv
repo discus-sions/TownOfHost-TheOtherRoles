@@ -410,6 +410,7 @@ EgoistKillCooldown,Egoist KillCooldown,エゴイストのキルクール,自负�
 JuggerKillCooldown,Juggernaut Kill Cooldown,ジャッカルのキルクール,豺狼击杀冷却,豺狼殺人冷卻
 JuggerDecrease,Juggernaut Cooldown Decrease,ジャッカルのキルクール,豺狼击杀冷却,豺狼殺人冷卻
 JuggerCanVent,Juggernaut Can Use Vents,ジャッカルがベントを使用できる,豺狼可以使用管道,豺狼可以跳管道
+VampBuff,Vampire Buff,Vampire Buff,Vampire Buff
 
 VetCD,Alert Cooldown,Alert Cooldown,Alert Cooldown
 VetDur,Alert Duration,Alert Duration,Alert Duration
@@ -518,6 +519,7 @@ CanNotJoinPublicRoomNoLatest,You can't join public rooms except for the latest v
 ModBrokenMessage,The MOD file is broken.\nPlease re-install it again.,MODを構成するファイルが破損しています。\nもう一度導入しなおしてください。,模组文件损坏。\n请重新安装本模组。,模組檔案損壞\n請重新安裝模組
 NameIncludeTOH,"You cannot make public rooms unless "TOH" is included in your name.",""TOH"が名前に含まれていない状態では公開部屋にすることはできません。","不可以在昵称中未带有"TOH"字样的前提下把房间状态设置为公开。","無法公開此房間,因為你名字中沒有含有'TOH'"
 EnterVentToWin,Enter Vent to Win!!,ベントに入って勝利しろ!!,跳管道来获得胜利！,跳管道來獲得勝利!!
+PoisonButtonText,Poison,Poison,Poison
 FireworksPutPhase,Put {0} Fireworks,あと{0}個置け,还要安放{0}枚烟花,還需要安裝{0}枚煙火
 FireworksWaitPhase,Wait for time...,時を待て...,耐心等待....,等待時機...
 FireworksReadyFirePhase,Fire!,打ち上げろ！,"烟花来咯，大型烟花秀开始！","準備就緒,煙火秀開始!"

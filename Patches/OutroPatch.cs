@@ -67,7 +67,23 @@ namespace TownOfHost
                 winner.Clear();
                 foreach (var p in PlayerControl.AllPlayerControls)
                 {
-                    if (p.Is(CustomRoles.Pestilence) || p.Is(CustomRoles.JSchrodingerCat)) winner.Add(p);
+                    if (p.Is(CustomRoles.Pestilence)) winner.Add(p);
+                }
+            }
+            if (Main.currentWinner == CustomWinner.Juggernaut)
+            {
+                winner.Clear();
+                foreach (var p in PlayerControl.AllPlayerControls)
+                {
+                    if (p.Is(CustomRoles.Juggernaut)) winner.Add(p);
+                }
+            }
+            if (Main.currentWinner == CustomWinner.Coven)
+            {
+                winner.Clear();
+                foreach (var p in PlayerControl.AllPlayerControls)
+                {
+                    if (CustomRolesHelper.IsCoven(p.GetCustomRole())) winner.Add(p);
                 }
             }
             if (Main.currentWinner == CustomWinner.None)
@@ -99,6 +115,7 @@ namespace TownOfHost
                     }
                 }
             }
+
             if (Main.currentWinner == CustomWinner.Terrorist && CustomRoles.Terrorist.IsEnable())
             { //Terrorist単独勝利
                 winner = new();

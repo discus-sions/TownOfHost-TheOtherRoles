@@ -50,8 +50,11 @@ namespace TownOfHost
             Main.targetArrows = new();
             Main.JugKillAmounts = 0;
             Main.AteBodies = 0;
+            Main.TeamJuggernautAlive = false;
+            Main.TeamPestiAlive = false;
 
             ////////////// COVEN INFO //////////////    
+            Main.TeamCovenAlive = 3;
             Main.CovenMeetings = 0;
             Main.HasNecronomicon = false;
             Main.HexMasterOn = false;
@@ -62,7 +65,7 @@ namespace TownOfHost
             Main.NecromancerOn = false;
             Main.ConjurorOn = false;
             Main.ChoseWitch = false;
-            Main.WitchProteced = false;
+            Main.WitchProtected = false;
             ////////////// COVEN INFO //////////////    
 
             Options.UsedButtonCount = 0;
@@ -335,9 +338,16 @@ namespace TownOfHost
                     if (pc.Is(CustomRoles.Watcher) && !Options.IsEvilWatcher)
                         Main.AllPlayerCustomRoles[pc.PlayerId] = CustomRoles.NiceWatcher;
                     if (pc.Is(CustomRoles.PlagueBearer) && Options.InfectionSkip.GetBool())
+                    {
                         Main.AllPlayerCustomRoles[pc.PlayerId] = CustomRoles.Pestilence;
-                    if (pc.Is(CustomRoles.Vampire) && Options.VampireDitchesOn.GetBool())
+                        Main.TeamPestiAlive = true;
+                    }
+                    if (pc.Is(CustomRoles.Vampire) && Options.VampireDitchesOn.GetBool() && !Main.VampireDitchesOn)
+                    {
                         Main.AllPlayerCustomRoles[pc.PlayerId] = CustomRoles.Poisoner;
+                        // so we dont have multiple poisoners
+                        Main.VampireDitchesOn = true;
+                    }
                 }
                 //if (CustomRoles.Veteran.IsEnable())
                 //    Main.VetAlerts = Options.NumOfVets.GetInt();
@@ -347,9 +357,48 @@ namespace TownOfHost
                     if (CustomRolesHelper.GetRoleType(pc.GetCustomRole()) == RoleType.Coven)
                     {
                         //if they are coven.
+                        //I KNOW THIS CODE IS TRASH. ILL FIX IT SOON, BUT NOT NOW
                         if (pc.Is(CustomRoles.Coven))
                         {
-
+                            if (!Main.ChoseWitch)
+                            {
+                                Main.AllPlayerCustomRoles[pc.PlayerId] = CustomRoles.CovenWitch;
+                                Main.ChoseWitch = true;
+                            }
+                            else if (!Main.HexMasterOn)
+                            {
+                                Main.AllPlayerCustomRoles[pc.PlayerId] = CustomRoles.HexMaster;
+                                Main.HexMasterOn = true;
+                            }
+                            else if (!Main.PotionMasterOn)
+                            {
+                                Main.AllPlayerCustomRoles[pc.PlayerId] = CustomRoles.PotionMaster;
+                                Main.PotionMasterOn = true;
+                            }
+                            else if (!Main.MedusaOn)
+                            {
+                                Main.AllPlayerCustomRoles[pc.PlayerId] = CustomRoles.Medusa;
+                                Main.MedusaOn = true;
+                            }
+                            else if (!Main.MimicOn)
+                            {
+                                Main.AllPlayerCustomRoles[pc.PlayerId] = CustomRoles.Mimic;
+                                Main.MimicOn = true;
+                            }
+                            else if (!Main.NecromancerOn)
+                            {
+                                Main.AllPlayerCustomRoles[pc.PlayerId] = CustomRoles.Necromancer;
+                                Main.NecromancerOn = true;
+                            }
+                            else if (!Main.ConjurorOn)
+                            {
+                                Main.AllPlayerCustomRoles[pc.PlayerId] = CustomRoles.Conjuror;
+                                Main.ConjurorOn = true;
+                            }
+                            else
+                            {
+                                //person is regular Coven.
+                            }
                         }
                         else
                         {

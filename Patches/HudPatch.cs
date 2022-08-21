@@ -78,7 +78,7 @@ namespace TownOfHost
                     }
                     break;
                 case CustomRoles.Silencer:
-                    if (!Main.firstKill.Contains(player))
+                    if (Main.firstKill == null)
                     {
                         __instance.KillButton.OverrideText($"{GetString("SilenceButtonText")}");
                     }
@@ -101,6 +101,9 @@ namespace TownOfHost
                     break;
                 case CustomRoles.Pestilence:
                     __instance.KillButton.OverrideText($"{GetString("KillButtonText")}");
+                    break;
+                case CustomRoles.Poisoner:
+                    __instance.KillButton.OverrideText($"{GetString("PoisonButtonText")}");
                     break;
                 case CustomRoles.BountyHunter:
                     BountyHunter.GetAbilityButtonText(__instance);
@@ -322,6 +325,18 @@ namespace TownOfHost
                     __instance.SabotageButton.ToggleVisible(false);
                     __instance.ImpostorVentButton.ToggleVisible(true);
                     __instance.AbilityButton.ToggleVisible(false);
+                    break;
+            }
+            switch (player.GetRoleType())
+            {
+                case RoleType.Coven:
+                    if (player.Data.Role.Role != RoleTypes.GuardianAngel)
+                        __instance.KillButton.ToggleVisible(isActive && !player.Data.IsDead && Main.HasNecronomicon);
+                    __instance.SabotageButton.ToggleVisible(false);
+                    if (player.Data.Role.Role != RoleTypes.Crewmate)
+                        __instance.ImpostorVentButton.ToggleVisible(Main.HasNecronomicon);
+                    if (player.Data.Role.Role == RoleTypes.Shapeshifter)
+                        __instance.AbilityButton.ToggleVisible(Main.HasNecronomicon);
                     break;
             }
         }

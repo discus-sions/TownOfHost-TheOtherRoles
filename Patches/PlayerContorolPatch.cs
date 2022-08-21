@@ -252,6 +252,7 @@ namespace TownOfHost
                         }
                         SerialKiller.OnCheckMurder(killer);
                         break;
+                    case CustomRoles.Poisoner:
                     case CustomRoles.Vampire:
                         if (target.Is(CustomRoles.Veteran) && Main.VetIsAlerted)
                         {
@@ -266,6 +267,18 @@ namespace TownOfHost
                             killer.RpcGuardAndKill(target);
                             Main.BitPlayers.Add(target.PlayerId, (killer.PlayerId, 0f));
                             return false;
+                        }
+                        else
+                        {
+                            if (Options.VampireBuff.GetBool()) //Vampire Buff will still make Vampire report but later.
+                            {
+                                Utils.CustomSyncAllSettings();
+                                Main.AllPlayerKillCooldown[killer.PlayerId] = Options.DefaultKillCooldown * 2;
+                                killer.CustomSyncSettings(); //負荷軽減のため、killerだけがCustomSyncSettingsを実行
+                                killer.RpcGuardAndKill(target);
+                                Main.BitPlayers.Add(target.PlayerId, (killer.PlayerId, 0f));
+                                return false;
+                            }
                         }
                         break;
                     case CustomRoles.Warlock:
@@ -688,7 +701,7 @@ namespace TownOfHost
             }
             if (!Main.HasNecronomicon)
                 Main.CovenMeetings++;
-            if (Main.CovenMeetings == Options.CovenMeetings.GetFloat() && !Main.HasNecronomicon)
+            if (Main.CovenMeetings == Options.CovenMeetings.GetFloat() && !Main.HasNecronomicon && CustomRoles.Coven.IsEnable())
             {
                 Main.HasNecronomicon = true;
                 foreach (var pc in PlayerControl.AllPlayerControls)
@@ -698,10 +711,41 @@ namespace TownOfHost
                     {
                         //if they are coven.
                         Utils.SendMessage("You now weild the Necronomicon. With this power, you gain venting, guessing, and a whole lot of other powers.", pc.PlayerId);
+                        switch (pc.GetCustomRole())
+                        {
+
+                            case CustomRoles.Poisoner:
+                                Utils.SendMessage("Also With this power, you gain nothing.", pc.PlayerId);
+                                break;
+                            case CustomRoles.CovenWitch:
+                                Utils.SendMessage("Also With this power, you can kill normally.", pc.PlayerId);
+                                break;
+                            case CustomRoles.Coven:
+                                Utils.SendMessage("Also With this power, you gain nothing.", pc.PlayerId);
+                                break;
+                            case CustomRoles.HexMaster:
+                                Utils.SendMessage("Also With this power, you can kill normally.", pc.PlayerId);
+                                break;
+                            case CustomRoles.PotionMaster:
+                                Utils.SendMessage("Also With this power, you have shorter cooldowns.", pc.PlayerId);
+                                break;
+                            case CustomRoles.Medusa:
+                                Utils.SendMessage("Also With this power, you can kill normally.", pc.PlayerId);
+                                break;
+                            case CustomRoles.Mimic:
+                                Utils.SendMessage("Your role prevents you from having this power however.", pc.PlayerId);
+                                break;
+                            case CustomRoles.Necromancer:
+                                Utils.SendMessage("Also With this power, the Veteran cannot kill you.", pc.PlayerId);
+                                break;
+                            case CustomRoles.Conjuror:
+                                Utils.SendMessage("Also With this power, you can kill normally.", pc.PlayerId);
+                                break;
+                        }
                     }
                     else
                     {
-                        Utils.SendMessage("The Coven now weild Necronomicon. With this power, they gain venting, guessing, and a whole lot of other crazy powers.", pc.PlayerId);
+                        Utils.SendMessage("The Coven now weild Necronomicon. With this power, they gain venting, guessing, and more depending on their role.", pc.PlayerId);
                     }
                 }
             }

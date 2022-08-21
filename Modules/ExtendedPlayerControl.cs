@@ -89,6 +89,25 @@ namespace TownOfHost
                 };
         }
 
+        public static RoleType GetRoleType(this PlayerControl player)
+        {
+            var cRole = RoleType.Crewmate;
+            if (player == null)
+            {
+                var caller = new System.Diagnostics.StackFrame(1, false);
+                var callerMethod = caller.GetMethod();
+                string callerMethodName = callerMethod.Name;
+                string callerClassName = callerMethod.DeclaringType.FullName;
+                Logger.Warn(callerClassName + "." + callerMethodName + "がCustomRoleを取得しようとしましたが、対象がnullでした。", "GetRoleTeam");
+                return cRole;
+            }
+            else if (player.Data.Role != null)
+            {
+                return CustomRolesHelper.GetRoleType(player.GetCustomRole());
+            }
+            return cRole;
+        }
+
         public static CustomRoles GetCustomSubRole(this PlayerControl player)
         {
             if (player == null)

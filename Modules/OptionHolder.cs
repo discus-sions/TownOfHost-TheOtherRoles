@@ -74,6 +74,7 @@ namespace TownOfHost
         public static CustomOption LastImpostorKillCooldown;
         public static float DefaultKillCooldown = PlayerControl.GameOptions.KillCooldown;
         public static CustomOption VampireKillDelay;
+        public static CustomOption VampireBuff;
         //public static CustomOption ShapeMasterShapeshiftDuration;
         public static CustomOption DefaultShapeshiftCooldown;
         public static CustomOption CanMakeMadmateCount;
@@ -307,6 +308,7 @@ namespace TownOfHost
             // ShapeMasterShapeshiftDuration = CustomOption.Create(1210, Color.white, "ShapeMasterShapeshiftDuration", 10, 1, 1000, 1, CustomRoleSpawnChances[CustomRoles.ShapeMaster]);
             SetupRoleOptions(1300, CustomRoles.Vampire);
             VampireKillDelay = CustomOption.Create(1310, Color.white, "VampireKillDelay", 10, 1, 1000, 1, CustomRoleSpawnChances[CustomRoles.Vampire]);
+            VampireBuff = CustomOption.Create(1311, Color.white, "VampBuff", true, CustomRoleSpawnChances[CustomRoles.Vampire]);
             SetupRoleOptions(1400, CustomRoles.Warlock);
             SetupRoleOptions(1500, CustomRoles.Witch);
             SetupRoleOptions(1600, CustomRoles.Mafia);
@@ -381,11 +383,11 @@ namespace TownOfHost
             SetupRoleOptions(50500, CustomRoles.Arsonist);
             ArsonistDouseTime = CustomOption.Create(50510, Color.white, "ArsonistDouseTime", 3, 0, 10, 1, CustomRoleSpawnChances[CustomRoles.Arsonist]);
             ArsonistCooldown = CustomOption.Create(50511, Color.white, "ArsonistCooldown", 10, 5, 100, 1, CustomRoleSpawnChances[CustomRoles.Arsonist]);
-            SetupRoleOptions(50400, CustomRoles.PlagueBearer);
-            InfectCooldown = CustomOption.Create(50410, Color.white, "InfectCD", 30, 2.5f, 180, 2.5f, CustomRoleSpawnChances[CustomRoles.PlagueBearer]);
-            PestilKillCooldown = CustomOption.Create(50420, Color.white, "PestiKillCooldown", 30, 2.5f, 180, 2.5f, CustomRoleSpawnChances[CustomRoles.PlagueBearer]);
-            PestiCanVent = CustomOption.Create(50430, Color.white, "PestiCanVent", true, CustomRoleSpawnChances[CustomRoles.PlagueBearer]);
-            InfectionSkip = CustomOption.Create(50440, Color.white, "SkipInfect", false, CustomRoleSpawnChances[CustomRoles.PlagueBearer]);
+            SetupRoleOptions(50550, CustomRoles.PlagueBearer);
+            InfectCooldown = CustomOption.Create(50560, Color.white, "InfectCD", 30, 2.5f, 180, 2.5f, CustomRoleSpawnChances[CustomRoles.PlagueBearer]);
+            PestilKillCooldown = CustomOption.Create(50561, Color.white, "PestiKillCooldown", 30, 2.5f, 180, 2.5f, CustomRoleSpawnChances[CustomRoles.PlagueBearer]);
+            PestiCanVent = CustomOption.Create(50562, Color.white, "PestiCanVent", true, CustomRoleSpawnChances[CustomRoles.PlagueBearer]);
+            InfectionSkip = CustomOption.Create(50563, Color.white, "SkipInfect", false, CustomRoleSpawnChances[CustomRoles.PlagueBearer]);
             SetupRoleOptions(50000, CustomRoles.Jester);
             JesterCanVent = CustomOption.Create(50010, Color.white, "JesterVent", false, CustomRoleSpawnChances[CustomRoles.Jester]);
             JesterHasImpostorVision = CustomOption.Create(50913, Color.white, "JesterHasImpostorVision", false, CustomRoleSpawnChances[CustomRoles.Jester]);
