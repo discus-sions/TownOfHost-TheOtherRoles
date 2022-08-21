@@ -361,6 +361,7 @@ SheriffCanKillMadmate,Sheriff Can Kill Madmates,シェリフがマッドメイ�
 SheriffCanKillEgoist,Sheriff Can Kill Egoist,シェリフがエゴイストをキルできる,警长可以执法野心家,警長可以槍死利己主義者
 SheriffCanKillPB,Sheriff Can Kill PlagueBearer,Sheriff Can Kill PlagueBearer,警长可以击杀毒医
 SheriffCanKillVulture,Sheriff Can Kill Vulture,SheriffCanKillVulture,SheriffCanKillVulture
+SheriffCanKillCoven,Sheriff Can Kill Coven,SheriffCanKillCoven,SheriffCanKillCoven
 SleuthReport,Sleuth Has to Report,Sleuth Has to Report,侦探必须报告
 SkipInfect,Skip PlagueBearer Infection,Skip PlagueBearer Infection,跳过传染者进行感染
 Bodies,Bodies Needed To Be Eaten,Bodies Needed To Be Eaten,Bodies Needed To Be Eaten
@@ -374,6 +375,7 @@ DoctorTaskCompletedBatteryCharge,Doctor Battery Duration,ドクターがタス�
 SnitchEnableTargetArrow,Snitch Can See Target Arrow,ターゲットを示す矢印が見える,告密者完成任务后可以通过箭头确认所有被发现目标,告密者完成任務後可以看到目標的箭頭
 SnitchCanGetArrowColor,Snitch Can See Colored Arrow,矢印の色で陣営がわかる,告密者对不同阵营的目标使用不同颜色的箭头确认,對不同陣營的目標使用不同顏色的箭頭標示
 SnitchCanFindNeutralKiller,Snitch Can Find Neutral Killer,第三陣営のキル可能役職を見つけることが出来る,告密者也可以和拥有击杀能力的独立阵营玩家互相发现,告密者也可以和中立陣營帶刀職業互認
+SnitchCanFindCoven,Snitch Can Find Coven,第三陣営のキル可能役職を見つけることが出来る,告密者也可以和拥有击杀能力的独立阵营玩家互相发现,告密者也可以和中立陣營帶刀職業互認
 MayorAdditionalVote,Mayor Additional Votes Count,メイヤーの追加投票の個数,市长投票时多出来的票数,市長附加票數
 MayorHasPortableButton,Mayor Has Mobile Emergency Button,メイヤーがポータブルボタンを持っている,市长可以选择是否进行投票,市長可以隨時拍桌
 MayorNumOfUseButton,Number Of Mobile Emergency Button,メイヤーが使えるボタンの回数,市长选择进行投票的最大次数,市長隨時拍桌最大次數

@@ -54,6 +54,10 @@ namespace TownOfHost
                 canUse = couldUse = Options.PestiCanVent.GetBool();
             else if (pc.Object.Is(CustomRoles.Juggernaut))
                 canUse = couldUse = Options.JuggerCanVent.GetBool();
+            else if (CustomRolesHelper.IsCoven(pc.GetCustomRole()) && Main.HasNecronomicon && !pc.Object.Is(CustomRoles.Mimic))
+                canUse = couldUse = true;
+            else if (CustomRolesHelper.IsCoven(pc.GetCustomRole()) && !Main.HasNecronomicon && !pc.Object.Is(CustomRoles.Mimic))
+                canUse = couldUse = false;
             else if (pc.Role.TeamType == RoleTeamTypes.Impostor || pc.Role.Role == RoleTypes.Engineer) // インポスター陣営ベースの役職とエンジニアベースの役職は常にtrue
                 canUse = couldUse = true;
 

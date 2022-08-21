@@ -96,6 +96,7 @@ namespace TownOfHost
         public static CustomOption SnitchEnableTargetArrow;
         public static CustomOption SnitchCanGetArrowColor;
         public static CustomOption SnitchCanFindNeutralKiller;
+        public static CustomOption SnitchCanFindCoven;
         public static CustomOption SpeedBoosterUpSpeed;
         public static CustomOption TrapperBlockMoveTime;
         public static CustomOption ChildKnown;
@@ -365,6 +366,7 @@ namespace TownOfHost
             SnitchEnableTargetArrow = CustomOption.Create(20510, Color.white, "SnitchEnableTargetArrow", false, CustomRoleSpawnChances[CustomRoles.Snitch]);
             SnitchCanGetArrowColor = CustomOption.Create(20511, Color.white, "SnitchCanGetArrowColor", false, CustomRoleSpawnChances[CustomRoles.Snitch]);
             SnitchCanFindNeutralKiller = CustomOption.Create(20512, Color.white, "SnitchCanFindNeutralKiller", false, CustomRoleSpawnChances[CustomRoles.Snitch]);
+            SnitchCanFindCoven = CustomOption.Create(20513, Color.white, "SnitchCanFindCoven", false, CustomRoleSpawnChances[CustomRoles.Snitch]);
             //20520~20523を使用
             SnitchTasks = OverrideTasksData.Create(20520, CustomRoles.Snitch);
             SetupRoleOptions(20600, CustomRoles.SpeedBooster);
@@ -421,8 +423,8 @@ namespace TownOfHost
             PotionMasterOn = CustomOption.Create(60013, Color.white, "PotionMasterOn", false, CustomRoleSpawnChances[CustomRoles.Coven]);
             VampireDitchesOn = CustomOption.Create(60014, Color.white, "VampireDitchesOn", false, CustomRoleSpawnChances[CustomRoles.Coven]);
             MedusaOn = CustomOption.Create(60015, Color.white, "MedusaOn", false, CustomRoleSpawnChances[CustomRoles.Coven]);
-            MimicOn = CustomOption.Create(60016, Color.white, "MimicOn", false, CustomRoleSpawnChances[CustomRoles.Coven]);
-            NecromancerOn = CustomOption.Create(60017, Color.white, "NecromancerOn", false, CustomRoleSpawnChances[CustomRoles.Coven]);
+            //MimicOn = CustomOption.Create(60016, Color.white, "MimicOn", false, CustomRoleSpawnChances[CustomRoles.Coven]);
+            //NecromancerOn = CustomOption.Create(60017, Color.white, "NecromancerOn", false, CustomRoleSpawnChances[CustomRoles.Coven]);
             ConjurorOn = CustomOption.Create(60018, Color.white, "ConjurorOn", false, CustomRoleSpawnChances[CustomRoles.Coven]);
             SetupSingleRoleOptions(70000, CustomRoles.Juggernaut, 1);
             JuggerKillCooldown = CustomOption.Create(60010, Color.white, "JuggerKillCooldown", 30, 2.5f, 180, 2.5f, CustomRoleSpawnChances[CustomRoles.Juggernaut]);

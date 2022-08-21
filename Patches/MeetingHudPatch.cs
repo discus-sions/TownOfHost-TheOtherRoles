@@ -284,6 +284,7 @@ namespace TownOfHost
 
                 //インポスター表示
                 bool LocalPlayerKnowsImpostor = false; //203行目のif文で使う trueの時にインポスターの名前を赤くする
+                bool LocalPlayerKnowsCoven = false;
 
                 switch (seer.GetCustomRole().GetRoleType())
                 {
@@ -299,6 +300,8 @@ namespace TownOfHost
                     case CustomRoles.Snitch:
                         if (seer.GetPlayerTaskState().IsTaskFinished) //seerがタスクを終えている
                             LocalPlayerKnowsImpostor = true;
+                        if (seer.GetPlayerTaskState().IsTaskFinished && Options.SnitchCanFindCoven.GetBool()) //seerがタスクを終えている
+                            LocalPlayerKnowsCoven = true;
                         break;
                     case CustomRoles.CorruptedSheriff:
                         LocalPlayerKnowsImpostor = true;
@@ -318,6 +321,13 @@ namespace TownOfHost
                     case CustomRoles.Executioner:
                         if (Main.ExecutionerTarget.TryGetValue(seer.PlayerId, out var targetId) && target.PlayerId == targetId) //targetがValue
                             pva.NameText.text += Helpers.ColorString(Utils.GetRoleColor(CustomRoles.Executioner), "♦");
+                        break;
+                }
+
+                switch (target.GetRoleType())
+                {
+                    case RoleType.Coven:
+                        LocalPlayerKnowsCoven = true;
                         break;
                 }
 
@@ -365,6 +375,11 @@ namespace TownOfHost
                 {
                     if (target != null && target.GetCustomRole().IsImpostor()) //変更先がインポスター
                         pva.NameText.color = Palette.ImpostorRed; //変更対象の名前を赤くする
+                }
+                if (LocalPlayerKnowsCoven)
+                {
+                    if (target != null && target.GetCustomRole().IsCoven()) //変更先がインポスター
+                        pva.NameText.color = Utils.GetRoleColor(CustomRoles.Coven); //変更対象の名前を赤くする
                 }
                 //呪われている場合
                 if (Main.SpelledPlayer.Find(x => x.PlayerId == target.PlayerId) != null)

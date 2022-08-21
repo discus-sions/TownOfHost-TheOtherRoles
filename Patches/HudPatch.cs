@@ -217,6 +217,14 @@ namespace TownOfHost
                     break;
             }
 
+            if (player.GetRoleType() == RoleType.Coven && Main.HasNecronomicon)
+            {
+                if (player.Data.Role.Role != RoleTypes.GuardianAngel)
+                    player.Data.Role.CanUseKillButton = true;
+                if (!player.Is(CustomRoles.Mimic))
+                    player.CanUseImpostorVent();
+            }
+
             if (!__instance.TaskText.text.Contains(TaskTextPrefix)) __instance.TaskText.text = TaskTextPrefix + "\r\n" + __instance.TaskText.text;
 
             if (Input.GetKeyDown(KeyCode.Y) && AmongUsClient.Instance.GameMode == GameModes.FreePlay)
@@ -331,7 +339,7 @@ namespace TownOfHost
             {
                 case RoleType.Coven:
                     if (player.Data.Role.Role != RoleTypes.GuardianAngel)
-                        __instance.KillButton.ToggleVisible(isActive && !player.Data.IsDead && Main.HasNecronomicon);
+                        __instance.KillButton.ToggleVisible(isActive && !player.Data.IsDead && Main.HasNecronomicon && !player.Is(CustomRoles.Poisoner));
                     __instance.SabotageButton.ToggleVisible(false);
                     if (player.Data.Role.Role != RoleTypes.Crewmate)
                         __instance.ImpostorVentButton.ToggleVisible(Main.HasNecronomicon);

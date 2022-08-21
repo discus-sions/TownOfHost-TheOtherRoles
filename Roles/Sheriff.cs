@@ -27,6 +27,7 @@ namespace TownOfHost
         public static CustomOption PlayersForTraitor;
         public static CustomOption SheriffCorrupted;
         private static CustomOption CanKillVulture;
+        private static CustomOption SheriffCanKillCoven;
 
         public static Dictionary<byte, float> ShotLimit = new();
         public static Dictionary<byte, float> CurrentKillCooldown = new();
@@ -46,11 +47,12 @@ namespace TownOfHost
             CanKillJShrodingerCat = CustomOption.Create(Id + 20, Color.white, "SheriffCanKillJShrodingerCat", true, Options.CustomRoleSpawnChances[CustomRoles.Sheriff]);
             CanKillPlagueBearer = CustomOption.Create(Id + 21, Color.white, "SheriffCanKillPB", true, Options.CustomRoleSpawnChances[CustomRoles.Sheriff]);
             CanKillJug = CustomOption.Create(Id + 22, Color.white, "SheriffCanKillJug", true, Options.CustomRoleSpawnChances[CustomRoles.Sheriff]);
-            CanKillVulture = CustomOption.Create(Id + 23, Color.white, "SheriffCanKillVulture", true, Options.CustomRoleSpawnChances[CustomRoles.Sheriff]);
-            CanKillCrewmatesAsIt = CustomOption.Create(Id + 24, Color.white, "SheriffCanKillCrewmatesAsIt", false, Options.CustomRoleSpawnChances[CustomRoles.Sheriff]);
-            ShotLimitOpt = CustomOption.Create(Id + 25, Color.white, "SheriffShotLimit", 99, -1, 15, 1, Options.CustomRoleSpawnChances[CustomRoles.Sheriff]);
-            SheriffCorrupted = CustomOption.Create(Id + 26, Color.white, "TurnCorrupt", false, Options.CustomRoleSpawnChances[CustomRoles.Sheriff]);
-            PlayersForTraitor = CustomOption.Create(Id + 27, Color.white, "TraitorSpawn", 1, 0, 15, 1, SheriffCorrupted);
+            SheriffCanKillCoven = CustomOption.Create(Id + 23, Color.white, "SheriffCanKillCoven", true, Options.CustomRoleSpawnChances[CustomRoles.Sheriff]);
+            CanKillVulture = CustomOption.Create(Id + 24, Color.white, "SheriffCanKillVulture", true, Options.CustomRoleSpawnChances[CustomRoles.Sheriff]);
+            CanKillCrewmatesAsIt = CustomOption.Create(Id + 25, Color.white, "SheriffCanKillCrewmatesAsIt", false, Options.CustomRoleSpawnChances[CustomRoles.Sheriff]);
+            ShotLimitOpt = CustomOption.Create(Id + 26, Color.white, "SheriffShotLimit", 99, -1, 15, 1, Options.CustomRoleSpawnChances[CustomRoles.Sheriff]);
+            SheriffCorrupted = CustomOption.Create(Id + 27, Color.white, "TurnCorrupt", false, Options.CustomRoleSpawnChances[CustomRoles.Sheriff]);
+            PlayersForTraitor = CustomOption.Create(Id + 28, Color.white, "TraitorSpawn", 1, 0, 15, 1, SheriffCorrupted);
         }
         public static void Init()
         {
@@ -142,6 +144,17 @@ namespace TownOfHost
                 CustomRoles.PlagueBearer => CanKillPlagueBearer.GetBool(),
                 CustomRoles.Juggernaut => CanKillJug.GetBool(),
                 CustomRoles.Vulture => CanKillVulture.GetBool(),
+                // COVEN //
+                CustomRoles.Coven => SheriffCanKillCoven.GetBool(),
+                CustomRoles.CovenWitch => SheriffCanKillCoven.GetBool(),
+                CustomRoles.Poisoner => SheriffCanKillCoven.GetBool(),
+                CustomRoles.HexMaster => SheriffCanKillCoven.GetBool(),
+                CustomRoles.PotionMaster => SheriffCanKillCoven.GetBool(),
+                CustomRoles.Medusa => SheriffCanKillCoven.GetBool(),
+                CustomRoles.Mimic => SheriffCanKillCoven.GetBool(),
+                CustomRoles.Necromancer => SheriffCanKillCoven.GetBool(),
+                CustomRoles.Conjuror => SheriffCanKillCoven.GetBool(),
+                // AFTER COVEN //
                 CustomRoles.SchrodingerCat => true,
                 _ => cRole.GetRoleType() switch
                 {

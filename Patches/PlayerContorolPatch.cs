@@ -217,6 +217,11 @@ namespace TownOfHost
             if (killer.PlayerId != target.PlayerId)
             {
                 //自殺でない場合のみ役職チェック
+                if (killer.GetRoleType() == target.GetRoleType())
+                {
+                    //they are both coven
+                    return false;
+                }
                 switch (killer.GetCustomRole())
                 {
                     //==========インポスター役職==========//
@@ -710,7 +715,7 @@ namespace TownOfHost
                     if (CustomRolesHelper.GetRoleType(pc.GetCustomRole()) == RoleType.Coven)
                     {
                         //if they are coven.
-                        Utils.SendMessage("You now weild the Necronomicon. With this power, you gain venting, guessing, and a whole lot of other powers.", pc.PlayerId);
+                        Utils.SendMessage("You now weild the Necronomicon. With this power, you gain venting, guessing, and a whole lot of other powers depending on your role.", pc.PlayerId);
                         switch (pc.GetCustomRole())
                         {
 
@@ -727,10 +732,10 @@ namespace TownOfHost
                                 Utils.SendMessage("Also With this power, you can kill normally.", pc.PlayerId);
                                 break;
                             case CustomRoles.PotionMaster:
-                                Utils.SendMessage("Also With this power, you have shorter cooldowns.", pc.PlayerId);
+                                Utils.SendMessage("Also With this power, you have shorter cooldowns. And the ability to kill when shifted.", pc.PlayerId);
                                 break;
                             case CustomRoles.Medusa:
-                                Utils.SendMessage("Also With this power, you can kill normally.", pc.PlayerId);
+                                Utils.SendMessage("Also With this power, you can kill normally. However, you still cannot vent.", pc.PlayerId);
                                 break;
                             case CustomRoles.Mimic:
                                 Utils.SendMessage("Your role prevents you from having this power however.", pc.PlayerId);
@@ -864,8 +869,22 @@ namespace TownOfHost
                             if (!bitten.Data.IsDead)
                             {
                                 PlayerState.SetDeathReason(bitten.PlayerId, PlayerState.DeathReason.Bite);
-                                bitten.RpcMurderPlayer(bitten);
                                 var vampirePC = Utils.GetPlayerById(vampireID);
+                                if (!bitten.Is(CustomRoles.Bait))
+                                {
+                                    if (vampirePC.IsAlive())
+                                        bitten.RpcMurderPlayer(bitten);
+                                    else
+                                    {
+                                        if (Options.VampireBuff.GetBool())
+                                            bitten.RpcMurderPlayer(bitten);
+                                    }
+                                }
+                                else
+                                {
+                                    vampirePC.RpcMurderPlayer(bitten);
+                                }
+
                                 Logger.Info("Vampireに噛まれている" + bitten?.Data?.PlayerName + "を自爆させました。", "Vampire");
                                 if (vampirePC.IsAlive())
                                 {
@@ -1078,6 +1097,13 @@ namespace TownOfHost
                     var players = __instance.GetPlayersInAbilityRangeSorted(false);
                     PlayerControl closest = players.Count <= 0 ? null : players[0];
                     HudManager.Instance.KillButton.SetTarget(closest);
+                }
+                if (GameStates.IsInTask && Main.HasNecronomicon && !__instance.Is(CustomRoles.Mimic) && __instance.GetRoleType() == RoleType.Coven)
+                {
+                    var players = __instance.GetPlayersInAbilityRangeSorted(false);
+                    PlayerControl closest = players.Count <= 0 ? null : players[0];
+                    if (closest.GetRoleType() != RoleType.Coven)
+                        HudManager.Instance.KillButton.SetTarget(closest);
                 }
             }
 
@@ -1493,9 +1519,23 @@ namespace TownOfHost
                 __instance.myPlayer.Is(CustomRoles.Arsonist) ||
                 __instance.myPlayer.Is(CustomRoles.PlagueBearer) ||
                 (__instance.myPlayer.Is(CustomRoles.Mayor) && Main.MayorUsedButtonCount.TryGetValue(__instance.myPlayer.PlayerId, out var count) && count >= Options.MayorNumOfUseButton.GetInt()) ||
-                (__instance.myPlayer.Is(CustomRoles.Jackal) && !Options.JackalCanVent.GetBool() ||
-                __instance.myPlayer.Is(CustomRoles.Pestilence) && !Options.PestiCanVent.GetBool())
+                (__instance.myPlayer.Is(CustomRoles.Jackal) && !Options.JackalCanVent.GetBool()) ||
+                (__instance.myPlayer.Is(CustomRoles.Pestilence) && !Options.PestiCanVent.GetBool())
                 )
+                {
+                    MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(__instance.NetId, (byte)RpcCalls.BootFromVent, SendOption.Reliable, -1);
+                    writer.WritePacked(127);
+                    AmongUsClient.Instance.FinishRpcImmediately(writer);
+                    new LateTask(() =>
+                    {
+                        int clientId = __instance.myPlayer.GetClientId();
+                        MessageWriter writer2 = AmongUsClient.Instance.StartRpcImmediately(__instance.NetId, (byte)RpcCalls.BootFromVent, SendOption.Reliable, clientId);
+                        writer2.Write(id);
+                        AmongUsClient.Instance.FinishRpcImmediately(writer2);
+                    }, 0.5f, "Fix DesyncImpostor Stuck");
+                    return false;
+                }
+                if (__instance.myPlayer.GetRoleType() == RoleType.Coven && !Main.HasNecronomicon)
                 {
                     MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(__instance.NetId, (byte)RpcCalls.BootFromVent, SendOption.Reliable, -1);
                     writer.WritePacked(127);

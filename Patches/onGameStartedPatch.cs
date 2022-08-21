@@ -203,7 +203,7 @@ namespace TownOfHost
                 AssignDesyncRole(CustomRoles.PotionMaster, AllPlayers, sender, BaseRole: RoleTypes.Shapeshifter);
                 AssignDesyncRole(CustomRoles.Poisoner, AllPlayers, sender, BaseRole: RoleTypes.Impostor);
                 AssignDesyncRole(CustomRoles.Medusa, AllPlayers, sender, BaseRole: RoleTypes.Impostor);
-                AssignDesyncRole(CustomRoles.Mimic, AllPlayers, sender, BaseRole: RoleTypes.Impostor);
+                AssignDesyncRole(CustomRoles.Mimic, AllPlayers, sender, BaseRole: RoleTypes.Shapeshifter);
                 AssignDesyncRole(CustomRoles.Necromancer, AllPlayers, sender, BaseRole: RoleTypes.Impostor);
             }
             if (sender.CurrentState == CustomRpcSender.State.InRootMessage) sender.EndMessage();
@@ -344,7 +344,7 @@ namespace TownOfHost
                     }
                     if (pc.Is(CustomRoles.Vampire) && Options.VampireDitchesOn.GetBool() && !Main.VampireDitchesOn)
                     {
-                        Main.AllPlayerCustomRoles[pc.PlayerId] = CustomRoles.Poisoner;
+                        Main.AllPlayerCustomRoles[pc.PlayerId] = CustomRoles.Coven;
                         // so we dont have multiple poisoners
                         Main.VampireDitchesOn = true;
                     }
@@ -380,12 +380,12 @@ namespace TownOfHost
                                 Main.AllPlayerCustomRoles[pc.PlayerId] = CustomRoles.Medusa;
                                 Main.MedusaOn = true;
                             }
-                            else if (!Main.MimicOn)
+                            else if (!Main.MimicOn && !Main.NecromancerOn)
                             {
                                 Main.AllPlayerCustomRoles[pc.PlayerId] = CustomRoles.Mimic;
                                 Main.MimicOn = true;
                             }
-                            else if (!Main.NecromancerOn)
+                            else if (!Main.NecromancerOn && !Main.MimicOn)
                             {
                                 Main.AllPlayerCustomRoles[pc.PlayerId] = CustomRoles.Necromancer;
                                 Main.NecromancerOn = true;
