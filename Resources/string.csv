@@ -1,13 +1,13 @@
-id,0,11,13,14
+﻿id,0,11,13,14
 ## Translators
 #13 SChinese:fivefirex&ZeMingOH233  2T&MC-AS-Huier&xiaojin (Edit: Tanakanira)
 #14 TChinese: NetherDragon_Tw (Edit: Soukunsandesu)
 #15 Schincese New Roles: MC-AS-Huier
 
 ## 役職
-Neutral,Neutral and Coven,第三陣営,中立阵营,中立陣營
+Neutral,Neutral and Coven,第三陣営,中立阵营(包括巫师),中立陣營
 SubRole,Sub Role,サブ役職,附加职业,附加職業
-CovenChat,Coven Roles,Coven Roles,Coven Roles
+CovenChat,Coven Roles,Coven Roles,巫师角色,巫師陣營
 
 # バニラ役職
 Crewmate,Crewmate,クルーメイト,船员,船員
@@ -31,8 +31,8 @@ EvilWatcher,Evil Watcher,イビルウォッチャー,邪恶的窥视者,邪惡�
 Puppeteer,Puppeteer,パペッティア,傀儡师,傀儡師
 TimeThief,TimeThief,タイムシーフ,蚀时者,時間小偷
 Sniper,Sniper,スナイパー,狙击手,狙擊手
-Silencer,Silencer,Silencer,沉默者,
-CorruptedSheriff,CorruptedSheriff,CorruptedSheriff,无能的警长,
+Silencer,Silencer,Silencer,沉默者,消音器
+CorruptedSheriff,CorruptedSheriff,CorruptedSheriff,无能的警长,腐敗的警官
 
 # マッドメイト系役職
 Madmate,Madmate,マッドメイト,叛徒,叛徒
@@ -46,7 +46,7 @@ Watcher,Watcher,ウォッチャー,窥视者,觀察者
 # 特殊クルー役職
 NiceWatcher,Nice Watcher,ナイスウォッチャー,正义的窥视者,正義的觀察者
 Bait,Bait,ベイト,诱饵,誘餌
-Veteran,Veteran,Veteran,Veteran
+Veteran,Veteran,Veteran,老兵,老將
 Lighter,Lighter,ライター,执灯人,小燈人
 Mayor,Mayor,メイヤー,市长,市長
 SabotageMaster,SabotageMaster,サボタージュマスター,修理大师,破壞大師
@@ -57,8 +57,8 @@ SpeedBooster,SpeedBooster,スピードブースター,增速者,加速器
 Doctor,Doctor,ドクター,医生,醫生
 Trapper,Trapper,トラッパー,陷阱师,設陷者
 Dictator,Dictator,ディクテーター,独裁者,獨裁主義者
-Child,Child,Child,小人
-Sleuth,Sleuth,Sleuth,侦探
+Child,Child,Child,小孩,小孩
+Sleuth,Sleuth,Sleuth,侦探,偵探
 
 # 第三陣営役職
 Jester,Jester,ジェスター,小丑,小丑
@@ -73,21 +73,21 @@ Opportunist,Opportunist,オポチュニスト,投机者,投機主義者
 Egoist,Egoist,エゴイスト,野心家,利己主義者
 Lovers,Lovers,恋人,恋人,戀人
 Jackal,Jackal,ジャッカル,豺狼,豺狼
-PlagueBearer,PlagueBearer,PlagueBearer,毒医
-Pestilence,Pestilence,Pestilence,传染者
-Juggernaut,Juggernaut,Juggernaut,Juggernaut
-Vulture,Vulture,Vulture,Vulture
+PlagueBearer,PlagueBearer,PlagueBearer,疫医,疫醫
+Pestilence,Pestilence,Pestilence,传染者,感染者
+Juggernaut,Juggernaut,Juggernaut,主宰者,巨人
+Vulture,Vulture,Vulture,秃鹫,禿鷹
 
 # Coven 
-Coven,Coven,Coven,巫师
-Poisoner,Poisoner,Poisoner,Poisoner
-CovenWitch,Witch,Witch,Witch
-HexMaster,Hex Master,Hex Master,Hex Master
-PotionMaster,Potion Master,Potion Master,Potion Master
-Medusa,Medusa,Medusa,Medusa
-Mimic,Mimic,Mimic,Mimic
-Necromancer,Necromancer,Necromancer,Necromancer
-Conjuror,Conjuror,Conjuror,Conjuror
+Coven,Coven,Coven,巫师,巫師
+Poisoner,Poisoner,Poisoner,毒药,毒藥
+CovenWitch,Witch,Witch,女巫,巫婆
+HexMaster,Hex Master,Hex Master,六芒星法师,妖術大師
+PotionMaster,Potion Master,Potion Master,药剂师,藥水大師
+Medusa,Medusa,Medusa,美杜莎,美杜莎
+Mimic,Mimic,Mimic,模仿大师,模仿者
+Necromancer,Necromancer,Necromancer,亡灵法师,死靈法師
+Conjuror,Conjuror,Conjuror,魔术师,魔術師
 
 # HideAndSeek
 HASFox,Fox,狐,狐狸,狐妖
@@ -104,8 +104,8 @@ TeamImpostor,Team Impostors,インポスター陣営,内鬼阵营,狼人陣營
 
 
 ## 役職説明ショート
-NeutralInfo,NEUTRAL - A team on their own.,他のどの陣営にも属さない孤高の陣営,不属于其他阵营的独立阵营,你屬於一個獨立陣營且不受其他陣營或職業的獲勝條件引響
-CovenIntroInfo,COVEN - A team of Witches on their own.,他のどの陣営にも属さない孤高の陣営,不属于其他阵营的独立阵营,你屬於一個獨立陣營且不受其他陣營或職業的獲勝條件引響
+NeutralInfo,NEUTRAL - A team on their own.,他のどの陣営にも属さない孤高の陣営,你是不属于其他阵营的独立阵营,你屬於一個獨立陣營且不受其他陣營或職業的獲勝條件引響
+CovenIntroInfo,COVEN - A team of Witches on their own.,他のどの陣営にも属さない孤高の陣営,你是不属于其他阵营的独立阵营,你屬於一個獨立陣營且不受其他陣營或職業的獲勝條件引響
 
 # 特殊インポスター役職
 BountyHunterInfo,Hunt your bounty down,標的を確実に仕留めよう,猎杀你的赏金目标,將你的目標拿下
@@ -122,9 +122,9 @@ AfterMafiaInfo,It's time to kill,サボを活用して皆殺しにしよう,杀�
 PuppeteerInfo,Force the Crewmate to kill,敵を操って皆殺しにしよう,操纵敌人，杀光船员,操控對象並殺光所有船員
 TimeThiefInfo,Kill the Crewmates to steal discussion time,敵を殺し、会議時間を奪おう,杀死所有船员并偷取时间,殺光你的敵人並將會議時間縮短
 SniperInfo,Shoot the Crewmates in the distance,狙い撃つぜ,瞄准敌人，射击！,讓你的敵人在你的狙擊下死亡
-SilencerInfo,Silence Crewmates in Meetings,Silence Crewmates in Meetings,Silence Crewmates in Meetings
+SilencerInfo,Silence Crewmates in Meetings,Silence Crewmates in Meetings,在会议上让船员阵营保持沉默,在會議上使船員保持沉默
 LastImpostorInfo,You are the last one,残ったのはあなただけ,你是最后的希望…,你是狼村最後的希望...
-CorruptedSheriffInfo,You betrayed the Crewmates,You betrayed the Crewmates,You betrayed the Crewmates
+CorruptedSheriffInfo,You betrayed the Crewmates,You betrayed the Crewmates,你禁受不住眼前的利益，成为了一个叛徒,你成為了一位叛徒
 
 # マッドメイト系役職
 MadmateInfo,Help the Impostors,インポスターの援助をしよう,帮助内鬼,幫助狼人
@@ -137,7 +137,7 @@ WatcherInfo,Keep your eyes on everyone's votes,みんなの投票に目を光ら
 
 # 特殊クルー役職
 BaitInfo,Bait your enemies,敵を罠にはめよう,诱骗敌人，让敌人落入你的陷阱,"犧牲小我,完成大我"
-VeteranInfo,Alert to Kill anyone who Interacts with You,Alert to Kill anyone who Interacts with You,Alert to Kill anyone who Interacts with You
+VeteranInfo,Alert to Kill anyone who Interacts with You,Alert to Kill anyone who Interacts with You,警惕任何和你有互动的人,警告殺死任何與你互動的人
 LighterInfo,Light all over,すべてを照らそう,照亮黑暗，让别人看清楚,照亮黑暗中的一切吧
 MayorInfo,Your vote counts twice,自分の票が何倍もの力を持っている,你的投票更有分量,"你的票數更多,更有料"
 SabotageMasterInfo,Fix sabotages faster,より早くサボタージュを直そう,请尽快修理破坏,盡快維修船上的破壞
@@ -147,8 +147,9 @@ SpeedBoosterInfo,Boost the players,走らせろ,让其他人跑起来吧,讓其�
 DoctorInfo,Access vitals and cause of death,斯くして奴は死んだ,调查他人死因,看見他們的死因
 TrapperInfo,Trap your enemies,敵を罠にはめよう,引诱敌人落入你的陷阱当中,讓你的敵人受困於陷阱中
 DictatorInfo,Hang your enemy based on your own judgement,独裁政治をしよう,让我统治世界，拥有无上的权利,讓所有人臣服於你
-ChildInfo,No one will Harm You,No one will Harm You,在你长大之前没有人可以伤害你
-SleuthInfo,Discover the Unknown,Discover the Unknown,发现了一些线索
+ChildInfo,No one will Harm You,No one will Harm You,在你长大之前没有人敢伤害你,在你長大前都不敢擊殺你
+SleuthInfo,Discover the Unknown,Discover the Unknown,你发现了一些关于死者的线索,你發現了一些線索
+
 
 # 第三陣営役職
 ArsonistInfo,Douse and ignite to kill everyone,燃やせ,火焰给我燃烧起来吧！,"燒吧,燒吧,燃燒吧"
@@ -164,21 +165,21 @@ ExecutionerInfo,Get your target voted out,ターゲットを追放させよう,�
 EgoistInfo,Replace the Impostor win,インポスター勝利を独占しよう,我们要把属于内鬼的胜利给夺走！,讓我們來奪取狼人的勝利
 LoversInfo,Survive with your lover,恋人と生きて幸せを掴もう,你坠入了爱河，成为了一对恋人，一起活到最后吧！,你墜入了愛河(心理)
 JackalInfo,Kill Everyone and Last Alone,すべてを殺せ,快去杀光所有人，一只苍蝇都不要剩下！,殺光所有人不留活口
-PlagueBearerInfo,Infect Everyone and Become Pestilence,Infect Everyone and Become Pestilence,把所有人都给传染了，引发大型瘟疫
-PestilenceInfo,Kill Everyone and Leave None,Kill Everyone and Leave None,把所有人杀都杀光一只蚊子都不要剩
-JuggernautInfo,Your cooldown decreaes with Each Kill,Your cooldown decreaes with Each Kill,Your cooldown decreaes with Each Kill
-VultureInfo,Eat bodies by clicking Report,Eat bodies by clicking Report,Eat bodies by clicking Report
+PlagueBearerInfo,Infect Everyone and Become Pestilence,Infect Everyone and Become Pestilence,请把所有人都感染了，引起大型瘟疫,快去把所有人都感染
+PestilenceInfo,Kill Everyone and Leave None,Kill Everyone and Leave None,把所有人杀都杀光一只蚊子都不要剩,殺光所有人
+JuggernautInfo,Your cooldown decreaes with Each Kill,Your cooldown decreaes with Each Kill,你杀的人越多就会越兴奋，击杀冷却时间也会越短,殺人會讓擊殺冷卻時間縮短
+VultureInfo,Eat bodies by clicking Report,Eat bodies by clicking Report,吃鸡腿吃好多的大鸡腿(尸体),通過點擊報告來吃屍體
 
 # Coven 
-CovenInfo,Support your Leader,Support your Leader,支援你的领袖
-PoisonerInfo,Poison a crewmate to kill them in a few seconds,PoisonerInfo,PoisonerInfo
-CovenWitchInfo,Taglock players to kill others,WitchInfo,WitchInfo
-HexMasterInfo,Hex everyone to then kill them all with a Hex Bomb,Hex MasterInfo,Hex MasterInfo
-PotionMasterInfo,Use your potions and kill everyone.,Potion MasterInfo,Potion MasterInfo
-MedusaInfo,Stone gaze to kill anyone who interacts with you,MedusaInfo,MedusaInfo
-MimicInfo,Mimic an unused Impostor role,MimicInfo,MimicInfo
-NecromancerInfo,Become a killing role from outside the Coven,NecromancerInfo,NecromancerInfo
-ConjurorInfo,Place acid traps to kill the next player that enters it,ConjurorInfo,ConjurorInfo
+CovenInfo,Support your Leader,Support your Leader,支援你的领袖,支持你的領袖
+PoisonerInfo,Poison a crewmate to kill them in a few seconds,PoisonerInfo,毒药信息,毒物信息
+CovenWitchInfo,Taglock players to kill others,WitchInfo,巫师信息,女巫資訊
+HexMasterInfo,Hex everyone to then kill them all with a Hex Bomb,Hex MasterInfo,六芒星法师信息,十六進制主信息
+PotionMasterInfo,Use your potions and kill everyone.,Potion MasterInfo,药剂师信息,藥劑師信息
+MedusaInfo,Stone gaze to kill anyone who interacts with you,MedusaInfo,美杜莎信息,美杜莎資訊
+MimicInfo,Mimic an unused Impostor role,MimicInfo,模仿大师信息,模仿者信息
+NecromancerInfo,Become a killing role from outside the Coven,NecromancerInfo,亡灵法师信息,死靈法師印
+ConjurorInfo,Place acid traps to kill the next player that enters it,ConjurorInfo,魔法师信息,魔術師信息
 
 # HideAndSeek
 HASFoxInfo,Stay alive,とにかく生き残りましょう,活下去吧！活到最后你就成为了赢家！,活到最後就是屬於你和贏家的一片天
@@ -245,15 +246,15 @@ JuggernautInfoLong,"(Neutrals):\nThe Juggernaut's kill cooldown decreases with e
 VultureInfoLong,"(Neutrals):\nThe Vulture has to eat a certain number of bodies to win. Due to techincal limitations, we cannot make the body disappear, but we can make the body unreportable. Because of this, the number of bodies aten by the Vulture will display at every meeting.","(Neutrals):\nThe Vulture has to eat a certain number of bodies to win. Due to techincal limitations, we cannot make the body disappear, but we can make the body unreportable. Because of this, the number of bodies aten by the Vulture will display at every meeting.","(Neutrals):\nThe Vulture has to eat a certain number of bodies to win. Due to techincal limitations, we cannot make the body disappear, but we can make the body unreportable. Because of this, the number of bodies aten by the Vulture will display at every meeting."
 
 # Coven
-CovenInfoLong,"(Coven):\nNothing special about regular Coven. They just help support the Leader.","(Coven):\nNothing special about regular Coven. They just help support the Leader.","(法师):\n普通的法师没什么特别之处他们只会支援领袖."
-PoisonerInfoLong,"(Coven):\nThe Poisoner works exactly like the Vampire. Same cooldown and everything. This will remove Vamp from Impostor Team and join Coven.","(Coven):\nInfo unfinished.","(Coven):\nInfo unfinished."
-CovenWitchInfoLong,"(Coven):\nInfo unfinished.","(Coven):\nInfo unfinished.","(Coven):\nInfo unfinished."
-HexMasterInfoLong,"(Coven):\nInfo unfinished.","(Coven):\nInfo unfinished.","(Coven):\nInfo unfinished."
-PotionMasterInfoLong,"(Coven):\nInfo unfinished.","(Coven):\nInfo unfinished.","(Coven):\nInfo unfinished."
-MedusaInfoLong,"(Coven):\nInfo unfinished.","(Coven):\nInfo unfinished.","(Coven):\nInfo unfinished."
-MimicInfoLong,"(Coven):\nInfo unfinished.","(Coven):\nInfo unfinished.","(Coven):\nInfo unfinished."
-NecromancerInfoLong,"(Coven):\nInfo unfinished.","(Coven):\nInfo unfinished.","(Coven):\nInfo unfinished."
-ConjurorInfoLong,"(Coven):\nInfo unfinished.","(Coven):\nInfo unfinished.","(Coven):\nInfo unfinished."
+CovenInfoLong,"""(Coven):\nNothing special about regular Coven. They just help support the Leader.""","""(Coven):\nNothing special about regular Coven. They just help support the Leader.""","""(法师):\n普通的法师没什么特别之处他们只会支援领袖.""",
+PoisonerInfoLong,"""(Coven):\nThe Poisoner works exactly like the Vampire. Same cooldown and everything. This will remove Vamp from Impostor Team and join Coven.""","""(Coven):\nInfo unfinished.""","""(巫师阵营):\n资料未填写完成.""",
+CovenWitchInfoLong,"""(Coven):\nInfo unfinished.""","""(Coven):\nInfo unfinished.""","""(巫师阵营):\n资料未填写完成.""",
+HexMasterInfoLong,"""(Coven):\nInfo unfinished.""","""(Coven):\nInfo unfinished.""","""(巫师阵营):\n资料未填写完成.""",
+PotionMasterInfoLong,"""(Coven):\nInfo unfinished.""","""(Coven):\nInfo unfinished.""","""(巫师阵营):\n资料未填写完成.""",
+MedusaInfoLong,"""(Coven):\nInfo unfinished.""","""(Coven):\nInfo unfinished.""","""(巫师阵营):\n资料未填写完成.""",
+MimicInfoLong,"""(Coven):\nInfo unfinished.""","""(Coven):\nInfo unfinished.""","""(巫师阵营):\n资料未填写完成.""",
+NecromancerInfoLong,"""(Coven):\nInfo unfinished.""","""(Coven):\nInfo unfinished.""","""(巫师阵营):\n资料未填写完成.""",
+ConjurorInfoLong,"""(Coven):\nInfo unfinished.""","""(Coven):\nInfo unfinished.""","""(巫师阵营):\n资料未填写完成.""",
 
 # HideAndSeek
 HASFoxInfoLong,(HideAndSeek):\nThey win the game with other Roles (except Troll) only if they are alive at the game end.,(かくれんぼ):\nトロールを除くいずれかの陣営が勝利したときに生き残っていれば、勝利した陣営に追加で勝利することができる。,（躲猫猫）:\n狐狸活到最后便与获胜阵营一同获胜。,"(躲貓貓):\n除了其他的中立陣營以外,只要狐妖活下來即可獲勝\n他們將跟著遊戲結束的獲勝陣營一起獲勝。"
@@ -335,9 +336,9 @@ CanMakeMadmateCount,SidekickMadmate Maximum,マッドメイトを作れる人数
 MadSnitchCanVent,MadSnitch Can Use Vent,マッドスニッチがベントを使える,背叛的告密者可以使用管道,背叛的告密者可以使用管道
 MadSnitchTasks,MadSnitch Tasks,マッドスニッチのタスク数,背叛的告密者任务数,背叛告密者任務數量
 MadGuardianCanSeeWhoTriedToKill,MadGuardian Can See Who Tried To Kill,マッドガーディアンが自身の殺害未遂者を知ることができる,堕落守卫可以得知对其进行击杀尝试的玩家,背叛天使可以看到是誰嘗試殺害自己
-ChildKnown,Child is Known to Everyone,Child is Known to Everyone,所有人都知道谁是小孩
-JesterVent,Jester Can Vent,Jester Can Vent,小丑可以跳管道
-JesterHasImpostorVision,Jester Has Impostor Vision,JesterHasImpostorVision,JesterHasImpostorVision
+ChildKnown,Child is Known to Everyone,Child is Known to Everyone,所有人都知道谁是小孩,
+JesterVent,Jester Can Vent,Jester Can Vent,小丑可以跳管道,
+JesterHasImpostorVision,Jester Has Impostor Vision,JesterHasImpostorVision,小丑拥有内鬼的视野,
 MadmateCanFixLightsOut,Madmates Can Fix Lights Out,マッドメイト系役職が停電を直すことができる,叛徒职业可以修理照明破坏,叛徒職業的玩家可以修理電燈
 MadmateCanFixComms,Madmates Can Fix Comms,マッドメイト系役職が通信障害を直すことができる,叛徒职业可以修理通讯,叛徒職業的玩家可以修理通訊
 MadmateHasImpostorVision,Madmates Have Impostor Vision,マッドメイト系役職の視野がインポスターと同じ,叛徒职业拥有内鬼视野,叛徒職業的玩家有跟狼人一樣的視野
@@ -359,12 +360,12 @@ SheriffCanKillExecutioner,Sheriff Can Kill Executioner,シェリフがエクス�
 SheriffCanKillOpportunist,Sheriff Can Kill Opportunist,シェリフがオポチュニストをキルできる,警长可以执法投机者,警長可以槍死投機主義者
 SheriffCanKillMadmate,Sheriff Can Kill Madmates,シェリフがマッドメイトをキルできる,警长可以执法叛徒,警長可以槍死叛徒
 SheriffCanKillEgoist,Sheriff Can Kill Egoist,シェリフがエゴイストをキルできる,警长可以执法野心家,警長可以槍死利己主義者
-SheriffCanKillPB,Sheriff Can Kill PlagueBearer,Sheriff Can Kill PlagueBearer,警长可以击杀毒医
-SheriffCanKillVulture,Sheriff Can Kill Vulture,SheriffCanKillVulture,SheriffCanKillVulture
-SheriffCanKillCoven,Sheriff Can Kill Coven,SheriffCanKillCoven,SheriffCanKillCoven
-SleuthReport,Sleuth Has to Report,Sleuth Has to Report,侦探必须报告
-SkipInfect,Skip PlagueBearer Infection,Skip PlagueBearer Infection,跳过传染者进行感染
-Bodies,Bodies Needed To Be Eaten,Bodies Needed To Be Eaten,Bodies Needed To Be Eaten
+SheriffCanKillPB,Sheriff Can Kill PlagueBearer,Sheriff Can Kill PlagueBearer,警长可以执法毒医,
+SheriffCanKillVulture,Sheriff Can Kill Vulture,SheriffCanKillVulture,警长可以执法秃鹫,
+SheriffCanKillCoven,Sheriff Can Kill Coven,SheriffCanKillCoven,警长可以执法巫师阵营,
+SleuthReport,Sleuth Has to Report,Sleuth Has to Report,侦探必须报告,
+SkipInfect,Skip PlagueBearer Infection,Skip PlagueBearer Infection,跳过传染者进行感染,
+Bodies,Bodies Needed To Be Eaten,Bodies Needed To Be Eaten,需要吃的鸡腿(尸体)数量,
 SheriffCanKillEgoShrodingerCat,Sheriff Can Kill EgoistSide ShrodingerCat,シェリフがエゴイスト陣営のシュレディンガーの猫をキルできる,警长可以执法自私阵营的薛定谔的猫,警長可以槍死利己主義者方的薛定諤的貓
 SheriffCanKillJackal,Sheriff Can Kill Jackal,シェリフがジャッカルをキルできる,警长可以执法豺狼,警長可以槍死豺狼
 SheriffCanKillJShrodingerCat,Sheriff Can Kill JackalSide ShrodingerCat,シェリフがジャッカル陣営のシュレディンガーの猫をキルできる,警长可以执法豺狼阵营的薛定谔的猫,警長可以槍死豺狼方的薛定諤的貓
@@ -387,12 +388,12 @@ SerialKillerCooldown,SerialKiller Kill Cooldown,シリアルキラーのキル�
 SerialKillerLimit,Time Limit To Suiside(s),シリアルキラーが自爆する時間,嗜血杀手自杀倒计时,連環殺手自殺倒數
 ArsonistDouseTime,Arsonist Douse Duration,アーソニストの塗り時間,纵火犯涂油所需时间,縱火犯澆油所需時間
 ArsonistCooldown,Arsonist Douse Cooldown,アーソニストのクールダウン,纵火犯涂油冷却,縱火犯澆油冷卻
-InfectCD,Infect Cooldown,アーソニストの塗り時間,纵火犯涂油所需时间,縱火犯澆油所需時間
-PestiKillCooldown,Pestilence Kill Cooldown,アーソニストのクールダウン,纵火犯涂油冷却,縱火犯澆油冷卻
-PestiCanVent,Pestilence Can Vent,アーソニストのクールダウン,纵火犯涂油冷却,縱火犯澆油冷卻
+InfectCD,Infect Cooldown,アーソニストの塗り時間,感染冷却时间,
+PestiKillCooldown,Pestilence Kill Cooldown,アーソニストのクールダウン,毒医击杀冷却时间,
+PestiCanVent,Pestilence Can Vent,アーソニストのクールダウン,毒医能跳管道,
 CanTerroristSuicideWin,Can Terrorist Suicide Win,テロリストの自殺勝ち,恐怖分子可以通过自杀获胜,恐怖分子可以自殺來獲勝
 ShapeMasterShapeshiftDuration,Shapeshift Duration,シェイプマスターの変身持続時間,千面鬼化形持续时间,變形大師變形持續時間
-SilenceDelay,Silence Cooldown,アーソニストのクールダウン,纵火犯涂油冷却,縱火犯澆油冷卻
+SilenceDelay,Silence Cooldown,アーソニストのクールダウン,沉默者技能冷却时间,
 FireWorksMaxCount,FireWorks Max Count,花火の所持数,烟花商人可放置烟花的最大数量,煙火工匠可設定煙火最大數量
 FireWorksRadius,FireWorks Radius,花火の爆発半径,烟花商人烟花爆炸半径,煙火工匠的煙火爆炸半徑
 SniperBulletCount,Sniper Bullet Count,スナイパーの所持弾数,狙击手最大狙击次数,狙擊手子彈最大數量
@@ -408,30 +409,30 @@ JackalCanUseSabotage,Jackal Can Use Sabotage,ジャッカルがサボタージ�
 JackalHasImpostorVision,Jackal Has Impostor Vision,ジャッカルがインポスターと同じ視界を持つ,豺狼拥有内鬼视野,豺狼擁有狼人的視野
 TraitorSpawn,Min Number of Players Needed for CorruptedSheriff,Number of Players Needed for Traitor,成为叛徒的玩家数量,Number of Players Needed for Traitor
 TurnCorrupt,Sheriff Can Turn Corrupted,Number of Players Needed for Traitor,警长可以成为叛徒,Number of Players Needed for Traitor
-EgoistKillCooldown,Egoist KillCooldown,エゴイストのキルクール,自负者击杀冷却时间
-JuggerKillCooldown,Juggernaut Kill Cooldown,ジャッカルのキルクール,豺狼击杀冷却,豺狼殺人冷卻
-JuggerDecrease,Juggernaut Cooldown Decrease,ジャッカルのキルクール,豺狼击杀冷却,豺狼殺人冷卻
-JuggerCanVent,Juggernaut Can Use Vents,ジャッカルがベントを使用できる,豺狼可以使用管道,豺狼可以跳管道
-VampBuff,Vampire Buff,Vampire Buff,Vampire Buff
+EgoistKillCooldown,Egoist KillCooldown,エゴイストのキルクール,自负者击杀冷却时间,
+JuggerKillCooldown,Juggernaut Kill Cooldown,ジャッカルのキルクール,主宰者击杀冷却,豺狼殺人冷卻
+JuggerDecrease,Juggernaut Cooldown Decrease,ジャッカルのキルクール,主宰者技能冷却,豺狼殺人冷卻
+JuggerCanVent,Juggernaut Can Use Vents,ジャッカルがベントを使用できる,主宰者可以使用管道,
+VampBuff,Vampire Buff,Vampire Buff,吸血鬼爱好者,吸血鬼愛好者
 
-VetCD,Alert Cooldown,Alert Cooldown,Alert Cooldown
-VetDur,Alert Duration,Alert Duration,Alert Duration
-CRGV,Crew Roles get Vetted,Crew Roles get Vetted,Crew Roles get Vetted
-PestiAttacks,If Pestilence Attacks Veteran,If Pestilence Attacks Veteran,If Pestilence Attacks Veteran
-NVet,Number of Alerts,Number of Alerts,Number of Alerts
-Trade,Trade,Trade,Trade,
-PestiKillsVet,Pestilence Kills Veteran,PestiKillsVet,PestiKillsVet
-VetKillsPesti,Veteran Kills Pestilence,VetKillsPesti,VetKillsPesti
+VetCD,Alert Cooldown,Alert Cooldown,警报冷却时间,警報冷卻
+VetDur,Alert Duration,Alert Duration,警报持续时间,警報持續時間
+CRGV,Crew Roles get Vetted,Crew Roles get Vetted,船员阵营得到了审查,船員角色得到審查
+PestiAttacks,If Pestilence Attacks Veteran,If Pestilence Attacks Veteran,如果瘟疫击退了老兵,如果瘟疫襲擊退伍軍人
+NVet,Number of Alerts,Number of Alerts,警报数量,警報數量
+Trade,Trade,Trade,贸易,貿易
+PestiKillsVet,Pestilence Kills Veteran,PestiKillsVet,瘟疫杀死了老兵,瘟疫殺死退伍軍人
+VetKillsPesti,Veteran Kills Pestilence,VetKillsPesti,老兵杀死了瘟疫,退伍軍人殺死瘟疫
 
-CovenKillCooldown,Coven Kill Cooldown,Coven Kill Cooldown,Coven Kill Cooldown
-CovenMeetings,Meetings until Necronomicon,Meetings until Necronomicon,Meetings until Necronomicon
-HexMasterOn,Hex Master On,Hex Master On,Hex Master On
-PotionMasterOn,Potion Master On,Potion Master On,Potion Master On
-VampireDitchesOn,Vampire Joins Coven,Vampire Joins Coven,Vampire Joins Coven
-MedusaOn,Medusa On,Medusa On, Medusa On
-MimicOn,Mimic On,Mimic On, Mimic On
-NecromancerOn,Necromancer On,Necromancer On,Necromancer On
-ConjurorOn,Conjuror On,Conjuror On,ConjurorOn
+CovenKillCooldown,Coven Kill Cooldown,Coven Kill Cooldown,巫师击杀冷却时间,公會擊殺冷卻時間
+CovenMeetings,Meetings until Necronomicon,Meetings until Necronomicon,到亡灵法师的会议,會議直到死靈之書
+HexMasterOn,Hex Master On,Hex Master On,使用六芒星法师,十六進制大師開啟
+PotionMasterOn,Potion Master On,Potion Master On,使用药剂师,魔藥大師開啟
+VampireDitchesOn,Vampire Joins Coven,Vampire Joins Coven,吸血鬼加入巫师阵营,吸血鬼加入女巫團
+MedusaOn,Medusa On,Medusa On,使用美杜莎,美杜莎賀
+MimicOn,Mimic On,Mimic On,使用模仿大师,模仿者開
+NecromancerOn,Necromancer On,Necromancer On,使用亡灵法师,死靈法師開啟
+ConjurorOn,Conjuror On,Conjuror On,使用魔术师,魔術師開
 
 ## かくれんぼ設定
 HideAndSeekOptions,HideAndSeek Options,かくれんぼの設定,躲猫猫设置,躲貓貓設定
@@ -456,8 +457,8 @@ DeathReason.Sniped,Sniped,狙撃,狙杀,被狙
 DeathReason.Execution,Executed,処刑,处刑,處刑
 DeathReason.Disconnected,Disconnected,回線切断,断连,斷線
 DeathReason.Fell,Fall,転落,摔死,摔死
-DeathReason.EarDamage,Ear Damage,Ear Damage,Ear Damage,Ear Damage
-DeathReason.Screamed,Screamed,Screamed,Screamed,Screamed
+DeathReason.EarDamage,Ear Damage,Ear Damage,耳朵受伤,耳朵損傷
+DeathReason.Screamed,Screamed,Screamed,惊吓,尖叫
 DeathReason.etc,Unknown,その他,其他,其他
 Alive,Alive,生存,存活,存活
 Win," Wins",勝利,胜利,勝利
@@ -505,7 +506,7 @@ Error.SpeedBoosterNullException,Error: The speed boost destination is null.\nPle
 ## その他
 ForExample,For Example,使用例,使用例子,使用例子
 ForceEnd,No Contest,廃村,强制结束游戏,遊戲已被強制結束
-EveryoneDied,Everyone Died,誰もいなくなった
+EveryoneDied,Everyone Died,誰もいなくなった,,
 ForceEndText,The host terminated the game,ホストから強制終了コマンドが入力されました,房主强制结束了游戏,房主已強制結束遊戲
 HideGameCodes,Hide Game Codes,ゲームコードを隠す,直播模式,隱藏遊戲代碼
 updateButton,Update\n<size=75%>TownOfHost</size>,アップデート\n<size=75%>TownOfHost</size>,更新\n<size=75%>TownOfHost</size>,更新\n<size=75%>Town Of Host</size>中
@@ -521,7 +522,7 @@ CanNotJoinPublicRoomNoLatest,You can't join public rooms except for the latest v
 ModBrokenMessage,The MOD file is broken.\nPlease re-install it again.,MODを構成するファイルが破損しています。\nもう一度導入しなおしてください。,模组文件损坏。\n请重新安装本模组。,模組檔案損壞\n請重新安裝模組
 NameIncludeTOH,"You cannot make public rooms unless "TOH" is included in your name.",""TOH"が名前に含まれていない状態では公開部屋にすることはできません。","不可以在昵称中未带有"TOH"字样的前提下把房间状态设置为公开。","無法公開此房間,因為你名字中沒有含有'TOH'"
 EnterVentToWin,Enter Vent to Win!!,ベントに入って勝利しろ!!,跳管道来获得胜利！,跳管道來獲得勝利!!
-PoisonButtonText,Poison,Poison,Poison
+PoisonButtonText,Poison,Poison,中毒,毒
 FireworksPutPhase,Put {0} Fireworks,あと{0}個置け,还要安放{0}枚烟花,還需要安裝{0}枚煙火
 FireworksWaitPhase,Wait for time...,時を待て...,耐心等待....,等待時機...
 FireworksReadyFirePhase,Fire!,打ち上げろ！,"烟花来咯，大型烟花秀开始！","準備就緒,煙火秀開始!"
