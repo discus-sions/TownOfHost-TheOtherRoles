@@ -104,8 +104,8 @@ TeamImpostor,Team Impostors,インポスター陣営,内鬼阵营,狼人陣營
 
 
 ## 役職説明ショート
-NeutralInfo,NEUTRAL - A team on their own.,他のどの陣営にも属さない孤高の陣営,你是不属于其他阵营的独立阵营,你屬於一個獨立陣營且不受其他陣營或職業的獲勝條件引響
-CovenIntroInfo,COVEN - A team of Witches on their own.,他のどの陣営にも属さない孤高の陣営,你是不属于其他阵营的独立阵营,你屬於一個獨立陣營且不受其他陣營或職業的獲勝條件引響
+NeutralInfo,NEUTRAL - A team on their own.,他のどの陣営にも属さない孤高の陣営,是不属于其他阵营的独立阵营,你屬於一個獨立陣營且不受其他陣營或職業的獲勝條件引響
+CovenIntroInfo,COVEN - A team of Witches on their own.,他のどの陣営にも属さない孤高の陣営,是不属于其他阵营的独立阵营,你屬於一個獨立陣營且不受其他陣營或職業的獲勝條件引響
 
 # 特殊インポスター役職
 BountyHunterInfo,Hunt your bounty down,標的を確実に仕留めよう,猎杀你的赏金目标,將你的目標拿下
@@ -388,6 +388,7 @@ SerialKillerCooldown,SerialKiller Kill Cooldown,シリアルキラーのキル�
 SerialKillerLimit,Time Limit To Suiside(s),シリアルキラーが自爆する時間,嗜血杀手自杀倒计时,連環殺手自殺倒數
 ArsonistDouseTime,Arsonist Douse Duration,アーソニストの塗り時間,纵火犯涂油所需时间,縱火犯澆油所需時間
 ArsonistCooldown,Arsonist Douse Cooldown,アーソニストのクールダウン,纵火犯涂油冷却,縱火犯澆油冷卻
+TourArso,TOuR Arsonist,TOuR Arsonist,纵火犯巡视,
 InfectCD,Infect Cooldown,アーソニストの塗り時間,感染冷却时间,
 PestiKillCooldown,Pestilence Kill Cooldown,アーソニストのクールダウン,毒医击杀冷却时间,
 PestiCanVent,Pestilence Can Vent,アーソニストのクールダウン,毒医能跳管道,
