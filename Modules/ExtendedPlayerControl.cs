@@ -349,7 +349,9 @@ namespace TownOfHost
                     break;
                 case CustomRoles.Veteran:
                     //5 lines of code calculating the next Vet CD.
-                    if (!Main.VettedThisRound)
+                    if (Main.CovenMeetings == 0)
+                        opt.RoleOptions.EngineerCooldown = 10f;
+                    else if (!Main.VettedThisRound)
                         opt.RoleOptions.EngineerCooldown = Options.VetCD.GetFloat();
                     else
                         opt.RoleOptions.EngineerCooldown = Options.VetCD.GetFloat() + Options.VetDuration.GetFloat();

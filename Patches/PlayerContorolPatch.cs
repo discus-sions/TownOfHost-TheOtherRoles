@@ -217,7 +217,7 @@ namespace TownOfHost
             if (killer.PlayerId != target.PlayerId)
             {
                 //自殺でない場合のみ役職チェック
-                if (killer.GetRoleType() == target.GetRoleType())
+                if (killer.GetRoleType() == target.GetRoleType() && killer.GetRoleType() == RoleType.Coven)
                 {
                     //they are both coven
                     return false;

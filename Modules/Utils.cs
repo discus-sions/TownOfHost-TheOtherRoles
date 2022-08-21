@@ -229,6 +229,9 @@ namespace TownOfHost
                 case CustomRoles.Sheriff:
                     ProgressText += Sheriff.GetShotLimit(playerId);
                     break;
+                case CustomRoles.Veteran:
+                    ProgressText += Helpers.ColorString(GetRoleColor(CustomRoles.Veteran), $"({Main.VetAlerts}/{Options.NumOfVets.GetInt()})");
+                    break;
                 case CustomRoles.Sniper:
                     ProgressText += $" {Sniper.GetBulletCount(playerId)}";
                     break;
