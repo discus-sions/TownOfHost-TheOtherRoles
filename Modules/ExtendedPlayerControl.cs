@@ -350,7 +350,10 @@ namespace TownOfHost
                 case CustomRoles.Veteran:
                     //5 lines of code calculating the next Vet CD.
                     if (Main.IsRoundOne)
+                    {
                         opt.RoleOptions.EngineerCooldown = 10f;
+                        Main.IsRoundOne = false;
+                    }
                     else if (!Main.VettedThisRound)
                         opt.RoleOptions.EngineerCooldown = Options.VetCD.GetFloat();
                     else
