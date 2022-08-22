@@ -1416,7 +1416,7 @@ namespace TownOfHost
                             Mark += $"<color={Utils.GetRoleColorCode(CustomRoles.Arsonist)}>△</color>";
                         }
                     }
-                    if (seer.Is(CustomRoles.PlagueBearer))
+                    if (seer.Is(CustomRoles.PlagueBearer) || seer.Data.IsDead)
                     {
                         if (seer.IsInfectedPlayer(target))
                         {
@@ -1432,7 +1432,7 @@ namespace TownOfHost
                     }
                     foreach (var ExecutionerTarget in Main.ExecutionerTarget)
                     {
-                        if ((seer.PlayerId == ExecutionerTarget.Key || seer.Data.IsDead) && //seerがKey or Dead
+                        if ((seer.PlayerId == ExecutionerTarget.Key) && //seerがKey or Dead
                         target.PlayerId == ExecutionerTarget.Value) //targetがValue
                             Mark += $"<color={Utils.GetRoleColorCode(CustomRoles.Executioner)}>♦</color>";
                     }
