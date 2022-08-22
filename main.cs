@@ -479,6 +479,8 @@ namespace TownOfHost
         Juggernaut = CustomRoles.Juggernaut,
         HASTroll = CustomRoles.HASTroll,
         Coven = CustomRoles.Coven,
+        TheGlitch = CustomRoles.TheGlitch,
+        Werewolf = CustomRoles.Werewolf
     }
     public enum AdditionalWinners
     {

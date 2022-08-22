@@ -54,6 +54,22 @@ namespace TownOfHost
                     if (p.Is(CustomRoles.Jackal) || p.Is(CustomRoles.JSchrodingerCat)) winner.Add(p);
                 }
             }
+            if (Main.currentWinner == CustomWinner.Werewolf)
+            {
+                winner.Clear();
+                foreach (var p in PlayerControl.AllPlayerControls)
+                {
+                    if (p.Is(CustomRoles.Werewolf)) winner.Add(p);
+                }
+            }
+            if (Main.currentWinner == CustomWinner.TheGlitch)
+            {
+                winner.Clear();
+                foreach (var p in PlayerControl.AllPlayerControls)
+                {
+                    if (p.Is(CustomRoles.TheGlitch)) winner.Add(p);
+                }
+            }
             if (Main.currentWinner == CustomWinner.Vulture)
             {
                 winner.Clear();
@@ -67,7 +83,7 @@ namespace TownOfHost
                 winner.Clear();
                 foreach (var p in PlayerControl.AllPlayerControls)
                 {
-                    if (p.Is(CustomRoles.Pestilence)) winner.Add(p);
+                    if (p.Is(CustomRoles.Pestilence) || p.Is(CustomRoles.PlagueBearer)) winner.Add(p);
                 }
             }
             if (Main.currentWinner == CustomWinner.Juggernaut)

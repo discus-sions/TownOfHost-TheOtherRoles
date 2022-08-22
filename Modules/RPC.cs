@@ -311,6 +311,12 @@ namespace TownOfHost
                     case CustomWinner.Jackal:
                         JackalWin();
                         break;
+                    case CustomWinner.TheGlitch:
+                        GlitchWin();
+                        break;
+                    case CustomWinner.Werewolf:
+                        WolfWin();
+                        break;
                     case CustomWinner.Vulture:
                         VultureWin();
                         break;
@@ -381,6 +387,16 @@ namespace TownOfHost
         public static void JackalWin()
         {
             Main.currentWinner = CustomWinner.Jackal;
+            CustomWinTrigger(0);
+        }
+        public static void GlitchWin()
+        {
+            Main.currentWinner = CustomWinner.TheGlitch;
+            CustomWinTrigger(0);
+        }
+        public static void WolfWin()
+        {
+            Main.currentWinner = CustomWinner.Werewolf;
             CustomWinTrigger(0);
         }
         public static void JugWin()
