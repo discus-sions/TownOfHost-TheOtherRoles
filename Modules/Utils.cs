@@ -260,6 +260,15 @@ namespace TownOfHost
                 ProgressText += $" <color={GetRoleColorCode(CustomRoles.Impostor)}>(Last)</color>";
             }
             if (GetPlayerById(playerId).CanMakeMadmate()) ProgressText += $" [{Options.CanMakeMadmateCount.GetInt() - Main.SKMadmateNowCount}]";
+            
+            foreach (var TargetGA in Main.GuardianAngelTarget)
+            {
+                if (Options.TargetKnowsGA.GetBool())
+                {
+                    if (seer.PlayerId == TargetGA.Value || seer.Data.IsDead)
+                        Mark += $"<color={Utils.GetRoleColorCode(CustomRoles.GuardianAngelTOU)}>♦</color>";
+                }
+            }
 
             return ProgressText;
         }
