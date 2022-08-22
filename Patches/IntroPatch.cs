@@ -115,9 +115,9 @@ namespace TownOfHost
                 gaTeam.Add(PlayerControl.LocalPlayer);
                 foreach (var protect in Main.GuardianAngelTarget)
                 {
-                    PlayerControl ga = Utils.GetPlayerById(protect.Key);
+                    //PlayerControl ga = Utils.GetPlayerById(protect.Key);
                     PlayerControl protecting = Utils.GetPlayerById(protect.Value);
-                    if (ga == PlayerControl.LocalPlayer) continue;
+                    // if (ga == PlayerControl.LocalPlayer) continue;
                     gaTeam.Add(protecting);
                 }
                 teamToDisplay = gaTeam;
