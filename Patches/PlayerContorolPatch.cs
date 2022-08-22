@@ -1396,11 +1396,11 @@ namespace TownOfHost
                     }
                     foreach (var TargetGA in Main.GuardianAngelTarget)
                     {
-                        if (Options.TargetKnowsGA.GetBool())
-                        {
-                            if (seer.PlayerId == TargetGA.Value || seer.Data.IsDead)
-                                Mark += $"<color={Utils.GetRoleColorCode(CustomRoles.GuardianAngelTOU)}>♦</color>";
-                        }
+                        //if (Options.TargetKnowsGA.GetBool())
+                        //{
+                        //    if (seer.PlayerId == TargetGA.Value || seer.Data.IsDead)
+                        //        Mark += $"<color={Utils.GetRoleColorCode(CustomRoles.GuardianAngelTOU)}>♦</color>";
+                        //}
                     }
                     if (seer.Is(CustomRoles.Arsonist))
                     {
