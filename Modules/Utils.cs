@@ -160,6 +160,7 @@ namespace TownOfHost
                     if (cRole == CustomRoles.MadSnitch && ForRecompute) hasTasks = false;
                     if (cRole == CustomRoles.Opportunist) hasTasks = false;
                     if (cRole == CustomRoles.Sheriff) hasTasks = false;
+                    if (cRole == CustomRoles.Amnesiac) hasTasks = false;
                     if (cRole == CustomRoles.Madmate) hasTasks = false;
                     if (cRole == CustomRoles.SKMadmate) hasTasks = false;
                     if (cRole == CustomRoles.Terrorist && ForRecompute) hasTasks = false;
@@ -179,6 +180,9 @@ namespace TownOfHost
                     if (cRole == CustomRoles.Pestilence) hasTasks = false;
                     if (cRole == CustomRoles.Coven) hasTasks = false;
                     if (cRole == CustomRoles.Vulture) hasTasks = false;
+                    if (cRole == CustomRoles.GuardianAngelTOU) hasTasks = false;
+                    if (cRole == CustomRoles.Werewolf) hasTasks = false;
+                    if (cRole == CustomRoles.TheGlitch) hasTasks = false;
                 }
                 var cSubRoleFound = Main.AllPlayerCustomSubRoles.TryGetValue(p.PlayerId, out var cSubRole);
                 if (cSubRoleFound)
@@ -231,6 +235,9 @@ namespace TownOfHost
                     break;
                 case CustomRoles.Veteran:
                     ProgressText += Helpers.ColorString(GetRoleColor(CustomRoles.Veteran), $"({Main.VetAlerts}/{Options.NumOfVets.GetInt()})");
+                    break;
+                case CustomRoles.GuardianAngelTOU:
+                    ProgressText += Helpers.ColorString(GetRoleColor(CustomRoles.GuardianAngelTOU), $"({Main.ProtectsSoFar}/{Options.NumOfProtects.GetInt()})");
                     break;
                 case CustomRoles.Sniper:
                     ProgressText += $" {Sniper.GetBulletCount(playerId)}";
@@ -705,6 +712,7 @@ namespace TownOfHost
                     || seer.Is(CustomRoles.Lovers)
                     || Main.SpelledPlayer.Count > 0
                     || Main.SilencedPlayer.Count > 0
+                    || seer.Is(CustomRoles.GuardianAngelTOU)
                     || seer.Is(CustomRoles.Executioner)
                     || seer.Is(CustomRoles.Doctor) //seerがドクター
                     || seer.Is(CustomRoles.Puppeteer)
@@ -806,6 +814,13 @@ namespace TownOfHost
                             if ((seer.PlayerId == ExecutionerTarget.Key || seer.Data.IsDead) && //seerがKey or Dead
                             target.PlayerId == ExecutionerTarget.Value) //targetがValue
                                 TargetMark += $"<color={Utils.GetRoleColorCode(CustomRoles.Executioner)}>♦</color>";
+                        }
+
+                        foreach (var GATarget in Main.GuardianAngelTarget)
+                        {
+                            if ((seer.PlayerId == GATarget.Key || seer.Data.IsDead) && //seerがKey or Dead
+                            target.PlayerId == GATarget.Value) //targetがValue
+                                TargetMark += $"<color={Utils.GetRoleColorCode(CustomRoles.GuardianAngel)}>♦</color>";
                         }
 
                         string TargetDeathReason = "";
@@ -928,6 +943,26 @@ namespace TownOfHost
             }
 
             return (doused, all);
+        }
+        public static List<PlayerControl> GetDousedPlayer(byte playerId)
+        {
+            List<PlayerControl> doused = null; //学校で習った書き方
+            //多分この方がMain.isDousedでforeachするより他のアーソニストの分ループ数少なくて済む
+            foreach (var pc in PlayerControl.AllPlayerControls)
+            {
+                if (pc == null ||
+                    pc.Data.IsDead ||
+                    pc.Data.Disconnected ||
+                    pc.PlayerId == playerId
+                ) continue; //塗れない人は除外 (死んでたり切断済みだったり あとアーソニスト自身も)
+
+                //all++;
+                if (Main.isDoused.TryGetValue((playerId, pc.PlayerId), out var isDoused) && isDoused)
+                    //塗れている場合
+                    doused.Add(Utils.GetPlayerById(pc.PlayerId));
+            }
+
+            return doused;
         }
         public static (int, int) GetInfectedPlayerCount(byte playerId)
         {

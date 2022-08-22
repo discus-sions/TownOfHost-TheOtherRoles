@@ -72,9 +72,28 @@ namespace TownOfHost
                 systemType == SystemTypes.Comms && //システムタイプが通信室
                 (player.Is(CustomRoles.Madmate) || player.Is(CustomRoles.MadGuardian))) //実行者がMadmateかMadGuardian)
                 return false;
-            if (player.Is(CustomRoles.Sheriff) || player.Is(CustomRoles.Arsonist) || player.GetRoleType() == RoleType.Coven || player.Is(CustomRoles.PlagueBearer) || player.Is(CustomRoles.Pestilence) || player.Is(CustomRoles.Juggernaut) || (player.Is(CustomRoles.Jackal) && !Options.JackalCanUseSabotage.GetBool()))
+            if (player.Is(CustomRoles.Sheriff) || player.Is(CustomRoles.Arsonist) || player.Is(CustomRoles.Werewolf) || player.Is(CustomRoles.TheGlitch) || player.GetRoleType() == RoleType.Coven || player.Is(CustomRoles.PlagueBearer) || player.Is(CustomRoles.Pestilence) || player.Is(CustomRoles.Juggernaut) || (player.Is(CustomRoles.Jackal) && !Options.JackalCanUseSabotage.GetBool()))
             {
                 if (systemType == SystemTypes.Sabotage && AmongUsClient.Instance.GameMode != GameModes.FreePlay) return false; //シェリフにサボタージュをさせない ただしフリープレイは例外
+            }
+            else
+            {
+                if (CustomRoles.TheGlitch.IsEnable())
+                {
+                    List<PlayerControl> hackedPlayers = new();
+                    PlayerControl glitch;
+                    foreach (var cp in Main.CursedPlayers)
+                    {
+                        if (Utils.GetPlayerById(cp.Key).Is(CustomRoles.TheGlitch))
+                        {
+                            hackedPlayers.Add(cp.Value);
+                            glitch = Utils.GetPlayerById(cp.Key);
+                        }
+                    }
+
+                    if (hackedPlayers.Contains(player))
+                        return false;
+                }
             }
             return true;
         }

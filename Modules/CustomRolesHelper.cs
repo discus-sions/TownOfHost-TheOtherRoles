@@ -47,6 +47,10 @@ namespace TownOfHost
                 CustomRoles.Jackal or
                 CustomRoles.PlagueBearer or
                 CustomRoles.Pestilence or
+                CustomRoles.TheGlitch or
+                CustomRoles.Werewolf or
+                CustomRoles.GuardianAngelTOU or
+                CustomRoles.Amnesiac or
                 CustomRoles.Juggernaut or
                 CustomRoles.JSchrodingerCat or
                 CustomRoles.HASTroll or

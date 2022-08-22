@@ -28,6 +28,27 @@ namespace TownOfHost
                 AmongUsClient.Instance.FinishRpcImmediately(writer);
             }
         }
+        public static void SetDefaultRole(this PlayerControl player)
+        {
+            switch (player.GetRoleType())
+            {
+                case RoleType.Crewmate:
+                    player.RpcSetCustomRole(CustomRoles.Crewmate);
+                    break;
+                case RoleType.Impostor:
+                    player.RpcSetCustomRole(CustomRoles.Impostor);
+                    break;
+                case RoleType.Neutral:
+                    player.RpcSetCustomRole(CustomRoles.Opportunist);
+                    break;
+                case RoleType.Coven:
+                    player.RpcSetCustomRole(CustomRoles.Coven);
+                    break;
+                case RoleType.Madmate:
+                    player.RpcSetCustomRole(CustomRoles.Madmate);
+                    break;
+            }
+        }
         public static void RpcSetCustomRole(byte PlayerId, CustomRoles role)
         {
             if (AmongUsClient.Instance.AmHost)
@@ -311,6 +332,7 @@ namespace TownOfHost
                     break;
                 case CustomRoles.Sheriff:
                 case CustomRoles.Arsonist:
+                case CustomRoles.Amnesiac:
                 case CustomRoles.Vulture:
                     opt.SetVision(player, false);
                     break;
@@ -340,6 +362,7 @@ namespace TownOfHost
                     if (Options.JuggerCanVent.GetBool())
                         goto InfinityVent;
                     break;
+                //case CustomRoles.WereW
                 case CustomRoles.Mayor:
                     opt.RoleOptions.EngineerCooldown =
                         Main.MayorUsedButtonCount.TryGetValue(player.PlayerId, out var count) && count < Options.MayorNumOfUseButton.GetInt()
@@ -349,12 +372,27 @@ namespace TownOfHost
                     break;
                 case CustomRoles.Veteran:
                     //5 lines of code calculating the next Vet CD.
-                    if (Main.CovenMeetings == 0)
+                    if (Main.IsRoundOne)
+                    {
                         opt.RoleOptions.EngineerCooldown = 10f;
+                        Main.IsRoundOne = false;
+                    }
                     else if (!Main.VettedThisRound)
                         opt.RoleOptions.EngineerCooldown = Options.VetCD.GetFloat();
                     else
                         opt.RoleOptions.EngineerCooldown = Options.VetCD.GetFloat() + Options.VetDuration.GetFloat();
+                    opt.RoleOptions.EngineerInVentMaxTime = 1;
+                    break;
+                case CustomRoles.GuardianAngelTOU:
+                    if (Main.IsRoundOneGA)
+                    {
+                        opt.RoleOptions.EngineerCooldown = 10f;
+                        Main.IsRoundOneGA = false;
+                    }
+                    else if (!Main.ProtectedThisRound)
+                        opt.RoleOptions.EngineerCooldown = Options.GuardCD.GetFloat();
+                    else
+                        opt.RoleOptions.EngineerCooldown = Options.GuardCD.GetFloat() + Options.GuardDur.GetFloat();
                     opt.RoleOptions.EngineerInVentMaxTime = 1;
                     break;
                 case CustomRoles.Jester:
@@ -366,6 +404,16 @@ namespace TownOfHost
                     break;
                 case CustomRoles.Mare:
                     Mare.ApplyGameOptions(opt, player.PlayerId);
+                    break;
+                case CustomRoles.Werewolf:
+                    if (!Main.IsRampaged)
+                        opt.SetVision(player, false);
+                    else
+                        opt.SetVision(player, true);
+                    goto InfinityVent;
+                //break;
+                case CustomRoles.TheGlitch:
+                    opt.SetVision(player, true);
                     break;
                 case CustomRoles.Jackal:
                 case CustomRoles.JSchrodingerCat:
@@ -527,8 +575,12 @@ namespace TownOfHost
                 CustomRoles.FireWorks => FireWorks.CanUseKillButton(pc),
                 CustomRoles.Sniper => Sniper.CanUseKillButton(pc),
                 CustomRoles.Sheriff => Sheriff.CanUseKillButton(pc),
+                CustomRoles.Arsonist => false,
                 CustomRoles.PlagueBearer => true,
                 CustomRoles.Pestilence => true,
+                CustomRoles.Juggernaut => true,
+                CustomRoles.Werewolf => true,
+                CustomRoles.TheGlitch => true,
                 _ => canUse,
             };
         }
@@ -588,8 +640,8 @@ namespace TownOfHost
         }
         public static void ResetKillCooldown(this PlayerControl player)
         {
-            if (!player.Is(CustomRoles.Juggernaut))
-                Main.AllPlayerKillCooldown[player.PlayerId] = Options.DefaultKillCooldown; //キルクールをデフォルトキルクールに変更
+            //if (!player.Is(CustomRoles.Juggernaut))
+            Main.AllPlayerKillCooldown[player.PlayerId] = Options.DefaultKillCooldown; //キルクールをデフォルトキルクールに変更
             switch (player.GetCustomRole())
             {
                 case CustomRoles.Juggernaut:
@@ -597,6 +649,12 @@ namespace TownOfHost
                     Main.AllPlayerKillCooldown[player.PlayerId] = Options.JuggerKillCooldown.GetFloat() - DecreasedAmount;
                     if (Main.AllPlayerKillCooldown[player.PlayerId] < 1)
                         Main.AllPlayerKillCooldown[player.PlayerId] = 1;
+                    break;
+                case CustomRoles.TheGlitch:
+                    if (Main.IsHackMode)
+                        Main.AllPlayerKillCooldown[player.PlayerId] = Options.GlitchRoleBlockCooldown.GetFloat();
+                    else
+                        Main.AllPlayerKillCooldown[player.PlayerId] = Options.GlitchKillCooldown.GetFloat();
                     break;
                 case CustomRoles.SerialKiller:
                     SerialKiller.ApplyKillCooldown(player.PlayerId); //シリアルキラーはシリアルキラーのキルクールに。
@@ -609,6 +667,9 @@ namespace TownOfHost
                     break;
                 case CustomRoles.Arsonist:
                     Main.AllPlayerKillCooldown[player.PlayerId] = Options.ArsonistCooldown.GetFloat(); //アーソニストはアーソニストのキルクールに。
+                    break;
+                case CustomRoles.Werewolf:
+                    Main.AllPlayerKillCooldown[player.PlayerId] = Options.WWkillCD.GetFloat(); //アーソニストはアーソニストのキルクールに。
                     break;
                 case CustomRoles.Egoist:
                     Egoist.ApplyKillCooldown(player.PlayerId);
@@ -661,19 +722,35 @@ namespace TownOfHost
                 new LateTask(() =>
                 {
                     Main.VetIsAlerted = false;
-                }, Options.VetDuration.GetFloat(), "Trapper BlockMove");
+                }, Options.VetDuration.GetFloat(), "Veteran Duration");
+            }
+        }
+        public static void GaProtect(this PlayerControl ga)
+        {
+            if (ga.Is(CustomRoles.GuardianAngelTOU) && !Main.IsProtected)
+            {
+                Main.ProtectsSoFar++;
+                Main.ProtectedThisRound = true;
+                Main.IsProtected = true;
+                new LateTask(() =>
+                {
+                    Main.IsProtected = false;
+                }, Options.VetDuration.GetFloat(), "Guardian Angel Protect Duration");
             }
         }
         public static void CanUseImpostorVent(this PlayerControl player)
         {
             switch (player.GetCustomRole())
             {
+                case CustomRoles.Amnesiac:
                 case CustomRoles.Sheriff:
                     DestroyableSingleton<HudManager>.Instance.ImpostorVentButton.ToggleVisible(false);
                     player.Data.Role.CanVent = false;
                     return;
                 case CustomRoles.Arsonist:
                     bool CanUse = player.IsDouseDone();
+                    if (Options.TOuRArso.GetBool())
+                        CanUse = true;
                     DestroyableSingleton<HudManager>.Instance.ImpostorVentButton.ToggleVisible(CanUse && !player.Data.IsDead);
                     player.Data.Role.CanVent = CanUse;
                     return;
@@ -695,6 +772,16 @@ namespace TownOfHost
                     bool pesti_CanUse = Options.PestiCanVent.GetBool();
                     DestroyableSingleton<HudManager>.Instance.ImpostorVentButton.ToggleVisible(pesti_CanUse && !player.Data.IsDead);
                     player.Data.Role.CanVent = pesti_CanUse;
+                    return;
+                case CustomRoles.TheGlitch:
+                    bool gl_CanUse = true;
+                    DestroyableSingleton<HudManager>.Instance.ImpostorVentButton.ToggleVisible(gl_CanUse && !player.Data.IsDead);
+                    player.Data.Role.CanVent = gl_CanUse;
+                    return;
+                case CustomRoles.Werewolf:
+                    bool ww_CanUse = true;
+                    DestroyableSingleton<HudManager>.Instance.ImpostorVentButton.ToggleVisible(ww_CanUse && !player.Data.IsDead);
+                    player.Data.Role.CanVent = ww_CanUse;
                     return;
             }
         }
@@ -774,7 +861,11 @@ namespace TownOfHost
                 CustomRoles.Jackal or
                 CustomRoles.PlagueBearer or
                 CustomRoles.Juggernaut or
-                CustomRoles.Pestilence;
+                CustomRoles.Pestilence or
+                CustomRoles.PlagueBearer or
+                CustomRoles.CorruptedSheriff or
+                CustomRoles.TheGlitch or
+                CustomRoles.Werewolf;
         }
 
         //汎用

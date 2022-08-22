@@ -31,6 +31,8 @@ namespace TownOfHost
         SetLoversPlayers,
         SetExecutionerTarget,
         RemoveExecutionerTarget,
+        SetGATarget,
+        RemoveGATarget,
         SendFireWorksState,
         SetCurrentDousingTarget,
         SetCurrentInfectingTarget,
@@ -187,6 +189,15 @@ namespace TownOfHost
                     byte Key = reader.ReadByte();
                     Main.ExecutionerTarget.Remove(Key);
                     break;
+                case CustomRPC.SetGATarget:
+                    byte gaId = reader.ReadByte();
+                    byte targetIds = reader.ReadByte();
+                    Main.GuardianAngelTarget[gaId] = targetIds;
+                    break;
+                case CustomRPC.RemoveGATarget:
+                    byte Keys = reader.ReadByte();
+                    Main.GuardianAngelTarget.Remove(Keys);
+                    break;
                 case CustomRPC.SendFireWorksState:
                     FireWorks.ReceiveRPC(reader);
                     break;
@@ -300,6 +311,12 @@ namespace TownOfHost
                     case CustomWinner.Jackal:
                         JackalWin();
                         break;
+                    case CustomWinner.TheGlitch:
+                        GlitchWin();
+                        break;
+                    case CustomWinner.Werewolf:
+                        WolfWin();
+                        break;
                     case CustomWinner.Vulture:
                         VultureWin();
                         break;
@@ -370,6 +387,16 @@ namespace TownOfHost
         public static void JackalWin()
         {
             Main.currentWinner = CustomWinner.Jackal;
+            CustomWinTrigger(0);
+        }
+        public static void GlitchWin()
+        {
+            Main.currentWinner = CustomWinner.TheGlitch;
+            CustomWinTrigger(0);
+        }
+        public static void WolfWin()
+        {
+            Main.currentWinner = CustomWinner.Werewolf;
             CustomWinTrigger(0);
         }
         public static void JugWin()
@@ -488,6 +515,13 @@ namespace TownOfHost
             writer.Write(targetId);
             AmongUsClient.Instance.FinishRpcImmediately(writer);
         }
+        public static void SendGATarget(byte gaId, byte targetId)
+        {
+            MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.SetGATarget, Hazel.SendOption.Reliable, -1);
+            writer.Write(gaId);
+            writer.Write(targetId);
+            AmongUsClient.Instance.FinishRpcImmediately(writer);
+        }
         public static void CustomWinTrigger(byte winnerID)
         {
             List<PlayerControl> Impostors = new();
@@ -536,6 +570,13 @@ namespace TownOfHost
         {
             if (!AmongUsClient.Instance.AmHost) return;
             MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.RemoveExecutionerTarget, Hazel.SendOption.Reliable, -1);
+            writer.Write(Key);
+            AmongUsClient.Instance.FinishRpcImmediately(writer);
+        }
+        public static void RemoveGAKey(byte Key)
+        {
+            if (!AmongUsClient.Instance.AmHost) return;
+            MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.RemoveGATarget, Hazel.SendOption.Reliable, -1);
             writer.Write(Key);
             AmongUsClient.Instance.FinishRpcImmediately(writer);
         }

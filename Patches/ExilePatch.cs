@@ -145,6 +145,7 @@ namespace TownOfHost
                     Main.RefixCooldownDelay = Options.DefaultKillCooldown - 3f;
                 Main.SpelledPlayer.RemoveAll(pc => pc == null || pc.Data == null || pc.Data.IsDead || pc.Data.Disconnected);
                 Main.SilencedPlayer.RemoveAll(pc => pc == null || pc.Data == null || pc.Data.IsDead || pc.Data.Disconnected);
+                Main.IsHackMode = false;
                 foreach (var pc in PlayerControl.AllPlayerControls)
                 {
                     pc.ResetKillCooldown();
@@ -152,6 +153,16 @@ namespace TownOfHost
                         pc.RpcResetAbilityCooldown();
                     if (pc.Is(CustomRoles.Veteran))
                         pc.RpcResetAbilityCooldown();
+                    if (pc.Is(CustomRoles.Werewolf))
+                    {
+                        Main.IsRampaged = false;
+                        Main.RampageReady = false;
+                        new LateTask(() =>
+                        {
+                            //pc?.MyPhysics?.RpcBootFromVent(__instance.Id);
+                            Main.RampageReady = true;
+                        }, Options.RampageDur.GetFloat(), "Werewolf Rampage Cooldown");
+                    }
                     if (pc.Is(CustomRoles.Warlock))
                     {
                         Main.CursedPlayers[pc.PlayerId] = null;

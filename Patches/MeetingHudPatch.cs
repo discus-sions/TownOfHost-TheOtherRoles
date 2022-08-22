@@ -162,6 +162,19 @@ namespace TownOfHost
                             RPC.RemoveExecutionerKey(Executioner);
                             Utils.NotifyRoles();
                         }
+                        if (Main.GuardianAngelTarget.ContainsValue(p.PlayerId) && exileId != p.PlayerId)
+                        {
+                            byte GA = 0x73;
+                            Main.GuardianAngelTarget.Do(x =>
+                            {
+                                if (x.Value == p.PlayerId)
+                                    GA = x.Key;
+                            });
+                            Utils.GetPlayerById(GA).RpcSetCustomRole(Options.CRoleGuardianAngelChangeRoles[Options.WhenGaTargetDies.GetSelection()]);
+                            Main.GuardianAngelTarget.Remove(GA);
+                            RPC.RemoveExecutionerKey(GA);
+                            Utils.NotifyRoles();
+                        }
                     }
                 }
                 Main.SpelledPlayer.Clear();
@@ -322,6 +335,24 @@ namespace TownOfHost
                         if (Main.ExecutionerTarget.TryGetValue(seer.PlayerId, out var targetId) && target.PlayerId == targetId) //targetがValue
                             pva.NameText.text += Helpers.ColorString(Utils.GetRoleColor(CustomRoles.Executioner), "♦");
                         break;
+                    case CustomRoles.GuardianAngelTOU:
+                        if (Main.GuardianAngelTarget.TryGetValue(seer.PlayerId, out var protectId) && target.PlayerId == protectId) //targetがValue
+                            pva.NameText.text += Helpers.ColorString(Utils.GetRoleColor(CustomRoles.GuardianAngelTOU), "♦");
+                        break;
+                }
+
+                foreach (var protect in Main.GuardianAngelTarget)
+                {
+                    PlayerControl ga = Utils.GetPlayerById(protect.Key);
+                    PlayerControl protecting = Utils.GetPlayerById(protect.Value);
+                    if (protecting == target) continue;
+                    if (!ga.Data.IsDead)
+                    {
+                        if (Options.GAknowsRole.GetBool())
+                            Utils.SendMessage("You are a Guardian Angel. Your Job is to protect your target from Death. Your target's role is: " + Utils.GetRoleName(protecting.GetCustomRole()), ga.PlayerId);
+                    }
+                    if (Options.TargetKnowsGA.GetBool())
+                        Utils.SendMessage("You have a Guardian Angel. Find out who they are and keep them to protect you.", protecting.PlayerId);
                 }
 
                 switch (target.GetRoleType())

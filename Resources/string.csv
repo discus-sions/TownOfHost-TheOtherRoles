@@ -77,6 +77,10 @@ PlagueBearer,PlagueBearer,PlagueBearer,疫医,疫醫
 Pestilence,Pestilence,Pestilence,传染者,感染者
 Juggernaut,Juggernaut,Juggernaut,主宰者,巨人
 Vulture,Vulture,Vulture,秃鹫,禿鷹
+Werewolf,Werewolf,Werewolf,Werewolf
+TheGlitch,The Glitch,The Glitch,The Glitch
+GuardianAngelTOU,Guardian Angel,Guardian Angel,Guardian Angel
+Amnesiac,Amnesiac,Amnesiac,Amnesiac
 
 # Coven 
 Coven,Coven,Coven,巫师,巫師
@@ -165,10 +169,19 @@ ExecutionerInfo,Get your target voted out,ターゲットを追放させよう,�
 EgoistInfo,Replace the Impostor win,インポスター勝利を独占しよう,我们要把属于内鬼的胜利给夺走！,讓我們來奪取狼人的勝利
 LoversInfo,Survive with your lover,恋人と生きて幸せを掴もう,你坠入了爱河，成为了一对恋人，一起活到最后吧！,你墜入了愛河(心理)
 JackalInfo,Kill Everyone and Last Alone,すべてを殺せ,快去杀光所有人，一只苍蝇都不要剩下！,殺光所有人不留活口
+
 PlagueBearerInfo,Infect Everyone and Become Pestilence,Infect Everyone and Become Pestilence,请把所有人都感染了，引起大型瘟疫,快去把所有人都感染
 PestilenceInfo,Kill Everyone and Leave None,Kill Everyone and Leave None,把所有人杀都杀光一只蚊子都不要剩,殺光所有人
 JuggernautInfo,Your cooldown decreaes with Each Kill,Your cooldown decreaes with Each Kill,你杀的人越多就会越兴奋，击杀冷却时间也会越短,殺人會讓擊殺冷卻時間縮短
 VultureInfo,Eat bodies by clicking Report,Eat bodies by clicking Report,吃鸡腿吃好多的大鸡腿(尸体),通過點擊報告來吃屍體
+PlagueBearerInfo,Infect Everyone and Become Pestilence,Infect Everyone and Become Pestilence,请把所有人都感染了，引起大型瘟疫,快去把所有人都感染
+PestilenceInfo,Kill Everyone and Leave None,Kill Everyone and Leave None,把所有人杀都杀光一只蚊子都不要剩,殺光所有人
+JuggernautInfo,Your cooldown decreaes with Each Kill,Your cooldown decreaes with Each Kill,你杀的人越多就会越兴奋，击杀冷却时间也会越短,殺人會讓擊殺冷卻時間縮短
+VultureInfo,Eat bodies by clicking Report,Eat bodies by clicking Report,吃鸡腿吃好多的大鸡腿(尸体),通過點擊報告來吃屍體
+WerewolfInfo,Rampage to Kill Everyone,Rampage to Kill Everyone,Rampage to Kill Everyone
+TheGlitchInfo,for each PlayerControl Glitch.MurderPlayer,for each PlayerControl Glitch.MurderPlayer,for each PlayerControl Glitch.MurderPlayer
+GuardianAngelTOUInfo,Protect your Target from Attacks,Protect your Target from Attacks,Protect your Target from Attacks
+AmnesiacInfo,Report a body to Steal a Role,AmnesiacInfo,AmnesiacInfo
 
 # Coven 
 CovenInfo,Support your Leader,Support your Leader,支援你的领袖,支持你的領袖
@@ -217,7 +230,7 @@ WatcherInfoLong,(Impostors or Crewmates):\nThe Watchers can see colored votes re
 
 # 特殊クルー役職
 BaitInfoLong,"(Crewmates):\nWhen killed, they force the killer to self report in no time.",(クルーメイト陣営):\nキルされた時に、自身をキルした人に\n強制的にセルフレポートさせる事ができる。,(船员阵营):\n诱饵被击杀时，击杀诱饵的凶手将被迫报告。,"(船員):\n當被殺時,兇手將強制自行舉報"
-VeteranInfo,"(Crewmates):\nVeteran can vent to activate their Alert function. When alerted, any role that interacts with the Veteran, will die. Settings can choose the duration, cooldown, and how many alerts. Only 1 Veteran can exist per game.","(Crewmates):\nVeteran can vent to activate their Alert function. When alerted, any role that interacts with the Veteran, will die. Settings can choose the duration, cooldown, and how many alerts. Only 1 Veteran can exist per game.","(Crewmates):\nVeteran can vent to activate their Alert function. When alerted, any role that interacts with the Veteran, will die. Settings can choose the duration, cooldown, and how many alerts. Only 1 Veteran can exist per game."
+VeteranInfoLong,"(Crewmates):\nVeteran can vent to activate their Alert function. When alerted, any role that interacts with the Veteran, will die. Settings can choose the duration, cooldown, and how many alerts. Only 1 Veteran can exist per game.","(Crewmates):\nVeteran can vent to activate their Alert function. When alerted, any role that interacts with the Veteran, will die. Settings can choose the duration, cooldown, and how many alerts. Only 1 Veteran can exist per game.","(Crewmates):\nVeteran can vent to activate their Alert function. When alerted, any role that interacts with the Veteran, will die. Settings can choose the duration, cooldown, and how many alerts. Only 1 Veteran can exist per game."
 LighterInfoLong,"(Crewmates):\nAfter finishing all the task, The lighters have their vision expanded and ignore lights out.",(クルーメイト陣営):\nタスクを終わらせると、自分の視界を広げることができる。,(船员阵营):\n执灯人完成任务后，视野会扩大，且不受照明破坏影响。,"(船員):\n當做完所有任務時可以增大視野且不受關燈影響"
 MayorInfoLong,"(Crewmates):\nThe Mayors' votes count twice or more.\nDepending on the options, they can call emergency meeting by entering vents.",(クルーメイト陣営):\n会議の票を複数持ち、まとめて一人または\nスキップに入れることができる。(設定有),(船员阵营):\n市长的一票等价于多个玩家的票数。(可以进行设置),"(船員):\n可以一次投很多票並可以將它灌到一個人身上或跳過 (可以設定票數)"
 SabotageMasterInfoLong,"(Crewmates):\nthey can fix both of Communications in MIRA HQ, Reactor and O2 by fixing either.\nLights can be fixed by touching a single lever.\nOpening a door will open all the linked doors.",(クルーメイト陣営):\nリアクター・O2・通信妨害を一人で修理可能。\n停電は一箇所のレバーに触れる事で全て直る。\nドアを開けるとその部屋の全てのドアが開く。,(船员阵营):\n氧气泄露、核反应堆熔毁以及米拉总部的通讯破坏维修大师只需要修复一边则另一边即可同时被修复。\n维修大师只需要按一个开关便可以修复照明破坏。\n维修大师打开波鲁斯与飞艇地图的门时维修大师所在房间的所有门同时打开。,"(船員):\n反應堆,氧氣,通訊以及其他破壞可以破壞大師一個人修復\n關燈可以通過拉一根拉桿來\n開門將開啟該房間所有關閉中的的門。"
@@ -244,6 +257,10 @@ PlagueBearerInfoLong,"(Neutrals):\nYou're kill button is an Infect button. Infec
 PestilenceInfoLong,"(Neutrals):\nPestilence cannot die and can only be voted. When someone tries to kill Pestilence, they die instead. Even their Lover dying won't bring the Pestilence down.","(Neutrals):\nPestilence cannot die and can only be voted. When someone triesto kill Pestilence, they die instead.","(中立阵营):\n毒医不能被杀死，当有人试图击杀他是他会受到反伤而死."
 JuggernautInfoLong,"(Neutrals):\nThe Juggernaut's kill cooldown decreases with each kill.","(Neutrals):\nThe Juggernaut's kill cooldown decreases with each kill.","(Neutrals):\nThe Juggernaut's kill cooldown decreases with each kill."
 VultureInfoLong,"(Neutrals):\nThe Vulture has to eat a certain number of bodies to win. Due to techincal limitations, we cannot make the body disappear, but we can make the body unreportable. Because of this, the number of bodies aten by the Vulture will display at every meeting.","(Neutrals):\nThe Vulture has to eat a certain number of bodies to win. Due to techincal limitations, we cannot make the body disappear, but we can make the body unreportable. Because of this, the number of bodies aten by the Vulture will display at every meeting.","(Neutrals):\nThe Vulture has to eat a certain number of bodies to win. Due to techincal limitations, we cannot make the body disappear, but we can make the body unreportable. Because of this, the number of bodies aten by the Vulture will display at every meeting."
+WerewolfInfoLong,"(Neutrals):\nThe Werewolf can vent to activate their rampage function. While rampaged, they have a short kill cooldown and can only kill for a short amount of time. After the Rampage Duration, they can no longer kill. You can choose if the Werewolf can vent during rampage.","(Neutral):\nInfo unfinished.","(Neutral):\nInfo unfinished."
+TheGlitchInfoLong,"(Neutrals):\nThe Glitch is a neutral killing role with the ability to shapeshift. They can vent to switch killing modes. After every meeting, you are on killing mode. When you vent, you are on Hacking Mode. On hacking mode, press the kill button on someone to prevent them from doing something for a set period of time.","(Neutral):\nInfo unfinished.","(Neutral):\nInfo unfinished."
+GuardianAngelTOUInfoLong,"(Neutral):\nInfo unfinished.","(Neutral):\nInfo unfinished.","(Neutral):\nInfo unfinished."
+AmnesiacInfoLong,"(Neutral):\nSteal someone's role by clicking the report button.","(Neutral):\nInfo unfinished.","(Neutral):\nInfo unfinished."
 
 # Coven
 CovenInfoLong,"""(Coven):\nNothing special about regular Coven. They just help support the Leader.""","""(Coven):\nNothing special about regular Coven. They just help support the Leader.""","""(法师):\n普通的法师没什么特别之处他们只会支援领袖.""",
@@ -388,10 +405,16 @@ SerialKillerCooldown,SerialKiller Kill Cooldown,シリアルキラーのキル�
 SerialKillerLimit,Time Limit To Suiside(s),シリアルキラーが自爆する時間,嗜血杀手自杀倒计时,連環殺手自殺倒數
 ArsonistDouseTime,Arsonist Douse Duration,アーソニストの塗り時間,纵火犯涂油所需时间,縱火犯澆油所需時間
 ArsonistCooldown,Arsonist Douse Cooldown,アーソニストのクールダウン,纵火犯涂油冷却,縱火犯澆油冷卻
+
 TourArso,TOuR Arsonist,TOuR Arsonist,纵火犯巡视,
 InfectCD,Infect Cooldown,アーソニストの塗り時間,感染冷却时间,
 PestiKillCooldown,Pestilence Kill Cooldown,アーソニストのクールダウン,毒医击杀冷却时间,
 PestiCanVent,Pestilence Can Vent,アーソニストのクールダウン,毒医能跳管道,
+TourArso,TOuR Arsonist,TOuR Arsonist,纵火犯巡视,
+InfectCD,Infect Cooldown,アーソニストの塗り時間,感染冷却时间,
+PestiKillCooldown,Pestilence Kill Cooldown,アーソニストのクールダウン,毒医击杀冷却时间,
+PestiCanVent,Pestilence Can Vent,アーソニストのクールダウン,毒医能跳管道,
+
 CanTerroristSuicideWin,Can Terrorist Suicide Win,テロリストの自殺勝ち,恐怖分子可以通过自杀获胜,恐怖分子可以自殺來獲勝
 ShapeMasterShapeshiftDuration,Shapeshift Duration,シェイプマスターの変身持続時間,千面鬼化形持续时间,變形大師變形持續時間
 SilenceDelay,Silence Cooldown,アーソニストのクールダウン,沉默者技能冷却时间,
@@ -434,6 +457,26 @@ MedusaOn,Medusa On,Medusa On,使用美杜莎,美杜莎賀
 MimicOn,Mimic On,Mimic On,使用模仿大师,模仿者開
 NecromancerOn,Necromancer On,Necromancer On,使用亡灵法师,死靈法師開啟
 ConjurorOn,Conjuror On,Conjuror On,使用魔术师,魔術師開
+
+NProtects,Number of Protects,NumOfProtects,NumOfProtects
+PCD,Protect Cooldown,Translation Unavailble,Translation Unavailble
+PDur,Protect Duration,Translation Unavailble,Translation Unavailble
+GAKR,GA Knows Target Role,Translation Unavailble,Translation Unavailble
+TKGA,Target knows GA Exists,Translation Unavailble,Translation Unavailble
+WhenGAdies,When Target dies GA Becomes,Translation Unavailble,Translation Unavailble
+
+CanVentR,Can Vent while Rampaged,Translation Unavailble,Translation Unavailble
+HPV,Hack Preventing Vent,HPV,HPV
+RCD,Rampage Cooldown,Translation Unavailble,Translation Unavailble
+RDur,Rampage Duration,Translation Unavailble,Translation Unavailble
+SCKWW,Sheriff Can Kill Werewolf,Translation Unavailble,Translation Unavailble
+SCKTG,Sheriff Can Kill The Glitch,Translation Unavailble,Translation Unavailble
+
+## Global
+RBC,Role Block Cooldown,Translation Unavailble,Translation Unavailble
+CanVent,Can Vent,Translation Unavailble,Translation Unavailble
+KillCD,Kill Cooldown,Translation Unavailble,Translation Unavailble
+GRB,Global RoleBlock Duration,Translation Unavailble,Translation Unavailble
 
 ## かくれんぼ設定
 HideAndSeekOptions,HideAndSeek Options,かくれんぼの設定,躲猫猫设置,躲貓貓設定

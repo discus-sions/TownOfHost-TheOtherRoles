@@ -38,6 +38,8 @@ namespace TownOfHost
                     if (CheckAndEndGameForCrewmateWin(__instance, statistics)) return false;
                     if (CheckAndEndGameForJuggyWin(__instance, statistics)) return false;
                     if (CheckAndEndGameForCovenWin(__instance, statistics)) return false;
+                    if (CheckAndEndGameForWolfWin(__instance, statistics)) return false;
+                    if (CheckAndEndGameForGlitchWin(__instance, statistics)) return false;
                 }
             }
             return false;
@@ -103,7 +105,8 @@ namespace TownOfHost
         private static bool CheckAndEndGameForImpostorWin(ShipStatus __instance, PlayerStatistics statistics)
         {
             if (statistics.TeamImpostorsAlive >= statistics.TotalAlive - statistics.TeamImpostorsAlive &&
-                statistics.TeamJackalAlive <= 0 && statistics.TeamJuggernautAlive <= 0 && statistics.TeamPestiAlive <= 0 && statistics.TeamCovenAlive <= 0)
+                statistics.TeamJackalAlive <= 0 && statistics.TeamJuggernautAlive <= 0 && statistics.TeamPestiAlive <= 0
+                && statistics.TeamWolfAlive <= 0 && statistics.TeamGlitchAlive <= 0 && statistics.TeamCovenAlive <= 0)
             {
                 if (Options.IsStandardHAS && statistics.TotalAlive - statistics.TeamImpostorsAlive != 0) return false;
                 __instance.enabled = false;
@@ -121,7 +124,8 @@ namespace TownOfHost
         private static bool CheckAndEndGameForJackalWin(ShipStatus __instance, PlayerStatistics statistics)
         {
             if (statistics.TeamJackalAlive >= statistics.TotalAlive - statistics.TeamJackalAlive &&
-                statistics.TeamImpostorsAlive <= 0 && statistics.TeamJuggernautAlive <= 0 && statistics.TeamPestiAlive <= 0 && statistics.TeamCovenAlive <= 0)
+                statistics.TeamImpostorsAlive <= 0 && statistics.TeamJuggernautAlive <= 0 && statistics.TeamPestiAlive <= 0
+                && statistics.TeamWolfAlive <= 0 && statistics.TeamGlitchAlive <= 0 && statistics.TeamCovenAlive <= 0)
             {
                 if (Options.IsStandardHAS && statistics.TotalAlive - statistics.TeamJackalAlive != 0) return false;
                 __instance.enabled = false;
@@ -168,7 +172,8 @@ namespace TownOfHost
         private static bool CheckAndEndGameForPestiWin(ShipStatus __instance, PlayerStatistics statistics)
         {
             if (statistics.TeamPestiAlive >= statistics.TotalAlive - statistics.TeamPestiAlive &&
-                statistics.TeamImpostorsAlive <= 0 && statistics.TeamJuggernautAlive <= 0 && statistics.TeamCovenAlive <= 0)
+                statistics.TeamImpostorsAlive <= 0 && statistics.TeamJuggernautAlive <= 0 && statistics.TeamCovenAlive <= 0
+                && statistics.TeamWolfAlive <= 0 && statistics.TeamGlitchAlive <= 0)
             {
                 if (Options.IsStandardHAS && statistics.TotalAlive - statistics.TeamPestiAlive != 0) return false;
                 __instance.enabled = false;
@@ -192,7 +197,7 @@ namespace TownOfHost
 
         private static bool CheckAndEndGameForCrewmateWin(ShipStatus __instance, PlayerStatistics statistics)
         {
-            if (statistics.TeamImpostorsAlive == 0 && statistics.TeamJackalAlive == 0 && statistics.TeamJuggernautAlive == 0 && statistics.TeamCovenAlive == 0 && statistics.TeamPestiAlive == 0)
+            if (statistics.TeamImpostorsAlive == 0 && statistics.TeamJackalAlive == 0 && statistics.TeamJuggernautAlive == 0 && statistics.TeamCovenAlive == 0 && statistics.TeamPestiAlive == 0 && statistics.TeamGlitchAlive == 0 && statistics.TeamWolfAlive == 0)
             {
                 __instance.enabled = false;
                 ResetRoleAndEndGame(GameOverReason.HumansByVote, false);
@@ -204,7 +209,8 @@ namespace TownOfHost
         private static bool CheckAndEndGameForJuggyWin(ShipStatus __instance, PlayerStatistics statistics)
         {
             if (statistics.TeamJuggernautAlive >= statistics.TotalAlive - statistics.TeamJuggernautAlive &&
-                statistics.TeamImpostorsAlive <= 0 && statistics.TeamPestiAlive <= 0 && statistics.TeamCovenAlive <= 0)
+                statistics.TeamImpostorsAlive <= 0 && statistics.TeamPestiAlive <= 0 && statistics.TeamCovenAlive <= 0
+                && statistics.TeamWolfAlive <= 0 && statistics.TeamGlitchAlive <= 0)
             {
                 if (Options.IsStandardHAS && statistics.TotalAlive - statistics.TeamJuggernautAlive != 0) return false;
                 __instance.enabled = false;
@@ -229,7 +235,8 @@ namespace TownOfHost
         private static bool CheckAndEndGameForCovenWin(ShipStatus __instance, PlayerStatistics statistics)
         {
             if (statistics.TeamCovenAlive >= statistics.TotalAlive - statistics.TeamCovenAlive &&
-                statistics.TeamImpostorsAlive <= 0 && statistics.TeamPestiAlive <= 0 && statistics.TeamJuggernautAlive <= 0)
+                statistics.TeamImpostorsAlive <= 0 && statistics.TeamPestiAlive <= 0 && statistics.TeamJuggernautAlive <= 0
+                && statistics.TeamWolfAlive <= 0 && statistics.TeamGlitchAlive <= 0)
             {
                 if (Options.IsStandardHAS && statistics.TotalAlive - statistics.TeamCovenAlive != 0) return false;
                 __instance.enabled = false;
@@ -244,6 +251,57 @@ namespace TownOfHost
                 writer.Write((byte)CustomWinner.Juggernaut);
                 AmongUsClient.Instance.FinishRpcImmediately(writer);
                 RPC.CovenWin();
+
+                ResetRoleAndEndGame(endReason, false);
+                return true;
+            }
+            return false;
+        }
+        private static bool CheckAndEndGameForWolfWin(ShipStatus __instance, PlayerStatistics statistics)
+        {
+            if (statistics.TeamWolfAlive >= statistics.TotalAlive - statistics.TeamWolfAlive &&
+                statistics.TeamImpostorsAlive <= 0 && statistics.TeamJuggernautAlive <= 0 && statistics.TeamPestiAlive <= 0
+                && statistics.TeamGlitchAlive <= 0 && statistics.TeamCovenAlive <= 0)
+            {
+                if (Options.IsStandardHAS && statistics.TotalAlive - statistics.TeamWolfAlive != 0) return false;
+                __instance.enabled = false;
+                var endReason = TempData.LastDeathReason switch
+                {
+                    DeathReason.Exile => GameOverReason.ImpostorByVote,
+                    DeathReason.Kill => GameOverReason.ImpostorByKill,
+                    _ => GameOverReason.ImpostorByVote,
+                };
+
+                MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.EndGame, Hazel.SendOption.Reliable, -1);
+                writer.Write((byte)CustomWinner.Werewolf);
+                AmongUsClient.Instance.FinishRpcImmediately(writer);
+                RPC.WolfWin();
+
+                ResetRoleAndEndGame(endReason, false);
+                return true;
+            }
+            return false;
+        }
+
+        private static bool CheckAndEndGameForGlitchWin(ShipStatus __instance, PlayerStatistics statistics)
+        {
+            if (statistics.TeamGlitchAlive >= statistics.TotalAlive - statistics.TeamJackalAlive &&
+                statistics.TeamImpostorsAlive <= 0 && statistics.TeamJuggernautAlive <= 0 && statistics.TeamPestiAlive <= 0
+                && statistics.TeamWolfAlive <= 0 && statistics.TeamCovenAlive <= 0)
+            {
+                if (Options.IsStandardHAS && statistics.TotalAlive - statistics.TeamGlitchAlive != 0) return false;
+                __instance.enabled = false;
+                var endReason = TempData.LastDeathReason switch
+                {
+                    DeathReason.Exile => GameOverReason.ImpostorByVote,
+                    DeathReason.Kill => GameOverReason.ImpostorByKill,
+                    _ => GameOverReason.ImpostorByVote,
+                };
+
+                MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.EndGame, Hazel.SendOption.Reliable, -1);
+                writer.Write((byte)CustomWinner.TheGlitch);
+                AmongUsClient.Instance.FinishRpcImmediately(writer);
+                RPC.GlitchWin();
 
                 ResetRoleAndEndGame(endReason, false);
                 return true;
@@ -339,7 +397,7 @@ namespace TownOfHost
                 if (pc.Is(CustomRoles.Sheriff) ||
                     (!(Main.currentWinner == CustomWinner.Arsonist) && pc.Is(CustomRoles.Arsonist)) || (Main.currentWinner != CustomWinner.Vulture && pc.Is(CustomRoles.Vulture)) ||
                     (Main.currentWinner != CustomWinner.Jackal && pc.Is(CustomRoles.Jackal)) || (Main.currentWinner != CustomWinner.Pestilence && pc.Is(CustomRoles.Pestilence)) ||
-                    LoseImpostorRole)
+                    LoseImpostorRole || (Main.currentWinner != CustomWinner.Werewolf && pc.Is(CustomRoles.Werewolf)) || (Main.currentWinner != CustomWinner.TheGlitch && pc.Is(CustomRoles.TheGlitch)))
                 {
                     pc.RpcSetRole(RoleTypes.GuardianAngel);
                 }
@@ -358,6 +416,8 @@ namespace TownOfHost
             public int TeamPestiAlive { get; set; }
             public int TeamJuggernautAlive { get; set; }
             public int TeamCovenAlive { get; set; }
+            public int TeamWolfAlive { get; set; }
+            public int TeamGlitchAlive { get; set; }
             //public int TeamJuggernautAlive { get; set; }
 
             public PlayerStatistics(ShipStatus __instance)
@@ -373,6 +433,8 @@ namespace TownOfHost
                 int numCovenAlive = 0;
                 int numPestiAlive = 0;
                 int numJugAlive = 0;
+                int numGlitchAlive = 0;
+                int numWolfAlive = 0;
 
                 for (int i = 0; i < GameData.Instance.PlayerCount; i++)
                 {
@@ -407,6 +469,8 @@ namespace TownOfHost
                             else if (playerInfo.GetCustomRole() == CustomRoles.PlagueBearer) numPestiAlive++;
                             else if (playerInfo.GetCustomRole() == CustomRoles.Pestilence) numPestiAlive++;
                             else if (playerInfo.GetCustomRole() == CustomRoles.Juggernaut) numJugAlive++;
+                            else if (playerInfo.GetCustomRole() == CustomRoles.Werewolf) numWolfAlive++;
+                            else if (playerInfo.GetCustomRole() == CustomRoles.TheGlitch) numGlitchAlive++;
                         }
                     }
                 }
@@ -417,6 +481,8 @@ namespace TownOfHost
                 TeamCovenAlive = numCovenAlive;
                 TeamPestiAlive = numPestiAlive;
                 TeamJuggernautAlive = numJugAlive;
+                TeamGlitchAlive = numGlitchAlive;
+                TeamWolfAlive = numWolfAlive;
             }
         }
     }

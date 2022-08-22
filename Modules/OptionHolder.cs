@@ -59,6 +59,15 @@ namespace TownOfHost
             CustomRoles.Crewmate, CustomRoles.Jester, CustomRoles.Opportunist,
         };
 
+        public static readonly string[] GAChangeRoles =
+        {
+            CustomRoles.Crewmate.ToString(), CustomRoles.Engineer.ToString(), CustomRoles.Opportunist.ToString(),
+        };
+        public static readonly CustomRoles[] CRoleGuardianAngelChangeRoles =
+        {
+            CustomRoles.Crewmate, CustomRoles.Engineer, CustomRoles.Opportunist,
+        };
+
         public static readonly string[] PestiAttacksVetString =
         {
             "VetKillsPesti", "Trade", "PestiKillsVet"
@@ -105,6 +114,7 @@ namespace TownOfHost
         public static CustomOption CanTerroristSuicideWin;
         public static CustomOption ArsonistDouseTime;
         public static CustomOption ArsonistCooldown;
+        public static CustomOption TOuRArso;
 
         public static CustomOption NumOfCoven;
 
@@ -223,6 +233,26 @@ namespace TownOfHost
         public static CustomOption NumOfVets;
         public static CustomOption CrewRolesVetted;
         public static CustomOption PestiAttacksVet;
+
+        // OTHER NEUTRALS
+
+        // THE GLITCH //
+        public static CustomOption GlitchCanVent;
+        public static CustomOption GlitchRoleBlockCooldown;
+        public static CustomOption GlobalRoleBlockDuration;
+        public static CustomOption GlitchKillCooldown;
+        // WEREWOLF //
+        public static CustomOption RampageCD;
+        public static CustomOption RampageDur;
+        public static CustomOption WWkillCD;
+        public static CustomOption VentWhileRampaged;
+        // GUARDIAN ANGEL (TOU VERSION) //
+        public static CustomOption NumOfProtects;
+        public static CustomOption GuardDur;
+        public static CustomOption GuardCD;
+        public static CustomOption GAknowsRole;
+        public static CustomOption TargetKnowsGA;
+        public static CustomOption WhenGaTargetDies;
         public static readonly string[] suffixModes =
         {
             "SuffixMode.None",
@@ -385,6 +415,7 @@ namespace TownOfHost
             SetupRoleOptions(50500, CustomRoles.Arsonist);
             ArsonistDouseTime = CustomOption.Create(50510, Color.white, "ArsonistDouseTime", 3, 0, 10, 1, CustomRoleSpawnChances[CustomRoles.Arsonist]);
             ArsonistCooldown = CustomOption.Create(50511, Color.white, "ArsonistCooldown", 10, 5, 100, 1, CustomRoleSpawnChances[CustomRoles.Arsonist]);
+            TOuRArso = CustomOption.Create(50512, Color.white, "TourArso", false, CustomRoleSpawnChances[CustomRoles.Arsonist]);
             SetupRoleOptions(50550, CustomRoles.PlagueBearer);
             InfectCooldown = CustomOption.Create(50560, Color.white, "InfectCD", 30, 2.5f, 180, 2.5f, CustomRoleSpawnChances[CustomRoles.PlagueBearer]);
             PestilKillCooldown = CustomOption.Create(50561, Color.white, "PestiKillCooldown", 30, 2.5f, 180, 2.5f, CustomRoleSpawnChances[CustomRoles.PlagueBearer]);
@@ -406,6 +437,7 @@ namespace TownOfHost
             CanBeforeSchrodingerCatWinTheCrewmate = CustomOption.Create(50410, Color.white, "CanBeforeSchrodingerCatWinTheCrewmate", false, CustomRoleSpawnChances[CustomRoles.SchrodingerCat]);
             SchrodingerCatExiledTeamChanges = CustomOption.Create(50411, Color.white, "SchrodingerCatExiledTeamChanges", false, CustomRoleSpawnChances[CustomRoles.SchrodingerCat]);
             Egoist.SetupCustomOption();
+            //SetupRoleOptions(50680, CustomRoles.Amnesiac);
             SetupRoleOptions(50700, CustomRoles.Executioner);
             ExecutionerCanTargetImpostor = CustomOption.Create(50710, Color.white, "ExecutionerCanTargetImpostor", false, CustomRoleSpawnChances[CustomRoles.Executioner]);
             ExecutionerChangeRolesAfterTargetKilled = CustomOption.Create(50711, Color.white, "ExecutionerChangeRolesAfterTargetKilled", ExecutionerChangeRoles, ExecutionerChangeRoles[1], CustomRoleSpawnChances[CustomRoles.Executioner]);
@@ -426,18 +458,41 @@ namespace TownOfHost
             //MimicOn = CustomOption.Create(60016, Color.white, "MimicOn", false, CustomRoleSpawnChances[CustomRoles.Coven]);
             //NecromancerOn = CustomOption.Create(60017, Color.white, "NecromancerOn", false, CustomRoleSpawnChances[CustomRoles.Coven]);
             ConjurorOn = CustomOption.Create(60018, Color.white, "ConjurorOn", false, CustomRoleSpawnChances[CustomRoles.Coven]);
+
             SetupSingleRoleOptions(70000, CustomRoles.Juggernaut, 1);
             JuggerKillCooldown = CustomOption.Create(60010, Color.white, "JuggerKillCooldown", 30, 2.5f, 180, 2.5f, CustomRoleSpawnChances[CustomRoles.Juggernaut]);
             JuggerDecrease = CustomOption.Create(60011, Color.white, "JuggerDecrease", 30, 2.5f, 60, 2.5f, CustomRoleSpawnChances[CustomRoles.Juggernaut]);
             JuggerCanVent = CustomOption.Create(60012, Color.white, "JuggerCanVent", true, CustomRoleSpawnChances[CustomRoles.Juggernaut]);
+
             SetupSingleRoleOptions(80000, CustomRoles.Vulture, 1);
-            BodiesAmount = CustomOption.Create(50510, Color.white, "Bodies", 10, 1, 10, 1, CustomRoleSpawnChances[CustomRoles.Vulture]);
+            BodiesAmount = CustomOption.Create(50515, Color.white, "Bodies", 10, 1, 10, 1, CustomRoleSpawnChances[CustomRoles.Vulture]);
+
+            SetupSingleRoleOptions(80500, CustomRoles.TheGlitch, 1);
+            GlitchRoleBlockCooldown = CustomOption.Create(80510, Color.white, "RBC", 30, 2.5f, 180, 2.5f, CustomRoleSpawnChances[CustomRoles.TheGlitch]);
+            GlitchKillCooldown = CustomOption.Create(80510, Color.white, "KillCD", 30, 2.5f, 180, 2.5f, CustomRoleSpawnChances[CustomRoles.TheGlitch]);
+            GlitchCanVent = CustomOption.Create(80510, Color.white, "HPV", true, CustomRoleSpawnChances[CustomRoles.TheGlitch]);
+
+            SetupSingleRoleOptions(90000, CustomRoles.Werewolf, 1);
+            RampageCD = CustomOption.Create(90010, Color.white, "RCD", 30, 2.5f, 180, 2.5f, CustomRoleSpawnChances[CustomRoles.Werewolf]);
+            RampageDur = CustomOption.Create(90020, Color.white, "RDur", 30, 2.5f, 180, 2.5f, CustomRoleSpawnChances[CustomRoles.Werewolf]);
+            WWkillCD = CustomOption.Create(90030, Color.white, "KillCD", 30, 0, 10, 1, CustomRoleSpawnChances[CustomRoles.Werewolf]);
+            VentWhileRampaged = CustomOption.Create(90040, Color.white, "CanVentR", true, CustomRoleSpawnChances[CustomRoles.Werewolf]);
+
+            SetupSingleRoleOptions(90500, CustomRoles.GuardianAngelTOU, 1);
+            NumOfProtects = CustomOption.Create(905010, Color.white, "NProtects", 15, 1, 15, 1, CustomRoleSpawnChances[CustomRoles.GuardianAngelTOU]);
+            GuardCD = CustomOption.Create(90511, Color.white, "PCD", 30, 2.5f, 180, 2.5f, CustomRoleSpawnChances[CustomRoles.GuardianAngelTOU]);
+            GuardDur = CustomOption.Create(90512, Color.white, "PDur", 30, 2.5f, 180, 2.5f, CustomRoleSpawnChances[CustomRoles.GuardianAngelTOU]);
+            GAknowsRole = CustomOption.Create(90513, Color.white, "GAKR", true, CustomRoleSpawnChances[CustomRoles.GuardianAngelTOU]);
+            TargetKnowsGA = CustomOption.Create(90514, Color.white, "TKGA", true, CustomRoleSpawnChances[CustomRoles.GuardianAngelTOU]);
+            WhenGaTargetDies = CustomOption.Create(90515, Color.white, "WhenGAdies", GAChangeRoles, GAChangeRoles[2], CustomRoleSpawnChances[CustomRoles.GuardianAngelTOU]);
             //NumOfCoven = CustomOption.Create(60010, Color.white, "ArsonistDouseTime", 3, 1, 3, 1, CustomRoleSpawnChances[CustomRoles.Coven]);
 
             // Attribute
-            EnableLastImpostor = CustomOption.Create(80000, Utils.GetRoleColor(CustomRoles.Impostor), "LastImpostor", false, null, true)
+            GlobalRoleBlockDuration = CustomOption.Create(80009, Color.yellow, "GRB", 30, 2.5f, 180, 2.5f, null, true)
                 .SetGameMode(CustomGameMode.Standard);
-            LastImpostorKillCooldown = CustomOption.Create(80010, Color.white, "LastImpostorKillCooldown", 15, 0, 180, 1, EnableLastImpostor)
+            EnableLastImpostor = CustomOption.Create(80010, Utils.GetRoleColor(CustomRoles.Impostor), "LastImpostor", false, null, true)
+                .SetGameMode(CustomGameMode.Standard);
+            LastImpostorKillCooldown = CustomOption.Create(80020, Color.white, "LastImpostorKillCooldown", 15, 0, 180, 1, EnableLastImpostor)
                 .SetGameMode(CustomGameMode.Standard);
             #endregion
 

@@ -31,6 +31,7 @@ namespace TownOfHost
             Main.isCurseAndKill = new Dictionary<byte, bool>();
             Main.AirshipMeetingTimer = new Dictionary<byte, float>();
             Main.ExecutionerTarget = new Dictionary<byte, byte>();
+            Main.GuardianAngelTarget = new Dictionary<byte, byte>();
             Main.SKMadmateNowCount = 0;
             Main.isCursed = false;
             Main.PuppeteerList = new Dictionary<byte, byte>();
@@ -74,6 +75,15 @@ namespace TownOfHost
             Main.introDestroyed = false;
             Main.VettedThisRound = false;
             Main.VetIsAlerted = false;
+            Main.IsRoundOne = true;
+            Main.IsRoundOneGA = true;
+            Main.GAprotects = 0;
+            Main.ProtectedThisRound = false;
+            Main.HasProtected = false;
+
+            Main.IsRampaged = false;
+            Main.RampageReady = true;
+            Main.IsHackMode = false;
 
             Main.DiscussionTime = Main.RealOptionsData.DiscussionTime;
             Main.VotingTime = Main.RealOptionsData.VotingTime;
@@ -83,6 +93,8 @@ namespace TownOfHost
 
             Main.currentDousingTarget = 255;
             Main.VetAlerts = 0;
+            Main.ProtectsSoFar = 0;
+            Main.IsProtected = false;
             Main.PlayerColors = new();
             //名前の記録
             Main.AllPlayerNames = new();
@@ -168,12 +180,17 @@ namespace TownOfHost
                 if (CustomRoles.Veteran.IsEnable())
                     AdditionalEngineerNum += CustomRoles.Veteran.GetCount();
 
+                if (CustomRoles.GuardianAngelTOU.IsEnable())
+                    AdditionalEngineerNum += CustomRoles.GuardianAngelTOU.GetCount();
+
                 roleOpt.SetRoleRate(RoleTypes.Engineer, EngineerNum + AdditionalEngineerNum, AdditionalEngineerNum > 0 ? 100 : roleOpt.GetChancePerGame(RoleTypes.Engineer));
 
                 int ShapeshifterNum = roleOpt.GetNumPerGame(RoleTypes.Shapeshifter);
                 int AdditionalShapeshifterNum = CustomRoles.SerialKiller.GetCount() + CustomRoles.BountyHunter.GetCount() + CustomRoles.Warlock.GetCount()/* + CustomRoles.ShapeMaster.GetCount()*/ + CustomRoles.FireWorks.GetCount() + CustomRoles.Sniper.GetCount();//- ShapeshifterNum;
                 if (Main.RealOptionsData.NumImpostors > 1)
                     AdditionalShapeshifterNum += CustomRoles.Egoist.GetCount();
+                //if (CustomRoles.TheGlitch.IsEnable())
+                //   AdditionalShapeshifterNum += CustomRoles.TheGlitch.GetCount();
                 roleOpt.SetRoleRate(RoleTypes.Shapeshifter, ShapeshifterNum + AdditionalShapeshifterNum, AdditionalShapeshifterNum > 0 ? 100 : roleOpt.GetChancePerGame(RoleTypes.Shapeshifter));
 
 
@@ -196,11 +213,14 @@ namespace TownOfHost
                 AssignDesyncRole(CustomRoles.Jackal, AllPlayers, sender, BaseRole: RoleTypes.Impostor);
                 AssignDesyncRole(CustomRoles.Juggernaut, AllPlayers, sender, BaseRole: RoleTypes.Impostor);
                 AssignDesyncRole(CustomRoles.PlagueBearer, AllPlayers, sender, BaseRole: RoleTypes.Impostor);
+                AssignDesyncRole(CustomRoles.TheGlitch, AllPlayers, sender, BaseRole: RoleTypes.Impostor);
+                AssignDesyncRole(CustomRoles.Werewolf, AllPlayers, sender, BaseRole: RoleTypes.Impostor);
+                AssignDesyncRole(CustomRoles.Amnesiac, AllPlayers, sender, BaseRole: RoleTypes.Impostor);
 
                 //COVEN 
-                AssignDesyncRole(CustomRoles.Witch, AllPlayers, sender, BaseRole: RoleTypes.Shapeshifter);
+                AssignDesyncRole(CustomRoles.Witch, AllPlayers, sender, BaseRole: RoleTypes.Impostor);
                 AssignDesyncRole(CustomRoles.HexMaster, AllPlayers, sender, BaseRole: RoleTypes.Impostor);
-                AssignDesyncRole(CustomRoles.PotionMaster, AllPlayers, sender, BaseRole: RoleTypes.Shapeshifter);
+                AssignDesyncRole(CustomRoles.PotionMaster, AllPlayers, sender, BaseRole: RoleTypes.Impostor);
                 AssignDesyncRole(CustomRoles.Poisoner, AllPlayers, sender, BaseRole: RoleTypes.Impostor);
                 AssignDesyncRole(CustomRoles.Medusa, AllPlayers, sender, BaseRole: RoleTypes.Impostor);
                 AssignDesyncRole(CustomRoles.Mimic, AllPlayers, sender, BaseRole: RoleTypes.Shapeshifter);
@@ -296,6 +316,7 @@ namespace TownOfHost
                 AssignCustomRolesFromList(CustomRoles.Veteran, Engineers);
                 AssignCustomRolesFromList(CustomRoles.Sleuth, Crewmates);
                 AssignCustomRolesFromList(CustomRoles.Child, Crewmates);
+                AssignCustomRolesFromList(CustomRoles.GuardianAngelTOU, Engineers);
                 AssignCustomRolesFromList(CustomRoles.MadGuardian, Crewmates);
                 AssignCustomRolesFromList(CustomRoles.MadSnitch, Options.MadSnitchCanVent.GetBool() ? Engineers : Crewmates);
                 AssignCustomRolesFromList(CustomRoles.Mayor, Options.MayorHasPortableButton.GetBool() ? Engineers : Crewmates);
@@ -443,7 +464,7 @@ namespace TownOfHost
                             }
                             break;
                         case CustomRoles.Veteran:
-                            Main.VetAlerts = Options.NumOfVets.GetInt();
+                            //Main.VetAlerts = Options.NumOfVets.GetInt();
                             break;
                         case CustomRoles.FireWorks:
                             FireWorks.Add(pc.PlayerId);
@@ -484,6 +505,20 @@ namespace TownOfHost
                             RPC.SendExecutionerTarget(pc.PlayerId, Target.PlayerId);
                             Logger.Info($"{pc.GetNameWithRole()}:{Target.GetNameWithRole()}", "Executioner");
                             break;
+                        case CustomRoles.GuardianAngelTOU:
+                            List<PlayerControl> protectList = new();
+                            rand = new Random();
+                            foreach (var target in PlayerControl.AllPlayerControls)
+                            {
+                                if (pc == target) continue;
+
+                                protectList.Add(target);
+                            }
+                            var Person = protectList[rand.Next(protectList.Count)];
+                            Main.GuardianAngelTarget.Add(pc.PlayerId, Person.PlayerId);
+                            RPC.SendGATarget(pc.PlayerId, Person.PlayerId);
+                            Logger.Info($"{pc.GetNameWithRole()}:{Person.GetNameWithRole()}", "Guardian Angel");
+                            break;
                         case CustomRoles.Egoist:
                             Egoist.Add(pc.PlayerId);
                             break;
@@ -517,12 +552,17 @@ namespace TownOfHost
                 if (Options.MadSnitchCanVent.GetBool())
                     EngineerNum -= CustomRoles.MadSnitch.GetCount();
 
+                // if (CustomRoles.GuardianAngelTOU.IsEnable())
+                //      EngineerNum -= CustomRoles.GuardianAngelTOU.GetCount();
+
                 roleOpt.SetRoleRate(RoleTypes.Engineer, EngineerNum, roleOpt.GetChancePerGame(RoleTypes.Engineer));
 
                 int ShapeshifterNum = roleOpt.GetNumPerGame(RoleTypes.Shapeshifter);
                 ShapeshifterNum -= CustomRoles.SerialKiller.GetCount() + CustomRoles.BountyHunter.GetCount() + CustomRoles.Warlock.GetCount()/* + CustomRoles.ShapeMaster.GetCount()*/ + CustomRoles.FireWorks.GetCount() + CustomRoles.Sniper.GetCount();
                 if (Main.RealOptionsData.NumImpostors > 1)
                     ShapeshifterNum -= CustomRoles.Egoist.GetCount();
+                //if (CustomRoles.TheGlitch.IsEnable())
+                //    ShapeshifterNum -= CustomRoles.TheGlitch.GetCount();
                 roleOpt.SetRoleRate(RoleTypes.Shapeshifter, ShapeshifterNum, roleOpt.GetChancePerGame(RoleTypes.Shapeshifter));
             }
 

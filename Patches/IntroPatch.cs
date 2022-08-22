@@ -109,6 +109,19 @@ namespace TownOfHost
                 }
                 teamToDisplay = covenTeam;
             }
+            if (PlayerControl.LocalPlayer.Is(CustomRoles.GuardianAngelTOU))
+            {
+                var gaTeam = new Il2CppSystem.Collections.Generic.List<PlayerControl>();
+                gaTeam.Add(PlayerControl.LocalPlayer);
+                foreach (var protect in Main.GuardianAngelTarget)
+                {
+                    //PlayerControl ga = Utils.GetPlayerById(protect.Key);
+                    PlayerControl protecting = Utils.GetPlayerById(protect.Value);
+                    // if (ga == PlayerControl.LocalPlayer) continue;
+                    gaTeam.Add(protecting);
+                }
+                teamToDisplay = gaTeam;
+            }
         }
         public static void Postfix(IntroCutscene __instance, ref Il2CppSystem.Collections.Generic.List<PlayerControl> teamToDisplay)
         {
@@ -186,6 +199,8 @@ namespace TownOfHost
                     break;
 
                 case CustomRoles.Veteran:
+                case CustomRoles.Jester:
+                case CustomRoles.GuardianAngelTOU:
                 case CustomRoles.Mayor:
                     PlayerControl.LocalPlayer.Data.Role.IntroSound = GetIntroSound(RoleTypes.Crewmate);
                     break;
