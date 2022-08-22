@@ -362,6 +362,7 @@ namespace TownOfHost
                     if (Options.JuggerCanVent.GetBool())
                         goto InfinityVent;
                     break;
+                //case CustomRoles.WereW
                 case CustomRoles.Mayor:
                     opt.RoleOptions.EngineerCooldown =
                         Main.MayorUsedButtonCount.TryGetValue(player.PlayerId, out var count) && count < Options.MayorNumOfUseButton.GetInt()
@@ -409,9 +410,12 @@ namespace TownOfHost
                         opt.SetVision(player, false);
                     else
                         opt.SetVision(player, true);
+                    goto InfinityVent;
+                //break;
+                case CustomRoles.TheGlitch:
+                    opt.SetVision(player, true);
                     break;
                 case CustomRoles.Jackal:
-                case CustomRoles.TheGlitch:
                 case CustomRoles.JSchrodingerCat:
                     opt.SetVision(player, Options.JackalHasImpostorVision.GetBool());
                     break;
@@ -574,6 +578,9 @@ namespace TownOfHost
                 CustomRoles.Arsonist => false,
                 CustomRoles.PlagueBearer => true,
                 CustomRoles.Pestilence => true,
+                CustomRoles.Juggernaut => true,
+                CustomRoles.Werewolf => true,
+                CustomRoles.TheGlitch => true,
                 _ => canUse,
             };
         }
@@ -767,9 +774,14 @@ namespace TownOfHost
                     player.Data.Role.CanVent = pesti_CanUse;
                     return;
                 case CustomRoles.TheGlitch:
+                    bool gl_CanUse = true;
+                    DestroyableSingleton<HudManager>.Instance.ImpostorVentButton.ToggleVisible(gl_CanUse && !player.Data.IsDead);
+                    player.Data.Role.CanVent = gl_CanUse;
+                    return;
                 case CustomRoles.Werewolf:
-                    DestroyableSingleton<HudManager>.Instance.ImpostorVentButton.ToggleVisible(true && !player.Data.IsDead);
-                    player.Data.Role.CanVent = true;
+                    bool ww_CanUse = true;
+                    DestroyableSingleton<HudManager>.Instance.ImpostorVentButton.ToggleVisible(ww_CanUse && !player.Data.IsDead);
+                    player.Data.Role.CanVent = ww_CanUse;
                     return;
             }
         }

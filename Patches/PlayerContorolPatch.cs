@@ -767,7 +767,7 @@ namespace TownOfHost
             }
             if (target != null)
             {
-                if (__instance.Is(CustomRoles.Vulture) && !Main.unreportableBodies.Contains(Utils.GetPlayerById(target.PlayerId)))
+                if (__instance.Is(CustomRoles.Vulture) && !__instance.Data.IsDead && !Main.unreportableBodies.Contains(Utils.GetPlayerById(target.PlayerId)))
                 {
                     Main.unreportableBodies.Add(Utils.GetPlayerById(target.PlayerId));
                     Main.AteBodies++;
