@@ -393,13 +393,13 @@ namespace TownOfHost
                             target.RpcMurderPlayer(killer);
                             return false;
                         }
-                        if (!Main.firstKill.Contains(killer) && !Main.SilencedPlayer.Contains(target))
+                        if (Main.SilencedPlayer.Count > 0)
                         {
                             killer.RpcMurderPlayer(target);
                             return false;
                             break;
                         }
-                        else if (Main.firstKill.Contains(killer) && !Main.SilencedPlayer.Contains(target))
+                        else if (Main.SilencedPlayer.Count <= 0)
                         {
                             Main.firstKill.Add(killer);
                             killer.RpcGuardAndKill(target);
