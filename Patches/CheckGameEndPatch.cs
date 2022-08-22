@@ -301,7 +301,7 @@ namespace TownOfHost
                 MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.EndGame, Hazel.SendOption.Reliable, -1);
                 writer.Write((byte)CustomWinner.TheGlitch);
                 AmongUsClient.Instance.FinishRpcImmediately(writer);
-                RPC.JackalWin();
+                RPC.GlitchWin();
 
                 ResetRoleAndEndGame(endReason, false);
                 return true;
