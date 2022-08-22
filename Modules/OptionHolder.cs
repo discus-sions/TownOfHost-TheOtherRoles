@@ -475,7 +475,7 @@ namespace TownOfHost
             SetupSingleRoleOptions(90000, CustomRoles.Werewolf, 1);
             RampageCD = CustomOption.Create(90010, Color.white, "RCD", 30, 2.5f, 180, 2.5f, CustomRoleSpawnChances[CustomRoles.Werewolf]);
             RampageDur = CustomOption.Create(90020, Color.white, "RDur", 30, 2.5f, 180, 2.5f, CustomRoleSpawnChances[CustomRoles.Werewolf]);
-            WWkillCD = CustomOption.Create(90030, Color.white, "KillCD", 30, 0, 10, 1, CustomRoleSpawnChances[CustomRoles.Werewolf]);
+            WWkillCD = CustomOption.Create(90030, Color.white, "KillCD", 30, 1, 30, 1, CustomRoleSpawnChances[CustomRoles.Werewolf]);
             VentWhileRampaged = CustomOption.Create(90040, Color.white, "CanVentR", true, CustomRoleSpawnChances[CustomRoles.Werewolf]);
 
             SetupSingleRoleOptions(90500, CustomRoles.GuardianAngelTOU, 1);
