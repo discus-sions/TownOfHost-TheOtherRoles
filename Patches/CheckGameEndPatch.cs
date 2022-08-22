@@ -275,7 +275,7 @@ namespace TownOfHost
                 MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.EndGame, Hazel.SendOption.Reliable, -1);
                 writer.Write((byte)CustomWinner.Werewolf);
                 AmongUsClient.Instance.FinishRpcImmediately(writer);
-                RPC.JackalWin();
+                RPC.WolfWin();
 
                 ResetRoleAndEndGame(endReason, false);
                 return true;

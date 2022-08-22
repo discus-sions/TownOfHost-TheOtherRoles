@@ -488,7 +488,7 @@ namespace TownOfHost
             //NumOfCoven = CustomOption.Create(60010, Color.white, "ArsonistDouseTime", 3, 1, 3, 1, CustomRoleSpawnChances[CustomRoles.Coven]);
 
             // Attribute
-            GlobalRoleBlockDuration = CustomOption.Create(80010, Color.yellow, "GRB", 30, 2.5f, 180, 2.5f, null, true)
+            GlobalRoleBlockDuration = CustomOption.Create(80009, Color.yellow, "GRB", 30, 2.5f, 180, 2.5f, null, true)
                 .SetGameMode(CustomGameMode.Standard);
             EnableLastImpostor = CustomOption.Create(80010, Utils.GetRoleColor(CustomRoles.Impostor), "LastImpostor", false, null, true)
                 .SetGameMode(CustomGameMode.Standard);
