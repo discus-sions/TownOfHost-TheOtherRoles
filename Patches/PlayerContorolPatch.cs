@@ -1316,7 +1316,7 @@ namespace TownOfHost
                         //if (Options.)
                         if ((seer.PlayerId == TargetGA.Key || seer.Data.IsDead) && //seerがKey or Dead
                         target.PlayerId == TargetGA.Value) //targetがValue
-                            Mark += $"<color={Utils.GetRoleColorCode(CustomRoles.Executioner)}>♦</color>";
+                            Mark += $"<color={Utils.GetRoleColorCode(CustomRoles.GuardianAngelTOU)}>♦</color>";
                     }
                     foreach (var TargetGA in Main.GuardianAngelTarget)
                     {
@@ -1324,7 +1324,7 @@ namespace TownOfHost
                         {
                             if ((seer.PlayerId == TargetGA.Value || seer.Data.IsDead) && //seerがKey or Dead
                             target.PlayerId == TargetGA.Key) //targetがValue
-                                Mark += $"<color={Utils.GetRoleColorCode(CustomRoles.Executioner)}>♦</color>";
+                                Mark += $"<color={Utils.GetRoleColorCode(CustomRoles.GuardianAngelTOU)}>♦</color>";
                         }
                     }
                     if (seer.Is(CustomRoles.Arsonist))

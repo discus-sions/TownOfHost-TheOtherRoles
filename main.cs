@@ -475,7 +475,7 @@ namespace TownOfHost
         SchrodingerCat = CustomRoles.SchrodingerCat,
         Executioner = CustomRoles.Executioner,
         HASFox = CustomRoles.HASFox,
-        GuardianAngel = CustomRoles.GuardianAngelTOU
+        GuardianAngelTOU = CustomRoles.GuardianAngelTOU
     }
     /*public enum CustomRoles : byte
     {

@@ -200,22 +200,22 @@ namespace TownOfHost
                     }
                 if (pc.Is(CustomRoles.GuardianAngelTOU))
                 {
-                    /*PlayerControl protecting = Utils.GetPlayerById(Main.GuardianAngelTarget[pc.PlayerId]);
+                    PlayerControl protecting = Utils.GetPlayerById(Main.GuardianAngelTarget[pc.PlayerId]);
                     foreach (var p in winner)
                     {
                         if (p == protecting) continue;
                         winner.Add(pc);
-                        Main.additionalwinners.Add(AdditionalWinners.GuardianAngel);
-                    }*/
-                    foreach (var protect in Main.GuardianAngelTarget)
+                        Main.additionalwinners.Add(AdditionalWinners.GuardianAngelTOU);
+                    }
+                    /*foreach (var protect in Main.GuardianAngelTarget)
                     {
                         if (pc.PlayerId == protect.Key && winner.Contains(Utils.GetPlayerById(protect.Value)))
                         {
                             //if (p == protecting) continue;
                             winner.Add(pc);
-                            Main.additionalwinners.Add(AdditionalWinners.GuardianAngel);
+                            Main.additionalwinners.Add(AdditionalWinners.GuardianAngelTOU);
                         }
-                    }
+                    }*/
                 }
             }
 
