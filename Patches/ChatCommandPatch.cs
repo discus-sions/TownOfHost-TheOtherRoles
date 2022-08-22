@@ -372,7 +372,7 @@ namespace TownOfHost
                             if (p == player) continue;
                             if (!p.Data.IsDead)
                             {
-                                test = "Silenced."
+                                text = "Silenced."
                                 Utils.SendMessage("You are currently Silenced. Try talking again when you aren't silenced.", p.PlayerId);
                             }
                         }
