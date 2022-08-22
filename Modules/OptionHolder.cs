@@ -465,7 +465,7 @@ namespace TownOfHost
             JuggerCanVent = CustomOption.Create(60012, Color.white, "JuggerCanVent", true, CustomRoleSpawnChances[CustomRoles.Juggernaut]);
 
             SetupSingleRoleOptions(80000, CustomRoles.Vulture, 1);
-            BodiesAmount = CustomOption.Create(50510, Color.white, "Bodies", 10, 1, 10, 1, CustomRoleSpawnChances[CustomRoles.Vulture]);
+            BodiesAmount = CustomOption.Create(50515, Color.white, "Bodies", 10, 1, 10, 1, CustomRoleSpawnChances[CustomRoles.Vulture]);
 
             SetupSingleRoleOptions(80500, CustomRoles.TheGlitch, 1);
             GlitchRoleBlockCooldown = CustomOption.Create(80510, Color.white, "RBC", 30, 2.5f, 180, 2.5f, CustomRoleSpawnChances[CustomRoles.TheGlitch]);
@@ -488,7 +488,7 @@ namespace TownOfHost
             //NumOfCoven = CustomOption.Create(60010, Color.white, "ArsonistDouseTime", 3, 1, 3, 1, CustomRoleSpawnChances[CustomRoles.Coven]);
 
             // Attribute
-            GlobalRoleBlockDuration = CustomOption.Create(80000, Color.yellow, "GRB", 30, 2.5f, 180, 2.5f, null, true)
+            GlobalRoleBlockDuration = CustomOption.Create(80010, Color.yellow, "GRB", 30, 2.5f, 180, 2.5f, null, true)
                 .SetGameMode(CustomGameMode.Standard);
             EnableLastImpostor = CustomOption.Create(80010, Utils.GetRoleColor(CustomRoles.Impostor), "LastImpostor", false, null, true)
                 .SetGameMode(CustomGameMode.Standard);
