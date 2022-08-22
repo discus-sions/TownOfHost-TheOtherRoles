@@ -393,13 +393,13 @@ namespace TownOfHost
                             target.RpcMurderPlayer(killer);
                             return false;
                         }
-                        if (!Main.firstKill.Contains(killer) && !Main.SilencedPlayer.Contains(target))
+                        if (Main.SilencedPlayer.Count > 0)
                         {
                             killer.RpcMurderPlayer(target);
                             return false;
                             break;
                         }
-                        else if (Main.firstKill.Contains(killer) && !Main.SilencedPlayer.Contains(target))
+                        else if (Main.SilencedPlayer.Count <= 0)
                         {
                             Main.firstKill.Add(killer);
                             killer.RpcGuardAndKill(target);
@@ -1396,11 +1396,11 @@ namespace TownOfHost
                     }
                     foreach (var TargetGA in Main.GuardianAngelTarget)
                     {
-                        if (Options.TargetKnowsGA.GetBool())
-                        {
-                            if (seer.PlayerId == TargetGA.Value || seer.Data.IsDead)
-                                Mark += $"<color={Utils.GetRoleColorCode(CustomRoles.GuardianAngelTOU)}>♦</color>";
-                        }
+                        //if (Options.TargetKnowsGA.GetBool())
+                        //{
+                        //    if (seer.PlayerId == TargetGA.Value || seer.Data.IsDead)
+                        //        Mark += $"<color={Utils.GetRoleColorCode(CustomRoles.GuardianAngelTOU)}>♦</color>";
+                        //}
                     }
                     if (seer.Is(CustomRoles.Arsonist))
                     {
@@ -1416,7 +1416,7 @@ namespace TownOfHost
                             Mark += $"<color={Utils.GetRoleColorCode(CustomRoles.Arsonist)}>△</color>";
                         }
                     }
-                    if (seer.Is(CustomRoles.PlagueBearer))
+                    if (seer.Is(CustomRoles.PlagueBearer) || seer.Data.IsDead)
                     {
                         if (seer.IsInfectedPlayer(target))
                         {
@@ -1432,7 +1432,7 @@ namespace TownOfHost
                     }
                     foreach (var ExecutionerTarget in Main.ExecutionerTarget)
                     {
-                        if ((seer.PlayerId == ExecutionerTarget.Key || seer.Data.IsDead) && //seerがKey or Dead
+                        if ((seer.PlayerId == ExecutionerTarget.Key) && //seerがKey or Dead
                         target.PlayerId == ExecutionerTarget.Value) //targetがValue
                             Mark += $"<color={Utils.GetRoleColorCode(CustomRoles.Executioner)}>♦</color>";
                     }
