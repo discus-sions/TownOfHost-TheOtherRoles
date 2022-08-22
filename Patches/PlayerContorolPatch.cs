@@ -1781,7 +1781,7 @@ namespace TownOfHost
                     {
                         if (!pc.Data.IsDead)
                         {
-                            if (pc != __instance.myPlayer)
+                            if (pc != __instance.myPlayer && !pc.Is(CustomRoles.Pestilence))
                             {
                                 //生存者は焼殺
                                 pc.RpcMurderPlayer(pc);
@@ -1814,7 +1814,7 @@ namespace TownOfHost
                     }, 0.5f, "Fix DesyncImpostor Stuck");
                     return false;
                 }
-                if (__instance.myPlayer.GetRoleType() == RoleType.Coven && !Main.HasNecronomicon)
+                if (__instance.myPlayer.GetRoleType() == RoleType.Coven && !Main.HasNecronomicon && !__instance.myPlayer.Is(CustomRoles.Mimic))
                 {
                     MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(__instance.NetId, (byte)RpcCalls.BootFromVent, SendOption.Reliable, -1);
                     writer.WritePacked(127);
