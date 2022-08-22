@@ -1705,6 +1705,7 @@ namespace TownOfHost
                     Main.IsHackMode = false;
                 else
                     Main.IsHackMode = true;
+                pc.MyPhysics.RpcBootFromVent(__instance.Id);
             }
             if (pc.Is(CustomRoles.Werewolf))
             {
