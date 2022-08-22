@@ -325,7 +325,19 @@ namespace TownOfHost
                     __instance.AbilityButton.ToggleVisible(false);
                     break;
                 case CustomRoles.TheGlitch:
+                    if (player.Data.Role.Role != RoleTypes.GuardianAngel)
+                        __instance.KillButton.ToggleVisible(isActive && !player.Data.IsDead);
+                    __instance.SabotageButton.ToggleVisible(false);
+                    __instance.ImpostorVentButton.ToggleVisible(true);
+                    __instance.AbilityButton.ToggleVisible(true);
+                    break;
                 case CustomRoles.Werewolf:
+                    if (player.Data.Role.Role != RoleTypes.GuardianAngel)
+                        __instance.KillButton.ToggleVisible(isActive && !player.Data.IsDead);
+                    __instance.SabotageButton.ToggleVisible(false);
+                    __instance.ImpostorVentButton.ToggleVisible(true);
+                    __instance.AbilityButton.ToggleVisible(false);
+                    break;
                 case CustomRoles.Pestilence:
                     if (player.Data.Role.Role != RoleTypes.GuardianAngel)
                         __instance.KillButton.ToggleVisible(isActive && !player.Data.IsDead);
@@ -368,7 +380,7 @@ namespace TownOfHost
         public static void Prefix(ref RoleTeamTypes __state)
         {
             var player = PlayerControl.LocalPlayer;
-            if (player.Is(CustomRoles.Sheriff) || player.Is(CustomRoles.Arsonist) || player.Is(CustomRoles.PlagueBearer) || player.Is(CustomRoles.Pestilence))
+            if (player.Is(CustomRoles.Sheriff) || player.Is(CustomRoles.Arsonist) || player.Is(CustomRoles.PlagueBearer) || player.Is(CustomRoles.TheGlitch) || player.Is(CustomRoles.Werewolf) || player.Is(CustomRoles.Pestilence))
             {
                 __state = player.Data.Role.TeamType;
                 player.Data.Role.TeamType = RoleTeamTypes.Crewmate;
@@ -378,7 +390,7 @@ namespace TownOfHost
         public static void Postfix(ref RoleTeamTypes __state)
         {
             var player = PlayerControl.LocalPlayer;
-            if (player.Is(CustomRoles.Sheriff) || player.Is(CustomRoles.Arsonist) || player.Is(CustomRoles.PlagueBearer) || player.Is(CustomRoles.Pestilence))
+            if (player.Is(CustomRoles.Sheriff) || player.Is(CustomRoles.Arsonist) || player.Is(CustomRoles.PlagueBearer) || player.Is(CustomRoles.TheGlitch) || player.Is(CustomRoles.Werewolf) || player.Is(CustomRoles.Pestilence))
             {
                 player.Data.Role.TeamType = __state;
             }

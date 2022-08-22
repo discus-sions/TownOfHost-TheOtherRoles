@@ -1699,7 +1699,8 @@ namespace TownOfHost
             }
             if (pc.Is(CustomRoles.TheGlitch))
             {
-                pc?.MyPhysics?.RpcBootFromVent(__instance.Id);
+                // pc?.MyPhysics?.RpcBootFromVent(__instance.Id);
+                pc.MyPhysics.RpcBootFromVent(__instance.Id);
                 if (Main.IsHackMode)
                     Main.IsHackMode = false;
                 else
@@ -1711,7 +1712,8 @@ namespace TownOfHost
                 {
                     //do nothing.
                     if (!Options.VentWhileRampaged.GetBool())
-                        pc?.MyPhysics?.RpcBootFromVent(__instance.Id);
+                        // pc?.MyPhysics?.RpcBootFromVent(__instance.Id);
+                        pc.MyPhysics.RpcBootFromVent(__instance.Id);
                 }
                 else
                 {

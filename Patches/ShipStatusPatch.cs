@@ -74,6 +74,10 @@ namespace TownOfHost
                 return false;
             if (player.Is(CustomRoles.Sheriff) || player.Is(CustomRoles.Arsonist) || player.Is(CustomRoles.Werewolf) || player.Is(CustomRoles.TheGlitch) || player.GetRoleType() == RoleType.Coven || player.Is(CustomRoles.PlagueBearer) || player.Is(CustomRoles.Pestilence) || player.Is(CustomRoles.Juggernaut) || (player.Is(CustomRoles.Jackal) && !Options.JackalCanUseSabotage.GetBool()))
             {
+                if (systemType == SystemTypes.Sabotage && AmongUsClient.Instance.GameMode != GameModes.FreePlay) return false; //シェリフにサボタージュをさせない ただしフリープレイは例外
+            }
+            else
+            {
                 if (CustomRoles.TheGlitch.IsEnable())
                 {
                     List<PlayerControl> hackedPlayers = new();
@@ -89,11 +93,7 @@ namespace TownOfHost
 
                     if (hackedPlayers.Contains(player))
                         return false;
-                    else
-                        if (systemType == SystemTypes.Sabotage && AmongUsClient.Instance.GameMode != GameModes.FreePlay) return false; //シェリフにサボタージュをさせない ただしフリープレイは例外}
                 }
-                else
-                if (systemType == SystemTypes.Sabotage && AmongUsClient.Instance.GameMode != GameModes.FreePlay) return false; //シェリフにサボタージュをさせない ただしフリープレイは例外
             }
             return true;
         }
