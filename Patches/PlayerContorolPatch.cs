@@ -1582,7 +1582,7 @@ namespace TownOfHost
             {
                 if (Main.GAprotects != Options.NumOfProtects.GetInt())
                 {
-
+                    pc.GaProtect();
                 }
                 pc?.MyPhysics?.RpcBootFromVent(__instance.Id);
             }
