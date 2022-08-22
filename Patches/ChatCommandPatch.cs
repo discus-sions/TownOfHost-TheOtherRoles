@@ -365,18 +365,18 @@ namespace TownOfHost
         {
             if (!AmongUsClient.Instance.AmHost) return;
             if (Main.SilencedPlayer.Count > 0)
+            {
+                //someone is silenced
+                foreach (var p in Main.SilencedPlayer)
+                {
+                    if (p == player) continue;
+                    if (!p.Data.IsDead)
                     {
-                        //someone is silenced
-                        foreach (var p in Main.SilencedPlayer)
-                        {
-                            if (p == player) continue;
-                            if (!p.Data.IsDead)
-                            {
-                                text = "Silenced."
-                                Utils.SendMessage("You are currently Silenced. Try talking again when you aren't silenced.", p.PlayerId);
-                            }
-                        }
+                        text = "Silenced.";
+                        Utils.SendMessage("You are currently Silenced. Try talking again when you aren't silenced.", p.PlayerId);
                     }
+                }
+            }
             string[] args = text.Split(' ');
             string subArgs = "";
             switch (args[0])
