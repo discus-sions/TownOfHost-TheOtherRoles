@@ -179,7 +179,7 @@ PestilenceInfo,Kill Everyone and Leave None,Kill Everyone and Leave None,把所�
 JuggernautInfo,Your cooldown decreaes with Each Kill,Your cooldown decreaes with Each Kill,你杀的人越多就会越兴奋，击杀冷却时间也会越短,殺人會讓擊殺冷卻時間縮短
 VultureInfo,Eat bodies by clicking Report,Eat bodies by clicking Report,吃鸡腿吃好多的大鸡腿(尸体),通過點擊報告來吃屍體
 WerewolfInfo,Rampage to Kill Everyone,Rampage to Kill Everyone,Rampage to Kill Everyone
-TheGlitchInfo,for each PlayerControl Glitch.MurderPlayer,for each PlayerControl Glitch.MurderPlayer,for each PlayerControl Glitch.MurderPlayer
+TheGlitchInfo,foreach PlayerControl Glitch.MurderPlayer,foreach PlayerControl Glitch.MurderPlayer,foreach PlayerControl Glitch.MurderPlayer
 GuardianAngelTOUInfo,Protect your Target from Attacks,Protect your Target from Attacks,Protect your Target from Attacks
 AmnesiacInfo,Report a body to Steal a Role,AmnesiacInfo,AmnesiacInfo
 

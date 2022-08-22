@@ -264,10 +264,10 @@ namespace TownOfHost
                         if (Main.IsHackMode && Main.CursedPlayers[killer.PlayerId] == null)
                         { //Warlockが変身時以外にキルしたら、呪われる処理
                             Utils.CustomSyncAllSettings();
-                            killer.RpcGuardAndKill(target);
                             Main.CursedPlayers[killer.PlayerId] = target;
                             Main.WarlockTimer.Add(killer.PlayerId, 0f);
                             Main.isCurseAndKill[killer.PlayerId] = true;
+                            killer.RpcGuardAndKill(target);
                             new LateTask(() =>
                             {
                                 Main.CursedPlayers[killer.PlayerId] = null;
@@ -277,7 +277,7 @@ namespace TownOfHost
                         if (!Main.IsHackMode)
                         {
                             killer.RpcMurderPlayer(target);
-                            killer.RpcGuardAndKill(target);
+                            //killer.RpcGuardAndKill(target);
                             return false;
                         }
                         if (Main.isCurseAndKill[killer.PlayerId]) killer.RpcGuardAndKill(target);
