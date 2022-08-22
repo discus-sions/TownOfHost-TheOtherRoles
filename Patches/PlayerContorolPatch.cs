@@ -225,7 +225,7 @@ namespace TownOfHost
                 }
                 foreach (var protect in Main.GuardianAngelTarget)
                 {
-                    if (target.PlayerId == protect.Key && Main.IsProtected)
+                    if (target.PlayerId == protect.Value && Main.IsProtected)
                     {
                         killer.RpcGuardAndKill(target);
                         return false;
@@ -235,12 +235,69 @@ namespace TownOfHost
                 {
                     return false;
                 }
+                if (CustomRoles.TheGlitch.IsEnable())
+                {
+                    List<PlayerControl> hackedPlayers = new();
+                    PlayerControl glitch;
+                    foreach (var cp in Main.CursedPlayers)
+                    {
+                        if (Utils.GetPlayerById(cp.Key).Is(CustomRoles.TheGlitch))
+                        {
+                            hackedPlayers.Add(cp.Value);
+                            glitch = Utils.GetPlayerById(cp.Key);
+                        }
+                    }
+                    if (hackedPlayers.Contains(killer))
+                    {
+                        return false;
+                    }
+                }
                 switch (killer.GetCustomRole())
                 {
                     //==========インポスター役職==========//
                     case CustomRoles.TheGlitch:
+                        if (target.Is(CustomRoles.Veteran) && Main.VetIsAlerted)
+                        {
+                            target.RpcMurderPlayer(killer);
+                            return false;
+                        }
+                        if (Main.IsHackMode && Main.CursedPlayers[killer.PlayerId] == null)
+                        { //Warlockが変身時以外にキルしたら、呪われる処理
+                            Utils.CustomSyncAllSettings();
+                            killer.RpcGuardAndKill(target);
+                            Main.CursedPlayers[killer.PlayerId] = target;
+                            Main.WarlockTimer.Add(killer.PlayerId, 0f);
+                            Main.isCurseAndKill[killer.PlayerId] = true;
+                            new LateTask(() =>
+                            {
+                                Main.CursedPlayers[killer.PlayerId] = null;
+                            }, Options.GlobalRoleBlockDuration.GetFloat(), "Glitch Hacking");
+                            return false;
+                        }
+                        if (!Main.IsHackMode)
+                        {
+                            killer.RpcMurderPlayer(target);
+                            killer.RpcGuardAndKill(target);
+                            return false;
+                        }
+                        if (Main.isCurseAndKill[killer.PlayerId]) killer.RpcGuardAndKill(target);
+                        return false;
                         break;
                     case CustomRoles.Werewolf:
+                        if (Main.IsRampaged)
+                        {
+                            if (target.Is(CustomRoles.Veteran) && Main.VetIsAlerted)
+                            {
+                                target.RpcMurderPlayer(killer);
+                                return false;
+                            }
+                            killer.RpcMurderPlayer(target);
+                            return false;
+                        }
+                        else
+                        {
+                            return false;
+                        }
                         break;
                     case CustomRoles.Amnesiac:
                         return false;
@@ -725,6 +782,23 @@ namespace TownOfHost
                     return false;
                 }
             }
+            if (CustomRoles.TheGlitch.IsEnable())
+            {
+                List<PlayerControl> hackedPlayers = new();
+                PlayerControl glitch;
+                foreach (var cp in Main.CursedPlayers)
+                {
+                    if (Utils.GetPlayerById(cp.Key).Is(CustomRoles.TheGlitch))
+                    {
+                        hackedPlayers.Add(cp.Value);
+                        glitch = Utils.GetPlayerById(cp.Key);
+                    }
+                }
+                if (hackedPlayers.Contains(__instance))
+                {
+                    return false;
+                }
+            }
             if (Options.IsStandardHAS && target != null && __instance == target.Object) return true; //[StandardHAS] ボタンでなく、通報者と死体が同じなら許可
             if (Options.CurrentGameMode == CustomGameMode.HideAndSeek || Options.IsStandardHAS) return false;
             if (!AmongUsClient.Instance.AmHost) return true;
@@ -922,6 +996,8 @@ namespace TownOfHost
             Main.PuppeteerList.Clear();
             Sniper.OnStartMeeting();
             Main.VetIsAlerted = false;
+            Main.IsRampaged = false;
+            Main.RampageReady = false;
 
             if (__instance.Data.IsDead) return true;
             //=============================================
@@ -1322,8 +1398,7 @@ namespace TownOfHost
                     {
                         if (Options.TargetKnowsGA.GetBool())
                         {
-                            if ((seer.PlayerId == TargetGA.Value || seer.Data.IsDead) && //seerがKey or Dead
-                            target.PlayerId == TargetGA.Key) //targetがValue
+                            if (seer.PlayerId == TargetGA.Value || seer.Data.IsDead)
                                 Mark += $"<color={Utils.GetRoleColorCode(CustomRoles.GuardianAngelTOU)}>♦</color>";
                         }
                     }
@@ -1580,6 +1655,22 @@ namespace TownOfHost
     {
         public static void Postfix(Vent __instance, [HarmonyArgument(0)] PlayerControl pc)
         {
+            if (CustomRoles.TheGlitch.IsEnable() && Options.GlitchCanVent.GetBool())
+            {
+                List<PlayerControl> hackedPlayers = new();
+                PlayerControl glitch;
+                foreach (var cp in Main.CursedPlayers)
+                {
+                    if (Utils.GetPlayerById(cp.Key).Is(CustomRoles.TheGlitch))
+                    {
+                        hackedPlayers.Add(cp.Value);
+                        glitch = Utils.GetPlayerById(cp.Key);
+                    }
+                }
+
+                if (hackedPlayers.Contains(pc))
+                    pc?.MyPhysics?.RpcBootFromVent(__instance.Id);
+            }
             if (Options.CurrentGameMode == CustomGameMode.HideAndSeek && Options.IgnoreVent.GetBool())
                 pc.MyPhysics.RpcBootFromVent(__instance.Id);
             if (pc.Is(CustomRoles.Mayor))
@@ -1605,6 +1696,45 @@ namespace TownOfHost
                     pc.GaProtect();
                 }
                 pc?.MyPhysics?.RpcBootFromVent(__instance.Id);
+            }
+            if (pc.Is(CustomRoles.TheGlitch))
+            {
+                pc?.MyPhysics?.RpcBootFromVent(__instance.Id);
+                if (Main.IsHackMode)
+                    Main.IsHackMode = false;
+                else
+                    Main.IsHackMode = true;
+            }
+            if (pc.Is(CustomRoles.Werewolf))
+            {
+                if (Main.IsRampaged)
+                {
+                    //do nothing.
+                    if (!Options.VentWhileRampaged.GetBool())
+                        pc?.MyPhysics?.RpcBootFromVent(__instance.Id);
+                }
+                else
+                {
+                    if (Main.RampageReady)
+                    {
+                        Main.RampageReady = false;
+                        Main.IsRampaged = true;
+                        new LateTask(() =>
+                        {
+                            Main.IsRampaged = false;
+                            pc?.MyPhysics?.RpcBootFromVent(__instance.Id);
+                            new LateTask(() =>
+                            {
+                                pc?.MyPhysics?.RpcBootFromVent(__instance.Id);
+                                Main.RampageReady = true;
+                            }, Options.RampageDur.GetFloat(), "Werewolf Rampage Cooldown");
+                        }, Options.RampageDur.GetFloat(), "Werewolf Rampage Duration");
+                    }
+                    else
+                    {
+                        pc?.MyPhysics?.RpcBootFromVent(__instance.Id);
+                    }
+                }
             }
             if (pc.Is(CustomRoles.Jester) && !Options.JesterCanVent.GetBool())
                 pc.MyPhysics.RpcBootFromVent(__instance.Id);

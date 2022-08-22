@@ -437,7 +437,7 @@ namespace TownOfHost
             CanBeforeSchrodingerCatWinTheCrewmate = CustomOption.Create(50410, Color.white, "CanBeforeSchrodingerCatWinTheCrewmate", false, CustomRoleSpawnChances[CustomRoles.SchrodingerCat]);
             SchrodingerCatExiledTeamChanges = CustomOption.Create(50411, Color.white, "SchrodingerCatExiledTeamChanges", false, CustomRoleSpawnChances[CustomRoles.SchrodingerCat]);
             Egoist.SetupCustomOption();
-            SetupRoleOptions(50680, CustomRoles.Amnesiac);
+            //SetupRoleOptions(50680, CustomRoles.Amnesiac);
             SetupRoleOptions(50700, CustomRoles.Executioner);
             ExecutionerCanTargetImpostor = CustomOption.Create(50710, Color.white, "ExecutionerCanTargetImpostor", false, CustomRoleSpawnChances[CustomRoles.Executioner]);
             ExecutionerChangeRolesAfterTargetKilled = CustomOption.Create(50711, Color.white, "ExecutionerChangeRolesAfterTargetKilled", ExecutionerChangeRoles, ExecutionerChangeRoles[1], CustomRoleSpawnChances[CustomRoles.Executioner]);
@@ -470,7 +470,7 @@ namespace TownOfHost
             SetupSingleRoleOptions(80500, CustomRoles.TheGlitch, 1);
             GlitchRoleBlockCooldown = CustomOption.Create(80510, Color.white, "RBC", 30, 2.5f, 180, 2.5f, CustomRoleSpawnChances[CustomRoles.TheGlitch]);
             GlitchKillCooldown = CustomOption.Create(80510, Color.white, "KillCD", 30, 2.5f, 180, 2.5f, CustomRoleSpawnChances[CustomRoles.TheGlitch]);
-            GlitchCanVent = CustomOption.Create(80510, Color.white, "CanVent", true, CustomRoleSpawnChances[CustomRoles.TheGlitch]);
+            GlitchCanVent = CustomOption.Create(80510, Color.white, "HPV", true, CustomRoleSpawnChances[CustomRoles.TheGlitch]);
 
             SetupSingleRoleOptions(90000, CustomRoles.Werewolf, 1);
             RampageCD = CustomOption.Create(90010, Color.white, "RCD", 30, 2.5f, 180, 2.5f, CustomRoleSpawnChances[CustomRoles.Werewolf]);

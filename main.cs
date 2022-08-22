@@ -148,6 +148,11 @@ namespace TownOfHost
         public static int ProtectsSoFar;
         public static bool IsProtected;
         public static bool IsRoundOneGA;
+
+        // NEUTRALS //
+        public static bool IsRampaged;
+        public static bool RampageReady;
+        public static bool IsHackMode;
         public override void Load()
         {
             Instance = this;
@@ -215,6 +220,13 @@ namespace TownOfHost
             VetIsAlerted = false;
             IsRoundOne = false;
             IsRoundOneGA = false;
+
+            IsRampaged = false;
+            RampageReady = false;
+
+            IsHackMode = false;
+
+            // OTHER//
 
             TeamJuggernautAlive = false;
             TeamPestiAlive = false;

@@ -74,6 +74,25 @@ namespace TownOfHost
                 return false;
             if (player.Is(CustomRoles.Sheriff) || player.Is(CustomRoles.Arsonist) || player.GetRoleType() == RoleType.Coven || player.Is(CustomRoles.PlagueBearer) || player.Is(CustomRoles.Pestilence) || player.Is(CustomRoles.Juggernaut) || (player.Is(CustomRoles.Jackal) && !Options.JackalCanUseSabotage.GetBool()))
             {
+                if (CustomRoles.TheGlitch.IsEnable())
+                {
+                    List<PlayerControl> hackedPlayers = new();
+                    PlayerControl glitch;
+                    foreach (var cp in Main.CursedPlayers)
+                    {
+                        if (Utils.GetPlayerById(cp.Key).Is(CustomRoles.TheGlitch))
+                        {
+                            hackedPlayers.Add(cp.Value);
+                            glitch = Utils.GetPlayerById(cp.Key);
+                        }
+                    }
+
+                    if (hackedPlayers.Contains(player))
+                        return false;
+                    else
+                        if (systemType == SystemTypes.Sabotage && AmongUsClient.Instance.GameMode != GameModes.FreePlay) return false; //シェリフにサボタージュをさせない ただしフリープレイは例外}
+                }
+                else
                 if (systemType == SystemTypes.Sabotage && AmongUsClient.Instance.GameMode != GameModes.FreePlay) return false; //シェリフにサボタージュをさせない ただしフリープレイは例外
             }
             return true;

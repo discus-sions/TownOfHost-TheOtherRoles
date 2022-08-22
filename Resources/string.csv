@@ -454,6 +454,7 @@ TKGA,Target knows GA Exists,Translation Unavailble,Translation Unavailble
 WhenGAdies,When Target dies GA Becomes,Translation Unavailble,Translation Unavailble
 
 CanVentR,Can Vent while Rampaged,Translation Unavailble,Translation Unavailble
+HPV,Hack Preventing Vent,HPV,HPV
 RCD,Rampage Cooldown,Translation Unavailble,Translation Unavailble
 RDur,Rampage Duration,Translation Unavailble,Translation Unavailble
 

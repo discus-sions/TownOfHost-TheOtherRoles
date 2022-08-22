@@ -626,8 +626,8 @@ namespace TownOfHost
         }
         public static void ResetKillCooldown(this PlayerControl player)
         {
-            if (!player.Is(CustomRoles.Juggernaut))
-                Main.AllPlayerKillCooldown[player.PlayerId] = Options.DefaultKillCooldown; //キルクールをデフォルトキルクールに変更
+            //if (!player.Is(CustomRoles.Juggernaut))
+            Main.AllPlayerKillCooldown[player.PlayerId] = Options.DefaultKillCooldown; //キルクールをデフォルトキルクールに変更
             switch (player.GetCustomRole())
             {
                 case CustomRoles.Juggernaut:
@@ -635,6 +635,12 @@ namespace TownOfHost
                     Main.AllPlayerKillCooldown[player.PlayerId] = Options.JuggerKillCooldown.GetFloat() - DecreasedAmount;
                     if (Main.AllPlayerKillCooldown[player.PlayerId] < 1)
                         Main.AllPlayerKillCooldown[player.PlayerId] = 1;
+                    break;
+                case CustomRoles.TheGlitch:
+                    if (Main.IsHackMode)
+                        Main.AllPlayerKillCooldown[player.PlayerId] = Options.GlitchRoleBlockCooldown.GetFloat();
+                    else
+                        Main.AllPlayerKillCooldown[player.PlayerId] = Options.GlitchKillCooldown.GetFloat();
                     break;
                 case CustomRoles.SerialKiller:
                     SerialKiller.ApplyKillCooldown(player.PlayerId); //シリアルキラーはシリアルキラーのキルクールに。
@@ -647,6 +653,9 @@ namespace TownOfHost
                     break;
                 case CustomRoles.Arsonist:
                     Main.AllPlayerKillCooldown[player.PlayerId] = Options.ArsonistCooldown.GetFloat(); //アーソニストはアーソニストのキルクールに。
+                    break;
+                case CustomRoles.Werewolf:
+                    Main.AllPlayerKillCooldown[player.PlayerId] = Options.WWkillCD.GetFloat(); //アーソニストはアーソニストのキルクールに。
                     break;
                 case CustomRoles.Egoist:
                     Egoist.ApplyKillCooldown(player.PlayerId);

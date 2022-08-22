@@ -50,6 +50,7 @@ namespace TownOfHost
                         text += $"<color={Utils.GetRoleColorCode(CustomRoles.LastImpostor)}>{Utils.GetRoleName(CustomRoles.LastImpostor)}:</color> {Options.EnableLastImpostor.GetString()}\n";
                         text += $"\t{GetString("LastImpostorKillCooldown")}: {Options.LastImpostorKillCooldown.GetString()}\n\n";
                     }
+                    text += $"\t{GetString("GRB")}: {Options.GlobalRoleBlockDuration.GetString()}\n\n";
                 }
                 nameAndValue(Options.EnableGM);
                 foreach (var kvp in Options.CustomRoleSpawnChances)

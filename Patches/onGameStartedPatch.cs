@@ -81,6 +81,10 @@ namespace TownOfHost
             Main.ProtectedThisRound = false;
             Main.HasProtected = false;
 
+            Main.IsRampaged = false;
+            Main.RampageReady = true;
+            Main.IsHackMode = false;
+
             Main.DiscussionTime = Main.RealOptionsData.DiscussionTime;
             Main.VotingTime = Main.RealOptionsData.VotingTime;
 
