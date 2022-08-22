@@ -54,6 +54,10 @@ namespace TownOfHost
                 exiled.IsDead = true;
                 PlayerState.SetDeathReason(exiled.PlayerId, PlayerState.DeathReason.Vote);
                 var role = exiled.GetCustomRole();
+                if (Main.RealOptionsData.ConfirmImpostor)
+                {
+                    exiled.PlayerName = exiled.GetNameWithRole();
+                }
                 if (role == CustomRoles.Jester && AmongUsClient.Instance.AmHost)
                 {
                     MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.EndGame, Hazel.SendOption.Reliable, -1);

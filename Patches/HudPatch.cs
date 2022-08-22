@@ -197,7 +197,8 @@ namespace TownOfHost
                     player.CanUseImpostorVent();
                     goto DesyncImpostor;
                 case CustomRoles.Arsonist:
-                    if (player.IsDouseDone())
+                    TaskTextPrefix += FakeTasksText;
+                    if (player.IsDouseDone() && !Options.TOuRArso.GetBool())
                     {
                         __instance.KillButton.SetDisabled();
                         __instance.KillButton.ToggleVisible(false);
@@ -205,11 +206,27 @@ namespace TownOfHost
                     player.CanUseImpostorVent();
                     goto DesyncImpostor;
                 case CustomRoles.PlagueBearer:
+                    TaskTextPrefix += FakeTasksText;
+                    player.CanUseImpostorVent();
+                    goto DesyncImpostor;
                 case CustomRoles.Pestilence:
+                    TaskTextPrefix += FakeTasksText;
+                    player.CanUseImpostorVent();
+                    goto DesyncImpostor;
                 case CustomRoles.Juggernaut:
+                    TaskTextPrefix += FakeTasksText;
+                    player.CanUseImpostorVent();
+                    goto DesyncImpostor;
                 case CustomRoles.Werewolf:
+                    TaskTextPrefix += FakeTasksText;
+                    player.CanUseImpostorVent();
+                    goto DesyncImpostor;
                 case CustomRoles.TheGlitch:
+                    TaskTextPrefix += FakeTasksText;
+                    player.CanUseImpostorVent();
+                    goto DesyncImpostor;
                 case CustomRoles.Jackal:
+                    TaskTextPrefix += FakeTasksText;
                     player.CanUseImpostorVent();
                     goto DesyncImpostor;
 

@@ -137,6 +137,17 @@ namespace TownOfHost
                     __instance.TeamTitle.color = Utils.GetRoleColor(role);
                     __instance.ImpostorText.gameObject.SetActive(true);
                     __instance.ImpostorText.text = GetString("NeutralInfo");
+                    if (PlayerControl.LocalPlayer.Is(CustomRoles.Executioner))
+                    {
+                        byte target = 0x6;
+                        foreach (var player in Main.ExecutionerTarget)
+                        {
+                            if (player.Key == PlayerControl.LocalPlayer.PlayerId)
+                                target = player.Value;
+                        }
+                        if (PlayerControl.LocalPlayer.Is(CustomRoles.Executioner))
+                            __instance.ImpostorText.text += "\nVote " + Utils.GetPlayerById(target).GetRealName() + " Out";
+                    }
                     __instance.BackgroundBar.material.color = Utils.GetRoleColor(role);
                     break;
                 case RoleType.Madmate:
