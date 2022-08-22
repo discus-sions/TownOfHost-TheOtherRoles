@@ -58,7 +58,7 @@ namespace TownOfHost
                 canUse = couldUse = true;
             else if (CustomRolesHelper.IsCoven(pc.GetCustomRole()) && !Main.HasNecronomicon && !pc.Object.Is(CustomRoles.Mimic))
                 canUse = couldUse = false;
-            else if (pc.Role.TeamType == RoleTeamTypes.Impostor || pc.Role.Role == RoleTypes.Engineer) // インポスター陣営ベースの役職とエンジニアベースの役職は常にtrue
+            else if (pc.Role.TeamType == RoleTeamTypes.Impostor || pc.Role.Role == RoleTypes.Engineer || pc.Object.Is(CustomRoles.TheGlitch) || pc.Object.Is(CustomRoles.Werewolf)) // インポスター陣営ベースの役職とエンジニアベースの役職は常にtrue
                 canUse = couldUse = true;
 
             canUse = couldUse = (pc.Object.inVent || canUse) && (pc.Object.CanMove || pc.Object.inVent);

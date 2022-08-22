@@ -207,6 +207,8 @@ namespace TownOfHost
                 case CustomRoles.PlagueBearer:
                 case CustomRoles.Pestilence:
                 case CustomRoles.Juggernaut:
+                case CustomRoles.Werewolf:
+                case CustomRoles.TheGlitch:
                 case CustomRoles.Jackal:
                     player.CanUseImpostorVent();
                     goto DesyncImpostor;
@@ -270,6 +272,8 @@ namespace TownOfHost
             if ((player.GetCustomRole() == CustomRoles.Sheriff ||
                 player.GetCustomRole() == CustomRoles.Arsonist ||
                 player.GetCustomRole() == CustomRoles.Jackal ||
+                player.GetCustomRole() == CustomRoles.TheGlitch ||
+                player.GetCustomRole() == CustomRoles.Werewolf ||
                 player.GetCustomRole() == CustomRoles.Juggernaut ||
                 player.GetCustomRole() == CustomRoles.PlagueBearer ||
                 player.GetCustomRole() == CustomRoles.Pestilence)
@@ -320,6 +324,8 @@ namespace TownOfHost
                     __instance.ImpostorVentButton.ToggleVisible(false);
                     __instance.AbilityButton.ToggleVisible(false);
                     break;
+                case CustomRoles.TheGlitch:
+                case CustomRoles.Werewolf:
                 case CustomRoles.Pestilence:
                     if (player.Data.Role.Role != RoleTypes.GuardianAngel)
                         __instance.KillButton.ToggleVisible(isActive && !player.Data.IsDead);

@@ -181,6 +181,8 @@ namespace TownOfHost
                     if (cRole == CustomRoles.Coven) hasTasks = false;
                     if (cRole == CustomRoles.Vulture) hasTasks = false;
                     if (cRole == CustomRoles.GuardianAngelTOU) hasTasks = false;
+                    if (cRole == CustomRoles.Werewolf) hasTasks = false;
+                    if (cRole == CustomRoles.TheGlitch) hasTasks = false;
                 }
                 var cSubRoleFound = Main.AllPlayerCustomSubRoles.TryGetValue(p.PlayerId, out var cSubRole);
                 if (cSubRoleFound)

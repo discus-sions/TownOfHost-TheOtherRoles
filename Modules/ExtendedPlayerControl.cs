@@ -404,7 +404,14 @@ namespace TownOfHost
                 case CustomRoles.Mare:
                     Mare.ApplyGameOptions(opt, player.PlayerId);
                     break;
+                case CustomRoles.Werewolf:
+                    if (!Main.IsRampaged)
+                        opt.SetVision(player, false);
+                    else
+                        opt.SetVision(player, true);
+                    break;
                 case CustomRoles.Jackal:
+                case CustomRoles.TheGlitch:
                 case CustomRoles.JSchrodingerCat:
                     opt.SetVision(player, Options.JackalHasImpostorVision.GetBool());
                     break;
@@ -758,6 +765,11 @@ namespace TownOfHost
                     bool pesti_CanUse = Options.PestiCanVent.GetBool();
                     DestroyableSingleton<HudManager>.Instance.ImpostorVentButton.ToggleVisible(pesti_CanUse && !player.Data.IsDead);
                     player.Data.Role.CanVent = pesti_CanUse;
+                    return;
+                case CustomRoles.TheGlitch:
+                case CustomRoles.Werewolf:
+                    DestroyableSingleton<HudManager>.Instance.ImpostorVentButton.ToggleVisible(true && !player.Data.IsDead);
+                    player.Data.Role.CanVent = true;
                     return;
             }
         }

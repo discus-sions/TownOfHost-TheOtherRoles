@@ -213,7 +213,7 @@ namespace TownOfHost
         {
             if (player.GetButtonDown(8) &&
             PlayerControl.LocalPlayer.Data?.Role?.IsImpostor == false &&
-            (PlayerControl.LocalPlayer.GetCustomRole() is CustomRoles.Sheriff or CustomRoles.Arsonist or CustomRoles.Juggernaut or CustomRoles.Jackal or CustomRoles.Pestilence or CustomRoles.PlagueBearer) && PlayerControl.LocalPlayer.Data.Role.Role != RoleTypes.GuardianAngel)
+            (PlayerControl.LocalPlayer.GetCustomRole() is CustomRoles.Sheriff or CustomRoles.TheGlitch or CustomRoles.Werewolf or CustomRoles.Arsonist or CustomRoles.Juggernaut or CustomRoles.Jackal or CustomRoles.Pestilence or CustomRoles.PlagueBearer) && PlayerControl.LocalPlayer.Data.Role.Role != RoleTypes.GuardianAngel)
             {
                 DestroyableSingleton<HudManager>.Instance.KillButton.DoClick();
             }
