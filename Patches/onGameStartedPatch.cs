@@ -176,6 +176,9 @@ namespace TownOfHost
                 if (CustomRoles.Veteran.IsEnable())
                     AdditionalEngineerNum += CustomRoles.Veteran.GetCount();
 
+                if (CustomRoles.GuardianAngelTOU.IsEnable())
+                    AdditionalEngineerNum += CustomRoles.GuardianAngelTOU.GetCount();
+
                 roleOpt.SetRoleRate(RoleTypes.Engineer, EngineerNum + AdditionalEngineerNum, AdditionalEngineerNum > 0 ? 100 : roleOpt.GetChancePerGame(RoleTypes.Engineer));
 
                 int ShapeshifterNum = roleOpt.GetNumPerGame(RoleTypes.Shapeshifter);
@@ -543,8 +546,8 @@ namespace TownOfHost
                 if (Options.MadSnitchCanVent.GetBool())
                     EngineerNum -= CustomRoles.MadSnitch.GetCount();
 
-                if (CustomRoles.GuardianAngelTOU.IsEnable())
-                    EngineerNum -= CustomRoles.GuardianAngelTOU.GetCount();
+                // if (CustomRoles.GuardianAngelTOU.IsEnable())
+                //      EngineerNum -= CustomRoles.GuardianAngelTOU.GetCount();
 
                 roleOpt.SetRoleRate(RoleTypes.Engineer, EngineerNum, roleOpt.GetChancePerGame(RoleTypes.Engineer));
 

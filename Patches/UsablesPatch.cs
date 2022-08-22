@@ -42,7 +42,7 @@ namespace TownOfHost
             var usableDistance = __instance.UsableDistance;
 
             if (pc.IsDead) return false; //死んでる人は強制的にfalseに。
-            else if (pc.Object.Is(CustomRoles.Sheriff) || pc.Object.Is(CustomRoles.Amnesiac) || (pc.Object.Is(CustomRoles.Arsonist) && !pc.Object.IsDouseDone()))
+            else if (pc.Object.Is(CustomRoles.Sheriff) || pc.Role.Role == RoleTypes.Crewmate || pc.Object.Is(CustomRoles.Amnesiac) || (pc.Object.Is(CustomRoles.Arsonist) && !pc.Object.IsDouseDone()))
                 return false;
             else if (pc.Object.Is(CustomRoles.Arsonist) && (pc.Object.IsDouseDone() || Options.TOuRArso.GetBool()))
                 canUse = couldUse = VentForTrigger = true;

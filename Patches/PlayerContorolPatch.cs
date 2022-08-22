@@ -231,9 +231,19 @@ namespace TownOfHost
                         return false;
                     }
                 }
+                if (killer.GetRoleType() == RoleType.Crewmate)
+                {
+                    return false;
+                }
                 switch (killer.GetCustomRole())
                 {
                     //==========インポスター役職==========//
+                    case CustomRoles.TheGlitch:
+                        break;
+                    case CustomRoles.Werewolf:
+                        break;
+                    case CustomRoles.Amnesiac:
+                        return false;
                     case CustomRoles.Juggernaut:
                         //calculating next kill cooldown
                         if (target.Is(CustomRoles.Veteran) && Main.VetIsAlerted)
