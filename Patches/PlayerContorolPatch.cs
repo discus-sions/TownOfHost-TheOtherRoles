@@ -1307,6 +1307,26 @@ namespace TownOfHost
                     {
                         Mark += $"<color={Utils.GetRoleColorCode(CustomRoles.Snitch)}>★</color>"; //Snitch警告をつける
                     }
+                    if (seer.Is(CustomRoles.GuardianAngelTOU))
+                    {
+
+                    }
+                    foreach (var TargetGA in Main.GuardianAngelTarget)
+                    {
+                        //if (Options.)
+                        if ((seer.PlayerId == TargetGA.Key || seer.Data.IsDead) && //seerがKey or Dead
+                        target.PlayerId == TargetGA.Value) //targetがValue
+                            Mark += $"<color={Utils.GetRoleColorCode(CustomRoles.Executioner)}>♦</color>";
+                    }
+                    foreach (var TargetGA in Main.GuardianAngelTarget)
+                    {
+                        if (Options.TargetKnowsGA.GetBool())
+                        {
+                            if ((seer.PlayerId == TargetGA.Value || seer.Data.IsDead) && //seerがKey or Dead
+                            target.PlayerId == TargetGA.Key) //targetがValue
+                                Mark += $"<color={Utils.GetRoleColorCode(CustomRoles.Executioner)}>♦</color>";
+                        }
+                    }
                     if (seer.Is(CustomRoles.Arsonist))
                     {
                         if (seer.IsDousedPlayer(target))

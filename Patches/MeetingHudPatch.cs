@@ -335,6 +335,10 @@ namespace TownOfHost
                         if (Main.ExecutionerTarget.TryGetValue(seer.PlayerId, out var targetId) && target.PlayerId == targetId) //targetがValue
                             pva.NameText.text += Helpers.ColorString(Utils.GetRoleColor(CustomRoles.Executioner), "♦");
                         break;
+                    case CustomRoles.GuardianAngelTOU:
+                        if (Main.GuardianAngelTarget.TryGetValue(seer.PlayerId, out var protectId) && target.PlayerId == protectId) //targetがValue
+                            pva.NameText.text += Helpers.ColorString(Utils.GetRoleColor(CustomRoles.GuardianAngelTOU), "♦");
+                        break;
                 }
 
                 foreach (var protect in Main.GuardianAngelTarget)
