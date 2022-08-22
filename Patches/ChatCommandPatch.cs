@@ -45,19 +45,6 @@ namespace TownOfHost
                     break;
                 default:
                     Main.isChatCommand = false;
-                    if (Main.SilencedPlayer.Count > 0)
-                    {
-                        //someone is silenced
-                        foreach (var p in Main.SilencedPlayer)
-                        {
-                            if (!p.Data.IsDead)
-                            {
-                                args[0] = "";
-                                args[1] = "";
-                                Utils.SendMessage("You are currently Silenced. Try talking again when you aren't silenced.", p.PlayerId);
-                            }
-                        }
-                    }
                     break;
             }
             if (AmongUsClient.Instance.AmHost)
@@ -225,16 +212,6 @@ namespace TownOfHost
 
                     default:
                         Main.isChatCommand = false;
-                        if (Main.SilencedPlayer.Count > 0)
-                        {
-                            //someone is silenced
-                            foreach (var p in Main.SilencedPlayer)
-                            {
-                                Utils.SendMessage("You are currently Silenced. Try talking again when you aren't silenced.", p.PlayerId);
-                                args[0] = "";
-                                canceled = true;
-                            }
-                        }
                         break;
                 }
             }
@@ -387,6 +364,19 @@ namespace TownOfHost
         public static void OnReceiveChat(PlayerControl player, string text)
         {
             if (!AmongUsClient.Instance.AmHost) return;
+            if (Main.SilencedPlayer.Count > 0)
+                    {
+                        //someone is silenced
+                        foreach (var p in Main.SilencedPlayer)
+                        {
+                            if (p == player) continue;
+                            if (!p.Data.IsDead)
+                            {
+                                test = "Silenced."
+                                Utils.SendMessage("You are currently Silenced. Try talking again when you aren't silenced.", p.PlayerId);
+                            }
+                        }
+                    }
             string[] args = text.Split(' ');
             string subArgs = "";
             switch (args[0])
@@ -419,19 +409,6 @@ namespace TownOfHost
                     break;
 
                 default:
-                    if (Main.SilencedPlayer.Count > 0)
-                    {
-                        //someone is silenced
-                        foreach (var p in Main.SilencedPlayer)
-                        {
-                            if (!p.Data.IsDead)
-                            {
-                                args[0] = "";
-                                args[1] = "";
-                                Utils.SendMessage("You are currently Silenced. Try talking again when you aren't silenced.", p.PlayerId);
-                            }
-                        }
-                    }
                     break;
             }
         }
