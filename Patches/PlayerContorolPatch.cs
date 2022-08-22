@@ -1700,7 +1700,7 @@ namespace TownOfHost
             if (pc.Is(CustomRoles.TheGlitch))
             {
                 // pc?.MyPhysics?.RpcBootFromVent(__instance.Id);
-                pc.MyPhysics.RpcBootFromVent(__instance.Id);
+                //pc.MyPhysics.RpcBootFromVent(__instance.Id);
                 if (Main.IsHackMode)
                     Main.IsHackMode = false;
                 else
