@@ -137,6 +137,14 @@ namespace TownOfHost
                 LowerInfoText.text = GetString("WitchCurrentMode") + ":" + GetString(ModeLang);
                 LowerInfoText.enabled = true;
             }
+            else if (player.Is(CustomRoles.Werewolf))
+            {
+                var ModeLang = Main.IsRampaged ? "True" : "False";
+                var ReadyLang = Main.RampageReady ? "True" : "False";
+                LowerInfoText.text = "Is Rampaging" + ":" + ModeLang;
+                LowerInfoText.text += "Rampage Ready: " + Main.RampageReady;
+                LowerInfoText.enabled = true;
+            }
             else if (player.Is(CustomRoles.FireWorks))
             {
                 var stateText = FireWorks.GetStateText(player);
