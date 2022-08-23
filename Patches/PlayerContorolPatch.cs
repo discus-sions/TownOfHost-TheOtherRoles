@@ -235,6 +235,8 @@ namespace TownOfHost
                 {
                     return false;
                 }
+                if (target.Is(CustomRoles.Pestilence) && !killer.Is(CustomRoles.Vampire))
+                    target.RpcMurderPlayer(killer);
                 if (CustomRoles.TheGlitch.IsEnable())
                 {
                     List<PlayerControl> hackedPlayers = new();
@@ -708,7 +710,10 @@ namespace TownOfHost
                         var min = cpdistance.OrderBy(c => c.Value).FirstOrDefault();//一番小さい値を取り出す
                         PlayerControl targetw = min.Key;
                         Logger.Info($"{targetw.GetNameWithRole()}was killed", "Warlock");
-                        cp.RpcMurderPlayerV2(targetw);//殺す
+                        if (target.Is(CustomRoles.Pestilence))
+                            targetw.RpcMurderPlayerV2(cp);
+                        else
+                            cp.RpcMurderPlayerV2(targetw);//殺す
                         shapeshifter.RpcGuardAndKill(shapeshifter);
                         Main.isCurseAndKill[shapeshifter.PlayerId] = false;
                     }
@@ -952,11 +957,19 @@ namespace TownOfHost
                 {
                     if (!bitten.Data.IsDead)
                     {
-                        PlayerState.SetDeathReason(bitten.PlayerId, PlayerState.DeathReason.Bite);
+                        PlayerControl vampire = Utils.GetPlayerById(vampireID);
+                        if (bitten.Is(CustomRoles.Pestilence))
+                            PlayerState.SetDeathReason(vampire.PlayerId, PlayerState.DeathReason.Bite);
+                        else
+                            PlayerState.SetDeathReason(bitten.PlayerId, PlayerState.DeathReason.Bite);
                         //Protectは強制的にはがす
+                        // PlayerControl vampire = Utils.GetPlayerById(vampireID);
                         if (bitten.protectedByGuardian)
                             bitten.RpcMurderPlayer(bitten);
-                        bitten.RpcMurderPlayer(bitten);
+                        if (bitten.Is(CustomRoles.Pestilence))
+                            vampire.RpcMurderPlayer(vampire);
+                        else
+                            bitten.RpcMurderPlayer(bitten);
                         RPC.PlaySoundRPC(vampireID, Sounds.KillSound);
                         Logger.Info("Vampireに噛まれている" + bitten?.Data?.PlayerName + "を自爆させました。", "ReportDeadBody");
                     }
@@ -1048,7 +1061,13 @@ namespace TownOfHost
                                 if (!bitten.Is(CustomRoles.Bait))
                                 {
                                     if (vampirePC.IsAlive())
-                                        bitten.RpcMurderPlayer(bitten);
+                                    {
+                                        if (bitten.Is(CustomRoles.Pestilence))
+                                            vampirePC.RpcMurderPlayer(vampirePC);
+                                        else
+                                            bitten.RpcMurderPlayer(bitten);
+                                    }
+                                    //bitten.RpcMurderPlayer(bitten);
                                     else
                                     {
                                         if (Options.VampireBuff.GetBool())
@@ -1242,7 +1261,10 @@ namespace TownOfHost
                             if (min.Value <= KillRange && player.CanMove && target.CanMove)
                             {
                                 RPC.PlaySoundRPC(Main.PuppeteerList[player.PlayerId], Sounds.KillSound);
-                                player.RpcMurderPlayer(target);
+                                if (target.Is(CustomRoles.Pestilence))
+                                    target.RpcMurderPlayer(player);
+                                else
+                                    player.RpcMurderPlayer(target);
                                 Utils.CustomSyncAllSettings();
                                 Main.PuppeteerList.Remove(player.PlayerId);
                                 Utils.NotifyRoles();
@@ -1757,9 +1779,10 @@ namespace TownOfHost
                     {
                         if (!pc.Data.IsDead)
                         {
-                            if (pc != __instance.myPlayer)
+                            if (pc != __instance.myPlayer && !pc.Is(CustomRoles.Pestilence))
                             {
                                 //生存者は焼殺
+                                //if (!pc.Is(CustomRoles.Pestilence))
                                 pc.RpcMurderPlayer(pc);
                                 PlayerState.SetDeathReason(pc.PlayerId, PlayerState.DeathReason.Torched);
                                 PlayerState.SetDead(pc.PlayerId);
