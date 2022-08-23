@@ -236,7 +236,14 @@ namespace TownOfHost
                     return false;
                 }
                 if (target.Is(CustomRoles.Pestilence) && !killer.Is(CustomRoles.Vampire))
-                    target.RpcMurderPlayer(killer);
+                {
+                    if (killer.Is(CustomRoles.Werewolf) && Main.IsRampaged)
+                    {
+                        if (killer.Is(CustomRoles.TheGlitch) && !Main.IsHackMode)
+                            target.RpcMurderPlayer(killer);
+                    }
+                    return false;
+                }
                 if (CustomRoles.TheGlitch.IsEnable())
                 {
                     List<PlayerControl> hackedPlayers = new();
