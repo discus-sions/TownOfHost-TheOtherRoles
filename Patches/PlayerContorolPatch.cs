@@ -231,10 +231,6 @@ namespace TownOfHost
                         return false;
                     }
                 }
-                if (killer.GetRoleType() == RoleType.Crewmate)
-                {
-                    return false;
-                }
                 if (target.Is(CustomRoles.Pestilence) && !killer.Is(CustomRoles.Vampire) && !killer.Is(CustomRoles.Werewolf) && !killer.Is(CustomRoles.TheGlitch))
                 {
                     target.RpcMurderPlayer(killer);

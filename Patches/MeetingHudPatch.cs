@@ -172,7 +172,7 @@ namespace TownOfHost
                             });
                             Utils.GetPlayerById(GA).RpcSetCustomRole(Options.CRoleGuardianAngelChangeRoles[Options.WhenGaTargetDies.GetSelection()]);
                             Main.GuardianAngelTarget.Remove(GA);
-                            RPC.RemoveExecutionerKey(GA);
+                            RPC.RemoveGAKey(GA);
                             Utils.NotifyRoles();
                         }
                     }
