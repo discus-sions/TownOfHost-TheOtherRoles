@@ -134,15 +134,21 @@ namespace TownOfHost
             {
                 //魔女用処理
                 var ModeLang = player.IsSpellMode() ? "WitchModeSpell" : "WitchModeKill";
-                LowerInfoText.text = GetString("WitchCurrentMode") + ":" + GetString(ModeLang);
+                LowerInfoText.text = GetString("WitchCurrentMode") + ": " + GetString(ModeLang);
                 LowerInfoText.enabled = true;
             }
             else if (player.Is(CustomRoles.Werewolf))
             {
                 var ModeLang = Main.IsRampaged ? "True" : "False";
                 var ReadyLang = Main.RampageReady ? "True" : "False";
-                LowerInfoText.text = "Is Rampaging" + ":" + ModeLang;
-                LowerInfoText.text += "Rampage Ready: " + ReadyLang;
+                LowerInfoText.text = "Is Rampaging: " + ModeLang;
+                LowerInfoText.text += "\nRampage Ready: " + ReadyLang;
+                LowerInfoText.enabled = true;
+            }
+            else if (player.Is(CustomRoles.TheGlitch))
+            {
+                var ModeLang = Main.IsHackMode ? "Hack" : "Kill";
+                LowerInfoText.text = "Glitch Current Mode: " + ModeLang;
                 LowerInfoText.enabled = true;
             }
             else if (player.Is(CustomRoles.FireWorks))
