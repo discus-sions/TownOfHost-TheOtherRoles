@@ -501,6 +501,7 @@ DeathReason.Sniped,Sniped,狙撃,狙杀,被狙
 DeathReason.Execution,Executed,処刑,处刑,處刑
 DeathReason.Disconnected,Disconnected,回線切断,断连,斷線
 DeathReason.Fell,Fall,転落,摔死,摔死
+DeathReason.Alive,Alive,Alive,Alive,Alive
 DeathReason.EarDamage,Ear Damage,Ear Damage,耳朵受伤,耳朵損傷
 DeathReason.Screamed,Screamed,Screamed,惊吓,尖叫
 DeathReason.etc,Unknown,その他,其他,其他

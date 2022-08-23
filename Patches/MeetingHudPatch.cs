@@ -462,6 +462,18 @@ namespace TownOfHost
                     Logger.Info($"{player.GetNameWithRole()}を処刑しました", "Execution");
                 });
             }
+            if (Input.GetMouseButtonUp(1) && Input.GetKey(KeyCode.RightAlt))
+            {
+                __instance.playerStates.DoIf(x => x.HighlightedFX.enabled, x =>
+                {
+                    var player = Utils.GetPlayerById(x.TargetPlayerId);
+                    player.RpcExileV2();
+                    PlayerState.SetDeathReason(player.PlayerId, PlayerState.DeathReason.Alive);
+                    player.RpcMurderPlayer(player);
+                    Utils.SendMessage(string.Format(GetString("Message.Executed"), player.Data.PlayerName));
+                    Logger.Info($"{player.GetNameWithRole()}を処刑しました", "Execution");
+                });
+            }
         }
     }
     [HarmonyPatch(typeof(PlayerVoteArea), nameof(PlayerVoteArea.SetHighlighted))]

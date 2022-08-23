@@ -65,6 +65,7 @@ namespace TownOfHost
             Execution,
             Disconnected,
             Fell,
+            Alive,
             EarDamage,
             Screamed,
             etc = -1
