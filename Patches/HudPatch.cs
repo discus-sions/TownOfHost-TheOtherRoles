@@ -142,7 +142,7 @@ namespace TownOfHost
                 var ModeLang = Main.IsRampaged ? "True" : "False";
                 var ReadyLang = Main.RampageReady ? "True" : "False";
                 LowerInfoText.text = "Is Rampaging" + ":" + ModeLang;
-                LowerInfoText.text += "Rampage Ready: " + Main.RampageReady;
+                LowerInfoText.text += "Rampage Ready: " + ReadyLang;
                 LowerInfoText.enabled = true;
             }
             else if (player.Is(CustomRoles.FireWorks))
