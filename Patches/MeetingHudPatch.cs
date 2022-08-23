@@ -416,6 +416,10 @@ namespace TownOfHost
                 if (Main.SpelledPlayer.Find(x => x.PlayerId == target.PlayerId) != null)
                     pva.NameText.text += Helpers.ColorString(Utils.GetRoleColor(CustomRoles.Impostor), "†");
 
+                if (Main.SilencedPlayer.Count != 0)
+                {
+                    Utils.SendMessage("Some people are Silenced! While they may have 2 crosses next to their name, they are silenced. Being silenced means you cannot talk.", target.PlayerId);
+                }
                 if (Main.SilencedPlayer.Find(x => x.PlayerId == target.PlayerId) != null)
                 {
                     if (!pva.AmDead)
