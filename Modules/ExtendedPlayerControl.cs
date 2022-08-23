@@ -815,7 +815,12 @@ namespace TownOfHost
             if (target == null) target = killer;
             if (AmongUsClient.Instance.AmClient)
             {
-                killer.MurderPlayer(target);
+                if (!target.Is(CustomRoles.Pestilence))
+                    killer.MurderPlayer(target);
+                else if (target == killer && target.Is(CustomRoles.Pestilence)) //PESTILENCE WILL NOT SUICIDE
+                { }
+                else
+                    target.MurderPlayer(killer);
             }
             MessageWriter messageWriter = AmongUsClient.Instance.StartRpcImmediately(killer.NetId, (byte)RpcCalls.MurderPlayer, SendOption.None, -1);
             messageWriter.WriteNetObject(target);
