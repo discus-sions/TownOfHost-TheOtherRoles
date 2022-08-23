@@ -418,8 +418,11 @@ namespace TownOfHost
 
                 if (Main.SilencedPlayer.Find(x => x.PlayerId == target.PlayerId) != null)
                 {
-                    pva.NameText.text += Helpers.ColorString(Utils.GetRoleColor(CustomRoles.Impostor), " (S)");
-                    Utils.SendMessage("You are currently Silenced. Try talking again when you aren't silenced. Even though you may be able to talk, please don't and wait until you are no longer silenced.", target.PlayerId);
+                    if (!pva.AmDead)
+                    {
+                        pva.NameText.text += Helpers.ColorString(Utils.GetRoleColor(CustomRoles.Impostor), " (S)");
+                        Utils.SendMessage("You are currently Silenced. Try talking again when you aren't silenced. Even though you may be able to talk, please don't and wait until you are no longer silenced.", target.PlayerId);
+                    }
                 }
 
 

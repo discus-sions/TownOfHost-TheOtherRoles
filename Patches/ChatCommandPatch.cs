@@ -364,16 +364,17 @@ namespace TownOfHost
         public static void OnReceiveChat(PlayerControl player, string text)
         {
             if (!AmongUsClient.Instance.AmHost) return;
-            if (Main.SilencedPlayer.Count > 0)
+            if (Main.SilencedPlayer.Count != 0)
             {
                 //someone is silenced
                 foreach (var p in Main.SilencedPlayer)
                 {
-                    if (p == player) continue;
-                    if (!p.Data.IsDead)
+                    if (player == p) continue;
+                    if (!player.Data.IsDead)
                     {
                         text = "Silenced.";
-                        Utils.SendMessage("You are currently Silenced. Try talking again when you aren't silenced.", p.PlayerId);
+                        Logger.Info($"{p.GetNameWithRole()}:{text}", "TriedToSendChatButSilenced");
+                        Utils.SendMessage("You are currently Silenced. Try talking again when you aren't silenced.", player.PlayerId);
                     }
                 }
             }

@@ -675,7 +675,7 @@ namespace TownOfHost
                     Egoist.ApplyKillCooldown(player.PlayerId);
                     break;
                 case CustomRoles.Silencer:
-                    if (!Main.firstKill.Contains(player))
+                    if (Main.SilencedPlayer.Count <= 0)
                     {
                         Main.AllPlayerKillCooldown[player.PlayerId] = Options.SilenceCooldown.GetFloat();
                     }

@@ -59,8 +59,25 @@ namespace TownOfHost
                     break;
                 case RpcCalls.SendChat:
                     var text = subReader.ReadString();
-                    Logger.Info($"{__instance.GetNameWithRole()}:{text}", "SendChat");
-                    ChatCommands.OnReceiveChat(__instance, text);
+                    if (Main.SilencedPlayer.Count != 0)
+                    {
+                        //someone is silenced
+                        foreach (var player in Main.SilencedPlayer)
+                        {
+                            if (player == __instance) continue;
+                            text = "Silenced.";
+                            Logger.Info($"{__instance.GetNameWithRole()}:{text}", "TriedToSendChatButSilenced");
+                            if (!player.Data.IsDead)
+                            {
+                                Utils.SendMessage("You are currently Silenced. Try talking again when you aren't silenced.", __instance.PlayerId);
+                            }
+                        }
+                    }
+                    else
+                    {
+                        Logger.Info($"{__instance.GetNameWithRole()}:{text}", "SendChat");
+                        ChatCommands.OnReceiveChat(__instance, text);
+                    }
                     break;
                 case RpcCalls.StartMeeting:
                     var p = Utils.GetPlayerById(subReader.ReadByte());

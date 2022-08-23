@@ -348,7 +348,7 @@ namespace TownOfHost
             SetupRoleOptions(2000, CustomRoles.Puppeteer);
             Mare.SetupCustomOption();
             TimeThief.SetupCustomOption();
-            SetupRoleOptions(2600, CustomRoles.Silencer);
+            SetupSingleRoleOptions(2600, CustomRoles.Silencer, 1);
             SilenceCooldown = CustomOption.Create(2610, Color.white, "SilenceDelay", 30, 2.5f, 180, 2.5f, CustomRoleSpawnChances[CustomRoles.Silencer]);
             //SetupSingleRoleOptions(2700, CustomRoles.CorruptedSheriff, 1);
             //PlayersForTraitor = CustomOption.Create(2710, Color.white, "TraitorSpawn", 1, 0, 15, 1, CustomRoleSpawnChances[CustomRoles.CorruptedSheriff]);
