@@ -42,10 +42,12 @@ namespace TownOfHost
             var usableDistance = __instance.UsableDistance;
 
             if (pc.IsDead) return false; //死んでる人は強制的にfalseに。
-            else if (pc.Object.Is(CustomRoles.Sheriff) || pc.Role.Role == RoleTypes.Crewmate || pc.Object.Is(CustomRoles.Amnesiac) || (pc.Object.Is(CustomRoles.Arsonist) && !pc.Object.IsDouseDone()))
+            else if (pc.Object.Is(CustomRoles.Sheriff) || pc.Object.Is(CustomRoles.Amnesiac) || (pc.Object.Is(CustomRoles.Arsonist) && !pc.Object.IsDouseDone()))
                 return false;
-            else if (pc.Object.Is(CustomRoles.Arsonist) && (pc.Object.IsDouseDone() || Options.TOuRArso.GetBool()))
+            else if (pc.Object.Is(CustomRoles.Arsonist) && pc.Object.IsDouseDone() && !Options.TOuRArso.GetBool())
                 canUse = couldUse = VentForTrigger = true;
+            else if (pc.Object.Is(CustomRoles.Arsonist) && Options.TOuRArso.GetBool())
+                canUse = couldUse = true;
             else if (pc.Object.Is(CustomRoles.Jackal))
                 canUse = couldUse = Options.JackalCanVent.GetBool();
             else if (pc.Object.Is(CustomRoles.Jester))
@@ -60,12 +62,13 @@ namespace TownOfHost
                 canUse = couldUse = true;
             else if (CustomRolesHelper.IsCoven(pc.GetCustomRole()) && Main.HasNecronomicon && !pc.Object.Is(CustomRoles.Mimic))
                 canUse = couldUse = true;
-            else if (CustomRolesHelper.IsCoven(pc.GetCustomRole()) && !Main.HasNecronomicon && !pc.Object.Is(CustomRoles.Mimic))
+            else if (CustomRolesHelper.IsCoven(pc.GetCustomRole()) && !Main.HasNecronomicon)
                 canUse = couldUse = false;
             else if (pc.Role.TeamType == RoleTeamTypes.Impostor || pc.Role.Role == RoleTypes.Engineer) // インポスター陣営ベースの役職とエンジニアベースの役職は常にtrue
                 canUse = couldUse = true;
 
             canUse = couldUse = (pc.Object.inVent || canUse) && (pc.Object.CanMove || pc.Object.inVent);
+            //canUse = couldUse = true;
 
             if (VentForTrigger && pc.Object.inVent)
             {

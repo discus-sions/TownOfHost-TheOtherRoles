@@ -235,16 +235,9 @@ namespace TownOfHost
                 {
                     return false;
                 }
-                if (target.Is(CustomRoles.Pestilence) && !killer.Is(CustomRoles.Vampire))
+                if (target.Is(CustomRoles.Pestilence) && !killer.Is(CustomRoles.Vampire) && !killer.Is(CustomRoles.Werewolf) && !killer.Is(CustomRoles.TheGlitch))
                 {
-                    if (killer.Is(CustomRoles.Werewolf) && Main.IsRampaged)
-                    {
-                        target.RpcMurderPlayer(killer);
-                    }
-                    else if (killer.Is(CustomRoles.TheGlitch) && !Main.IsHackMode)
-                        target.RpcMurderPlayer(killer);
-                    else
-                        target.RpcMurderPlayer(killer);
+                    target.RpcMurderPlayer(killer);
                     return false;
                 }
                 if (CustomRoles.TheGlitch.IsEnable())
@@ -268,7 +261,7 @@ namespace TownOfHost
                 {
                     //==========インポスター役職==========//
                     case CustomRoles.TheGlitch:
-                        if (target.Is(CustomRoles.Veteran) && Main.VetIsAlerted)
+                        if (target.Is(CustomRoles.Veteran) && Main.VetIsAlerted && !Main.IsHackMode)
                         {
                             target.RpcMurderPlayer(killer);
                             return false;
@@ -288,17 +281,27 @@ namespace TownOfHost
                         }
                         if (!Main.IsHackMode)
                         {
+                            if (target.Is(CustomRoles.Pestilence))
+                            {
+                                target.RpcMurderPlayer(killer);
+                                return false;
+                            }
                             killer.RpcMurderPlayer(target);
                             //killer.RpcGuardAndKill(target);
                             return false;
                         }
                         if (Main.isCurseAndKill[killer.PlayerId]) killer.RpcGuardAndKill(target);
                         return false;
-                        break;
+                    //break;
                     case CustomRoles.Werewolf:
                         if (Main.IsRampaged)
                         {
                             if (target.Is(CustomRoles.Veteran) && Main.VetIsAlerted)
+                            {
+                                target.RpcMurderPlayer(killer);
+                                return false;
+                            }
+                            if (target.Is(CustomRoles.Pestilence))
                             {
                                 target.RpcMurderPlayer(killer);
                                 return false;

@@ -78,7 +78,7 @@ namespace TownOfHost
                     }
                     break;
                 case CustomRoles.Silencer:
-                    if (Main.firstKill == null)
+                    if (Main.SilencedPlayer.Count == 0)
                     {
                         __instance.KillButton.OverrideText($"{GetString("SilenceButtonText")}");
                     }
@@ -293,7 +293,8 @@ namespace TownOfHost
                 player.GetCustomRole() == CustomRoles.Werewolf ||
                 player.GetCustomRole() == CustomRoles.Juggernaut ||
                 player.GetCustomRole() == CustomRoles.PlagueBearer ||
-                player.GetCustomRole() == CustomRoles.Pestilence)
+                player.GetCustomRole() == CustomRoles.Pestilence ||
+                player.GetRoleType() == RoleType.Madmate)
             && !player.Data.IsDead)
             {
                 ((Renderer)__instance.cosmetics.currentBodySprite.BodySprite).material.SetColor("_OutlineColor", Utils.GetRoleColor(player.GetCustomRole()));

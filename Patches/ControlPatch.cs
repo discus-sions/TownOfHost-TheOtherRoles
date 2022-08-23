@@ -225,6 +225,7 @@ namespace TownOfHost
             {
                 DestroyableSingleton<HudManager>.Instance.ImpostorVentButton.DoClick();
             }
+            //DestroyableSingleton<HudManager>.Instance.ImpostorVentButton.DoClick();
         }
     }
 }
