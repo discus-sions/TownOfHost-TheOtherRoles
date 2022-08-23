@@ -239,9 +239,12 @@ namespace TownOfHost
                 {
                     if (killer.Is(CustomRoles.Werewolf) && Main.IsRampaged)
                     {
-                        if (killer.Is(CustomRoles.TheGlitch) && !Main.IsHackMode)
-                            target.RpcMurderPlayer(killer);
+                        target.RpcMurderPlayer(killer);
                     }
+                    else if (killer.Is(CustomRoles.TheGlitch) && !Main.IsHackMode)
+                        target.RpcMurderPlayer(killer);
+                    else
+                        target.RpcMurderPlayer(killer);
                     return false;
                 }
                 if (CustomRoles.TheGlitch.IsEnable())
