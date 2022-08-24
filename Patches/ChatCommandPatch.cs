@@ -67,6 +67,64 @@ namespace TownOfHost
                         }
                     }
                     break;
+                case "/setimp":
+                    canceled = true;
+                    subArgs = args.Length < 2 ? "" : args[1];
+                    Utils.SendMessage("Impostors set to " + subArgs);
+                    switch (subArgs)
+                    {
+                        case "1":
+                            Main.RealOptionsData.numImpostors = 2;
+                            break;
+                        case "2":
+                            Main.RealOptionsData.numImpostors = 3;
+                            break;
+                        case "3":
+                            Main.RealOptionsData.numImpostors = 3;
+                            break;
+                        case "4":
+                            Main.RealOptionsData.numImpostors = 4;
+                            break;
+                        case "5":
+                            Main.RealOptionsData.numImpostors = 5;
+                            break;
+                        case "6":
+                            Main.RealOptionsData.numImpostors = 6;
+                            break;
+                        default:
+                            Main.RealOptionsData.numImpostors = 1;
+                            break;
+                    }
+                    break;
+                case "/setplayers":
+                    canceled = true;
+                    subArgs = args.Length < 2 ? "" : args[1];
+                    Utils.SendMessage("Max Players set to " + subArgs);
+                    switch (subArgs)
+                    {
+                        case "5":
+                            Main.RealOptionsData.MaxPlayers = 5;
+                            break;
+                        case "10":
+                            Main.RealOptionsData.MaxPlayers = 10;
+                            break;
+                        case "15":
+                            Main.RealOptionsData.MaxPlayers = 15;
+                            break;
+                        case "20":
+                            Main.RealOptionsData.MaxPlayers = 20;
+                            break;
+                        case "25":
+                            Main.RealOptionsData.MaxPlayers = 25;
+                            break;
+                        case "30":
+                            Main.RealOptionsData.MaxPlayers = 30;
+                            break;
+                        default:
+                            Main.RealOptionsData.MaxPlayers = 15;
+                            break;
+                    }
+                    break;
                 default:
                     Main.isChatCommand = false;
                     break;

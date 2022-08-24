@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using HarmonyLib;
+using Hazel;
 using UnityEngine;
 
 namespace TownOfHost
@@ -64,7 +65,19 @@ namespace TownOfHost
                 SabotageMaster.RepairSystem(__instance, systemType, amount);
             if (player.Is(CustomRoles.Hacker))
             {
-                SabotageMaster.RepairSystem(__instance, systemType, amount);
+                if (systemType != SystemTypes.Doors)
+                {
+                    SabotageMaster.HackerRepairSystem(__instance, systemType, amount);
+                    Main.HackerFixedSaboCount[player.PlayerId]++;
+                    if (Main.HackerFixedSaboCount[player.PlayerId] >= Options.SaboAmount.GetFloat())
+                    {
+                        MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.EndGame, Hazel.SendOption.Reliable, -1);
+                        writer.Write((byte)CustomWinner.Hacker);
+                        writer.Write(player.PlayerId);
+                        AmongUsClient.Instance.FinishRpcImmediately(writer);
+                        RPC.HackerWin(player.PlayerId);
+                    }
+                }
             }
 
             if (!Options.MadmateCanFixLightsOut.GetBool() && //Madmateが停電を直せる設定がオフ
@@ -143,6 +156,8 @@ namespace TownOfHost
         {
             if (player.Is(CustomRoles.SabotageMaster))
                 SabotageMaster.SwitchSystemRepair(__instance, amount);
+            if (player.Is(CustomRoles.Hacker))
+                SabotageMaster.HackerSwitchSystemRepair(__instance, amount);
         }
     }
     [HarmonyPatch(typeof(ShipStatus), nameof(ShipStatus.Start))]

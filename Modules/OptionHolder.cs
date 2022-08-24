@@ -256,6 +256,7 @@ namespace TownOfHost
         public static CustomOption GAknowsRole;
         public static CustomOption TargetKnowsGA;
         public static CustomOption WhenGaTargetDies;
+        public static CustomOption SaboAmount;
         public static readonly string[] suffixModes =
         {
             "SuffixMode.None",
@@ -443,6 +444,8 @@ namespace TownOfHost
                 .SetGameMode(CustomGameMode.Standard);
             //50220~50223を使用
             TerroristTasks = OverrideTasksData.Create(50220, CustomRoles.Terrorist);
+            SetupRoleOptions(50250, CustomRoles.Hacker);
+            SaboAmount = CustomOption.Create(50510, Color.white, "SA", 4, 1, 10, 1, CustomRoleSpawnChances[CustomRoles.Hacker]);
             SetupLoversRoleOptionsToggle(50300);
 
             SetupRoleOptions(50400, CustomRoles.SchrodingerCat);

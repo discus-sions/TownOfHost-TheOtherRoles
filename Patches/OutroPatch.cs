@@ -198,6 +198,17 @@ namespace TownOfHost
                     }
                 }
             }
+            if (Main.currentWinner == CustomWinner.Hacker && CustomRoles.Hacker.IsEnable())
+            { // HACKER //
+                winner = new();
+                foreach (var p in PlayerControl.AllPlayerControls)
+                {
+                    if (p.PlayerId == Main.WonHackerID)
+                    {
+                        winner.Add(p);
+                    }
+                }
+            }
             TeamEgoist.SoloWin(winner);
             ///以降追加勝利陣営 (winnerリセット無し)
             //Opportunist

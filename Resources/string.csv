@@ -402,6 +402,7 @@ SabotageMasterFixesCommunications,SabotageMaster Can Fix Both Comms In MIRA HQ,�
 SabotageMasterFixesElectrical,SabotageMaster Can Fix Lights Out All At Once,ｻﾎﾞﾀｰｼﾞｭﾏｽﾀｰが停電に対して能力を使える,修理大师按一个按钮就可以修复照明破坏,破壞大師拉一根拉桿就可以修理電燈
 SheriffKillCooldown,Sheriff Kill Cooldown,シェリフのキルクール,警长执法冷却,警長執法冷卻
 SheriffCanKillArsonist,Sheriff Can kill Arsonist,シェリフがアーソニストをキルできる,警长可以执法纵火犯,警長可以槍死縱火犯
+SA,Hacker Sabotage Amount,Hacker Sabotage Amount,Hacker Sabotage Amount
 SheriffCanKillJester,Sheriff Can Kill Jester,シェリフがジェスターをキルできる,警长可以执法小丑,警長可以槍死小丑
 SheriffCanKillTerrorist,Sheriff Can Kill Terrorist,シェリフがテロリストをキルできる,警长可以执法恐怖分子,警長可以槍死恐怖分子
 SheriffCanKillExecutioner,Sheriff Can Kill Executioner,シェリフがエクスキューショナーをキルできる,警长可以执法处刑人,警長可以槍死劊子手
