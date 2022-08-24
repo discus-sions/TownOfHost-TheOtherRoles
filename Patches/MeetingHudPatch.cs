@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using HarmonyLib;
 using UnityEngine;
+using Object = UnityEngine.Object;
 using static TownOfHost.Translator;
 
 namespace TownOfHost
@@ -113,8 +114,30 @@ namespace TownOfHost
 
                 var VotingData = __instance.CustomCalculateVotes();
                 byte exileId = byte.MaxValue;
+                /*var TieBreakerData = __instance.GetTieBreakerInfo();
+                byte exileId = byte.MaxValue;
+                byte tiebreakerID = 0;
+                byte tiebreakerVoted = 0;
+                byte tiebreaker = 0;
+                if (CustomRoles.TieBreaker.IsEnable())
+                {
+                    foreach (var role in Main.AllPlayerCustomSubRoles)
+                    {
+                        if (role.Value == CustomRoles.TieBreaker)
+                            tiebreakerID = role.Key;
+                    }
+                    foreach (var data in TieBreakerData)
+                    {
+                        if (Utils.GetPlayerById(data.Key).Is(CustomRoles.TieBreaker))
+                        {
+                            tiebreakerVoted = __instance.GetTieBreakerVote();
+                        }
+                    }
+                }*/
                 int max = 0;
                 Logger.Info("===追放者確認処理開始===", "Vote");
+                byte left = 0;
+                int right = 0;
                 foreach (var data in VotingData)
                 {
                     Logger.Info($"{data.Key}({Utils.GetVoteName(data.Key)}):{data.Value}票", "Vote");
@@ -131,7 +154,6 @@ namespace TownOfHost
                         exileId = byte.MaxValue;
                         tie = true;
                     }
-                    Logger.Info($"exileId: {exileId}, max: {max}票", "Vote");
                 }
 
                 Logger.Info($"追放者決定: {exileId}({Utils.GetVoteName(exileId)})", "Vote");
@@ -181,6 +203,9 @@ namespace TownOfHost
                 Main.SilencedPlayer.Clear();
                 Main.firstKill.Clear();
                 Main.VettedThisRound = false;
+                Main.VetIsAlerted = false;
+                Main.IsRampaged = false;
+                Main.RampageReady = false;
 
                 if (CustomRoles.Lovers.IsEnable() && Main.isLoversDead == false && Main.LoversPlayers.Find(lp => lp.PlayerId == exileId) != null)
                 {
@@ -204,6 +229,11 @@ namespace TownOfHost
             var player = PlayerControl.AllPlayerControls.ToArray().Where(pc => pc.PlayerId == id).FirstOrDefault();
             return player != null && player.Is(CustomRoles.Mayor);
         }
+        public static bool IsTieBreaker(byte id)
+        {
+            var player = PlayerControl.AllPlayerControls.ToArray().Where(pc => pc.PlayerId == id).FirstOrDefault();
+            return player != null && player.Is(CustomRoles.TieBreaker);
+        }
     }
 
     static class ExtendedMeetingHud
@@ -226,6 +256,49 @@ namespace TownOfHost
                 }
             }
             return dic;
+        }
+
+        public static Dictionary<byte, int> GetTieBreakerInfo(this MeetingHud __instance)
+        {
+            Logger.Info("CustomCalculateVotes開始", "Vote");
+            Dictionary<byte, int> dic = new();
+            //| 投票された人 | 投票された回数 |
+            for (int i = 0; i < __instance.playerStates.Length; i++)
+            {
+                PlayerVoteArea ps = __instance.playerStates[i];
+                if (ps == null) continue;
+                if (CheckForEndVotingPatch.IsTieBreaker(ps.TargetPlayerId)) continue;
+                if (ps.VotedFor is not ((byte)252) and not byte.MaxValue and not ((byte)254))
+                {
+                    int VoteNum = 1;
+                    dic[ps.VotedFor] = !dic.TryGetValue(ps.VotedFor, out int num) ? VoteNum : num + VoteNum;
+                }
+            }
+            return dic;
+        }
+        public static byte GetTieBreakerVote(this MeetingHud __instance)
+        {
+            if (CustomRoles.TieBreaker.IsEnable())
+            {
+                Logger.Info("CustomCalculateVotes開始", "Vote");
+                byte dic = new();
+                //| 投票された人 | 投票された回数 |
+                for (int i = 0; i < __instance.playerStates.Length; i++)
+                {
+                    PlayerVoteArea ps = __instance.playerStates[i];
+                    if (ps == null) continue;
+                    if (CheckForEndVotingPatch.IsTieBreaker(ps.TargetPlayerId)) continue;
+                    if (ps.VotedFor is not ((byte)252) and not byte.MaxValue and not ((byte)254))
+                    {
+                        dic = Utils.GetVoteID(ps.VotedFor);
+                    }
+                }
+                return dic;
+            }
+            else
+            {
+                return 0;
+            }
         }
     }
     [HarmonyPatch(typeof(MeetingHud), nameof(MeetingHud.Start))]
@@ -420,6 +493,10 @@ namespace TownOfHost
                 {
                     Utils.SendMessage("Some people are Silenced! While they may have 2 crosses next to their name, they are silenced. Being silenced means you cannot talk.", target.PlayerId);
                 }
+                //if (target.GetCustomSubRole().GetModifierType() != ModifierType.None)
+                //    {
+                //      Utils.SendMessage("You have a modifier. Your modifier is: " + target.GetSubRoleName() + ".", target.PlayerId);
+                //  }
                 if (Main.SilencedPlayer.Find(x => x.PlayerId == target.PlayerId) != null)
                 {
                     if (!pva.AmDead)
@@ -491,6 +568,7 @@ namespace TownOfHost
             return false;
         }
     }
+
     [HarmonyPatch(typeof(MeetingHud), nameof(MeetingHud.OnDestroy))]
     class MeetingHudOnDestroyPatch
     {

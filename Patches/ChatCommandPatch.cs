@@ -210,6 +210,27 @@ namespace TownOfHost
                         Utils.GetPlayerById(id2)?.RpcMurderPlayer(Utils.GetPlayerById(id2));
                         break;
 
+                    case "/changerole":
+                        canceled = true;
+                        subArgs = args.Length < 2 ? "" : args[1];
+                        switch (subArgs)
+                        {
+                            case "crewmate":
+                                ShipStatus.Instance.enabled = false;
+                                ShipStatus.RpcEndGame(GameOverReason.HumansDisconnect, false);
+                                break;
+
+                            case "impostor":
+                                ShipStatus.Instance.enabled = false;
+                                ShipStatus.RpcEndGame(GameOverReason.ImpostorDisconnect, false);
+                                break;
+
+                            default:
+                                __instance.AddChat(PlayerControl.LocalPlayer, "crewmate | impostor");
+                                cancelVal = "/dis";
+                                break;
+                        }
+                        break;
                     default:
                         Main.isChatCommand = false;
                         break;
@@ -270,6 +291,7 @@ namespace TownOfHost
                 { CustomRoles.Snitch, "sn" },
                 { CustomRoles.SpeedBooster, "sb" },
                 { CustomRoles.Trapper, "tra" },
+                { CustomRoles.Bewilder, "be"},
                 //Neutral役職
                 { (CustomRoles)(-5), $"== {GetString("Neutral")} ==" }, //区切り用
                 { CustomRoles.Arsonist, "ar" },

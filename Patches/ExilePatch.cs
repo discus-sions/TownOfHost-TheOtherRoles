@@ -143,6 +143,10 @@ namespace TownOfHost
             if (exiled.Object.Is(CustomRoles.SchrodingerCat) && Options.SchrodingerCatExiledTeamChanges.GetBool())
                 exiled.Object.ExiledSchrodingerCatTeamChange();
 
+            Main.VetIsAlerted = false;
+            Main.IsRampaged = false;
+            Main.RampageReady = false;
+
             if (Main.currentWinner != CustomWinner.Terrorist) PlayerState.SetDead(exiled.PlayerId);
             {
                 if (AmongUsClient.Instance.AmHost && Main.IsFixedCooldown)
@@ -165,7 +169,7 @@ namespace TownOfHost
                         {
                             //pc?.MyPhysics?.RpcBootFromVent(__instance.Id);
                             Main.RampageReady = true;
-                        }, Options.RampageDur.GetFloat(), "Werewolf Rampage Cooldown");
+                        }, Options.RampageCD.GetFloat(), "Werewolf Rampage Cooldown");
                     }
                     if (pc.Is(CustomRoles.Warlock))
                     {

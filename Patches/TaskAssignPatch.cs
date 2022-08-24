@@ -62,6 +62,17 @@ namespace TownOfHost
             int NumShortTasks = (int)data.numShortTasks.GetFloat(); // 割り当てるショートタスクの数
                                                                     // ロングとショートは常時再割り当てが行われる。
 
+            /*if (!Options.OverrideTasksData.AllData.ContainsKey(role))
+            {
+                if (!Utils.HasTasks(Utils.GetPlayerById(playerId).Data, false))
+                {
+                    doOverride = true;
+                    hasCommonTasks = false;
+                    NumLongTasks = 0;
+                    NumShortTasks = 0;
+                }
+            }*/
+
             if (!doOverride) return;
             //割り当て可能なタスクのIDが入ったリスト
             //本来のRpcSetTasksの第二引数のクローン

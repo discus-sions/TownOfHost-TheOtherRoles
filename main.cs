@@ -66,6 +66,9 @@ namespace TownOfHost
         public static float TextCursorTimer;
         public static List<PlayerControl> LoversPlayers = new();
         public static bool isLoversDead = true;
+
+        public static Dictionary<CustomRoles, PlayerControl> HasModifier = new();
+        public static List<CustomRoles> modifiersList = new();
         public static Dictionary<byte, float> AllPlayerKillCooldown = new();
         public static Dictionary<byte, float> AllPlayerSpeed = new();
         public static Dictionary<byte, (byte, float)> BitPlayers = new();
@@ -90,6 +93,7 @@ namespace TownOfHost
         public static List<PlayerControl> firstKill = new();
         public static List<PlayerControl> unreportableBodies = new();
         public static List<PlayerControl> SilencedPlayer = new();
+        public static List<byte> KilledBewilder = new();
         public static bool isSilenced;
         public static bool isShipStart;
         public static Dictionary<byte, bool> CheckShapeshift = new();
@@ -306,6 +310,7 @@ namespace TownOfHost
                     { CustomRoles.TheGlitch, "#00FA05"},
                     { CustomRoles.Werewolf, "#B2762A"},
                     { CustomRoles.Amnesiac, "#81DDFC"},
+                    { CustomRoles.Bewilder, "#292644"},
                 };
                 foreach (var role in Enum.GetValues(typeof(CustomRoles)).Cast<CustomRoles>())
                 {
@@ -390,6 +395,7 @@ namespace TownOfHost
         Puppeteer,
         TimeThief,
         Silencer,
+        EvilGuesser,
         LastImpostor,
         //Madmate
         MadGuardian,
@@ -406,7 +412,13 @@ namespace TownOfHost
         Scientist,
         //Crewmate
         Bait,
+        Sleuth,
+        Bewilder,
         Lighter,
+        Demolitionist,
+        Bastion,
+        NiceGuesser,
+        Hacker,
         Mayor,
         NiceWatcher,
         SabotageMaster,
@@ -417,7 +429,7 @@ namespace TownOfHost
         Dictator,
         Doctor,
         Child,
-        Sleuth,
+        //Sleuth,
         Veteran,
         CSchrodingerCat,//クルー陣営のシュレディンガーの猫
                         //Neutral
@@ -432,6 +444,7 @@ namespace TownOfHost
         EgoSchrodingerCat,//エゴイスト陣営のシュレディンガーの猫
         Jester,
         Amnesiac,
+        Pirate,
         Juggernaut,
         Opportunist,
         SchrodingerCat,//第三陣営のシュレディンガーの猫
@@ -444,9 +457,6 @@ namespace TownOfHost
         HASTroll,
         //GM
         GM,
-        // Sub-roll after 500
-        NoSubRoleAssigned = 500,
-        Lovers,
         //coven
         Coven,
         Poisoner,
@@ -456,7 +466,21 @@ namespace TownOfHost
         Medusa,
         Mimic,
         Necromancer,
-        Conjuror
+        Conjuror,
+        // Sub-roles are After 500. Meaning, all roles under this are Modifiers.
+        NoSubRoleAssigned = 500,
+
+        // GLOBAL MODIFIERS //
+        Lovers,
+        Flash, // DONE
+        TieBreaker,
+        Oblivious, // DONE
+        //Sleuth, // DONE
+
+        // CREW MODIFIERS //
+        //Bewilder, // DONE
+        //Bait, // DONE
+        Torch, // DONE
     }
     //WinData
     public enum CustomWinner

@@ -81,7 +81,6 @@ namespace TownOfHost
                 CustomRoles.Conjuror or
                 CustomRoles.Necromancer;
         }
-
         public static RoleType GetRoleType(this CustomRoles role)
         {
             RoleType type = RoleType.Crewmate;
@@ -99,6 +98,20 @@ namespace TownOfHost
             if (role.IsMadmate()) type = RoleTeam.Benign;
             if (role.IsCoven()) type = RoleTeam.Support;
             return type;
+        }
+        public static ModifierType GetModifierType(this CustomRoles role)
+        {
+            if (role < CustomRoles.NoSubRoleAssigned) return ModifierType.None;
+            ModifierType type = ModifierType.Global;
+            if (role.IsCrewModifier()) type = ModifierType.Crew;
+            return type;
+        }
+        public static bool IsCrewModifier(this CustomRoles role)
+        {
+            return
+                role is CustomRoles.Bait or
+                CustomRoles.Bewilder or
+                CustomRoles.Torch;
         }
         public static void SetCount(this CustomRoles role, int num) => Options.SetRoleCount(role, num);
         public static int GetCount(this CustomRoles role)
@@ -159,5 +172,11 @@ namespace TownOfHost
         Benign,
         Support,
         Protective
+    }
+    public enum ModifierType
+    {
+        None,
+        Crew,
+        Global
     }
 }

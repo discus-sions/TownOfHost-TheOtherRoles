@@ -199,6 +199,7 @@ namespace TownOfHost
             }
             return hasTasks;
         }
+
         public static string GetProgressText(PlayerControl pc)
         {
             if (!Main.playerVersion.ContainsKey(0)) return ""; //ホストがMODを入れていなければ未記入を返す
@@ -725,6 +726,7 @@ namespace TownOfHost
                     || seer.Is(CustomRoles.Executioner)
                     || seer.Is(CustomRoles.Doctor) //seerがドクター
                     || seer.Is(CustomRoles.Puppeteer)
+                    //|| seer.GetCustomSubRole().GetModifierType() != ModifierType.None
                     || IsActive(SystemTypes.Electrical)
                     || NoCache
                     || ForceLoop
@@ -767,6 +769,11 @@ namespace TownOfHost
                         {
                             TargetMark += $"<color={GetRoleColorCode(CustomRoles.Lovers)}>♡</color>";
                         }
+
+                        /*if (!seer.Is(CustomRoles.Lovers) && seer.GetCustomSubRole().GetModifierType() != ModifierType.None)
+                        {
+                            TargetMark += $"<color={GetRoleColorCode(CustomRoles.Yellow)}> " + seer.GetSubRoleName() + "</color>";
+                        }*/
 
                         if (seer.Is(CustomRoles.Arsonist))//seerがアーソニストの時
                         {
@@ -914,6 +921,13 @@ namespace TownOfHost
             if (num == 253) name = "Skip";
             if (num == 254) name = "None";
             if (num == 255) name = "Dead";
+            return name;
+        }
+        public static byte GetVoteID(byte num)
+        {
+            byte name = 0;
+            var player = GetPlayerById(num);
+            if (num < 15 && player != null) name = player.PlayerId;
             return name;
         }
         public static string PadRightV2(this object text, int num)

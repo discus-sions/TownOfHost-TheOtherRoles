@@ -48,6 +48,7 @@ namespace TownOfHost
             Main.CheckShapeshift = new Dictionary<byte, bool>();
             Main.SpeedBoostTarget = new Dictionary<byte, byte>();
             Main.MayorUsedButtonCount = new Dictionary<byte, int>();
+            Main.KilledBewilder = new();
             Main.targetArrows = new();
             Main.JugKillAmounts = 0;
             Main.AteBodies = 0;
@@ -316,6 +317,7 @@ namespace TownOfHost
                 AssignCustomRolesFromList(CustomRoles.Veteran, Engineers);
                 AssignCustomRolesFromList(CustomRoles.Sleuth, Crewmates);
                 AssignCustomRolesFromList(CustomRoles.Child, Crewmates);
+                AssignCustomRolesFromList(CustomRoles.Bewilder, Crewmates);
                 AssignCustomRolesFromList(CustomRoles.GuardianAngelTOU, Engineers);
                 AssignCustomRolesFromList(CustomRoles.MadGuardian, Crewmates);
                 AssignCustomRolesFromList(CustomRoles.MadSnitch, Options.MadSnitchCanVent.GetBool() ? Engineers : Crewmates);
@@ -350,6 +352,53 @@ namespace TownOfHost
                 AssignCustomRolesFromList(CustomRoles.Doctor, Scientists);
                 AssignCustomRolesFromList(CustomRoles.Puppeteer, Impostors);
                 AssignCustomRolesFromList(CustomRoles.TimeThief, Impostors);
+
+                // Main.HasModifier.Clear();
+                //  Main.modifiersList.Clear();
+                // int NumOfModifers = 0;
+                // FILLING THE LIST WITH USELESS ROLE //
+                /*Main.modifiersList.Add(CustomRoles.NoSubRoleAssigned);
+                Main.modifiersList.Add(CustomRoles.NoSubRoleAssigned);
+                Main.modifiersList.Add(CustomRoles.NoSubRoleAssigned);
+                Main.modifiersList.Add(CustomRoles.NoSubRoleAssigned);
+                Main.modifiersList.Add(CustomRoles.NoSubRoleAssigned);*/
+                /*   if (CustomRoles.Bait.IsEnable())
+                   {
+                       NumOfModifers++;
+                       Main.modifiersList.Add(CustomRoles.Bait);
+                   }
+                   if (CustomRoles.Sleuth.IsEnable())
+                   {
+                       NumOfModifers++;
+                       Main.modifiersList.Add(CustomRoles.Sleuth);
+                   }
+                   if (CustomRoles.Flash.IsEnable())
+                   {
+                       NumOfModifers++;
+                       Main.modifiersList.Add(CustomRoles.Flash);
+                   }
+                   if (CustomRoles.TieBreaker.IsEnable())
+                   {
+                       NumOfModifers++;
+                       Main.modifiersList.Add(CustomRoles.TieBreaker);
+                   }
+                   if (CustomRoles.Oblivious.IsEnable())
+                   {
+                       NumOfModifers++;
+                       Main.modifiersList.Add(CustomRoles.Oblivious);
+                   }
+                   if (CustomRoles.Torch.IsEnable())
+                   {
+                       NumOfModifers++;
+                       Main.modifiersList.Add(CustomRoles.Torch);
+                   }
+                   if (CustomRoles.Bewilder.IsEnable())
+                   {
+                       NumOfModifers++;
+                       Main.modifiersList.Add(CustomRoles.Bewilder);
+                   }
+
+                   AssignModifiers(Main.modifiersList, NumOfModifers);*/
 
                 //RPCによる同期
                 foreach (var pc in PlayerControl.AllPlayerControls)
@@ -677,6 +726,45 @@ namespace TownOfHost
                 }
             }
             RPC.SyncLoversPlayers();
+        }
+
+        private static void AssignModifiers(List<CustomRoles> PossibleModifers, int RawCount = -1)
+        {
+            var allPlayers = new List<PlayerControl>();
+            foreach (var player in PlayerControl.AllPlayerControls)
+            {
+                if (player.Is(CustomRoles.GM)) continue;
+                allPlayers.Add(player);
+            }
+            var roles = PossibleModifers;
+            var rand = new System.Random();
+            var randMod = new System.Random();
+            var count = Math.Clamp(RawCount, 0, allPlayers.Count);
+            if (RawCount == -1) count = Math.Clamp(roles.Count, 0, allPlayers.Count);
+            if (count <= 0) return;
+
+            for (var i = 0; i < count; i++)
+            {
+                var player = allPlayers[rand.Next(0, allPlayers.Count)];
+                var role = roles[rand.Next(0, PossibleModifers.Count)];
+                bool checkModifier = true;
+                if (role == CustomRoles.NoSubRoleAssigned)
+                    checkModifier = false;
+                while (Main.AllPlayerCustomSubRoles[player.PlayerId] != CustomRoles.Lovers)
+                {
+                    if (checkModifier)
+                    {
+                        if (Main.HasModifier.ContainsKey(role))
+                        {
+                            Main.HasModifier.Add(role, player);
+                            Main.modifiersList.Remove(role); // NO 2 PEOPLE CAN HAVE THE SAME MODIFIER //
+                            allPlayers.Remove(player);
+                            Main.AllPlayerCustomSubRoles[player.PlayerId] = role;
+                            Logger.Info("役職設定:" + player?.Data?.PlayerName + " = " + player.GetCustomRole().ToString() + " + " + role.ToString(), "AssignModifiers");
+                        }
+                    }
+                }
+            }
         }
 
         [HarmonyPatch(typeof(PlayerControl), nameof(PlayerControl.RpcSetRole))]

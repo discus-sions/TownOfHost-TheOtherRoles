@@ -330,6 +330,13 @@ namespace TownOfHost
                     if (opt.AnonymousVotes)
                         opt.AnonymousVotes = false;
                     break;
+                case CustomRoles.Torch:
+                    if (Utils.IsActive(SystemTypes.Electrical))
+                        opt.CrewLightMod *= 5;
+                    break;
+                case CustomRoles.Flash:
+                    opt.PlayerSpeedMod = Options.FlashSpeed.GetFloat();
+                    break;
                 case CustomRoles.Sheriff:
                 case CustomRoles.Arsonist:
                 case CustomRoles.Amnesiac:
@@ -352,6 +359,9 @@ namespace TownOfHost
                     break;
                 case CustomRoles.EgoSchrodingerCat:
                     opt.SetVision(player, true);
+                    break;
+                case CustomRoles.Bewilder:
+                    opt.CrewLightMod = Options.BewilderVision.GetFloat();
                     break;
                 case CustomRoles.Doctor:
                     opt.RoleOptions.ScientistCooldown = 0f;
@@ -434,6 +444,7 @@ namespace TownOfHost
                         opt.KillCooldown = kc.Value > 0 ? kc.Value : 0.01f;
                 }
             }
+
             if (Main.AllPlayerSpeed.ContainsKey(player.PlayerId))
             {
                 foreach (var speed in Main.AllPlayerSpeed)
@@ -455,6 +466,12 @@ namespace TownOfHost
             opt.VotingTime = Mathf.Clamp(Main.VotingTime, TimeThief.LowerLimitVotingTime.GetInt(), 300);
 
             opt.RoleOptions.ShapeshifterCooldown = Mathf.Max(1f, opt.RoleOptions.ShapeshifterCooldown);
+            if (Main.KilledBewilder.Contains(player.PlayerId))
+            {
+                opt.SetVision(player, false);
+                opt.CrewLightMod = Options.BewilderVision.GetFloat();
+                opt.ImpostorLightMod = Options.BewilderVision.GetFloat();
+            }
 
             if (player.AmOwner) PlayerControl.GameOptions = opt;
             MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)RpcCalls.SyncSettings, SendOption.Reliable, clientId);

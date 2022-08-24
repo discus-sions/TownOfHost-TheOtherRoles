@@ -325,6 +325,7 @@ namespace TownOfHost
                         if (Main.AllPlayerKillCooldown[killer.PlayerId] < 1)
                             Main.AllPlayerKillCooldown[killer.PlayerId] = 1;
                         //after calculating make the kill happen ?
+                        killer.CustomSyncSettings();
                         killer.RpcMurderPlayer(target);
                         return false;
                         break;
@@ -616,6 +617,10 @@ namespace TownOfHost
                 target.RpcMurderPlayer(killer);
                 // return false;
             }
+            else if (target.Is(CustomRoles.Bewilder))
+            {
+                Main.KilledBewilder.Add(killer.PlayerId);
+            }
 
             if (target.Is(CustomRoles.Trapper) && !killer.Is(CustomRoles.Trapper))
                 killer.TrapperKilled(target);
@@ -774,6 +779,13 @@ namespace TownOfHost
         public static bool Prefix(PlayerControl __instance, [HarmonyArgument(0)] GameData.PlayerInfo target)
         {
             if (GameStates.IsMeeting) return false;
+            if (target != null) //ボタン
+            {
+                if (__instance.Is(CustomRoles.Oblivious))
+                {
+                    return false;
+                }
+            }
             Logger.Info($"{__instance.GetNameWithRole()} => {target?.GetNameWithRole() ?? "null"}", "ReportDeadBody");
             if (target != null)
             {
@@ -1753,14 +1765,17 @@ namespace TownOfHost
                     {
                         Main.RampageReady = false;
                         Main.IsRampaged = true;
+                        Utils.CustomSyncAllSettings();
                         new LateTask(() =>
                         {
                             Main.IsRampaged = false;
                             pc?.MyPhysics?.RpcBootFromVent(__instance.Id);
+                            Utils.CustomSyncAllSettings();
                             new LateTask(() =>
                             {
                                 pc?.MyPhysics?.RpcBootFromVent(__instance.Id);
                                 Main.RampageReady = true;
+                                Utils.CustomSyncAllSettings();
                             }, Options.RampageDur.GetFloat(), "Werewolf Rampage Cooldown");
                         }, Options.RampageDur.GetFloat(), "Werewolf Rampage Duration");
                     }
@@ -1883,7 +1898,7 @@ namespace TownOfHost
             PlayerState.UpdateTask(pc);
             Utils.NotifyRoles();
             if (pc.GetPlayerTaskState().IsTaskFinished &&
-                pc.GetCustomRole() is CustomRoles.Lighter or CustomRoles.SpeedBooster or CustomRoles.Doctor)
+                pc.GetCustomRole() is CustomRoles.Lighter or CustomRoles.SpeedBooster or CustomRoles.Doctor or CustomRoles.Doctor || Main.KilledBewilder.Contains(pc.PlayerId))
             {
                 //ライターもしくはスピードブースターもしくはドクターがいる試合のみタスク終了時にCustomSyncAllSettingsを実行する
                 Utils.CustomSyncAllSettings();

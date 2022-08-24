@@ -214,6 +214,9 @@ namespace TownOfHost
         public static CustomOption HideGameSettings;
         public static CustomOption BodiesAmount;
 
+        public static CustomOption BewilderVision;
+        public static CustomOption FlashSpeed;
+
         //coven
         //coven main info
         public static CustomOption CovenKillCooldown;
@@ -377,6 +380,14 @@ namespace TownOfHost
             EvilWatcherChance = CustomOption.Create(30010, Color.white, "EvilWatcherChance", 0, 0, 100, 10, CustomRoleSpawnChances[CustomRoles.Watcher]);
             // Crewmate
             SetupRoleOptions(20000, CustomRoles.Bait);
+            SetupRoleOptions(20001, CustomRoles.Sleuth);
+            /* SetupSingleRoleOptions(20002, CustomRoles.Oblivious, 1);
+             SetupSingleRoleOptions(20003, CustomRoles.TieBreaker, 1);
+             SetupSingleRoleOptions(20004, CustomRoles.Torch, 1);*/
+            SetupSingleRoleOptions(20005, CustomRoles.Bewilder, 1);
+            BewilderVision = CustomOption.Create(20020, Color.white, "BewilderVision", 2f, 0f, 5f, 0.25f, CustomRoleSpawnChances[CustomRoles.Bewilder]);
+            /*SetupSingleRoleOptions(20006, CustomRoles.Flash, 1);
+            FlashSpeed = CustomOption.Create(20030, Color.white, "SpeedBoosterUpSpeed", 2f, 0.25f, 3f, 0.25f, CustomRoleSpawnChances[CustomRoles.Flash]); */
             SetupSingleRoleOptions(20010, CustomRoles.Veteran, 1);
             NumOfVets = CustomOption.Create(20011, Color.white, "NVet", 15, 1, 15, 1, CustomRoleSpawnChances[CustomRoles.Veteran]);
             VetCD = CustomOption.Create(20012, Color.white, "VetCD", 30, 2.5f, 180, 2.5f, CustomRoleSpawnChances[CustomRoles.Veteran]);
@@ -409,7 +420,7 @@ namespace TownOfHost
 
             SetupRoleOptions(30000, CustomRoles.Child);
             ChildKnown = CustomOption.Create(30010, Color.white, "ChildKnown", false, CustomRoleSpawnChances[CustomRoles.Child]);
-            SetupRoleOptions(30100, CustomRoles.Sleuth);
+            //SetupRoleOptions(30100, CustomRoles.Sleuth);
             //SleuthReport = CustomOption.Create(30110, Color.white, "SleuthReport", false, CustomRoleSpawnChances[CustomRoles.Sleuth]);
             // Neutral
             SetupRoleOptions(50500, CustomRoles.Arsonist);
