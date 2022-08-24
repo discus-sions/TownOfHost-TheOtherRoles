@@ -53,6 +53,7 @@ namespace TownOfHost
                 CustomRoles.Amnesiac or
                 CustomRoles.Juggernaut or
                 CustomRoles.JSchrodingerCat or
+                CustomRoles.Hacker or
                 CustomRoles.HASTroll or
                 CustomRoles.HASFox;
         }

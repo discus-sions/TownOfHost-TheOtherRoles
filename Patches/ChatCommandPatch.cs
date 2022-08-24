@@ -374,6 +374,8 @@ namespace TownOfHost
                 { CustomRoles.SpeedBooster, "sb" },
                 { CustomRoles.Trapper, "tra" },
                 { CustomRoles.Bewilder, "be"},
+                { CustomRoles.Bastion, "bas"},
+                { CustomRoles.Demolitionist, "demo"},
                 //Neutral役職
                 { (CustomRoles)(-5), $"== {GetString("Neutral")} ==" }, //区切り用
                 { CustomRoles.Arsonist, "ar" },
@@ -394,6 +396,7 @@ namespace TownOfHost
                 { CustomRoles.Werewolf, "ww" },
                 { CustomRoles.Amnesiac, "amne" },
                 { CustomRoles.GuardianAngelTOU, "ga" },
+                { CustomRoles.Hacker, "hac" },
                 //Sub役職
                 { (CustomRoles)(-6), $"== {GetString("SubRole")} ==" }, //区切り用
                 {CustomRoles.Lovers, "lo" },

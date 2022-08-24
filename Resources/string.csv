@@ -264,7 +264,7 @@ DictatorInfoLong,"(Crewmates):\nWhen you vote for someone in a meeting, they for
 ChildInfoLong,"(Crewmates):\nWhen you die by voting or killing, you instantly win. (Arsonist still wins even if Child is killed.)","(Crewmates):\nWhen you die by voting or killing, you instantly win.","(船员阵营):\n你被票出去或者被杀掉会因为你是小孩而获得胜利."
 SleuthInfoLong,"(Crewmates):\nThe Sleuth knows the role of the bodies they report.","(Crewmates):\nWhen a body is reported, you know the role of the body. You can make it so the Sleuth has to report.","(船员阵营):\n当报告尸体时你知道关于尸体的线索，你可以让侦探必须报告."
 BastionInfoLong,"(Crewmates):\nAs Bastion, vent inside a vent to place a bomb inside of it. Afterwards, if another Bastion or a role that can vent without being kicked out vents in that vent, they die. You can only bomb 1 person per round.","(Crewmates):\nInfo unfinished.","(Crewmates):\nInfo unfinished."
-DemolitionistInfoLong,"(Crewmates):\When the Demolitionist is killed, they bomb the ground, giving the killer a few seconds to find a vent. If they don't vent in time, the killer suicides.","(Crewmates):\nInfo unfinished.","(Crewmates):\nInfo unfinished."
+DemolitionistInfoLong,"(Crewmates):\When the Demolitionist is killed, they bomb the ground, giving the killer a few seconds to find a vent. If they don't vent in time, the killer suicides. The killer is marked with an Arsonist triangle that everyone can see. It dis","(Crewmates):\nInfo unfinished.","(Crewmates):\nInfo unfinished."
 
 # 第三陣営役職
 ArsonistInfoLong,(Neutrals):\nThey can douse other players by using the kill button and remaining next to the player for a few seconds.\nAfter dousing everyone alive the Arsonists can enter the vents to ignite which results in Arsonist win.,(第三陣営):\nキルボタンを使おうとすると、ターゲットに油を塗れる。\nすべてのクルーに油を塗ったら船を燃やして勝利する。,(独立阵营):\n在一名玩家附近时点击击杀按钮，纵火犯可以给那名玩家涂油。\n所有存活玩家都被纵火犯涂油后，纵火犯点火将会单独获得胜利。,"(中立):\n當縱火犯嘗試使用殺人鍵,它將對他身邊最近的一個人澆上油,\n當他對所有玩家澆上油之後,縱火縱火犯點火即勝利。"
@@ -446,6 +446,7 @@ TourArso,TOuR Arsonist,TOuR Arsonist,纵火犯巡视,
 InfectCD,Infect Cooldown,アーソニストの塗り時間,感染冷却时间,
 PestiKillCooldown,Pestilence Kill Cooldown,アーソニストのクールダウン,毒医击杀冷却时间,
 PestiCanVent,Pestilence Can Vent,アーソニストのクールダウン,毒医能跳管道,
+DemoSuicideTime,Time To Vent Till Suicide,DemoSuicideTime,DemoSuicideTime
 
 CanTerroristSuicideWin,Can Terrorist Suicide Win,テロリストの自殺勝ち,恐怖分子可以通过自杀获胜,恐怖分子可以自殺來獲勝
 ShapeMasterShapeshiftDuration,Shapeshift Duration,シェイプマスターの変身持続時間,千面鬼化形持续时间,變形大師變形持續時間

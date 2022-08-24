@@ -92,7 +92,7 @@ namespace TownOfHost
         public static bool witchMeeting;
         public static bool isCursed;
         public static List<PlayerControl> firstKill = new();
-        public static List<PlayerControl> unreportableBodies = new();
+        public static List<byte> unreportableBodies = new();
         public static List<PlayerControl> SilencedPlayer = new();
         public static List<byte> KilledBewilder = new();
         public static bool isSilenced;

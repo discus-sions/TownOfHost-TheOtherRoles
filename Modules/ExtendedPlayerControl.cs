@@ -733,6 +733,34 @@ namespace TownOfHost
                 RPC.PlaySoundRPC(killer.PlayerId, Sounds.TaskComplete);
             }, Options.TrapperBlockMoveTime.GetFloat(), "Trapper BlockMove");
         }
+        public static void DemoKilled(this PlayerControl killer, PlayerControl target)
+        {
+            Logger.Info($"{killer?.Data?.PlayerName}はTrapperだった", "KilledDemo");
+            Logger.Info($"{target?.Data?.PlayerName}はTrapperだった", "IsDemo");
+            killer.Data.PlayerName += $"<color={Utils.GetRoleColorCode(CustomRoles.Demolitionist)}>▲</color>";
+            killer.CustomSyncSettings();
+            new LateTask(() =>
+            {
+                killer.Data.PlayerName = killer.GetRealName();
+                if (!killer.inVent)
+                {
+                    if (!killer.Is(CustomRoles.Pestilence))
+                    {
+                        killer.CustomSyncSettings();
+                        if (killer.protectedByGuardian)
+                            killer.RpcMurderPlayer(killer);
+                        killer.RpcMurderPlayer(killer);
+                        PlayerState.SetDeathReason(killer.PlayerId, PlayerState.DeathReason.Suicide);
+                        PlayerState.SetDead(killer.PlayerId);
+                    }
+                }
+                else
+                {
+                    killer.CustomSyncSettings();
+                    RPC.PlaySoundRPC(killer.PlayerId, Sounds.TaskComplete);
+                }
+            }, Options.DemoSuicideTime.GetFloat(), "Demolitionist Time");
+        }
         public static void VetAlerted(this PlayerControl veteran)
         {
             if (veteran.Is(CustomRoles.Veteran) && !Main.VetIsAlerted)

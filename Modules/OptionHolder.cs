@@ -257,6 +257,7 @@ namespace TownOfHost
         public static CustomOption TargetKnowsGA;
         public static CustomOption WhenGaTargetDies;
         public static CustomOption SaboAmount;
+        public static CustomOption DemoSuicideTime;
         public static readonly string[] suffixModes =
         {
             "SuffixMode.None",
@@ -385,6 +386,8 @@ namespace TownOfHost
             /* SetupSingleRoleOptions(20002, CustomRoles.Oblivious, 1);
              SetupSingleRoleOptions(20003, CustomRoles.TieBreaker, 1);
              SetupSingleRoleOptions(20004, CustomRoles.Torch, 1);*/
+            SetupRoleOptions(20002, CustomRoles.Demolitionist);
+            DemoSuicideTime = CustomOption.Create(20810, Color.white, "DemoSuicideTime", 5f, 1f, 180, 1, CustomRoleSpawnChances[CustomRoles.Trapper]);
             SetupSingleRoleOptions(20005, CustomRoles.Bewilder, 1);
             BewilderVision = CustomOption.Create(20020, Color.white, "BewilderVision", 2f, 0f, 5f, 0.25f, CustomRoleSpawnChances[CustomRoles.Bewilder]);
             /*SetupSingleRoleOptions(20006, CustomRoles.Flash, 1);

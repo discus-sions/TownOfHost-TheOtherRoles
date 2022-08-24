@@ -354,12 +354,15 @@ namespace TownOfHost
                         }
                         if (!target.Is(CustomRoles.Bait))
                         { //キルキャンセル&自爆処理
-                            Utils.CustomSyncAllSettings();
-                            Main.AllPlayerKillCooldown[killer.PlayerId] = Options.DefaultKillCooldown * 2;
-                            killer.CustomSyncSettings(); //負荷軽減のため、killerだけがCustomSyncSettingsを実行
-                            killer.RpcGuardAndKill(target);
-                            Main.BitPlayers.Add(target.PlayerId, (killer.PlayerId, 0f));
-                            return false;
+                            if (!target.Is(CustomRoles.Bewilder))
+                            {
+                                Utils.CustomSyncAllSettings();
+                                Main.AllPlayerKillCooldown[killer.PlayerId] = Options.DefaultKillCooldown * 2;
+                                killer.CustomSyncSettings(); //負荷軽減のため、killerだけがCustomSyncSettingsを実行
+                                killer.RpcGuardAndKill(target);
+                                Main.BitPlayers.Add(target.PlayerId, (killer.PlayerId, 0f));
+                                return false;
+                            }
                         }
                         else
                         {
@@ -624,6 +627,8 @@ namespace TownOfHost
 
             if (target.Is(CustomRoles.Trapper) && !killer.Is(CustomRoles.Trapper))
                 killer.TrapperKilled(target);
+            if (target.Is(CustomRoles.Demolitionist) && !killer.Is(CustomRoles.Demolitionist))
+                killer.DemoKilled(target);
             if (Main.ExecutionerTarget.ContainsValue(target.PlayerId))
             {
                 List<byte> RemoveExecutionerKey = new();
@@ -789,13 +794,13 @@ namespace TownOfHost
             Logger.Info($"{__instance.GetNameWithRole()} => {target?.GetNameWithRole() ?? "null"}", "ReportDeadBody");
             if (target != null)
             {
-                if (Main.unreportableBodies.Contains(Utils.GetPlayerById(target.PlayerId))) return false;
+                if (Main.unreportableBodies.Contains(target.PlayerId)) return false;
             }
             if (target != null)
             {
-                if (__instance.Is(CustomRoles.Vulture) && !__instance.Data.IsDead && !Main.unreportableBodies.Contains(Utils.GetPlayerById(target.PlayerId)))
+                if (__instance.Is(CustomRoles.Vulture) && !__instance.Data.IsDead && !Main.unreportableBodies.Contains(target.PlayerId))
                 {
-                    Main.unreportableBodies.Add(Utils.GetPlayerById(target.PlayerId));
+                    Main.unreportableBodies.Add(target.PlayerId);
                     Main.AteBodies++;
                     if (Main.AteBodies == Options.BodiesAmount.GetFloat())
                     {
