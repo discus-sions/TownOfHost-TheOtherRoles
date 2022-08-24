@@ -1,14 +1,8 @@
 # Town Of Host Unofficial
 
-[![TownOfHost-Title](./Images/TownOfHost-Title.png)](https://youtu.be/IGguGyq_F-c)
-
-<p align="center"><a href="https://github.com/tukasa0001/TownOfHost/releases/"><img src="https://badgen.net/github/release/tukasa0001/TownOfHost"></a></p>
-
 ## Regarding this mod
 
 This mod is not affiliated with Among Us or Innersloth LLC, Town Of Host, and the content contained therein is not endorsed or otherwise sponsored by Innersloth LLC. Portions of the materials contained herein are property of Innersloth LLC. © Innersloth LLC.
-
-[![Discord](./Images/TownOfHost-Discord.png)](https://discord.gg/W5ug6hXB9V)
 
 ## Releases
 
@@ -24,7 +18,8 @@ Unlike mods that use custom servers, there is no need to add servers by editing 
 
 However, please note that the following restrictions apply.<br>
 
-- If the host changes and does not have the Town of Host mod installed, the server isn't modded and is now just a regular Among Us game.
+- If the host changes and does not have this installed, the server isn't modded and is now just a regular Among Us game.<br>
+- If someone will original TOH, joins a ToHU lobby, they may experience graphical issues.<br>
 
 Note that if a player other than the host plays with this mod installed, the following changes will be made.<br>
 
