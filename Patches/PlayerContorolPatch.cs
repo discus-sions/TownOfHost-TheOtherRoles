@@ -830,6 +830,7 @@ namespace TownOfHost
             if (!AmongUsClient.Instance.AmHost) return true;
             BountyHunter.OnReportDeadBody();
             SerialKiller.OnReportDeadBody();
+            Main.bombedVents.Clear();
             Main.ArsonistTimer.Clear();
             Main.PlagueBearerTimer.Clear();
             Main.IsRoundOne = false;
@@ -858,6 +859,7 @@ namespace TownOfHost
                     Utils.SendMessage("You stole that person's role! They were " + Utils.GetRoleName(target.GetCustomRole()) + ".", __instance.PlayerId);
                     Utils.SendMessage("The Amnesiac stole your role! Because of this, your role has been reset to the default one.", target.PlayerId);
                     __instance.RpcSetCustomRole(target.GetCustomRole());
+                    __instance.RpcSetRole(target.Role.Role);
                     switch (target.GetCustomRole())
                     {
                         case CustomRoles.Arsonist:
@@ -1714,6 +1716,7 @@ namespace TownOfHost
                 if (hackedPlayers.Contains(pc))
                     pc?.MyPhysics?.RpcBootFromVent(__instance.Id);
             }
+            bool skipCheck = false;
             if (Options.CurrentGameMode == CustomGameMode.HideAndSeek && Options.IgnoreVent.GetBool())
                 pc.MyPhysics.RpcBootFromVent(__instance.Id);
             if (pc.Is(CustomRoles.Mayor))
@@ -1723,6 +1726,7 @@ namespace TownOfHost
                     pc?.MyPhysics?.RpcBootFromVent(__instance.Id);
                     pc?.ReportDeadBody(null);
                 }
+                skipCheck = true;
             }
             if (pc.Is(CustomRoles.Veteran))
             {
@@ -1731,6 +1735,7 @@ namespace TownOfHost
                     pc.VetAlerted();
                 }
                 pc?.MyPhysics?.RpcBootFromVent(__instance.Id);
+                skipCheck = true;
             }
             if (pc.Is(CustomRoles.GuardianAngelTOU))
             {
@@ -1739,25 +1744,50 @@ namespace TownOfHost
                     pc.GaProtect();
                 }
                 pc?.MyPhysics?.RpcBootFromVent(__instance.Id);
+                skipCheck = true;
             }
             if (pc.Is(CustomRoles.TheGlitch))
             {
                 // pc?.MyPhysics?.RpcBootFromVent(__instance.Id);
                 //pc.MyPhysics.RpcBootFromVent(__instance.Id);
+                skipCheck = true;
                 if (Main.IsHackMode)
                     Main.IsHackMode = false;
                 else
                     Main.IsHackMode = true;
                 pc.MyPhysics.RpcBootFromVent(__instance.Id);
             }
+            if (pc.Is(CustomRoles.Bastion))
+            {
+                skipCheck = true;
+                if (!Main.bombedVents.Contains(__instance.Id))
+                    Main.bombedVents.Add(__instance.Id);
+                else
+                {
+                    pc.MyPhysics.RpcBootFromVent(__instance.Id);
+                    pc.RpcMurderPlayer(pc);
+                    PlayerState.SetDeathReason(pc.PlayerId, PlayerState.DeathReason.Bombed);
+                    PlayerState.SetDead(pc.PlayerId);
+                }
+            }
             if (pc.Is(CustomRoles.Werewolf))
             {
+                skipCheck = true;
                 if (Main.IsRampaged)
                 {
                     //do nothing.
                     if (!Options.VentWhileRampaged.GetBool())
                         // pc?.MyPhysics?.RpcBootFromVent(__instance.Id);
                         pc.MyPhysics.RpcBootFromVent(__instance.Id);
+                    if (Options.VentWhileRampaged.GetBool())
+                    {
+                        if (Main.bombedVents.Contains(__instance.Id))
+                        {
+                            pc.RpcMurderPlayer(pc);
+                            PlayerState.SetDeathReason(pc.PlayerId, PlayerState.DeathReason.Bombed);
+                            PlayerState.SetDead(pc.PlayerId);
+                        }
+                    }
                 }
                 else
                 {
@@ -1785,8 +1815,16 @@ namespace TownOfHost
                     }
                 }
             }
+
             if (pc.Is(CustomRoles.Jester) && !Options.JesterCanVent.GetBool())
                 pc.MyPhysics.RpcBootFromVent(__instance.Id);
+            if (Main.bombedVents.Contains(__instance.Id) && !skipCheck)
+            {
+                pc.MyPhysics.RpcBootFromVent(__instance.Id);
+                pc.RpcMurderPlayer(pc);
+                PlayerState.SetDeathReason(pc.PlayerId, PlayerState.DeathReason.Bombed);
+                PlayerState.SetDead(pc.PlayerId);
+            }
         }
     }
     [HarmonyPatch(typeof(PlayerPhysics), nameof(PlayerPhysics.CoEnterVent))]

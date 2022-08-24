@@ -59,6 +59,8 @@ Trapper,Trapper,トラッパー,陷阱师,設陷者
 Dictator,Dictator,ディクテーター,独裁者,獨裁主義者
 Child,Child,Child,小孩,小孩
 Sleuth,Sleuth,Sleuth,侦探,偵探
+Bastion,Bastion,Bastion,Bastion
+Demolitionist,Demolitionist,Demolitionist,Demolitionist
 
 # 第三陣営役職
 Jester,Jester,ジェスター,小丑,小丑
@@ -81,6 +83,7 @@ Werewolf,Werewolf,Werewolf,Werewolf
 TheGlitch,The Glitch,The Glitch,The Glitch
 GuardianAngelTOU,Guardian Angel,Guardian Angel,Guardian Angel
 Amnesiac,Amnesiac,Amnesiac,Amnesiac
+Hacker,Hacker,Hacker,Hacker
 
 # Coven 
 Coven,Coven,Coven,巫师,巫師
@@ -160,6 +163,8 @@ TrapperInfo,Trap your enemies,敵を罠にはめよう,引诱敌人落入你的�
 DictatorInfo,Hang your enemy based on your own judgement,独裁政治をしよう,让我统治世界，拥有无上的权利,讓所有人臣服於你
 ChildInfo,No one will Harm You,No one will Harm You,在你长大之前没有人敢伤害你,在你長大前都不敢擊殺你
 SleuthInfo,Discover the Unknown,Discover the Unknown,你发现了一些关于死者的线索,你發現了一些線索
+BastionInfo,Blow up Venters,Bastion,Bastion
+DemolitionistInfo,Blow up the Killer,Demolitionist,Demolitionist
 
 
 # 第三陣営役職
@@ -189,6 +194,7 @@ WerewolfInfo,Rampage to Kill Everyone,Rampage to Kill Everyone,Rampage to Kill E
 TheGlitchInfo,foreach PlayerControl Glitch.MurderPlayer,foreach PlayerControl Glitch.MurderPlayer,foreach PlayerControl Glitch.MurderPlayer
 GuardianAngelTOUInfo,Protect your Target from Attacks,Protect your Target from Attacks,Protect your Target from Attacks
 AmnesiacInfo,Report a body to Steal a Role,AmnesiacInfo,AmnesiacInfo
+HackerInfo,Fix all the Issues,Hacker,Hacker
 
 # Coven 
 CovenInfo,Support your Leader,Support your Leader,支援你的领袖,支持你的領袖
@@ -257,6 +263,8 @@ TrapperInfoLong,(Crewmates):\nThe Trappers forbid the killer to move in the leas
 DictatorInfoLong,"(Crewmates):\nWhen you vote for someone in a meeting, they forcibly break that meeting and exile the player they vote for.\nAfter exercising the force, the Dictators die just after meeting.",(クルーメイト陣営):\n会議中に誰かに投票をすると、会議を強制終了させて投票先を吊る事ができる。\n投票したタイミングでディクテーターは死ぬ。,(船员阵营):\n会议阶段独裁者投票后，可以选择强制结束会议并放逐其投票对象。\n这技能发动后独裁者将会死亡。,"(船員):\n如果獨裁主義者在會議上投票給某位玩家,\n獨裁主義者將強制結束會議並無視場上票數將獨裁主義者投的那個人投出\n但是獨裁主義者將死於他投票的瞬間。"
 ChildInfoLong,"(Crewmates):\nWhen you die by voting or killing, you instantly win. (Arsonist still wins even if Child is killed.)","(Crewmates):\nWhen you die by voting or killing, you instantly win.","(船员阵营):\n你被票出去或者被杀掉会因为你是小孩而获得胜利."
 SleuthInfoLong,"(Crewmates):\nThe Sleuth knows the role of the bodies they report.","(Crewmates):\nWhen a body is reported, you know the role of the body. You can make it so the Sleuth has to report.","(船员阵营):\n当报告尸体时你知道关于尸体的线索，你可以让侦探必须报告."
+BastionInfoLong,"(Crewmates):\nAs Bastion, vent inside a vent to place a bomb inside of it. Afterwards, if another Bastion or a role that can vent without being kicked out vents in that vent, they die. You can only bomb 1 person per round.","(Crewmates):\nInfo unfinished.","(Crewmates):\nInfo unfinished."
+DemolitionistInfoLong,"(Crewmates):\When the Demolitionist is killed, they bomb the ground, giving the killer a few seconds to find a vent. If they don't vent in time, the killer suicides.","(Crewmates):\nInfo unfinished.","(Crewmates):\nInfo unfinished."
 
 # 第三陣営役職
 ArsonistInfoLong,(Neutrals):\nThey can douse other players by using the kill button and remaining next to the player for a few seconds.\nAfter dousing everyone alive the Arsonists can enter the vents to ignite which results in Arsonist win.,(第三陣営):\nキルボタンを使おうとすると、ターゲットに油を塗れる。\nすべてのクルーに油を塗ったら船を燃やして勝利する。,(独立阵营):\n在一名玩家附近时点击击杀按钮，纵火犯可以给那名玩家涂油。\n所有存活玩家都被纵火犯涂油后，纵火犯点火将会单独获得胜利。,"(中立):\n當縱火犯嘗試使用殺人鍵,它將對他身邊最近的一個人澆上油,\n當他對所有玩家澆上油之後,縱火縱火犯點火即勝利。"
@@ -273,8 +281,9 @@ JuggernautInfoLong,"(Neutrals):\nThe Juggernaut's kill cooldown decreases with e
 VultureInfoLong,"(Neutrals):\nThe Vulture has to eat a certain number of bodies to win. When the Vulture attempts to report a body, the body will be determined ate to the Vulture. This means that the Vulture cannot report any dead bodies.","(Neutrals):\nThe Vulture has to eat a certain number of bodies to win. Due to techincal limitations, we cannot make the body disappear, but we can make the body unreportable. Because of this, the number of bodies aten by the Vulture will display at every meeting.","(Neutrals):\nThe Vulture has to eat a certain number of bodies to win. Due to techincal limitations, we cannot make the body disappear, but we can make the body unreportable. Because of this, the number of bodies aten by the Vulture will display at every meeting."
 WerewolfInfoLong,"(Neutrals):\nThe Werewolf can vent to activate their rampage function. Once you don't get kicked out of the vent, then your rampage is ready. While rampaged, they have a short kill cooldown and can only kill for a short amount of time. After the Rampage Duration, they can no longer kill. You can choose if the Werewolf can vent during rampage.","(Neutral):\nInfo unfinished.","(Neutral):\nInfo unfinished."
 TheGlitchInfoLong,"(Neutrals):\nThe Glitch is a neutral killing role. They can vent to switch killing modes. After every meeting, you are on killing mode. When you vent, you are on Hacking Mode. On hacking mode, press the kill button on someone to prevent them from doing something for a set period of time.","(Neutral):\nInfo unfinished.","(Neutral):\nInfo unfinished."
-GuardianAngelTOUInfoLong,"(Neutral):\nInfo unfinished.","(Neutral):\nInfo unfinished.","(Neutral):\nInfo unfinished."
+GuardianAngelTOUInfoLong,"(Neutral):\nThe Guardian Angel has a target they are supposed to protect. If their target wins, so does the GA. The GA can vent to temporarily prevent their target from being killed.","(Neutral):\nInfo unfinished.","(Neutral):\nInfo unfinished."
 AmnesiacInfoLong,"(Neutral):\nSteal someone's role by clicking the report button.","(Neutral):\nInfo unfinished.","(Neutral):\nInfo unfinished."
+HackerInfoLong,"(Neutral):\nAs the Hacker, your goal is to fix a number of sabotages. You have the powers of a SabotageMaster. The Sheriff can kill Hacker no matter what.","(Neutral):\nInfo unfinished.","(Neutral):\nInfo unfinished."
 
 # Coven
 CovenInfoLong,"""(Coven):\nNothing special about regular Coven. They just help support the Leader.""","""(Coven):\nNothing special about regular Coven. They just help support the Leader.""","""(法师):\n普通的法师没什么特别之处他们只会支援领袖.""",

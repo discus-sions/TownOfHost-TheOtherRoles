@@ -62,6 +62,10 @@ namespace TownOfHost
             //SabotageMaster
             if (player.Is(CustomRoles.SabotageMaster))
                 SabotageMaster.RepairSystem(__instance, systemType, amount);
+            if (player.Is(CustomRoles.Hacker))
+            {
+                SabotageMaster.RepairSystem(__instance, systemType, amount);
+            }
 
             if (!Options.MadmateCanFixLightsOut.GetBool() && //Madmateが停電を直せる設定がオフ
                systemType == SystemTypes.Electrical && //システムタイプが電気室

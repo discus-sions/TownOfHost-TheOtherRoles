@@ -183,6 +183,7 @@ namespace TownOfHost
                     if (cRole == CustomRoles.GuardianAngelTOU) hasTasks = false;
                     if (cRole == CustomRoles.Werewolf) hasTasks = false;
                     if (cRole == CustomRoles.TheGlitch) hasTasks = false;
+                    if (cRole == CustomRoles.Hacker) hasTasks = false;
                 }
                 var cSubRoleFound = Main.AllPlayerCustomSubRoles.TryGetValue(p.PlayerId, out var cSubRole);
                 if (cSubRoleFound)
@@ -513,9 +514,12 @@ namespace TownOfHost
                 }
                 else if (!pc.Data.IsDead)
                 {
-                    pc.RpcMurderPlayer(pc);
-                    PlayerState.SetDeathReason(pc.PlayerId, PlayerState.DeathReason.EarDamage);
-                    PlayerState.SetDead(pc.PlayerId);
+                    if (!pc.Is(CustomRoles.Pestilence))
+                    {
+                        pc.RpcMurderPlayer(pc);
+                        PlayerState.SetDeathReason(pc.PlayerId, PlayerState.DeathReason.EarDamage);
+                        PlayerState.SetDead(pc.PlayerId);
+                    }
                 }
             }
             MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.EndGame, Hazel.SendOption.Reliable, -1);
@@ -545,7 +549,7 @@ namespace TownOfHost
                     case SuffixModes.None:
                         break;
                     case SuffixModes.TOH:
-                        name += "\r\n<color=" + Main.modColor + ">TOH v" + Main.PluginVersion + "</color>";
+                        name += "\r\n<color=" + Main.modColor + ">TOH v" + Main.PluginVersion + " | ToHU v0.6.1b</color>";
                         break;
                     case SuffixModes.Streaming:
                         name += $"\r\n{GetString("SuffixMode.Streaming")}";

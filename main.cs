@@ -86,6 +86,7 @@ namespace TownOfHost
         public static Dictionary<byte, byte> PuppeteerList = new(); // Key: targetId, Value: PuppeteerId
         public static Dictionary<byte, byte> SpeedBoostTarget = new();
         public static Dictionary<byte, int> MayorUsedButtonCount = new();
+        public static Dictionary<byte, int> HackerFixedSaboCount = new();
         public static int AliveImpostorCount;
         public static int SKMadmateNowCount;
         public static bool witchMeeting;
@@ -102,6 +103,7 @@ namespace TownOfHost
         public static byte ExiledJesterID;
         public static byte WonTerroristID;
         public static byte WonExecutionerID;
+        public static byte WonHackerID;
         public static byte WonArsonistID;
         public static byte WonChildID;
         public static bool CustomWinTrigger;
@@ -120,6 +122,7 @@ namespace TownOfHost
         public static byte currentInfectingTarget;
         public static Dictionary<(byte, byte), bool> isInfected = new();
         public static Dictionary<byte, (PlayerControl, float)> PlagueBearerTimer = new();
+        public static List<int> bombedVents = new();
 
         public static Main Instance;
 
@@ -195,6 +198,7 @@ namespace TownOfHost
             ExecutionerTarget = new Dictionary<byte, byte>();
             GuardianAngelTarget = new Dictionary<byte, byte>();
             MayorUsedButtonCount = new Dictionary<byte, int>();
+            HackerFixedSaboCount = new Dictionary<byte, int>();
             //firstKill = new Dictionary<byte, (PlayerControl, float)>();
             winnerList = new();
             VisibleTasksCount = false;
@@ -311,6 +315,9 @@ namespace TownOfHost
                     { CustomRoles.Werewolf, "#B2762A"},
                     { CustomRoles.Amnesiac, "#81DDFC"},
                     { CustomRoles.Bewilder, "#292644"},
+                    { CustomRoles.Demolitionist, "#1830F9"},
+                    { CustomRoles.Bastion, "#F98518"},
+                    { CustomRoles.Hacker, "#AEF918"},
                 };
                 foreach (var role in Enum.GetValues(typeof(CustomRoles)).Cast<CustomRoles>())
                 {
@@ -504,7 +511,8 @@ namespace TownOfHost
         HASTroll = CustomRoles.HASTroll,
         Coven = CustomRoles.Coven,
         TheGlitch = CustomRoles.TheGlitch,
-        Werewolf = CustomRoles.Werewolf
+        Werewolf = CustomRoles.Werewolf,
+        Hacker = CustomRoles.Hacker
     }
     public enum AdditionalWinners
     {

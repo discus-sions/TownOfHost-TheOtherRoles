@@ -165,6 +165,17 @@ namespace TownOfHost
                     }
                 }
             }
+            if (Main.currentWinner == CustomWinner.Hacker && CustomRoles.Hacker.IsEnable())
+            { // HACKER //
+                winner = new();
+                foreach (var p in PlayerControl.AllPlayerControls)
+                {
+                    if (p.PlayerId == Main.WonHackerID)
+                    {
+                        winner.Add(p);
+                    }
+                }
+            }
             if (Main.currentWinner == CustomWinner.Child && CustomRoles.Child.IsEnable())
             {
                 winner = new();

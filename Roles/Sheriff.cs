@@ -162,6 +162,7 @@ namespace TownOfHost
                 CustomRoles.Conjuror => SheriffCanKillCoven.GetBool(),
                 // AFTER COVEN //
                 CustomRoles.SchrodingerCat => true,
+                CustomRoles.Hacker => true,
                 _ => cRole.GetRoleType() switch
                 {
                     RoleType.Impostor => true,

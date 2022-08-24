@@ -48,6 +48,7 @@ namespace TownOfHost
             Main.CheckShapeshift = new Dictionary<byte, bool>();
             Main.SpeedBoostTarget = new Dictionary<byte, byte>();
             Main.MayorUsedButtonCount = new Dictionary<byte, int>();
+            Main.HackerFixedSaboCount = new Dictionary<byte, int>();
             Main.KilledBewilder = new();
             Main.targetArrows = new();
             Main.JugKillAmounts = 0;
@@ -85,6 +86,7 @@ namespace TownOfHost
             Main.IsRampaged = false;
             Main.RampageReady = true;
             Main.IsHackMode = false;
+            Main.bombedVents = new List<int>();
 
             Main.DiscussionTime = Main.RealOptionsData.DiscussionTime;
             Main.VotingTime = Main.RealOptionsData.VotingTime;
@@ -177,6 +179,9 @@ namespace TownOfHost
 
                 if (Options.JesterCanVent.GetBool())
                     AdditionalEngineerNum += CustomRoles.Jester.GetCount();
+
+                if (CustomRoles.Bastion.IsEnable())
+                    AdditionalEngineerNum += CustomRoles.Bastion.GetCount();
 
                 if (CustomRoles.Veteran.IsEnable())
                     AdditionalEngineerNum += CustomRoles.Veteran.GetCount();
@@ -313,6 +318,7 @@ namespace TownOfHost
                 AssignCustomRolesFromList(CustomRoles.Sniper, Shapeshifters);
                 AssignCustomRolesFromList(CustomRoles.Jester, Options.JesterCanVent.GetBool() ? Engineers : Crewmates);
                 AssignCustomRolesFromList(CustomRoles.Madmate, Engineers);
+                AssignCustomRolesFromList(CustomRoles.Bastion, Engineers);
                 AssignCustomRolesFromList(CustomRoles.Bait, Crewmates);
                 AssignCustomRolesFromList(CustomRoles.Veteran, Engineers);
                 AssignCustomRolesFromList(CustomRoles.Sleuth, Crewmates);
@@ -325,6 +331,7 @@ namespace TownOfHost
                 AssignCustomRolesFromList(CustomRoles.Opportunist, Crewmates);
                 AssignCustomRolesFromList(CustomRoles.Snitch, Crewmates);
                 AssignCustomRolesFromList(CustomRoles.SabotageMaster, Crewmates);
+                AssignCustomRolesFromList(CustomRoles.Hacker, Crewmates);
                 AssignCustomRolesFromList(CustomRoles.Mafia, Impostors);
                 AssignCustomRolesFromList(CustomRoles.Terrorist, Engineers);
                 AssignCustomRolesFromList(CustomRoles.Executioner, Crewmates);
@@ -577,6 +584,9 @@ namespace TownOfHost
                             break;
                         case CustomRoles.Mayor:
                             Main.MayorUsedButtonCount[pc.PlayerId] = 0;
+                            break;
+                        case CustomRoles.Hacker:
+                            Main.HackerFixedSaboCount[pc.PlayerId] = 0;
                             break;
                         case CustomRoles.SabotageMaster:
                             SabotageMaster.Add(pc.PlayerId);

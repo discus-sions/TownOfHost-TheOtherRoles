@@ -319,6 +319,9 @@ namespace TownOfHost
                     case CustomWinner.Executioner:
                         ExecutionerWin(winner[0]);
                         break;
+                    case CustomWinner.Hacker:
+                        HackerWin(winner[0]);
+                        break;
                     case CustomWinner.Arsonist:
                         ArsonistWin(winner[0]);
                         break;
@@ -394,6 +397,12 @@ namespace TownOfHost
             Main.WonExecutionerID = executionerID;
             Main.currentWinner = CustomWinner.Executioner;
             CustomWinTrigger(executionerID);
+        }
+        public static void HackerWin(byte hackerID)
+        {
+            Main.WonHackerID = hackerID;
+            Main.currentWinner = CustomWinner.Hacker;
+            CustomWinTrigger(hackerID);
         }
         public static void ArsonistWin(byte arsonistID)
         {
