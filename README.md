@@ -566,6 +566,30 @@ The time held in place on the body is decided by host in settings.<br>
 | --------------- |
 | Freeze Duration |
 
+### Sleuth
+
+Created by TOuR<br>
+Original Idea by TOuR<br>
+
+Team : Crewmates<br>
+Basis : Crewmate<br>
+
+The Sleuth can report a body to know its role.<br>
+The Sleuth has to report.<br>
+The Sleuth has no settings.<br>
+
+### Child
+
+Created by Discussions<br>
+Original idea by ???<br>
+
+Team & Basis: Crewmates<br>
+
+When the Child dies by any matter, the Child Wins.<br>
+
+| Name           |
+| -------------- |
+| Child Is Known |
 
 ## Neutral
 
