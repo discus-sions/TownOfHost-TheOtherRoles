@@ -194,6 +194,7 @@ namespace TownOfHost
                     break;
 
                 case CustomRoles.Sheriff:
+                case CustomRoles.Bastion:
                     PlayerControl.LocalPlayer.Data.Role.IntroSound = GetIntroSound(RoleTypes.Crewmate);
                     //__instance.BackgroundBar.material.color = Palette.CrewmateBlue;
                     break;
