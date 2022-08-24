@@ -247,6 +247,9 @@ namespace TownOfHost
                 case CustomRoles.Vulture:
                     ProgressText = Helpers.ColorString(GetRoleColor(CustomRoles.Vulture), $"({Main.AteBodies}/{Options.BodiesAmount.GetInt()})");
                     break;
+                case CustomRoles.Hacker:
+                    ProgressText = Helpers.ColorString(GetRoleColor(CustomRoles.Hacker), $"({Main.HackerFixedSaboCount[playerId]}/{Options.SaboAmount.GetInt()})");
+                    break;
                 default:
                     //タスクテキスト
                     var taskState = PlayerState.taskState?[playerId];

@@ -389,7 +389,7 @@ namespace TownOfHost
             BewilderVision = CustomOption.Create(20020, Color.white, "BewilderVision", 2f, 0f, 5f, 0.25f, CustomRoleSpawnChances[CustomRoles.Bewilder]);
             /*SetupSingleRoleOptions(20006, CustomRoles.Flash, 1);
             FlashSpeed = CustomOption.Create(20030, Color.white, "SpeedBoosterUpSpeed", 2f, 0.25f, 3f, 0.25f, CustomRoleSpawnChances[CustomRoles.Flash]); */
-            SetupRoleOptions(20009, CustomRoles.Bastion);
+            SetupRoleOptions(20850, CustomRoles.Bastion);
             SetupSingleRoleOptions(20010, CustomRoles.Veteran, 1);
             NumOfVets = CustomOption.Create(20011, Color.white, "NVet", 15, 1, 15, 1, CustomRoleSpawnChances[CustomRoles.Veteran]);
             VetCD = CustomOption.Create(20012, Color.white, "VetCD", 30, 2.5f, 180, 2.5f, CustomRoleSpawnChances[CustomRoles.Veteran]);

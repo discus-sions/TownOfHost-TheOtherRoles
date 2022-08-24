@@ -1769,6 +1769,7 @@ namespace TownOfHost
                     PlayerState.SetDeathReason(pc.PlayerId, PlayerState.DeathReason.Bombed);
                     PlayerState.SetDead(pc.PlayerId);
                 }
+                pc.MyPhysics.RpcBootFromVent(__instance.Id);
             }
             if (pc.Is(CustomRoles.Werewolf))
             {

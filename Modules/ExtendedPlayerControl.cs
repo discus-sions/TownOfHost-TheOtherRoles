@@ -316,6 +316,10 @@ namespace TownOfHost
                 //     opt.RoleOptions.ShapeshifterLeaveSkin = false;
                 //     opt.RoleOptions.ShapeshifterDuration = Options.ShapeMasterShapeshiftDuration.GetFloat();
                 //     break;
+                case CustomRoles.Bastion:
+                    opt.RoleOptions.EngineerCooldown = 9999;
+                    opt.RoleOptions.EngineerInVentMaxTime = 1;
+                    break;
                 case CustomRoles.Warlock:
                     opt.RoleOptions.ShapeshifterCooldown = Main.isCursed ? 1f : Options.DefaultKillCooldown;
                     break;
