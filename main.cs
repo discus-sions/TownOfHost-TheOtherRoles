@@ -315,9 +315,9 @@ namespace TownOfHost
                     { CustomRoles.Werewolf, "#B2762A"},
                     { CustomRoles.Amnesiac, "#81DDFC"},
                     { CustomRoles.Bewilder, "#292644"},
-                    { CustomRoles.Demolitionist, "#1830F9"},
-                    { CustomRoles.Bastion, "#F98518"},
-                    { CustomRoles.Hacker, "#AEF918"},
+                    { CustomRoles.Demolitionist, "#5e2801"},
+                    { CustomRoles.Bastion, "#524f4d"},
+                    { CustomRoles.Hacker, "#358013"},
                 };
                 foreach (var role in Enum.GetValues(typeof(CustomRoles)).Cast<CustomRoles>())
                 {
