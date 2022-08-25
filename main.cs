@@ -95,6 +95,7 @@ namespace TownOfHost
         public static List<byte> unreportableBodies = new();
         public static List<PlayerControl> SilencedPlayer = new();
         public static List<byte> KilledBewilder = new();
+        public static List<byte> KilledDemo = new();
         public static bool isSilenced;
         public static bool isShipStart;
         public static Dictionary<byte, bool> CheckShapeshift = new();

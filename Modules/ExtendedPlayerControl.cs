@@ -737,27 +737,32 @@ namespace TownOfHost
         {
             Logger.Info($"{killer?.Data?.PlayerName}はTrapperだった", "KilledDemo");
             Logger.Info($"{target?.Data?.PlayerName}はTrapperだった", "IsDemo");
-            killer.Data.PlayerName += $"<color={Utils.GetRoleColorCode(CustomRoles.Demolitionist)}>▲</color>";
+            //killer.Data.PlayerName += $"<color={Utils.GetRoleColorCode(CustomRoles.Demolitionist)}>▲</color>";
+            Main.KilledDemo.Add(killer.PlayerId);
             killer.CustomSyncSettings();
             new LateTask(() =>
             {
-                killer.Data.PlayerName = killer.GetRealName();
-                if (!killer.inVent)
+                // killer.Data.PlayerName = killer.GetRealName();
+                if (!GameStates.IsMeeting)
                 {
-                    if (!killer.Is(CustomRoles.Pestilence))
+                    Main.KilledDemo.Remove(killer.PlayerId);
+                    if (!killer.inVent)
+                    {
+                        if (!killer.Is(CustomRoles.Pestilence))
+                        {
+                            killer.CustomSyncSettings();
+                            if (killer.protectedByGuardian)
+                                killer.RpcMurderPlayer(killer);
+                            killer.RpcMurderPlayer(killer);
+                            PlayerState.SetDeathReason(killer.PlayerId, PlayerState.DeathReason.Suicide);
+                            PlayerState.SetDead(killer.PlayerId);
+                        }
+                    }
+                    else
                     {
                         killer.CustomSyncSettings();
-                        if (killer.protectedByGuardian)
-                            killer.RpcMurderPlayer(killer);
-                        killer.RpcMurderPlayer(killer);
-                        PlayerState.SetDeathReason(killer.PlayerId, PlayerState.DeathReason.Suicide);
-                        PlayerState.SetDead(killer.PlayerId);
+                        RPC.PlaySoundRPC(killer.PlayerId, Sounds.TaskComplete);
                     }
-                }
-                else
-                {
-                    killer.CustomSyncSettings();
-                    RPC.PlaySoundRPC(killer.PlayerId, Sounds.TaskComplete);
                 }
             }, Options.DemoSuicideTime.GetFloat(), "Demolitionist Time");
         }

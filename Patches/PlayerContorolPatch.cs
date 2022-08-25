@@ -784,6 +784,7 @@ namespace TownOfHost
         public static bool Prefix(PlayerControl __instance, [HarmonyArgument(0)] GameData.PlayerInfo target)
         {
             if (GameStates.IsMeeting) return false;
+            if (Main.KilledDemo.Contains(__instance.PlayerId)) return false;
             if (target != null) //ボタン
             {
                 if (__instance.Is(CustomRoles.Oblivious))
@@ -836,6 +837,7 @@ namespace TownOfHost
             BountyHunter.OnReportDeadBody();
             SerialKiller.OnReportDeadBody();
             Main.bombedVents.Clear();
+            Main.KilledDemo.Clear();
             Main.ArsonistTimer.Clear();
             Main.PlagueBearerTimer.Clear();
             Main.IsRoundOne = false;
@@ -1428,6 +1430,11 @@ namespace TownOfHost
                     var canFindSnitchRole = seer.GetCustomRole().IsImpostor() || //LocalPlayerがインポスター
                         (Options.SnitchCanFindNeutralKiller.GetBool() && seer.IsNeutralKiller());//or キル可能な第三陣営
 
+                    if (Main.KilledDemo.Contains(seer.PlayerId))
+                    {
+                        Mark += $"<color={Utils.GetRoleColorCode(CustomRoles.Demolitionist)}>▲</color>";
+                    }
+                    else Mark = "";
                     if (canFindSnitchRole && target.Is(CustomRoles.Snitch) && target.GetPlayerTaskState().DoExpose //targetがタスクが終わりそうなSnitch
                     )
                     {

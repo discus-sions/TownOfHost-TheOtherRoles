@@ -50,6 +50,7 @@ namespace TownOfHost
             Main.MayorUsedButtonCount = new Dictionary<byte, int>();
             Main.HackerFixedSaboCount = new Dictionary<byte, int>();
             Main.KilledBewilder = new();
+            Main.KilledDemo = new();
             Main.targetArrows = new();
             Main.JugKillAmounts = 0;
             Main.AteBodies = 0;
