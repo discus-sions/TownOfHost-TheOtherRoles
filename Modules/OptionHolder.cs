@@ -382,7 +382,7 @@ namespace TownOfHost
             EvilWatcherChance = CustomOption.Create(30010, Color.white, "EvilWatcherChance", 0, 0, 100, 10, CustomRoleSpawnChances[CustomRoles.Watcher]);
             // Crewmate
             SetupRoleOptions(20000, CustomRoles.Bait);
-            SetupRoleOptions(20001, CustomRoles.Sleuth);
+            //  SetupRoleOptions(20001, CustomRoles.Sleuth);
             /* SetupSingleRoleOptions(20002, CustomRoles.Oblivious, 1);
              SetupSingleRoleOptions(20003, CustomRoles.TieBreaker, 1);
              SetupSingleRoleOptions(20004, CustomRoles.Torch, 1);*/
@@ -425,7 +425,7 @@ namespace TownOfHost
 
             SetupRoleOptions(30000, CustomRoles.Child);
             ChildKnown = CustomOption.Create(30010, Color.white, "ChildKnown", false, CustomRoleSpawnChances[CustomRoles.Child]);
-            //SetupRoleOptions(30100, CustomRoles.Sleuth);
+            SetupRoleOptions(30100, CustomRoles.Sleuth);
             //SleuthReport = CustomOption.Create(30110, Color.white, "SleuthReport", false, CustomRoleSpawnChances[CustomRoles.Sleuth]);
             // Neutral
             SetupRoleOptions(50500, CustomRoles.Arsonist);
@@ -448,7 +448,7 @@ namespace TownOfHost
             //50220~50223を使用
             TerroristTasks = OverrideTasksData.Create(50220, CustomRoles.Terrorist);
             SetupRoleOptions(50250, CustomRoles.Hacker);
-            SaboAmount = CustomOption.Create(50510, Color.white, "SA", 4, 10, 99, 1, CustomRoleSpawnChances[CustomRoles.Hacker]);
+            SaboAmount = CustomOption.Create(50510, Color.white, "SA", 30, 10, 99, 1, CustomRoleSpawnChances[CustomRoles.Hacker]);
             SetupLoversRoleOptionsToggle(50300);
 
             SetupRoleOptions(50400, CustomRoles.SchrodingerCat);
