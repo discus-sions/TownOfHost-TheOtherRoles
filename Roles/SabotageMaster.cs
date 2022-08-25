@@ -210,15 +210,15 @@ namespace TownOfHost
         }
         public static void HackerSwitchSystemRepair(SwitchSystem __instance, byte amount)
         {
-            if (SkillLimit.GetFloat() > 0 &&
+            /*if (SkillLimit.GetFloat() > 0 &&
                 HackerUsedSkillCount >= SkillLimit.GetFloat())
-                return;
+                return;*/
+            HackerUsedSkillCount++;
 
             if (amount is >= 0 and <= 4)
             {
                 __instance.ActualSwitches = 0;
                 __instance.ExpectedSwitches = 0;
-                HackerUsedSkillCount++;
             }
         }
     }
