@@ -448,7 +448,7 @@ namespace TownOfHost
             //50220~50223を使用
             TerroristTasks = OverrideTasksData.Create(50220, CustomRoles.Terrorist);
             SetupRoleOptions(50250, CustomRoles.Hacker);
-            SaboAmount = CustomOption.Create(50510, Color.white, "SA", 30, 10, 99, 1, CustomRoleSpawnChances[CustomRoles.Hacker]);
+            SaboAmount = CustomOption.Create(50260, Color.white, "SA", 30, 10, 99, 1, CustomRoleSpawnChances[CustomRoles.Hacker]);
             SetupLoversRoleOptionsToggle(50300);
 
             SetupRoleOptions(50400, CustomRoles.SchrodingerCat);
