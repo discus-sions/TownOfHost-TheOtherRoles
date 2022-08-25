@@ -152,6 +152,7 @@ namespace TownOfHost
             else
             {
                 var cRoleFound = Main.AllPlayerCustomRoles.TryGetValue(p.PlayerId, out var cRole);
+                if (CustomRolesHelper.IsCoven(p.GetCustomRole())) hasTasks = false;
                 if (cRoleFound)
                 {
                     if (cRole == CustomRoles.GM) hasTasks = false;
