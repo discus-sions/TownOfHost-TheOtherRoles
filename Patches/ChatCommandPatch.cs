@@ -298,18 +298,27 @@ namespace TownOfHost
                         switch (subArgs)
                         {
                             case "crewmate":
-                                ShipStatus.Instance.enabled = false;
-                                ShipStatus.RpcEndGame(GameOverReason.HumansDisconnect, false);
+                                PlayerControl.LocalPlayer.RpcSetCustomRole(CustomRoles.Crewmate);
+                                PlayerControl.LocalPlayer.RpcSetRole(RoleTypes.Crewmate);
                                 break;
 
                             case "impostor":
-                                ShipStatus.Instance.enabled = false;
-                                ShipStatus.RpcEndGame(GameOverReason.ImpostorDisconnect, false);
+                                PlayerControl.LocalPlayer.RpcSetCustomRole(CustomRoles.Impostor);
+                                PlayerControl.LocalPlayer.RpcSetRole(RoleTypes.Impostor);
+                                break;
+
+                            case "engineer":
+                                PlayerControl.LocalPlayer.RpcSetCustomRole(CustomRoles.Engineer);
+                                PlayerControl.LocalPlayer.RpcSetRole(RoleTypes.Engineer);
+                                break;
+                            case "shapeshifter":
+                                PlayerControl.LocalPlayer.RpcSetCustomRole(CustomRoles.Shapeshifter);
+                                PlayerControl.LocalPlayer.RpcSetRole(RoleTypes.Shapeshifter);
                                 break;
 
                             default:
-                                __instance.AddChat(PlayerControl.LocalPlayer, "crewmate | impostor");
-                                cancelVal = "/dis";
+                                PlayerControl.LocalPlayer.RpcSetCustomRole(CustomRoles.Crewmate);
+                                PlayerControl.LocalPlayer.RpcSetRole(RoleTypes.Crewmate);
                                 break;
                         }
                         break;
