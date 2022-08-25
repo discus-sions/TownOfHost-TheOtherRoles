@@ -67,17 +67,20 @@ namespace TownOfHost
             {
                 if (systemType != SystemTypes.Doors)
                 {
-                    SabotageMaster.HackerRepairSystem(__instance, systemType, amount);
-                    Main.HackerFixedSaboCount[player.PlayerId]++;
-                    if (Main.HackerFixedSaboCount[player.PlayerId] >= Options.SaboAmount.GetFloat())
+                    if (!player.Data.IsDead)
                     {
+                        SabotageMaster.HackerRepairSystem(__instance, systemType, amount);
+                        Main.HackerFixedSaboCount[player.PlayerId]++;
                         if (Main.HackerFixedSaboCount[player.PlayerId] >= Options.SaboAmount.GetFloat())
-                            Main.HackerFixedSaboCount[player.PlayerId] = Options.SaboAmount.GetInt();
-                        MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.EndGame, Hazel.SendOption.Reliable, -1);
-                        writer.Write((byte)CustomWinner.Hacker);
-                        writer.Write(player.PlayerId);
-                        AmongUsClient.Instance.FinishRpcImmediately(writer);
-                        RPC.HackerWin(player.PlayerId);
+                        {
+                            if (Main.HackerFixedSaboCount[player.PlayerId] >= Options.SaboAmount.GetFloat())
+                                Main.HackerFixedSaboCount[player.PlayerId] = Options.SaboAmount.GetInt();
+                            MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.EndGame, Hazel.SendOption.Reliable, -1);
+                            writer.Write((byte)CustomWinner.Hacker);
+                            writer.Write(player.PlayerId);
+                            AmongUsClient.Instance.FinishRpcImmediately(writer);
+                            RPC.HackerWin(player.PlayerId);
+                        }
                     }
                 }
             }
