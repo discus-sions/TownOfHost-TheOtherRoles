@@ -107,15 +107,15 @@ For example: `welcome:This room is using TownOfHost.`
 | [SerialKiller](#SerialKiller)       | [Nice Watcher](#Watcher)          | [Opportunist](#Opportunist)       |
 | [Sniper](#Sniper)                   | [SabotageMaster](#SabotageMaster) | [Terrorist](#Terrorist)           |
 | [TimeThief](#TimeThief)             | [Sheriff](#Sheriff)               | [SchrodingerCat](#SchrodingerCat) |
-| [Vampire](#Vampire)                 | [Snitch](#Snitch)                 |                                   |
-| [Warlock](#Warlock)                 | [SpeedBooster](#SpeedBooster)     |                                   |
-| [Witch](#Witch)                     | [Trapper](#Trapper)               |                                   |
-| [Mafia](#Mafia)                     |                                   |                                   |
-| [Madmate](#Madmate)                 |                                   |                                   |
-| [MadGuardian](#MadGuardian)         |                                   |                                   |
-| [MadSnitch](#MadSnitch)             |                                   |                                   |
-| [SidekickMadmate](#SidekickMadmate) |                                   |                                   |
-| [Silencer](#silencer)               |                                   |                                   |
+| [Vampire](#Vampire)                 | [Snitch](#Snitch)                 | [Juggernaut](#juggernaut)         |
+| [Warlock](#Warlock)                 | [SpeedBooster](#SpeedBooster)     | [Vulture](#vulture)               |
+| [Witch](#Witch)                     | [Trapper](#Trapper)               | [Hacker](#hacker)                 |
+| [Mafia](#Mafia)                     | [Demolitionist](#demolitionist)   | [PlagueBearer](#plaguebearer)     |
+| [Madmate](#Madmate)                 | [Bastion](#bastion)               | [The-Glitch](#the-glitch)         |
+| [MadGuardian](#MadGuardian)         | [Bewilder](#bewilder)             | [Werewolf](#werewolf)             |
+| [MadSnitch](#MadSnitch)             | [Veteran](#veteran)               | [Guardian-Angel](#guardian-angel) |
+| [SidekickMadmate](#SidekickMadmate) | [Child](#child)                   | [Amnesiac](#amnesiac)             |
+| [Silencer](#silencer)               | [Sleuth](#sleuth)                 | [Pestilence](#pestilence)         |
 
 ### GM
 
@@ -189,6 +189,9 @@ The cursed crewmate can kill a mad role also.<br>
 It is not possible for puppeteer to perform a normal kill.<br>
 
 ### SerialKiller
+
+**Warning**
+Broken with latest Among Us Update.
 
 Team : Impostors<br>
 Basis : Shapeshifter<br>
@@ -528,6 +531,7 @@ The imposters also see an arrow pointed in the snitch's direction when the snitc
 | Snitch Can See Target Arrow    |
 | Snitch Can See Colored Arrow   |
 | Snitch Can Find Neutral Killer |
+| Snitch Can Find Coven          |
 
 ### SpeedBooster
 
@@ -542,7 +546,7 @@ Finishing all the tasks boosts the player speed of someone alive.<br>
 
 | Name                 |
 | -------------------- |
-| Boosted Player Speed |
+| Boosted Player Speed |J
 
 ### Trapper
 
@@ -563,14 +567,14 @@ The time held in place on the body is decided by host in settings.<br>
 
 ### Sleuth
 
-Created by TOuR<br>
+Created by Discussions<br>
 Original Idea by TOuR<br>
 
 Team : Crewmates<br>
 Basis : Crewmate<br>
 
 The Sleuth can report a body to know its role.<br>
-The Sleuth has to report.<br>
+The Sleuth has to report to know the role.<br>
 The Sleuth has no settings.<br>
 
 ### Child
@@ -582,9 +586,71 @@ Team & Basis: Crewmates<br>
 
 When the Child dies by any matter, the Child Wins.<br>
 
+#### Game Options
+
 | Name           |
 | -------------- |
 | Child Is Known |
+
+### Bewilder
+
+Created by Discussions<br>
+Original Idea by Mek<br>
+
+Team : Crewmates<br>
+Basis : Crewmate<br>
+
+The Bewilder is similar to bait, meaning that something happens when you kill it.<br>
+As Bewilder, when a killer kills you they gain your small vision. Making them have small vision for the rest of the game.<br>
+You can customize the vision using Settings.
+
+### Bastion
+
+Created by Discussions<br>
+Original Idea by Mek<br>
+
+Team : Crewmates<br>
+Basis : Crewmate<br>
+
+The Bastion can also bomb themselves or other Bastions.<br>
+
+### Demolitionist
+
+Created by Discussions<br>
+Original Idea by Mek<br>
+
+Team : Crewmates<br>
+Basis : Crewmate<br>
+
+When a killer kills the Demolitionist, they have a few seconds to go hide and vent, or else they will die with the Suicide Death Reason.<br>
+The time is configurable. You will know when you are bombed when you see an arsonist triangle by your name.<br>
+
+#### Game Options
+
+| Setting Name    |
+| --------------- |
+| Suicide Time    |
+
+### Veteran
+
+Created by Discussions<br>
+Original idea by TOuR<br>
+
+Team: Crewmates<br>
+Basis: Engineer
+
+The Veteran can vent to go on Alert.<br>
+While Veteran is on alert, any killing role that tries to use their kill button on Veteran, crew roles too if turned on, will make the Veteran lunge to kill.<br>
+
+#### Game Options
+
+| Name                                   |
+| ----------------                       |
+| Alert Cooldown                         |
+| Alert Duration                         |
+| Number of Alerts                       |
+| Vet Crew Roles                         |
+| What Happens if Pestilence Attacks Vet |
 
 ## Neutral
 
@@ -612,6 +678,121 @@ To douse, you must stand next to a player after pressing kill until the orange t
 | ----------------------- |
 | Arsonist Douse Duration |
 | Arsonist Douse Cooldown |
+
+### PlagueBearer
+
+Team : Neutral<br>
+Basis : Impostor<br>
+Victory Condition : Be the last one standing with a crewmate<br>
+
+When an PlagueBearer tries to use the kill button, they infect the crewmate.<br>
+To win as PlagueBearer, you must be the last one alive with a crewmember.<br>
+To infect, you just have to press the kill button. No infecting timer. <br>
+After infecting everyone, you turn into Pestilence.
+
+* As a measure against blackout, after death, the Arsonist can only see the motion of committing suicide at each meeting. There is no corpse. <br>
+
+#### Game Options
+
+| Name                    |
+| ----------------------- |
+| PlagueeBearer Infect CD |
+
+### Pestilence
+
+Team : Neutral<br>
+Basis : Impostor<br>
+Victory Condition : Kill all Living Player<br>
+
+PlagueBearer becomes Pestilence when they finish infecting.<br>
+Pestilence is an unkillable force. When someone tries to kill Pestilence, the pestilence will kill with a lunge. Pestilence can only be voted.<br>
+
+* As a measure against blackout, after death, the Arsonist can only see the motion of committing suicide at each meeting. There is no corpse. <br>
+
+#### Game Options
+
+| Name                    |
+| ----------------------- |
+| Pesti Kill Cooldown     |
+| Pestilence Can Vent     |
+
+### Vulture
+
+Team : Neutral<br>
+Basis : Crewmate<br>
+Victory Condition : Eat Bodies to Win<br>
+
+The Vulture can use their report button to eat the body. Making it unreportable.<br>
+You can still see it though due to techincal limitations.<br>
+You can change how many bodies they have to eat.<br>
+
+#### Game Options
+
+| Name                    |
+| ----------------------- |
+| Body Amount             |
+
+### The Glitch
+
+Team : Neutral<br>
+Basis : Impostor<br>
+
+The Glitch can vent to switch killing modes.<br>
+After every meeting, they are on killing mode.<br>
+Once they vent, they are on hacking mode.<br>
+Hack someone to prevent them from reporting, sabotaging, killing, and venting if turned on.<br>
+
+#### Game Options
+
+| Name                    |
+| ----------------------- |
+| Kill Cooldown           |
+| Hack Cooldown           |
+| Hack Prevents Vent      |
+
+### Werewolf
+
+Team : Neutral<br>
+Basis : Impostor<br>
+
+The Werewolf can vent to activate their rampage.<br>
+They can only kill during a rampage.<br>
+This requires tweaking until you get it right.<br>
+
+#### Game Options
+
+| Name                    |
+| ----------------------- |
+| Rampage Cooldown        |
+| Rampage Duration        |
+| Can Vent While Rampaged |
+
+### Guardian Angel
+
+Team : Neutral<br>
+Basis : Engineer<br>
+
+The Guardian Angel can vent to temportarily prevent their target from being killed.<br>
+If their target wins, so does the Guardian Angel.<br>
+
+#### Game Options
+
+| Name                        |
+| --------------------------- |
+| Protect Cooldown            |
+| Protect Duration            |
+| Number of Protects          |
+| GA Knows Target's Role      |
+| Target Knows They have a GA |
+
+### Amnesiac
+
+Team : Neutral<br>
+Basis : Impostor<br>
+
+The Amnesiac can report a body to take its role.<br>
+After reporting, they go on and win with that team.<br>
+
 
 ### Egoist
 
@@ -656,6 +837,7 @@ If the target is a [Jester](#jester), they will win an additional victory with t
 | Name                            |
 | ------------------------------- |
 | Executioner Can Target Impostor |
+| Executioner Can Target Neutral  |
 | Role After Target Dies          |
 
 ### Jester
@@ -707,6 +889,40 @@ Victory Conditions : Finish All Tasks, Then Die<br>
 The Terrorists are the Neutral Role where they win the game alone if they die with all their tasks completed.<br>
 Any cause of death is acceptable.<br>
 If they die before completing their tasks, or if they survive at the game end, they lose.<br>
+
+### Juggernaut
+
+Team : Neutral<br>
+Basis : Impostor<br>
+
+The Juggernaut starts from the starting kill cooldown.<br>
+However, with every kill, their next kill cooldown decreases by the chosen amount.<br>
+
+#### Game Options
+
+| Name                        |
+| --------------------------- |
+| Starting Kill Cooldown      |
+| Decrease Amount             |
+| Juggernaut can Vent         |
+
+### Hacker
+
+Create and idea by Mek<br>
+
+Team : Neutral<br>
+Basis : Crewmate<br>
+
+The Hacker's goal is to reach a certain number of points<br>
+They reach these points by sabotages.<br>
+When a Sabotage is called, and/or the Hacker fixes it, the Hacker gains a point.<br>
+Reach the required amount of points to win.<br>
+
+#### Game Options
+
+| Name                 |
+| -------------------- |
+| Points Amount        |
 
 ## Attribute
 
@@ -881,6 +1097,10 @@ This mode limits the maximum number of meetings that can be called in total.<br>
 | ---------------- |
 | Max Button Count |
 
+### Global RoleBlock Duration
+
+Every role than can roleblock shares the same global cooldown.<br>
+
 ## OtherSettings
 
 | Name           |
@@ -908,16 +1128,16 @@ If the client language is English, this option is meaningless unless `Force Japa
 
 ## Credits
 
-More tips to modding and [BountyHunter](#BountyHunter),[Mafia](#Mafia),[Vampire](#Vampire),[Witch](#Witch),[Bait](#Bait),[Mayor](#Mayor),[Sheriff](#Sheriff),[Snitch](#Snitch),[Lighter](#Lighter) idea by [The Other Roles](https://github.com/Eisbison/TheOtherRoles)<br>
-[Opportunist](#Opportunist),[Watcher](#Watcher) original idea by [The Other Roles: GM Edition](https://github.com/yukinogatari/TheOtherRoles-GM)<br>
-[SchrodingerCat](#SchrodingerCat) idea by [The Other Roles: GM Haoming Edition](https://github.com/haoming37/TheOtherRoles-GM-Haoming)<br>
-[Doctor](#Doctor) original idea by [Nebula on the Ship](https://github.com/Dolly1016/Nebula)<br>
-[Jester](#Jester) and [Madmate](#Madmate) original idea by [au.libhalt.net](https://au.libhalt.net)<br>
-[Terrorist](#Terrorist)(Trickstar + Joker) : [Foolers Mod](https://github.com/MengTube/Foolers-Mod)<br>
-[Lovers](#lovers) : [Town-Of-Us-R](https://github.com/eDonnes124/Town-Of-Us-R)<br>
+Roles from:
+1. [The Other Roles](https://github.com/Eisbison/TheOtherRoles)<br>
+2. [The Other Roles: GM Edition](https://github.com/yukinogatari/TheOtherRoles-GM)<br>
+3. [The Other Roles: GM Haoming Edition](https://github.com/haoming37/TheOtherRoles-GM-Haoming)<br>
+4. [Nebula on the Ship](https://github.com/Dolly1016/Nebula)<br>
+5. [au.libhalt.net](https://au.libhalt.net)<br>
+6. [Foolers Mod](https://github.com/MengTube/Foolers-Mod)<br>
+7. [Town-Of-Us-R](https://github.com/eDonnes124/Town-Of-Us-R)<br>
+8. Mek, My friend on Discord
 
 ## Developers
 - [Discussions](https://github.com/music-discussion) ([YouTube](https://www.youtube.com/channel/UCAawAIWR5XfJE6T0JdYpzzg)) - Coding
 - [MC-AS-Huier](https://github.com/MC-AS-Huier) - Translations
-
-
