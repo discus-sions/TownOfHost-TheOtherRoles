@@ -256,6 +256,13 @@ namespace TownOfHost
                 switch (killer.GetCustomRole())
                 {
                     //==========インポスター役職==========//
+                    case CustomRoles.Jackal:
+                        if (target.Is(CustomRoles.Veteran) && Main.VetIsAlerted)
+                        {
+                            target.RpcMurderPlayer(killer);
+                            return false;
+                        }
+                        break;
                     case CustomRoles.TheGlitch:
                         if (target.Is(CustomRoles.Veteran) && Main.VetIsAlerted && !Main.IsHackMode)
                         {
@@ -1269,18 +1276,7 @@ namespace TownOfHost
 
                     }
                 }
-                if (GameStates.IsInTask)
-                {
-                    foreach (var pc in PlayerControl.AllPlayerControls)
-                    {
-                        if (Options.ChildKnown.GetBool() == true)
-                        {
-                            //their name will have (C)
-                            if (pc.Is(CustomRoles.Child))
-                                pc.name += Helpers.ColorString(Utils.GetRoleColor(CustomRoles.Jackal), " (C)");
-                        }
-                    }
-                }
+
                 if (GameStates.IsInTask && Main.PuppeteerList.ContainsKey(player.PlayerId))
                 {
                     if (!player.IsAlive())
@@ -1490,6 +1486,11 @@ namespace TownOfHost
                         {
                             Mark += $"<color={Utils.GetRoleColorCode(CustomRoles.Arsonist)}>△</color>";
                         }
+                    }
+                    if (target.Is(CustomRoles.Child))
+                    {
+                        if (Options.ChildKnown.GetBool())
+                            Mark += Helpers.ColorString(Utils.GetRoleColor(CustomRoles.Jackal), " (C)");
                     }
                     if (seer.Is(CustomRoles.PlagueBearer) || seer.Data.IsDead)
                     {

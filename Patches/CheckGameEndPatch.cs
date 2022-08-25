@@ -472,8 +472,6 @@ namespace TownOfHost
 
             public PlayerStatistics(ShipStatus __instance)
             {
-                Arsonists.Clear();
-                Arsonists = new List<byte>();
                 GetPlayerCounts();
             }
 
@@ -487,6 +485,8 @@ namespace TownOfHost
                 int numJugAlive = 0;
                 int numGlitchAlive = 0;
                 int numWolfAlive = 0;
+                Arsonists.Clear();
+                Arsonists = new List<byte>();
                 //int numArsonistsAlive = 0;
 
                 for (int i = 0; i < GameData.Instance.PlayerCount; i++)

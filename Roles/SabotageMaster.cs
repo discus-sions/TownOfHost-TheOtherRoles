@@ -127,8 +127,6 @@ namespace TownOfHost
             switch (systemType)
             {
                 case SystemTypes.Reactor:
-                    if (!FixesReactors.GetBool()) break;
-                    if (SkillLimit.GetFloat() > 0 && HackerUsedSkillCount >= SkillLimit.GetFloat()) break;
                     if (amount is 64 or 65)
                     {
                         ShipStatus.Instance.RpcRepairSystem(SystemTypes.Reactor, 67);
@@ -143,8 +141,6 @@ namespace TownOfHost
                     }
                     break;
                 case SystemTypes.Laboratory:
-                    if (!FixesReactors.GetBool()) break;
-                    if (SkillLimit.GetFloat() > 0 && HackerUsedSkillCount >= SkillLimit.GetFloat()) break;
                     if (amount is 64 or 65)
                     {
                         ShipStatus.Instance.RpcRepairSystem(SystemTypes.Laboratory, 67);
@@ -153,8 +149,6 @@ namespace TownOfHost
                     }
                     break;
                 case SystemTypes.LifeSupp:
-                    if (!FixesOxygens.GetBool()) break;
-                    if (SkillLimit.GetFloat() > 0 && HackerUsedSkillCount >= SkillLimit.GetFloat()) break;
                     if (amount is 64 or 65)
                     {
                         ShipStatus.Instance.RpcRepairSystem(SystemTypes.LifeSupp, 67);
@@ -163,8 +157,6 @@ namespace TownOfHost
                     }
                     break;
                 case SystemTypes.Comms:
-                    if (!FixesComms.GetBool()) break;
-                    if (SkillLimit.GetFloat() > 0 && HackerUsedSkillCount >= SkillLimit.GetFloat()) break;
                     if (amount is 16 or 17)
                     {
                         ShipStatus.Instance.RpcRepairSystem(SystemTypes.Comms, 19);
@@ -218,7 +210,6 @@ namespace TownOfHost
         }
         public static void HackerSwitchSystemRepair(SwitchSystem __instance, byte amount)
         {
-            if (!FixesElectrical.GetBool()) return;
             if (SkillLimit.GetFloat() > 0 &&
                 HackerUsedSkillCount >= SkillLimit.GetFloat())
                 return;
