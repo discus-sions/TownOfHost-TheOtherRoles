@@ -95,7 +95,7 @@ Also, you can break lines by writing `\n` in the sentence like `tag:line breaks 
 
 #### Welcome Message
 If the tag is set to "welcome" in the template function, it will be sent automatically when a player joins.<br>
-For example: `welcome:This room is using TownOfHost.`
+For example: `welcome:This room is using the unofficial version of TownOfHost.`
 
 ## Roles
 
