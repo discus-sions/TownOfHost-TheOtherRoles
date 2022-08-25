@@ -213,12 +213,13 @@ namespace TownOfHost
             /*if (SkillLimit.GetFloat() > 0 &&
                 HackerUsedSkillCount >= SkillLimit.GetFloat())
                 return;*/
-            HackerUsedSkillCount++;
+            //HackerUsedSkillCount++;
 
             if (amount is >= 0 and <= 4)
             {
                 __instance.ActualSwitches = 0;
                 __instance.ExpectedSwitches = 0;
+                HackerUsedSkillCount++;
             }
         }
     }

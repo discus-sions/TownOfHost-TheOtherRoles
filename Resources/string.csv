@@ -283,7 +283,7 @@ WerewolfInfoLong,"(Neutrals):\nThe Werewolf can vent to activate their rampage f
 TheGlitchInfoLong,"(Neutrals):\nThe Glitch is a neutral killing role. They can vent to switch killing modes. After every meeting, you are on killing mode. When you vent, you are on Hacking Mode. On hacking mode, press the kill button on someone to prevent them from doing something for a set period of time.","(Neutral):\nInfo unfinished.","(Neutral):\nInfo unfinished."
 GuardianAngelTOUInfoLong,"(Neutral):\nThe Guardian Angel has a target they are supposed to protect. If their target wins, so does the GA. The GA can vent to temporarily prevent their target from being killed.","(Neutral):\nInfo unfinished.","(Neutral):\nInfo unfinished."
 AmnesiacInfoLong,"(Neutral):\nSteal someone's role by clicking the report button.","(Neutral):\nInfo unfinished.","(Neutral):\nInfo unfinished."
-HackerInfoLong,"(Neutral):\nAs the Hacker, your goal is to fix a number of sabotages. You have the powers of a SabotageMaster. The Sheriff can kill Hacker no matter what.","(Neutral):\nInfo unfinished.","(Neutral):\nInfo unfinished."
+HackerInfoLong,"(Neutral):\nAs the Hacker, your goal is to fix a number of points by fixing sabotages. You have the powers of a SabotageMaster. Complete sabotages to win. Electrical gains the most points. Reactor gives you like 2 points. The Sheriff can kill Hacker no matter what.","(Neutral):\nInfo unfinished.","(Neutral):\nInfo unfinished."
 
 # Coven
 CovenInfoLong,"""(Coven):\nNothing special about regular Coven. They just help support the Leader.""","""(Coven):\nNothing special about regular Coven. They just help support the Leader.""","""(法师):\n普通的法师没什么特别之处他们只会支援领袖.""",

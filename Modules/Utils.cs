@@ -222,6 +222,7 @@ namespace TownOfHost
             if (!Main.playerVersion.ContainsKey(0)) return ""; //ホストがMODを入れていなければ未記入を返す
             if (!Main.AllPlayerCustomRoles.TryGetValue(playerId, out var role)) return Helpers.ColorString(Color.yellow, "Invalid");
             string ProgressText = "";
+            bool checkTasks = false;
             switch (role)
             {
                 case CustomRoles.Arsonist:
@@ -237,6 +238,7 @@ namespace TownOfHost
                     break;
                 case CustomRoles.Veteran:
                     ProgressText += Helpers.ColorString(GetRoleColor(CustomRoles.Veteran), $"({Main.VetAlerts}/{Options.NumOfVets.GetInt()})");
+                    checkTasks = true;
                     break;
                 case CustomRoles.GuardianAngelTOU:
                     ProgressText += Helpers.ColorString(GetRoleColor(CustomRoles.GuardianAngelTOU), $"({Main.ProtectsSoFar}/{Options.NumOfProtects.GetInt()})");
@@ -252,13 +254,17 @@ namespace TownOfHost
                     break;
                 default:
                     //タスクテキスト
-                    var taskState = PlayerState.taskState?[playerId];
-                    if (taskState.hasTasks)
-                    {
-                        string Completed = comms ? "?" : $"{taskState.CompletedTasksCount}";
-                        ProgressText = Helpers.ColorString(Color.yellow, $"({Completed}/{taskState.AllTasksCount})");
-                    }
+                    checkTasks = true;
                     break;
+            }
+            if (checkTasks)
+            {
+                var taskState = PlayerState.taskState?[playerId];
+                if (taskState.hasTasks)
+                {
+                    string Completed = comms ? "?" : $"{taskState.CompletedTasksCount}";
+                    ProgressText = Helpers.ColorString(Color.yellow, $"({Completed}/{taskState.AllTasksCount})");
+                }
             }
             if (role.IsImpostor() && role != CustomRoles.LastImpostor && GetPlayerById(playerId).IsLastImpostor())
             {
