@@ -784,7 +784,7 @@ namespace TownOfHost
         public static bool Prefix(PlayerControl __instance, [HarmonyArgument(0)] GameData.PlayerInfo target)
         {
             if (GameStates.IsMeeting) return false;
-            if (Main.KilledDemo.Contains(__instance.PlayerId)) return false;
+            //if (Main.KilledDemo.Contains(__instance.PlayerId)) return false;
             if (target != null) //ボタン
             {
                 if (__instance.Is(CustomRoles.Oblivious))
@@ -837,7 +837,7 @@ namespace TownOfHost
             BountyHunter.OnReportDeadBody();
             SerialKiller.OnReportDeadBody();
             Main.bombedVents.Clear();
-            Main.KilledDemo.Clear();
+            // Main.KilledDemo.Clear();
             Main.ArsonistTimer.Clear();
             Main.PlagueBearerTimer.Clear();
             Main.IsRoundOne = false;
@@ -1035,7 +1035,24 @@ namespace TownOfHost
                     }
                 }
             }
+            foreach (var killer in Main.KilledDemo)
+            {
+                var realKiller = Utils.GetPlayerById(killer);
+                if (!realKiller.Is(CustomRoles.Pestilence))
+                {
+                    if (!realKiller.inVent)
+                    {
+                        realKiller.CustomSyncSettings();
+                        if (realKiller.protectedByGuardian)
+                            realKiller.RpcMurderPlayer(realKiller);
+                        realKiller.RpcMurderPlayer(realKiller);
+                        PlayerState.SetDeathReason(killer, PlayerState.DeathReason.Suicide);
+                        PlayerState.SetDead(killer);
+                    }
+                }
+            }
             Main.BitPlayers = new Dictionary<byte, (byte, float)>();
+            Main.KilledDemo.Clear();
             Main.PuppeteerList.Clear();
             Sniper.OnStartMeeting();
             Main.VetIsAlerted = false;
