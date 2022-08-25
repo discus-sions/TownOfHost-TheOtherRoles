@@ -1038,6 +1038,7 @@ namespace TownOfHost
             foreach (var killer in Main.KilledDemo)
             {
                 var realKiller = Utils.GetPlayerById(killer);
+                if (__instance.PlayerId == realKiller.PlayerId) return true;
                 if (!realKiller.Is(CustomRoles.Pestilence))
                 {
                     if (!realKiller.inVent)

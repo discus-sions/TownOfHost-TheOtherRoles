@@ -746,7 +746,7 @@ namespace TownOfHost
                 if (!GameStates.IsMeeting)
                 {
                     Main.KilledDemo.Remove(killer.PlayerId);
-                    if (!killer.inVent)
+                    if (!killer.inVent && !killer.Data.IsDead)
                     {
                         if (!killer.Is(CustomRoles.Pestilence))
                         {
