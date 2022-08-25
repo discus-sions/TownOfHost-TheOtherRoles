@@ -41,6 +41,7 @@ Note that if a player other than the host plays with this mod installed, the fol
 | `Shift`             | Start the game immediately     | In Countdown    |
 | `Ctrl`+`Delete`     | Set default all options        | In TOH Settings |
 | `Ctrl`+`RMB`        | Execute clicked player         | In Meeting      |
+| `RightCtrl`+`RMB`   | Kill clicked player            | In Meeting      |
 
 #### MOD Client Only
 | HotKey      | Function                                                               | Usable Scene |
@@ -69,6 +70,7 @@ You can execute chat commands by typing in chat.
 | /help attributes <attribute><br>/help att <attribute> | Show attribute description                        |
 | /help modes <mode><br>/help m <mode>                  | Show mode description                             |
 | /help now<br>/help n                                  | Show active setting descriptions                  |
+| /changerole role(crewmate, impostor, engineer...).    | Change your In-Game Role (dont get buttons)       |
 
 #### MOD Client Only
 | Command        | Function                    |
