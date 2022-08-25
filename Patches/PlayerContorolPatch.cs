@@ -1454,6 +1454,13 @@ namespace TownOfHost
                     {
                         Mark += $"<color={Utils.GetRoleColorCode(CustomRoles.Snitch)}>★</color>"; //Snitch警告をつける
                     }
+                    switch (seer.GetRoleType())
+                    {
+                        case RoleType.Coven:
+                            if (target.GetRoleType() == RoleType.Coven)
+                                RealName = Helpers.ColorString(Utils.GetRoleColor(CustomRoles.Coven), RealName);
+                            break;
+                    }
                     if (seer.Is(CustomRoles.GuardianAngelTOU))
                     {
 
