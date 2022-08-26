@@ -1,4 +1,4 @@
-# Town Of Host Unofficial
+# Town Of Host: The Other Roles
 
 ## Regarding this mod
 
@@ -7,9 +7,9 @@ This mod is not affiliated with Among Us or Innersloth LLC, Town Of Host, and th
 ## Releases
 
 AmongUs Version: **2022.7.12**
-**Latest Version: [Here](https://github.com/music-discussion/TownOfHost-Unofficial/releases/latest)**
+**Latest Version: [Here](https://github.com/music-discussion/TownOfHost-TheOtherRoles/releases/latest)**
 
-Old Versions: [Here](https://github.com/music-discussion/TownOfHost-Unofficial/releases)
+Old Versions: [Here](https://github.com/music-discussion/TownOfHost-TheOtherRoles/releases)
 
 ## Features
 
