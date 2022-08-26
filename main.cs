@@ -142,6 +142,10 @@ namespace TownOfHost
         public static bool NecromancerOn;
         public static bool ConjurorOn;
 
+        public static bool GazeReady;
+        public static bool IsGazing;
+
+        // VETERAN STUFF //
         public static bool VettedThisRound;
         public static bool VetIsAlerted;
 
@@ -234,6 +238,8 @@ namespace TownOfHost
             RampageReady = false;
 
             IsHackMode = false;
+            GazeReady = false;
+            IsGazing = false;
 
             // OTHER//
 

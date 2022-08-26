@@ -379,6 +379,12 @@ namespace TownOfHost
                         target.GetPlayerTaskState().DoExpose) //変更対象のタスクが終わりそう)
                             pva.NameText.text += Helpers.ColorString(Utils.GetRoleColor(CustomRoles.Snitch), "★"); //変更対象にSnitchマークをつける
                         break;
+                    case RoleType.Coven:
+                        if (target.Is(CustomRoles.Snitch) && //変更対象がSnitch
+                            target.GetPlayerTaskState().DoExpose && Options.SnitchCanFindCoven.GetBool()) //変更対象のタスクが終わりそう)
+                            pva.NameText.text += Helpers.ColorString(Utils.GetRoleColor(CustomRoles.Snitch), "★"); //変更対象にSnitchマークをつける
+                        LocalPlayerKnowsCoven = true;
+                        break;
                 }
                 switch (seer.GetCustomRole())
                 {
@@ -427,14 +433,6 @@ namespace TownOfHost
                     if (Options.TargetKnowsGA.GetBool())
                         Utils.SendMessage("You have a Guardian Angel. Find out who they are and keep them to protect you.", protecting.PlayerId);
                 }
-
-                switch (target.GetRoleType())
-                {
-                    case RoleType.Coven:
-                        LocalPlayerKnowsCoven = true;
-                        break;
-                }
-
                 switch (target.GetCustomRole())
                 {
                     case CustomRoles.Egoist:

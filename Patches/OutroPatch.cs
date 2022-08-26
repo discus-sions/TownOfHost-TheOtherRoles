@@ -201,6 +201,7 @@ namespace TownOfHost
             TeamEgoist.SoloWin(winner);
             ///以降追加勝利陣営 (winnerリセット無し)
             //Opportunist
+            var winnerIDs = new List<byte>();
             foreach (var pc in PlayerControl.AllPlayerControls)
             {
                 if (Main.currentWinner == CustomWinner.None) break;
@@ -237,6 +238,36 @@ namespace TownOfHost
                     foreach (var protect in Main.GuardianAngelTarget)
                     {
                         if (winner.Contains(Utils.GetPlayerById(protect.Value)))
+                        {
+                            //if (p == protecting) continue;
+                            winner.Add(pc);
+                            Main.additionalwinners.Add(AdditionalWinners.GuardianAngelTOU);
+                        }
+                        // }
+                    }
+                }
+            }
+            
+            foreach (var p in winner)
+            {
+                winnerIDSs.Add(winner.PlayerId);
+            }
+            
+            foreach (var pc in PlayerControl.AllPlayerControls)
+            {
+                if (Main.currentWinner == CustomWinner.None) break;
+                if (pc.Is(CustomRoles.GuardianAngelTOU))
+                {
+                    /*PlayerControl protecting = Utils.GetPlayerById(Main.GuardianAngelTarget[pc.PlayerId]);
+                    foreach (var p in winner)
+                    {
+                        if (p == protecting) continue;
+                        winner.Add(pc);
+                        Main.additionalwinners.Add(AdditionalWinners.GuardianAngelTOU);
+                    }*/
+                    foreach (var protect in Main.GuardianAngelTarget)
+                    {
+                        if (winnerIDs.Contains(protect.Value))
                         {
                             //if (p == protecting) continue;
                             winner.Add(pc);

@@ -849,6 +849,8 @@ namespace TownOfHost
             Main.PlagueBearerTimer.Clear();
             Main.IsRoundOne = false;
             Main.IsRoundOneGA = false;
+            Main.IsGazing = false;
+            Main.GazeReady = false;
             if (target == null) //ボタン
             {
                 if (__instance.Is(CustomRoles.Mayor))
@@ -950,7 +952,7 @@ namespace TownOfHost
                                 Utils.SendMessage("Also With this power, you have shorter cooldowns. And the ability to kill when shifted.", pc.PlayerId);
                                 break;
                             case CustomRoles.Medusa:
-                                Utils.SendMessage("Also With this power, you can kill normally. However, you still cannot vent.", pc.PlayerId);
+                                Utils.SendMessage("Also With this power, you can kill normally. However, you still cannot vent normally.", pc.PlayerId);
                                 break;
                             case CustomRoles.Mimic:
                                 Utils.SendMessage("Your role prevents you from having this power however.", pc.PlayerId);
@@ -1413,6 +1415,11 @@ namespace TownOfHost
                     {
                         RealName = Helpers.ColorString(Utils.GetRoleColor(CustomRoles.Impostor), RealName); //targetの名前を赤色で表示
                     }
+                    else if (seer.GetCustomRole().IsCoven() && //seerがMadSnitch
+                        target.GetCustomRole().IsCoven()) //seerのタスクが終わっている
+                    {
+                        RealName = Helpers.ColorString(Utils.GetRoleColor(CustomRoles.Coven), RealName); //targetの名前を赤色で表示
+                    }
                     //タスクを終わらせたSnitchがインポスターを確認できる
                     else if (PlayerControl.LocalPlayer.Is(CustomRoles.Snitch) && //LocalPlayerがSnitch
                         PlayerControl.LocalPlayer.GetPlayerTaskState().IsTaskFinished) //LocalPlayerのタスクが終わっている
@@ -1444,16 +1451,7 @@ namespace TownOfHost
                     var canFindSnitchRole = seer.GetCustomRole().IsImpostor() || //LocalPlayerがインポスター
                         (Options.SnitchCanFindNeutralKiller.GetBool() && seer.IsNeutralKiller());//or キル可能な第三陣営
 
-                    if (Main.KilledDemo.Contains(seer.PlayerId))
-                    {
-                        Mark += $"<color={Utils.GetRoleColorCode(CustomRoles.Demolitionist)}>▲</color>";
-                    }
-                    else Mark = "";
-                    if (canFindSnitchRole && target.Is(CustomRoles.Snitch) && target.GetPlayerTaskState().DoExpose //targetがタスクが終わりそうなSnitch
-                    )
-                    {
-                        Mark += $"<color={Utils.GetRoleColorCode(CustomRoles.Snitch)}>★</color>"; //Snitch警告をつける
-                    }
+
                     switch (seer.GetRoleType())
                     {
                         case RoleType.Coven:
@@ -1738,6 +1736,7 @@ namespace TownOfHost
     {
         public static void Postfix(Vent __instance, [HarmonyArgument(0)] PlayerControl pc)
         {
+            bool skipCheck = false;
             if (CustomRoles.TheGlitch.IsEnable() && Options.GlitchCanVent.GetBool())
             {
                 List<PlayerControl> hackedPlayers = new();
@@ -1752,9 +1751,11 @@ namespace TownOfHost
                 }
 
                 if (hackedPlayers.Contains(pc))
+                {
                     pc?.MyPhysics?.RpcBootFromVent(__instance.Id);
+                    skipCheck = true;
+                }
             }
-            bool skipCheck = false;
             if (Options.CurrentGameMode == CustomGameMode.HideAndSeek && Options.IgnoreVent.GetBool())
                 pc.MyPhysics.RpcBootFromVent(__instance.Id);
             if (pc.Is(CustomRoles.Mayor))
@@ -1772,6 +1773,13 @@ namespace TownOfHost
                 {
                     pc.VetAlerted();
                 }
+                pc?.MyPhysics?.RpcBootFromVent(__instance.Id);
+                skipCheck = true;
+            }
+            if (pc.Is(CustomRoles.Medusa))
+            {
+                if (Main.GazeReady)
+                    pc.StoneGazed();
                 pc?.MyPhysics?.RpcBootFromVent(__instance.Id);
                 skipCheck = true;
             }
@@ -1811,46 +1819,48 @@ namespace TownOfHost
             }
             if (pc.Is(CustomRoles.Werewolf))
             {
-                skipCheck = true;
                 if (Main.IsRampaged)
                 {
+                    skipCheck = true;
                     //do nothing.
                     if (!Options.VentWhileRampaged.GetBool())
+                    {
                         // pc?.MyPhysics?.RpcBootFromVent(__instance.Id);
                         pc.MyPhysics.RpcBootFromVent(__instance.Id);
-                    if (Options.VentWhileRampaged.GetBool())
-                    {
-                        if (Main.bombedVents.Contains(__instance.Id))
+                        if (Options.VentWhileRampaged.GetBool())
                         {
-                            pc.RpcMurderPlayer(pc);
-                            PlayerState.SetDeathReason(pc.PlayerId, PlayerState.DeathReason.Bombed);
-                            PlayerState.SetDead(pc.PlayerId);
-                        }
-                    }
-                }
-                else
-                {
-                    if (Main.RampageReady)
-                    {
-                        Main.RampageReady = false;
-                        Main.IsRampaged = true;
-                        Utils.CustomSyncAllSettings();
-                        new LateTask(() =>
-                        {
-                            Main.IsRampaged = false;
-                            pc?.MyPhysics?.RpcBootFromVent(__instance.Id);
-                            Utils.CustomSyncAllSettings();
-                            new LateTask(() =>
+                            if (Main.bombedVents.Contains(__instance.Id))
                             {
-                                pc?.MyPhysics?.RpcBootFromVent(__instance.Id);
-                                Main.RampageReady = true;
-                                Utils.CustomSyncAllSettings();
-                            }, Options.RampageDur.GetFloat(), "Werewolf Rampage Cooldown");
-                        }, Options.RampageDur.GetFloat(), "Werewolf Rampage Duration");
+                                pc.RpcMurderPlayer(pc);
+                                PlayerState.SetDeathReason(pc.PlayerId, PlayerState.DeathReason.Bombed);
+                                PlayerState.SetDead(pc.PlayerId);
+                            }
+                        }
                     }
                     else
                     {
-                        pc?.MyPhysics?.RpcBootFromVent(__instance.Id);
+                        if (Main.RampageReady)
+                        {
+                            Main.RampageReady = false;
+                            Main.IsRampaged = true;
+                            Utils.CustomSyncAllSettings();
+                            new LateTask(() =>
+                            {
+                                Main.IsRampaged = false;
+                                pc?.MyPhysics?.RpcBootFromVent(__instance.Id);
+                                Utils.CustomSyncAllSettings();
+                                new LateTask(() =>
+                                {
+                                    pc?.MyPhysics?.RpcBootFromVent(__instance.Id);
+                                    Main.RampageReady = true;
+                                    Utils.CustomSyncAllSettings();
+                                }, Options.RampageDur.GetFloat(), "Werewolf Rampage Cooldown");
+                            }, Options.RampageDur.GetFloat(), "Werewolf Rampage Duration");
+                        }
+                        else
+                        {
+                            pc?.MyPhysics?.RpcBootFromVent(__instance.Id);
+                        }
                     }
                 }
             }
@@ -1859,10 +1869,13 @@ namespace TownOfHost
                 pc.MyPhysics.RpcBootFromVent(__instance.Id);
             if (Main.bombedVents.Contains(__instance.Id) && !skipCheck)
             {
-                pc.MyPhysics.RpcBootFromVent(__instance.Id);
-                pc.RpcMurderPlayer(pc);
-                PlayerState.SetDeathReason(pc.PlayerId, PlayerState.DeathReason.Bombed);
-                PlayerState.SetDead(pc.PlayerId);
+                if (!pc.Is(CustomRoles.Pestilence))
+                {
+                    pc.MyPhysics.RpcBootFromVent(__instance.Id);
+                    pc.RpcMurderPlayer(pc);
+                    PlayerState.SetDeathReason(pc.PlayerId, PlayerState.DeathReason.Bombed);
+                    PlayerState.SetDead(pc.PlayerId);
+                }
             }
         }
     }

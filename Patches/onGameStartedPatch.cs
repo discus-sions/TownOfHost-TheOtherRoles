@@ -84,6 +84,9 @@ namespace TownOfHost
             Main.ProtectedThisRound = false;
             Main.HasProtected = false;
 
+            Main.IsGazing = false;
+            Main.GazeReady = false;
+
             Main.IsRampaged = false;
             Main.RampageReady = true;
             Main.IsHackMode = false;
@@ -225,7 +228,7 @@ namespace TownOfHost
                 AssignDesyncRole(CustomRoles.Amnesiac, AllPlayers, sender, BaseRole: RoleTypes.Impostor);
 
                 //COVEN 
-                AssignDesyncRole(CustomRoles.Witch, AllPlayers, sender, BaseRole: RoleTypes.Impostor);
+                AssignDesyncRole(CustomRoles.CovenWitch, AllPlayers, sender, BaseRole: RoleTypes.Impostor);
                 AssignDesyncRole(CustomRoles.HexMaster, AllPlayers, sender, BaseRole: RoleTypes.Impostor);
                 AssignDesyncRole(CustomRoles.PotionMaster, AllPlayers, sender, BaseRole: RoleTypes.Impostor);
                 AssignDesyncRole(CustomRoles.Poisoner, AllPlayers, sender, BaseRole: RoleTypes.Impostor);

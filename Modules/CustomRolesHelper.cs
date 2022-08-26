@@ -103,6 +103,7 @@ namespace TownOfHost
         public static ModifierType GetModifierType(this CustomRoles role)
         {
             if (role < CustomRoles.NoSubRoleAssigned) return ModifierType.None;
+            if (role == CustomRoles.NoSubRoleAssigned) return ModifierType.None;
             ModifierType type = ModifierType.Global;
             if (role.IsCrewModifier()) type = ModifierType.Crew;
             return type;
