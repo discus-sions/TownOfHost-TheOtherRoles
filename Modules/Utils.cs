@@ -768,6 +768,8 @@ namespace TownOfHost
                     || seer.Is(CustomRoles.Executioner)
                     || seer.Is(CustomRoles.Doctor) //seerがドクター
                     || seer.Is(CustomRoles.Puppeteer)
+                    || Main.KilledDemo.Contains(seer.PlayerId)
+                    || seer.Is(CustomRoles.PlagueBearer)
                     //|| seer.GetCustomSubRole().GetModifierType() != ModifierType.None
                     || IsActive(SystemTypes.Electrical)
                     || NoCache
@@ -830,6 +832,24 @@ namespace TownOfHost
                             {
                                 TargetMark += $"<color={GetRoleColorCode(CustomRoles.Arsonist)}>△</color>";
                             }
+                        }
+                        if (seer.Is(CustomRoles.PlagueBearer))//seerがアーソニストの時
+                        {
+                            if (seer.IsInfectedPlayer(target)) //seerがtargetに既にオイルを塗っている(完了)
+                            {
+                                TargetMark += $"<color={GetRoleColorCode(CustomRoles.Pestilence)}>◆</color>";
+                            }
+                            if (
+                                Main.PlagueBearerTimer.TryGetValue(seer.PlayerId, out var ar_kvp) && //seerがオイルを塗っている途中(現在進行)
+                                ar_kvp.Item1 == target //オイルを塗っている対象がtarget
+                            )
+                            {
+                                TargetMark += $"<color={GetRoleColorCode(CustomRoles.Pestilence)}>△</color>";
+                            }
+                        }
+                        if (Main.KilledDemo.Contains(seer.PlayerId))
+                        {
+                            SelfName = $"<color={GetRoleColorCode(CustomRoles.Demolitionist)}>▲</color>";
                         }
                         if (seer.Is(CustomRoles.Puppeteer) &&
                         Main.PuppeteerList.ContainsValue(seer.PlayerId) &&

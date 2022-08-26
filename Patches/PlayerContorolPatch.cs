@@ -1819,9 +1819,10 @@ namespace TownOfHost
             }
             if (pc.Is(CustomRoles.Werewolf))
             {
+                skipCheck = true;
                 if (Main.IsRampaged)
                 {
-                    skipCheck = true;
+
                     //do nothing.
                     if (!Options.VentWhileRampaged.GetBool())
                     {
@@ -1837,30 +1838,30 @@ namespace TownOfHost
                             }
                         }
                     }
-                    else
+                }
+                else
+                {
+                    if (Main.RampageReady)
                     {
-                        if (Main.RampageReady)
+                        Main.RampageReady = false;
+                        Main.IsRampaged = true;
+                        Utils.CustomSyncAllSettings();
+                        new LateTask(() =>
                         {
-                            Main.RampageReady = false;
-                            Main.IsRampaged = true;
+                            Main.IsRampaged = false;
+                            pc?.MyPhysics?.RpcBootFromVent(__instance.Id);
                             Utils.CustomSyncAllSettings();
                             new LateTask(() =>
                             {
-                                Main.IsRampaged = false;
                                 pc?.MyPhysics?.RpcBootFromVent(__instance.Id);
+                                Main.RampageReady = true;
                                 Utils.CustomSyncAllSettings();
-                                new LateTask(() =>
-                                {
-                                    pc?.MyPhysics?.RpcBootFromVent(__instance.Id);
-                                    Main.RampageReady = true;
-                                    Utils.CustomSyncAllSettings();
-                                }, Options.RampageDur.GetFloat(), "Werewolf Rampage Cooldown");
-                            }, Options.RampageDur.GetFloat(), "Werewolf Rampage Duration");
-                        }
-                        else
-                        {
-                            pc?.MyPhysics?.RpcBootFromVent(__instance.Id);
-                        }
+                            }, Options.RampageDur.GetFloat(), "Werewolf Rampage Cooldown");
+                        }, Options.RampageDur.GetFloat(), "Werewolf Rampage Duration");
+                    }
+                    else
+                    {
+                        pc?.MyPhysics?.RpcBootFromVent(__instance.Id);
                     }
                 }
             }

@@ -226,33 +226,13 @@ namespace TownOfHost
                             Main.additionalwinners.Add(AdditionalWinners.Executioner);
                         }
                     }
-                if (pc.Is(CustomRoles.GuardianAngelTOU))
-                {
-                    /*PlayerControl protecting = Utils.GetPlayerById(Main.GuardianAngelTarget[pc.PlayerId]);
-                    foreach (var p in winner)
-                    {
-                        if (p == protecting) continue;
-                        winner.Add(pc);
-                        Main.additionalwinners.Add(AdditionalWinners.GuardianAngelTOU);
-                    }*/
-                    foreach (var protect in Main.GuardianAngelTarget)
-                    {
-                        if (winner.Contains(Utils.GetPlayerById(protect.Value)))
-                        {
-                            //if (p == protecting) continue;
-                            winner.Add(pc);
-                            Main.additionalwinners.Add(AdditionalWinners.GuardianAngelTOU);
-                        }
-                        // }
-                    }
-                }
             }
-            
+
             foreach (var p in winner)
             {
-                winnerIDSs.Add(winner.PlayerId);
+                winnerIDs.Add(p.PlayerId);
             }
-            
+
             foreach (var pc in PlayerControl.AllPlayerControls)
             {
                 if (Main.currentWinner == CustomWinner.None) break;
