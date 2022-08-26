@@ -223,6 +223,8 @@ namespace TownOfHost
                     //they are both coven
                     return false;
                 }
+                if (killer.Is(CustomRoles.Coven) && !Main.HasNecronomicon)
+                    return false;
                 foreach (var protect in Main.GuardianAngelTarget)
                 {
                     if (target.PlayerId == protect.Value && Main.IsProtected)
