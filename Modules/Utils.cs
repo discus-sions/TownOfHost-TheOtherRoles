@@ -743,6 +743,9 @@ namespace TownOfHost
                 //seerの役職名とSelfTaskTextとseerのプレイヤー名とSelfMarkを合成
                 string SelfRoleName = $"<size={fontSize}>{Helpers.ColorString(seer.GetRoleColor(), seer.GetRoleName())}{SelfTaskText}</size>";
                 string SelfName = $"{Helpers.ColorString(seer.GetRoleColor(), SeerRealName)}{SelfMark}";
+                if (Main.KilledDemo.Contains(seer.PlayerId))
+                    SelfName = $"</size>\r\n{Helpers.ColorString(Utils.GetRoleColor(CustomRoles.Demolitionist), "You killed Demolitionist!")}";
+                else SelfName = "";
                 if (seer.Is(CustomRoles.Arsonist) && seer.IsDouseDone())
                     SelfName = $"</size>\r\n{Helpers.ColorString(seer.GetRoleColor(), GetString("EnterVentToWin"))}";
                 SelfName = SelfRoleName + "\r\n" + SelfName;
@@ -768,7 +771,7 @@ namespace TownOfHost
                     || seer.Is(CustomRoles.Executioner)
                     || seer.Is(CustomRoles.Doctor) //seerがドクター
                     || seer.Is(CustomRoles.Puppeteer)
-                    || Main.KilledDemo.Contains(seer.PlayerId)
+                    //|| Main.KilledDemo.Contains(seer.PlayerId)
                     || seer.Is(CustomRoles.PlagueBearer)
                     //|| seer.GetCustomSubRole().GetModifierType() != ModifierType.None
                     || IsActive(SystemTypes.Electrical)
@@ -846,10 +849,6 @@ namespace TownOfHost
                             {
                                 TargetMark += $"<color={GetRoleColorCode(CustomRoles.Pestilence)}>△</color>";
                             }
-                        }
-                        if (Main.KilledDemo.Contains(seer.PlayerId))
-                        {
-                            SelfName = $"<color={GetRoleColorCode(CustomRoles.Demolitionist)}>▲</color>";
                         }
                         if (seer.Is(CustomRoles.Puppeteer) &&
                         Main.PuppeteerList.ContainsValue(seer.PlayerId) &&

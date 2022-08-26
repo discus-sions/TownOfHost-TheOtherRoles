@@ -228,6 +228,7 @@ namespace TownOfHost
                 AssignDesyncRole(CustomRoles.Amnesiac, AllPlayers, sender, BaseRole: RoleTypes.Impostor);
 
                 //COVEN 
+                AssignDesyncRole(CustomRoles.Coven, AllPlayers, sender, BaseRole: RoleTypes.Impostor);
                 AssignDesyncRole(CustomRoles.CovenWitch, AllPlayers, sender, BaseRole: RoleTypes.Impostor);
                 AssignDesyncRole(CustomRoles.HexMaster, AllPlayers, sender, BaseRole: RoleTypes.Impostor);
                 AssignDesyncRole(CustomRoles.PotionMaster, AllPlayers, sender, BaseRole: RoleTypes.Impostor);
@@ -350,7 +351,7 @@ namespace TownOfHost
                 AssignCustomRolesFromList(CustomRoles.Warlock, Shapeshifters);
                 AssignCustomRolesFromList(CustomRoles.SerialKiller, Shapeshifters);
                 AssignCustomRolesFromList(CustomRoles.Lighter, Crewmates);
-                AssignCustomRolesFromList(CustomRoles.Coven, Crewmates);
+                //AssignCustomRolesFromList(CustomRoles.Coven, Crewmates);
                 AssignLoversRolesFromList();
                 AssignCustomRolesFromList(CustomRoles.SpeedBooster, Crewmates);
                 AssignCustomRolesFromList(CustomRoles.Trapper, Crewmates);
@@ -447,32 +448,32 @@ namespace TownOfHost
                                 Main.AllPlayerCustomRoles[pc.PlayerId] = CustomRoles.CovenWitch;
                                 Main.ChoseWitch = true;
                             }
-                            else if (!Main.HexMasterOn)
+                            else if (!Main.HexMasterOn && Options.HexMasterOn.GetBool())
                             {
                                 Main.AllPlayerCustomRoles[pc.PlayerId] = CustomRoles.HexMaster;
                                 Main.HexMasterOn = true;
                             }
-                            else if (!Main.PotionMasterOn)
+                            else if (!Main.PotionMasterOn && Options.PotionMasterOn.GetBool())
                             {
                                 Main.AllPlayerCustomRoles[pc.PlayerId] = CustomRoles.PotionMaster;
                                 Main.PotionMasterOn = true;
                             }
-                            else if (!Main.MedusaOn)
+                            else if (!Main.MedusaOn && Options.MedusaOn.GetBool())
                             {
                                 Main.AllPlayerCustomRoles[pc.PlayerId] = CustomRoles.Medusa;
                                 Main.MedusaOn = true;
                             }
-                            else if (!Main.MimicOn && !Main.NecromancerOn)
+                            else if (!Main.MimicOn && !Main.NecromancerOn && Options.MimicOn.GetBool())
                             {
                                 Main.AllPlayerCustomRoles[pc.PlayerId] = CustomRoles.Mimic;
                                 Main.MimicOn = true;
                             }
-                            else if (!Main.NecromancerOn && !Main.MimicOn)
+                            else if (!Main.NecromancerOn && !Main.MimicOn && Options.NecromancerOn.GetBool())
                             {
                                 Main.AllPlayerCustomRoles[pc.PlayerId] = CustomRoles.Necromancer;
                                 Main.NecromancerOn = true;
                             }
-                            else if (!Main.ConjurorOn)
+                            else if (!Main.ConjurorOn && Options.ConjurorOn.GetBool())
                             {
                                 Main.AllPlayerCustomRoles[pc.PlayerId] = CustomRoles.Conjuror;
                                 Main.ConjurorOn = true;
