@@ -7,14 +7,29 @@ This mod is not affiliated with Among Us or Innersloth LLC, Town Of Host, and th
 ## Releases
 
 AmongUs Version: **2022.7.12**
+Semi-Support for: **2022.8.24**
 **Latest Version: [Here](https://github.com/music-discussion/TownOfHost-TheOtherRoles/releases/latest)**
 
 Old Versions: [Here](https://github.com/music-discussion/TownOfHost-TheOtherRoles/releases)
 
+#### KNOWN BUGS
+
+KNOWN BUGS:
+
+- Lovers causes Severe Issues with the Game
+- Silenced People can Still Talk.
+- Games might bug out when new roles kill Cat. (Haven't made it so new roles make Cat Join them.)
+- If GA’s target leaves mid-meeting, their role doesn’t change.
+- Coven doesn't change from regular Coven 
+- Poisoner doesn't replace a Coven
+- Some Roles have double their Cooldown or half their cooldown sometimes.
+- Sheriff doesn't turn Corrupted
+
 ## Features
 
-This mod only needs to be installed on the host's client to work, and works regardless of whether or not other client mods have been installed, and regardless of the type of terminal.<br>
+This mod only needs to be installed on the host's client to work, and works regardless of whether or not other client mods have been installed, and regardless of the type of device.<br>
 Unlike mods that use custom servers, there is no need to add servers by editing URLs or files.<br>
+If you are going to play on Custom Servers, such as MNA and MEU, it would require everyone to have the mods the host has.<br>
 
 However, please note that the following restrictions apply.<br>
 
@@ -26,6 +41,7 @@ Note that if a player other than the host plays with this mod installed, the fol
 - Display of the special role's own start screen.
 - Display of the normal victory screen for the special role.
 - Add additional settings.
+- More Better UI
 - etc.
 
 ## Features
@@ -95,7 +111,7 @@ Also, you can break lines by writing `\n` in the sentence like `tag:line breaks 
 
 #### Welcome Message
 If the tag is set to "welcome" in the template function, it will be sent automatically when a player joins.<br>
-For example: `welcome:This room is using the unofficial version of TownOfHost.`
+For example: `welcome:This room is using the mod Town Of Host: The Other Roles.`
 
 ## Roles
 
@@ -789,6 +805,7 @@ This requires tweaking until you get it right.<br>
 | Rampage Cooldown        |
 | Rampage Duration        |
 | Can Vent While Rampaged |
+| Kill Cooldown.          |
 
 ### Guardian Angel
 
