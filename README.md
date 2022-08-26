@@ -12,7 +12,7 @@ Semi-Support for: **2022.8.24**
 
 Old Versions: [Here](https://github.com/music-discussion/TownOfHost-TheOtherRoles/releases)
 
-#### KNOWN BUGS
+## KNOWN BUGS
 
 KNOWN BUGS:
 
