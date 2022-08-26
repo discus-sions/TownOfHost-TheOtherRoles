@@ -655,7 +655,7 @@ namespace TownOfHost
                 if (Main.SpelledPlayer.Find(x => x.PlayerId == seer.PlayerId) != null && isMeeting)
                     SelfMark += "<color=#ff0000>†</color>";
                 if (Main.SilencedPlayer.Find(x => x.PlayerId == seer.PlayerId) != null && isMeeting)
-                    SelfMark += "<color=#ff0000>††</color>";
+                    SelfMark += "<color=#ff0000> (S)</color>";
 
                 if (Sniper.IsEnable())
                 {
@@ -678,6 +678,18 @@ namespace TownOfHost
                 if (seer.Is(CustomRoles.Witch))
                 {
                     SelfSuffix = seer.IsSpellMode() ? "Mode:" + GetString("WitchModeSpell") : "Mode:" + GetString("WitchModeKill");
+                }
+                if (seer.Is(CustomRoles.Werewolf))
+                {
+                    var ModeLang = Main.IsRampaged ? "True" : "False";
+                    var ReadyLang = Main.RampageReady ? "True" : "False";
+                    SelfSuffix = "Is Rampaging: " + ModeLang;
+                    SelfSuffix += "\nRampage Ready: " + ReadyLang;
+                }
+                if (seer.Is(CustomRoles.TheGlitch))
+                {
+                    var ModeLang = Main.IsHackMode ? "Hack" : "Kill";
+                    SelfSuffix = "Glitch Current Mode: " + ModeLang;
                 }
 
                 //他人用の変数定義

@@ -230,6 +230,9 @@ namespace TownOfHost
         public static CustomOption NecromancerOn;
         public static CustomOption ConjurorOn;
 
+        public static CustomOption StoneCD;
+        public static CustomOption StoneDuration;
+
         //VETERAN
         public static CustomOption VetCD;
         public static CustomOption VetDuration;
@@ -467,12 +470,14 @@ namespace TownOfHost
             JackalHasImpostorVision = CustomOption.Create(50913, Color.white, "JackalHasImpostorVision", true, CustomRoleSpawnChances[CustomRoles.Jackal]);
 
             SetupSingleRoleOptions(60000, CustomRoles.Coven, 3);
-            CovenKillCooldown = CustomOption.Create(60010, Color.white, "CovenKillCooldown", 30, 2.5f, 180, 2.5f, CustomRoleSpawnChances[CustomRoles.Coven]);
-            CovenMeetings = CustomOption.Create(60011, Color.white, "CovenMeetings", 15, 1, 15, 1, CustomRoleSpawnChances[CustomRoles.Coven]);
-            HexMasterOn = CustomOption.Create(60012, Color.white, "HexMasterOn", false, CustomRoleSpawnChances[CustomRoles.Coven]);
+            CovenKillCooldown = CustomOption.Create(60020, Color.white, "CovenKillCooldown", 30, 2.5f, 180, 2.5f, CustomRoleSpawnChances[CustomRoles.Coven]);
+            CovenMeetings = CustomOption.Create(60021, Color.white, "CovenMeetings", 10, 1, 15, 1, CustomRoleSpawnChances[CustomRoles.Coven]);
+            HexMasterOn = CustomOption.Create(60022, Color.white, "HexMasterOn", false, CustomRoleSpawnChances[CustomRoles.Coven]);
             PotionMasterOn = CustomOption.Create(60013, Color.white, "PotionMasterOn", false, CustomRoleSpawnChances[CustomRoles.Coven]);
             VampireDitchesOn = CustomOption.Create(60014, Color.white, "VampireDitchesOn", false, CustomRoleSpawnChances[CustomRoles.Coven]);
             MedusaOn = CustomOption.Create(60015, Color.white, "MedusaOn", false, CustomRoleSpawnChances[CustomRoles.Coven]);
+            StoneCD = CustomOption.Create(60025, Color.white, "StoneCD", 30, 2.5f, 180, 2.5f, MedusaOn);
+            StoneDuration = CustomOption.Create(60026, Color.white, "StoneDur", 15, 2.5f, 180, 2.5f, MedusaOn);
             //MimicOn = CustomOption.Create(60016, Color.white, "MimicOn", false, CustomRoleSpawnChances[CustomRoles.Coven]);
             //NecromancerOn = CustomOption.Create(60017, Color.white, "NecromancerOn", false, CustomRoleSpawnChances[CustomRoles.Coven]);
             ConjurorOn = CustomOption.Create(60018, Color.white, "ConjurorOn", false, CustomRoleSpawnChances[CustomRoles.Coven]);

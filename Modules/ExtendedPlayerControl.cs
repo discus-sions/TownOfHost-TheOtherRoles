@@ -792,6 +792,22 @@ namespace TownOfHost
                 }, Options.VetDuration.GetFloat(), "Guardian Angel Protect Duration");
             }
         }
+        public static void StoneGazed(this PlayerControl veteran)
+        {
+            if (veteran.Is(CustomRoles.Medusa) && !Main.IsGazing)
+            {
+                Main.IsGazing = true;
+                Main.GazeReady = false;
+                new LateTask(() =>
+                {
+                    Main.IsGazing = false;
+                    new LateTask(() =>
+                    {
+                        Main.GazeReady = true;
+                    }, Options.StoneCD.GetFloat(), "Gaze Cooldown");
+                }, Options.StoneDuration.GetFloat(), "Gaze Duration");
+            }
+        }
         public static void CanUseImpostorVent(this PlayerControl player)
         {
             switch (player.GetCustomRole())
@@ -836,6 +852,10 @@ namespace TownOfHost
                     bool ww_CanUse = true;
                     DestroyableSingleton<HudManager>.Instance.ImpostorVentButton.ToggleVisible(ww_CanUse && !player.Data.IsDead);
                     player.Data.Role.CanVent = ww_CanUse;
+                    return;
+                case CustomRoles.Medusa:
+                    DestroyableSingleton<HudManager>.Instance.ImpostorVentButton.ToggleVisible(true && !player.Data.IsDead);
+                    player.Data.Role.CanVent = true;
                     return;
             }
         }

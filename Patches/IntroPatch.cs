@@ -104,7 +104,7 @@ namespace TownOfHost
                 covenTeam.Add(PlayerControl.LocalPlayer);
                 foreach (var ar in PlayerControl.AllPlayerControls)
                 {
-                    if (ar.Is(RoleType.Coven) && ar != PlayerControl.LocalPlayer)
+                    if (ar.GetCustomRole().IsCoven() && ar != PlayerControl.LocalPlayer)
                         covenTeam.Add(ar);
                 }
                 teamToDisplay = covenTeam;
