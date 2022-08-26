@@ -613,8 +613,11 @@ Created by Discussions<br>
 Original Idea by Mek<br>
 
 Team : Crewmates<br>
-Basis : Crewmate<br>
+Basis : Engineer<br>
 
+The Bastion can vent to plant a bomb in that vent.<br>
+The next person that attempts to vent will die with the Bombed death reason.<br>
+You can only bomb 1 person.<br>
 The Bastion can also bomb themselves or other Bastions.<br>
 
 ### Demolitionist
