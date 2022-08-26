@@ -5,6 +5,7 @@
 This mod is not affiliated with Among Us or Innersloth LLC, Town Of Host, and the content contained therein is not endorsed or otherwise sponsored by Innersloth LLC. Portions of the materials contained herein are property of Innersloth LLC. © Innersloth LLC.
 
 I sometimes host this mod myself on Public Lobbies under several names such as **Whited**, **TOH-TOR**, and **TOH GOOD**.
+I constantly update this mod and test it with randoms.
 
 ## Releases
 
