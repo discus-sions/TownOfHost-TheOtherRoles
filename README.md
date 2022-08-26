@@ -9,8 +9,8 @@ I constantly update this mod and test it with randoms.
 
 ## Releases
 
-AmongUs Version: **2022.7.12**
-Semi-Support for: **2022.8.24**
+AmongUs Version: **2022.7.12**<br>
+Semi-Support for: **2022.8.24**<br>
 **Latest Version: [Here](https://github.com/music-discussion/TownOfHost-TheOtherRoles/releases/latest)**
 
 Old Versions: [Here](https://github.com/music-discussion/TownOfHost-TheOtherRoles/releases)
