@@ -4,6 +4,8 @@
 
 This mod is not affiliated with Among Us or Innersloth LLC, Town Of Host, and the content contained therein is not endorsed or otherwise sponsored by Innersloth LLC. Portions of the materials contained herein are property of Innersloth LLC. © Innersloth LLC.
 
+I sometimes host this mod myself on Public Lobbies under several names such as **Whited**, **TOH-TOR**, and **TOH GOOD**.
+
 ## Releases
 
 AmongUs Version: **2022.7.12**
@@ -34,7 +36,7 @@ If you are going to play on Custom Servers, such as MNA and MEU, it would requir
 However, please note that the following restrictions apply.<br>
 
 - If the host changes and does not have this installed, the server isn't modded and is now just a regular Among Us game.<br>
-- If someone will original TOH, joins a ToHU lobby, they may experience graphical issues.<br>
+- If someone will original TOH, joins a TOH: TOR lobby, they may experience graphical issues such as blackscreens.<br>
 
 Note that if a player other than the host plays with this mod installed, the following changes will be made.<br>
 
