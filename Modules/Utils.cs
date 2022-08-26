@@ -686,6 +686,13 @@ namespace TownOfHost
                     SelfSuffix = "Is Rampaging: " + ModeLang;
                     SelfSuffix += "\nRampage Ready: " + ReadyLang;
                 }
+                if (seer.Is(CustomRoles.Medusa))
+                {
+                    var ModeLang = Main.IsGazing ? "True" : "False";
+                    var ReadyLang = Main.GazeReady ? "True" : "False";
+                    SelfSuffix = "Gazing: " + ModeLang;
+                    SelfSuffix += "\nGaze Ready: " + ReadyLang;
+                }
                 if (seer.Is(CustomRoles.TheGlitch))
                 {
                     var ModeLang = Main.IsHackMode ? "Hack" : "Kill";
@@ -694,6 +701,7 @@ namespace TownOfHost
 
                 //他人用の変数定義
                 bool SeerKnowsImpostors = false; //trueの時、インポスターの名前が赤色に見える
+                bool SeerKnowsCoven = false; //trueの時、インポスターの名前が赤色に見える
 
                 //タスクを終えたSnitchがインポスター/キル可能な第三陣営の方角を確認できる
                 if (seer.Is(CustomRoles.Snitch))
@@ -702,6 +710,8 @@ namespace TownOfHost
                     if (TaskState.IsTaskFinished)
                     {
                         SeerKnowsImpostors = true;
+                        if (Options.SnitchCanFindCoven.GetBool())
+                            SeerKnowsCoven = true;
                         //ミーティング以外では矢印表示
                         if (!isMeeting)
                         {
@@ -713,6 +723,11 @@ namespace TownOfHost
                             }
                         }
                     }
+                }
+
+                if (seer.GetCustomRole().IsCoven())
+                {
+                    SeerKnowsCoven = true;
                 }
 
                 if (seer.Is(CustomRoles.MadSnitch))
@@ -740,6 +755,7 @@ namespace TownOfHost
                 //seerが死んでいる場合など、必要なときのみ第二ループを実行する
                 if (seer.Data.IsDead //seerが死んでいる
                     || SeerKnowsImpostors //seerがインポスターを知っている状態
+                    || SeerKnowsCoven
                     || seer.GetCustomRole().IsImpostor() //seerがインポスター
                     || seer.Is(CustomRoles.EgoSchrodingerCat) //seerがエゴイストのシュレディンガーの猫
                     || seer.Is(CustomRoles.JSchrodingerCat) //seerがJackal陣営のシュレディンガーの猫
@@ -773,7 +789,7 @@ namespace TownOfHost
                         if (Main.SpelledPlayer.Find(x => x.PlayerId == target.PlayerId) != null && isMeeting)
                             TargetMark += "<color=#ff0000>†</color>";
                         if (Main.SilencedPlayer.Find(x => x.PlayerId == target.PlayerId) != null && isMeeting)
-                            TargetMark += "<color=#ff0000>††</color>";
+                            TargetMark += "<color=#ff0000> (S)</color>";
                         //タスク完了直前のSnitchにマークを表示
                         canFindSnitchRole = seer.GetCustomRole().IsImpostor() || //Seerがインポスター
                             (Options.SnitchCanFindNeutralKiller.GetBool() && seer.IsNeutralKiller());//or エゴイスト
@@ -835,6 +851,13 @@ namespace TownOfHost
                             //スニッチはオプション有効なら第三陣営のキル可能役職も見れる
                             var snitchOption = seer.Is(CustomRoles.Snitch) && Options.SnitchCanFindNeutralKiller.GetBool();
                             var foundCheck = target.GetCustomRole().IsImpostor() || (snitchOption && target.IsNeutralKiller());
+                            if (foundCheck)
+                                TargetPlayerName = Helpers.ColorString(target.GetRoleColor(), TargetPlayerName);
+                        }
+                        else if (SeerKnowsCoven)
+                        {
+                            var isCoven = seer.GetCustomRole().IsCoven();
+                            var foundCheck = target.GetCustomRole().IsCoven();
                             if (foundCheck)
                                 TargetPlayerName = Helpers.ColorString(target.GetRoleColor(), TargetPlayerName);
                         }

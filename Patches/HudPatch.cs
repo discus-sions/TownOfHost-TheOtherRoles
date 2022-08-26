@@ -145,6 +145,14 @@ namespace TownOfHost
                 LowerInfoText.text += "\nRampage Ready: " + ReadyLang;
                 LowerInfoText.enabled = true;
             }
+            else if (player.Is(CustomRoles.Medusa))
+            {
+                var ModeLang = Main.IsGazing ? "True" : "False";
+                var ReadyLang = Main.GazeReady ? "True" : "False";
+                LowerInfoText.text = "Is Gazing: " + ModeLang;
+                LowerInfoText.text += "\nGazing Ready: " + ReadyLang;
+                LowerInfoText.enabled = true;
+            }
             else if (player.Is(CustomRoles.TheGlitch))
             {
                 var ModeLang = Main.IsHackMode ? "Hack" : "Kill";

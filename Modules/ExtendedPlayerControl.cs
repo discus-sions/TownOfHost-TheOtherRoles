@@ -934,6 +934,7 @@ namespace TownOfHost
         }
         public static bool IsNeutralKiller(this PlayerControl player)
         {
+            if (player.GetCustomRole().IsCoven() && Options.SnitchCanFindCoven.GetBool()) return true;
             return
                 player.GetCustomRole() is
                 CustomRoles.Egoist or
