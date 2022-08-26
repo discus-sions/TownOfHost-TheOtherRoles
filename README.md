@@ -118,6 +118,7 @@ For example: `welcome:This room is using the unofficial version of TownOfHost.`
 | [MadSnitch](#MadSnitch)             | [Veteran](#veteran)               | [Guardian-Angel](#guardian-angel) |
 | [SidekickMadmate](#SidekickMadmate) | [Child](#child)                   | [Amnesiac](#amnesiac)             |
 | [Silencer](#silencer)               | [Sleuth](#sleuth)                 | [Pestilence](#pestilence)         |
+|                                     |                                   | [Jackal](#jackal)                 |
 
 ### GM
 
@@ -699,6 +700,23 @@ After infecting everyone, you turn into Pestilence.
 | Name                    |
 | ----------------------- |
 | PlagueeBearer Infect CD |
+
+### Jackal
+
+Team: Neutral<br>
+Basis: Impostor<br>
+Victory Condition: Kill Everyone<br>
+
+The Jackal can kill both impostors and crewmates.<br>
+Their goal is to be the last one standing.<br>
+
+#### Game Options
+
+| Name                    |
+| ----------------------- |
+| Jackal Kill Cooldown    |
+| Jackal Can Vent         |
+| Jackal Can Sabotage     |
 
 ### Pestilence
 
