@@ -275,7 +275,7 @@ namespace TownOfHost
                     case CustomRoles.CovenWitch:
                         if (Main.HasNecronomicon)
                         {
-                            Main.PuppeteerList[target.PlayerId] = null;
+                            Main.PuppeteerList[target.PlayerId] = 0;
                             if (target.Is(CustomRoles.Veteran) && Main.VetIsAlerted)
                             {
                                 target.RpcMurderPlayer(killer);
@@ -601,13 +601,6 @@ namespace TownOfHost
                         if (!killer.IsHexMode()) return false;
                         //return false;
                         if (!Main.HasNecronomicon && Main.HexesThisRound == Options.MaxHexesPerRound.GetFloat()) return false;
-                        break;
-                    case CustomRoles.Medusa:
-                        if (target.Is(CustomRoles.Veteran) && Main.VetIsAlerted)
-                        {
-                            target.RpcMurderPlayer(killer);
-                            return false;
-                        }
                         break;
                     case CustomRoles.Puppeteer:
                         if (target.Is(CustomRoles.Veteran) && Main.VetIsAlerted)
