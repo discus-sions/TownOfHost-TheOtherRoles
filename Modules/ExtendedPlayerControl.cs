@@ -753,6 +753,12 @@ namespace TownOfHost
                 case CustomRoles.PlagueBearer:
                     Main.AllPlayerKillCooldown[player.PlayerId] = Options.InfectCooldown.GetFloat();
                     break;
+                case CustomRoles.HexMaster:
+                    if (player.IsHexMode())
+                        Main.AllPlayerKillCooldown[player.PlayerId] = Options.HexCD.GetFloat();
+                    else
+                        Main.AllPlayerKillCooldown[player.PlayerId] = Options.CovenKillCooldown.GetFloat();
+                    break;
             }
             if (player.IsLastImpostor())
                 Main.AllPlayerKillCooldown[player.PlayerId] = Options.LastImpostorKillCooldown.GetFloat();
