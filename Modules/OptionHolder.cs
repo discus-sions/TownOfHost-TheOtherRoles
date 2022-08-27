@@ -206,6 +206,7 @@ namespace TownOfHost
 
         // その他
         public static CustomOption NoGameEnd;
+        public static CustomOption CamoComms;
         public static CustomOption AutoDisplayLastResult;
         public static CustomOption SuffixMode;
         public static CustomOption ColorNameMode;
@@ -232,6 +233,10 @@ namespace TownOfHost
 
         public static CustomOption StoneCD;
         public static CustomOption StoneDuration;
+        public static CustomOption StoneReport;
+        public static CustomOption HexCD;
+        public static CustomOption MaxHexesPerRound;
+        public static CustomOption PKTAH;
 
         //VETERAN
         public static CustomOption VetCD;
@@ -473,11 +478,19 @@ namespace TownOfHost
             CovenKillCooldown = CustomOption.Create(60020, Color.white, "CovenKillCooldown", 30, 2.5f, 180, 2.5f, CustomRoleSpawnChances[CustomRoles.Coven]);
             CovenMeetings = CustomOption.Create(60021, Color.white, "CovenMeetings", 10, 1, 15, 1, CustomRoleSpawnChances[CustomRoles.Coven]);
             HexMasterOn = CustomOption.Create(60022, Color.white, "HexMasterOn", false, CustomRoleSpawnChances[CustomRoles.Coven]);
+
+            HexCD = CustomOption.Create(60028, Color.white, "HexCD", 30, 2.5f, 180, 2.5f, HexMasterOn);
+            PKTAH = CustomOption.Create(60029, Color.white, "PKTAH", true, HexMasterOn);
+            MaxHexesPerRound = CustomOption.Create(60030, Color.white, "MHPR", 3, 1, 15, 1, HexMasterOn);
+
             PotionMasterOn = CustomOption.Create(60013, Color.white, "PotionMasterOn", false, CustomRoleSpawnChances[CustomRoles.Coven]);
             VampireDitchesOn = CustomOption.Create(60014, Color.white, "VampireDitchesOn", false, CustomRoleSpawnChances[CustomRoles.Coven]);
+
             MedusaOn = CustomOption.Create(60015, Color.white, "MedusaOn", false, CustomRoleSpawnChances[CustomRoles.Coven]);
             StoneCD = CustomOption.Create(60025, Color.white, "StoneCD", 30, 2.5f, 180, 2.5f, MedusaOn);
             StoneDuration = CustomOption.Create(60026, Color.white, "StoneDur", 15, 2.5f, 180, 2.5f, MedusaOn);
+            StoneReport = CustomOption.Create(60027, Color.white, "StoneDur", 35, 2.5f, 180, 2.5f, MedusaOn);
+
             //MimicOn = CustomOption.Create(60016, Color.white, "MimicOn", false, CustomRoleSpawnChances[CustomRoles.Coven]);
             //NecromancerOn = CustomOption.Create(60017, Color.white, "NecromancerOn", false, CustomRoleSpawnChances[CustomRoles.Coven]);
             ConjurorOn = CustomOption.Create(60018, Color.white, "ConjurorOn", false, CustomRoleSpawnChances[CustomRoles.Coven]);
@@ -492,8 +505,8 @@ namespace TownOfHost
 
             SetupSingleRoleOptions(80500, CustomRoles.TheGlitch, 1);
             GlitchRoleBlockCooldown = CustomOption.Create(80510, Color.white, "RBC", 30, 2.5f, 180, 2.5f, CustomRoleSpawnChances[CustomRoles.TheGlitch]);
-            GlitchKillCooldown = CustomOption.Create(80510, Color.white, "KillCD", 30, 2.5f, 180, 2.5f, CustomRoleSpawnChances[CustomRoles.TheGlitch]);
-            GlitchCanVent = CustomOption.Create(80510, Color.white, "HPV", true, CustomRoleSpawnChances[CustomRoles.TheGlitch]);
+            GlitchKillCooldown = CustomOption.Create(80511, Color.white, "KillCD", 30, 2.5f, 180, 2.5f, CustomRoleSpawnChances[CustomRoles.TheGlitch]);
+            GlitchCanVent = CustomOption.Create(80512, Color.white, "HPV", true, CustomRoleSpawnChances[CustomRoles.TheGlitch]);
 
             SetupSingleRoleOptions(90000, CustomRoles.Werewolf, 1);
             RampageCD = CustomOption.Create(90010, Color.white, "RCD", 30, 2.5f, 180, 2.5f, CustomRoleSpawnChances[CustomRoles.Werewolf]);
@@ -602,6 +615,8 @@ namespace TownOfHost
                 .SetGameMode(CustomGameMode.Standard);
 
             // その他
+            CamoComms = CustomOption.Create(100607, Color.white, "CamoComms", false, null, true)
+                .SetGameMode(CustomGameMode.All);
             NoGameEnd = CustomOption.Create(100600, Color.white, "NoGameEnd", false, null, true)
                 .SetGameMode(CustomGameMode.All);
             AutoDisplayLastResult = CustomOption.Create(100601, Color.white, "AutoDisplayLastResult", false)

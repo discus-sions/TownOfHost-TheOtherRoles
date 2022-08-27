@@ -60,7 +60,7 @@ namespace TownOfHost
                 canUse = couldUse = true;
             else if (pc.Object.Is(CustomRoles.Werewolf))
                 canUse = couldUse = true;
-            else if (CustomRolesHelper.IsCoven(pc.GetCustomRole()) && Main.HasNecronomicon && !pc.Object.Is(CustomRoles.Mimic))
+            else if (CustomRolesHelper.IsCoven(pc.GetCustomRole()) && Main.HasNecronomicon && !pc.Object.Is(CustomRoles.Mimic) && !pc.Object.Is(CustomRoles.Medusa))
                 canUse = couldUse = true;
             else if (CustomRolesHelper.IsCoven(pc.GetCustomRole()) && !Main.HasNecronomicon)
                 canUse = couldUse = false;

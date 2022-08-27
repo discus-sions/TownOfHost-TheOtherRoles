@@ -15,6 +15,7 @@ namespace TownOfHost
             //ここより上、全員が実行する
             if (!AmongUsClient.Instance.AmHost) return;
             //ここより下、ホストのみが実行する
+            //if (__instance.G)
             if (Main.IsFixedCooldown && Main.RefixCooldownDelay >= 0)
             {
                 Main.RefixCooldownDelay -= Time.fixedDeltaTime;

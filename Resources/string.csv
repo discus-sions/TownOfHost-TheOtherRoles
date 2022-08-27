@@ -311,6 +311,7 @@ LastImpostorInfoLong,"(Attributes):\nAn Attribute given to the last Impostor.\nK
 #モードオプション
 HideAndSeek,HideAndSeek,かくれんぼ,躲猫猫,躲貓貓
 NoGameEnd,NoGameEnd,ゲームを終了しない,测试模式,遊戲不會結束模式
+CamoComms,Camo Comms,Camo Comms,Camo Comms
 SyncButtonMode,SyncButtonMode,ボタン回数同期モード,所有船员共享会议次数,全場拍桌數同步模式
 RandomMapsMode,RandomMapsMode,ランダムマップモード,随机地图模式,隨機地圖模式
 SyncedButtonCount,Max Button Count,合計ボタン使用可能回数(回),紧急会议可使用的次数,全場最大拍桌數量
@@ -358,6 +359,8 @@ NoGameEndInfo,NoGameEnd:\nA mode for debugging in which there is no win Basis.\n
 SyncButtonModeInfo,SyncButtonMode:\nThis mode limits the maximum number of meetings that can be called in total.,ボタン回数同期モード:\nプレイヤー全員のボタン回数が同期されているモード。(設定有),所有船员共享会议次数:\n游戏中存在全员共有的最大紧急会议次数。(可以进行设置),"全場拍桌數同步模式:\n該模式會讓全場玩家的拍桌數同步。(可以設定拍桌數)"
 SabotageTimeControlInfo,Sabotage time control:\nIt is possible to change the time limit for some sabotage. (with settings),サボタージュの時間制御:\n一部サボタージュの制限時間を変更することができる。(設定有),破坏调整:\n可以调整一部分破坏的限制时间。(可以进行设置),"控制緊急任務時間:\n該模式可以讓某些地圖的破壞時間重新設定。 (可以設定)"
 RandomMapsModeInfo,RandomMapsMode:\nA mode in which the map changes randomly. (with settings),ランダムマップモード:\nランダムにマップが変わるモード。(設定有),随机地图:\n随机选择地图游玩的模式。(可以进行设置),"隨機地圖模式:\n該模式會隨機挑選地圖。 (可以設定)"
+
+CamoCommsInfo,"CamoComms:\nDuring the Comms sabotage, everyone will have no name or clothing and all appear gray.","CamoComms:\nDuring the Comms sabotage, everyone will have no name or clothing and all appear gray.","CamoComms:\nDuring the Comms sabotage, everyone will have no name or clothing and all appear gray."
 DisableDevicesInfo,"DisableDevices:\nVarious devices can be disabled (currently admin only, MiraHQ not supported)",デバイスを無効化:\n各種機器を無効化することができる。(現在はアドミンのみ、MiraHQ非対応),禁用设备:\n可以禁用各种设备。(目前只支持管理地图，不支持米拉总部),"禁用設備:\n可以禁用各種設備。 (目前只支持管理室地圖,不支持MIRA HQ)"
 
 ## 詳細設定
@@ -435,9 +438,15 @@ ArsonistCooldown,Arsonist Douse Cooldown,アーソニストのクールダウン
 
 TourArso,TOuR Arsonist,TOuR Arsonist,TOuR的纵火犯,
 InfectCD,Infect Cooldown,アーソニストの塗り時間,感染冷却时间,
+
 PestiKillCooldown,Pestilence Kill Cooldown,アーソニストのクールダウン,疫医击杀冷却时间,
 PestiCanVent,Pestilence Can Vent,アーソニストのクールダウン,疫医可以使用通风管道,
 DemoSuicideTime,Time To Vent Till Suicide,DemoSuicideTime,自杀倒计时,
+StoneCD,Stone Cooldown,Stone Cooldown,Stone Cooldown
+StoneDur,Stone Duration,Stone Duration,Stone Duration
+PKTAH,Players Know They Are Hexed,Players Know They Are Hexed,Players Know They Are Hexed
+HexCD,Hex Cooldown,Hex Cooldown,Hex Cooldown
+MHPR,Max Hexes Per Round,Max Hexes Per Round,Max Hexes Per Round
 
 CanTerroristSuicideWin,Can Terrorist Suicide Win,テロリストの自殺勝ち,恐怖分子可以通过自杀获胜,恐怖分子可以自殺來獲勝
 ShapeMasterShapeshiftDuration,Shapeshift Duration,シェイプマスターの変身持続時間,千面鬼化形持续时间,變形大師變形持續時間

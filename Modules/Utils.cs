@@ -230,6 +230,10 @@ namespace TownOfHost
                     var doused = GetDousedPlayerCount(playerId);
                     ProgressText = Helpers.ColorString(GetRoleColor(CustomRoles.Arsonist), $"({doused.Item1}/{doused.Item2})");
                     break;
+                case CustomRoles.HexMaster:
+                    var hexed = GetHexedPlayerCount(playerId);
+                    ProgressText = Helpers.ColorString(GetRoleColor(CustomRoles.Coven), $"({hexed.Item1}/{hexed.Item2})");
+                    break;
                 case CustomRoles.PlagueBearer:
                     var infected = GetInfectedPlayerCount(playerId);
                     ProgressText = Helpers.ColorString(GetRoleColor(CustomRoles.Pestilence), $"({infected.Item1}/{infected.Item2})");
@@ -264,7 +268,7 @@ namespace TownOfHost
                 if (taskState.hasTasks)
                 {
                     string Completed = comms ? "?" : $"{taskState.CompletedTasksCount}";
-                    ProgressText = Helpers.ColorString(Color.yellow, $"({Completed}/{taskState.AllTasksCount})");
+                    ProgressText += Helpers.ColorString(Color.yellow, $"({Completed}/{taskState.AllTasksCount})");
                 }
             }
             if (role.IsImpostor() && role != CustomRoles.LastImpostor && GetPlayerById(playerId).IsLastImpostor())
@@ -686,6 +690,13 @@ namespace TownOfHost
                     SelfSuffix = "Is Rampaging: " + ModeLang;
                     SelfSuffix += "\nRampage Ready: " + ReadyLang;
                 }
+                if (seer.Is(CustomRoles.Medusa))
+                {
+                    var ModeLang = Main.IsGazing ? "True" : "False";
+                    var ReadyLang = Main.GazeReady ? "True" : "False";
+                    SelfSuffix = "Gazing: " + ModeLang;
+                    SelfSuffix += "\nGaze Ready: " + ReadyLang;
+                }
                 if (seer.Is(CustomRoles.TheGlitch))
                 {
                     var ModeLang = Main.IsHackMode ? "Hack" : "Kill";
@@ -694,6 +705,7 @@ namespace TownOfHost
 
                 //他人用の変数定義
                 bool SeerKnowsImpostors = false; //trueの時、インポスターの名前が赤色に見える
+                bool SeerKnowsCoven = false; //trueの時、インポスターの名前が赤色に見える
 
                 //タスクを終えたSnitchがインポスター/キル可能な第三陣営の方角を確認できる
                 if (seer.Is(CustomRoles.Snitch))
@@ -702,6 +714,8 @@ namespace TownOfHost
                     if (TaskState.IsTaskFinished)
                     {
                         SeerKnowsImpostors = true;
+                        if (Options.SnitchCanFindCoven.GetBool())
+                            SeerKnowsCoven = true;
                         //ミーティング以外では矢印表示
                         if (!isMeeting)
                         {
@@ -713,6 +727,11 @@ namespace TownOfHost
                             }
                         }
                     }
+                }
+
+                if (seer.GetCustomRole().IsCoven())
+                {
+                    SeerKnowsCoven = true;
                 }
 
                 if (seer.Is(CustomRoles.MadSnitch))
@@ -728,6 +747,9 @@ namespace TownOfHost
                 //seerの役職名とSelfTaskTextとseerのプレイヤー名とSelfMarkを合成
                 string SelfRoleName = $"<size={fontSize}>{Helpers.ColorString(seer.GetRoleColor(), seer.GetRoleName())}{SelfTaskText}</size>";
                 string SelfName = $"{Helpers.ColorString(seer.GetRoleColor(), SeerRealName)}{SelfMark}";
+                if (Main.KilledDemo.Contains(seer.PlayerId))
+                    SelfName = $"</size>\r\n{Helpers.ColorString(Utils.GetRoleColor(CustomRoles.Demolitionist), "You killed Demolitionist!")}";
+                else SelfName = "";
                 if (seer.Is(CustomRoles.Arsonist) && seer.IsDouseDone())
                     SelfName = $"</size>\r\n{Helpers.ColorString(seer.GetRoleColor(), GetString("EnterVentToWin"))}";
                 SelfName = SelfRoleName + "\r\n" + SelfName;
@@ -740,6 +762,7 @@ namespace TownOfHost
                 //seerが死んでいる場合など、必要なときのみ第二ループを実行する
                 if (seer.Data.IsDead //seerが死んでいる
                     || SeerKnowsImpostors //seerがインポスターを知っている状態
+                    || SeerKnowsCoven
                     || seer.GetCustomRole().IsImpostor() //seerがインポスター
                     || seer.Is(CustomRoles.EgoSchrodingerCat) //seerがエゴイストのシュレディンガーの猫
                     || seer.Is(CustomRoles.JSchrodingerCat) //seerがJackal陣営のシュレディンガーの猫
@@ -752,6 +775,9 @@ namespace TownOfHost
                     || seer.Is(CustomRoles.Executioner)
                     || seer.Is(CustomRoles.Doctor) //seerがドクター
                     || seer.Is(CustomRoles.Puppeteer)
+                    || seer.Is(CustomRoles.HexMaster)
+                    //|| Main.KilledDemo.Contains(seer.PlayerId)
+                    || seer.Is(CustomRoles.PlagueBearer)
                     //|| seer.GetCustomSubRole().GetModifierType() != ModifierType.None
                     || IsActive(SystemTypes.Electrical)
                     || NoCache
@@ -773,7 +799,7 @@ namespace TownOfHost
                         if (Main.SpelledPlayer.Find(x => x.PlayerId == target.PlayerId) != null && isMeeting)
                             TargetMark += "<color=#ff0000>†</color>";
                         if (Main.SilencedPlayer.Find(x => x.PlayerId == target.PlayerId) != null && isMeeting)
-                            TargetMark += "<color=#ff0000>††</color>";
+                            TargetMark += "<color=#ff0000> (S)</color>";
                         //タスク完了直前のSnitchにマークを表示
                         canFindSnitchRole = seer.GetCustomRole().IsImpostor() || //Seerがインポスター
                             (Options.SnitchCanFindNeutralKiller.GetBool() && seer.IsNeutralKiller());//or エゴイスト
@@ -815,6 +841,25 @@ namespace TownOfHost
                                 TargetMark += $"<color={GetRoleColorCode(CustomRoles.Arsonist)}>△</color>";
                             }
                         }
+                        if (seer.Is(CustomRoles.HexMaster))
+                        {
+                            if (seer.IsHexedPlayer(target))
+                                TargetMark += $"<color={GetRoleColorCode(CustomRoles.Coven)}>†</color>";
+                        }
+                        if (seer.Is(CustomRoles.PlagueBearer))//seerがアーソニストの時
+                        {
+                            if (seer.IsInfectedPlayer(target)) //seerがtargetに既にオイルを塗っている(完了)
+                            {
+                                TargetMark += $"<color={GetRoleColorCode(CustomRoles.Pestilence)}>◆</color>";
+                            }
+                            if (
+                                Main.PlagueBearerTimer.TryGetValue(seer.PlayerId, out var ar_kvp) && //seerがオイルを塗っている途中(現在進行)
+                                ar_kvp.Item1 == target //オイルを塗っている対象がtarget
+                            )
+                            {
+                                TargetMark += $"<color={GetRoleColorCode(CustomRoles.Pestilence)}>△</color>";
+                            }
+                        }
                         if (seer.Is(CustomRoles.Puppeteer) &&
                         Main.PuppeteerList.ContainsValue(seer.PlayerId) &&
                         Main.PuppeteerList.ContainsKey(target.PlayerId))
@@ -835,6 +880,13 @@ namespace TownOfHost
                             //スニッチはオプション有効なら第三陣営のキル可能役職も見れる
                             var snitchOption = seer.Is(CustomRoles.Snitch) && Options.SnitchCanFindNeutralKiller.GetBool();
                             var foundCheck = target.GetCustomRole().IsImpostor() || (snitchOption && target.IsNeutralKiller());
+                            if (foundCheck)
+                                TargetPlayerName = Helpers.ColorString(target.GetRoleColor(), TargetPlayerName);
+                        }
+                        else if (SeerKnowsCoven)
+                        {
+                            var isCoven = seer.GetCustomRole().IsCoven();
+                            var foundCheck = target.GetCustomRole().IsCoven();
                             if (foundCheck)
                                 TargetPlayerName = Helpers.ColorString(target.GetRoleColor(), TargetPlayerName);
                         }
@@ -992,6 +1044,28 @@ namespace TownOfHost
             }
 
             return (doused, all);
+        }
+        public static (int, int) GetHexedPlayerCount(byte playerId)
+        {
+            int hexed = 0, all = 0; //学校で習った書き方
+            //多分この方がMain.isDousedでforeachするより他のアーソニストの分ループ数少なくて済む
+            foreach (var pc in PlayerControl.AllPlayerControls)
+            {
+                if (pc == null ||
+                    pc.Data.IsDead ||
+                    pc.Data.Disconnected ||
+                    //!pc.GetCustomRole().IsCoven() ||
+                    pc.PlayerId == playerId
+                ) continue; //塗れない人は除外 (死んでたり切断済みだったり あとアーソニスト自身も)
+
+                if (!pc.GetCustomRole().IsCoven())
+                    all++;
+                if (Main.isHexed.TryGetValue((playerId, pc.PlayerId), out var isHexed) && isHexed)
+                    //塗れている場合
+                    hexed++;
+            }
+
+            return (hexed, all);
         }
         public static List<PlayerControl> GetDousedPlayer(byte playerId)
         {

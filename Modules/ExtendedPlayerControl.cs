@@ -577,11 +577,35 @@ namespace TownOfHost
             }
             return KillOrSpell;
         }
+        public static bool IsHexMode(this PlayerControl player)
+        {
+            if (!Main.KillOrSpell.TryGetValue(player.PlayerId, out var KillOrHex))
+            {
+                if (Main.HasNecronomicon)
+                {
+                    Main.KillOrSpell[player.PlayerId] = false;
+                    KillOrHex = false;
+                }
+                else
+                {
+                    Main.KillOrSpell[player.PlayerId] = true;
+                    KillOrHex = true;
+                }
+            }
+            return KillOrHex;
+        }
         public static void SyncKillOrSpell(this PlayerControl player)
         {
             MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.SetKillOrSpell, SendOption.Reliable, -1);
             writer.Write(player.PlayerId);
             writer.Write(player.IsSpellMode());
+            AmongUsClient.Instance.FinishRpcImmediately(writer);
+        }
+        public static void SyncKillOrHex(this PlayerControl player)
+        {
+            MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.SetKillOrSpell, SendOption.Reliable, -1);
+            writer.Write(player.PlayerId);
+            writer.Write(player.IsHexMode());
             AmongUsClient.Instance.FinishRpcImmediately(writer);
         }
         public static bool CanUseKillButton(this PlayerControl pc)
@@ -602,6 +626,11 @@ namespace TownOfHost
                 CustomRoles.Juggernaut => true,
                 CustomRoles.Werewolf => true,
                 CustomRoles.TheGlitch => true,
+                CustomRoles.Medusa => true,
+                CustomRoles.Coven => true,
+                CustomRoles.CovenWitch => true,
+                CustomRoles.PotionMaster => true,
+                CustomRoles.HexMaster => true,
                 _ => canUse,
             };
         }
@@ -624,11 +653,19 @@ namespace TownOfHost
             Main.isDoused.TryGetValue((arsonist.PlayerId, target.PlayerId), out bool isDoused);
             return isDoused;
         }
+        public static bool IsHexedPlayer(this PlayerControl hexer, PlayerControl target)
+        {
+            if (hexer == null) return false;
+            if (target == null) return false;
+            if (Main.isHexed == null) return false;
+            Main.isHexed.TryGetValue((hexer.PlayerId, target.PlayerId), out bool isHexed);
+            return isHexed;
+        }
         public static bool IsInfectedPlayer(this PlayerControl plaguebearer, PlayerControl target)
         {
             if (plaguebearer == null) return false;
             if (target == null) return false;
-            if (Main.isDoused == null) return false;
+            if (Main.isInfected == null) return false;
             Main.isInfected.TryGetValue((plaguebearer.PlayerId, target.PlayerId), out bool isInfected);
             return isInfected;
         }
@@ -865,6 +902,12 @@ namespace TownOfHost
             var count = Utils.GetDousedPlayerCount(player.PlayerId);
             return count.Item1 == count.Item2;
         }
+        public static bool IsHexedDone(this PlayerControl player)
+        {
+            if (!player.Is(CustomRoles.HexMaster)) return false;
+            var count = Utils.GetHexedPlayerCount(player.PlayerId);
+            return count.Item1 == count.Item2;
+        }
         public static bool IsInfectDone(this PlayerControl player)
         {
             if (!player.Is(CustomRoles.PlagueBearer)) return false;
@@ -934,6 +977,7 @@ namespace TownOfHost
         }
         public static bool IsNeutralKiller(this PlayerControl player)
         {
+            if (player.GetCustomRole().IsCoven() && Options.SnitchCanFindCoven.GetBool()) return true;
             return
                 player.GetCustomRole() is
                 CustomRoles.Egoist or

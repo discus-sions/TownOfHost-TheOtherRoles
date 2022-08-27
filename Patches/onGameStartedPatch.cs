@@ -24,6 +24,7 @@ namespace TownOfHost
             Main.BitPlayers = new Dictionary<byte, (byte, float)>();
             Main.WarlockTimer = new Dictionary<byte, float>();
             Main.isDoused = new Dictionary<(byte, byte), bool>();
+            Main.isHexed = new Dictionary<(byte, byte), bool>();
             Main.ArsonistTimer = new Dictionary<byte, (PlayerControl, float)>();
             Main.isInfected = new Dictionary<(byte, byte), bool>();
             Main.PlagueBearerTimer = new Dictionary<byte, (PlayerControl, float)>();
@@ -33,6 +34,7 @@ namespace TownOfHost
             Main.ExecutionerTarget = new Dictionary<byte, byte>();
             Main.GuardianAngelTarget = new Dictionary<byte, byte>();
             Main.SKMadmateNowCount = 0;
+            Main.HexesThisRound = 0;
             Main.isCursed = false;
             Main.PuppeteerList = new Dictionary<byte, byte>();
 
@@ -85,7 +87,7 @@ namespace TownOfHost
             Main.HasProtected = false;
 
             Main.IsGazing = false;
-            Main.GazeReady = false;
+            Main.GazeReady = true;
 
             Main.IsRampaged = false;
             Main.RampageReady = true;
@@ -228,6 +230,7 @@ namespace TownOfHost
                 AssignDesyncRole(CustomRoles.Amnesiac, AllPlayers, sender, BaseRole: RoleTypes.Impostor);
 
                 //COVEN 
+                AssignDesyncRole(CustomRoles.Coven, AllPlayers, sender, BaseRole: RoleTypes.Impostor);
                 AssignDesyncRole(CustomRoles.CovenWitch, AllPlayers, sender, BaseRole: RoleTypes.Impostor);
                 AssignDesyncRole(CustomRoles.HexMaster, AllPlayers, sender, BaseRole: RoleTypes.Impostor);
                 AssignDesyncRole(CustomRoles.PotionMaster, AllPlayers, sender, BaseRole: RoleTypes.Impostor);
@@ -350,7 +353,7 @@ namespace TownOfHost
                 AssignCustomRolesFromList(CustomRoles.Warlock, Shapeshifters);
                 AssignCustomRolesFromList(CustomRoles.SerialKiller, Shapeshifters);
                 AssignCustomRolesFromList(CustomRoles.Lighter, Crewmates);
-                AssignCustomRolesFromList(CustomRoles.Coven, Crewmates);
+                //AssignCustomRolesFromList(CustomRoles.Coven, Crewmates);
                 AssignLoversRolesFromList();
                 AssignCustomRolesFromList(CustomRoles.SpeedBooster, Crewmates);
                 AssignCustomRolesFromList(CustomRoles.Trapper, Crewmates);
@@ -447,32 +450,32 @@ namespace TownOfHost
                                 Main.AllPlayerCustomRoles[pc.PlayerId] = CustomRoles.CovenWitch;
                                 Main.ChoseWitch = true;
                             }
-                            else if (!Main.HexMasterOn)
+                            else if (!Main.HexMasterOn && Options.HexMasterOn.GetBool())
                             {
                                 Main.AllPlayerCustomRoles[pc.PlayerId] = CustomRoles.HexMaster;
                                 Main.HexMasterOn = true;
                             }
-                            else if (!Main.PotionMasterOn)
+                            else if (!Main.PotionMasterOn && Options.PotionMasterOn.GetBool())
                             {
                                 Main.AllPlayerCustomRoles[pc.PlayerId] = CustomRoles.PotionMaster;
                                 Main.PotionMasterOn = true;
                             }
-                            else if (!Main.MedusaOn)
+                            else if (!Main.MedusaOn && Options.MedusaOn.GetBool())
                             {
                                 Main.AllPlayerCustomRoles[pc.PlayerId] = CustomRoles.Medusa;
                                 Main.MedusaOn = true;
                             }
-                            else if (!Main.MimicOn && !Main.NecromancerOn)
+                            else if (!Main.MimicOn && !Main.NecromancerOn && Options.MimicOn.GetBool())
                             {
                                 Main.AllPlayerCustomRoles[pc.PlayerId] = CustomRoles.Mimic;
                                 Main.MimicOn = true;
                             }
-                            else if (!Main.NecromancerOn && !Main.MimicOn)
+                            else if (!Main.NecromancerOn && !Main.MimicOn && Options.NecromancerOn.GetBool())
                             {
                                 Main.AllPlayerCustomRoles[pc.PlayerId] = CustomRoles.Necromancer;
                                 Main.NecromancerOn = true;
                             }
-                            else if (!Main.ConjurorOn)
+                            else if (!Main.ConjurorOn && Options.ConjurorOn.GetBool())
                             {
                                 Main.AllPlayerCustomRoles[pc.PlayerId] = CustomRoles.Conjuror;
                                 Main.ConjurorOn = true;
@@ -525,7 +528,7 @@ namespace TownOfHost
                             }
                             break;
                         case CustomRoles.Veteran:
-                            //Main.VetAlerts = Options.NumOfVets.GetInt();
+                            Main.VetAlerts = Options.NumOfVets.GetInt();
                             break;
                         case CustomRoles.FireWorks:
                             FireWorks.Add(pc.PlayerId);
@@ -596,6 +599,13 @@ namespace TownOfHost
                         case CustomRoles.SabotageMaster:
                             SabotageMaster.Add(pc.PlayerId);
                             break;
+                        case CustomRoles.HexMaster:
+                            foreach (var ar in PlayerControl.AllPlayerControls)
+                            {
+                                if (!ar.GetCustomRole().IsCoven())
+                                    Main.isHexed.Add((pc.PlayerId, ar.PlayerId), false);
+                            }
+                            break;
                     }
                     pc.ResetKillCooldown();
                 }
@@ -631,7 +641,7 @@ namespace TownOfHost
             }
 
             // ResetCamが必要なプレイヤーのリストにクラス化が済んでいない役職のプレイヤーを追加
-            Main.ResetCamPlayerList.AddRange(PlayerControl.AllPlayerControls.ToArray().Where(p => p.GetCustomRole() is CustomRoles.Arsonist or CustomRoles.Jackal or CustomRoles.PlagueBearer).Select(p => p.PlayerId));
+            Main.ResetCamPlayerList.AddRange(PlayerControl.AllPlayerControls.ToArray().Where(p => p.GetCustomRole() is CustomRoles.Arsonist or CustomRoles.Jackal or CustomRoles.PlagueBearer or CustomRoles.Pestilence or CustomRoles.Werewolf or CustomRoles.TheGlitch).Select(p => p.PlayerId));
             Utils.CountAliveImpostors();
             Utils.CustomSyncAllSettings();
             SetColorPatch.IsAntiGlitchDisabled = false;

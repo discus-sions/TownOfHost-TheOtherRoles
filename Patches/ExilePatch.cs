@@ -82,6 +82,21 @@ namespace TownOfHost
                     Utils.CheckTerroristWin(exiled);
                     DecidedWinner = true;
                 }
+                if (!exiled.Object.Is(CustomRoles.HexMaster) && exiled.Object.IsHexedDone())
+                {
+                    foreach (var pc in PlayerControl.AllPlayerControls)
+                    {
+                        if (!pc.Data.IsDead && !pc.GetCustomRole().IsCoven())
+                        {
+                            if (!pc.Is(CustomRoles.Pestilence))
+                            {
+                                pc.RpcMurderPlayer(pc);
+                                PlayerState.SetDeathReason(pc.PlayerId, PlayerState.DeathReason.Bombed);
+                                PlayerState.SetDead(pc.PlayerId);
+                            }
+                        }
+                    }
+                }
                 if (exiled.Object.Is(RoleType.Impostor) && exiled.Object.IsLastImpostor())
                 {
                     //impostor was voted.
@@ -144,8 +159,7 @@ namespace TownOfHost
                 exiled.Object.ExiledSchrodingerCatTeamChange();
 
             Main.VetIsAlerted = false;
-            Main.IsRampaged = false;
-            Main.RampageReady = false;
+            Main.HexesThisRound = 0;
 
             if (Main.currentWinner != CustomWinner.Terrorist) PlayerState.SetDead(exiled.PlayerId);
             {
@@ -161,16 +175,6 @@ namespace TownOfHost
                         pc.RpcResetAbilityCooldown();
                     if (pc.Is(CustomRoles.Veteran))
                         pc.RpcResetAbilityCooldown();
-                    if (pc.Is(CustomRoles.Werewolf))
-                    {
-                        Main.IsRampaged = false;
-                        Main.RampageReady = false;
-                        new LateTask(() =>
-                        {
-                            //pc?.MyPhysics?.RpcBootFromVent(__instance.Id);
-                            Main.RampageReady = true;
-                        }, Options.RampageCD.GetFloat(), "Werewolf Rampage Cooldown");
-                    }
                     if (pc.Is(CustomRoles.Warlock))
                     {
                         Main.CursedPlayers[pc.PlayerId] = null;
@@ -189,6 +193,13 @@ namespace TownOfHost
                     player?.ResetVotingTime();
             });
             Main.AfterMeetingDeathPlayers.Clear();
+            Main.IsRampaged = false;
+            Main.RampageReady = false;
+            new LateTask(() =>
+            {
+                //pc?.MyPhysics?.RpcBootFromVent(__instance.Id);
+                Main.RampageReady = true;
+            }, Options.RampageCD.GetFloat(), "Werewolf Rampage Cooldown");
             FallFromLadder.Reset();
             Utils.CountAliveImpostors();
             Utils.AfterMeetingTasks();

@@ -145,6 +145,14 @@ namespace TownOfHost
                 LowerInfoText.text += "\nRampage Ready: " + ReadyLang;
                 LowerInfoText.enabled = true;
             }
+            else if (player.Is(CustomRoles.Medusa))
+            {
+                var ModeLang = Main.IsGazing ? "True" : "False";
+                var ReadyLang = Main.GazeReady ? "True" : "False";
+                LowerInfoText.text = "Is Gazing: " + ModeLang;
+                LowerInfoText.text += "\nGazing Ready: " + ReadyLang;
+                LowerInfoText.enabled = true;
+            }
             else if (player.Is(CustomRoles.TheGlitch))
             {
                 var ModeLang = Main.IsHackMode ? "Hack" : "Kill";
@@ -308,6 +316,7 @@ namespace TownOfHost
                 player.GetCustomRole() == CustomRoles.Juggernaut ||
                 player.GetCustomRole() == CustomRoles.PlagueBearer ||
                 player.GetCustomRole() == CustomRoles.Pestilence ||
+                player.GetRoleType() == RoleType.Coven ||
                 player.GetRoleType() == RoleType.Madmate)
             && !player.Data.IsDead)
             {
@@ -374,14 +383,14 @@ namespace TownOfHost
                     if (player.Data.Role.Role != RoleTypes.GuardianAngel)
                         __instance.KillButton.ToggleVisible(isActive && !player.Data.IsDead);
                     __instance.SabotageButton.ToggleVisible(false);
-                    __instance.ImpostorVentButton.ToggleVisible(true);
+                    __instance.ImpostorVentButton.ToggleVisible(isActive && Options.PestiCanVent.GetBool());
                     __instance.AbilityButton.ToggleVisible(false);
                     break;
                 case CustomRoles.Juggernaut:
                     if (player.Data.Role.Role != RoleTypes.GuardianAngel)
                         __instance.KillButton.ToggleVisible(isActive && !player.Data.IsDead);
                     __instance.SabotageButton.ToggleVisible(false);
-                    __instance.ImpostorVentButton.ToggleVisible(true);
+                    __instance.ImpostorVentButton.ToggleVisible(Options.JuggerCanVent.GetBool());
                     __instance.AbilityButton.ToggleVisible(false);
                     break;
                 case CustomRoles.Amnesiac:
@@ -391,17 +400,26 @@ namespace TownOfHost
                     __instance.ImpostorVentButton.ToggleVisible(false);
                     __instance.AbilityButton.ToggleVisible(false);
                     break;
-            }
-            switch (player.GetRoleType())
-            {
-                case RoleType.Coven:
+                case CustomRoles.Medusa:
                     if (player.Data.Role.Role != RoleTypes.GuardianAngel)
-                        __instance.KillButton.ToggleVisible(isActive && !player.Data.IsDead && Main.HasNecronomicon && !player.Is(CustomRoles.Poisoner));
+                        __instance.KillButton.ToggleVisible(isActive && !player.Data.IsDead && Main.HasNecronomicon);
                     __instance.SabotageButton.ToggleVisible(false);
-                    if (player.Data.Role.Role != RoleTypes.Crewmate)
-                        __instance.ImpostorVentButton.ToggleVisible(Main.HasNecronomicon);
-                    if (player.Data.Role.Role == RoleTypes.Shapeshifter)
-                        __instance.AbilityButton.ToggleVisible(Main.HasNecronomicon);
+                    __instance.ImpostorVentButton.ToggleVisible(isActive);
+                    __instance.AbilityButton.ToggleVisible(false);
+                    break;
+                case CustomRoles.HexMaster:
+                    if (player.Data.Role.Role != RoleTypes.GuardianAngel)
+                        __instance.KillButton.ToggleVisible(isActive && !player.Data.IsDead);
+                    __instance.SabotageButton.ToggleVisible(false);
+                    __instance.ImpostorVentButton.ToggleVisible(isActive && Main.HasNecronomicon);
+                    __instance.AbilityButton.ToggleVisible(false);
+                    break;
+                case CustomRoles.CovenWitch:
+                    if (player.Data.Role.Role != RoleTypes.GuardianAngel)
+                        __instance.KillButton.ToggleVisible(isActive && !player.Data.IsDead);
+                    __instance.SabotageButton.ToggleVisible(false);
+                    __instance.ImpostorVentButton.ToggleVisible(isActive && Main.HasNecronomicon);
+                    __instance.AbilityButton.ToggleVisible(false);
                     break;
             }
         }

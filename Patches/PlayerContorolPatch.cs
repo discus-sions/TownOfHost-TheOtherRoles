@@ -223,6 +223,8 @@ namespace TownOfHost
                     //they are both coven
                     return false;
                 }
+                if (killer.Is(CustomRoles.Coven) && !Main.HasNecronomicon && !killer.Is(CustomRoles.PotionMaster) && !killer.Is(CustomRoles.HexMaster))
+                    return false;
                 foreach (var protect in Main.GuardianAngelTarget)
                 {
                     if (target.PlayerId == protect.Value && Main.IsProtected)
@@ -262,11 +264,29 @@ namespace TownOfHost
                             target.RpcMurderPlayer(killer);
                             return false;
                         }
+                        if (target.Is(CustomRoles.Medusa) && Main.IsGazing)
+                        {
+                            target.RpcMurderPlayer(killer);
+                            new LateTask(() =>
+                            {
+                                Main.unreportableBodies.Add(killer.PlayerId);
+                            }, Options.StoneReport.GetFloat(), "Medusa Stone Gazing");
+                            return false;
+                        }
                         break;
                     case CustomRoles.TheGlitch:
                         if (target.Is(CustomRoles.Veteran) && Main.VetIsAlerted && !Main.IsHackMode)
                         {
                             target.RpcMurderPlayer(killer);
+                            return false;
+                        }
+                        if (target.Is(CustomRoles.Medusa) && Main.IsGazing)
+                        {
+                            target.RpcMurderPlayer(killer);
+                            new LateTask(() =>
+                            {
+                                Main.unreportableBodies.Add(killer.PlayerId);
+                            }, Options.StoneReport.GetFloat(), "Medusa Stone Gazing");
                             return false;
                         }
                         if (Main.IsHackMode && Main.CursedPlayers[killer.PlayerId] == null)
@@ -309,6 +329,15 @@ namespace TownOfHost
                                 target.RpcMurderPlayer(killer);
                                 return false;
                             }
+                            if (target.Is(CustomRoles.Medusa) && Main.IsGazing)
+                            {
+                                target.RpcMurderPlayer(killer);
+                                new LateTask(() =>
+                                {
+                                    Main.unreportableBodies.Add(killer.PlayerId);
+                                }, Options.StoneReport.GetFloat(), "Medusa Stone Gazing");
+                                return false;
+                            }
                             killer.RpcMurderPlayer(target);
                             return false;
                         }
@@ -324,6 +353,15 @@ namespace TownOfHost
                         if (target.Is(CustomRoles.Veteran) && Main.VetIsAlerted)
                         {
                             target.RpcMurderPlayer(killer);
+                            return false;
+                        }
+                        if (target.Is(CustomRoles.Medusa) && Main.IsGazing)
+                        {
+                            target.RpcMurderPlayer(killer);
+                            new LateTask(() =>
+                            {
+                                Main.unreportableBodies.Add(killer.PlayerId);
+                            }, Options.StoneReport.GetFloat(), "Medusa Stone Gazing");
                             return false;
                         }
                         Main.JugKillAmounts++;
@@ -342,12 +380,30 @@ namespace TownOfHost
                             target.RpcMurderPlayer(killer);
                             return false;
                         }
+                        if (target.Is(CustomRoles.Medusa) && Main.IsGazing)
+                        {
+                            target.RpcMurderPlayer(killer);
+                            new LateTask(() =>
+                            {
+                                Main.unreportableBodies.Add(killer.PlayerId);
+                            }, Options.StoneReport.GetFloat(), "Medusa Stone Gazing");
+                            return false;
+                        }
                         BountyHunter.OnCheckMurder(killer, target);
                         break;
                     case CustomRoles.SerialKiller:
                         if (target.Is(CustomRoles.Veteran) && Main.VetIsAlerted)
                         {
                             target.RpcMurderPlayer(killer);
+                            return false;
+                        }
+                        if (target.Is(CustomRoles.Medusa) && Main.IsGazing)
+                        {
+                            target.RpcMurderPlayer(killer);
+                            new LateTask(() =>
+                            {
+                                Main.unreportableBodies.Add(killer.PlayerId);
+                            }, Options.StoneReport.GetFloat(), "Medusa Stone Gazing");
                             return false;
                         }
                         SerialKiller.OnCheckMurder(killer);
@@ -357,6 +413,15 @@ namespace TownOfHost
                         if (target.Is(CustomRoles.Veteran) && Main.VetIsAlerted)
                         {
                             target.RpcMurderPlayer(killer);
+                            return false;
+                        }
+                        if (target.Is(CustomRoles.Medusa) && Main.IsGazing)
+                        {
+                            target.RpcMurderPlayer(killer);
+                            new LateTask(() =>
+                            {
+                                Main.unreportableBodies.Add(killer.PlayerId);
+                            }, Options.StoneReport.GetFloat(), "Medusa Stone Gazing");
                             return false;
                         }
                         if (!target.Is(CustomRoles.Bait))
@@ -390,6 +455,15 @@ namespace TownOfHost
                             target.RpcMurderPlayer(killer);
                             return false;
                         }
+                        if (target.Is(CustomRoles.Medusa) && Main.IsGazing)
+                        {
+                            target.RpcMurderPlayer(killer);
+                            new LateTask(() =>
+                            {
+                                Main.unreportableBodies.Add(killer.PlayerId);
+                            }, Options.StoneReport.GetFloat(), "Medusa Stone Gazing");
+                            return false;
+                        }
                         if (!Main.CheckShapeshift[killer.PlayerId] && !Main.isCurseAndKill[killer.PlayerId])
                         { //Warlockが変身時以外にキルしたら、呪われる処理
                             Main.isCursed = true;
@@ -415,6 +489,15 @@ namespace TownOfHost
                             target.RpcMurderPlayer(killer);
                             return false;
                         }
+                        if (target.Is(CustomRoles.Medusa) && Main.IsGazing)
+                        {
+                            target.RpcMurderPlayer(killer);
+                            new LateTask(() =>
+                            {
+                                Main.unreportableBodies.Add(killer.PlayerId);
+                            }, Options.StoneReport.GetFloat(), "Medusa Stone Gazing");
+                            return false;
+                        }
                         if (Main.SilencedPlayer.Count > 0)
                         {
                             killer.RpcMurderPlayer(target);
@@ -437,6 +520,15 @@ namespace TownOfHost
                             target.RpcMurderPlayer(killer);
                             return false;
                         }
+                        if (target.Is(CustomRoles.Medusa) && Main.IsGazing)
+                        {
+                            target.RpcMurderPlayer(killer);
+                            new LateTask(() =>
+                            {
+                                Main.unreportableBodies.Add(killer.PlayerId);
+                            }, Options.StoneReport.GetFloat(), "Medusa Stone Gazing");
+                            return false;
+                        }
                         if (killer.IsSpellMode() && !Main.SpelledPlayer.Contains(target))
                         {
                             killer.RpcGuardAndKill(target);
@@ -448,10 +540,49 @@ namespace TownOfHost
                         killer.SyncKillOrSpell();
                         if (!killer.IsSpellMode()) return false;
                         break;
+                    case CustomRoles.HexMaster:
+                        if (target.Is(CustomRoles.Veteran) && Main.VetIsAlerted && Main.HexesThisRound != Options.MaxHexesPerRound.GetFloat())
+                        {
+                            target.RpcMurderPlayer(killer);
+                            return false;
+                        }
+                        Main.AllPlayerKillCooldown[killer.PlayerId] = 10f;
+                        Utils.CustomSyncAllSettings();
+                        if (!Main.isHexed[(killer.PlayerId, target.PlayerId)] && killer.IsHexMode() && Main.HexesThisRound != Options.MaxHexesPerRound.GetFloat())
+                        {
+                            killer.RpcGuardAndKill(target);
+                            Main.HexesThisRound++;
+                            Utils.NotifyRoles(SpecifySeer: __instance);
+                            Main.isHexed[(killer.PlayerId, target.PlayerId)] = true;//塗り完了
+                        }
+                        if (Main.HexesThisRound != Options.MaxHexesPerRound.GetFloat())
+                            Main.KillOrSpell[killer.PlayerId] = !killer.IsHexMode();
+                        Utils.NotifyRoles();
+                        killer.SyncKillOrHex();
+                        if (!killer.IsHexMode()) return false;
+                        //return false;
+                        if (!Main.HasNecronomicon && Main.HexesThisRound == Options.MaxHexesPerRound.GetFloat()) return false;
+                        break;
+                    case CustomRoles.Medusa:
+                        if (target.Is(CustomRoles.Veteran) && Main.VetIsAlerted)
+                        {
+                            target.RpcMurderPlayer(killer);
+                            return false;
+                        }
+                        break;
                     case CustomRoles.Puppeteer:
                         if (target.Is(CustomRoles.Veteran) && Main.VetIsAlerted)
                         {
                             target.RpcMurderPlayer(killer);
+                            return false;
+                        }
+                        if (target.Is(CustomRoles.Medusa) && Main.IsGazing)
+                        {
+                            target.RpcMurderPlayer(killer);
+                            new LateTask(() =>
+                            {
+                                Main.unreportableBodies.Add(killer.PlayerId);
+                            }, Options.StoneReport.GetFloat(), "Medusa Stone Gazing");
                             return false;
                         }
                         Main.PuppeteerList[target.PlayerId] = killer.PlayerId;
@@ -465,6 +596,15 @@ namespace TownOfHost
                             target.RpcMurderPlayer(killer);
                             return false;
                         }
+                        if (target.Is(CustomRoles.Medusa) && Main.IsGazing)
+                        {
+                            target.RpcMurderPlayer(killer);
+                            new LateTask(() =>
+                            {
+                                Main.unreportableBodies.Add(killer.PlayerId);
+                            }, Options.StoneReport.GetFloat(), "Medusa Stone Gazing");
+                            return false;
+                        }
                         TimeThief.OnCheckMurder(killer);
                         break;
 
@@ -475,6 +615,15 @@ namespace TownOfHost
                         if (target.Is(CustomRoles.Veteran) && Main.VetIsAlerted)
                         {
                             target.RpcMurderPlayer(killer);
+                            return false;
+                        }
+                        if (target.Is(CustomRoles.Medusa) && Main.IsGazing)
+                        {
+                            target.RpcMurderPlayer(killer);
+                            new LateTask(() =>
+                            {
+                                Main.unreportableBodies.Add(killer.PlayerId);
+                            }, Options.StoneReport.GetFloat(), "Medusa Stone Gazing");
                             return false;
                         }
                         Main.AllPlayerKillCooldown[killer.PlayerId] = 10f;
@@ -494,6 +643,15 @@ namespace TownOfHost
                             target.RpcMurderPlayer(killer);
                             return false;
                         }
+                        if (target.Is(CustomRoles.Medusa) && Main.IsGazing)
+                        {
+                            target.RpcMurderPlayer(killer);
+                            new LateTask(() =>
+                            {
+                                Main.unreportableBodies.Add(killer.PlayerId);
+                            }, Options.StoneReport.GetFloat(), "Medusa Stone Gazing");
+                            return false;
+                        }
                         Main.AllPlayerKillCooldown[killer.PlayerId] = 10f;
                         Utils.CustomSyncAllSettings();
                         if (!Main.isInfected[(killer.PlayerId, target.PlayerId)] && !Main.PlagueBearerTimer.ContainsKey(killer.PlayerId))
@@ -506,9 +664,18 @@ namespace TownOfHost
                         }
                         return false;
                     case CustomRoles.Sheriff:
-                        if (target.Is(CustomRoles.Veteran) && Main.VetIsAlerted && !Options.CrewRolesVetted.GetBool())
+                        if (target.Is(CustomRoles.Veteran) && Main.VetIsAlerted && Options.CrewRolesVetted.GetBool())
                         {
                             target.RpcMurderPlayer(killer);
+                            return false;
+                        }
+                        if (target.Is(CustomRoles.Medusa) && Main.IsGazing)
+                        {
+                            target.RpcMurderPlayer(killer);
+                            new LateTask(() =>
+                            {
+                                Main.unreportableBodies.Add(killer.PlayerId);
+                            }, Options.StoneReport.GetFloat(), "Medusa Stone Gazing");
                             return false;
                         }
                         Sheriff.OnCheckMurder(killer, target, Process: "RemoveShotLimit");
@@ -551,11 +718,6 @@ namespace TownOfHost
                                 killer.RpcMurderPlayer(target);
                                 break;
                         }
-                    }
-                    else if (killer.Is(RoleType.Crewmate))
-                    {
-                        if (Options.CrewRolesVetted.GetBool())
-                            target.RpcMurderPlayer(killer);
                     }
                     else
                     {
@@ -1492,6 +1654,12 @@ namespace TownOfHost
                             Mark += $"<color={Utils.GetRoleColorCode(CustomRoles.Arsonist)}>△</color>";
                         }
                     }
+                    if (seer.Is(CustomRoles.HexMaster))
+                    {
+                        //†
+                        if (seer.IsHexedPlayer(target))
+                            Mark += $"<color={Utils.GetRoleColorCode(CustomRoles.Coven)}>†</color>";
+                    }
                     if (target.Is(CustomRoles.Child))
                     {
                         if (Options.ChildKnown.GetBool())
@@ -1782,6 +1950,7 @@ namespace TownOfHost
                     pc.StoneGazed();
                 pc?.MyPhysics?.RpcBootFromVent(__instance.Id);
                 skipCheck = true;
+                Utils.NotifyRoles();
             }
             if (pc.Is(CustomRoles.GuardianAngelTOU))
             {
@@ -1802,6 +1971,7 @@ namespace TownOfHost
                 else
                     Main.IsHackMode = true;
                 pc.MyPhysics.RpcBootFromVent(__instance.Id);
+                Utils.NotifyRoles();
             }
             if (pc.Is(CustomRoles.Bastion))
             {
@@ -1819,9 +1989,11 @@ namespace TownOfHost
             }
             if (pc.Is(CustomRoles.Werewolf))
             {
+                skipCheck = true;
+                Utils.NotifyRoles();
                 if (Main.IsRampaged)
                 {
-                    skipCheck = true;
+
                     //do nothing.
                     if (!Options.VentWhileRampaged.GetBool())
                     {
@@ -1837,30 +2009,30 @@ namespace TownOfHost
                             }
                         }
                     }
-                    else
+                }
+                else
+                {
+                    if (Main.RampageReady)
                     {
-                        if (Main.RampageReady)
+                        Main.RampageReady = false;
+                        Main.IsRampaged = true;
+                        Utils.CustomSyncAllSettings();
+                        new LateTask(() =>
                         {
-                            Main.RampageReady = false;
-                            Main.IsRampaged = true;
+                            Main.IsRampaged = false;
+                            pc?.MyPhysics?.RpcBootFromVent(__instance.Id);
                             Utils.CustomSyncAllSettings();
                             new LateTask(() =>
                             {
-                                Main.IsRampaged = false;
                                 pc?.MyPhysics?.RpcBootFromVent(__instance.Id);
+                                Main.RampageReady = true;
                                 Utils.CustomSyncAllSettings();
-                                new LateTask(() =>
-                                {
-                                    pc?.MyPhysics?.RpcBootFromVent(__instance.Id);
-                                    Main.RampageReady = true;
-                                    Utils.CustomSyncAllSettings();
-                                }, Options.RampageDur.GetFloat(), "Werewolf Rampage Cooldown");
-                            }, Options.RampageDur.GetFloat(), "Werewolf Rampage Duration");
-                        }
-                        else
-                        {
-                            pc?.MyPhysics?.RpcBootFromVent(__instance.Id);
-                        }
+                            }, Options.RampageDur.GetFloat(), "Werewolf Rampage Cooldown");
+                        }, Options.RampageDur.GetFloat(), "Werewolf Rampage Duration");
+                    }
+                    else
+                    {
+                        pc?.MyPhysics?.RpcBootFromVent(__instance.Id);
                     }
                 }
             }
@@ -1935,6 +2107,7 @@ namespace TownOfHost
                 __instance.myPlayer.Is(CustomRoles.SKMadmate) ||
                 __instance.myPlayer.Is(CustomRoles.Arsonist) ||
                 __instance.myPlayer.Is(CustomRoles.PlagueBearer) ||
+                (__instance.myPlayer.GetCustomRole().IsCoven() && !__instance.myPlayer.Is(CustomRoles.Medusa)) ||
                 (__instance.myPlayer.Is(CustomRoles.Mayor) && Main.MayorUsedButtonCount.TryGetValue(__instance.myPlayer.PlayerId, out var count) && count >= Options.MayorNumOfUseButton.GetInt()) ||
                 (__instance.myPlayer.Is(CustomRoles.Jackal) && !Options.JackalCanVent.GetBool()) ||
                 (__instance.myPlayer.Is(CustomRoles.Pestilence) && !Options.PestiCanVent.GetBool())

@@ -104,6 +104,7 @@ namespace TownOfHost
                     listUp(Options.VoteMode);
                     listUp(Options.SabotageTimeControl);
                     nameAndValue(Options.StandardHAS);
+                    nameAndValue(Options.GlobalRoleBlockDuration);
                 }
                 else if (Options.CurrentGameMode == CustomGameMode.HideAndSeek)
                 {
@@ -118,6 +119,7 @@ namespace TownOfHost
                 listUp(Options.RandomMapsMode);
                 listUp(Options.DisableDevices);
                 nameAndValue(Options.NoGameEnd);
+                nameAndValue(Options.CamoComms);
                 nameAndValue(Options.GhostCanSeeOtherRoles);
                 nameAndValue(Options.HideGameSettings);
             }
