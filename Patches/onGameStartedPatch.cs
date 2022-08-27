@@ -24,6 +24,7 @@ namespace TownOfHost
             Main.BitPlayers = new Dictionary<byte, (byte, float)>();
             Main.WarlockTimer = new Dictionary<byte, float>();
             Main.isDoused = new Dictionary<(byte, byte), bool>();
+            Main.isHexed = new Dictionary<(byte, byte), bool>();
             Main.ArsonistTimer = new Dictionary<byte, (PlayerControl, float)>();
             Main.isInfected = new Dictionary<(byte, byte), bool>();
             Main.PlagueBearerTimer = new Dictionary<byte, (PlayerControl, float)>();
@@ -33,6 +34,7 @@ namespace TownOfHost
             Main.ExecutionerTarget = new Dictionary<byte, byte>();
             Main.GuardianAngelTarget = new Dictionary<byte, byte>();
             Main.SKMadmateNowCount = 0;
+            Main.HexesThisRound = 0;
             Main.isCursed = false;
             Main.PuppeteerList = new Dictionary<byte, byte>();
 
@@ -85,7 +87,7 @@ namespace TownOfHost
             Main.HasProtected = false;
 
             Main.IsGazing = false;
-            Main.GazeReady = false;
+            Main.GazeReady = true;
 
             Main.IsRampaged = false;
             Main.RampageReady = true;
@@ -526,7 +528,7 @@ namespace TownOfHost
                             }
                             break;
                         case CustomRoles.Veteran:
-                            //Main.VetAlerts = Options.NumOfVets.GetInt();
+                            Main.VetAlerts = Options.NumOfVets.GetInt();
                             break;
                         case CustomRoles.FireWorks:
                             FireWorks.Add(pc.PlayerId);

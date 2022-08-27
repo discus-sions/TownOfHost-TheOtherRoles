@@ -231,8 +231,7 @@ namespace TownOfHost
                     ProgressText = Helpers.ColorString(GetRoleColor(CustomRoles.Arsonist), $"({doused.Item1}/{doused.Item2})");
                     break;
                 case CustomRoles.HexMaster:
-                    //pc.GetCustomRole().IsCoven()
-                    var hexed = GetDousedPlayerCount(playerId);
+                    var hexed = GetHexedPlayerCount(playerId);
                     ProgressText = Helpers.ColorString(GetRoleColor(CustomRoles.Coven), $"({hexed.Item1}/{hexed.Item2})");
                     break;
                 case CustomRoles.PlagueBearer:
@@ -1055,7 +1054,7 @@ namespace TownOfHost
                 if (pc == null ||
                     pc.Data.IsDead ||
                     pc.Data.Disconnected ||
-                    pc.GetCustomRole().IsCoven() ||
+                    //!pc.GetCustomRole().IsCoven() ||
                     pc.PlayerId == playerId
                 ) continue; //塗れない人は除外 (死んでたり切断済みだったり あとアーソニスト自身も)
 

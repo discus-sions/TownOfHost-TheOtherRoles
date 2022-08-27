@@ -159,6 +159,7 @@ namespace TownOfHost
                 exiled.Object.ExiledSchrodingerCatTeamChange();
 
             Main.VetIsAlerted = false;
+            Main.HexesThisRound = 0;
 
             if (Main.currentWinner != CustomWinner.Terrorist) PlayerState.SetDead(exiled.PlayerId);
             {

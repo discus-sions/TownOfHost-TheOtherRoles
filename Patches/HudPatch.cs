@@ -383,14 +383,14 @@ namespace TownOfHost
                     if (player.Data.Role.Role != RoleTypes.GuardianAngel)
                         __instance.KillButton.ToggleVisible(isActive && !player.Data.IsDead);
                     __instance.SabotageButton.ToggleVisible(false);
-                    __instance.ImpostorVentButton.ToggleVisible(true);
+                    __instance.ImpostorVentButton.ToggleVisible(isActive && Options.PestiCanVent.GetBool());
                     __instance.AbilityButton.ToggleVisible(false);
                     break;
                 case CustomRoles.Juggernaut:
                     if (player.Data.Role.Role != RoleTypes.GuardianAngel)
                         __instance.KillButton.ToggleVisible(isActive && !player.Data.IsDead);
                     __instance.SabotageButton.ToggleVisible(false);
-                    __instance.ImpostorVentButton.ToggleVisible(true);
+                    __instance.ImpostorVentButton.ToggleVisible(Options.JuggerCanVent.GetBool());
                     __instance.AbilityButton.ToggleVisible(false);
                     break;
                 case CustomRoles.Amnesiac:
@@ -400,14 +400,25 @@ namespace TownOfHost
                     __instance.ImpostorVentButton.ToggleVisible(false);
                     __instance.AbilityButton.ToggleVisible(false);
                     break;
-            }
-            switch (player.GetRoleType())
-            {
-                case RoleType.Coven:
+                case CustomRoles.Medusa:
                     if (player.Data.Role.Role != RoleTypes.GuardianAngel)
-                        __instance.KillButton.ToggleVisible(isActive && !player.Data.IsDead && Main.HasNecronomicon && !player.Is(CustomRoles.Poisoner) && !player.Is(CustomRoles.Witch) && !player.Is(CustomRoles.HexMaster));
+                        __instance.KillButton.ToggleVisible(isActive && !player.Data.IsDead && Main.HasNecronomicon);
                     __instance.SabotageButton.ToggleVisible(false);
-                    __instance.ImpostorVentButton.ToggleVisible(Main.HasNecronomicon && !player.Is(CustomRoles.Medusa) && !player.Is(CustomRoles.Mimic));
+                    __instance.ImpostorVentButton.ToggleVisible(isActive);
+                    __instance.AbilityButton.ToggleVisible(false);
+                    break;
+                case CustomRoles.HexMaster:
+                    if (player.Data.Role.Role != RoleTypes.GuardianAngel)
+                        __instance.KillButton.ToggleVisible(isActive && !player.Data.IsDead);
+                    __instance.SabotageButton.ToggleVisible(false);
+                    __instance.ImpostorVentButton.ToggleVisible(isActive && Main.HasNecronomicon);
+                    __instance.AbilityButton.ToggleVisible(false);
+                    break;
+                case CustomRoles.CovenWitch:
+                    if (player.Data.Role.Role != RoleTypes.GuardianAngel)
+                        __instance.KillButton.ToggleVisible(isActive && !player.Data.IsDead);
+                    __instance.SabotageButton.ToggleVisible(false);
+                    __instance.ImpostorVentButton.ToggleVisible(isActive && Main.HasNecronomicon);
                     __instance.AbilityButton.ToggleVisible(false);
                     break;
             }

@@ -247,6 +247,10 @@ namespace TownOfHost
                                     case "rmm":
                                         Utils.SendMessage(GetString("RandomMapsModeInfo"));
                                         break;
+                                    case "cc":
+                                    case "camocomms":
+                                        Utils.SendMessage(GetString("CamoCommsInfo"));
+                                        break;
 
                                     default:
                                         Utils.SendMessage($"{GetString("Command.h_args")}:\n hideandseek(has), nogameend(nge), syncbuttonmode(sbm), randommapsmode(rmm)");

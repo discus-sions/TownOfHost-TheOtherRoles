@@ -586,6 +586,11 @@ namespace TownOfHost
                     Main.KillOrSpell[player.PlayerId] = false;
                     KillOrHex = false;
                 }
+                else
+                {
+                    Main.KillOrSpell[player.PlayerId] = true;
+                    KillOrHex = true;
+                }
             }
             return KillOrHex;
         }
@@ -594,6 +599,13 @@ namespace TownOfHost
             MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.SetKillOrSpell, SendOption.Reliable, -1);
             writer.Write(player.PlayerId);
             writer.Write(player.IsSpellMode());
+            AmongUsClient.Instance.FinishRpcImmediately(writer);
+        }
+        public static void SyncKillOrHex(this PlayerControl player)
+        {
+            MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.SetKillOrSpell, SendOption.Reliable, -1);
+            writer.Write(player.PlayerId);
+            writer.Write(player.IsHexMode());
             AmongUsClient.Instance.FinishRpcImmediately(writer);
         }
         public static bool CanUseKillButton(this PlayerControl pc)
@@ -614,6 +626,11 @@ namespace TownOfHost
                 CustomRoles.Juggernaut => true,
                 CustomRoles.Werewolf => true,
                 CustomRoles.TheGlitch => true,
+                CustomRoles.Medusa => true,
+                CustomRoles.Coven => true,
+                CustomRoles.CovenWitch => true,
+                CustomRoles.PotionMaster => true,
+                CustomRoles.HexMaster => true,
                 _ => canUse,
             };
         }
@@ -648,7 +665,7 @@ namespace TownOfHost
         {
             if (plaguebearer == null) return false;
             if (target == null) return false;
-            if (Main.isDoused == null) return false;
+            if (Main.isInfected == null) return false;
             Main.isInfected.TryGetValue((plaguebearer.PlayerId, target.PlayerId), out bool isInfected);
             return isInfected;
         }

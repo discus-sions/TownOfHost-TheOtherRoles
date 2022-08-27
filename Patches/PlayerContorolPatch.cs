@@ -541,24 +541,27 @@ namespace TownOfHost
                         if (!killer.IsSpellMode()) return false;
                         break;
                     case CustomRoles.HexMaster:
-                        if (target.Is(CustomRoles.Veteran) && Main.VetIsAlerted)
+                        if (target.Is(CustomRoles.Veteran) && Main.VetIsAlerted && Main.HexesThisRound != Options.MaxHexesPerRound.GetFloat())
                         {
                             target.RpcMurderPlayer(killer);
                             return false;
                         }
                         Main.AllPlayerKillCooldown[killer.PlayerId] = 10f;
                         Utils.CustomSyncAllSettings();
-                        if (!Main.isHexed[(killer.PlayerId, target.PlayerId)] && killer.IsHexMode())
+                        if (!Main.isHexed[(killer.PlayerId, target.PlayerId)] && killer.IsHexMode() && Main.HexesThisRound != Options.MaxHexesPerRound.GetFloat())
                         {
                             killer.RpcGuardAndKill(target);
+                            Main.HexesThisRound++;
                             Utils.NotifyRoles(SpecifySeer: __instance);
                             Main.isHexed[(killer.PlayerId, target.PlayerId)] = true;//塗り完了
                         }
-                        Main.KillOrSpell[killer.PlayerId] = !killer.IsHexMode();
+                        if (Main.HexesThisRound != Options.MaxHexesPerRound.GetFloat())
+                            Main.KillOrSpell[killer.PlayerId] = !killer.IsHexMode();
                         Utils.NotifyRoles();
-                        killer.SyncKillOrSpell();
+                        killer.SyncKillOrHex();
                         if (!killer.IsHexMode()) return false;
                         //return false;
+                        if (!Main.HasNecronomicon && Main.HexesThisRound == Options.MaxHexesPerRound.GetFloat()) return false;
                         break;
                     case CustomRoles.Medusa:
                         if (target.Is(CustomRoles.Veteran) && Main.VetIsAlerted)
@@ -1947,6 +1950,7 @@ namespace TownOfHost
                     pc.StoneGazed();
                 pc?.MyPhysics?.RpcBootFromVent(__instance.Id);
                 skipCheck = true;
+                Utils.NotifyRoles();
             }
             if (pc.Is(CustomRoles.GuardianAngelTOU))
             {
@@ -1967,6 +1971,7 @@ namespace TownOfHost
                 else
                     Main.IsHackMode = true;
                 pc.MyPhysics.RpcBootFromVent(__instance.Id);
+                Utils.NotifyRoles();
             }
             if (pc.Is(CustomRoles.Bastion))
             {
@@ -1985,6 +1990,7 @@ namespace TownOfHost
             if (pc.Is(CustomRoles.Werewolf))
             {
                 skipCheck = true;
+                Utils.NotifyRoles();
                 if (Main.IsRampaged)
                 {
 
