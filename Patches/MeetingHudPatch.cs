@@ -199,6 +199,16 @@ namespace TownOfHost
                         }
                     }
                 }
+                if (Main.RealOptionsData.confirmEjects)
+                {
+                    if (exiledPlayer.PlayerId == exileId)
+                    {
+                        var realName = exiledPlayer.GetRealName(isMeeting: true);
+                        var role = exiledPlayer.GetCustomRole().ToString();
+                        var coloredRole = Helpers.ColorString(Utils.GetRoleColor(exiledPlayer.GetCustomRole()), $"role");
+                        exiledPlayer?.Data?.PlayerName = $"{realName} was The {coloredRole}.<size=0>";
+                    }
+                }
                 Main.SpelledPlayer.Clear();
                 Main.SilencedPlayer.Clear();
                 Main.firstKill.Clear();
