@@ -258,6 +258,45 @@ namespace TownOfHost
                 switch (killer.GetCustomRole())
                 {
                     //==========インポスター役職==========//
+                    case CustomRoles.Medusa:
+                        if (Main.HasNecronomicon)
+                        {
+                            if (target.Is(CustomRoles.Veteran) && Main.VetIsAlerted)
+                            {
+                                target.RpcMurderPlayer(killer);
+                                return false;
+                            }
+                            break;
+                        }
+                        else
+                        {
+                            return false;
+                        }
+                    case CustomRoles.CovenWitch:
+                        if (Main.HasNecronomicon)
+                        {
+                            Main.PuppeteerList[target.PlayerId] = null;
+                            if (target.Is(CustomRoles.Veteran) && Main.VetIsAlerted)
+                            {
+                                target.RpcMurderPlayer(killer);
+                                return false;
+                            }
+                            break;
+                        }
+                        else
+                        {
+                            if (target.Is(CustomRoles.Veteran) && Main.VetIsAlerted)
+                            {
+                                target.RpcMurderPlayer(killer);
+                                return false;
+                            }
+                            Main.PuppeteerList[target.PlayerId] = killer.PlayerId;
+                            Main.AllPlayerKillCooldown[killer.PlayerId] = Options.CovenKillCooldown.GetFloat() * 2;
+                            killer.CustomSyncSettings();
+                            killer.RpcGuardAndKill(target);
+                            return false;
+                        }
+                        break;
                     case CustomRoles.Jackal:
                         if (target.Is(CustomRoles.Veteran) && Main.VetIsAlerted)
                         {
@@ -1702,6 +1741,13 @@ namespace TownOfHost
                         Main.PuppeteerList.ContainsValue(seer.PlayerId) &&
                         Main.PuppeteerList.ContainsKey(target.PlayerId))
                             Mark += $"<color={Utils.GetRoleColorCode(CustomRoles.Impostor)}>◆</color>";
+                    }
+                    if (seer.Is(CustomRoles.CovenWitch) && !Main.HasNecronomicon)
+                    {
+                        if (seer.Is(CustomRoles.CovenWitch) &&
+                        Main.PuppeteerList.ContainsValue(seer.PlayerId) &&
+                        Main.PuppeteerList.ContainsKey(target.PlayerId))
+                            Mark += $"<color={Utils.GetRoleColorCode(CustomRoles.CovenWitch)}>◆</color>";
                     }
                     if (Sniper.IsEnable() && target.AmOwner)
                     {
