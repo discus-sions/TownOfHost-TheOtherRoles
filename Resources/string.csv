@@ -118,18 +118,18 @@ TeamImpostor,Team Impostors,インポスター陣営,内鬼阵营,狼人陣營
 
 
 ## 役職説明ショート
-NeutralInfo,NEUTRAL - A team on their own.,他のどの陣営にも属さない孤高の陣営,是不属于其他阵营的中立阵营,你屬於一個獨立陣營且不受其他陣營或職業的獲勝條件引響
-CovenIntroInfo,COVEN - A team of Witches on their own.,他のどの陣営にも属さない孤高の陣営,是不属于其他阵营的中立阵营,你屬於一個獨立陣營且不受其他陣營或職業的獲勝條件引響
+NeutralInfo,NEUTRAL - A team on their own.,他のどの陣営にも属さない孤高の陣営,是不属于其他阵营的独立阵营,你屬於一個獨立陣營且不受其他陣營或職業的獲勝條件引響
+CovenIntroInfo,COVEN - A team of Witches on their own.,他のどの陣営にも属さない孤高の陣営,是不属于其他阵营的独立阵营,你屬於一個獨立陣營且不受其他陣營或職業的獲勝條件引響
 
 # 特殊インポスター役職
-BountyHunterInfo,Hunt your bounty down,標的を確実に仕留めよう,猎杀你的赏金目标，將你的目標拿下
+BountyHunterInfo,Hunt your bounty down,標的を確実に仕留めよう,猎杀你的赏金目标,將你的目標拿下
 MareInfo,Kill in the dark,闇の世界で暗殺せよ,在黑暗中作案,在黑暗中獵殺
 FireWorksInfo,Bloom at the last,最後に一華咲かせよう,一起来看最后的烟花吧,在最後時刻來看煙火秀吧
-SerialKillerInfo,You crave blood,殺人衝動が抑えられない,你渴望鲜血，抑制不住你的冲动，你無法抑制你的殺人衝動
+SerialKillerInfo,You crave blood,殺人衝動が抑えられない,你渴望鲜血，抑制不住你的冲动,你無法抑制你的殺人衝動
 ShapeMasterInfo,Shapeshift and confuse the Crewmates,変身して敵を混乱させよう,变幻成其他人来迷惑敌人,變換外表來迷惑他人
 VampireInfo,Bite the Crewmates,クルーを噛んで全滅させよう,吸干他人的血,使用你的牙齒吸乾所有人的血吧
-WarlockInfo,Curse the Crewmates,敵を呪い殺そう,给其他船员下咒,詛咒並殺光你的敵人
-WitchInfo,Spell the Crewmates,敵に魔術をかけよう,用魔法带给船员死亡,使用你的魔法來讓你的敵人死亡
+WarlockInfo,Curse the Crewmates,敵を呪い殺そう,给你的敌人下咒,詛咒並殺光你的敵人
+WitchInfo,Spell the Crewmates,敵に魔術をかけよう,诅咒你的敌人,使用你的魔法來讓你的敵人死亡
 MafiaInfo,Help the Impostors to kill everyone,インポスターの援助をしよう,帮助其他内鬼杀掉所有人,幫助狼人殺死所有人
 BeforeMafiaInfo,You can't kill yet,今はキルをすることができない,潜伏以等候时机,潛伏以等待時機
 AfterMafiaInfo,It's time to kill,サボを活用して皆殺しにしよう,杀光所有人,殺光所有人吧
@@ -138,7 +138,7 @@ TimeThiefInfo,Kill the Crewmates to steal discussion time,敵を殺し、会議�
 SniperInfo,Shoot the Crewmates in the distance,狙い撃つぜ,瞄准敌人，射击！,讓你的敵人在你的狙擊下死亡
 SilencerInfo,Silence Crewmates in Meetings,Silence Crewmates in Meetings,在会议上让船员阵营保持沉默,在會議上使船員保持沉默
 LastImpostorInfo,You are the last one,残ったのはあなただけ,你是最后的希望…,你是狼村最後的希望...
-CorruptedSheriffInfo,You betrayed the Crewmates,You betrayed the Crewmates,你成为了一个叛徒,你成為了一位叛徒
+CorruptedSheriffInfo,You betrayed the Crewmates,You betrayed the Crewmates,你禁受不住眼前的利益，成为了一个叛徒,你成為了一位叛徒
 
 # マッドメイト系役職
 MadmateInfo,Help the Impostors,インポスターの援助をしよう,帮助内鬼,幫助狼人
@@ -150,7 +150,7 @@ SKMadmateInfo,You are now on Team Impostors,サイドキックにされた,你�
 WatcherInfo,Keep your eyes on everyone's votes,みんなの投票に目を光らせよう,你可以看见所以人的选择，注意他们的选择,注意所有人的投票
 
 # 特殊クルー役職
-BaitInfo,Bait your enemies,敵を罠にはめよう,诱骗敌人，让敌人落入你的陷阱,"犧牲小我，完成大我"
+BaitInfo,Bait your enemies,敵を罠にはめよう,诱骗敌人，让敌人落入你的陷阱,"犧牲小我,完成大我"
 VeteranInfo,Alert to Kill anyone who Interacts with You,Alert to Kill anyone who Interacts with You,警惕任何和你有互动的人,警告殺死任何與你互動的人
 LighterInfo,Light all over,すべてを照らそう,照亮黑暗，让别人看清楚,照亮黑暗中的一切吧
 MayorInfo,Your vote counts twice,自分の票が何倍もの力を持っている,你的投票更有分量,"你的票數更多,更有料"
@@ -168,21 +168,21 @@ DemolitionistInfo,Blow up the Killer,Demolitionist,炸死凶手,
 
 
 # 第三陣営役職
-ArsonistInfo,Douse and ignite to kill everyone,燃やせ,火焰给我燃烧起来吧！,"燒吧，燒吧，燃燒吧"
+ArsonistInfo,Douse and ignite to kill everyone,燃やせ,火焰给我燃烧起来吧！,"燒吧,燒吧,燃燒吧"
 JesterInfo,Get voted out,追放されよう,想办法让人怀疑把你投出去,想個辦法讓你被投出去
-OpportunistInfo,Stay alive,とにかく生き残りましょう,苟且偷生,做點什麼事來讓你存活
+OpportunistInfo,Stay alive,とにかく生き残りましょう,苟着吧，苟也是个不错的选择,做點什麼事來讓你存活
 SchrodingerCatInfo,Side with your enemies,殺された陣営に所属しろ,加入击杀你的阵营,打不過就加入
-CSchrodingerCatInfo,You are now on Team Crewmates,クルーメイトの味方になった,你加入了船员阵营，要帮助船员找出内鬼,"你現在變成船員了，幫助船員們找出狼和中立帶刀者"
-MSchrodingerCatInfo,You are now on Team Impostors,インポスターの味方になった,你加入了内鬼阵营，要掩护内鬼同伴,"你現在變成狼人了，但是你不能砍人，盡量掩護你的隊友的身分"
+CSchrodingerCatInfo,You are now on Team Crewmates,クルーメイトの味方になった,你加入了船员阵营，要帮助船员找出内鬼,"你現在變成船員了,幫助船員們找出狼和中立帶刀者"
+MSchrodingerCatInfo,You are now on Team Impostors,インポスターの味方になった,你加入了内鬼阵营，要掩护内鬼同伴,"你現在變成狼人了,但是你不能砍人,盡量掩護你的隊友的身分"
 EgoSchrodingerCatInfo,You are now on Team Egoists,エゴイストの味方になった,你成为了野心家的伙伴,"你是利己主義者的跟班"
-JSchrodingerCatInfo,I sided with Jackal as Sidekick,ジャッカルの味方になった,你是豺狼的跟班，帮助他，完成他的大业,"你是豺狼的跟班，盡量幫助他"
+JSchrodingerCatInfo,I sided with Jackal as Sidekick,ジャッカルの味方になった,你是豺狼的跟班，传宗接代是个好选择,"你是豺狼的跟班,盡量幫助他"
 TerroristInfo,Die after finishing your tasks,タスクを済ませ、自爆しよう,都别想活着，和我一起同归于尽！,"一個一個來,都別想給我活!"
 ExecutionerInfo,Get your target voted out,ターゲットを追放させよう,不惜一切代价把你的目标票出去！,"想出一切辦法來投出你的目標"
 EgoistInfo,Replace the Impostor win,インポスター勝利を独占しよう,我们要把属于内鬼的胜利给夺走！,讓我們來奪取狼人的勝利
 LoversInfo,Survive with your lover,恋人と生きて幸せを掴もう,你坠入了爱河，成为了一对恋人，一起活到最后吧！,你墜入了愛河(心理)
 JackalInfo,Kill Everyone and Last Alone,すべてを殺せ,快去杀光所有人，一只苍蝇都不要剩下！,殺光所有人不留活口
 PlagueBearerInfo,Infect Everyone and Become Pestilence,Infect Everyone and Become Pestilence,请把所有人都感染了，引起大型瘟疫,快去把所有人都感染
-PestilenceInfo,Kill Everyone and Leave None,Kill Everyone and Leave None,杀死所有的人,殺光所有人
+PestilenceInfo,Kill Everyone and Leave None,Kill Everyone and Leave None,把所有人杀都杀光一只蚊子都不要剩,殺光所有人
 JuggernautInfo,Your cooldown decreaes with Each Kill,Your cooldown decreaes with Each Kill,你杀的人越多就会越兴奋，击杀冷却时间也会越短,殺人會讓擊殺冷卻時間縮短
 VultureInfo,Eat bodies by clicking Report,Eat bodies by clicking Report,通过报告键来吞噬尸体,通過點擊報告來吃屍體
 WerewolfInfo,Rampage to Kill Everyone,Rampage to Kill Everyone,狂暴地杀死所有人,
@@ -311,7 +311,7 @@ LastImpostorInfoLong,"(Attributes):\nAn Attribute given to the last Impostor.\nK
 #モードオプション
 HideAndSeek,HideAndSeek,かくれんぼ,躲猫猫,躲貓貓
 NoGameEnd,NoGameEnd,ゲームを終了しない,测试模式,遊戲不會結束模式
-CamoComms,Camo Comms,Camo Comms,Camo Comms
+CamoComms,Camo Comms,Camo Comms,迷彩通信,
 SyncButtonMode,SyncButtonMode,ボタン回数同期モード,所有船员共享会议次数,全場拍桌數同步模式
 RandomMapsMode,RandomMapsMode,ランダムマップモード,随机地图模式,隨機地圖模式
 SyncedButtonCount,Max Button Count,合計ボタン使用可能回数(回),紧急会议可使用的次数,全場最大拍桌數量
@@ -485,7 +485,7 @@ CovenKillCooldown,Coven Kill Cooldown,Coven Kill Cooldown,巫师击杀冷却时�
 CovenMeetings,Meetings until Necronomicon,Meetings until Necronomicon,会议直到亡灵法师,會議直到死靈之書
 HexMasterOn,Hex Master On,Hex Master On,使用六芒星法师,十六進制大師開啟
 PotionMasterOn,Potion Master On,Potion Master On,使用药剂师,魔藥大師開啟
-VampireDitchesOn,Vampire Joins Coven,Vampire Joins Coven,吸血鬼加入巫师,吸血鬼加入女巫團
+VampireDitchesOn,Vampire Joins Coven,Vampire Joins Coven,吸血鬼加入巫师阵营,吸血鬼加入女巫團
 MedusaOn,Medusa On,Medusa On,使用美杜莎,美杜莎賀
 MimicOn,Mimic On,Mimic On,使用模仿大师,模仿者開
 NecromancerOn,Necromancer On,Necromancer On,使用亡灵法师,死靈法師開啟
@@ -525,8 +525,8 @@ DeathReason.Kill,Kill,死亡,被杀,被殺
 DeathReason.Vote,Exiled,追放,放逐,被丟
 DeathReason.Suicide,Suicide,自爆,自杀,自殺
 DeathReason.Spell,Spelled,呪殺,咒杀,咒殺
-DeathReason.Bite,Bitten,噛殺,榨干,咬死
-DeathReason.LoversSuicide,Lovers Suicide,恋人心中,失爱,戀人共死
+DeathReason.Bite,Bitten,噛殺,吸血,咬死
+DeathReason.LoversSuicide,Lovers Suicide,恋人心中,为爱而死,戀人共死
 DeathReason.Bombed,Bombed,爆死,炸死,炸死
 DeathReason.Misfire,Misfire,誤爆,走火,走火
 DeathReason.Torched,Torched,焼殺,烧死,燒死
@@ -652,7 +652,7 @@ KillButtonText,Kill,キル,击杀,殺死
 SilenceButtonText,Silence,キル,击杀,殺死
 InfectButtonText,Infect,キル,击杀,殺死
 SniperSnipeButtonText,Snipe,狙撃,狙杀,狙擊
-FireWorksExplosionButtonText,Fire,爆破,起爆,引爆
+FireWorksExplosionButtonText,Fire,爆破,开炸,引爆
 FireWorksInstallAtionButtonText,Set,設置,设置,安裝
 SerialKillerSuicideButtonText,Until Suicide,自殺まで,自杀倒计时,自殺倒數
 WarlockCurseButtonText,Curse,呪う,诅咒,詛咒
