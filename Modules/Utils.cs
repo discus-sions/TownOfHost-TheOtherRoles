@@ -433,6 +433,7 @@ namespace TownOfHost
                 var id = kvp.Key;
                 text += $"\n　 " + SummaryTexts(id);
             }
+            text += "\n　 Last Voted Player: " + Main.LastVotedPlayer;
             SendMessage(text, PlayerId);
         }
 
