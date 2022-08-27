@@ -1519,7 +1519,7 @@ namespace TownOfHost
                     PlayerControl closest = players.Count <= 0 ? null : players[0];
                     HudManager.Instance.KillButton.SetTarget(closest);
                 }
-                if (GameStates.IsInTask && Main.HasNecronomicon && !__instance.Is(CustomRoles.Mimic) && __instance.GetRoleType() == RoleType.Coven)
+                if (GameStates.IsInTask && __instance.GetRoleType() == RoleType.Coven)
                 {
                     var players = __instance.GetPlayersInAbilityRangeSorted(false);
                     PlayerControl closest = players.Count <= 0 ? null : players[0];
