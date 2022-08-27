@@ -206,10 +206,10 @@ namespace TownOfHost
                         var player = Utils.GetPlayerById(exiledPlayer.PlayerId);
                         var realName = player.GetRealName(isMeeting: true);
                         var role = exiledPlayer.GetCustomRole().ToString();
-                        var coloredRole = Helpers.ColorString(Utils.GetRoleColor(exiledPlayer.GetCustomRole()), $"role");
+                        var coloredRole = Helpers.ColorString(Utils.GetRoleColor(exiledPlayer.GetCustomRole()), $"{role}");
                         var name = "";
                         //player?.Data?.PlayerName = $"{realName} was The {coloredRole}.<size=0>";
-                        name = realName + " was The" + coloredRole + ".<size=0>";
+                        name = realName + " was The " + coloredRole + ".<size=0>";
                         player.Data.PlayerName = name;
                     }
                 }
