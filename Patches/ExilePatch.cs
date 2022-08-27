@@ -49,14 +49,14 @@ namespace TownOfHost
             bool DecidedWinner = false;
             if (!AmongUsClient.Instance.AmHost) return; //ホスト以外はこれ以降の処理を実行しません
             AntiBlackout.RestoreIsDead(doSend: false);
-            if (Main.RealOptionsData.ConfirmImpostor)
-            {
-                exiled.Object.Data.PlayerName = exiled.Object.GetRealName();
-            }
             if (exiled != null)
             {
                 exiled.IsDead = true;
                 PlayerState.SetDeathReason(exiled.PlayerId, PlayerState.DeathReason.Vote);
+                if (Main.RealOptionsData.ConfirmImpostor)
+                {
+                    exiled.Object.Data.PlayerName = exiled.Object.GetRealName();
+                }
                 var role = exiled.GetCustomRole();
                 if (Main.RealOptionsData.ConfirmImpostor)
                 {
