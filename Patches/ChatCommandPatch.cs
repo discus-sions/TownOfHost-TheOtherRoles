@@ -174,22 +174,24 @@ namespace TownOfHost
                             break;
                     }
                     break;
-                case "/hat":
-                    var betterArgs = String.Compare("-", "_", true);
-                    PlayerControl.LocalPlayer.RpcSetHat(betterArgs);
-                    break;
-                case "/pet":
-                    var betterArgsd = String.Compare("-", "_", true);
-                    PlayerControl.LocalPlayer.RpcSetPet(betterArgsd);
-                    break;
-                case "/visor":
-                    var betterArgss = String.Compare("-", "_", true);
-                    PlayerControl.LocalPlayer.RpcSetVisor(betterArgss);
-                    break;
-                case "/skin":
-                    var betterArgzs = String.Compare("-", "_", true);
-                    PlayerControl.LocalPlayer.RpcSetSkin(betterArgzs);
-                    break;
+                /*
+            case "/hat":
+                var betterArgs = String.Compare("-", "_", true);
+                PlayerControl.LocalPlayer.RpcSetHat(betterArgs);
+                break;
+            case "/pet":
+                var betterArgsd = String.Compare("-", "_", true);
+                PlayerControl.LocalPlayer.RpcSetPet(betterArgsd);
+                break;
+            case "/visor":
+                var betterArgss = String.Compare("-", "_", true);
+                PlayerControl.LocalPlayer.RpcSetVisor(betterArgss);
+                break;
+            case "/skin":
+                var betterArgzs = String.Compare("-", "_", true);
+                PlayerControl.LocalPlayer.RpcSetSkin(betterArgzs);
+                break;
+                */
                 case "/setplayers":
                     canceled = true;
                     subArgs = args.Length < 2 ? "" : args[1];
@@ -889,7 +891,7 @@ namespace TownOfHost
                             break;
                     }
                     break;
-                case "/hat":
+                /*case "/hat":
                     subArgs = args.Length < 3 ? "" : args[1];
                     var betterArgs = String.Compare("-", "_", true);
                     player.RpcSetHat(betterArgs);
@@ -909,6 +911,7 @@ namespace TownOfHost
                     var betterArgsb = String.Compare("-", "_", true);
                     player.RpcSetSkin(betterArgsb);
                     break;
+                    */
                 case "/roleinfo":
                     subArgs = args.Length < 3 ? "" : args[1];
                     PublicGetRolesInfo(subArgs, player.PlayerId);
