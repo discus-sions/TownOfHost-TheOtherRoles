@@ -316,6 +316,7 @@ namespace TownOfHost
                 player.GetCustomRole() == CustomRoles.Juggernaut ||
                 player.GetCustomRole() == CustomRoles.PlagueBearer ||
                 player.GetCustomRole() == CustomRoles.Pestilence ||
+                player.GetRoleType() == RoleType.Coven ||
                 player.GetRoleType() == RoleType.Madmate)
             && !player.Data.IsDead)
             {
@@ -404,12 +405,10 @@ namespace TownOfHost
             {
                 case RoleType.Coven:
                     if (player.Data.Role.Role != RoleTypes.GuardianAngel)
-                        __instance.KillButton.ToggleVisible(isActive && !player.Data.IsDead && Main.HasNecronomicon && !player.Is(CustomRoles.Poisoner));
+                        __instance.KillButton.ToggleVisible(isActive && !player.Data.IsDead && Main.HasNecronomicon && !player.Is(CustomRoles.Poisoner) && !player.Is(CustomRoles.Witch) && !player.Is(CustomRoles.HexMaster));
                     __instance.SabotageButton.ToggleVisible(false);
-                    if (player.Data.Role.Role != RoleTypes.Crewmate)
-                        __instance.ImpostorVentButton.ToggleVisible(Main.HasNecronomicon);
-                    if (player.Data.Role.Role == RoleTypes.Shapeshifter)
-                        __instance.AbilityButton.ToggleVisible(Main.HasNecronomicon);
+                    __instance.ImpostorVentButton.ToggleVisible(Main.HasNecronomicon && !player.Is(CustomRoles.Medusa) && !player.Is(CustomRoles.Mimic));
+                    __instance.AbilityButton.ToggleVisible(false);
                     break;
             }
         }

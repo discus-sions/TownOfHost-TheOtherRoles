@@ -449,6 +449,11 @@ InfectCD,Infect Cooldown,アーソニストの塗り時間,感染冷却时间,
 PestiKillCooldown,Pestilence Kill Cooldown,アーソニストのクールダウン,毒医击杀冷却时间,
 PestiCanVent,Pestilence Can Vent,アーソニストのクールダウン,毒医能跳管道,
 DemoSuicideTime,Time To Vent Till Suicide,DemoSuicideTime,DemoSuicideTime
+StoneCD,Stone Cooldown,Stone Cooldown,Stone Cooldown
+StoneDur,Stone Duration,Stone Duration,Stone Duration
+PKTAH,Players Know They Are Hexed,Players Know They Are Hexed,Players Know They Are Hexed
+HexCD,Hex Cooldown,Hex Cooldown,Hex Cooldown
+MHPR,Max Hexes Per Round,Max Hexes Per Round,Max Hexes Per Round
 
 CanTerroristSuicideWin,Can Terrorist Suicide Win,テロリストの自殺勝ち,恐怖分子可以通过自杀获胜,恐怖分子可以自殺來獲勝
 ShapeMasterShapeshiftDuration,Shapeshift Duration,シェイプマスターの変身持続時間,千面鬼化形持续时间,變形大師變形持續時間

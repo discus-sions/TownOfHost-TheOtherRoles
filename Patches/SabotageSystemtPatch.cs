@@ -18,7 +18,7 @@ namespace TownOfHost
                     __instance.Countdown = Options.PolusReactorTimeLimit.GetFloat();
                 return;
             }
-            if (ShipStatus.Instance.Type == ShipStatus.MapType.Hq)
+            /*if (ShipStatus.Instance.Type == ShipStatus.MapType.Ship)
             {
                 if (Options.CamoComms.GetBool())
                 {
@@ -32,7 +32,7 @@ namespace TownOfHost
                     }
                 }
                 return;
-            }
+            }*/
             //if (__instance.)
             return;
         }

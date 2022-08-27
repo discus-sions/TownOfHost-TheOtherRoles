@@ -641,7 +641,7 @@ namespace TownOfHost
                         return;
                     }
 
-                    Utils.SendMessage("Sorry, your role was not inside our database currently.", playerId);
+                    // Utils.SendMessage("Sorry, your role was not inside our database currently.", playerId);
                 }
             }
             else Utils.SendMessage("Sorry, you can only use this command inside the game.", playerId);

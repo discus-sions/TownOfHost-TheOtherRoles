@@ -79,6 +79,7 @@ namespace TownOfHost
         public static Dictionary<byte, bool> KillOrSilence = new();
         public static Dictionary<byte, bool> isCurseAndKill = new();
         public static Dictionary<(byte, byte), bool> isDoused = new();
+        public static Dictionary<(byte, byte), bool> isHexed = new();
         public static Dictionary<byte, (PlayerControl, float)> ArsonistTimer = new();
         public static Dictionary<byte, float> AirshipMeetingTimer = new();
         public static Dictionary<byte, byte> ExecutionerTarget = new(); //Key : Executioner, Value : target
@@ -197,6 +198,7 @@ namespace TownOfHost
             SpelledPlayer = new List<PlayerControl>();
             SilencedPlayer = new List<PlayerControl>();
             isDoused = new Dictionary<(byte, byte), bool>();
+            isHexed = new Dictionary<(byte, byte), bool>();
             isInfected = new Dictionary<(byte, byte), bool>();
             ArsonistTimer = new Dictionary<byte, (PlayerControl, float)>();
             PlagueBearerTimer = new Dictionary<byte, (PlayerControl, float)>();

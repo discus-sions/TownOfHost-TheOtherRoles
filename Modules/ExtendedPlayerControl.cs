@@ -577,6 +577,18 @@ namespace TownOfHost
             }
             return KillOrSpell;
         }
+        public static bool IsHexMode(this PlayerControl player)
+        {
+            if (!Main.KillOrSpell.TryGetValue(player.PlayerId, out var KillOrHex))
+            {
+                if (Main.HasNecronomicon)
+                {
+                    Main.KillOrSpell[player.PlayerId] = false;
+                    KillOrHex = false;
+                }
+            }
+            return KillOrHex;
+        }
         public static void SyncKillOrSpell(this PlayerControl player)
         {
             MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.SetKillOrSpell, SendOption.Reliable, -1);
@@ -623,6 +635,14 @@ namespace TownOfHost
             if (Main.isDoused == null) return false;
             Main.isDoused.TryGetValue((arsonist.PlayerId, target.PlayerId), out bool isDoused);
             return isDoused;
+        }
+        public static bool IsHexedPlayer(this PlayerControl hexer, PlayerControl target)
+        {
+            if (hexer == null) return false;
+            if (target == null) return false;
+            if (Main.isHexed == null) return false;
+            Main.isHexed.TryGetValue((hexer.PlayerId, target.PlayerId), out bool isHexed);
+            return isHexed;
         }
         public static bool IsInfectedPlayer(this PlayerControl plaguebearer, PlayerControl target)
         {
@@ -863,6 +883,12 @@ namespace TownOfHost
         {
             if (!player.Is(CustomRoles.Arsonist)) return false;
             var count = Utils.GetDousedPlayerCount(player.PlayerId);
+            return count.Item1 == count.Item2;
+        }
+        public static bool IsHexedDone(this PlayerControl player)
+        {
+            if (!player.Is(CustomRoles.HexMaster)) return false;
+            var count = Utils.GetHexedPlayerCount(player.PlayerId);
             return count.Item1 == count.Item2;
         }
         public static bool IsInfectDone(this PlayerControl player)

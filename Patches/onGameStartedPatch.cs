@@ -597,6 +597,13 @@ namespace TownOfHost
                         case CustomRoles.SabotageMaster:
                             SabotageMaster.Add(pc.PlayerId);
                             break;
+                        case CustomRoles.HexMaster:
+                            foreach (var ar in PlayerControl.AllPlayerControls)
+                            {
+                                if (!ar.GetCustomRole().IsCoven())
+                                    Main.isHexed.Add((pc.PlayerId, ar.PlayerId), false);
+                            }
+                            break;
                     }
                     pc.ResetKillCooldown();
                 }

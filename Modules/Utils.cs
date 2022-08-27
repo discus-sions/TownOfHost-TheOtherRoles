@@ -230,6 +230,11 @@ namespace TownOfHost
                     var doused = GetDousedPlayerCount(playerId);
                     ProgressText = Helpers.ColorString(GetRoleColor(CustomRoles.Arsonist), $"({doused.Item1}/{doused.Item2})");
                     break;
+                case CustomRoles.HexMaster:
+                    //pc.GetCustomRole().IsCoven()
+                    var hexed = GetDousedPlayerCount(playerId);
+                    ProgressText = Helpers.ColorString(GetRoleColor(CustomRoles.Coven), $"({hexed.Item1}/{hexed.Item2})");
+                    break;
                 case CustomRoles.PlagueBearer:
                     var infected = GetInfectedPlayerCount(playerId);
                     ProgressText = Helpers.ColorString(GetRoleColor(CustomRoles.Pestilence), $"({infected.Item1}/{infected.Item2})");
@@ -264,7 +269,7 @@ namespace TownOfHost
                 if (taskState.hasTasks)
                 {
                     string Completed = comms ? "?" : $"{taskState.CompletedTasksCount}";
-                    ProgressText = Helpers.ColorString(Color.yellow, $"({Completed}/{taskState.AllTasksCount})");
+                    ProgressText += Helpers.ColorString(Color.yellow, $"({Completed}/{taskState.AllTasksCount})");
                 }
             }
             if (role.IsImpostor() && role != CustomRoles.LastImpostor && GetPlayerById(playerId).IsLastImpostor())
@@ -771,6 +776,7 @@ namespace TownOfHost
                     || seer.Is(CustomRoles.Executioner)
                     || seer.Is(CustomRoles.Doctor) //seerがドクター
                     || seer.Is(CustomRoles.Puppeteer)
+                    || seer.Is(CustomRoles.HexMaster)
                     //|| Main.KilledDemo.Contains(seer.PlayerId)
                     || seer.Is(CustomRoles.PlagueBearer)
                     //|| seer.GetCustomSubRole().GetModifierType() != ModifierType.None
@@ -835,6 +841,11 @@ namespace TownOfHost
                             {
                                 TargetMark += $"<color={GetRoleColorCode(CustomRoles.Arsonist)}>△</color>";
                             }
+                        }
+                        if (seer.Is(CustomRoles.HexMaster))
+                        {
+                            if (seer.IsHexedPlayer(target))
+                                TargetMark += $"<color={GetRoleColorCode(CustomRoles.Coven)}>†</color>";
                         }
                         if (seer.Is(CustomRoles.PlagueBearer))//seerがアーソニストの時
                         {
@@ -1034,6 +1045,28 @@ namespace TownOfHost
             }
 
             return (doused, all);
+        }
+        public static (int, int) GetHexedPlayerCount(byte playerId)
+        {
+            int hexed = 0, all = 0; //学校で習った書き方
+            //多分この方がMain.isDousedでforeachするより他のアーソニストの分ループ数少なくて済む
+            foreach (var pc in PlayerControl.AllPlayerControls)
+            {
+                if (pc == null ||
+                    pc.Data.IsDead ||
+                    pc.Data.Disconnected ||
+                    pc.GetCustomRole().IsCoven() ||
+                    pc.PlayerId == playerId
+                ) continue; //塗れない人は除外 (死んでたり切断済みだったり あとアーソニスト自身も)
+
+                if (!pc.GetCustomRole().IsCoven())
+                    all++;
+                if (Main.isHexed.TryGetValue((playerId, pc.PlayerId), out var isHexed) && isHexed)
+                    //塗れている場合
+                    hexed++;
+            }
+
+            return (hexed, all);
         }
         public static List<PlayerControl> GetDousedPlayer(byte playerId)
         {

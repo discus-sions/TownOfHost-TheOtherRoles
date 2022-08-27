@@ -320,7 +320,7 @@ namespace TownOfHost
 
         private static bool CheckAndEndGameForGlitchWin(ShipStatus __instance, PlayerStatistics statistics)
         {
-            if (statistics.TeamGlitchAlive >= statistics.TotalAlive - statistics.TeamJackalAlive &&
+            if (statistics.TeamGlitchAlive >= statistics.TotalAlive - statistics.TeamGlitchAlive &&
                 statistics.TeamImpostorsAlive <= 0 && statistics.TeamJuggernautAlive <= 0 && statistics.TeamPestiAlive <= 0
                 && statistics.TeamWolfAlive <= 0 && statistics.TeamCovenAlive <= 0 && statistics.Arsonists.Count <= 0)
             {

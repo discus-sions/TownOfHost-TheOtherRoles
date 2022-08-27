@@ -406,6 +406,10 @@ namespace TownOfHost
                         if (seer.IsDousedPlayer(target)) //seerがtargetに既にオイルを塗っている(完了)
                             pva.NameText.text += Helpers.ColorString(Utils.GetRoleColor(CustomRoles.Arsonist), "▲");
                         break;
+                    case CustomRoles.HexMaster:
+                        if (seer.IsHexedPlayer(target)) //seerがtargetに既にオイルを塗っている(完了)
+                            pva.NameText.text += Helpers.ColorString(Utils.GetRoleColor(CustomRoles.HexMaster), "†");
+                        break;
                     case CustomRoles.PlagueBearer:
                         if (seer.IsInfectedPlayer(target)) //seerがtargetに既にオイルを塗っている(完了)
                             pva.NameText.text += Helpers.ColorString(Utils.GetRoleColor(CustomRoles.Pestilence), "▲");
@@ -427,10 +431,10 @@ namespace TownOfHost
                     if (protecting == target) continue;
                     if (!ga.Data.IsDead)
                     {
-                        if (Options.GAknowsRole.GetBool())
+                        if (Options.GAknowsRole.GetBool() && seer.Is(CustomRoles.GuardianAngelTOU))
                             Utils.SendMessage("You are a Guardian Angel. Your Job is to protect your target from Death. Your target's role is: " + Utils.GetRoleName(protecting.GetCustomRole()), ga.PlayerId);
                     }
-                    if (Options.TargetKnowsGA.GetBool())
+                    if (Options.TargetKnowsGA.GetBool() && target.PlayerId == protecting.PlayerId)
                         Utils.SendMessage("You have a Guardian Angel. Find out who they are and keep them to protect you.", protecting.PlayerId);
                 }
                 switch (target.GetCustomRole())
@@ -503,7 +507,6 @@ namespace TownOfHost
                         Utils.SendMessage("You are currently Silenced. Try talking again when you aren't silenced. Even though you may be able to talk, please don't and wait until you are no longer silenced.", target.PlayerId);
                     }
                 }
-
 
 
                 //会議画面ではインポスター自身の名前にSnitchマークはつけません。
