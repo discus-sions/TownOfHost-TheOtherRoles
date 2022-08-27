@@ -206,6 +206,7 @@ namespace TownOfHost
 
         // その他
         public static CustomOption NoGameEnd;
+        public static CustomOption CamoComms;
         public static CustomOption AutoDisplayLastResult;
         public static CustomOption SuffixMode;
         public static CustomOption ColorNameMode;
@@ -492,8 +493,8 @@ namespace TownOfHost
 
             SetupSingleRoleOptions(80500, CustomRoles.TheGlitch, 1);
             GlitchRoleBlockCooldown = CustomOption.Create(80510, Color.white, "RBC", 30, 2.5f, 180, 2.5f, CustomRoleSpawnChances[CustomRoles.TheGlitch]);
-            GlitchKillCooldown = CustomOption.Create(80510, Color.white, "KillCD", 30, 2.5f, 180, 2.5f, CustomRoleSpawnChances[CustomRoles.TheGlitch]);
-            GlitchCanVent = CustomOption.Create(80510, Color.white, "HPV", true, CustomRoleSpawnChances[CustomRoles.TheGlitch]);
+            GlitchKillCooldown = CustomOption.Create(80511, Color.white, "KillCD", 30, 2.5f, 180, 2.5f, CustomRoleSpawnChances[CustomRoles.TheGlitch]);
+            GlitchCanVent = CustomOption.Create(80512, Color.white, "HPV", true, CustomRoleSpawnChances[CustomRoles.TheGlitch]);
 
             SetupSingleRoleOptions(90000, CustomRoles.Werewolf, 1);
             RampageCD = CustomOption.Create(90010, Color.white, "RCD", 30, 2.5f, 180, 2.5f, CustomRoleSpawnChances[CustomRoles.Werewolf]);
@@ -602,6 +603,8 @@ namespace TownOfHost
                 .SetGameMode(CustomGameMode.Standard);
 
             // その他
+            CamoComms = CustomOption.Create(100607, Color.white, "CamoComms", false, null, true)
+                .SetGameMode(CustomGameMode.All);
             NoGameEnd = CustomOption.Create(100600, Color.white, "NoGameEnd", false, null, true)
                 .SetGameMode(CustomGameMode.All);
             AutoDisplayLastResult = CustomOption.Create(100601, Color.white, "AutoDisplayLastResult", false)

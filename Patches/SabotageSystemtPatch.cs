@@ -18,6 +18,22 @@ namespace TownOfHost
                     __instance.Countdown = Options.PolusReactorTimeLimit.GetFloat();
                 return;
             }
+            if (ShipStatus.Instance.Type == ShipStatus.MapType.Hq)
+            {
+                if (Options.CamoComms.GetBool())
+                {
+                    foreach (var p in PlayerControl.AllPlayerControls)
+                    {
+                        p.RpcSetColor(11);
+                        p.RpcSetVisor("");
+                        p.RpcSetPet("");
+                        p.RpcSetHat("");
+                        p.RpcSetSkin("");
+                    }
+                }
+                return;
+            }
+            //if (__instance.)
             return;
         }
     }
