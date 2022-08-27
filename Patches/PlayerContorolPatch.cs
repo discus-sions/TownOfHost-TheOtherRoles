@@ -661,7 +661,7 @@ namespace TownOfHost
                         }
                         return false;
                     case CustomRoles.Sheriff:
-                        if (target.Is(CustomRoles.Veteran) && Main.VetIsAlerted && !Options.CrewRolesVetted.GetBool())
+                        if (target.Is(CustomRoles.Veteran) && Main.VetIsAlerted && Options.CrewRolesVetted.GetBool())
                         {
                             target.RpcMurderPlayer(killer);
                             return false;
@@ -715,11 +715,6 @@ namespace TownOfHost
                                 killer.RpcMurderPlayer(target);
                                 break;
                         }
-                    }
-                    else if (killer.Is(RoleType.Crewmate))
-                    {
-                        if (Options.CrewRolesVetted.GetBool())
-                            target.RpcMurderPlayer(killer);
                     }
                     else
                     {
