@@ -88,11 +88,11 @@ namespace TownOfHost
                     amongUsLogo.transform.position += Vector3.up * 0.25f;
                 }
 
-                var tohLogo = new GameObject("titleLogo_TOH");
+                var tohLogo = new GameObject("tohtor-logo");
                 tohLogo.transform.position = Vector3.up;
                 tohLogo.transform.localScale *= 1.2f;
                 var renderer = tohLogo.AddComponent<SpriteRenderer>();
-                renderer.sprite = Helpers.LoadSpriteFromResources("TownOfHost.Resources.TownOfHost-Logo.png", 300f);
+                renderer.sprite = Helpers.LoadSpriteFromResources("TownOfHost.Resources.tohtor-logo.png", 300f);
             }
         }
     }

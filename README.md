@@ -1184,3 +1184,4 @@ Roles from:
 ## Developers
 - [Discussions](https://github.com/music-discussion) ([YouTube](https://www.youtube.com/channel/UCAawAIWR5XfJE6T0JdYpzzg)) - Coding
 - [MC-AS-Huier](https://github.com/MC-AS-Huier) - Translations
+- TheSkullCreeper#0001 - Art Direction

@@ -53,7 +53,7 @@ namespace TownOfHost
         public static Dictionary<byte, PlayerState.DeathReason> AfterMeetingDeathPlayers = new();
         public static Dictionary<CustomRoles, String> roleColors;
         //これ変えたらmod名とかの色が変わる
-        public static string modColor = "#00bfff";
+        public static string modColor = "#4FF918";
         public static bool IsFixedCooldown => CustomRoles.Vampire.IsEnable();
         public static float RefixCooldownDelay = 0f;
         public static int BeforeFixMeetingCooldown = 10;
@@ -128,6 +128,7 @@ namespace TownOfHost
         public static List<int> bombedVents = new();
 
         public static Main Instance;
+        public static bool CamoComms;
 
         //coven
         //coven main info
@@ -241,8 +242,9 @@ namespace TownOfHost
             RampageReady = false;
 
             IsHackMode = false;
-            GazeReady = false;
+            GazeReady = true;
             IsGazing = false;
+            CamoComms = false;
             HexesThisRound = 0;
 
             // OTHER//

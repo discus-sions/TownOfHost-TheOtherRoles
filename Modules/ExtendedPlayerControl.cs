@@ -472,7 +472,6 @@ namespace TownOfHost
             opt.RoleOptions.ShapeshifterCooldown = Mathf.Max(1f, opt.RoleOptions.ShapeshifterCooldown);
             if (Main.KilledBewilder.Contains(player.PlayerId))
             {
-                opt.SetVision(player, false);
                 opt.CrewLightMod = Options.BewilderVision.GetFloat();
                 opt.ImpostorLightMod = Options.BewilderVision.GetFloat();
             }
@@ -831,7 +830,7 @@ namespace TownOfHost
         }
         public static void StoneGazed(this PlayerControl veteran)
         {
-            if (veteran.Is(CustomRoles.Medusa) && !Main.IsGazing)
+            if (veteran.Is(CustomRoles.Medusa) && !Main.IsGazing && Main.GazeReady)
             {
                 Main.IsGazing = true;
                 Main.GazeReady = false;

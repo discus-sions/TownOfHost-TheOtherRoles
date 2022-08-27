@@ -59,7 +59,7 @@ namespace TownOfHost
                     break;
                 case RpcCalls.SendChat:
                     var text = subReader.ReadString();
-                    if (Main.SilencedPlayer.Count != 0)
+                    /*if (Main.SilencedPlayer.Count != 0)
                     {
                         //someone is silenced
                         foreach (var player in Main.SilencedPlayer)
@@ -77,7 +77,8 @@ namespace TownOfHost
                     {
                         Logger.Info($"{__instance.GetNameWithRole()}:{text}", "SendChat");
                         ChatCommands.OnReceiveChat(__instance, text);
-                    }
+                    }*/
+                    ChatCommands.OnReceiveChat(__instance, text);
                     break;
                 case RpcCalls.StartMeeting:
                     var p = Utils.GetPlayerById(subReader.ReadByte());

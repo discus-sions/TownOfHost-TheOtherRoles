@@ -82,8 +82,9 @@ namespace TownOfHost
                     Utils.CheckTerroristWin(exiled);
                     DecidedWinner = true;
                 }
-                if (!exiled.Object.Is(CustomRoles.HexMaster) && exiled.Object.IsHexedDone())
+                if (!exiled.Object.Is(CustomRoles.HexMaster) && exiled.Object.IsHexedDone() && !exiled.Object.Data.IsDead && AmongUsClient.Instance.AmHost)
                 {
+                    DecidedWinner = true;
                     foreach (var pc in PlayerControl.AllPlayerControls)
                     {
                         if (!pc.Data.IsDead && !pc.GetCustomRole().IsCoven())
@@ -97,7 +98,7 @@ namespace TownOfHost
                         }
                     }
                 }
-                if (exiled.Object.Is(RoleType.Impostor) && exiled.Object.IsLastImpostor())
+                if (exiled.Object.Is(RoleType.Impostor) && exiled.Object.IsLastImpostor() && AmongUsClient.Instance.AmHost)
                 {
                     //impostor was voted.
                     PlayerControl votedOut = Utils.GetPlayerById(exiled.Object.PlayerId);

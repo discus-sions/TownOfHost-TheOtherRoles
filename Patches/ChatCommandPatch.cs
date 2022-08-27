@@ -690,7 +690,7 @@ namespace TownOfHost
                 //someone is silenced
                 foreach (var p in Main.SilencedPlayer)
                 {
-                    if (player == p) continue;
+                    if (player.PlayerId == p.PlayerId) continue;
                     if (!player.Data.IsDead)
                     {
                         text = "Silenced.";

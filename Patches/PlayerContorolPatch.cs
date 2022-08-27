@@ -1513,18 +1513,11 @@ namespace TownOfHost
             if (__instance.AmOwner)
             {
                 //キルターゲットの上書き処理
-                if (GameStates.IsInTask && (__instance.Is(CustomRoles.Sheriff) || __instance.Is(CustomRoles.Arsonist) || __instance.Is(CustomRoles.Werewolf) || __instance.Is(CustomRoles.TheGlitch) || __instance.Is(CustomRoles.Juggernaut) || __instance.Is(CustomRoles.PlagueBearer) || __instance.Is(CustomRoles.Pestilence) || __instance.Is(CustomRoles.Jackal)) && !__instance.Data.IsDead)
+                if (GameStates.IsInTask && (__instance.Is(CustomRoles.Sheriff) || __instance.GetRoleType() == RoleType.Coven || __instance.Is(CustomRoles.Arsonist) || __instance.Is(CustomRoles.Werewolf) || __instance.Is(CustomRoles.TheGlitch) || __instance.Is(CustomRoles.Juggernaut) || __instance.Is(CustomRoles.PlagueBearer) || __instance.Is(CustomRoles.Pestilence) || __instance.Is(CustomRoles.Jackal)) && !__instance.Data.IsDead)
                 {
                     var players = __instance.GetPlayersInAbilityRangeSorted(false);
                     PlayerControl closest = players.Count <= 0 ? null : players[0];
                     HudManager.Instance.KillButton.SetTarget(closest);
-                }
-                if (GameStates.IsInTask && __instance.GetRoleType() == RoleType.Coven)
-                {
-                    var players = __instance.GetPlayersInAbilityRangeSorted(false);
-                    PlayerControl closest = players.Count <= 0 ? null : players[0];
-                    if (closest.GetRoleType() != RoleType.Coven)
-                        HudManager.Instance.KillButton.SetTarget(closest);
                 }
             }
 
@@ -1583,6 +1576,8 @@ namespace TownOfHost
                                                                                          //            RealName += Helpers.ColorString(Utils.GetRoleColor(CustomRoles.Jackal), " (C)");
                         if (target.Is(CustomRoles.Arsonist) && target.IsDouseDone())
                             RealName = Helpers.ColorString(Utils.GetRoleColor(CustomRoles.Arsonist), GetString("EnterVentToWin"));
+                        if (Main.KilledDemo.Contains(seer.PlayerId))
+                            RealName = $"</size>\r\n{Helpers.ColorString(Utils.GetRoleColor(CustomRoles.Demolitionist), "You killed Demolitionist!")}";
                     }
                     if (target.Is(CustomRoles.PlagueBearer) && target.IsInfectDone())
                         target.RpcSetCustomRole(CustomRoles.Pestilence);
@@ -1962,8 +1957,7 @@ namespace TownOfHost
             }
             if (pc.Is(CustomRoles.Medusa))
             {
-                if (Main.GazeReady)
-                    pc.StoneGazed();
+                pc.StoneGazed();
                 pc?.MyPhysics?.RpcBootFromVent(__instance.Id);
                 skipCheck = true;
                 Utils.NotifyRoles();
