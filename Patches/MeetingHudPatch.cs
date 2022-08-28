@@ -214,7 +214,7 @@ namespace TownOfHost
                         player.Data.PlayerName = name;
                     }
                 }
-                if (exiledPlayer.Object.CurrentlyLastImpostor() && AmongUsClient.Instance.AmHost)
+                if (exiledPlayer.Object.CurrentlyLastImpostor())
                 {
                     //impostor was voted.
                     PlayerControl votedOut = Utils.GetPlayerById(exiledPlayer.Object.PlayerId);
@@ -235,26 +235,21 @@ namespace TownOfHost
                         }
 
                         //foreach (var pva in __instance.playerStates)
-                        foreach (var ar in PlayerControl.AllPlayerControls)
+                        if (IsAlive >= Sheriff.PlayersForTraitor.GetFloat())
                         {
-                            //PlayerControl target = Utils.GetPlayerById(ar.playerId);
-                            if (IsAlive >= Sheriff.PlayersForTraitor.GetFloat())
+                            foreach (var ar in PlayerControl.AllPlayerControls)
                             {
-                                if (exiledPlayer.GetCustomRole() == CustomRoles.Sheriff)
+                                //PlayerControl target = Utils.GetPlayerById(ar.playerId);
+
+                                if (seer.GetCustomRole() == CustomRoles.Sheriff)
                                 {
-                                    //   LocalPlayerKnowsImpostor = true;
                                     seer.RpcSetCustomRole(CustomRoles.CorruptedSheriff);
                                 }
-                                else if (exiledPlayer.GetCustomRole() == CustomRoles.CorruptedSheriff)
+                                else if (ar.GetCustomRole() == CustomRoles.CorruptedSheriff)
                                 {
                                     //    LocalPlayerKnowsImpostor = true;
                                 }
                             }
-                            /* if (LocalPlayerKnowsImpostor)
-                             {
-                                 if (target != null && target.GetCustomRole().IsImpostor()) //変更先がインポスター
-                                     pva.NameText.color = Palette.ImpostorRed; //変更対象の名前を赤くする
-                             }*/
                         }
                     }
                 }
