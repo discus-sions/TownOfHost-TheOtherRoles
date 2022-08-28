@@ -102,50 +102,6 @@ namespace TownOfHost
                         }
                     }
                 }
-                if (exiled.Object.CurrentlyLastImpostor() && AmongUsClient.Instance.AmHost && !DecidedWinner)
-                {
-                    //impostor was voted.
-                    PlayerControl votedOut = Utils.GetPlayerById(exiled.Object.PlayerId);
-                    //bool LocalPlayerKnowsImpostor = false;
-                    if (Sheriff.SheriffCorrupted.GetBool())
-                    {
-                        int IsAlive = 0;
-                        PlayerControl seer = PlayerControl.LocalPlayer;
-                        foreach (var pc in PlayerControl.AllPlayerControls)
-                        {
-                            if (!pc.Data.IsDead)
-                                IsAlive++;
-                        }
-                        foreach (var pc in PlayerControl.AllPlayerControls)
-                        {
-                            if (pc.Is(CustomRoles.Sheriff))
-                                seer = pc;
-                        }
-
-                        //foreach (var pva in __instance.playerStates)
-                        foreach (var ar in PlayerControl.AllPlayerControls)
-                        {
-                            //PlayerControl target = Utils.GetPlayerById(ar.playerId);
-                            if (IsAlive >= Sheriff.PlayersForTraitor.GetFloat())
-                            {
-                                if (role == CustomRoles.Sheriff)
-                                {
-                                    //   LocalPlayerKnowsImpostor = true;
-                                    seer.RpcSetCustomRole(CustomRoles.CorruptedSheriff);
-                                }
-                                else if (role == CustomRoles.CorruptedSheriff)
-                                {
-                                    //    LocalPlayerKnowsImpostor = true;
-                                }
-                            }
-                            /* if (LocalPlayerKnowsImpostor)
-                             {
-                                 if (target != null && target.GetCustomRole().IsImpostor()) //変更先がインポスター
-                                     pva.NameText.color = Palette.ImpostorRed; //変更対象の名前を赤くする
-                             }*/
-                        }
-                    }
-                }
             }
             foreach (var kvp in Main.ExecutionerTarget)
             {

@@ -646,6 +646,7 @@ namespace TownOfHost
                 Options.CurrentGameMode != CustomGameMode.HideAndSeek &&
                 Options.EnableLastImpostor.GetBool() &&
                 !pc.Is(CustomRoles.Vampire) &&
+                !pc.Is(CustomRoles.CorruptedSheriff) &&
                 !pc.Is(CustomRoles.BountyHunter) &&
                 !pc.Is(CustomRoles.SerialKiller) &&
                 Main.AliveImpostorCount == 1;
@@ -655,6 +656,7 @@ namespace TownOfHost
             return pc.GetCustomRole().IsImpostor() &&
                 !pc.Data.IsDead &&
                 Options.CurrentGameMode != CustomGameMode.HideAndSeek &&
+                !pc.Is(CustomRoles.CorruptedSheriff) &&
                 Main.AliveImpostorCount == 1;
         }
         public static bool IsDousedPlayer(this PlayerControl arsonist, PlayerControl target)
@@ -757,6 +759,7 @@ namespace TownOfHost
                 case CustomRoles.Jackal:
                     Main.AllPlayerKillCooldown[player.PlayerId] = Options.JackalKillCooldown.GetFloat();
                     break;
+                case CustomRoles.CorruptedSheriff:
                 case CustomRoles.Sheriff:
                     Sheriff.SetKillCooldown(player.PlayerId); //シェリフはシェリフのキルクールに。
                     break;
