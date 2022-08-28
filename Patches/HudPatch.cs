@@ -24,7 +24,7 @@ namespace TownOfHost
             var player = PlayerControl.LocalPlayer;
             if (player == null) return;
             var TaskTextPrefix = "";
-            var FakeTasksText = DestroyableSingleton<TranslationController>.Instance.GetString(StringNames.FakeTasks, new Il2CppReferenceArray<Il2CppSystem.Object>(0));
+            var FakeTasksText = Helpers.ColorString(player.GetRoleColor(), DestroyableSingleton<TranslationController>.Instance.GetString(StringNames.FakeTasks, new Il2CppReferenceArray<Il2CppSystem.Object>(0)));
             //壁抜け
             if (Input.GetKeyDown(KeyCode.LeftControl))
             {
@@ -186,6 +186,7 @@ namespace TownOfHost
                     TaskTextPrefix += GetString("WatcherInfo");
                 else
                     TaskTextPrefix += Helpers.ColorString(player.GetRoleColor(), GetString(player.GetCustomRole() + "Info"));
+                TaskTextPrefix += "</color>\r\n";
             }
             switch (player.GetCustomRole())
             {
@@ -259,8 +260,6 @@ namespace TownOfHost
                         player.Data.Role.CanUseKillButton = true;
                     break;
             }
-            if (!player.GetCustomRole().IsVanilla())
-                TaskTextPrefix += "</color>\r\n";
 
             if (player.GetRoleType() == RoleType.Coven && Main.HasNecronomicon)
             {
