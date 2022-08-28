@@ -1511,8 +1511,7 @@ namespace TownOfHost
                         foreach (var target in PlayerControl.AllPlayerControls)
                         {
                             if (!target.IsAlive()) continue;
-                            if (target.PlayerId != player.PlayerId && !target.GetCustomRole().IsImpostor() && Utils.GetPlayerById(player.PlayerId).GetCustomRole().IsImpostor()
-                            || target.PlayerId != player.PlayerId && !target.GetCustomRole().IsCoven() && Utils.GetPlayerById(player.PlayerId).GetCustomRole().IsCoven())
+                            if (target.PlayerId != player.PlayerId && !target.GetCustomRole().IsImpostor())
                             {
                                 dis = Vector2.Distance(puppeteerPos, target.transform.position);
                                 targetDistance.Add(target.PlayerId, dis);
@@ -1551,8 +1550,7 @@ namespace TownOfHost
                         foreach (var target in PlayerControl.AllPlayerControls)
                         {
                             if (!target.IsAlive()) continue;
-                            if (target.PlayerId != player.PlayerId && !target.GetCustomRole().IsImpostor() && Utils.GetPlayerById(player.PlayerId).GetCustomRole().IsImpostor()
-                            || target.PlayerId != player.PlayerId && !target.GetCustomRole().IsCoven() && Utils.GetPlayerById(player.PlayerId).GetCustomRole().IsCoven())
+                            if (target.PlayerId != player.PlayerId && !target.GetCustomRole().IsCoven())
                             {
                                 dis = Vector2.Distance(puppeteerPos, target.transform.position);
                                 targetDistance.Add(target.PlayerId, dis);
