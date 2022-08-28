@@ -179,14 +179,13 @@ namespace TownOfHost
 
             if (!player.GetCustomRole().IsVanilla())
             {
-                TaskTextPrefix = Helpers.ColorString(player.GetRoleColor(), $"{player.GetRoleName()}\r\n");
+                TaskTextPrefix = Helpers.ColorString(player.GetRoleColor(), $"Role: {player.GetRoleName()}\r\n");
                 if (player.Is(CustomRoles.Mafia))
                     TaskTextPrefix += GetString(player.CanUseKillButton() ? "AfterMafiaInfo" : "BeforeMafiaInfo");
                 else if (player.Is(CustomRoles.EvilWatcher) || player.Is(CustomRoles.NiceWatcher))
                     TaskTextPrefix += GetString("WatcherInfo");
                 else
-                    TaskTextPrefix += GetString(player.GetCustomRole() + "Info");
-                TaskTextPrefix += "</color>\r\n";
+                    TaskTextPrefix += Helpers.ColorString(player.GetRoleColor(), GetString(player.GetCustomRole() + "Info"));
             }
             switch (player.GetCustomRole())
             {
@@ -260,6 +259,8 @@ namespace TownOfHost
                         player.Data.Role.CanUseKillButton = true;
                     break;
             }
+            if (!player.GetCustomRole().IsVanilla())
+                TaskTextPrefix += "</color>\r\n";
 
             if (player.GetRoleType() == RoleType.Coven && Main.HasNecronomicon)
             {

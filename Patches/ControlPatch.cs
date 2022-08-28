@@ -228,7 +228,7 @@ namespace TownOfHost
             /*if (player.GetButtonDown(50) && PlayerControl.LocalPlayer.Data?.Role?.IsImpostor == false && PlayerControl.LocalPlayer.Is(CustomRoles.TheGlitch))
             {
                 DestroyableSingleton<HudManager>.Instance.AbilityButton.DoClick();
-            }&/
+            }*/
             //DestroyableSingleton<HudManager>.Instance.ImpostorVentButton.DoClick();
         }
     }
