@@ -255,13 +255,21 @@ namespace TownOfHost
                     target.RpcMurderPlayer(killer);
                     return false;
                 }
-                if (target.Is(CustomRoles.CovenWitch) && !Main.WitchProtected && !killer.Is(CustomRoles.Arsonist) && !killer.Is(CustomRoles.PlagueBearer))
+                if (target.Is(CustomRoles.CovenWitch) && !Main.WitchProtected)
                 {
                     // killer.RpcGuardAndKill(target);
-                    killer.ResetKillCooldown();
-                    target.RpcGuardAndKill(target);
-                    Main.WitchProtected = true;
-                    return false;
+                    if (!killer.Is(CustomRoles.Arsonist))
+                    {
+                        if (!killer.Is(CustomRoles.PlagueBearer))
+                        {
+                            killer.RpcGuardAndKill(killer);
+                            Main.AllPlayerKillCooldown[target.PlayerId] = 1f;
+                            target.RpcGuardAndKill(target);
+                            target.ResetKillCooldown();
+                            Main.WitchProtected = true;
+                            return false;
+                        }
+                    }
                 }
                 switch (killer.GetCustomRole())
                 {

@@ -188,6 +188,36 @@ namespace TownOfHost
                     TaskTextPrefix += Helpers.ColorString(player.GetRoleColor(), GetString(player.GetCustomRole() + "Info"));
                 TaskTextPrefix += "</color>\r\n";
             }
+            else
+            {
+                switch (player.GetCustomRole())
+                {
+                    case CustomRoles.Crewmate:
+                        TaskTextPrefix = Helpers.ColorString(player.GetRoleColor(), $"Role: {player.GetRoleName()}\r\n");
+                        TaskTextPrefix += Helpers.ColorString(player.GetRoleColor(), "Do your tasks and get the impostors out.");
+                        break;
+                    case CustomRoles.Engineer:
+                        TaskTextPrefix = Helpers.ColorString(player.GetRoleColor(), $"Role: {player.GetRoleName()}\r\n");
+                        TaskTextPrefix += Helpers.ColorString(player.GetRoleColor(), "Use the Vents to Catch Killers in the Act");
+                        break;
+                    case CustomRoles.Scientist:
+                        TaskTextPrefix = Helpers.ColorString(player.GetRoleColor(), $"Role: {player.GetRoleName()}\r\n");
+                        TaskTextPrefix += Helpers.ColorString(player.GetRoleColor(), "Use Vitals to Catch Self Reports");
+                        break;
+                    case CustomRoles.Impostor:
+                        TaskTextPrefix = Helpers.ColorString(player.GetRoleColor(), $"Role: {player.GetRoleName()}\r\n");
+                        TaskTextPrefix += Helpers.ColorString(player.GetRoleColor(), "Sabotage and leave none standing.");
+                        break;
+                    case CustomRoles.Shapeshifter:
+                        TaskTextPrefix = Helpers.ColorString(player.GetRoleColor(), $"Role: {player.GetRoleName()}\r\n");
+                        TaskTextPrefix += Helpers.ColorString(player.GetRoleColor(), "Shift to confuse the crew of who's who.");
+                        break;
+                    case CustomRoles.GuardianAngel:
+                        TaskTextPrefix = Helpers.ColorString(player.GetRoleColor(), $"Role: {player.GetRoleName()}\r\n");
+                        TaskTextPrefix += Helpers.ColorString(player.GetRoleColor(), "Protect your fellow remaining crew.");
+                        break;
+                }
+            }
             if (!Utils.HasTasks(player.Data) && !player.GetCustomRole().IsImpostor())
                 TaskTextPrefix += FakeTasksText;
             switch (player.GetCustomRole())
