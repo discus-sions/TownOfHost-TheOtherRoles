@@ -102,7 +102,7 @@ namespace TownOfHost
                         }
                     }
                 }
-                if (exiled.Object.CurrentlyLastImpostor() && AmongUsClient.Instance.AmHost)
+                if (exiled.Object.CurrentlyLastImpostor() && AmongUsClient.Instance.AmHost && !DecidedWinner)
                 {
                     //impostor was voted.
                     PlayerControl votedOut = Utils.GetPlayerById(exiled.Object.PlayerId);
