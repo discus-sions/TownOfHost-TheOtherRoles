@@ -41,7 +41,7 @@ namespace TownOfHost
                 foreach (var p in PlayerControl.AllPlayerControls)
                 {
                     if (p.GetCustomSubRole() == CustomRoles.Lovers) continue;
-                    bool canWin = p.Is(RoleType.Impostor) || p.Is(RoleType.Madmate);
+                    bool canWin = p.Is(RoleType.Impostor) || p.Is(RoleType.Madmate) || p.Is(CustomRoles.CorruptedSheriff);
                     if (canWin) winner.Add(p);
                 }
                 Egoist.OverrideCustomWinner();
