@@ -374,6 +374,7 @@ namespace TownOfHost
                     __instance.SabotageButton.ToggleVisible(false);
                     __instance.ImpostorVentButton.ToggleVisible(true);
                     __instance.AbilityButton.ToggleVisible(true);
+                    __instance.AbilityButton.DoClick();
                     // __instance.AbilityButton.
                     //__instance.Button
                     break;
