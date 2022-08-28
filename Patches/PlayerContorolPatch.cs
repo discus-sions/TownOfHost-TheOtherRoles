@@ -218,26 +218,6 @@ namespace TownOfHost
             if (killer.PlayerId != target.PlayerId)
             {
                 //自殺でない場合のみ役職チェック
-                if (killer.GetRoleType() == target.GetRoleType() && killer.GetRoleType() == RoleType.Coven)
-                {
-                    //they are both coven
-                    return false;
-                }
-                if (killer.Is(CustomRoles.Coven) && !Main.HasNecronomicon && !killer.Is(CustomRoles.PotionMaster) && !killer.Is(CustomRoles.HexMaster))
-                    return false;
-                foreach (var protect in Main.GuardianAngelTarget)
-                {
-                    if (target.PlayerId == protect.Value && Main.IsProtected)
-                    {
-                        killer.RpcGuardAndKill(target);
-                        return false;
-                    }
-                }
-                if (target.Is(CustomRoles.Pestilence) && !killer.Is(CustomRoles.Vampire) && !killer.Is(CustomRoles.Werewolf) && !killer.Is(CustomRoles.TheGlitch))
-                {
-                    target.RpcMurderPlayer(killer);
-                    return false;
-                }
                 if (CustomRoles.TheGlitch.IsEnable())
                 {
                     List<PlayerControl> hackedPlayers = new();
@@ -254,6 +234,33 @@ namespace TownOfHost
                     {
                         return false;
                     }
+                }
+                if (killer.GetRoleType() == target.GetRoleType() && killer.GetRoleType() == RoleType.Coven)
+                {
+                    //they are both coven
+                    return false;
+                }
+                if (killer.GetCustomRole().IsCoven() && !Main.HasNecronomicon && !killer.Is(CustomRoles.PotionMaster) && !killer.Is(CustomRoles.HexMaster) && !killer.Is(CustomRoles.CovenWitch))
+                    return false;
+                foreach (var protect in Main.GuardianAngelTarget)
+                {
+                    if (target.PlayerId == protect.Value && Main.IsProtected)
+                    {
+                        killer.RpcGuardAndKill(target);
+                        return false;
+                    }
+                }
+                if (target.Is(CustomRoles.Pestilence) && !killer.Is(CustomRoles.Vampire) && !killer.Is(CustomRoles.Werewolf) && !killer.Is(CustomRoles.TheGlitch))
+                {
+                    target.RpcMurderPlayer(killer);
+                    return false;
+                }
+                if (target.Is(CustomRoles.CovenWitch) && !Main.WitchProtected)
+                {
+                    killer.RpcGuardAndKill(target);
+                    target.RpcGuardAndKill(target);
+                    Main.WitchProtected = true;
+                    return false;
                 }
                 switch (killer.GetCustomRole())
                 {

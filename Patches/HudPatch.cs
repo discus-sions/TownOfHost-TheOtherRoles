@@ -261,7 +261,7 @@ namespace TownOfHost
                     break;
             }
 
-            if (player.GetRoleType() == RoleType.Coven && Main.HasNecronomicon)
+            if (player.GetRoleType() == RoleType.Coven && Main.HasNecronomicon && !player.Is(CustomRoles.HexMaster) && !player.Is(CustomRoles.CovenWitch))
             {
                 if (player.Data.Role.Role != RoleTypes.GuardianAngel)
                     player.Data.Role.CanUseKillButton = true;
@@ -374,7 +374,8 @@ namespace TownOfHost
                     __instance.SabotageButton.ToggleVisible(false);
                     __instance.ImpostorVentButton.ToggleVisible(true);
                     __instance.AbilityButton.ToggleVisible(true);
-                    __instance.AbilityButton.DoClick();
+                    // __instance.AbilityButton.DoClick();
+                    DestroyableSingleton<HudManager>.Instance.AbilityButton.DoClick();
                     // __instance.AbilityButton.
                     //__instance.Button
                     break;

@@ -470,10 +470,14 @@ namespace TownOfHost
             opt.VotingTime = Mathf.Clamp(Main.VotingTime, TimeThief.LowerLimitVotingTime.GetInt(), 300);
 
             opt.RoleOptions.ShapeshifterCooldown = Mathf.Max(1f, opt.RoleOptions.ShapeshifterCooldown);
-            if (Main.KilledBewilder.Contains(player.PlayerId))
+            if (Main.KilledBewilder.Contains(player.PlayerId) && !player.Is(CustomRoles.CovenWitch))
             {
                 opt.CrewLightMod = Options.BewilderVision.GetFloat();
                 opt.ImpostorLightMod = Options.BewilderVision.GetFloat();
+            }
+            if (player.GetCustomRole().IsCoven() && Main.HasNecronomicon)
+            {
+                opt.SetVision(player, true);
             }
 
             if (player.AmOwner) PlayerControl.GameOptions = opt;

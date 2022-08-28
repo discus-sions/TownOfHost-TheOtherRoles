@@ -800,6 +800,9 @@ namespace TownOfHost
                     Utils.ShowLastResult(player.PlayerId);
                     break;
 
+                case "/name":
+                    player.Data.PlayerName = args.Length > 1 ? player.Data.PlayerName = args[1] : "";
+                    break;
                 case "/n":
                 case "/now":
                     subArgs = args.Length < 2 ? "" : args[1];
