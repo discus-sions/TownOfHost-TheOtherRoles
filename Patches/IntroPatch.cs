@@ -185,6 +185,10 @@ namespace TownOfHost
                     PlayerControl.LocalPlayer.Data.Role.IntroSound = GetIntroSound(RoleTypes.Shapeshifter);
                     break;
 
+                case CustomRoles.HexMaster:
+                case CustomRoles.CovenWitch:
+                case CustomRoles.Conjuror:
+                case CustomRoles.Coven:
                 case CustomRoles.Silencer:
                     PlayerControl.LocalPlayer.Data.Role.IntroSound = GetIntroSound(RoleTypes.Shapeshifter);
                     break;
@@ -194,6 +198,8 @@ namespace TownOfHost
                     break;
 
                 case CustomRoles.Sheriff:
+                    PlayerControl.LocalPlayer.Data.Role.IntroSound = PlayerControl.LocalPlayer.KillSfx;
+                    break;
                 case CustomRoles.Bastion:
                     PlayerControl.LocalPlayer.Data.Role.IntroSound = GetIntroSound(RoleTypes.Crewmate);
                     //__instance.BackgroundBar.material.color = Palette.CrewmateBlue;
@@ -228,9 +234,9 @@ namespace TownOfHost
 
             if (Input.GetKey(KeyCode.RightShift))
             {
-                __instance.TeamTitle.text = "Town Of Host";
+                __instance.TeamTitle.text = "Town Of Host: The Other Roles";
                 __instance.ImpostorText.gameObject.SetActive(true);
-                __instance.ImpostorText.text = "https://github.com/tukasa0001/TownOfHost" +
+                __instance.ImpostorText.text = "https://github.com/music-discussion/TownOfHost-TheOtherRoles" +
                     "\r\nOut Now on Github";
                 __instance.TeamTitle.color = Color.cyan;
                 StartFadeIntro(__instance, Color.cyan, Color.yellow);
