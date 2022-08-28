@@ -217,6 +217,7 @@ namespace TownOfHost
                         TaskTextPrefix += Helpers.ColorString(player.GetRoleColor(), "Protect your fellow remaining crew.");
                         break;
                 }
+                TaskTextPrefix += "</color>\r\n";
             }
             if (!Utils.HasTasks(player.Data) && !player.GetCustomRole().IsImpostor())
                 TaskTextPrefix += FakeTasksText;
