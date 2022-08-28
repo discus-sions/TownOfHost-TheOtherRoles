@@ -510,11 +510,15 @@ namespace TownOfHost
                             //PlayerControl player = Utils.GetPlayerById(playerInfo.PlayerId);
 
                             if (playerInfo.Role.TeamType == RoleTeamTypes.Impostor &&
-                            (playerInfo.GetCustomRole() != CustomRoles.Sheriff || playerInfo.GetCustomRole() != CustomRoles.Arsonist))
+                            (playerInfo.GetCustomRole() != CustomRoles.Sheriff || playerInfo.GetCustomRole() != CustomRoles.Arsonist ||
+                            playerInfo.GetCustomRole() != CustomRoles.PlagueBearer || playerInfo.GetCustomRole() != CustomRoles.TheGlitch ||
+                            playerInfo.GetCustomRole() != CustomRoles.Jackal || playerInfo.GetCustomRole() != CustomRoles.Pestilence ||
+                            playerInfo.GetCustomRole() != CustomRoles.Juggernaut || playerInfo.GetCustomRole() != CustomRoles.Werewolf ||
+                            !playerInfo.GetCustomRole().IsCoven()))
                             {
                                 numImpostorsAlive++;
                             }
-                            else if (CustomRolesHelper.IsCoven(playerInfo.GetCustomRole()))
+                            else if (playerInfo.GetCustomRole().IsCoven())
                             {
                                 numCovenAlive++;
                             }

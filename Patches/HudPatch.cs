@@ -261,12 +261,39 @@ namespace TownOfHost
                     break;
             }
 
-            if (player.GetRoleType() == RoleType.Coven && Main.HasNecronomicon && !player.Is(CustomRoles.HexMaster) && !player.Is(CustomRoles.CovenWitch))
+            switch (player.GetCustomRole())
             {
-                if (player.Data.Role.Role != RoleTypes.GuardianAngel)
-                    player.Data.Role.CanUseKillButton = true;
-                if (!player.Is(CustomRoles.Mimic))
-                    player.CanUseImpostorVent();
+                case CustomRoles.CovenWitch:
+                    TaskTextPrefix += FakeTasksText;
+                    if (player.Data.Role.Role != RoleTypes.GuardianAngel)
+                        player.Data.Role.CanUseKillButton = true;
+                    if (Main.HasNecronomicon)
+                        player.CanUseImpostorVent();
+                    break;
+                case CustomRoles.HexMaster:
+                    TaskTextPrefix += FakeTasksText;
+                    if (player.Data.Role.Role != RoleTypes.GuardianAngel)
+                        player.Data.Role.CanUseKillButton = true;
+                    break;
+                case CustomRoles.Medusa:
+                    TaskTextPrefix += FakeTasksText;
+                    if (Main.HasNecronomicon)
+                    {
+                        if (player.Data.Role.Role != RoleTypes.GuardianAngel)
+                            player.Data.Role.CanUseKillButton = true;
+                        player.CanUseImpostorVent();
+                    }
+                    else
+                        player.Data.Role.CanUseKillButton = false;
+                    break;
+                case CustomRoles.Conjuror:
+                    TaskTextPrefix += FakeTasksText;
+                    break;
+                case CustomRoles.Mimic:
+                    TaskTextPrefix += FakeTasksText;
+                    if (player.Data.Role.Role != RoleTypes.GuardianAngel)
+                        player.Data.Role.CanUseKillButton = true;
+                    break;
             }
 
             if (!__instance.TaskText.text.Contains(TaskTextPrefix)) __instance.TaskText.text = TaskTextPrefix + "\r\n" + __instance.TaskText.text;

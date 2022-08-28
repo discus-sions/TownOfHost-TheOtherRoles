@@ -501,6 +501,10 @@ namespace TownOfHost
                 { CustomRoles.Juggernaut, "jug"},
                 { CustomRoles.Vulture, "vu"},
                 { CustomRoles.Coven, "co" },
+                { CustomRoles.CovenWitch, "cw" },
+                { CustomRoles.Poisoner, "poison" },
+                { CustomRoles.HexMaster, "hm" },
+                { CustomRoles.Medusa, "med" },
                 { CustomRoles.TheGlitch, "gl" },
                 { CustomRoles.Werewolf, "ww" },
                 { CustomRoles.Amnesiac, "amne" },
@@ -611,6 +615,10 @@ namespace TownOfHost
                 { CustomRoles.Juggernaut, "jug"},
                 { CustomRoles.Vulture, "vu"},
                 { CustomRoles.Coven, "co" },
+                { CustomRoles.CovenWitch, "cw" },
+                { CustomRoles.Poisoner, "poison" },
+                { CustomRoles.HexMaster, "hm" },
+                { CustomRoles.Medusa, "med" },
                 { CustomRoles.TheGlitch, "gl" },
                 { CustomRoles.Werewolf, "ww" },
                 { CustomRoles.Amnesiac, "amne" },
@@ -638,7 +646,7 @@ namespace TownOfHost
                     return;
                 }
 
-                Utils.SendMessage("Sorry, the current role you tried to search up was not inside our databse. Either you misspelled it, or its not there.", playerId);
+                //Utils.SendMessage("Sorry, the current role you tried to search up was not inside our databse. Either you misspelled it, or its not there.", playerId);
             }
             //msg += rolemsg;
             //Utils.SendMessage(msg);
@@ -709,6 +717,10 @@ namespace TownOfHost
                 { CustomRoles.Juggernaut, "jug"},
                 { CustomRoles.Vulture, "vu"},
                 { CustomRoles.Coven, "co" },
+                { CustomRoles.CovenWitch, "cw" },
+                { CustomRoles.Poisoner, "poison" },
+                { CustomRoles.HexMaster, "hm" },
+                { CustomRoles.Medusa, "med" },
                 { CustomRoles.TheGlitch, "gl" },
                 { CustomRoles.Werewolf, "ww" },
                 { CustomRoles.Amnesiac, "amne" },

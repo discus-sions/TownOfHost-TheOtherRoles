@@ -213,7 +213,13 @@ namespace TownOfHost
         {
             if (player.GetButtonDown(8) &&
             PlayerControl.LocalPlayer.Data?.Role?.IsImpostor == false &&
-            (PlayerControl.LocalPlayer.GetCustomRole() is CustomRoles.Sheriff or CustomRoles.TheGlitch or CustomRoles.Werewolf or CustomRoles.Arsonist or CustomRoles.Juggernaut or CustomRoles.Jackal or CustomRoles.Pestilence or CustomRoles.PlagueBearer) && PlayerControl.LocalPlayer.Data.Role.Role != RoleTypes.GuardianAngel || PlayerControl.LocalPlayer.GetCustomRole().IsCoven())
+            (PlayerControl.LocalPlayer.GetCustomRole() is CustomRoles.Sheriff or CustomRoles.TheGlitch or CustomRoles.Werewolf or CustomRoles.Arsonist or CustomRoles.Juggernaut or CustomRoles.Jackal or CustomRoles.Pestilence or CustomRoles.PlagueBearer) && PlayerControl.LocalPlayer.Data.Role.Role != RoleTypes.GuardianAngel)
+            {
+                DestroyableSingleton<HudManager>.Instance.KillButton.DoClick();
+            }
+            if (player.GetButtonDown(8) &&
+            PlayerControl.LocalPlayer.Data?.Role?.IsImpostor == false &&
+            (PlayerControl.LocalPlayer.GetCustomRole() is CustomRoles.HexMaster or CustomRoles.CovenWitch or CustomRoles.Medusa or CustomRoles.Mimic) && PlayerControl.LocalPlayer.Data.Role.Role != RoleTypes.GuardianAngel)
             {
                 DestroyableSingleton<HudManager>.Instance.KillButton.DoClick();
             }
@@ -222,6 +228,12 @@ namespace TownOfHost
             (PlayerControl.LocalPlayer.Is(CustomRoles.Jackal) && Options.JackalCanVent.GetBool()) || PlayerControl.LocalPlayer.Is(CustomRoles.Werewolf) ||
             (PlayerControl.LocalPlayer.Is(CustomRoles.Juggernaut) && Options.JuggerCanVent.GetBool()) || PlayerControl.LocalPlayer.Is(CustomRoles.TheGlitch)
             ) && PlayerControl.LocalPlayer.Data.Role.Role != RoleTypes.GuardianAngel)
+            {
+                DestroyableSingleton<HudManager>.Instance.ImpostorVentButton.DoClick();
+            }
+            if (player.GetButtonDown(50) &&
+            PlayerControl.LocalPlayer.Data?.Role?.IsImpostor == false && (PlayerControl.LocalPlayer.Is(CustomRoles.CovenWitch) || PlayerControl.LocalPlayer.Is(CustomRoles.HexMaster) || PlayerControl.LocalPlayer.Is(CustomRoles.Medusa))
+            && PlayerControl.LocalPlayer.Data.Role.Role != RoleTypes.GuardianAngel)
             {
                 DestroyableSingleton<HudManager>.Instance.ImpostorVentButton.DoClick();
             }

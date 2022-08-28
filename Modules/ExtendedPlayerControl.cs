@@ -903,6 +903,10 @@ namespace TownOfHost
                     DestroyableSingleton<HudManager>.Instance.ImpostorVentButton.ToggleVisible(true && !player.Data.IsDead);
                     player.Data.Role.CanVent = true;
                     return;
+                case CustomRoles.CovenWitch:
+                    DestroyableSingleton<HudManager>.Instance.ImpostorVentButton.ToggleVisible(Main.HasNecronomicon && !player.Data.IsDead);
+                    player.Data.Role.CanVent = Main.HasNecronomicon;
+                    break;
             }
         }
         public static bool IsDouseDone(this PlayerControl player)
