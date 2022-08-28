@@ -120,6 +120,7 @@ namespace TownOfHost
                     ShotLimit[killer.PlayerId]--;
                     Logger.Info($"{killer.GetNameWithRole()} : 残り{ShotLimit[killer.PlayerId]}発", "Sheriff");
                     SendRPC(killer.PlayerId);
+                    //SwitchToCorrupt(killer, target);
                     break;
                 case "Suicide":
                     if (!target.CanBeKilledBySheriff())
@@ -133,6 +134,48 @@ namespace TownOfHost
                     break;
             }
             return true;
+        }
+        public static void SwitchToCorrupt(PlayerControl killer, PlayerControl target)
+        {
+            if (target.CurrentlyLastImpostor())
+            {
+                //bool LocalPlayerKnowsImpostor = false;
+                if (Sheriff.SheriffCorrupted.GetBool())
+                {
+                    int IsAlive = 0;
+                    int numCovenAlive = 0;
+                    int numNKalive = 0;
+                    PlayerControl seer = PlayerControl.LocalPlayer;
+                    foreach (var pc in PlayerControl.AllPlayerControls)
+                    {
+                        if (!pc.Data.IsDead)
+                        {
+                            IsAlive++;
+                            if (pc.GetCustomRole().IsNeutralKilling() && Sheriff.TraitorCanSpawnIfNK.GetBool())
+                                numNKalive++;
+                            if (pc.GetCustomRole().IsCoven() && Sheriff.TraitorCanSpawnIfCoven.GetBool())
+                                numCovenAlive++;
+                            if (pc.Is(CustomRoles.Sheriff))
+                                seer = pc;
+                        }
+                    }
+
+                    //foreach (var pva in __instance.playerStates)
+                    if (IsAlive >= Sheriff.PlayersForTraitor.GetFloat())
+                    {
+                        foreach (var ar in PlayerControl.AllPlayerControls)
+                        {
+                            //PlayerControl target = Utils.GetPlayerById(ar.playerId);
+
+                            if (seer.GetCustomRole() == CustomRoles.Sheriff && numCovenAlive == 0 && numNKalive == 0)
+                            {
+                                seer.RpcSetCustomRole(CustomRoles.CorruptedSheriff);
+                                seer.CustomSyncSettings();
+                            }
+                        }
+                    }
+                }
+            }
         }
         public static string GetShotLimit(byte playerId) => Helpers.ColorString(Color.yellow, ShotLimit.TryGetValue(playerId, out var shotLimit) ? $"({shotLimit})" : "Invalid");
         public static bool CanBeKilledBySheriff(this PlayerControl player)

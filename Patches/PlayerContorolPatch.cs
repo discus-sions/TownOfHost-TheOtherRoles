@@ -748,6 +748,7 @@ namespace TownOfHost
                         }
                         break;
                 }
+                Sheriff.SwitchToCorrupt(killer, target);
             }
 
             //==キル処理==D
