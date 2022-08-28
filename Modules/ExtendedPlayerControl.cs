@@ -650,6 +650,13 @@ namespace TownOfHost
                 !pc.Is(CustomRoles.SerialKiller) &&
                 Main.AliveImpostorCount == 1;
         }
+        public static bool CurrentlyLastImpostor(this PlayerControl pc)
+        { //キルクールを変更するインポスター役職は省く
+            return pc.GetCustomRole().IsImpostor() &&
+                !pc.Data.IsDead &&
+                Options.CurrentGameMode != CustomGameMode.HideAndSeek &&
+                Main.AliveImpostorCount == 1;
+        }
         public static bool IsDousedPlayer(this PlayerControl arsonist, PlayerControl target)
         {
             if (arsonist == null) return false;

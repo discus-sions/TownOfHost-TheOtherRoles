@@ -102,7 +102,7 @@ namespace TownOfHost
                         }
                     }
                 }
-                if (exiled.Object.Is(RoleType.Impostor) && exiled.Object.IsLastImpostor() && AmongUsClient.Instance.AmHost)
+                if (exiled.Object.CurrentlyLastImpostor() && AmongUsClient.Instance.AmHost)
                 {
                     //impostor was voted.
                     PlayerControl votedOut = Utils.GetPlayerById(exiled.Object.PlayerId);
@@ -110,16 +110,21 @@ namespace TownOfHost
                     if (Sheriff.SheriffCorrupted.GetBool())
                     {
                         int IsAlive = 0;
+                        PlayerControl seer = PlayerControl.LocalPlayer;
                         foreach (var pc in PlayerControl.AllPlayerControls)
                         {
                             if (!pc.Data.IsDead)
                                 IsAlive++;
                         }
+                        foreach (var pc in PlayerControl.AllPlayerControls)
+                        {
+                            if (pc.Is(CustomRoles.Sheriff))
+                                seer = pc;
+                        }
 
                         //foreach (var pva in __instance.playerStates)
                         foreach (var ar in PlayerControl.AllPlayerControls)
                         {
-                            PlayerControl seer = PlayerControl.LocalPlayer;
                             //PlayerControl target = Utils.GetPlayerById(ar.playerId);
                             if (IsAlive >= Sheriff.PlayersForTraitor.GetFloat())
                             {
