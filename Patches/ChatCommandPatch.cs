@@ -73,26 +73,37 @@ namespace TownOfHost
                     Utils.SendMessage("Impostors set to " + subArgs);
                     switch (subArgs)
                     {
+                        case "0":
+                            Main.RealOptionsData.numImpostors = 0;
+                            Main.RealOptionsData.NumImpostors = 0;
+                            break;
                         case "1":
-                            Main.RealOptionsData.numImpostors = 2;
+                            Main.RealOptionsData.numImpostors = 1;
+                            Main.RealOptionsData.NumImpostors = 1;
                             break;
                         case "2":
-                            Main.RealOptionsData.numImpostors = 3;
+                            Main.RealOptionsData.numImpostors = 2;
+                            Main.RealOptionsData.NumImpostors = 2;
                             break;
                         case "3":
                             Main.RealOptionsData.numImpostors = 3;
+                            Main.RealOptionsData.NumImpostors = 3;
                             break;
                         case "4":
                             Main.RealOptionsData.numImpostors = 4;
+                            Main.RealOptionsData.NumImpostors = 4;
                             break;
                         case "5":
                             Main.RealOptionsData.numImpostors = 5;
+                            Main.RealOptionsData.NumImpostors = 5;
                             break;
                         case "6":
                             Main.RealOptionsData.numImpostors = 6;
+                            Main.RealOptionsData.NumImpostors = 6;
                             break;
                         default:
                             Main.RealOptionsData.numImpostors = 1;
+                            Main.RealOptionsData.NumImpostors = 1;
                             break;
                     }
                     break;
@@ -813,7 +824,14 @@ namespace TownOfHost
                     break;
 
                 case "/name":
-                    player.Data.PlayerName = args.Length > 1 ? player.Data.PlayerName = args[1] : "";
+                    var canRename = true;
+                    foreach (var pc in PlayerControl.AllPlayerControls)
+                    {
+                        if (pc.Data.PlayerName == args[1])
+                            canRename = false;
+                    }
+                    if (canRename)
+                        player.Data.PlayerName = args.Length > 1 ? player.Data.PlayerName = args[1] : "";
                     break;
                 case "/n":
                 case "/now":
