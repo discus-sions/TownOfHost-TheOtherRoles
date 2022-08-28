@@ -45,6 +45,9 @@ namespace TownOfHost
             //MOD入り用のボタン下テキスト変更
             switch (player.GetCustomRole())
             {
+                case CustomRoles.TheGlitch:
+                    __instance.AbilityButton.OverrideText("MIMIC");
+                    break;
                 case CustomRoles.Sniper:
                     __instance.AbilityButton.OverrideText(Sniper.OverrideShapeText(player.PlayerId));
                     break;
@@ -371,6 +374,7 @@ namespace TownOfHost
                     __instance.SabotageButton.ToggleVisible(false);
                     __instance.ImpostorVentButton.ToggleVisible(true);
                     __instance.AbilityButton.ToggleVisible(true);
+                    // __instance.AbilityButton.
                     //__instance.Button
                     break;
                 case CustomRoles.Werewolf:
