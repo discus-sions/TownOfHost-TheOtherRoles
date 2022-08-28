@@ -371,6 +371,7 @@ namespace TownOfHost
                     __instance.SabotageButton.ToggleVisible(false);
                     __instance.ImpostorVentButton.ToggleVisible(true);
                     __instance.AbilityButton.ToggleVisible(true);
+                    //__instance.Button
                     break;
                 case CustomRoles.Werewolf:
                     if (player.Data.Role.Role != RoleTypes.GuardianAngel)
