@@ -199,6 +199,21 @@ namespace TownOfHost
                         }
                     }
                 }
+                var realName = exiledPlayer.Object.GetRealName(isMeeting: true);
+                Main.LastVotedPlayer = realName;
+                if (Main.RealOptionsData.ConfirmImpostor)
+                {
+                    if (exiledPlayer.PlayerId == exileId)
+                    {
+                        var player = Utils.GetPlayerById(exiledPlayer.PlayerId);
+                        var role = exiledPlayer.GetCustomRole().ToString();
+                        var coloredRole = Helpers.ColorString(Utils.GetRoleColor(exiledPlayer.GetCustomRole()), $"{role}");
+                        var name = "";
+                        //player?.Data?.PlayerName = $"{realName} was The {coloredRole}.<size=0>";
+                        name = realName + " was The " + coloredRole + ".<size=0>";
+                        player.Data.PlayerName = name;
+                    }
+                }
                 Main.SpelledPlayer.Clear();
                 Main.SilencedPlayer.Clear();
                 Main.firstKill.Clear();
@@ -495,6 +510,8 @@ namespace TownOfHost
                 {
                     Utils.SendMessage("Some people are Silenced! While they may have 2 crosses next to their name, they are silenced. Being silenced means you cannot talk.", target.PlayerId);
                 }
+                if (seer.IsHexedDone())
+                    Utils.SendMessage("The Hex Master is done hexing people. If they survive the current meeting, they will kill everyone with a hex bomb!");
                 //if (target.GetCustomSubRole().GetModifierType() != ModifierType.None)
                 //    {
                 //      Utils.SendMessage("You have a modifier. Your modifier is: " + target.GetSubRoleName() + ".", target.PlayerId);

@@ -280,16 +280,17 @@ GuardianAngelTOUInfoLong,"(Neutral):\nThe Guardian Angel has a target they are s
 AmnesiacInfoLong,"(Neutral):\nSteal someone's role by clicking the report button.","(Neutral):\nInfo unfinished.",(中立阵营):\n通过点击报告键，来窃取其他人的职业。,
 HackerInfoLong,"(Neutral):\nAs the Hacker, your goal is to fix a number of points by fixing sabotages. \nYou have the powers of a SabotageMaster. \nComplete sabotages to win. \nElectrical gains the most points. \nReactor gives you like 2 points. \nThe Sheriff can kill Hacker no matter what.","(Neutral):\nInfo unfinished.",(中立阵营):\n作为黑客，你的目标是通过修复破坏行为来获得积分点。\n你拥有修理大师的能力。\n完成破坏才能获胜。\n修复配电获得的积分最多，反应堆获得2点积分。\n警长无论如何都可以杀死黑客。,
 
-# Coven
-CovenInfoLong,(Coven):\nNothing special about regular Coven. \nThey just help support the Leader.,(Coven):\nNothing special about regular Coven. \nThey just help support the Leader.,(法师阵营):\n普通的法师没什么特别之处他们只会支援领袖.,
-PoisonerInfoLong,(Coven):\nThe Poisoner works exactly like the Vampire. \nSame cooldown and everything. \nThis will remove Vamp from Impostor Team and join Coven.,(Coven):\nInfo unfinished.,(巫师):\n毒师的技能与吸血鬼完全一样。\n同样的冷却时间和一切。\n这将把吸血鬼从内鬼阵营中移除，并加入巫师团。,
-CovenWitchInfoLong,(Coven):\nInfo unfinished.,(Coven):\nInfo unfinished.,(巫师):\n资料未填写完成,
-HexMasterInfoLong,(Coven):\nInfo unfinished.,(Coven):\nInfo unfinished.,(巫师):\n资料未填写完成,
-PotionMasterInfoLong,(Coven):\nInfo unfinished.,(Coven):\nInfo unfinished.,(巫师):\n资料未填写完成,
-MedusaInfoLong,(Coven):\nInfo unfinished.,(Coven):\nInfo unfinished.,(巫师):\n资料未填写完成,
-MimicInfoLong,(Coven):\nInfo unfinished.,(Coven):\nInfo unfinished.,(巫师):\n资料未填写完成,
-NecromancerInfoLong,(Coven):\nInfo unfinished.,(Coven):\nInfo unfinished.,(巫师):\n资料未填写完成,
-ConjurorInfoLong,(Coven):\nInfo unfinished.,(Coven):\nInfo unfinished.,(巫师):\n资料未填写完成,
+
+CovenInfoLong,"""(Coven):\nNothing special about regular Coven. They just help support the Leader.""","""(Coven):\nNothing special about regular Coven. They just help support the Leader.""","""(法师):\n普通的法师没什么特别之处他们只会支援领袖.""",
+PoisonerInfoLong,"""(Coven):\nThe Poisoner works exactly like the Vampire. Same cooldown and everything. This will remove Vamp from Impostor Team and join Coven.""","""(Coven):\nInfo unfinished.""","""(巫师阵营):\n资料未填写完成.""",
+CovenWitchInfoLong,"""(Coven):\nThe Witch is similar to Puppeteer, allowing you to taglock players to kill others.""","""(Coven):\nInfo unfinished.""","""(巫师阵营):\n资料未填写完成.""",
+HexMasterInfoLong,"""(Coven):\nThe Hex Master can hex people like an Arsonist. After hexing everyione, if they survive the next meeting, they hex bomb everyone and win.""","""(Coven):\nInfo unfinished.""","""(巫师阵营):\n资料未填写完成.""",
+PotionMasterInfoLong,"""(Coven):\nThe Potion Master can use potions to reveal something about their target. They have 3 potions. Kill, Curse, and Reveal. Kill is just kill. Revealing allows you to reveal someone's role to all coven members. And cursing is like Warlock after revealing.""","""(Coven):\nInfo unfinished.""","""(巫师阵营):\n资料未填写完成.""",
+MedusaInfoLong,"""(Coven):\nMedusa can Stone Gaze just like the Veteran to counterattack any attacks. However, if a body killed by Medusa isn't reported in a set amount of time, the body turns to stone and is unreportable.""","""(Coven):\nInfo unfinished.""","""(巫师阵营):\n资料未填写完成.""",
+MimicInfoLong,"""(Coven):\nThe Mimic can mimic an Impostor role that currently isnt being used. The Mimic cannot spawn in a game with the Necromancer.""","""(Coven):\nInfo unfinished.""","""(巫师阵营):\n资料未填写完成.""",
+NecromancerInfoLong,"""(Coven):\nThe Necromancer can mimic any killing role. The Necromancer cannot spawn with a Mimic.""","""(Coven):\nInfo unfinished.""","""(巫师阵营):\n资料未填写完成.""",
+ConjurorInfoLong,"""(Coven):\nThe Conjuror can shift to place traps. These acid traps will kill anyone who walks through them.""","""(Coven):\nInfo unfinished.""","""(巫师阵营):\n资料未填写完成.""",
+
 
 # HideAndSeek
 HASFoxInfoLong,(HideAndSeek):\nThey win the game with other Roles (except Troll) only if they are alive at the game end.,(かくれんぼ):\nトロールを除くいずれかの陣営が勝利したときに生き残っていれば、勝利した陣営に追加で勝利することができる。,（躲猫猫）:\n狐狸活到最后便与获胜阵营一同获胜。,"(躲貓貓):\n除了其他的中立陣營以外,只要狐妖活下來即可獲勝\n他們將跟著遊戲結束的獲勝陣營一起獲勝。"

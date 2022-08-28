@@ -37,6 +37,7 @@ namespace TownOfHost
             Main.HexesThisRound = 0;
             Main.isCursed = false;
             Main.PuppeteerList = new Dictionary<byte, byte>();
+            Main.WitchedList = new Dictionary<byte, byte>();
 
             Main.AfterMeetingDeathPlayers = new();
             Main.ResetCamPlayerList = new();
@@ -58,6 +59,7 @@ namespace TownOfHost
             Main.AteBodies = 0;
             Main.TeamJuggernautAlive = false;
             Main.TeamPestiAlive = false;
+            Main.CamoComms = false;
 
             ////////////// COVEN INFO //////////////    
             Main.TeamCovenAlive = 3;
@@ -225,7 +227,7 @@ namespace TownOfHost
                 AssignDesyncRole(CustomRoles.Jackal, AllPlayers, sender, BaseRole: RoleTypes.Impostor);
                 AssignDesyncRole(CustomRoles.Juggernaut, AllPlayers, sender, BaseRole: RoleTypes.Impostor);
                 AssignDesyncRole(CustomRoles.PlagueBearer, AllPlayers, sender, BaseRole: RoleTypes.Impostor);
-                AssignDesyncRole(CustomRoles.TheGlitch, AllPlayers, sender, BaseRole: RoleTypes.Impostor);
+                AssignDesyncRole(CustomRoles.TheGlitch, AllPlayers, sender, BaseRole: RoleTypes.Shapeshifter);
                 AssignDesyncRole(CustomRoles.Werewolf, AllPlayers, sender, BaseRole: RoleTypes.Impostor);
                 AssignDesyncRole(CustomRoles.Amnesiac, AllPlayers, sender, BaseRole: RoleTypes.Impostor);
 
@@ -528,7 +530,7 @@ namespace TownOfHost
                             }
                             break;
                         case CustomRoles.Veteran:
-                            Main.VetAlerts = Options.NumOfVets.GetInt();
+                            //Main.VetAlerts = Options.NumOfVets.GetInt();
                             break;
                         case CustomRoles.FireWorks:
                             FireWorks.Add(pc.PlayerId);

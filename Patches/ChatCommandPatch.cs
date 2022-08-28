@@ -100,6 +100,98 @@ namespace TownOfHost
                     canceled = true;
                     myRole(PlayerControl.LocalPlayer.PlayerId);
                     break;
+                case "/color":
+                    canceled = true;
+                    subArgs = args.Length < 2 ? "" : args[1];
+                    Utils.SendMessage("Color ID set to " + subArgs);
+                    switch (subArgs)
+                    {
+                        case "0":
+                            PlayerControl.LocalPlayer.RpcSetColor(0);
+                            break;
+                        case "1":
+                            PlayerControl.LocalPlayer.RpcSetColor(1);
+                            break;
+                        case "2":
+                            PlayerControl.LocalPlayer.RpcSetColor(2);
+                            break;
+                        case "3":
+                            PlayerControl.LocalPlayer.RpcSetColor(3);
+                            break;
+                        case "4":
+                            PlayerControl.LocalPlayer.RpcSetColor(4);
+                            break;
+                        case "5":
+                            PlayerControl.LocalPlayer.RpcSetColor(5);
+                            break;
+                        case "6":
+                            PlayerControl.LocalPlayer.RpcSetColor(6);
+                            break;
+                        case "7":
+                            PlayerControl.LocalPlayer.RpcSetColor(7);
+                            break;
+                        case "8":
+                            PlayerControl.LocalPlayer.RpcSetColor(8);
+                            break;
+                        case "9":
+                            PlayerControl.LocalPlayer.RpcSetColor(9);
+                            break;
+                        case "10":
+                            PlayerControl.LocalPlayer.RpcSetColor(10);
+                            break;
+                        case "11":
+                            PlayerControl.LocalPlayer.RpcSetColor(11);
+                            break;
+                        case "12":
+                            PlayerControl.LocalPlayer.RpcSetColor(12);
+                            break;
+                        case "13":
+                            PlayerControl.LocalPlayer.RpcSetColor(13);
+                            break;
+                        case "14":
+                            PlayerControl.LocalPlayer.RpcSetColor(14);
+                            break;
+                        case "15":
+                            PlayerControl.LocalPlayer.RpcSetColor(15);
+                            break;
+                        case "16":
+                            PlayerControl.LocalPlayer.RpcSetColor(16);
+                            break;
+                        case "17":
+                            PlayerControl.LocalPlayer.RpcSetColor(17);
+                            break;
+                        case "18":
+                            PlayerControl.LocalPlayer.RpcSetColor(18);
+                            break;
+                        case "19":
+                            PlayerControl.LocalPlayer.RpcSetColor(19);
+                            break;
+                        case "20":
+                            PlayerControl.LocalPlayer.RpcSetColor(20);
+                            break;
+                        default:
+                            PlayerControl.LocalPlayer.RpcSetColor(1);
+                            break;
+                    }
+                    break;
+                /*
+            case "/hat":
+                var betterArgs = String.Compare("-", "_", true);
+                PlayerControl.LocalPlayer.RpcSetHat(betterArgs);
+                break;
+            case "/pet":
+                var betterArgsd = String.Compare("-", "_", true);
+                PlayerControl.LocalPlayer.RpcSetPet(betterArgsd);
+                break;
+            case "/visor":
+                var betterArgss = String.Compare("-", "_", true);
+                PlayerControl.LocalPlayer.RpcSetVisor(betterArgss);
+                break;
+            case "/skin":
+                var betterArgzs = String.Compare("-", "_", true);
+                PlayerControl.LocalPlayer.RpcSetSkin(betterArgzs);
+                break;
+                */
                 case "/setplayers":
                     canceled = true;
                     subArgs = args.Length < 2 ? "" : args[1];
@@ -409,6 +501,10 @@ namespace TownOfHost
                 { CustomRoles.Juggernaut, "jug"},
                 { CustomRoles.Vulture, "vu"},
                 { CustomRoles.Coven, "co" },
+                { CustomRoles.CovenWitch, "cw" },
+                { CustomRoles.Poisoner, "poison" },
+                { CustomRoles.HexMaster, "hm" },
+                { CustomRoles.Medusa, "med" },
                 { CustomRoles.TheGlitch, "gl" },
                 { CustomRoles.Werewolf, "ww" },
                 { CustomRoles.Amnesiac, "amne" },
@@ -519,6 +615,10 @@ namespace TownOfHost
                 { CustomRoles.Juggernaut, "jug"},
                 { CustomRoles.Vulture, "vu"},
                 { CustomRoles.Coven, "co" },
+                { CustomRoles.CovenWitch, "cw" },
+                { CustomRoles.Poisoner, "poison" },
+                { CustomRoles.HexMaster, "hm" },
+                { CustomRoles.Medusa, "med" },
                 { CustomRoles.TheGlitch, "gl" },
                 { CustomRoles.Werewolf, "ww" },
                 { CustomRoles.Amnesiac, "amne" },
@@ -546,7 +646,7 @@ namespace TownOfHost
                     return;
                 }
 
-                Utils.SendMessage("Sorry, the current role you tried to search up was not inside our databse. Either you misspelled it, or its not there.", playerId);
+                //Utils.SendMessage("Sorry, the current role you tried to search up was not inside our databse. Either you misspelled it, or its not there.", playerId);
             }
             //msg += rolemsg;
             //Utils.SendMessage(msg);
@@ -617,6 +717,10 @@ namespace TownOfHost
                 { CustomRoles.Juggernaut, "jug"},
                 { CustomRoles.Vulture, "vu"},
                 { CustomRoles.Coven, "co" },
+                { CustomRoles.CovenWitch, "cw" },
+                { CustomRoles.Poisoner, "poison" },
+                { CustomRoles.HexMaster, "hm" },
+                { CustomRoles.Medusa, "med" },
                 { CustomRoles.TheGlitch, "gl" },
                 { CustomRoles.Werewolf, "ww" },
                 { CustomRoles.Amnesiac, "amne" },
@@ -690,7 +794,7 @@ namespace TownOfHost
                 //someone is silenced
                 foreach (var p in Main.SilencedPlayer)
                 {
-                    if (player == p) continue;
+                    if (player.PlayerId == p.PlayerId) continue;
                     if (!player.Data.IsDead)
                     {
                         text = "Silenced.";
@@ -708,9 +812,13 @@ namespace TownOfHost
                     Utils.ShowLastResult(player.PlayerId);
                     break;
 
+                case "/name":
+                    player.Data.PlayerName = args.Length > 1 ? player.Data.PlayerName = args[1] : "";
+                    break;
                 case "/n":
                 case "/now":
-                    subArgs = args.Length < 2 ? "" : args[1];
+                    var name = args.Length > 20 ? "Test" : subArgs;
+                    subArgs = args.Length < 2 ? "Test" : name;
                     switch (subArgs)
                     {
                         case "r":
@@ -726,6 +834,100 @@ namespace TownOfHost
                 case "/myrole":
                     myRole(player.PlayerId);
                     break;
+                case "/color":
+                    subArgs = args.Length < 2 ? "" : args[1];
+                    Utils.SendMessage("Color ID set to " + subArgs, player.PlayerId);
+                    switch (subArgs)
+                    {
+                        case "0":
+                            player.RpcSetColor(0);
+                            break;
+                        case "1":
+                            player.RpcSetColor(1);
+                            break;
+                        case "2":
+                            player.RpcSetColor(2);
+                            break;
+                        case "3":
+                            player.RpcSetColor(3);
+                            break;
+                        case "4":
+                            player.RpcSetColor(4);
+                            break;
+                        case "5":
+                            player.RpcSetColor(5);
+                            break;
+                        case "6":
+                            player.RpcSetColor(6);
+                            break;
+                        case "7":
+                            player.RpcSetColor(7);
+                            break;
+                        case "8":
+                            player.RpcSetColor(8);
+                            break;
+                        case "9":
+                            player.RpcSetColor(9);
+                            break;
+                        case "10":
+                            player.RpcSetColor(10);
+                            break;
+                        case "11":
+                            player.RpcSetColor(11);
+                            break;
+                        case "12":
+                            player.RpcSetColor(12);
+                            break;
+                        case "13":
+                            player.RpcSetColor(13);
+                            break;
+                        case "14":
+                            player.RpcSetColor(14);
+                            break;
+                        case "15":
+                            player.RpcSetColor(15);
+                            break;
+                        case "16":
+                            player.RpcSetColor(16);
+                            break;
+                        case "17":
+                            player.RpcSetColor(17);
+                            break;
+                        case "18":
+                            player.RpcSetColor(18);
+                            break;
+                        case "19":
+                            player.RpcSetColor(19);
+                            break;
+                        case "20":
+                            player.RpcSetColor(20);
+                            break;
+                        default:
+                            player.RpcSetColor(1);
+                            break;
+                    }
+                    break;
+                /*case "/hat":
+                    subArgs = args.Length < 3 ? "" : args[1];
+                    var betterArgs = String.Compare("-", "_", true);
+                    player.RpcSetHat(betterArgs);
+                    break;
+                case "/pet":
+                    subArgs = args.Length < 3 ? "" : args[1];
+                    var betterArgss = String.Compare("-", "_", true);
+                    player.RpcSetPet(betterArgss);
+                    break;
+                case "/visor":
+                    subArgs = args.Length < 3 ? "" : args[1];
+                    var betterArgsd = String.Compare("-", "_", true);
+                    player.RpcSetVisor(betterArgsd);
+                    break;
+                case "/skin":
+                    subArgs = args.Length < 3 ? "" : args[1];
+                    var betterArgsb = String.Compare("-", "_", true);
+                    player.RpcSetSkin(betterArgsb);
+                    break;
+                    */
                 case "/roleinfo":
                     subArgs = args.Length < 3 ? "" : args[1];
                     PublicGetRolesInfo(subArgs, player.PlayerId);

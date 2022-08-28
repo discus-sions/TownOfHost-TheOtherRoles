@@ -13,13 +13,13 @@ using UnityEngine;
 [assembly: AssemblyInformationalVersionAttribute(TownOfHost.Main.PluginVersion)]
 namespace TownOfHost
 {
-    [BepInPlugin(PluginGuid, "Town Of Host", PluginVersion)]
+    [BepInPlugin(PluginGuid, "Town Of Host: The Other Roles", PluginVersion)]
     [BepInProcess("Among Us.exe")]
     public class Main : BasePlugin
     {
         //Sorry for many Japanese comments.
         public const string PluginGuid = "com.emptybottle.townofhost";
-        public const string PluginVersion = "3.0.0";
+        public const string PluginVersion = "0.6.1";
         public Harmony Harmony { get; } = new Harmony(PluginGuid);
         public static Version version = Version.Parse(PluginVersion);
         public static BepInEx.Logging.ManualLogSource Logger;
@@ -53,7 +53,7 @@ namespace TownOfHost
         public static Dictionary<byte, PlayerState.DeathReason> AfterMeetingDeathPlayers = new();
         public static Dictionary<CustomRoles, String> roleColors;
         //これ変えたらmod名とかの色が変わる
-        public static string modColor = "#00bfff";
+        public static string modColor = "#4FF918";
         public static bool IsFixedCooldown => CustomRoles.Vampire.IsEnable();
         public static float RefixCooldownDelay = 0f;
         public static int BeforeFixMeetingCooldown = 10;
@@ -85,10 +85,12 @@ namespace TownOfHost
         public static Dictionary<byte, byte> ExecutionerTarget = new(); //Key : Executioner, Value : target
         public static Dictionary<byte, byte> GuardianAngelTarget = new(); //Key : GA, Value : target
         public static Dictionary<byte, byte> PuppeteerList = new(); // Key: targetId, Value: PuppeteerId
+        public static Dictionary<byte, byte> WitchedList = new(); // Key: targetId, Value: WitchId
         public static Dictionary<byte, byte> SpeedBoostTarget = new();
         public static Dictionary<byte, int> MayorUsedButtonCount = new();
         public static Dictionary<byte, int> HackerFixedSaboCount = new();
         public static int AliveImpostorCount;
+        public static string LastVotedPlayer;
         public static int HexesThisRound;
         public static int SKMadmateNowCount;
         public static bool witchMeeting;
@@ -128,6 +130,7 @@ namespace TownOfHost
         public static List<int> bombedVents = new();
 
         public static Main Instance;
+        public static bool CamoComms;
 
         //coven
         //coven main info
@@ -241,9 +244,11 @@ namespace TownOfHost
             RampageReady = false;
 
             IsHackMode = false;
-            GazeReady = false;
+            GazeReady = true;
             IsGazing = false;
+            CamoComms = false;
             HexesThisRound = 0;
+            LastVotedPlayer = "";
 
             // OTHER//
 

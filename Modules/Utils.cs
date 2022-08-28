@@ -132,14 +132,6 @@ namespace TownOfHost
             if (p.Disconnected) hasTasks = false;
             if (p.Role.IsImpostor)
                 hasTasks = false; //タスクはCustomRoleを元に判定する
-            foreach (var pc in PlayerControl.AllPlayerControls)
-            {
-                //time for coven
-                if (CustomRolesHelper.GetRoleType(pc.GetCustomRole()) == RoleType.Coven)
-                {
-                    hasTasks = false;
-                }
-            }
             if (Options.CurrentGameMode == CustomGameMode.HideAndSeek)
             {
                 if (p.IsDead) hasTasks = false;
@@ -185,6 +177,15 @@ namespace TownOfHost
                     if (cRole == CustomRoles.Werewolf) hasTasks = false;
                     if (cRole == CustomRoles.TheGlitch) hasTasks = false;
                     if (cRole == CustomRoles.Hacker) hasTasks = false;
+
+                    if (cRole == CustomRoles.CovenWitch) hasTasks = false;
+                    if (cRole == CustomRoles.HexMaster) hasTasks = false;
+                    if (cRole == CustomRoles.PotionMaster) hasTasks = false;
+                    if (cRole == CustomRoles.Medusa) hasTasks = false;
+                    if (cRole == CustomRoles.Mimic) hasTasks = false;
+                    if (cRole == CustomRoles.Conjuror) hasTasks = false;
+                    if (cRole == CustomRoles.Necromancer) hasTasks = false;
+                    if (cRole == CustomRoles.Poisoner) hasTasks = false;
                 }
                 var cSubRoleFound = Main.AllPlayerCustomSubRoles.TryGetValue(p.PlayerId, out var cSubRole);
                 if (cSubRoleFound)
@@ -432,6 +433,7 @@ namespace TownOfHost
                 var id = kvp.Key;
                 text += $"\n　 " + SummaryTexts(id);
             }
+            text += "\n　 Last Voted Player: " + Main.LastVotedPlayer;
             SendMessage(text, PlayerId);
         }
 
@@ -563,7 +565,7 @@ namespace TownOfHost
                     case SuffixModes.None:
                         break;
                     case SuffixModes.TOH:
-                        name += "\r\n<color=" + Main.modColor + ">TOH v" + Main.PluginVersion + " | ToHU v0.6.1b</color>";
+                        name += "\r\n<color=" + Main.modColor + ">TOH: TORv" + Main.PluginVersion + "</color>";
                         break;
                     case SuffixModes.Streaming:
                         name += $"\r\n{GetString("SuffixMode.Streaming")}";
@@ -748,8 +750,8 @@ namespace TownOfHost
                 string SelfRoleName = $"<size={fontSize}>{Helpers.ColorString(seer.GetRoleColor(), seer.GetRoleName())}{SelfTaskText}</size>";
                 string SelfName = $"{Helpers.ColorString(seer.GetRoleColor(), SeerRealName)}{SelfMark}";
                 if (Main.KilledDemo.Contains(seer.PlayerId))
-                    SelfName = $"</size>\r\n{Helpers.ColorString(Utils.GetRoleColor(CustomRoles.Demolitionist), "You killed Demolitionist!")}";
-                else SelfName = "";
+                    SelfName += $"</size>\r\n{Helpers.ColorString(Utils.GetRoleColor(CustomRoles.Demolitionist), "You killed Demolitionist!")}";
+                // else SelfName = $"{Helpers.ColorString(seer.GetRoleColor(), SeerRealName)}{SelfMark}";
                 if (seer.Is(CustomRoles.Arsonist) && seer.IsDouseDone())
                     SelfName = $"</size>\r\n{Helpers.ColorString(seer.GetRoleColor(), GetString("EnterVentToWin"))}";
                 SelfName = SelfRoleName + "\r\n" + SelfName;
@@ -776,6 +778,7 @@ namespace TownOfHost
                     || seer.Is(CustomRoles.Doctor) //seerがドクター
                     || seer.Is(CustomRoles.Puppeteer)
                     || seer.Is(CustomRoles.HexMaster)
+                    // || (IsActive(SystemTypes.Comms) && Options.CamoComms.GetBool())
                     //|| Main.KilledDemo.Contains(seer.PlayerId)
                     || seer.Is(CustomRoles.PlagueBearer)
                     //|| seer.GetCustomSubRole().GetModifierType() != ModifierType.None
@@ -784,6 +787,20 @@ namespace TownOfHost
                     || ForceLoop
                 )
                 {
+                    /*  foreach (var p in PlayerControl.AllPlayerControls)
+                      {
+                          if (IsActive(SystemTypes.Comms) && Options.CamoComms.GetBool() && !Main.CamoComms)
+                          {
+                              p.RpcSetColor(15);
+                              p.RpcSetVisor("");
+                              p.RpcSetPet("");
+                              p.RpcSetHat("");
+                              p.RpcSetSkin("");
+                              p.RpcSetName("");
+                              Main.CamoComms = true;
+                          }
+                      }*/
+
                     foreach (var target in PlayerControl.AllPlayerControls)
                     {
                         //targetがseer自身の場合は何もしない
@@ -864,6 +881,11 @@ namespace TownOfHost
                         Main.PuppeteerList.ContainsValue(seer.PlayerId) &&
                         Main.PuppeteerList.ContainsKey(target.PlayerId))
                             TargetMark += $"<color={Utils.GetRoleColorCode(CustomRoles.Impostor)}>◆</color>";
+
+                        if (seer.Is(CustomRoles.CovenWitch) &&
+                        Main.WitchedList.ContainsValue(seer.PlayerId) &&
+                        Main.WitchedList.ContainsKey(target.PlayerId))
+                            TargetMark += $"<color={Utils.GetRoleColorCode(CustomRoles.CovenWitch)}>◆</color>";
 
                         //他人の役職とタスクは幽霊が他人の役職を見れるようになっていてかつ、seerが死んでいる場合のみ表示されます。それ以外の場合は空になります。
                         string TargetRoleText = seer.Data.IsDead && Options.GhostCanSeeOtherRoles.GetBool() ? $"<size={fontSize}>{Helpers.ColorString(target.GetRoleColor(), target.GetRoleName())}{TargetTaskText}</size>\r\n" : "";
@@ -1028,7 +1050,7 @@ namespace TownOfHost
         public static (int, int) GetDousedPlayerCount(byte playerId)
         {
             int doused = 0, all = 0; //学校で習った書き方
-            //多分この方がMain.isDousedでforeachするより他のアーソニストの分ループ数少なくて済む
+                                     //多分この方がMain.isDousedでforeachするより他のアーソニストの分ループ数少なくて済む
             foreach (var pc in PlayerControl.AllPlayerControls)
             {
                 if (pc == null ||
@@ -1048,7 +1070,7 @@ namespace TownOfHost
         public static (int, int) GetHexedPlayerCount(byte playerId)
         {
             int hexed = 0, all = 0; //学校で習った書き方
-            //多分この方がMain.isDousedでforeachするより他のアーソニストの分ループ数少なくて済む
+                                    //多分この方がMain.isDousedでforeachするより他のアーソニストの分ループ数少なくて済む
             foreach (var pc in PlayerControl.AllPlayerControls)
             {
                 if (pc == null ||
@@ -1070,7 +1092,7 @@ namespace TownOfHost
         public static List<PlayerControl> GetDousedPlayer(byte playerId)
         {
             List<PlayerControl> doused = null; //学校で習った書き方
-            //多分この方がMain.isDousedでforeachするより他のアーソニストの分ループ数少なくて済む
+                                               //多分この方がMain.isDousedでforeachするより他のアーソニストの分ループ数少なくて済む
             foreach (var pc in PlayerControl.AllPlayerControls)
             {
                 if (pc == null ||

@@ -46,7 +46,7 @@ namespace TownOfHost
             private static TMPro.TextMeshPro ErrorText;
             static void Postfix(VersionShower __instance)
             {
-                Main.credentialsText = $"\r\n<color={Main.modColor}>Town Of Host</color> v{Main.PluginVersion}";
+                Main.credentialsText = $"\r\n<color={Main.modColor}>Town Of Host: The Other Roles</color> v{Main.PluginVersion}b";
                 if (ThisAssembly.Git.Branch != "main")
                     Main.credentialsText += $"\r\n<color={Main.modColor}>{ThisAssembly.Git.Branch}({ThisAssembly.Git.Commit})</color>";
                 var credentials = UnityEngine.Object.Instantiate<TMPro.TextMeshPro>(__instance.text);
@@ -88,11 +88,11 @@ namespace TownOfHost
                     amongUsLogo.transform.position += Vector3.up * 0.25f;
                 }
 
-                var tohLogo = new GameObject("titleLogo_TOH");
+                var tohLogo = new GameObject("tohtor-logo");
                 tohLogo.transform.position = Vector3.up;
                 tohLogo.transform.localScale *= 1.2f;
                 var renderer = tohLogo.AddComponent<SpriteRenderer>();
-                renderer.sprite = Helpers.LoadSpriteFromResources("TownOfHost.Resources.TownOfHost-Logo.png", 300f);
+                renderer.sprite = Helpers.LoadSpriteFromResources("TownOfHost.Resources.tohtor-logo.png", 300f);
             }
         }
     }

@@ -470,11 +470,14 @@ namespace TownOfHost
             opt.VotingTime = Mathf.Clamp(Main.VotingTime, TimeThief.LowerLimitVotingTime.GetInt(), 300);
 
             opt.RoleOptions.ShapeshifterCooldown = Mathf.Max(1f, opt.RoleOptions.ShapeshifterCooldown);
-            if (Main.KilledBewilder.Contains(player.PlayerId))
+            if (Main.KilledBewilder.Contains(player.PlayerId) && !player.Is(CustomRoles.CovenWitch))
             {
-                opt.SetVision(player, false);
                 opt.CrewLightMod = Options.BewilderVision.GetFloat();
                 opt.ImpostorLightMod = Options.BewilderVision.GetFloat();
+            }
+            if (player.GetCustomRole().IsCoven() && Main.HasNecronomicon)
+            {
+                opt.SetVision(player, true);
             }
 
             if (player.AmOwner) PlayerControl.GameOptions = opt;
@@ -754,6 +757,12 @@ namespace TownOfHost
                 case CustomRoles.PlagueBearer:
                     Main.AllPlayerKillCooldown[player.PlayerId] = Options.InfectCooldown.GetFloat();
                     break;
+                case CustomRoles.HexMaster:
+                    if (player.IsHexMode())
+                        Main.AllPlayerKillCooldown[player.PlayerId] = Options.HexCD.GetFloat();
+                    else
+                        Main.AllPlayerKillCooldown[player.PlayerId] = Options.CovenKillCooldown.GetFloat();
+                    break;
             }
             if (player.IsLastImpostor())
                 Main.AllPlayerKillCooldown[player.PlayerId] = Options.LastImpostorKillCooldown.GetFloat();
@@ -831,7 +840,7 @@ namespace TownOfHost
         }
         public static void StoneGazed(this PlayerControl veteran)
         {
-            if (veteran.Is(CustomRoles.Medusa) && !Main.IsGazing)
+            if (veteran.Is(CustomRoles.Medusa) && !Main.IsGazing && Main.GazeReady)
             {
                 Main.IsGazing = true;
                 Main.GazeReady = false;
@@ -894,6 +903,10 @@ namespace TownOfHost
                     DestroyableSingleton<HudManager>.Instance.ImpostorVentButton.ToggleVisible(true && !player.Data.IsDead);
                     player.Data.Role.CanVent = true;
                     return;
+                case CustomRoles.CovenWitch:
+                    DestroyableSingleton<HudManager>.Instance.ImpostorVentButton.ToggleVisible(Main.HasNecronomicon && !player.Data.IsDead);
+                    player.Data.Role.CanVent = Main.HasNecronomicon;
+                    break;
             }
         }
         public static bool IsDouseDone(this PlayerControl player)
