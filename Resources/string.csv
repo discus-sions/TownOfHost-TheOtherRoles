@@ -472,6 +472,8 @@ JuggerKillCooldown,Juggernaut Kill Cooldown,ジャッカルのキルクール,�
 JuggerDecrease,Juggernaut Cooldown Decrease,ジャッカルのキルクール,欲望杀人魔技能冷却,豺狼殺人冷卻
 JuggerCanVent,Juggernaut Can Use Vents,ジャッカルがベントを使用できる,欲望杀人魔可以使用管道,
 VampBuff,Vampire Buff,Vampire Buff,血猩红热加成,吸血鬼愛好者
+TraitorCanSpawnIfNK,Traitor can Spawn If an NK is Alive,Traitor can Spawn If an NK is Alive,Traitor can Spawn If an NK is Alive
+TraitorCanSpawnIfCoven,Traitor can Spawn If a Coven Member is Alive,Traitor can Spawn If an NK is Alive,Traitor can Spawn If an NK is Alive
 
 VetCD,Alert Cooldown,Alert Cooldown,警报冷却时间,警報冷卻
 VetDur,Alert Duration,Alert Duration,警报持续时间,警報持續時間

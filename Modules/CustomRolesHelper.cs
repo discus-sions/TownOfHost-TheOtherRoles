@@ -58,7 +58,19 @@ namespace TownOfHost
                 CustomRoles.HASTroll or
                 CustomRoles.HASFox;
         }
-        public static bool IsCrewmate(this CustomRoles role) => !role.IsImpostorTeam() && !role.IsNeutral();
+        public static bool IsNeutralKilling(this CustomRoles role)
+        {
+            return
+                role is CustomRoles.Arsonist or
+                CustomRoles.Egoist or
+                CustomRoles.Jackal or
+                CustomRoles.PlagueBearer or
+                CustomRoles.Pestilence or
+                CustomRoles.TheGlitch or
+                CustomRoles.Werewolf or
+                CustomRoles.Juggernaut;
+        }
+        public static bool IsCrewmate(this CustomRoles role) => !role.IsImpostorTeam() && !role.IsNeutral() && !role.IsCoven();
         public static bool IsVanilla(this CustomRoles role)
         {
             return

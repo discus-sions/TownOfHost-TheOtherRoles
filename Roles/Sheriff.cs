@@ -30,6 +30,8 @@ namespace TownOfHost
         private static CustomOption SheriffCanKillCoven;
         private static CustomOption CanKillGlitch;
         private static CustomOption CanKillWerewolf;
+        public static CustomOption TraitorCanSpawnIfNK;
+        public static CustomOption TraitorCanSpawnIfCoven;
 
         public static Dictionary<byte, float> ShotLimit = new();
         public static Dictionary<byte, float> CurrentKillCooldown = new();
@@ -57,6 +59,8 @@ namespace TownOfHost
             ShotLimitOpt = CustomOption.Create(Id + 28, Color.white, "SheriffShotLimit", 99, -1, 15, 1, Options.CustomRoleSpawnChances[CustomRoles.Sheriff]);
             SheriffCorrupted = CustomOption.Create(Id + 29, Color.white, "TurnCorrupt", false, Options.CustomRoleSpawnChances[CustomRoles.Sheriff]);
             PlayersForTraitor = CustomOption.Create(Id + 30, Color.white, "TraitorSpawn", 1, 0, 15, 1, SheriffCorrupted);
+            TraitorCanSpawnIfNK = CustomOption.Create(Id + 31, Color.white, "TraitorCanSpawnIfNK", true, SheriffCorrupted);
+            TraitorCanSpawnIfCoven = CustomOption.Create(Id + 32, Color.white, "TraitorCanSpawnIfCoven", true, SheriffCorrupted);
         }
         public static void Init()
         {
