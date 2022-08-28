@@ -350,6 +350,7 @@ namespace TownOfHost
                 case CustomRoles.PlagueBearer:
                     opt.SetVision(player, false);
                     break;
+                case CustomRoles.CorruptedSheriff:
                 case CustomRoles.Pestilence:
                     opt.SetVision(player, true);
                     break;

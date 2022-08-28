@@ -742,6 +742,8 @@ namespace TownOfHost
                     if (TaskState.IsTaskFinished)
                         SeerKnowsImpostors = true;
                 }
+                if (seer.Is(CustomRoles.CorruptedSheriff))
+                    SeerKnowsImpostors = true;
 
                 //RealNameを取得 なければ現在の名前をRealNamesに書き込む
                 string SeerRealName = seer.GetRealName(isMeeting);
@@ -900,10 +902,18 @@ namespace TownOfHost
                         if (SeerKnowsImpostors) //Seerがインポスターが誰かわかる状態
                         {
                             //スニッチはオプション有効なら第三陣営のキル可能役職も見れる
-                            var snitchOption = seer.Is(CustomRoles.Snitch) && Options.SnitchCanFindNeutralKiller.GetBool();
-                            var foundCheck = target.GetCustomRole().IsImpostor() || (snitchOption && target.IsNeutralKiller());
-                            if (foundCheck)
+                            if (seer.Is(CustomRoles.CorruptedSheriff))
+                            {
+                                var foundCheck = target.GetCustomRole().IsImpostor();
                                 TargetPlayerName = Helpers.ColorString(target.GetRoleColor(), TargetPlayerName);
+                            }
+                            else
+                            {
+                                var snitchOption = seer.Is(CustomRoles.Snitch) && Options.SnitchCanFindNeutralKiller.GetBool();
+                                var foundCheck = target.GetCustomRole().IsImpostor() || (snitchOption && target.IsNeutralKiller());
+                                if (foundCheck)
+                                    TargetPlayerName = Helpers.ColorString(target.GetRoleColor(), TargetPlayerName);
+                            }
                         }
                         else if (SeerKnowsCoven)
                         {

@@ -510,6 +510,9 @@ namespace TownOfHost
                         if (Options.ChildKnown.GetBool() == true)
                             pva.NameText.text += Helpers.ColorString(Utils.GetRoleColor(CustomRoles.Jackal), " (C)");
                         break;
+                    case CustomRoles.CorruptedSheriff:
+                        LocalPlayerKnowsImpostor = true;
+                        break;
                     case CustomRoles.Sleuth:
                         //pva.NameText.text += Helpers.ColorString(Utils.GetRoleColor(CustomRoles.Impostor), " (S)");
                         /*if (Options.SleuthReport.GetBool() == false)

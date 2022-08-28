@@ -840,6 +840,45 @@ namespace TownOfHost
                     Utils.ChildWin(target.Data);
                 }
             }
+            // Last Impostor
+            else if (target.CurrentlyLastImpostor())
+            {
+                //bool LocalPlayerKnowsImpostor = false;
+                if (Sheriff.SheriffCorrupted.GetBool())
+                {
+                    int IsAlive = 0;
+                    PlayerControl seer = PlayerControl.LocalPlayer;
+                    foreach (var pc in PlayerControl.AllPlayerControls)
+                    {
+                        if (!pc.Data.IsDead)
+                            IsAlive++;
+                    }
+                    foreach (var pc in PlayerControl.AllPlayerControls)
+                    {
+                        if (pc.Is(CustomRoles.Sheriff))
+                            seer = pc;
+                    }
+
+                    //foreach (var pva in __instance.playerStates)
+                    if (IsAlive >= Sheriff.PlayersForTraitor.GetFloat())
+                    {
+                        foreach (var ar in PlayerControl.AllPlayerControls)
+                        {
+                            //PlayerControl target = Utils.GetPlayerById(ar.playerId);
+
+                            if (seer.GetCustomRole() == CustomRoles.Sheriff)
+                            {
+                                seer.RpcSetCustomRole(CustomRoles.CorruptedSheriff);
+                                seer.CustomSyncSettings();
+                            }
+                            else if (ar.GetCustomRole() == CustomRoles.CorruptedSheriff)
+                            {
+                                //    LocalPlayerKnowsImpostor = true;
+                            }
+                        }
+                    }
+                }
+            }
             else
             //Pestilence
             if (target.Is(CustomRoles.Pestilence))
