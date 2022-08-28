@@ -2211,7 +2211,7 @@ namespace TownOfHost
                 __instance.myPlayer.Is(CustomRoles.SKMadmate) ||
                 __instance.myPlayer.Is(CustomRoles.Arsonist) ||
                 __instance.myPlayer.Is(CustomRoles.PlagueBearer) ||
-                (__instance.myPlayer.GetCustomRole().IsCoven() && !__instance.myPlayer.Is(CustomRoles.Medusa)) ||
+                (__instance.myPlayer.Is(CustomRoles.CovenWitch) && !Main.HasNecronomicon) || (__instance.myPlayer.Is(CustomRoles.HexMaster) && !Main.HasNecronomicon) ||
                 (__instance.myPlayer.Is(CustomRoles.Mayor) && Main.MayorUsedButtonCount.TryGetValue(__instance.myPlayer.PlayerId, out var count) && count >= Options.MayorNumOfUseButton.GetInt()) ||
                 (__instance.myPlayer.Is(CustomRoles.Jackal) && !Options.JackalCanVent.GetBool()) ||
                 (__instance.myPlayer.Is(CustomRoles.Pestilence) && !Options.PestiCanVent.GetBool())
