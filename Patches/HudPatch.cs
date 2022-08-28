@@ -253,7 +253,6 @@ namespace TownOfHost
                 case CustomRoles.CorruptedSheriff:
                     player.CanUseImpostorVent();
                     goto DesyncImpostor;
-                    break;
                 case CustomRoles.Arsonist:
                     // TaskTextPrefix += FakeTasksText;
                     if (player.IsDouseDone() && !Options.TOuRArso.GetBool())
@@ -425,7 +424,7 @@ namespace TownOfHost
                 case CustomRoles.CorruptedSheriff:
                     if (player.Data.Role.Role != RoleTypes.GuardianAngel)
                         __instance.KillButton.ToggleVisible(isActive && !player.Data.IsDead);
-                    __instance.SabotageButton.ToggleVisible(isActive);
+                    __instance.SabotageButton.ToggleVisible(true);
                     __instance.ImpostorVentButton.ToggleVisible(isActive);
                     __instance.AbilityButton.ToggleVisible(false);
                     break;
