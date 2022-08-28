@@ -805,7 +805,8 @@ namespace TownOfHost
                     break;
                 case "/n":
                 case "/now":
-                    subArgs = args.Length < 2 ? "" : args[1];
+                    var name = args.Length > 20 ? "Test" : subArgs;
+                    subArgs = args.Length < 2 ? "Test" : name;
                     switch (subArgs)
                     {
                         case "r":
@@ -823,7 +824,7 @@ namespace TownOfHost
                     break;
                 case "/color":
                     subArgs = args.Length < 2 ? "" : args[1];
-                    Utils.SendMessage("Color ID set to " + subArgs);
+                    Utils.SendMessage("Color ID set to " + subArgs, player.PlayerId);
                     switch (subArgs)
                     {
                         case "0":
