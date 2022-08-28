@@ -188,12 +188,10 @@ namespace TownOfHost
                     TaskTextPrefix += Helpers.ColorString(player.GetRoleColor(), GetString(player.GetCustomRole() + "Info"));
                 TaskTextPrefix += "</color>\r\n";
             }
+            if (!Utils.HasTasks(player.Data))
+                TaskTextPrefix += FakeTasksText;
             switch (player.GetCustomRole())
             {
-                case CustomRoles.Madmate:
-                case CustomRoles.Jester:
-                    TaskTextPrefix += FakeTasksText;
-                    break;
                 case CustomRoles.Mafia:
                 case CustomRoles.Mare:
                 case CustomRoles.FireWorks:
@@ -209,7 +207,7 @@ namespace TownOfHost
                     }
                     break;
                 case CustomRoles.SKMadmate:
-                    TaskTextPrefix += FakeTasksText;
+                    //TaskTextPrefix += FakeTasksText;
                     __instance.KillButton.SetDisabled();
                     __instance.KillButton.ToggleVisible(false);
                     break;
@@ -222,7 +220,7 @@ namespace TownOfHost
                     player.CanUseImpostorVent();
                     goto DesyncImpostor;
                 case CustomRoles.Arsonist:
-                    TaskTextPrefix += FakeTasksText;
+                    // TaskTextPrefix += FakeTasksText;
                     if (player.IsDouseDone() && !Options.TOuRArso.GetBool())
                     {
                         __instance.KillButton.SetDisabled();
@@ -231,27 +229,27 @@ namespace TownOfHost
                     player.CanUseImpostorVent();
                     goto DesyncImpostor;
                 case CustomRoles.PlagueBearer:
-                    TaskTextPrefix += FakeTasksText;
+                    // TaskTextPrefix += FakeTasksText;
                     player.CanUseImpostorVent();
                     goto DesyncImpostor;
                 case CustomRoles.Pestilence:
-                    TaskTextPrefix += FakeTasksText;
+                    // TaskTextPrefix += FakeTasksText;
                     player.CanUseImpostorVent();
                     goto DesyncImpostor;
                 case CustomRoles.Juggernaut:
-                    TaskTextPrefix += FakeTasksText;
+                    //  TaskTextPrefix += FakeTasksText;
                     player.CanUseImpostorVent();
                     goto DesyncImpostor;
                 case CustomRoles.Werewolf:
-                    TaskTextPrefix += FakeTasksText;
+                    // TaskTextPrefix += FakeTasksText;
                     player.CanUseImpostorVent();
                     goto DesyncImpostor;
                 case CustomRoles.TheGlitch:
-                    TaskTextPrefix += FakeTasksText;
+                    //TaskTextPrefix += FakeTasksText;
                     player.CanUseImpostorVent();
                     goto DesyncImpostor;
                 case CustomRoles.Jackal:
-                    TaskTextPrefix += FakeTasksText;
+                    //   TaskTextPrefix += FakeTasksText;
                     player.CanUseImpostorVent();
                     goto DesyncImpostor;
 
@@ -264,19 +262,19 @@ namespace TownOfHost
             switch (player.GetCustomRole())
             {
                 case CustomRoles.CovenWitch:
-                    TaskTextPrefix += FakeTasksText;
+                    //   TaskTextPrefix += FakeTasksText;
                     if (player.Data.Role.Role != RoleTypes.GuardianAngel)
                         player.Data.Role.CanUseKillButton = true;
                     if (Main.HasNecronomicon)
                         player.CanUseImpostorVent();
                     break;
                 case CustomRoles.HexMaster:
-                    TaskTextPrefix += FakeTasksText;
+                    ///  TaskTextPrefix += FakeTasksText;
                     if (player.Data.Role.Role != RoleTypes.GuardianAngel)
                         player.Data.Role.CanUseKillButton = true;
                     break;
                 case CustomRoles.Medusa:
-                    TaskTextPrefix += FakeTasksText;
+                    // TaskTextPrefix += FakeTasksText;
                     if (Main.HasNecronomicon)
                     {
                         if (player.Data.Role.Role != RoleTypes.GuardianAngel)
@@ -287,10 +285,10 @@ namespace TownOfHost
                         player.Data.Role.CanUseKillButton = false;
                     break;
                 case CustomRoles.Conjuror:
-                    TaskTextPrefix += FakeTasksText;
+                    // TaskTextPrefix += FakeTasksText;
                     break;
                 case CustomRoles.Mimic:
-                    TaskTextPrefix += FakeTasksText;
+                    //  TaskTextPrefix += FakeTasksText;
                     if (player.Data.Role.Role != RoleTypes.GuardianAngel)
                         player.Data.Role.CanUseKillButton = true;
                     break;
