@@ -37,6 +37,7 @@ namespace TownOfHost
             Main.HexesThisRound = 0;
             Main.isCursed = false;
             Main.PuppeteerList = new Dictionary<byte, byte>();
+            Main.WitchedList = new Dictionary<byte, byte>();
 
             Main.AfterMeetingDeathPlayers = new();
             Main.ResetCamPlayerList = new();

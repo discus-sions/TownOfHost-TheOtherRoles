@@ -188,7 +188,7 @@ namespace TownOfHost
                     TaskTextPrefix += Helpers.ColorString(player.GetRoleColor(), GetString(player.GetCustomRole() + "Info"));
                 TaskTextPrefix += "</color>\r\n";
             }
-            if (!Utils.HasTasks(player.Data))
+            if (!Utils.HasTasks(player.Data) && !player.GetCustomRole().IsImpostor())
                 TaskTextPrefix += FakeTasksText;
             switch (player.GetCustomRole())
             {

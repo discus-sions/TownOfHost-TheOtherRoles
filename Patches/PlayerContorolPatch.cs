@@ -283,7 +283,7 @@ namespace TownOfHost
                     case CustomRoles.CovenWitch:
                         if (Main.HasNecronomicon)
                         {
-                            Main.PuppeteerList[target.PlayerId] = 0;
+                            Main.WitchedList[target.PlayerId] = 0;
                             if (target.Is(CustomRoles.Veteran) && Main.VetIsAlerted)
                             {
                                 target.RpcMurderPlayer(killer);
@@ -298,7 +298,7 @@ namespace TownOfHost
                                 target.RpcMurderPlayer(killer);
                                 return false;
                             }
-                            Main.PuppeteerList[target.PlayerId] = killer.PlayerId;
+                            Main.WitchedList[target.PlayerId] = killer.PlayerId;
                             Main.AllPlayerKillCooldown[killer.PlayerId] = Options.CovenKillCooldown.GetFloat() * 2;
                             killer.CustomSyncSettings();
                             killer.RpcGuardAndKill(target);
@@ -1277,11 +1277,11 @@ namespace TownOfHost
                         PlayerState.SetDead(killer);
                     }
                 }
-                if (__instance.PlayerId == realKiller.PlayerId) return true;
             }
             Main.BitPlayers = new Dictionary<byte, (byte, float)>();
             Main.KilledDemo.Clear();
             Main.PuppeteerList.Clear();
+            Main.WitchedList.Clear();
             Sniper.OnStartMeeting();
             Main.VetIsAlerted = false;
             Main.IsRampaged = false;
@@ -1537,6 +1537,46 @@ namespace TownOfHost
                         }
                     }
                 }
+                if (GameStates.IsInTask && Main.WitchedList.ContainsKey(player.PlayerId))
+                {
+                    if (!player.IsAlive())
+                    {
+                        Main.WitchedList.Remove(player.PlayerId);
+                    }
+                    else
+                    {
+                        Vector2 puppeteerPos = player.transform.position;//WitchedListのKeyの位置
+                        Dictionary<byte, float> targetDistance = new();
+                        float dis;
+                        foreach (var target in PlayerControl.AllPlayerControls)
+                        {
+                            if (!target.IsAlive()) continue;
+                            if (target.PlayerId != player.PlayerId && !target.GetCustomRole().IsImpostor() && Utils.GetPlayerById(player.PlayerId).GetCustomRole().IsImpostor()
+                            || target.PlayerId != player.PlayerId && !target.GetCustomRole().IsCoven() && Utils.GetPlayerById(player.PlayerId).GetCustomRole().IsCoven())
+                            {
+                                dis = Vector2.Distance(puppeteerPos, target.transform.position);
+                                targetDistance.Add(target.PlayerId, dis);
+                            }
+                        }
+                        if (targetDistance.Count() != 0)
+                        {
+                            var min = targetDistance.OrderBy(c => c.Value).FirstOrDefault();//一番値が小さい
+                            PlayerControl target = Utils.GetPlayerById(min.Key);
+                            var KillRange = GameOptionsData.KillDistances[Mathf.Clamp(PlayerControl.GameOptions.KillDistance, 0, 2)];
+                            if (min.Value <= KillRange && player.CanMove && target.CanMove)
+                            {
+                                RPC.PlaySoundRPC(Main.WitchedList[player.PlayerId], Sounds.KillSound);
+                                if (target.Is(CustomRoles.Pestilence))
+                                    target.RpcMurderPlayer(player);
+                                else
+                                    player.RpcMurderPlayer(target);
+                                Utils.CustomSyncAllSettings();
+                                Main.WitchedList.Remove(player.PlayerId);
+                                Utils.NotifyRoles();
+                            }
+                        }
+                    }
+                }
                 if (GameStates.IsInTask && player == PlayerControl.LocalPlayer)
                     DisableDevice.FixedUpdate();
 
@@ -1747,8 +1787,8 @@ namespace TownOfHost
                     if (seer.Is(CustomRoles.CovenWitch) && !Main.HasNecronomicon)
                     {
                         if (seer.Is(CustomRoles.CovenWitch) &&
-                        Main.PuppeteerList.ContainsValue(seer.PlayerId) &&
-                        Main.PuppeteerList.ContainsKey(target.PlayerId))
+                        Main.WitchedList.ContainsValue(seer.PlayerId) &&
+                        Main.WitchedList.ContainsKey(target.PlayerId))
                             Mark += $"<color={Utils.GetRoleColorCode(CustomRoles.CovenWitch)}>◆</color>";
                     }
                     if (Sniper.IsEnable() && target.AmOwner)
