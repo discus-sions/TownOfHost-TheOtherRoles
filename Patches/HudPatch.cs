@@ -250,6 +250,10 @@ namespace TownOfHost
                     }
                     player.CanUseImpostorVent();
                     goto DesyncImpostor;
+                case CustomRoles.CorruptedSheriff:
+                    player.CanUseImpostorVent();
+                    goto DesyncImpostor;
+                    break;
                 case CustomRoles.Arsonist:
                     // TaskTextPrefix += FakeTasksText;
                     if (player.IsDouseDone() && !Options.TOuRArso.GetBool())
@@ -368,6 +372,7 @@ namespace TownOfHost
         {
             var player = PlayerControl.LocalPlayer;
             if ((player.GetCustomRole() == CustomRoles.Sheriff ||
+                player.GetCustomRole() == CustomRoles.CorruptedSheriff ||
                 player.GetCustomRole() == CustomRoles.Arsonist ||
                 player.GetCustomRole() == CustomRoles.Jackal ||
                 player.GetCustomRole() == CustomRoles.TheGlitch ||
@@ -415,6 +420,13 @@ namespace TownOfHost
                         __instance.KillButton.ToggleVisible(isActive && !player.Data.IsDead);
                     __instance.SabotageButton.ToggleVisible(isActive && Options.JackalCanUseSabotage.GetBool());
                     __instance.ImpostorVentButton.ToggleVisible(isActive && Options.JackalCanVent.GetBool());
+                    __instance.AbilityButton.ToggleVisible(false);
+                    break;
+                case CustomRoles.CorruptedSheriff:
+                    if (player.Data.Role.Role != RoleTypes.GuardianAngel)
+                        __instance.KillButton.ToggleVisible(isActive && !player.Data.IsDead);
+                    __instance.SabotageButton.ToggleVisible(isActive);
+                    __instance.ImpostorVentButton.ToggleVisible(isActive);
                     __instance.AbilityButton.ToggleVisible(false);
                     break;
                 case CustomRoles.PlagueBearer:

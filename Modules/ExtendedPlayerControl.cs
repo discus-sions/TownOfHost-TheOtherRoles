@@ -918,6 +918,7 @@ namespace TownOfHost
                     DestroyableSingleton<HudManager>.Instance.ImpostorVentButton.ToggleVisible(ww_CanUse && !player.Data.IsDead);
                     player.Data.Role.CanVent = ww_CanUse;
                     return;
+                case CustomRoles.CorruptedSheriff:
                 case CustomRoles.Medusa:
                     DestroyableSingleton<HudManager>.Instance.ImpostorVentButton.ToggleVisible(true && !player.Data.IsDead);
                     player.Data.Role.CanVent = true;
