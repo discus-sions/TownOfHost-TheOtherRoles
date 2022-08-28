@@ -1166,7 +1166,7 @@ namespace TownOfHost
                                 Utils.SendMessage("Also With this power, you gain nothing.", pc.PlayerId);
                                 break;
                             case CustomRoles.CovenWitch:
-                                Utils.SendMessage("Also With this power, you can kill normally.", pc.PlayerId);
+                                Utils.SendMessage("Also With this power, you no longer let others kill for you. You kill on your own now.", pc.PlayerId);
                                 break;
                             case CustomRoles.Coven:
                                 Utils.SendMessage("Also With this power, you gain nothing.", pc.PlayerId);

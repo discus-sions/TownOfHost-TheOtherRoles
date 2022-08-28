@@ -314,7 +314,8 @@ namespace TownOfHost
                     { CustomRoles.Egoist, "#5600ff"},
                     { CustomRoles.EgoSchrodingerCat, "#5600ff"},
                     { CustomRoles.Jackal, "#00b4eb"},
-                    { CustomRoles.Juggernaut, "#882ee8"},
+                    //{ CustomRoles.Juggernaut, "#882ee8"},
+                    { CustomRoles.Juggernaut, "#670038"},
                     { CustomRoles.JSchrodingerCat, "#00b4eb"},
                     //HideAndSeek
                     { CustomRoles.HASFox, "#e478ff"},

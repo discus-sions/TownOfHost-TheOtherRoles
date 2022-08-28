@@ -478,6 +478,8 @@ namespace TownOfHost
             if (player.GetCustomRole().IsCoven() && Main.HasNecronomicon)
             {
                 opt.SetVision(player, true);
+                opt.RoleOptions.EngineerCooldown = 0;
+                opt.RoleOptions.EngineerInVentMaxTime = 0;
             }
 
             if (player.AmOwner) PlayerControl.GameOptions = opt;

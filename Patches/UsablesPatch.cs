@@ -60,10 +60,12 @@ namespace TownOfHost
                 canUse = couldUse = true;
             else if (pc.Object.Is(CustomRoles.Werewolf))
                 canUse = couldUse = true;
-            else if (CustomRolesHelper.IsCoven(pc.GetCustomRole()) && Main.HasNecronomicon && !pc.Object.Is(CustomRoles.Mimic) && !pc.Object.Is(CustomRoles.Medusa))
+            else if (pc.Object.Is(CustomRoles.CovenWitch) && Main.HasNecronomicon)
                 canUse = couldUse = true;
-            else if (CustomRolesHelper.IsCoven(pc.GetCustomRole()) && !Main.HasNecronomicon)
-                canUse = couldUse = false;
+            else if (pc.Object.Is(CustomRoles.HexMaster) && Main.HasNecronomicon)
+                canUse = couldUse = true;
+            else if (pc.Object.Is(CustomRoles.Medusa))
+                canUse = couldUse = true;
             else if (pc.Role.TeamType == RoleTeamTypes.Impostor || pc.Role.Role == RoleTypes.Engineer) // インポスター陣営ベースの役職とエンジニアベースの役職は常にtrue
                 canUse = couldUse = true;
 

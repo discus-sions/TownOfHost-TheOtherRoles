@@ -474,9 +474,9 @@ namespace TownOfHost
             JackalCanUseSabotage = CustomOption.Create(50912, Color.white, "JackalCanUseSabotage", false, CustomRoleSpawnChances[CustomRoles.Jackal]);
             JackalHasImpostorVision = CustomOption.Create(50913, Color.white, "JackalHasImpostorVision", true, CustomRoleSpawnChances[CustomRoles.Jackal]);
 
-            SetupSingleRoleOptions(60000, CustomRoles.Coven, 1);
+            SetupSingleRoleOptions(60000, CustomRoles.Coven, 3);
             CovenKillCooldown = CustomOption.Create(60020, Color.white, "CovenKillCooldown", 30, 2.5f, 180, 2.5f, CustomRoleSpawnChances[CustomRoles.Coven]);
-            CovenMeetings = CustomOption.Create(60021, Color.white, "CovenMeetings", 10, 1, 15, 1, CustomRoleSpawnChances[CustomRoles.Coven]);
+            CovenMeetings = CustomOption.Create(60021, Color.white, "CovenMeetings", 10, 0, 15, 1, CustomRoleSpawnChances[CustomRoles.Coven]);
             HexMasterOn = CustomOption.Create(60022, Color.white, "HexMasterOn", false, CustomRoleSpawnChances[CustomRoles.Coven]);
 
             HexCD = CustomOption.Create(60028, Color.white, "HexCD", 30, 2.5f, 180, 2.5f, HexMasterOn);

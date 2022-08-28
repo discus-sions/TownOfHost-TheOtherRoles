@@ -504,6 +504,8 @@ namespace TownOfHost
 
                 HudManager.Instance.SetHudActive(true);
                 Main.KillOrSpell = new Dictionary<byte, bool>();
+                if (Options.CovenMeetings.GetInt() == 0)
+                    Main.HasNecronomicon = true;
                 foreach (var pc in PlayerControl.AllPlayerControls)
                 {
                     if (pc.Data.Role.Role == RoleTypes.Shapeshifter) Main.CheckShapeshift.Add(pc.PlayerId, false);
