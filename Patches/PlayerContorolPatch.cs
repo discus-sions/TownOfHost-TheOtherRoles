@@ -853,16 +853,15 @@ namespace TownOfHost
                     foreach (var pc in PlayerControl.AllPlayerControls)
                     {
                         if (!pc.Data.IsDead)
+                        {
                             IsAlive++;
-                        if (pc.GetCustomRole().IsNeutralKilling() && Sheriff.TraitorCanSpawnIfNK.GetBool() && !pc.Data.IsDead)
-                            numNKalive++;
-                        if (pc.GetCustomRole().IsCoven() && Sheriff.TraitorCanSpawnIfCoven.GetBool() && !pc.Data.IsDead)
-                            numCovenAlive++;
-                    }
-                    foreach (var pc in PlayerControl.AllPlayerControls)
-                    {
-                        if (pc.Is(CustomRoles.Sheriff))
-                            seer = pc;
+                            if (pc.GetCustomRole().IsNeutralKilling() && Sheriff.TraitorCanSpawnIfNK.GetBool())
+                                numNKalive++;
+                            if (pc.GetCustomRole().IsCoven() && Sheriff.TraitorCanSpawnIfCoven.GetBool())
+                                numCovenAlive++;
+                            if (pc.Is(CustomRoles.Sheriff))
+                                seer = pc;
+                        }
                     }
 
                     //foreach (var pva in __instance.playerStates)
@@ -876,10 +875,6 @@ namespace TownOfHost
                             {
                                 seer.RpcSetCustomRole(CustomRoles.CorruptedSheriff);
                                 seer.CustomSyncSettings();
-                            }
-                            else if (ar.GetCustomRole() == CustomRoles.CorruptedSheriff)
-                            {
-                                //    LocalPlayerKnowsImpostor = true;
                             }
                         }
                     }
