@@ -79,14 +79,8 @@ namespace TownOfHost
         }
         public static bool OnCheckMurder(PlayerControl killer, PlayerControl target, string Process)
         {
-            switch (Process)
-            {
-                case "RemoveShotLimit":
-                    Logger.Info($"{killer.GetNameWithRole()} : Investigated Player: {target.GetNameWithRole()}", "Investigated");
-                    SendRPC(killer.PlayerId);
-                    //SwitchToCorrupt(killer, target);
-                    break;
-            }
+            Logger.Info($"{killer.GetNameWithRole()} : Investigated Player: {target.GetNameWithRole()}", "Investigated");
+            SendRPC(killer.PlayerId);
             return true;
         }
         public static bool IsRed(this PlayerControl player)

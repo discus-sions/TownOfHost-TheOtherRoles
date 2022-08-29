@@ -754,13 +754,13 @@ namespace TownOfHost
                             }, Options.StoneReport.GetFloat(), "Medusa Stone Gazing");
                             return false;
                         }
-                        if (Investigator.hasSeered[target.PlayerId]) if (!target.Is(CustomRoles.CorruptedSheriff)) return false;
+                        //if (Investigator.hasSeered[target.PlayerId]) if (!target.Is(CustomRoles.CorruptedSheriff)) return false;
                         Investigator.OnCheckMurder(killer, target, Process: "RemoveShotLimit");
                         Investigator.hasSeered[target.PlayerId] = true;
                         if (target.Is(CustomRoles.CorruptedSheriff))
                             Investigator.SeeredCSheriff = true;
                         killer.RpcGuardAndKill(target);
-                        break;
+                        return false;
                     default:
                         if (target.Is(CustomRoles.Veteran) && Main.VetIsAlerted)
                         {
@@ -871,7 +871,7 @@ namespace TownOfHost
                     Utils.ChildWin(target.Data);
                 }
             }
-            else if (target.Is(CustomRoles.Investigator))
+            else if (target.Is(CustomRoles.Investigator) && killer.PlayerId != target.PlayerId)
             {
                 Investigator.hasSeered = new();
             }

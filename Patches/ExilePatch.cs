@@ -58,10 +58,10 @@ namespace TownOfHost
                     exiled.Object.Data.PlayerName = Main.LastVotedPlayer;
                 }
                 var role = exiled.GetCustomRole();
-                if (Main.RealOptionsData.ConfirmImpostor)
+                /*if (Main.RealOptionsData.ConfirmImpostor)
                 {
                     exiled.PlayerName = exiled.GetNameWithRole();
-                }
+                }*/
                 if (role == CustomRoles.Jester && AmongUsClient.Instance.AmHost)
                 {
                     MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.EndGame, Hazel.SendOption.Reliable, -1);
