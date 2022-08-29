@@ -446,6 +446,7 @@ InfectCD,Infect Cooldown,アーソニストの塗り時間,感染冷却时间,
 SeerCooldown,Investigate Cooldown,Investigate Cooldown,Investigate Cooldown
 NBareRed,Neutral Benigns are Red,Neutral Benigns are Red,Neutral Benigns are Red
 NKareRed,Neutral Killings are Red,NKareRed,NKareRed
+NEareRed,Neutral Evils are Red,NEareRed,NEareRed
 CrewKillingRed,Crewmate Killing are Red,CrewKillingRed,CrewKillingRed
 CovenIsPurple,Coven appears Purple,CovenIsPurple,CovenIsPurple
 ChildIsRed,Child is Red,ChildIsRed,ChildIsRed

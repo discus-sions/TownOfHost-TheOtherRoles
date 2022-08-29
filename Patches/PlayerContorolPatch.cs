@@ -352,7 +352,7 @@ namespace TownOfHost
                             }, Options.StoneReport.GetFloat(), "Medusa Stone Gazing");
                             return false;
                         }
-                        if (Main.IsHackMode && Main.CursedPlayers[killer.PlayerId] == null)
+                        if (Main.IsHackMode && Main.CursedPlayers[killer.PlayerId] == killer)
                         { //Warlockが変身時以外にキルしたら、呪われる処理
                             Utils.CustomSyncAllSettings();
                             Main.CursedPlayers[killer.PlayerId] = target;
@@ -361,7 +361,7 @@ namespace TownOfHost
                             killer.RpcGuardAndKill(target);
                             new LateTask(() =>
                             {
-                                Main.CursedPlayers[killer.PlayerId] = null;
+                                Main.CursedPlayers[killer.PlayerId] = killer;
                             }, Options.GlobalRoleBlockDuration.GetFloat(), "Glitch Hacking");
                             return false;
                         }

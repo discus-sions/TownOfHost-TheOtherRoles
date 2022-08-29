@@ -19,7 +19,7 @@ namespace TownOfHost
     {
         //Sorry for many Japanese comments.
         public const string PluginGuid = "com.emptybottle.townofhost";
-        public const string PluginVersion = "0.6.1";
+        public const string PluginVersion = "0.7";
         public Harmony Harmony { get; } = new Harmony(PluginGuid);
         public static Version version = Version.Parse(PluginVersion);
         public static BepInEx.Logging.ManualLogSource Logger;

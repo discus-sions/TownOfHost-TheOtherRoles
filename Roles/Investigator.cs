@@ -30,7 +30,7 @@ namespace TownOfHost
             KillCooldown = CustomOption.Create(Id + 10, Color.white, "SeerCooldown", 45, 1, 990, 1, Options.CustomRoleSpawnChances[CustomRoles.Investigator]);
             NBareRed = CustomOption.Create(Id + 11, Color.white, "NBareRed", false, Options.CustomRoleSpawnChances[CustomRoles.Investigator]);
             NKareRed = CustomOption.Create(Id + 12, Color.white, "NKareRed", true, Options.CustomRoleSpawnChances[CustomRoles.Investigator]);
-            NEareRed = CustomOption.Create(Id + 13, Color.white, "SheriffCanKillJester", true, Options.CustomRoleSpawnChances[CustomRoles.Investigator]);
+            NEareRed = CustomOption.Create(Id + 13, Color.white, "NEareRed", true, Options.CustomRoleSpawnChances[CustomRoles.Investigator]);
             CrewKillingRed = CustomOption.Create(Id + 14, Color.white, "CrewKillingRed", true, Options.CustomRoleSpawnChances[CustomRoles.Investigator]);
             CovenIsPurple = CustomOption.Create(Id + 15, Color.white, "CovenIsPurple", true, Options.CustomRoleSpawnChances[CustomRoles.Investigator]);
             ChildIsRed = CustomOption.Create(Id + 15, Color.white, "ChildIsRed", true, Options.CustomRoleSpawnChances[CustomRoles.Investigator]);

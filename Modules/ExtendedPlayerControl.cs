@@ -342,6 +342,7 @@ namespace TownOfHost
                     opt.PlayerSpeedMod = Options.FlashSpeed.GetFloat();
                     break;
                 case CustomRoles.Sheriff:
+                case CustomRoles.Investigator:
                 case CustomRoles.Arsonist:
                 case CustomRoles.Amnesiac:
                 case CustomRoles.Vulture:
@@ -626,6 +627,7 @@ namespace TownOfHost
                 CustomRoles.FireWorks => FireWorks.CanUseKillButton(pc),
                 CustomRoles.Sniper => Sniper.CanUseKillButton(pc),
                 CustomRoles.Sheriff => Sheriff.CanUseKillButton(pc),
+                CustomRoles.Investigator => Investigator.CanUseKillButton(pc),
                 CustomRoles.Arsonist => false,
                 CustomRoles.PlagueBearer => true,
                 CustomRoles.Pestilence => true,
@@ -763,6 +765,9 @@ namespace TownOfHost
                 case CustomRoles.CorruptedSheriff:
                 case CustomRoles.Sheriff:
                     Sheriff.SetKillCooldown(player.PlayerId); //シェリフはシェリフのキルクールに。
+                    break;
+                case CustomRoles.Investigator:
+                    Investigator.SetKillCooldown(player.PlayerId); //シェリフはシェリフのキルクールに。
                     break;
                 case CustomRoles.Pestilence:
                     Main.AllPlayerKillCooldown[player.PlayerId] = Options.PestilKillCooldown.GetFloat();
