@@ -137,7 +137,7 @@ For example: `welcome:This room is using the mod Town Of Host: The Other Roles.`
 | [MadSnitch](#MadSnitch)             | [Veteran](#veteran)               | [Guardian-Angel](#guardian-angel) |
 | [SidekickMadmate](#SidekickMadmate) | [Child](#child)                   | [Amnesiac](#amnesiac)             |
 | [Silencer](#silencer)               | [Sleuth](#sleuth)                 | [Pestilence](#pestilence)         |
-|                                     |                                   | [Jackal](#jackal)                 |
+| [CorruptedSheriff(#c-sheriff)       | [Investigatir](#investigator)     | [Jackal](#jackal)                 |
 
 ### GM
 
@@ -337,6 +337,15 @@ Basis : Impostor<br>
 
 The Silencer's first kill attempt will silence the crewmate inside the next meeting.<br>
 After the Silence, the Silencer is a regular Impostor.<br>
+  
+### C-Sheriff
+
+Team : Impostors<br>
+Basis : Impostor<br>
+
+Corrupted Sheriff spawns when all Impostors die by kill or vote.<br>
+As soon as all Impostors die, Corrupted Sheriff spawns.<br>
+Corrupted Sheriff is a regular impostor with nothing new.<br>
 
 ## Madmate
 
@@ -655,6 +664,32 @@ The time is configurable. You will know when you are bombed when you see an arso
 | Setting Name    |
 | --------------- |
 | Suicide Time    |
+  
+### Investigator
+
+Team : Crewmates<br>
+Basis : Impostor(Only host is the Crewmate)<br>
+
+Sheriff can investigate roles to find out what they are.<br>
+Impostors and coven will always be red, or purple if settings say so.<br>
+The Investigator has no tasks.<br>
+The Host can choose if neutrals appear red.<br>
+
+* As a measure against blackout, after death, the Investigator can only see the motion of committing suicide at each meeting. There is no corpse. <br>
+
+#### Game Options
+
+| Name                                                              |
+| ----------------------------------------------------------------- |
+| Neutral Benigns Appear Red                                        |
+| Neutral Evils Appear Red                                          |
+| Neutral Killings Appear Red                                       |
+| Crewmate Killings appear Red                                      |
+| Investigate Cooldown                                              |
+| Madmates Appear Red                                               |
+| Coven Is Purple                                                   |
+| Child appears Red                                                 |
+| Terrorist Appears Red                                             |
 
 ### Veteran
 
