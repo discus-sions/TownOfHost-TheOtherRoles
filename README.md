@@ -137,7 +137,7 @@ For example: `welcome:This room is using the mod Town Of Host: The Other Roles.`
 | [MadSnitch](#MadSnitch)             | [Veteran](#veteran)               | [Guardian-Angel](#guardian-angel) |
 | [SidekickMadmate](#SidekickMadmate) | [Child](#child)                   | [Amnesiac](#amnesiac)             |
 | [Silencer](#silencer)               | [Sleuth](#sleuth)                 | [Pestilence](#pestilence)         |
-| [CorruptedSheriff(#c-sheriff)       | [Investigatir](#investigator)     | [Jackal](#jackal)                 |
+| [CorruptedSheriff](#c-sheriff)      | [Investigator](#investigator)     | [Jackal](#jackal)                 |
 
 ### GM
 
