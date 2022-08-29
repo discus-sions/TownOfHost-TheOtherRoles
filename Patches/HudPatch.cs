@@ -47,6 +47,25 @@ namespace TownOfHost
             {
                 case CustomRoles.TheGlitch:
                     __instance.AbilityButton.OverrideText("MIMIC");
+                    if (Main.IsHackMode)
+                        __instance.KillButton.OverrideText("HACK");
+                    else
+                        __instance.KillButton.OverrideText($"{GetString("KillButtonText")}");
+                    break;
+                case CustomRoles.CovenWitch:
+                    if (Main.HasNecronomicon)
+                        __instance.KillButton.OverrideText($"{GetString("PuppeteerOperateButtonText")}");
+                    else
+                        __instance.KillButton.OverrideText($"{GetString("KillButtonText")}");
+                    break;
+                case CustomRoles.Investigator:
+                    __instance.KillButton.OverrideText("INVESTIGATE");
+                    break;
+                case CustomRoles.HexMaster:
+                    if (player.IsHexMode())
+                        __instance.KillButton.OverrideText("HEX");
+                    else
+                        __instance.KillButton.OverrideText($"{GetString("KillButtonText")}");
                     break;
                 case CustomRoles.Sniper:
                     __instance.AbilityButton.OverrideText(Sniper.OverrideShapeText(player.PlayerId));
