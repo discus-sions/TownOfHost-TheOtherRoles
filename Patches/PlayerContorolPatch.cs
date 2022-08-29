@@ -759,7 +759,7 @@ namespace TownOfHost
                         Investigator.hasSeered[target.PlayerId] = true;
                         if (target.Is(CustomRoles.CorruptedSheriff))
                             Investigator.SeeredCSheriff = true;
-
+                        killer.RpcGuardAndKill(target);
                         break;
                     default:
                         if (target.Is(CustomRoles.Veteran) && Main.VetIsAlerted)
