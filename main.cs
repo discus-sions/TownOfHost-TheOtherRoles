@@ -293,7 +293,7 @@ namespace TownOfHost
                     { CustomRoles.Snitch, "#b8fb4f"},
                     { CustomRoles.Mayor, "#204d42"},
                     { CustomRoles.Sheriff, "#f8cd46"},
-                    { CustomRoles.Investigator, "#00b4eb"},
+                    { CustomRoles.Investigator, "#ffca81"},
                     { CustomRoles.Lighter, "#eee5be"},
                     { CustomRoles.SpeedBooster, "#00ffff"},
                     { CustomRoles.Doctor, "#80ffdd"},

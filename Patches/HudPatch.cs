@@ -243,7 +243,7 @@ namespace TownOfHost
                     __instance.KillButton.ToggleVisible(false);
                     break;
                 case CustomRoles.Investigator:
-                    if (Investigator.CanUseKillButton(player))
+                    if (!Investigator.CanUseKillButton(player))
                     {
                         __instance.KillButton.SetDisabled();
                         __instance.KillButton.ToggleVisible(false);
