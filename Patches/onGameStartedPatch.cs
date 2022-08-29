@@ -223,6 +223,7 @@ namespace TownOfHost
                 }
 
                 AssignDesyncRole(CustomRoles.Sheriff, AllPlayers, sender, BaseRole: RoleTypes.Impostor);
+                AssignDesyncRole(CustomRoles.Investigator, AllPlayers, sender, BaseRole: RoleTypes.Impostor);
                 AssignDesyncRole(CustomRoles.Arsonist, AllPlayers, sender, BaseRole: RoleTypes.Impostor);
                 AssignDesyncRole(CustomRoles.Jackal, AllPlayers, sender, BaseRole: RoleTypes.Impostor);
                 AssignDesyncRole(CustomRoles.Juggernaut, AllPlayers, sender, BaseRole: RoleTypes.Impostor);
@@ -609,6 +610,9 @@ namespace TownOfHost
                                 if (!ar.GetCustomRole().IsCoven())
                                     Main.isHexed.Add((pc.PlayerId, ar.PlayerId), false);
                             }
+                            break;
+                        case CustomRoles.Investigator:
+                            Investigator.Add(pc.PlayerId);
                             break;
                     }
                     pc.ResetKillCooldown();

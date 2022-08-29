@@ -497,6 +497,9 @@ namespace TownOfHost
                 case CustomRoles.Sheriff:
                     Sheriff.Add(targetId);
                     break;
+                case CustomRoles.Investigator:
+                    Investigator.Add(targetId);
+                    break;
             }
             HudManager.Instance.SetHudActive(true);
         }

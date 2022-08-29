@@ -137,6 +137,10 @@ namespace TownOfHost
                         if (!Sheriff.CanUseKillButton(killer))
                             return false;
                         break;
+                    case CustomRoles.Investigator:
+                        if (!Investigator.CanUseKillButton(killer))
+                            return false;
+                        break;
                     case CustomRoles.PlagueBearer:
                     case CustomRoles.Pestilence:
                         break;
@@ -151,8 +155,8 @@ namespace TownOfHost
                     //シュレディンガーの猫が切られた場合の役職変化スタート
                     //直接キル出来る役職チェック
                     // Sniperなど自殺扱いのものもあるので追加するときは注意
-                    var canDirectKill = !killer.Is(CustomRoles.Arsonist);
-                    if (canDirectKill && !killer.Is(CustomRoles.PlagueBearer))
+                    var canDirectKill = !killer.Is(CustomRoles.Arsonist) && !killer.Is(CustomRoles.PlagueBearer) && !killer.Is(CustomRoles.HexMaster) && !killer.IsHexMode() && !killer.Is(CustomRoles.Investigator);
+                    if (canDirectKill)
                     {
                         killer.RpcGuardAndKill(target);
                         if (PlayerState.GetDeathReason(target.PlayerId) == PlayerState.DeathReason.Sniped)
@@ -196,6 +200,10 @@ namespace TownOfHost
                     if (killer.Is(CustomRoles.Arsonist) //アーソニスト
                     ) break;
                     if (killer.Is(CustomRoles.PlagueBearer) //アーソニスト
+                    ) break;
+                    if (killer.Is(CustomRoles.Investigator) //アーソニスト
+                    ) break;
+                    if (killer.Is(CustomRoles.HexMaster) && !killer.IsHexMode()//アーソニスト
                     ) break;
 
                     //MadGuardianを切れるかの判定処理
@@ -730,6 +738,8 @@ namespace TownOfHost
 
                         if (!Sheriff.OnCheckMurder(killer, target, Process: "Suicide"))
                             return false;
+                        break;
+                    case CustomRoles.Investigator:
                         break;
                     default:
                         if (target.Is(CustomRoles.Veteran) && Main.VetIsAlerted)
@@ -1641,7 +1651,7 @@ namespace TownOfHost
             if (__instance.AmOwner)
             {
                 //キルターゲットの上書き処理
-                if (GameStates.IsInTask && (__instance.Is(CustomRoles.Sheriff) || __instance.Is(CustomRoles.CorruptedSheriff) || __instance.GetRoleType() == RoleType.Coven || __instance.Is(CustomRoles.Arsonist) || __instance.Is(CustomRoles.Werewolf) || __instance.Is(CustomRoles.TheGlitch) || __instance.Is(CustomRoles.Juggernaut) || __instance.Is(CustomRoles.PlagueBearer) || __instance.Is(CustomRoles.Pestilence) || __instance.Is(CustomRoles.Jackal)) && !__instance.Data.IsDead)
+                if (GameStates.IsInTask && (__instance.Is(CustomRoles.Sheriff) || __instance.Is(CustomRoles.Investigator) || __instance.Is(CustomRoles.CorruptedSheriff) || __instance.GetRoleType() == RoleType.Coven || __instance.Is(CustomRoles.Arsonist) || __instance.Is(CustomRoles.Werewolf) || __instance.Is(CustomRoles.TheGlitch) || __instance.Is(CustomRoles.Juggernaut) || __instance.Is(CustomRoles.PlagueBearer) || __instance.Is(CustomRoles.Pestilence) || __instance.Is(CustomRoles.Jackal)) && !__instance.Data.IsDead)
                 {
                     var players = __instance.GetPlayersInAbilityRangeSorted(false);
                     PlayerControl closest = players.Count <= 0 ? null : players[0];
@@ -2249,6 +2259,7 @@ namespace TownOfHost
                     }
                 }
                 if (__instance.myPlayer.Is(CustomRoles.Sheriff) ||
+                __instance.myPlayer.Is(CustomRoles.Investigator) ||
                 __instance.myPlayer.Is(CustomRoles.SKMadmate) ||
                 __instance.myPlayer.Is(CustomRoles.Arsonist) ||
                 __instance.myPlayer.Is(CustomRoles.PlagueBearer) ||

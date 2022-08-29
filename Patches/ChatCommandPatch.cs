@@ -469,6 +469,7 @@ namespace TownOfHost
                 { CustomRoles.Warlock, "wa" },
                 { CustomRoles.Witch, "wi" },
                 { CustomRoles.Silencer, "si" },
+                { CustomRoles.CorruptedSheriff, "csh" },
                 //Madmate役職
                 { (CustomRoles)(-2), $"== {GetString("Madmate")} ==" }, //区切り用
                 { CustomRoles.MadGuardian, "mg" },
@@ -490,6 +491,7 @@ namespace TownOfHost
                 { CustomRoles.Veteran, "vet" },
                 { CustomRoles.SabotageMaster, "sa" },
                 { CustomRoles.Sheriff, "sh" },
+                { CustomRoles.Investigator, "inve" },
                 { CustomRoles.Snitch, "sn" },
                 { CustomRoles.SpeedBooster, "sb" },
                 { CustomRoles.Trapper, "tra" },
@@ -583,6 +585,7 @@ namespace TownOfHost
                 { CustomRoles.Warlock, "wa" },
                 { CustomRoles.Witch, "wi" },
                 { CustomRoles.Silencer, "si" },
+                { CustomRoles.CorruptedSheriff, "csh" },
                 //Madmate役職
                 { (CustomRoles)(-2), $"== {GetString("Madmate")} ==" }, //区切り用
                 { CustomRoles.MadGuardian, "mg" },
@@ -604,6 +607,8 @@ namespace TownOfHost
                 { CustomRoles.Veteran, "vet" },
                 { CustomRoles.SabotageMaster, "sa" },
                 { CustomRoles.Sheriff, "sh" },
+                { CustomRoles.Investigator, "inve" },
+               // { CustomRoles.CorruptedSheriff, "csh" },
                 { CustomRoles.Snitch, "sn" },
                 { CustomRoles.SpeedBooster, "sb" },
                 { CustomRoles.Trapper, "tra" },
@@ -685,6 +690,7 @@ namespace TownOfHost
                 { CustomRoles.Warlock, "wa" },
                 { CustomRoles.Witch, "wi" },
                 { CustomRoles.Silencer, "si" },
+                { CustomRoles.CorruptedSheriff, "csh" },
                 //Madmate役職
                 { (CustomRoles)(-2), $"== {GetString("Madmate")} ==" }, //区切り用
                 { CustomRoles.MadGuardian, "mg" },
@@ -706,6 +712,7 @@ namespace TownOfHost
                 { CustomRoles.Veteran, "vet" },
                 { CustomRoles.SabotageMaster, "sa" },
                 { CustomRoles.Sheriff, "sh" },
+                { CustomRoles.Investigator, "inve" },
                 { CustomRoles.Snitch, "sn" },
                 { CustomRoles.SpeedBooster, "sb" },
                 { CustomRoles.Trapper, "tra" },
@@ -739,7 +746,7 @@ namespace TownOfHost
                 { CustomRoles.Hacker, "hac" },
                 //Sub役職
                 { (CustomRoles)(-6), $"== {GetString("SubRole")} ==" }, //区切り用
-                {CustomRoles.Lovers, "lo" },
+                { CustomRoles.Lovers, "lo" },
                 //HAS
                 { (CustomRoles)(-7), $"== {GetString("HideAndSeek")} ==" }, //区切り用
                 { CustomRoles.HASFox, "hfo" },

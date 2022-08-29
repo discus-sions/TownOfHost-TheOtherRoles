@@ -879,6 +879,7 @@ namespace TownOfHost
             {
                 case CustomRoles.Amnesiac:
                 case CustomRoles.Sheriff:
+                case CustomRoles.Investigator:
                     DestroyableSingleton<HudManager>.Instance.ImpostorVentButton.ToggleVisible(false);
                     player.Data.Role.CanVent = false;
                     return;
