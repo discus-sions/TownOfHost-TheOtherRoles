@@ -416,6 +416,7 @@ namespace TownOfHost
             MayorNumOfUseButton = CustomOption.Create(20212, Color.white, "MayorNumOfUseButton", 1, 1, 99, 1, MayorHasPortableButton);
             SabotageMaster.SetupCustomOption();
             Sheriff.SetupCustomOption();
+            Investigator.SetupCustomOption();
             SetupRoleOptions(20500, CustomRoles.Snitch);
             SnitchEnableTargetArrow = CustomOption.Create(20510, Color.white, "SnitchEnableTargetArrow", false, CustomRoleSpawnChances[CustomRoles.Snitch]);
             SnitchCanGetArrowColor = CustomOption.Create(20511, Color.white, "SnitchCanGetArrowColor", false, CustomRoleSpawnChances[CustomRoles.Snitch]);

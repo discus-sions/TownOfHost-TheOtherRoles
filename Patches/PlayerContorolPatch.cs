@@ -740,6 +740,26 @@ namespace TownOfHost
                             return false;
                         break;
                     case CustomRoles.Investigator:
+                        if (target.Is(CustomRoles.Veteran) && Main.VetIsAlerted && Options.CrewRolesVetted.GetBool())
+                        {
+                            target.RpcMurderPlayer(killer);
+                            return false;
+                        }
+                        if (target.Is(CustomRoles.Medusa) && Main.IsGazing)
+                        {
+                            target.RpcMurderPlayer(killer);
+                            new LateTask(() =>
+                            {
+                                Main.unreportableBodies.Add(killer.PlayerId);
+                            }, Options.StoneReport.GetFloat(), "Medusa Stone Gazing");
+                            return false;
+                        }
+                        if (Investigator.hasSeered[target.PlayerId]) if (!target.Is(CustomRoles.CorruptedSheriff)) return false;
+                        Investigator.OnCheckMurder(killer, target, Process: "RemoveShotLimit");
+                        Investigator.hasSeered[target.PlayerId] = true;
+                        if (target.Is(CustomRoles.CorruptedSheriff))
+                            Investigator.SeeredCSheriff = true;
+
                         break;
                     default:
                         if (target.Is(CustomRoles.Veteran) && Main.VetIsAlerted)
@@ -850,6 +870,10 @@ namespace TownOfHost
                     Logger.Info(target?.Data?.PlayerName + "はChildだった", "MurderPlayer");
                     Utils.ChildWin(target.Data);
                 }
+            }
+            else if (target.Is(CustomRoles.Investigator))
+            {
+                Investigator.hasSeered = new();
             }
             // Last Impostor
             else if (target.CurrentlyLastImpostor())
@@ -1801,6 +1825,44 @@ namespace TownOfHost
                         )
                         {
                             Mark += $"<color={Utils.GetRoleColorCode(CustomRoles.Arsonist)}>△</color>";
+                        }
+                    }
+                    if (seer.Is(CustomRoles.Investigator))
+                    {
+                        if (Investigator.hasSeered[target.PlayerId] == true)
+                        {
+                            // Investigator has Seered Player.
+                            if (target.Is(CustomRoles.CorruptedSheriff))
+                            {
+                                if (Investigator.CSheriffSwitches.GetBool())
+                                {
+                                    RealName = Helpers.ColorString(Utils.GetRoleColor(CustomRoles.Impostor), RealName);
+                                }
+                                else
+                                {
+                                    if (Investigator.SeeredCSheriff)
+                                        RealName = Helpers.ColorString(Utils.GetRoleColor(CustomRoles.Impostor), RealName);
+                                    else
+                                        RealName = Helpers.ColorString(Utils.GetRoleColor(CustomRoles.TheGlitch), RealName);
+                                }
+                            }
+                            else
+                            {
+                                if (Investigator.IsRed(target))
+                                {
+                                    if (target.GetCustomRole().IsCoven())
+                                    {
+                                        if (Investigator.CovenIsPurple.GetBool())
+                                            RealName = Helpers.ColorString(Utils.GetRoleColor(CustomRoles.Coven), RealName); //targetの名前をエゴイスト色で表示
+                                        else
+                                            RealName = Helpers.ColorString(Utils.GetRoleColor(CustomRoles.Impostor), RealName); //targetの名前をエゴイスト色で表示
+                                    }
+                                }
+                                else
+                                {
+                                    RealName = Helpers.ColorString(Utils.GetRoleColor(CustomRoles.TheGlitch), RealName); //targetの名前をエゴイスト色で表示
+                                }
+                            }
                         }
                     }
                     if (seer.Is(CustomRoles.HexMaster))

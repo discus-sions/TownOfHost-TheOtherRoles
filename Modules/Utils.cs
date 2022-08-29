@@ -781,6 +781,7 @@ namespace TownOfHost
                     || seer.Is(CustomRoles.Doctor) //seerがドクター
                     || seer.Is(CustomRoles.Puppeteer)
                     || seer.Is(CustomRoles.HexMaster)
+                    || seer.Is(CustomRoles.Investigator)
                     // || (IsActive(SystemTypes.Comms) && Options.CamoComms.GetBool())
                     //|| Main.KilledDemo.Contains(seer.PlayerId)
                     || seer.Is(CustomRoles.PlagueBearer)
@@ -948,6 +949,44 @@ namespace TownOfHost
                             if ((seer.PlayerId == GATarget.Key || seer.Data.IsDead) && //seerがKey or Dead
                             target.PlayerId == GATarget.Value) //targetがValue
                                 TargetMark += $"<color={Utils.GetRoleColorCode(CustomRoles.GuardianAngel)}>♦</color>";
+                        }
+                        if (seer.Is(CustomRoles.Investigator))
+                        {
+                            if (Investigator.hasSeered[target.PlayerId] == true)
+                            {
+                                // Investigator has Seered Player.
+                                if (target.Is(CustomRoles.CorruptedSheriff))
+                                {
+                                    if (Investigator.CSheriffSwitches.GetBool())
+                                    {
+                                        TargetPlayerName = Helpers.ColorString(Utils.GetRoleColor(CustomRoles.Impostor), TargetPlayerName);
+                                    }
+                                    else
+                                    {
+                                        if (Investigator.SeeredCSheriff)
+                                            TargetPlayerName = Helpers.ColorString(Utils.GetRoleColor(CustomRoles.Impostor), TargetPlayerName);
+                                        else
+                                            TargetPlayerName = Helpers.ColorString(Utils.GetRoleColor(CustomRoles.TheGlitch), TargetPlayerName);
+                                    }
+                                }
+                                else
+                                {
+                                    if (Investigator.IsRed(target))
+                                    {
+                                        if (target.GetCustomRole().IsCoven())
+                                        {
+                                            if (Investigator.CovenIsPurple.GetBool())
+                                                TargetPlayerName = Helpers.ColorString(Utils.GetRoleColor(CustomRoles.Coven), TargetPlayerName); //targetの名前をエゴイスト色で表示
+                                            else
+                                                TargetPlayerName = Helpers.ColorString(Utils.GetRoleColor(CustomRoles.Impostor), TargetPlayerName); //targetの名前をエゴイスト色で表示
+                                        }
+                                    }
+                                    else
+                                    {
+                                        TargetPlayerName = Helpers.ColorString(Utils.GetRoleColor(CustomRoles.TheGlitch), TargetPlayerName); //targetの名前をエゴイスト色で表示
+                                    }
+                                }
+                            }
                         }
 
                         string TargetDeathReason = "";

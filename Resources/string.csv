@@ -443,6 +443,16 @@ ArsonistCooldown,Arsonist Douse Cooldown,アーソニストのクールダウン
 TourArso,TOuR Arsonist,TOuR Arsonist,TOuR的纵火犯,
 InfectCD,Infect Cooldown,アーソニストの塗り時間,感染冷却时间,
 
+SeerCooldown,Investigate Cooldown,Investigate Cooldown,Investigate Cooldown
+NBareRed,Neutral Benigns are Red,Neutral Benigns are Red,Neutral Benigns are Red
+NKareRed,Neutral Killings are Red,NKareRed,NKareRed
+CrewKillingRed,Crewmate Killing are Red,CrewKillingRed,CrewKillingRed
+CovenIsPurple,Coven appears Purple,CovenIsPurple,CovenIsPurple
+ChildIsRed,Child is Red,ChildIsRed,ChildIsRed
+TerroIsRed,Terrorist appears Red,TerroIsRed,TerroIsRed
+CSheriffSwitches,Corrupted Sheriff switches Color,CSheriffSwitches,CSheriffSwitches
+MadMateIsRed,Madmate is Red,MadMateIsRed,MadMateIsRed
+
 PestiKillCooldown,Pestilence Kill Cooldown,アーソニストのクールダウン,疫医击杀冷却时间,
 PestiCanVent,Pestilence Can Vent,アーソニストのクールダウン,疫医可以使用通风管道,
 DemoSuicideTime,Time To Vent Till Suicide,DemoSuicideTime,自杀倒计时,

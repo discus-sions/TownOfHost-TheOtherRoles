@@ -150,6 +150,7 @@ namespace TownOfHost
             Mare.Init();
             Egoist.Init();
             Sheriff.Init();
+            Investigator.Init();
             AntiBlackout.Reset();
         }
     }
@@ -613,6 +614,10 @@ namespace TownOfHost
                             break;
                         case CustomRoles.Investigator:
                             Investigator.Add(pc.PlayerId);
+                            foreach (var ar in PlayerControl.AllPlayerControls)
+                            {
+                                Investigator.hasSeered.Add(ar.PlayerId, false);
+                            }
                             break;
                     }
                     pc.ResetKillCooldown();
