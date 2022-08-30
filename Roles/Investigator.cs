@@ -81,6 +81,7 @@ namespace TownOfHost
         {
             Logger.Info($"{killer.GetNameWithRole()} : Investigated Player: {target.GetNameWithRole()}", "Investigated");
             SendRPC(killer.PlayerId);
+            killer.RpcGuardAndKill(target);
             return true;
         }
         public static bool IsRed(this PlayerControl player)

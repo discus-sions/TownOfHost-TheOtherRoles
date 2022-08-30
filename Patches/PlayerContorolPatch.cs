@@ -138,8 +138,8 @@ namespace TownOfHost
                             return false;
                         break;
                     case CustomRoles.Investigator:
-                        if (!Investigator.CanUseKillButton(killer))
-                            return false;
+                        //if (!Investigator.CanUseKillButton(killer))
+                        //     return false;
                         break;
                     case CustomRoles.PlagueBearer:
                     case CustomRoles.Pestilence:
@@ -755,11 +755,14 @@ namespace TownOfHost
                             return false;
                         }
                         //if (Investigator.hasSeered[target.PlayerId]) if (!target.Is(CustomRoles.CorruptedSheriff)) return false;
-                        Investigator.OnCheckMurder(killer, target, Process: "RemoveShotLimit");
+                        //Investigator.OnCheckMurder(killer, target, Process: "RemoveShotLimit");
                         Investigator.hasSeered[target.PlayerId] = true;
                         if (target.Is(CustomRoles.CorruptedSheriff))
                             Investigator.SeeredCSheriff = true;
+                        Logger.Info($"{killer.GetNameWithRole()} : Investigated Player: {target.GetNameWithRole()}", "Investigated");
                         killer.RpcGuardAndKill(target);
+                        Utils.CustomSyncAllSettings();
+                        Utils.NotifyRoles();
                         return false;
                     default:
                         if (target.Is(CustomRoles.Veteran) && Main.VetIsAlerted)
@@ -1856,6 +1859,10 @@ namespace TownOfHost
                                             RealName = Helpers.ColorString(Utils.GetRoleColor(CustomRoles.Coven), RealName); //targetの名前をエゴイスト色で表示
                                         else
                                             RealName = Helpers.ColorString(Utils.GetRoleColor(CustomRoles.Impostor), RealName); //targetの名前をエゴイスト色で表示
+                                    }
+                                    else
+                                    {
+                                        RealName = Helpers.ColorString(Utils.GetRoleColor(CustomRoles.Impostor), RealName);
                                     }
                                 }
                                 else

@@ -980,6 +980,7 @@ namespace TownOfHost
                                             else
                                                 TargetPlayerName = Helpers.ColorString(Utils.GetRoleColor(CustomRoles.Impostor), TargetPlayerName); //targetの名前をエゴイスト色で表示
                                         }
+                                        else RealName = Helpers.ColorString(Utils.GetRoleColor(CustomRoles.Impostor), RealName);
                                     }
                                     else
                                     {
