@@ -427,6 +427,7 @@ namespace TownOfHost
         TimeThief,
         Silencer,
         Swooper,
+        Camouflager,
         EvilGuesser,
         LastImpostor,
         //Madmate
