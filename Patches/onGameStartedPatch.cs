@@ -94,6 +94,7 @@ namespace TownOfHost
             Main.IsRampaged = false;
             Main.RampageReady = true;
             Main.IsHackMode = false;
+            Main.bkProtected = false;
             Main.bombedVents = new List<int>();
 
             Main.DiscussionTime = Main.RealOptionsData.DiscussionTime;
