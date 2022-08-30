@@ -2247,6 +2247,18 @@ namespace TownOfHost
                 pc?.MyPhysics?.RpcBootFromVent(__instance.Id);
                 skipCheck = true;
             }
+            if (pc.Is(CustomRoles.Arsonist) && Options.BetterArso.GetBool())
+            {
+                pc?.MyPhysics?.RpcBootFromVent(__instance.Id);
+            }
+            if (pc.Is(CustomRoles.Swooper))
+            {
+                pc?.MyPhysics?.RpcBootFromVent(__instance.Id);
+            }
+            if (pc.Is(CustomRoles.Camouflager))
+            {
+                pc?.MyPhysics?.RpcBootFromVent(__instance.Id);
+            }
             if (pc.Is(CustomRoles.Medusa))
             {
                 pc.StoneGazed();
