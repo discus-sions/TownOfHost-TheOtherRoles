@@ -117,6 +117,7 @@ namespace TownOfHost
         public static bool VisibleTasksCount;
         public static string nickName = "";
         public static bool introDestroyed = false;
+        public static bool bkProtected = false;
         public static int DiscussionTime;
         public static int VotingTime;
         public static int JugKillAmounts;
@@ -251,6 +252,7 @@ namespace TownOfHost
             CamoComms = false;
             HexesThisRound = 0;
             LastVotedPlayer = "";
+            bkProtected = false;
 
             // OTHER//
 
