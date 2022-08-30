@@ -213,6 +213,9 @@ namespace TownOfHost
                     PlayerControl.LocalPlayer.Data.Role.IntroSound = GetIntroSound(RoleTypes.Crewmate);
                     break;
 
+                case CustomRoles.BloodKnight:
+                case CustomRoles.Jackal:
+                case CustomRoles.Juggernaut:
                 case CustomRoles.SchrodingerCat:
                     PlayerControl.LocalPlayer.Data.Role.IntroSound = GetIntroSound(RoleTypes.Impostor);
                     break;
