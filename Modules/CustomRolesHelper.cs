@@ -21,6 +21,7 @@ namespace TownOfHost
                 CustomRoles.FireWorks or
                 CustomRoles.Sniper or
                 CustomRoles.Swooper or
+                CustomRoles.Camouflager or
                 CustomRoles.CorruptedSheriff or
                 CustomRoles.LastImpostor;
         }
