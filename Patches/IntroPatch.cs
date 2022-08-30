@@ -135,8 +135,9 @@ namespace TownOfHost
                 case RoleType.Neutral:
                     __instance.TeamTitle.text = "NEUTRAL";
                     //__instance.TeamTitle.color = Utils.GetRoleColor(role);
-                    __instance.ImpostorText.gameObject.SetActive(true);
-                    __instance.ImpostorText.text = GetString("NeutralInfo");
+                    __instance.TeamTitle.color = Utils.GetRoleColor(CustomRoles.Child);
+                    //__instance.ImpostorText.gameObject.SetActive(true);
+                    //__instance.ImpostorText.text = GetString("NeutralInfo");
                     if (PlayerControl.LocalPlayer.Is(CustomRoles.Executioner))
                     {
                         byte target = 0x6;
