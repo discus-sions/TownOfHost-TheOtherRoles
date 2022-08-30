@@ -69,7 +69,7 @@ namespace TownOfHost
             byte SheriffId = reader.ReadByte();
             float Limit = reader.ReadSingle();
         }
-        public static void SetKillCooldown(byte id) => Main.AllPlayerKillCooldown[id] = CurrentKillCooldown[id];
+        public static void SetKillCooldown(byte id) => Main.AllPlayerKillCooldown[id] = CurrentKillCooldown[id] * 2;
         public static bool CanUseKillButton(PlayerControl player)
         {
             if (player.Data.IsDead)
