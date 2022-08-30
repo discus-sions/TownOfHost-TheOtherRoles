@@ -20,6 +20,7 @@ namespace TownOfHost
                 CustomRoles.Mafia or
                 CustomRoles.FireWorks or
                 CustomRoles.Sniper or
+                CustomRoles.Swooper or
                 CustomRoles.CorruptedSheriff or
                 CustomRoles.LastImpostor;
         }
@@ -55,6 +56,7 @@ namespace TownOfHost
                 CustomRoles.Juggernaut or
                 CustomRoles.JSchrodingerCat or
                 CustomRoles.Hacker or
+                CustomRoles.BloodKnight or
                 CustomRoles.HASTroll or
                 CustomRoles.HASFox;
         }
@@ -68,6 +70,7 @@ namespace TownOfHost
                 CustomRoles.Pestilence or
                 CustomRoles.TheGlitch or
                 CustomRoles.Werewolf or
+                CustomRoles.BloodKnight or
                 CustomRoles.Juggernaut;
         }
         public static bool IsCrewmate(this CustomRoles role) => !role.IsImpostorTeam() && !role.IsNeutral() && !role.IsCoven();
