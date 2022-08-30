@@ -455,7 +455,7 @@ namespace TownOfHost
             InfectionSkip = CustomOption.Create(50563, Color.white, "SkipInfect", false, CustomRoleSpawnChances[CustomRoles.PlagueBearer]);
             SetupRoleOptions(50000, CustomRoles.Jester);
             JesterCanVent = CustomOption.Create(50010, Color.white, "JesterVent", false, CustomRoleSpawnChances[CustomRoles.Jester]);
-            JesterHasImpostorVision = CustomOption.Create(50913, Color.white, "JesterHasImpostorVision", false, CustomRoleSpawnChances[CustomRoles.Jester]);
+            JesterHasImpostorVision = CustomOption.Create(6000013, Color.white, "JesterHasImpostorVision", false, CustomRoleSpawnChances[CustomRoles.Jester]);
 
             SetupRoleOptions(50100, CustomRoles.Opportunist);
             SetupRoleOptions(50200, CustomRoles.Terrorist);
