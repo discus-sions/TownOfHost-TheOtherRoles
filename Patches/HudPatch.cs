@@ -76,6 +76,9 @@ namespace TownOfHost
                     else
                         __instance.AbilityButton.OverrideText($"{GetString("FireWorksInstallAtionButtonText")}");
                     break;
+                case CustomRoles.Camouflager:
+                    __instance.AbilityButton.OverrideText("CAMOUFLAGE");
+                    break;
                 case CustomRoles.SerialKiller:
                     SerialKiller.GetAbilityButtonText(__instance);
                     break;

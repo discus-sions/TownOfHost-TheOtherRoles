@@ -43,8 +43,8 @@ namespace TownOfHost
                         target.RpcSetName("");
                     }
 
-                    if (target == shifter) continue;
-                    target.RpcShapeshift(PlayerControl.LocalPlayer, true);//誰がカモフラージュしたか分からなくさせるために、全員にアニメーションを再生
+                    //if (target == shifter) continue;
+                    //target.RpcShapeshift(PlayerControl.LocalPlayer, true);//誰がカモフラージュしたか分からなくさせるために、全員にアニメーションを再生
                 }
                 DidCamo = true;
             }

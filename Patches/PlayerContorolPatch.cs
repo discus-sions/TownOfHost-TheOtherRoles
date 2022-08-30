@@ -2264,10 +2264,10 @@ namespace TownOfHost
             {
                 pc?.MyPhysics?.RpcBootFromVent(__instance.Id);
             }
-            if (pc.Is(CustomRoles.Camouflager))
-            {
-                pc?.MyPhysics?.RpcBootFromVent(__instance.Id);
-            }
+            /* if (pc.Is(CustomRoles.Camouflager))
+             {
+                 pc?.MyPhysics?.RpcBootFromVent(__instance.Id);
+             }*/
             if (pc.Is(CustomRoles.Medusa))
             {
                 pc.StoneGazed();
