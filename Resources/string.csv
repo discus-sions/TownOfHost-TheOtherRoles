@@ -33,6 +33,8 @@ TimeThief,TimeThief,タイムシーフ,蚀时者,時間小偷
 Sniper,Sniper,スナイパー,狙击手,狙擊手
 Silencer,Silencer,Silencer,沉默者,消音器
 CorruptedSheriff,CorruptedSheriff,CorruptedSheriff,贪污的警长,腐敗的警官
+Swooper,Swooper,Swooper,Swooper
+Camouflager,Camouflager,Camouflager,Camouflager
 
 # マッドメイト系役職
 Madmate,Madmate,マッドメイト,叛徒,叛徒
@@ -142,6 +144,8 @@ SniperInfo,Shoot the Crewmates in the distance,狙い撃つぜ,瞄准敌人，�
 SilencerInfo,Silence Crewmates in Meetings,Silence Crewmates in Meetings,在会议上让船员阵营保持沉默,在會議上使船員保持沉默
 LastImpostorInfo,You are the last one,残ったのはあなただけ,你是最后的希望…,你是狼村最後的希望...
 CorruptedSheriffInfo,You betrayed the Crewmates,You betrayed the Crewmates,你禁受不住眼前的利益，成为了一个叛徒,你成為了一位叛徒
+SwooperInfo,Turn invisible temporarily,Swooper,Swooper
+Camouflager,Camouflage to turn Gray,Camouflager,Camouflager
 
 # マッドメイト系役職
 MadmateInfo,Help the Impostors,インポスターの援助をしよう,帮助内鬼,幫助狼人
@@ -239,6 +243,8 @@ TimeThiefInfoLong,"(Impostors):\nEvery kill cuts down discussion and voting time
 SniperInfoLong,(Impostors):\nSniper can shoot players so far away.\nthey kill a player on the extension line from Shapeshift point to release point.\nYou can perform normal kills after all bullets run out.,(インポスター陣営):\n遠くの敵を狙撃できるインポスター。\nシェイプシフトした地点から解除した地点の延長線上の敵を一人撃ち抜く。\n撃ちきるまで通常キル出来ない。,(内鬼阵营):\n狙击手拥有远距离击杀的能力。\n狙击手化形后，其击杀能够将其现在为止与化形时所处位置连线及其延长线上的一名玩家击杀。\n狙击手的子弹耗尽前，狙击手不可以进行通常击杀。",(狼人陣營):\n狙擊遠處的敵人\n子彈將從變形處延伸到取消變形處並往直線前進並殺死在這條線上非狼人陣營的人\n狙擊手無法正常殺人在狙擊手用光子彈前。"
 SilencerInfoLong,"(Impostors):\nThe first killing attempt will silence the crewmate in the next meeting. After that, you are a regular impostor.","(Impostors):\nThe first killing attempt will silence the crewmate in the next meeting. After that, you are a regular impostor.","(内鬼阵营):n第一次尝试杀人将在下一次会议上让船员朋友沉默。在那之后，你就是一名普通的内鬼了.",
 CorruptedSheriffInfoLong,"(Impostors):\nA Corrupted Sheriff, or Traitor, spawns when the last Impostor is voted off inside a meeting or killed.\nNo Traitor will spawn if the Impostor died by other means.\nThe Traitor will replace the Sheriff role always when Corrupted Sheriff is not at 0%.\nYou can also make it so there is a minimum number of players for Traitor to spawn.\nOtherwise, it is just a regular Impostor with nothing different.","(Impostors):\nA Corrupted Sheriff, or Traitor, spawns when the last Impostor is voted off inside a meeting.\nNo Traitor will spawn if the Impostor died by other means.\nThe Traitor will replace the Sheriff role always when Corrupted Sheriff is not at 0%.\nYou can also make it so there is a minimum number of players for Traitor to spawn.","(内鬼阵营）：当最后一个内鬼在会议中被投票淘汰时，就会产生一个贪污的警长，或叛徒。\n如果内鬼以其他方式死亡，则不会产生叛徒。\n当贪污的警长没有达到0%时，叛徒将永远取代警长的角色。\n你也可以设置最低叛徒数量。",
+SwooperInfoLong,"(Impostors):\nThe Swooper can vent to temporarily turn invisible. This means if the Swooper kills demolitionist, it is over for the Swooper. The Swooper can never vent.","(Impostors):\nThe Swooper can vent to temporarily turn invisible. This means if the Swooper kills demolitionist, it is over for the Swooper. The Swooper can never vent.","(Impostors):\nThe Swooper can vent to temporarily turn invisible. This means if the Swooper kills demolitionist, it is over for the Swooper. The Swooper can never vent."
+CamouflagerInfoLong,"(Impostors):\nThe Camouflager can vent to temporarily make themselves gray. While gray, they have no name and no cosmetics. When a body is called or after the duration is up, they turn back to their regular player.","(Impostors):\nThe Camouflager can vent to temporarily make themselves gray. While gray, they have no name and no cosmetics. When a body is called or after the duration is up, they turn back to their regular player.","(Impostors):\nThe Camouflager can vent to temporarily make themselves gray. While gray, they have no name and no cosmetics. When a body is called or after the duration is up, they turn back to their regular player."
 
 # マッドメイト系役職
 MadmateInfoLong,"(Impostors):\nCrewmate, but they belong to team Impostors, but they don't know who are Impostors.\nImpostor and are unrecognizable to each other. Can use vent, no tasks.",(インポスター陣営):\nクルーだがインポスターの味方をする。\nインポスターと互いに認識できない。\nベントが使え、タスクはない。,(内鬼阵营):\n叛徒不可以击杀或者破坏，可以跳管道。,"(狼人陣營):\n船員,但是他們屬於狼人陣營.\n狼人無法知道叛徒是誰,\n他可以跳洞且沒有任務。"
@@ -468,6 +474,12 @@ StoneTime,Time Until Body is Stoned,Time Until Body is Stoned,Time Until Body is
 PKTAH,Players Know They Are Hexed,Players Know They Are Hexed,玩家知道谁被诅咒了,
 HexCD,Hex Cooldown,Hex Cooldown,诅咒冷却时间,
 MHPR,Max Hexes Per Round,Max Hexes Per Round,每轮最大诅咒人数,
+
+SwoopCD,Swoop Cooldown,Swoop Cooldown,Swoop Cooldown
+SwoopDur,Swoop Duration,Swoop Duration,Swoop Duration
+
+CamoCD,Camouflage Cooldown,Swoop Cooldown,Swoop Cooldown
+CamoDur,Camouflage Duration,Swoop Duration,Swoop Duration
 
 CanTerroristSuicideWin,Can Terrorist Suicide Win,テロリストの自殺勝ち,恐怖分子可以通过自杀获胜,恐怖分子可以自殺來獲勝
 ShapeMasterShapeshiftDuration,Shapeshift Duration,シェイプマスターの変身持続時間,千面鬼化形持续时间,變形大師變形持續時間
