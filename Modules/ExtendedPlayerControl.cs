@@ -12,7 +12,7 @@ namespace TownOfHost
     {
         public static void RpcSetCustomRole(this PlayerControl player, CustomRoles role)
         {
-            if (role < CustomRoles.NoSubRoleAssigned)
+            if (role < CustomRResetKillCooldownoles.NoSubRoleAssigned)
             {
                 Main.AllPlayerCustomRoles[player.PlayerId] = role;
             }
@@ -771,6 +771,9 @@ namespace TownOfHost
                     break;
                 case CustomRoles.Pestilence:
                     Main.AllPlayerKillCooldown[player.PlayerId] = Options.PestilKillCooldown.GetFloat();
+                    break;
+                case CustomRoles.BloodKnight:
+                    Main.AllPlayerKillCooldown[player.PlayerId] = Options.BKkillCd.GetFloat();
                     break;
                 case CustomRoles.PlagueBearer:
                     Main.AllPlayerKillCooldown[player.PlayerId] = Options.InfectCooldown.GetFloat();
