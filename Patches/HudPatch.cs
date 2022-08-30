@@ -159,6 +159,13 @@ namespace TownOfHost
                 LowerInfoText.text = GetString("WitchCurrentMode") + ": " + GetString(ModeLang);
                 LowerInfoText.enabled = true;
             }
+            else if (player.Is(CustomRoles.CovenWitch))
+            {
+                //魔女用処理
+                var ModeLang = player.IsHexMode() ? "Hexing" : "Killing";
+                LowerInfoText.text = "Current Mode" + ": " + ModeLang;
+                LowerInfoText.enabled = true;
+            }
             else if (player.Is(CustomRoles.Werewolf))
             {
                 var ModeLang = Main.IsRampaged ? "True" : "False";
