@@ -1196,6 +1196,14 @@ namespace TownOfHost
                                 Utils.SendMessage("The body was bombed.", __instance.PlayerId);
                             else if (PlayerState.GetDeathReason(target.PlayerId) == PlayerState.DeathReason.Torched)
                                 Utils.SendMessage("The body was ignited by Arsonist.", __instance.PlayerId);
+                            else if (PlayerState.GetDeathReason(target.PlayerId) == PlayerState.DeathReason.Misfire)
+                                Utils.SendMessage("The body was a misfire from Sheriff.", __instance.PlayerId);
+                            else if (PlayerState.GetDeathReason(target.PlayerId) == PlayerState.DeathReason.Sniped)
+                                Utils.SendMessage("The body was a sniped by Sniper.", __instance.PlayerId);
+                            else if (PlayerState.GetDeathReason(target.PlayerId) == PlayerState.DeathReason.Execution)
+                                Utils.SendMessage("This player appears to have been guessed.", __instance.PlayerId);
+                            else if (PlayerState.GetDeathReason(target.PlayerId) == PlayerState.DeathReason.Bite)
+                                Utils.SendMessage("The body was bitten by Vampire.", __instance.PlayerId);
                             else
                                 Utils.SendMessage("The body appears to be a suicide!", __instance.PlayerId);
                         }
@@ -2264,6 +2272,7 @@ namespace TownOfHost
                             {
                                 pc.RpcMurderPlayer(pc);
                                 PlayerState.SetDeathReason(pc.PlayerId, PlayerState.DeathReason.Bombed);
+                                Main.whoKilledWho.Add(pc, pc);
                                 PlayerState.SetDead(pc.PlayerId);
                             }
                         }
@@ -2297,7 +2306,10 @@ namespace TownOfHost
             }
 
             if (pc.Is(CustomRoles.Jester) && !Options.JesterCanVent.GetBool())
+            {
                 pc.MyPhysics.RpcBootFromVent(__instance.Id);
+                skipCheck = true;
+            }
             if (Main.bombedVents.Contains(__instance.Id) && !skipCheck)
             {
                 if (!pc.Is(CustomRoles.Pestilence))
@@ -2305,6 +2317,7 @@ namespace TownOfHost
                     pc.MyPhysics.RpcBootFromVent(__instance.Id);
                     pc.RpcMurderPlayer(pc);
                     PlayerState.SetDeathReason(pc.PlayerId, PlayerState.DeathReason.Bombed);
+                    Main.whoKilledWho.Add(pc, pc);
                     PlayerState.SetDead(pc.PlayerId);
                 }
             }

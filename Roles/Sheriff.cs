@@ -8,6 +8,7 @@ namespace TownOfHost
     {
         private static readonly int Id = 20400;
         public static List<byte> playerIdList = new();
+        private static PlayerControl seer;
 
         private static CustomOption KillCooldown;
         private static CustomOption CanKillArsonist;
@@ -67,6 +68,7 @@ namespace TownOfHost
             playerIdList = new();
             ShotLimit = new();
             CurrentKillCooldown = new();
+            seer = null;
         }
         public static void Add(byte playerId)
         {
@@ -145,7 +147,7 @@ namespace TownOfHost
                     int IsAlive = 0;
                     int numCovenAlive = 0;
                     int numNKalive = 0;
-                    PlayerControl seer = PlayerControl.LocalPlayer;
+                    //PlayerControl seer = PlayerControl.LocalPlayer;
                     foreach (var pc in PlayerControl.AllPlayerControls)
                     {
                         if (!pc.Data.IsDead)

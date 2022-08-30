@@ -825,6 +825,7 @@ namespace TownOfHost
                                 killer.RpcMurderPlayer(killer);
                             killer.RpcMurderPlayer(killer);
                             PlayerState.SetDeathReason(killer.PlayerId, PlayerState.DeathReason.Suicide);
+                            Main.whoKilledWho.Add(killer, killer);
                             PlayerState.SetDead(killer.PlayerId);
                         }
                     }
