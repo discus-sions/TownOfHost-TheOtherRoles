@@ -235,26 +235,21 @@ namespace TownOfHost
 
                 //COVEN 
                 AssignDesyncRole(CustomRoles.Coven, AllPlayers, sender, BaseRole: RoleTypes.Impostor);
-                List<PlayerControl> AllCovenPlayers = new();
-                foreach (var pc in PlayerControl.AllPlayerControls)
-                {
-                    if (pc.Is(CustomRoles.Coven))
-                        AllCovenPlayers.Add(pc);
-                }
+                Main.AllCovenPlayers = new();
                 //AssignCovenRoles
-                AssignCovenRoles(CustomRoles.CovenWitch, AllCovenPlayers, sender, BaseRole: RoleTypes.Impostor);
+                AssignCovenRoles(CustomRoles.CovenWitch, Main.AllCovenPlayers, sender, BaseRole: RoleTypes.Impostor);
                 if (Options.HexMasterOn.GetBool())
-                    AssignCovenRoles(CustomRoles.HexMaster, AllCovenPlayers, sender, BaseRole: RoleTypes.Impostor);
+                    AssignCovenRoles(CustomRoles.HexMaster, Main.AllCovenPlayers, sender, BaseRole: RoleTypes.Impostor);
                 if (Options.PotionMasterOn.GetBool())
-                    AssignCovenRoles(CustomRoles.PotionMaster, AllCovenPlayers, sender, BaseRole: RoleTypes.Impostor);
+                    AssignCovenRoles(CustomRoles.PotionMaster, Main.AllCovenPlayers, sender, BaseRole: RoleTypes.Impostor);
                 //if (Options.HexMasterOn.GetBool())
                 //    AssignCovenRoles(CustomRoles.Poisoner, AllCovenPlayers, sender, BaseRole: RoleTypes.Impostor);
                 if (Options.MedusaOn.GetBool())
-                    AssignCovenRoles(CustomRoles.Medusa, AllCovenPlayers, sender, BaseRole: RoleTypes.Impostor);
+                    AssignCovenRoles(CustomRoles.Medusa, Main.AllCovenPlayers, sender, BaseRole: RoleTypes.Impostor);
                 if (Options.MimicOn.GetBool())
-                    AssignCovenRoles(CustomRoles.Mimic, AllCovenPlayers, sender, BaseRole: RoleTypes.Impostor);
+                    AssignCovenRoles(CustomRoles.Mimic, Main.AllCovenPlayers, sender, BaseRole: RoleTypes.Impostor);
                 if (Options.NecromancerOn.GetBool())
-                    AssignCovenRoles(CustomRoles.Necromancer, AllCovenPlayers, sender, BaseRole: RoleTypes.Impostor);
+                    AssignCovenRoles(CustomRoles.Necromancer, Main.AllCovenPlayers, sender, BaseRole: RoleTypes.Impostor);
             }
             if (sender.CurrentState == CustomRpcSender.State.InRootMessage) sender.EndMessage();
             //以下、バニラ側の役職割り当てが入る
@@ -683,6 +678,7 @@ namespace TownOfHost
                 var player = AllPlayers[rand.Next(0, AllPlayers.Count)];
                 AllPlayers.Remove(player);
                 Main.AllPlayerCustomRoles[player.PlayerId] = role;
+                if (role == CustomRoles.Coven) Main.AllCovenPlayers.Add(player);
                 //ここからDesyncが始まる
                 if (player.PlayerId != 0)
                 {

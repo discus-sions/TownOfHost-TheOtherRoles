@@ -104,6 +104,7 @@ namespace TownOfHost
         public static bool isShipStart;
         public static Dictionary<byte, bool> CheckShapeshift = new();
         public static Dictionary<(byte, byte), string> targetArrows = new();
+        public static List<PlayerControl> AllCovenPlayers = new();
         public static byte WonTrollID;
         public static byte ExiledJesterID;
         public static byte WonTerroristID;

@@ -490,7 +490,7 @@ namespace TownOfHost
             MedusaOn = CustomOption.Create(60015, Color.white, "MedusaOn", false, CustomRoleSpawnChances[CustomRoles.Coven]);
             StoneCD = CustomOption.Create(60025, Color.white, "StoneCD", 30, 2.5f, 180, 2.5f, MedusaOn);
             StoneDuration = CustomOption.Create(60026, Color.white, "StoneDur", 15, 2.5f, 180, 2.5f, MedusaOn);
-            StoneReport = CustomOption.Create(60027, Color.white, "StoneTime,", 35, 2.5f, 180, 2.5f, MedusaOn);
+            StoneReport = CustomOption.Create(60027, Color.white, "StoneTime", 35, 2.5f, 180, 2.5f, MedusaOn);
 
             //MimicOn = CustomOption.Create(60016, Color.white, "MimicOn", false, CustomRoleSpawnChances[CustomRoles.Coven]);
             //NecromancerOn = CustomOption.Create(60017, Color.white, "NecromancerOn", false, CustomRoleSpawnChances[CustomRoles.Coven]);

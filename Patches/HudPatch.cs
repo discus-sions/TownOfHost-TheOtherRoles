@@ -53,7 +53,7 @@ namespace TownOfHost
                         __instance.KillButton.OverrideText($"{GetString("KillButtonText")}");
                     break;
                 case CustomRoles.CovenWitch:
-                    if (Main.HasNecronomicon)
+                    if (!Main.HasNecronomicon)
                         __instance.KillButton.OverrideText($"{GetString("PuppeteerOperateButtonText")}");
                     else
                         __instance.KillButton.OverrideText($"{GetString("KillButtonText")}");
