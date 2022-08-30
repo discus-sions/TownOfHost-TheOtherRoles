@@ -222,6 +222,8 @@ namespace TownOfHost
                     break;
             }
 
+            Main.whoKilledWho.Add(killer, target);
+
             //キル時の特殊判定
             if (killer.PlayerId != target.PlayerId)
             {
