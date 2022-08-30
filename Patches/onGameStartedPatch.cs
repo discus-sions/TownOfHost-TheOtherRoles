@@ -235,13 +235,26 @@ namespace TownOfHost
 
                 //COVEN 
                 AssignDesyncRole(CustomRoles.Coven, AllPlayers, sender, BaseRole: RoleTypes.Impostor);
-                AssignDesyncRole(CustomRoles.CovenWitch, AllPlayers, sender, BaseRole: RoleTypes.Impostor);
-                AssignDesyncRole(CustomRoles.HexMaster, AllPlayers, sender, BaseRole: RoleTypes.Impostor);
-                AssignDesyncRole(CustomRoles.PotionMaster, AllPlayers, sender, BaseRole: RoleTypes.Impostor);
-                AssignDesyncRole(CustomRoles.Poisoner, AllPlayers, sender, BaseRole: RoleTypes.Impostor);
-                AssignDesyncRole(CustomRoles.Medusa, AllPlayers, sender, BaseRole: RoleTypes.Impostor);
-                AssignDesyncRole(CustomRoles.Mimic, AllPlayers, sender, BaseRole: RoleTypes.Impostor);
-                AssignDesyncRole(CustomRoles.Necromancer, AllPlayers, sender, BaseRole: RoleTypes.Impostor);
+                List<PlayerControl> AllCovenPlayers = new();
+                foreach (var pc in PlayerControl.AllPlayerControls)
+                {
+                    if (pc.Is(CustomRoles.Coven))
+                        AllCovenPlayers.Add(pc);
+                }
+                //AssignCovenRoles
+                AssignCovenRoles(CustomRoles.CovenWitch, AllCovenPlayers, sender, BaseRole: RoleTypes.Impostor);
+                if (Options.HexMasterOn.GetBool())
+                    AssignCovenRoles(CustomRoles.HexMaster, AllCovenPlayers, sender, BaseRole: RoleTypes.Impostor);
+                if (Options.PotionMasterOn.GetBool())
+                    AssignCovenRoles(CustomRoles.PotionMaster, AllCovenPlayers, sender, BaseRole: RoleTypes.Impostor);
+                //if (Options.HexMasterOn.GetBool())
+                //    AssignCovenRoles(CustomRoles.Poisoner, AllCovenPlayers, sender, BaseRole: RoleTypes.Impostor);
+                if (Options.MedusaOn.GetBool())
+                    AssignCovenRoles(CustomRoles.Medusa, AllCovenPlayers, sender, BaseRole: RoleTypes.Impostor);
+                if (Options.MimicOn.GetBool())
+                    AssignCovenRoles(CustomRoles.Mimic, AllCovenPlayers, sender, BaseRole: RoleTypes.Impostor);
+                if (Options.NecromancerOn.GetBool())
+                    AssignCovenRoles(CustomRoles.Necromancer, AllCovenPlayers, sender, BaseRole: RoleTypes.Impostor);
             }
             if (sender.CurrentState == CustomRpcSender.State.InRootMessage) sender.EndMessage();
             //以下、バニラ側の役職割り当てが入る
@@ -725,6 +738,45 @@ namespace TownOfHost
             }
             SetColorPatch.IsAntiGlitchDisabled = false;
             return AssignedPlayers;
+        }
+        private static void AssignCovenRoles(CustomRoles role, List<PlayerControl> AllPlayers, CustomRpcSender sender, RoleTypes BaseRole, RoleTypes hostBaseRole = RoleTypes.Crewmate)
+        {
+            // if (!role.IsEnable()) return;
+
+            for (var i = 0; i < 1; i++)
+            {
+                if (AllPlayers.Count <= 0) break;
+                var rand = new Random();
+                var player = AllPlayers[rand.Next(0, AllPlayers.Count)];
+                AllPlayers.Remove(player);
+                Main.AllPlayerCustomRoles[player.PlayerId] = role;
+                //ここからDesyncが始まる
+                if (player.PlayerId != 0)
+                {
+                    int playerCID = player.GetClientId();
+                    sender.RpcSetRole(player, BaseRole, playerCID);
+                    //Desyncする人視点で他プレイヤーを科学者にするループ
+                    foreach (var pc in PlayerControl.AllPlayerControls)
+                    {
+                        if (pc == player) continue;
+                        sender.RpcSetRole(pc, RoleTypes.Scientist, playerCID);
+                    }
+                    //他視点でDesyncする人の役職を科学者にするループ
+                    foreach (var pc in PlayerControl.AllPlayerControls)
+                    {
+                        if (pc == player) continue;
+                        if (pc.PlayerId == 0) player.SetRole(RoleTypes.Scientist); //ホスト視点用
+                        else sender.RpcSetRole(player, RoleTypes.Scientist, pc.GetClientId());
+                    }
+                }
+                else
+                {
+                    //ホストは別の役職にする
+                    player.SetRole(hostBaseRole); //ホスト視点用
+                    sender.RpcSetRole(player, hostBaseRole);
+                }
+                player.Data.IsDead = true;
+            }
         }
 
         private static void AssignLoversRolesFromList()

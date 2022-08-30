@@ -459,6 +459,7 @@ PestiCanVent,Pestilence Can Vent,アーソニストのクールダウン,疫医�
 DemoSuicideTime,Time To Vent Till Suicide,DemoSuicideTime,自杀倒计时,
 StoneCD,Stone Cooldown,Stone Cooldown,石化冷却时间,
 StoneDur,Stone Duration,Stone Duration,石化持续时间,
+StoneTime,Time Until Body is Stoned,Time Until Body is Stoned,Time Until Body is Stoned
 PKTAH,Players Know They Are Hexed,Players Know They Are Hexed,玩家知道谁被诅咒了,
 HexCD,Hex Cooldown,Hex Cooldown,诅咒冷却时间,
 MHPR,Max Hexes Per Round,Max Hexes Per Round,每轮最大诅咒人数,

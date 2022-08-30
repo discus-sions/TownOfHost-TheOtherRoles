@@ -754,7 +754,7 @@ namespace TownOfHost
                             }, Options.StoneReport.GetFloat(), "Medusa Stone Gazing");
                             return false;
                         }
-                        //if (Investigator.hasSeered[target.PlayerId]) if (!target.Is(CustomRoles.CorruptedSheriff)) return false;
+                        // if (Investigator.hasSeered[target.PlayerId]) if (!target.Is(CustomRoles.CorruptedSheriff)) return false;
                         //Investigator.OnCheckMurder(killer, target, Process: "RemoveShotLimit");
                         Investigator.hasSeered[target.PlayerId] = true;
                         if (target.Is(CustomRoles.CorruptedSheriff))
