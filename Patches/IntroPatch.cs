@@ -239,12 +239,12 @@ namespace TownOfHost
 
             if (Input.GetKey(KeyCode.RightShift))
             {
-                __instance.TeamTitle.text = "Town Of Host: The Other Roles";
+                __instance.TeamTitle.text = "Town Of Host: \r\nThe Other Roles";
                 __instance.ImpostorText.gameObject.SetActive(true);
                 __instance.ImpostorText.text = "https://github.com/music-discussion/TownOfHost-TheOtherRoles" +
                     "\r\nOut Now on Github";
                 __instance.TeamTitle.color = Color.cyan;
-                StartFadeIntro(__instance, Color.cyan, Color.yellow);
+                StartFadeIntro(__instance, Color.cyan, Color.green);
             }
             if (Input.GetKey(KeyCode.RightControl))
             {

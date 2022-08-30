@@ -111,6 +111,7 @@ namespace TownOfHost
                     canceled = true;
                     myRole(PlayerControl.LocalPlayer.PlayerId);
                     break;
+                case "/colour":
                 case "/color":
                     canceled = true;
                     subArgs = args.Length < 2 ? "" : args[1];
@@ -862,6 +863,7 @@ namespace TownOfHost
                 case "/myrole":
                     myRole(player.PlayerId);
                     break;
+                case "/colour":
                 case "/color":
                     subArgs = args.Length < 2 ? "" : args[1];
                     Utils.SendMessage("Color ID set to " + subArgs, player.PlayerId);
