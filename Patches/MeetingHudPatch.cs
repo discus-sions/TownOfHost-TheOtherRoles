@@ -224,7 +224,6 @@ namespace TownOfHost
                         int IsAlive = 0;
                         int numCovenAlive = 0;
                         int numNKalive = 0;
-                        PlayerControl seer = PlayerControl.LocalPlayer;
                         foreach (var pc in PlayerControl.AllPlayerControls)
                         {
                             if (!pc.Data.IsDead)
@@ -235,7 +234,7 @@ namespace TownOfHost
                                 if (pc.GetCustomRole().IsCoven() && Sheriff.TraitorCanSpawnIfCoven.GetBool())
                                     numCovenAlive++;
                                 if (pc.Is(CustomRoles.Sheriff))
-                                    seer = pc;
+                                    Sheriff.seer = pc;
                             }
                         }
 
@@ -244,7 +243,7 @@ namespace TownOfHost
                         {
                             if (numCovenAlive == 0 && numNKalive == 0)
                             {
-                                seer.RpcSetCustomRole(CustomRoles.CorruptedSheriff);
+                                Sheriff.seer.RpcSetCustomRole(CustomRoles.CorruptedSheriff);
                             }
                         }
                     }

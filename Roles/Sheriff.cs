@@ -8,7 +8,7 @@ namespace TownOfHost
     {
         private static readonly int Id = 20400;
         public static List<byte> playerIdList = new();
-        private static PlayerControl seer;
+        public static PlayerControl seer;
 
         private static CustomOption KillCooldown;
         private static CustomOption CanKillArsonist;

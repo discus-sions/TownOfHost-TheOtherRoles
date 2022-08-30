@@ -1179,7 +1179,13 @@ namespace TownOfHost
             {
                 if (__instance.Is(CustomRoles.Medium))
                 {
-                    if (Main.whoKilledWho.ContainsValue(target.Object))
+                    var didKill = false;
+                    foreach (var killed in Main.whoKilledWho)
+                    {
+                        if (killed.Value == target.Object)
+                            didKill = true;
+                    }
+                    if (didKill)
                     {
                         var reason = PlayerState.GetDeathReason(target.PlayerId).ToString();
                         var killer = PlayerControl.LocalPlayer;
