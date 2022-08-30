@@ -501,6 +501,7 @@ NVet,Number of Alerts,Number of Alerts,警报数量,警報數量
 Trade,Trade,Trade,相互,貿易
 PestiKillsVet,Pestilence Kills Veteran,PestiKillsVet,瘟疫杀死了老兵,瘟疫殺死退伍軍人
 VetKillsPesti,Veteran Kills Pestilence,VetKillsPesti,老兵杀死了瘟疫,退伍軍人殺死瘟疫
+BKdur,Protection Duration,BKdur,BKdur
 
 CovenKillCooldown,Coven Kill Cooldown,Coven Kill Cooldown,巫师击杀冷却时间,公會擊殺冷卻時間
 CovenMeetings,Meetings until Necronomicon,Meetings until Necronomicon,会议直到亡灵法师,會議直到死靈之書
