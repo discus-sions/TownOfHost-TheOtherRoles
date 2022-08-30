@@ -471,6 +471,47 @@ namespace TownOfHost
                         if (Main.GuardianAngelTarget.TryGetValue(seer.PlayerId, out var protectId) && target.PlayerId == protectId) //targetがValue
                             pva.NameText.text += Helpers.ColorString(Utils.GetRoleColor(CustomRoles.GuardianAngelTOU), "♦");
                         break;
+                    case CustomRoles.Investigator:
+                        if (Investigator.hasSeered[target.PlayerId] == true)
+                        {
+                            // Investigator has Seered Player.
+                            if (target.Is(CustomRoles.CorruptedSheriff))
+                            {
+                                if (Investigator.CSheriffSwitches.GetBool())
+                                {
+                                    pva.NameText.text = Helpers.ColorString(Utils.GetRoleColor(CustomRoles.Impostor), pva.NameText.text);
+                                }
+                                else
+                                {
+                                    if (Investigator.SeeredCSheriff)
+                                        pva.NameText.text = Helpers.ColorString(Utils.GetRoleColor(CustomRoles.Impostor), pva.NameText.text);
+                                    else
+                                        pva.NameText.text = Helpers.ColorString(Utils.GetRoleColor(CustomRoles.TheGlitch), pva.NameText.text);
+                                }
+                            }
+                            else
+                            {
+                                if (Investigator.IsRed(target))
+                                {
+                                    if (target.GetCustomRole().IsCoven())
+                                    {
+                                        if (Investigator.CovenIsPurple.GetBool())
+                                            pva.NameText.text = Helpers.ColorString(Utils.GetRoleColor(CustomRoles.Coven), pva.NameText.text); //targetの名前をエゴイスト色で表示
+                                        else
+                                            pva.NameText.text = Helpers.ColorString(Utils.GetRoleColor(CustomRoles.Impostor), pva.NameText.text); //targetの名前をエゴイスト色で表示
+                                    }
+                                    else
+                                    {
+                                        pva.NameText.text = Helpers.ColorString(Utils.GetRoleColor(CustomRoles.Impostor), pva.NameText.text);
+                                    }
+                                }
+                                else
+                                {
+                                    pva.NameText.text = Helpers.ColorString(Utils.GetRoleColor(CustomRoles.TheGlitch), pva.NameText.text); //targetの名前をエゴイスト色で表示
+                                }
+                            }
+                        }
+                        break;
                 }
 
                 foreach (var protect in Main.GuardianAngelTarget)

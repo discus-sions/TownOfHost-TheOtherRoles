@@ -323,6 +323,7 @@ namespace TownOfHost
                     { CustomRoles.JSchrodingerCat, "#00b4eb"},
                     //HideAndSeek
                     { CustomRoles.HASFox, "#e478ff"},
+                    { CustomRoles.BloodKnight, "#630000"},
                     { CustomRoles.HASTroll, "#00ff00"},
                     // GM
                     { CustomRoles.GM, "#ff5b70"},
@@ -474,6 +475,7 @@ namespace TownOfHost
         EgoSchrodingerCat,//エゴイスト陣営のシュレディンガーの猫
         Jester,
         Amnesiac,
+        BloodKnight,
         Pirate,
         Juggernaut,
         Opportunist,
