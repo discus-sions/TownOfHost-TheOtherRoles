@@ -1021,6 +1021,17 @@ namespace TownOfHost
         {
             BountyHunter.AfterMeetingTasks();
             SerialKiller.AfterMeetingTasks();
+            foreach (var pc in PlayerControl.AllPlayerControls)
+            {
+                if (pc.Is(CustomRoles.Camouflager))
+                    pc.RpcGuardAndKill(pc);
+                if (PlayerControl.GameOptions.MapId != 4) // other than Airship
+                    if (pc.Is(CustomRoles.Camouflager))
+                    {
+                        //main.AirshipMeetingTimer.Add(pc.PlayerId , 0f);
+                        Main.AllPlayerKillCooldown[pc.PlayerId] *= 2;
+                    }
+            }
         }
 
         public static void ChangeInt(ref int ChangeTo, int input, int max)

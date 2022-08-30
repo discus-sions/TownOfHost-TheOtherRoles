@@ -43,30 +43,6 @@ namespace TownOfHost
                     }
                     if (version_text != "") HudManager.Instance.Chat.AddChat(PlayerControl.LocalPlayer, version_text);
                     break;
-                case "/guess":
-                    canceled = true;
-                    if (!GameStates.IsMeeting)
-                    {
-                        string meeting_text = "";
-                        meeting_text += "You are currently not inside a meeting. Please try to guess while inside a meeting.";
-                        if (meeting_text != "") HudManager.Instance.Chat.AddChat(PlayerControl.LocalPlayer, meeting_text);
-                    }
-                    else
-                    {
-                        if (PlayerControl.LocalPlayer.Is(CustomRoles.NiceGuesser) || PlayerControl.LocalPlayer.Is(CustomRoles.EvilGuesser) || PlayerControl.LocalPlayer.Is(CustomRoles.Pirate))
-                        {
-                            CustomRoles role = CustomRoles.Crewmate;
-                            CustomRoles guessingID = 0;
-                            subArgs = args.Length < 2 ? "" : args[1];
-                        }
-                        else
-                        {
-                            string meeting_text = "";
-                            meeting_text += "You are currently not one of the 3 roles that have guessing powers. Try this commaind again when you have guessing powers.";
-                            if (meeting_text != "") HudManager.Instance.Chat.AddChat(PlayerControl.LocalPlayer, meeting_text);
-                        }
-                    }
-                    break;
                 case "/setimp":
                     canceled = true;
                     subArgs = args.Length < 2 ? "" : args[1];

@@ -1109,6 +1109,11 @@ namespace TownOfHost
             }
             if (shapeshifter.Is(CustomRoles.FireWorks)) FireWorks.ShapeShiftState(shapeshifter, shapeshifting);
             if (shapeshifter.Is(CustomRoles.Sniper)) Sniper.ShapeShiftCheck(shapeshifter, shapeshifting);
+            if (shapeshifter.Is(CustomRoles.Camouflager))
+            {
+                target = shapeshifter;
+                Camouflager.ShapeShiftState(shapeshifter, shapeshifting);
+            }
 
             //変身解除のタイミングがずれて名前が直せなかった時のために強制書き換え
             if (!shapeshifting)
@@ -1306,6 +1311,8 @@ namespace TownOfHost
             }
             if (!Main.HasNecronomicon)
                 Main.CovenMeetings++;
+            foreach (PlayerControl targeted in PlayerControl.AllPlayerControls)
+                targeted.RpcRevertShapeshift(true);
             if (Main.CovenMeetings == Options.CovenMeetings.GetFloat() && !Main.HasNecronomicon && CustomRoles.Coven.IsEnable())
             {
                 Main.HasNecronomicon = true;

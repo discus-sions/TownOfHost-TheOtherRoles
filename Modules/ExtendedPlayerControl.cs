@@ -373,6 +373,10 @@ namespace TownOfHost
                     opt.RoleOptions.ScientistCooldown = 0f;
                     opt.RoleOptions.ScientistBatteryCharge = Options.DoctorTaskCompletedBatteryCharge.GetFloat();
                     break;
+                case CustomRoles.Camouflager:
+                    opt.RoleOptions.ShapeshifterCooldown = Camouflager.CamouflagerCamouflageCoolDown.GetFloat();
+                    opt.RoleOptions.ShapeshifterDuration = Camouflager.CamouflagerCamouflageDuration.GetFloat();
+                    break;
                 case CustomRoles.Juggernaut:
                     opt.SetVision(player, true);
                     if (Options.JuggerCanVent.GetBool())

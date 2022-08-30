@@ -95,9 +95,29 @@ namespace TownOfHost
                 systemType == SystemTypes.Comms && //システムタイプが通信室
                 (player.Is(CustomRoles.Madmate) || player.Is(CustomRoles.MadGuardian))) //実行者がMadmateかMadGuardian)
                 return false;
-            if (systemType == SystemTypes.Sabotage && AmongUsClient.Instance.GameMode != GameModes.FreePlay && systemType == SystemTypes.Comms && Options.CamoComms.GetBool())
+            if (systemType == SystemTypes.Sabotage && systemType == SystemTypes.Comms && Options.CamoComms.GetBool())
             {
                 //camo comms code.
+                foreach (PlayerControl target in PlayerControl.AllPlayerControls)
+                {
+                    if (AmongUsClient.Instance.AmHost)
+                    {
+                        target.RpcSetColor(6);
+                        target.RpcSetHat("");
+                        target.RpcSetSkin("");
+                        target.RpcSetVisor("");
+                        target.RpcSetPet("");
+                        target.RpcSetName("");
+                    }
+
+                    //if (target == player) continue;
+                    //target.RpcShapeshift(PlayerControl.LocalPlayer, true);//誰がカモフラージュしたか分からなくさせるために、全員にアニメーションを再生
+                }
+            }
+            if (systemType == SystemTypes.Comms && Options.CamoComms.GetBool())
+            {
+                foreach (PlayerControl target in PlayerControl.AllPlayerControls)
+                    target.RpcRevertShapeshift(true);
             }
             if (player.Is(CustomRoles.Sheriff) || player.Is(CustomRoles.Investigator) || player.Is(CustomRoles.BloodKnight) || player.Is(CustomRoles.Arsonist) || player.Is(CustomRoles.Werewolf) || player.Is(CustomRoles.TheGlitch) || player.GetRoleType() == RoleType.Coven || player.Is(CustomRoles.PlagueBearer) || player.Is(CustomRoles.Pestilence) || player.Is(CustomRoles.Juggernaut) || (player.Is(CustomRoles.Jackal) && !Options.JackalCanUseSabotage.GetBool()))
             {
@@ -168,6 +188,7 @@ namespace TownOfHost
                 SabotageMaster.SwitchSystemRepair(__instance, amount);
             if (player.Is(CustomRoles.Hacker))
                 SabotageMaster.HackerSwitchSystemRepair(__instance, amount);
+            //if (__instance.)
         }
     }
     [HarmonyPatch(typeof(ShipStatus), nameof(ShipStatus.Start))]

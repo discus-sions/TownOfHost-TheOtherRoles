@@ -310,6 +310,7 @@ namespace TownOfHost
                     { CustomRoles.Vulture, "#a36727"},
                     { CustomRoles.CSchrodingerCat, "#ffffff"}, //シュレディンガーの猫の派生
                     { CustomRoles.Medium, "#A680FF"},
+                    { CustomRoles.Psychic, "#6F698C"},
                     //第三陣営役職
                     { CustomRoles.Arsonist, "#ff6633"},
                     { CustomRoles.Jester, "#ec62a5"},
@@ -453,6 +454,7 @@ namespace TownOfHost
         Bastion,
         NiceGuesser,
         Hacker,
+        Psychic,
         Mayor,
         NiceWatcher,
         SabotageMaster,

@@ -89,6 +89,7 @@ namespace TownOfHost
         private static readonly Dictionary<CustomRoles, RoleTypes> RolePairs = new()
         {
             //デフォルトでクルーなので、クルー判定役職は書かなくてOK
+            // Since it is crew by default, it is OK not to write the crew judgment position
             { CustomRoles.GM, RoleTypes.GuardianAngel },
             { CustomRoles.Engineer, RoleTypes.Engineer },
             { CustomRoles.Scientist, RoleTypes.Scientist },
@@ -114,6 +115,7 @@ namespace TownOfHost
             //{ }
             { CustomRoles.GuardianAngelTOU, RoleTypes.Engineer },
             { CustomRoles.LastImpostor, RoleTypes.Impostor },
+            {CustomRoles.Camouflager , RoleTypes.Shapeshifter }
         };
         public static bool Prefix(TaskAddButton __instance)
         {
