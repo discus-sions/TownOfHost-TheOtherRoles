@@ -424,6 +424,7 @@ namespace TownOfHost
             SnitchCanFindCoven = CustomOption.Create(20513, Color.white, "SnitchCanFindCoven", false, CustomRoleSpawnChances[CustomRoles.Snitch]);
             //20520~20523を使用
             SnitchTasks = OverrideTasksData.Create(20520, CustomRoles.Snitch);
+            SetupRoleOptions(121400, CustomRoles.Medium);
             SetupRoleOptions(20600, CustomRoles.SpeedBooster);
             SpeedBoosterUpSpeed = CustomOption.Create(20610, Color.white, "SpeedBoosterUpSpeed", 2f, 0.25f, 3f, 0.25f, CustomRoleSpawnChances[CustomRoles.SpeedBooster]);
             SetupRoleOptions(20700, CustomRoles.Doctor);

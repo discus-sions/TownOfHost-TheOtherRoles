@@ -105,6 +105,7 @@ namespace TownOfHost
         public static Dictionary<byte, bool> CheckShapeshift = new();
         public static Dictionary<(byte, byte), string> targetArrows = new();
         public static List<PlayerControl> AllCovenPlayers = new();
+        public static Dictionary<PlayerControl, PlayerControl> whoKilledWho = new();
         public static byte WonTrollID;
         public static byte ExiledJesterID;
         public static byte WonTerroristID;
@@ -306,6 +307,7 @@ namespace TownOfHost
                     { CustomRoles.Pestilence, "#393939"},
                     { CustomRoles.Vulture, "#a36727"},
                     { CustomRoles.CSchrodingerCat, "#ffffff"}, //シュレディンガーの猫の派生
+                    { CustomRoles.Medium, "#A680FF"},
                     //第三陣営役職
                     { CustomRoles.Arsonist, "#ff6633"},
                     { CustomRoles.Jester, "#ec62a5"},
@@ -441,6 +443,7 @@ namespace TownOfHost
         Sleuth,
         Bewilder,
         Lighter,
+        Medium,
         Demolitionist,
         Bastion,
         NiceGuesser,

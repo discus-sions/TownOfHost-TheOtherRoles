@@ -1004,6 +1004,7 @@ namespace TownOfHost
             Utils.CountAliveImpostors();
             Utils.CustomSyncAllSettings();
             Utils.NotifyRoles();
+            Main.whoKilledWho.Add(killer, target);
         }
     }
     [HarmonyPatch(typeof(PlayerControl), nameof(PlayerControl.Shapeshift))]
@@ -1173,6 +1174,38 @@ namespace TownOfHost
             }
 
             if (target != null) //Sleuth Report for Non-Buttons
+            {
+                if (__instance.Is(CustomRoles.Medium))
+                {
+                    if (Main.whoKilledWho.ContainsValue(target.Object))
+                    {
+                        var reason = PlayerState.GetDeathReason(target.PlayerId).ToString();
+                        var killer = PlayerControl.LocalPlayer;
+                        foreach (var killed in Main.whoKilledWho)
+                        {
+                            if (killed.Value == target.Object)
+                                killer = killed.Key;
+                        }
+                        if (killer != target.Object)
+                            Utils.SendMessage("The killer left a clue on their identity. The killer's role was " + Utils.GetRoleName(killer.GetCustomRole()) + ".", __instance.PlayerId);
+                        else
+                        {
+                            if (PlayerState.GetDeathReason(target.PlayerId) == PlayerState.DeathReason.Bombed)
+                                Utils.SendMessage("The body was bombed.", __instance.PlayerId);
+                            else if (PlayerState.GetDeathReason(target.PlayerId) == PlayerState.DeathReason.Torched)
+                                Utils.SendMessage("The body was ignited by Arsonist.", __instance.PlayerId);
+                            else
+                                Utils.SendMessage("The body appears to be a suicide!", __instance.PlayerId);
+                        }
+                    }
+                    else
+                    {
+                        Utils.SendMessage("The body had no hints on how they died.", __instance.PlayerId);
+                    }
+                }
+            }
+
+            if (target != null) //Amnesiac Stealing role
             {
                 if (__instance.Is(CustomRoles.Amnesiac))
                 {

@@ -60,6 +60,7 @@ Trapper,Trapper,トラッパー,陷阱师,設陷者
 Dictator,Dictator,ディクテーター,独裁者,獨裁主義者
 Child,Child,Child,小孩,小孩
 Sleuth,Sleuth,Sleuth,侦探,偵探
+Medium,Medium,Medium,Medium
 Bastion,Bastion,Bastion,埋雷兵,炸彈師
 Demolitionist,Demolitionist,Demolitionist,同命爆手,拆遷者
 
@@ -165,6 +166,7 @@ TrapperInfo,Trap your enemies,敵を罠にはめよう,引诱敌人落入你的�
 DictatorInfo,Hang your enemy based on your own judgement,独裁政治をしよう,让我统治世界，拥有无上的权利,讓所有人臣服於你
 ChildInfo,No one will Harm You,No one will Harm You,在你长大之前没有人敢伤害你,在你長大前都不敢擊殺你
 SleuthInfo,Discover the Unknown,Discover the Unknown,你发现了一些关于死者的线索,你發現了一些線索
+MediumInfo,Find out who killed who,Medium,Medium
 BastionInfo,Blow up Venters,Bastion,把通风管道全部炸掉吧！,
 DemolitionistInfo,Blow up the Killer,Demolitionist,炸死凶手,
 
@@ -263,6 +265,7 @@ ChildInfoLong,"(Crewmates):\nWhen you die by voting or killing, you instantly wi
 SleuthInfoLong,"(Crewmates):\nThe Sleuth knows the role of the bodies they report.","(Crewmates):\nWhen a body is reported, you know the role of the body. You can make it so the Sleuth has to report.","(船员阵营):\n当报告尸体时你知道关于尸体的线索，你可以让侦探必须报告.",
 BastionInfoLong,"(Crewmates):\nAs Bastion, vent inside a vent to place a bomb inside of it. \nAfterwards, if another Bastion or a role that can vent without being kicked out vents in that vent, they die. \nYou can only bomb 1 person per round.","(Crewmates):\nInfo unfinished.",(船员阵营):\n身为埋雷兵，你可以在通风管道中放置炸弹。\n如果其他可以进入通风管道的玩家进入这个通风管道，他将会死亡。\n每轮只能炸死一个人。,
 DemolitionistInfoLong,"(Crewmates):\nWhen the Demolitionist is killed, they bomb the ground, giving the killer a few seconds to find a vent. \nIf they don't vent in time, the killer suicides. \nThe killer is marked with an Arsonist triangle.","(Crewmates):\nInfo unfinished.",(船员阵营):\n当同命爆手被击杀时，会对凶手的地面进行破坏，给凶手几秒中的时间去寻找通风管道。\n如果没有在规定时间内进入通风管道，凶手将会死亡。\n凶手会被标记“纵火犯”的三角形图标。,
+MediumInfoLong,"(Crewmates):\nThe Medium is basically Sleuth but for the killer. When the Medium reports a body, they know the killer's role.","(Crewmates):\nThe Medium is basically Sleuth but for the killer. When the Medium reports a body, they know the killer's role.","(Crewmates):\nThe Medium is basically Sleuth but for the killer. When the Medium reports a body, they know the killer's role."
 
 # 第三陣営役職
 ArsonistInfoLong,(Neutrals):\nThey can douse other players by using the kill button and remaining next to the player for a few seconds.\nAfter dousing everyone alive the Arsonists can enter the vents to ignite which results in Arsonist win.,(第三陣営):\nキルボタンを使おうとすると、ターゲットに油を塗れる。\nすべてのクルーに油を塗ったら船を燃やして勝利する。,(中立阵营):\n在一名玩家附近时点击击杀按钮，纵火犯可以给那名玩家涂油。\n所有存活玩家都被纵火犯涂油后，纵火犯点火将会单独获得胜利。,"(中立):\n當縱火犯嘗試使用殺人鍵,它將對他身邊最近的一個人澆上油,\n當他對所有玩家澆上油之後,縱火縱火犯點火即勝利。"
