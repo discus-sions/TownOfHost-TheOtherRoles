@@ -246,9 +246,9 @@ namespace TownOfHost
         public static CustomOption PestiAttacksVet;
 
         // OTHER NEUTRALS
-        
+
         // BLOOD-KNIHT //
-        
+
         public static CustomOption BKcanVent;
         public static CustomOption BKkillCd;
         public static CustomOption BKprotectDur;
@@ -477,10 +477,10 @@ namespace TownOfHost
             ExecutionerChangeRolesAfterTargetKilled = CustomOption.Create(50711, Color.white, "ExecutionerChangeRolesAfterTargetKilled", ExecutionerChangeRoles, ExecutionerChangeRoles[1], CustomRoleSpawnChances[CustomRoles.Executioner]);
             //Jackalは1人固定
             SetupSingleRoleOptions(509000, CustomRoles.BloodKnight, 1);
-            BKcanVent = CustomOption.Create(09005, Color.white, "CanVent", true, CustomRoleSpawnChances[CustomRoles.BloodKnight];
+            BKcanVent = CustomOption.Create(09005, Color.white, "CanVent", true, CustomRoleSpawnChances[CustomRoles.BloodKnight]);
             BKkillCd = CustomOption.Create(509010, Color.white, "KillCD", 30, 2.5f, 180, 2.5f, CustomRoleSpawnChances[CustomRoles.BloodKnight]);
-            BKprotectDur = CustomOption.Create(509011, Color.white, "BKdur", 15, 2.5f, 180, 2.5f, CustomRoleSpawnChances[CustomRoles.BloodKNight]);
-            
+            BKprotectDur = CustomOption.Create(509011, Color.white, "BKdur", 15, 2.5f, 180, 2.5f, CustomRoleSpawnChances[CustomRoles.BloodKnight]);
+
             SetupSingleRoleOptions(50900, CustomRoles.Jackal, 1);
             JackalKillCooldown = CustomOption.Create(50910, Color.white, "JackalKillCooldown", 30, 2.5f, 180, 2.5f, CustomRoleSpawnChances[CustomRoles.Jackal]);
             JackalCanVent = CustomOption.Create(50911, Color.white, "JackalCanVent", true, CustomRoleSpawnChances[CustomRoles.Jackal]);

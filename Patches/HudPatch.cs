@@ -511,7 +511,7 @@ namespace TownOfHost
                     if (player.Data.Role.Role != RoleTypes.GuardianAngel)
                         __instance.KillButton.ToggleVisible(isActive && !player.Data.IsDead);
                     __instance.SabotageButton.ToggleVisible(false);
-                    __instance.ImpostorVentButton.ToggleVisible(Options.BKcanVent.GetBool() && !player.Data.IsDead));
+                    __instance.ImpostorVentButton.ToggleVisible(Options.BKcanVent.GetBool() && !player.Data.IsDead);
                     __instance.AbilityButton.ToggleVisible(false);
                     break;
                 case CustomRoles.Amnesiac:

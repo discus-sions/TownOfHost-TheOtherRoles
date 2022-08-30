@@ -265,7 +265,7 @@ namespace TownOfHost
                     target.RpcMurderPlayer(killer);
                     return false;
                 }
-                if (target.Is(CustomRoles.BloodKnight)
+                if (target.Is(CustomRoles.BloodKnight))
                 {
                     if (!killer.Is(CustomRoles.Arsonist) && !killer.Is(CustomRoles.PlagueBearer) && Main.bkProtected) return false;
                 }
@@ -771,7 +771,7 @@ namespace TownOfHost
                         Utils.NotifyRoles();
                         return false;
                     case CustomRoles.BloodKnight:
-                        
+
                         if (target.Is(CustomRoles.Veteran) && Main.VetIsAlerted)
                         {
                             target.RpcMurderPlayer(killer);
@@ -786,7 +786,8 @@ namespace TownOfHost
                             }, Options.StoneReport.GetFloat(), "Medusa Stone Gazing");
                             return false;
                         }
-                        if (!Main.bkProtected) {
+                        if (!Main.bkProtected)
+                        {
                             Main.bkProtected = true;
                             new LateTask(() =>
                             {
@@ -2247,7 +2248,8 @@ namespace TownOfHost
                 pc?.MyPhysics?.RpcBootFromVent(__instance.Id);
                 skipCheck = true;
             }
-            if (pc.Is(CustomRoles.Arsonist) && Options.BetterArso.GetBool())
+
+            if (pc.Is(CustomRoles.Arsonist) && Options.TOuRArso.GetBool())
             {
                 pc?.MyPhysics?.RpcBootFromVent(__instance.Id);
             }
@@ -2431,7 +2433,7 @@ namespace TownOfHost
                 (__instance.myPlayer.Is(CustomRoles.CovenWitch) && !Main.HasNecronomicon) || (__instance.myPlayer.Is(CustomRoles.HexMaster) && !Main.HasNecronomicon) ||
                 (__instance.myPlayer.Is(CustomRoles.Mayor) && Main.MayorUsedButtonCount.TryGetValue(__instance.myPlayer.PlayerId, out var count) && count >= Options.MayorNumOfUseButton.GetInt()) ||
                 (__instance.myPlayer.Is(CustomRoles.Jackal) && !Options.JackalCanVent.GetBool()) ||
-                    (__instance.myPlayer.Is(CustomRoles.BloodKnight) && !Options.BKcanVentGetBool()) ||
+                    (__instance.myPlayer.Is(CustomRoles.BloodKnight) && !Options.BKcanVent.GetBool()) ||
                 (__instance.myPlayer.Is(CustomRoles.Pestilence) && !Options.PestiCanVent.GetBool())
                 )
                 {

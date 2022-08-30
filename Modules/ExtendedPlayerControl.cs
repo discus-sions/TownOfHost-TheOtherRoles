@@ -12,7 +12,7 @@ namespace TownOfHost
     {
         public static void RpcSetCustomRole(this PlayerControl player, CustomRoles role)
         {
-            if (role < CustomRResetKillCooldownoles.NoSubRoleAssigned)
+            if (role < CustomRoles.NoSubRoleAssigned)
             {
                 Main.AllPlayerCustomRoles[player.PlayerId] = role;
             }
