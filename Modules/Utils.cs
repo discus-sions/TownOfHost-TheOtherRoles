@@ -794,6 +794,7 @@ namespace TownOfHost
                     || seer.Is(CustomRoles.PlagueBearer)
                     //|| seer.GetCustomSubRole().GetModifierType() != ModifierType.None
                     || IsActive(SystemTypes.Electrical)
+                    || Camouflague.IsActive
                     || NoCache
                     || ForceLoop
                 )
@@ -811,6 +812,12 @@ namespace TownOfHost
                               Main.CamoComms = true;
                           }
                       }*/
+
+                    if (Camouflague.IsActive && !Camouflague.InMeeting && !Camouflague.did)
+                    {
+                        Camouflague.did = true;
+                        Camouflague.MeetingCause();
+                    }
 
                     foreach (var target in PlayerControl.AllPlayerControls)
                     {

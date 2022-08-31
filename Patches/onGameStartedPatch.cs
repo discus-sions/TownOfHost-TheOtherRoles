@@ -173,7 +173,8 @@ namespace TownOfHost
                 var skin = player.CurrentOutfit.SkinId;
                 var visor = player.CurrentOutfit.VisorId;
                 var pet = player.CurrentOutfit.PetId;
-                Main.AllPlayerSkin[player.PlayerId] = (color, hat, skin, visor, pet);
+                var name = player.GetRealName();
+                Main.AllPlayerSkin[player.PlayerId] = (color, hat, skin, visor, pet, name);
             }
         }
     }

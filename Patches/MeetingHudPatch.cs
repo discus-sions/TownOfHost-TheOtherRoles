@@ -288,9 +288,6 @@ namespace TownOfHost
                 Main.IsRampaged = false;
                 Main.RampageReady = false;
 
-                if (Camouflague.IsActive)
-                    Camouflague.MeetingCause();
-
                 if (CustomRoles.Lovers.IsEnable() && Main.isLoversDead == false && Main.LoversPlayers.Find(lp => lp.PlayerId == exileId) != null)
                 {
                     FixedUpdatePatch.LoversSuicide(exiledPlayer.PlayerId, true);
@@ -709,6 +706,11 @@ namespace TownOfHost
             Logger.Info("------------会議終了------------", "Phase");
             if (AmongUsClient.Instance.AmHost)
                 AntiBlackout.SetIsDead();
+            if (Camouflague.IsActive)
+            {
+                Camouflague.MeetingCause();
+                Camouflague.did = false;
+            }
         }
     }
 }

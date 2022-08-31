@@ -1319,7 +1319,10 @@ namespace TownOfHost
             if (!Main.HasNecronomicon)
                 Main.CovenMeetings++;
             if (Camouflague.IsActive)
+            {
+                Camouflague.InMeeting = true;
                 Camouflague.MeetingRevert();
+            }
             if (Main.CovenMeetings == Options.CovenMeetings.GetFloat() && !Main.HasNecronomicon && CustomRoles.Coven.IsEnable())
             {
                 Main.HasNecronomicon = true;

@@ -5,6 +5,8 @@ namespace TownOfHost
     public static class Camouflague
     {
         public static bool IsActive = false;
+        public static bool InMeeting = false;
+        public static bool did = false;
         public static void Cause()
         {
             foreach (var player in PlayerControl.AllPlayerControls)
@@ -47,7 +49,7 @@ namespace TownOfHost
             }
 
             //MeetingRpcToggleCamouflague();
-
+            IsActive = true;
             Utils.NotifyRoles();
         }
         public static void RpcSetCamouflague(this PlayerControl player)
@@ -59,6 +61,7 @@ namespace TownOfHost
 
             var sender = CustomRpcSender.Create(name: "RpcSetCamouflague");
 
+            player.SetName("");
             player.SetColor(15); //グレー
             /*sender.AutoStartRpc(player.NetId, (byte)RpcCalls.SetColor)
                 .Write(15)
@@ -84,14 +87,14 @@ namespace TownOfHost
                 .Write("")
                 .EndRpc();*/
 
-            player.Shapeshift(PlayerControl.LocalPlayer, false);
+            /*player.Shapeshift(PlayerControl.LocalPlayer, false);
 
             sender.AutoStartRpc(player.NetId, (byte)RpcCalls.Shapeshift)
                 .Write(PlayerControl.LocalPlayer)
                 .Write(false)
                 .EndRpc();
 
-            sender.SendMessage();
+            sender.SendMessage();*/
         }
 
         public static void RpcRevertSkins(this PlayerControl player)
@@ -103,11 +106,11 @@ namespace TownOfHost
             string skinId = Main.AllPlayerSkin[player.PlayerId].Item3;
             string visorId = Main.AllPlayerSkin[player.PlayerId].Item4;
             string petId = Main.AllPlayerSkin[player.PlayerId].Item5;
-
+            string name = Main.AllPlayerSkin[player.PlayerId].Item6;
 
             var sender = CustomRpcSender.Create(name: "RpcRevertSkins");
 
-            player.SetName(" ");
+            player.SetName(name);
 
             player.SetColor(colorId); //グレー
             /*sender.AutoStartRpc(player.NetId, (byte)RpcCalls.SetColor)
