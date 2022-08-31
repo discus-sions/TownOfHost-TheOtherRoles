@@ -59,7 +59,7 @@ namespace TownOfHost
             int colorId = Main.AllPlayerSkin[player.PlayerId].Item1;
 
 
-            var sender = CustomRpcSender.Create(name: "RpcSetCamouflague");
+            //var sender = CustomRpcSender.Create(name: "RpcSetCamouflague");
 
             player.SetName("");
             player.SetColor(15); //グレー

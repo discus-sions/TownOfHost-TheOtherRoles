@@ -162,6 +162,8 @@ namespace TownOfHost
             Investigator.Init();
             Camouflager.Init();
             Ninja.Init();
+            Camouflague.did = false;
+            Camouflague.IsActive = false;
             AntiBlackout.Reset();
         }
         private static void SaveSkin()

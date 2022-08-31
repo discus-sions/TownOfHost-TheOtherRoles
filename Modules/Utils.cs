@@ -813,7 +813,7 @@ namespace TownOfHost
                           }
                       }*/
 
-                    if (Camouflague.IsActive && !Camouflague.InMeeting && !Camouflague.did)
+                    if (Camouflague.IsActive && !Camouflague.InMeeting && !Camouflague.did && Options.CamoComms.GetBool())
                     {
                         Camouflague.did = true;
                         Camouflague.MeetingCause();

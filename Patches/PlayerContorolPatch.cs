@@ -1318,7 +1318,7 @@ namespace TownOfHost
             }
             if (!Main.HasNecronomicon)
                 Main.CovenMeetings++;
-            if (Camouflague.IsActive)
+            if (Camouflague.IsActive && Options.CamoComms.GetBool())
             {
                 Camouflague.InMeeting = true;
                 Camouflague.MeetingRevert();
