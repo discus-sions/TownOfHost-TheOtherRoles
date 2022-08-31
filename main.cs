@@ -544,7 +544,8 @@ namespace TownOfHost
         Coven = CustomRoles.Coven,
         TheGlitch = CustomRoles.TheGlitch,
         Werewolf = CustomRoles.Werewolf,
-        Hacker = CustomRoles.Hacker
+        Hacker = CustomRoles.Hacker,
+        BloodKnight = CustomRoles.BloodKnight,
     }
     public enum AdditionalWinners
     {

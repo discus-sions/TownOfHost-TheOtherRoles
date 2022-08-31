@@ -78,6 +78,14 @@ namespace TownOfHost
                     if (p.Is(CustomRoles.Vulture)) winner.Add(p);
                 }
             }
+            if (Main.currentWinner == CustomWinner.BloodKnight)
+            {
+                winner.Clear();
+                foreach (var p in PlayerControl.AllPlayerControls)
+                {
+                    if (p.Is(CustomRoles.BloodKnight)) winner.Add(p);
+                }
+            }
             if (Main.currentWinner == CustomWinner.Pestilence)
             {
                 winner.Clear();
