@@ -385,6 +385,9 @@ namespace TownOfHost
                         if (Main.isCurseAndKill[killer.PlayerId]) killer.RpcGuardAndKill(target);
                         return false;
                     //break;
+                    case CustomRoles.Ninja:
+                        Ninja.KillCheck(killer, target);
+                        return false;
                     case CustomRoles.Werewolf:
                         if (Main.IsRampaged)
                         {
@@ -1109,6 +1112,7 @@ namespace TownOfHost
             }
             if (shapeshifter.Is(CustomRoles.FireWorks)) FireWorks.ShapeShiftState(shapeshifter, shapeshifting);
             if (shapeshifter.Is(CustomRoles.Sniper)) Sniper.ShapeShiftCheck(shapeshifter, shapeshifting);
+            if (shapeshifter.Is(CustomRoles.Ninja)) Ninja.ShapeShiftCheck(shapeshifter, shapeshifting);
             if (shapeshifter.Is(CustomRoles.Camouflager))
             {
                 target = shapeshifter;

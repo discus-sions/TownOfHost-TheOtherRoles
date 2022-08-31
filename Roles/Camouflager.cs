@@ -15,6 +15,10 @@ namespace TownOfHost
             CamouflagerCamouflageCoolDown = CustomOption.Create(Id + 10, Color.white, "CamouflagerCamouflageCoolDown", 2.5f, 2.5f, 60f, 2.5f, Options.CustomRoleSpawnChances[CustomRoles.Camouflager]);
             CamouflagerCamouflageDuration = CustomOption.Create(Id + 11, Color.white, "CamouflagerCamouflageDuration", 2.5f, 2.5f, 60f, 2.5f, Options.CustomRoleSpawnChances[CustomRoles.Camouflager]);
         }
+        public static void Init()
+        {
+            DidCamo = false;
+        }
         public static bool DidCamo = false;
         public static void ShapeShiftState(PlayerControl shifter, bool shapeshifting)
         {

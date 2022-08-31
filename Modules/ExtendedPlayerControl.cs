@@ -425,6 +425,10 @@ namespace TownOfHost
                 case CustomRoles.Mare:
                     Mare.ApplyGameOptions(opt, player.PlayerId);
                     break;
+                case CustomRoles.Ninja:
+                    opt.RoleOptions.ShapeshifterCooldown = 0.1f;
+                    opt.RoleOptions.ShapeshifterDuration = 0f;
+                    break;
                 case CustomRoles.Werewolf:
                     if (!Main.IsRampaged)
                         opt.SetVision(player, false);

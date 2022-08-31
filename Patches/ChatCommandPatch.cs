@@ -446,6 +446,8 @@ namespace TownOfHost
                 { CustomRoles.Warlock, "wa" },
                 { CustomRoles.Witch, "wi" },
                 { CustomRoles.Silencer, "si" },
+                { CustomRoles.Ninja,"ni"},
+                { CustomRoles.Camouflager,"cf"},
                 { CustomRoles.CorruptedSheriff, "csh" },
                 //Madmate役職
                 { (CustomRoles)(-2), $"== {GetString("Madmate")} ==" }, //区切り用
@@ -563,6 +565,8 @@ namespace TownOfHost
                 { CustomRoles.Warlock, "wa" },
                 { CustomRoles.Witch, "wi" },
                 { CustomRoles.Silencer, "si" },
+                { CustomRoles.Camouflager,"cf"},
+                { CustomRoles.Ninja,"ni"},
                 { CustomRoles.CorruptedSheriff, "csh" },
                 //Madmate役職
                 { (CustomRoles)(-2), $"== {GetString("Madmate")} ==" }, //区切り用
@@ -669,6 +673,8 @@ namespace TownOfHost
                 { CustomRoles.Warlock, "wa" },
                 { CustomRoles.Witch, "wi" },
                 { CustomRoles.Silencer, "si" },
+                { CustomRoles.Ninja,"ni"},
+                { CustomRoles.Camouflager,"cf"},
                 { CustomRoles.CorruptedSheriff, "csh" },
                 //Madmate役職
                 { (CustomRoles)(-2), $"== {GetString("Madmate")} ==" }, //区切り用

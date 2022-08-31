@@ -427,6 +427,7 @@ namespace TownOfHost
         Puppeteer,
         TimeThief,
         Silencer,
+        Ninja,
         Swooper,
         Camouflager,
         EvilGuesser,

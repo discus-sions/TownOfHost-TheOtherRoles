@@ -153,6 +153,8 @@ namespace TownOfHost
             Egoist.Init();
             Sheriff.Init();
             Investigator.Init();
+            Camouflager.Init();
+            Ninja.Init();
             AntiBlackout.Reset();
         }
     }
@@ -203,7 +205,7 @@ namespace TownOfHost
                 roleOpt.SetRoleRate(RoleTypes.Engineer, EngineerNum + AdditionalEngineerNum, AdditionalEngineerNum > 0 ? 100 : roleOpt.GetChancePerGame(RoleTypes.Engineer));
 
                 int ShapeshifterNum = roleOpt.GetNumPerGame(RoleTypes.Shapeshifter);
-                int AdditionalShapeshifterNum = CustomRoles.SerialKiller.GetCount() + CustomRoles.TheGlitch.GetCount() + CustomRoles.BountyHunter.GetCount() + CustomRoles.Camouflager.GetCount() + CustomRoles.Warlock.GetCount()/* + CustomRoles.ShapeMaster.GetCount()*/ + CustomRoles.FireWorks.GetCount() + CustomRoles.Sniper.GetCount();//- ShapeshifterNum;
+                int AdditionalShapeshifterNum = CustomRoles.SerialKiller.GetCount() + CustomRoles.TheGlitch.GetCount() + CustomRoles.BountyHunter.GetCount() + CustomRoles.Camouflager.GetCount() + CustomRoles.Warlock.GetCount()/* + CustomRoles.ShapeMaster.GetCount()*/ + CustomRoles.FireWorks.GetCount() + CustomRoles.Sniper.GetCount() + CustomRoles.Ninja.GetCount(); ;//- ShapeshifterNum;
                 if (Main.RealOptionsData.NumImpostors > 1)
                     AdditionalShapeshifterNum += CustomRoles.Egoist.GetCount();
                 //if (CustomRoles.TheGlitch.IsEnable())
@@ -354,6 +356,7 @@ namespace TownOfHost
                 AssignCustomRolesFromList(CustomRoles.Executioner, Crewmates);
                 AssignCustomRolesFromList(CustomRoles.Vulture, Crewmates);
                 AssignCustomRolesFromList(CustomRoles.Camouflager, Shapeshifters);
+                AssignCustomRolesFromList(CustomRoles.Ninja, Shapeshifters);
                 AssignCustomRolesFromList(CustomRoles.Vampire, Impostors);
                 AssignCustomRolesFromList(CustomRoles.BountyHunter, Shapeshifters);
                 AssignCustomRolesFromList(CustomRoles.Witch, Impostors);
@@ -557,6 +560,9 @@ namespace TownOfHost
                         case CustomRoles.Mare:
                             Mare.Add(pc.PlayerId);
                             break;
+                        case CustomRoles.Ninja:
+                            Ninja.Add(pc.PlayerId);
+                            break;
 
                         case CustomRoles.Arsonist:
                             foreach (var ar in PlayerControl.AllPlayerControls)
@@ -651,7 +657,7 @@ namespace TownOfHost
                 roleOpt.SetRoleRate(RoleTypes.Engineer, EngineerNum, roleOpt.GetChancePerGame(RoleTypes.Engineer));
 
                 int ShapeshifterNum = roleOpt.GetNumPerGame(RoleTypes.Shapeshifter);
-                ShapeshifterNum -= CustomRoles.SerialKiller.GetCount() + CustomRoles.BountyHunter.GetCount() + CustomRoles.TheGlitch.GetCount() + CustomRoles.Warlock.GetCount()/* + CustomRoles.ShapeMaster.GetCount()*/ + CustomRoles.FireWorks.GetCount() + CustomRoles.Sniper.GetCount() + CustomRoles.Camouflager.GetCount();
+                ShapeshifterNum -= CustomRoles.SerialKiller.GetCount() + CustomRoles.BountyHunter.GetCount() + CustomRoles.TheGlitch.GetCount() + CustomRoles.Warlock.GetCount()/* + CustomRoles.ShapeMaster.GetCount()*/ + CustomRoles.FireWorks.GetCount() + CustomRoles.Sniper.GetCount() + CustomRoles.Camouflager.GetCount() + CustomRoles.Ninja.GetCount();
                 if (Main.RealOptionsData.NumImpostors > 1)
                     ShapeshifterNum -= CustomRoles.Egoist.GetCount();
                 //if (CustomRoles.TheGlitch.IsEnable())

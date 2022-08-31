@@ -115,7 +115,8 @@ namespace TownOfHost
             //{ }
             { CustomRoles.GuardianAngelTOU, RoleTypes.Engineer },
             { CustomRoles.LastImpostor, RoleTypes.Impostor },
-            {CustomRoles.Camouflager , RoleTypes.Shapeshifter }
+            { CustomRoles.Camouflager, RoleTypes.Shapeshifter },
+            { CustomRoles.Ninja, RoleTypes.Shapeshifter },
         };
         public static bool Prefix(TaskAddButton __instance)
         {
