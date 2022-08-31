@@ -215,6 +215,7 @@ namespace TownOfHost
                     break;
 
                 case CustomRoles.BloodKnight:
+                case CustomRoles.Ninja:
                 case CustomRoles.Camouflager:
                 case CustomRoles.Jackal:
                 case CustomRoles.Juggernaut:

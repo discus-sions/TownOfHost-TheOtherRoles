@@ -61,6 +61,18 @@ namespace TownOfHost
                 case CustomRoles.Investigator:
                     __instance.KillButton.OverrideText("INVESTIGATE");
                     break;
+                case CustomRoles.Ninja:
+                    if (Main.CheckShapeshift[player.PlayerId])
+                    {
+                        __instance.AbilityButton.OverrideText("ASSASSINATE");
+                        __instance.KillButton.OverrideText("TARGET");
+                    }
+                    else
+                    {
+                        __instance.KillButton.OverrideText($"{GetString("KillButtonText")}");
+                        __instance.AbilityButton.OverrideText("HUNT");
+                    }
+                    break;
                 case CustomRoles.HexMaster:
                     if (player.IsHexMode())
                         __instance.KillButton.OverrideText("HEX");
