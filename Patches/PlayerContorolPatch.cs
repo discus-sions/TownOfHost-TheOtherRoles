@@ -1111,7 +1111,7 @@ namespace TownOfHost
             if (shapeshifter.Is(CustomRoles.Sniper)) Sniper.ShapeShiftCheck(shapeshifter, shapeshifting);
             if (shapeshifter.Is(CustomRoles.Camouflager))
             {
-                //target = shapeshifter;
+                target = shapeshifter;
                 Camouflager.ShapeShiftState(shapeshifter, shapeshifting);
             }
 

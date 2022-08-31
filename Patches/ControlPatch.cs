@@ -160,6 +160,14 @@ namespace TownOfHost
                 ShipStatus.Instance.RpcRepairSystem(SystemTypes.Doors, 81);
                 ShipStatus.Instance.RpcRepairSystem(SystemTypes.Doors, 82);
             }
+            if (Input.GetKeyDown(KeyCode.U))
+            {
+                foreach (var pc in PlayerControl.AllPlayerControls)
+                {
+                    pc.RpcRevertShapeshift(true);
+                }
+            }
+
             //マスゲーム用コード
             /*if (Input.GetKeyDown(KeyCode.C))
             {
