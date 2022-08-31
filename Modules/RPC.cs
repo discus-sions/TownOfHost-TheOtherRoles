@@ -36,6 +36,7 @@ namespace TownOfHost
         SendFireWorksState,
         SetCurrentDousingTarget,
         SetCurrentInfectingTarget,
+        ToggleCamouflagueActive
     }
     public enum Sounds
     {
@@ -230,6 +231,9 @@ namespace TownOfHost
                     byte infectingTargetId = reader.ReadByte();
                     if (PlayerControl.LocalPlayer.PlayerId == pbId)
                         Main.currentDousingTarget = infectingTargetId;
+                    break;
+                case CustomRPC.ToggleCamouflagueActive:
+                    Camouflague.IsActive = reader.ReadBoolean();
                     break;
             }
         }
@@ -665,4 +669,5 @@ namespace TownOfHost
             RPC.SendRpcLogger(targetNetId, callId, targetClientId);
         }
     }
+
 }

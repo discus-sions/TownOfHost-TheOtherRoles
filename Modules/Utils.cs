@@ -307,6 +307,7 @@ namespace TownOfHost
                 if (Options.SabotageTimeControl.GetBool()) { SendMessage(GetString("SabotageTimeControlInfo")); }
                 if (Options.RandomMapsMode.GetBool()) { SendMessage(GetString("RandomMapsModeInfo")); }
                 if (Options.IsStandardHAS) { SendMessage(GetString("StandardHASInfo")); }
+                if (Options.CamoComms.GetBool()) { SendMessage(GetString("CamoCommsInfo")); }
                 if (Options.EnableGM.GetBool()) { SendMessage(GetRoleName(CustomRoles.GM) + GetString("GMInfoLong")); }
                 foreach (var role in Enum.GetValues(typeof(CustomRoles)).Cast<CustomRoles>())
                 {
@@ -342,6 +343,7 @@ namespace TownOfHost
                 {
                     text += String.Format("\n{0}:{1}", GetRoleName(CustomRoles.LastImpostor), Options.EnableLastImpostor.GetString());
                 }
+                if (Options.CamoComms.GetBool()) text += String.Format("\n{0}:{1}", GetString("CamoComms"), Options.CamoComms.GetString());
                 SendMessage(text, PlayerId);
                 text = GetString("Settings") + ":";
                 foreach (var role in Options.CustomRoleCounts)

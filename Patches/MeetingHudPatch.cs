@@ -248,6 +248,38 @@ namespace TownOfHost
                         }
                     }
                 }
+                else
+                {
+                    //still check anyway
+                    if (Sheriff.SheriffCorrupted.GetBool())
+                    {
+                        int IsAlive = 0;
+                        int numCovenAlive = 0;
+                        int numNKalive = 0;
+                        foreach (var pc in PlayerControl.AllPlayerControls)
+                        {
+                            if (!pc.Data.IsDead)
+                            {
+                                IsAlive++;
+                                if (pc.GetCustomRole().IsNeutralKilling() && Sheriff.TraitorCanSpawnIfNK.GetBool())
+                                    numNKalive++;
+                                if (pc.GetCustomRole().IsCoven() && Sheriff.TraitorCanSpawnIfCoven.GetBool())
+                                    numCovenAlive++;
+                                if (pc.Is(CustomRoles.Sheriff))
+                                    Sheriff.seer = pc;
+                            }
+                        }
+
+                        //foreach (var pva in __instance.playerStates)
+                        if (IsAlive >= Sheriff.PlayersForTraitor.GetFloat())
+                        {
+                            if (numCovenAlive == 0 && numNKalive == 0)
+                            {
+                                Sheriff.seer.RpcSetCustomRole(CustomRoles.CorruptedSheriff);
+                            }
+                        }
+                    }
+                }
                 Main.SpelledPlayer.Clear();
                 Main.SilencedPlayer.Clear();
                 Main.firstKill.Clear();
@@ -255,6 +287,9 @@ namespace TownOfHost
                 Main.VetIsAlerted = false;
                 Main.IsRampaged = false;
                 Main.RampageReady = false;
+
+                if (Camouflague.IsActive)
+                    Camouflague.MeetingCause();
 
                 if (CustomRoles.Lovers.IsEnable() && Main.isLoversDead == false && Main.LoversPlayers.Find(lp => lp.PlayerId == exileId) != null)
                 {

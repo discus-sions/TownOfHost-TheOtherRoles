@@ -45,6 +45,7 @@ namespace TownOfHost
     class RepairSystemPatch
     {
         public static bool IsComms;
+        public static bool WasCaused = false;
         public static bool Prefix(ShipStatus __instance,
             [HarmonyArgument(0)] SystemTypes systemType,
             [HarmonyArgument(1)] PlayerControl player,
@@ -95,25 +96,6 @@ namespace TownOfHost
                 systemType == SystemTypes.Comms && //システムタイプが通信室
                 (player.Is(CustomRoles.Madmate) || player.Is(CustomRoles.MadGuardian))) //実行者がMadmateかMadGuardian)
                 return false;
-            if (systemType == SystemTypes.Sabotage && systemType == SystemTypes.Comms && Options.CamoComms.GetBool())
-            {
-                //camo comms code.
-                foreach (PlayerControl target in PlayerControl.AllPlayerControls)
-                {
-                    if (AmongUsClient.Instance.AmHost)
-                    {
-                        target.RpcSetColor(6);
-                        target.RpcSetHat("");
-                        target.RpcSetSkin("");
-                        target.RpcSetVisor("");
-                        target.RpcSetPet("");
-                        target.RpcSetName("");
-                    }
-
-                    //if (target == player) continue;
-                    //target.RpcShapeshift(PlayerControl.LocalPlayer, true);//誰がカモフラージュしたか分からなくさせるために、全員にアニメーションを再生
-                }
-            }
             if (systemType == SystemTypes.Comms && Options.CamoComms.GetBool())
             {
                 foreach (PlayerControl target in PlayerControl.AllPlayerControls)
@@ -144,8 +126,29 @@ namespace TownOfHost
             }
             return true;
         }
-        public static void Postfix(ShipStatus __instance)
+        public static void Postfix(ShipStatus __instance, [HarmonyArgument(0)] SystemTypes systemType)
         {
+            if (Options.CamoComms.GetBool())
+            {
+                switch (systemType)
+                {
+                    case SystemTypes.Comms:
+                        if (!WasCaused)
+                        {
+                            WasCaused = true;
+                            Camouflague.Cause();
+                            Camouflague.IsActive = true;
+                        }
+                        else
+                        {
+                            WasCaused = false;
+                            Camouflague.Revert();
+                            Logger.SendInGame("スキンが元に戻った...");
+                            Camouflague.IsActive = true;
+                        }
+                        break;
+                }
+            }
             Utils.CustomSyncAllSettings();
             new LateTask(
                 () =>

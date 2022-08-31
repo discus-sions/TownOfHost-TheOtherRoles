@@ -1318,9 +1318,8 @@ namespace TownOfHost
             }
             if (!Main.HasNecronomicon)
                 Main.CovenMeetings++;
-            if (CustomRoles.Camouflager.IsEnable() || Options.CamoComms.GetBool())
-                foreach (PlayerControl targeted in PlayerControl.AllPlayerControls)
-                    targeted.RpcRevertShapeshift(true);
+            if (Camouflague.IsActive)
+                Camouflague.MeetingRevert();
             if (Main.CovenMeetings == Options.CovenMeetings.GetFloat() && !Main.HasNecronomicon && CustomRoles.Coven.IsEnable())
             {
                 Main.HasNecronomicon = true;

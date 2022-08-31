@@ -112,6 +112,12 @@ namespace TownOfHost
             //名前の記録
             Main.AllPlayerNames = new();
 
+            Main.chosenRoles = new();
+            Main.chosenDesyncRoles = new();
+            Main.chosenNK = new();
+            Main.chosenNonNK = new();
+            Main.AllPlayerSkin = new();
+
             foreach (var target in PlayerControl.AllPlayerControls)
             {
                 foreach (var seer in PlayerControl.AllPlayerControls)
@@ -132,6 +138,7 @@ namespace TownOfHost
             Main.VisibleTasksCount = true;
             if (__instance.AmHost)
             {
+                SaveSkin();
                 RPC.SyncCustomSettingsRPC();
                 Main.RefixCooldownDelay = 0;
                 if (Options.CurrentGameMode == CustomGameMode.HideAndSeek)
@@ -157,6 +164,18 @@ namespace TownOfHost
             Ninja.Init();
             AntiBlackout.Reset();
         }
+        private static void SaveSkin()
+        {
+            foreach (var player in PlayerControl.AllPlayerControls)
+            {
+                var color = player.CurrentOutfit.ColorId;
+                var hat = player.CurrentOutfit.HatId;
+                var skin = player.CurrentOutfit.SkinId;
+                var visor = player.CurrentOutfit.VisorId;
+                var pet = player.CurrentOutfit.PetId;
+                Main.AllPlayerSkin[player.PlayerId] = (color, hat, skin, visor, pet);
+            }
+        }
     }
     [HarmonyPatch(typeof(RoleManager), nameof(RoleManager.SelectRoles))]
     class SelectRolesPatch
@@ -172,6 +191,11 @@ namespace TownOfHost
             Options.SetWatcherTeam(Options.EvilWatcherChance.GetFloat());
 
             var rand = new System.Random();
+
+            Main.chosenRoles = new();
+            Main.chosenDesyncRoles = new();
+            Main.chosenNK = new();
+            Main.chosenNonNK = new();
             if (Options.CurrentGameMode != CustomGameMode.HideAndSeek)
             {
                 //役職の人数を指定

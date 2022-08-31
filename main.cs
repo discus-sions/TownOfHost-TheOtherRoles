@@ -173,6 +173,13 @@ namespace TownOfHost
         public static bool IsRampaged;
         public static bool RampageReady;
         public static bool IsHackMode;
+
+        // TRULY RANDOM ROLES TEST //
+        public static List<CustomRoles> chosenRoles = new();
+        public static List<CustomRoles> chosenDesyncRoles = new();
+        public static List<CustomRoles> chosenNK = new();
+        public static List<CustomRoles> chosenNonNK = new();
+        public static Dictionary<byte, (int, string, string, string, string)> AllPlayerSkin = new(); //Key : PlayerId, Value : (1: color, 2: hat, 3: skin, 4:visor, 5: pet)
         public override void Load()
         {
             Instance = this;
@@ -272,6 +279,8 @@ namespace TownOfHost
             Translator.Init();
 
             hasArgumentException = false;
+            AllPlayerSkin = new();
+            unreportableBodies = new();
             ExceptionMessage = "";
             try
             {
