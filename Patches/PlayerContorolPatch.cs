@@ -276,12 +276,15 @@ namespace TownOfHost
                     {
                         if (!killer.Is(CustomRoles.PlagueBearer))
                         {
-                            killer.RpcGuardAndKill(killer);
-                            Main.AllPlayerKillCooldown[target.PlayerId] = 1f;
-                            target.RpcGuardAndKill(target);
-                            target.ResetKillCooldown();
-                            Main.WitchProtected = true;
-                            return false;
+                            if (!killer.Is(CustomRoles.Investigator))
+                            {
+                                killer.RpcGuardAndKill(killer);
+                                Main.AllPlayerKillCooldown[target.PlayerId] = 1f;
+                                target.RpcGuardAndKill(target);
+                                target.ResetKillCooldown();
+                                Main.WitchProtected = true;
+                                return false;
+                            }
                         }
                     }
                 }
@@ -1315,8 +1318,9 @@ namespace TownOfHost
             }
             if (!Main.HasNecronomicon)
                 Main.CovenMeetings++;
-            foreach (PlayerControl targeted in PlayerControl.AllPlayerControls)
-                targeted.RpcRevertShapeshift(true);
+            if (CustomRoles.Camouflager.IsEnable() || Options.CamoComms.GetBool())
+                foreach (PlayerControl targeted in PlayerControl.AllPlayerControls)
+                    targeted.RpcRevertShapeshift(true);
             if (Main.CovenMeetings == Options.CovenMeetings.GetFloat() && !Main.HasNecronomicon && CustomRoles.Coven.IsEnable())
             {
                 Main.HasNecronomicon = true;

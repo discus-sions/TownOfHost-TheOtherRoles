@@ -174,7 +174,7 @@ namespace TownOfHost
                 LowerInfoText.text = GetString("WitchCurrentMode") + ": " + GetString(ModeLang);
                 LowerInfoText.enabled = true;
             }
-            else if (player.Is(CustomRoles.CovenWitch))
+            else if (player.Is(CustomRoles.HexMaster))
             {
                 //魔女用処理
                 var ModeLang = player.IsHexMode() ? "Hexing" : "Killing";

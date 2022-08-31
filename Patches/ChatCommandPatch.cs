@@ -481,6 +481,7 @@ namespace TownOfHost
                 //Neutral役職
                 { (CustomRoles)(-5), $"== {GetString("Neutral")} ==" }, //区切り用
                 { CustomRoles.Arsonist, "ar" },
+                { CustomRoles.BloodKnight,"bk"},
                 { CustomRoles.Egoist, "eg" },
                 { CustomRoles.Executioner, "exe" },
                 { CustomRoles.Jester, "je" },
@@ -601,6 +602,7 @@ namespace TownOfHost
                 //Neutral役職
                 { (CustomRoles)(-5), $"== {GetString("Neutral")} ==" }, //区切り用
                 { CustomRoles.Arsonist, "ar" },
+                { CustomRoles.BloodKnight,"bk"},
                 { CustomRoles.Egoist, "eg" },
                 { CustomRoles.Executioner, "exe" },
                 { CustomRoles.Jester, "je" },
@@ -708,6 +710,7 @@ namespace TownOfHost
                 //Neutral役職
                 { (CustomRoles)(-5), $"== {GetString("Neutral")} ==" }, //区切り用
                 { CustomRoles.Arsonist, "ar" },
+                { CustomRoles.BloodKnight,"bk"},
                 { CustomRoles.Egoist, "eg" },
                 { CustomRoles.Executioner, "exe" },
                 { CustomRoles.Jester, "je" },

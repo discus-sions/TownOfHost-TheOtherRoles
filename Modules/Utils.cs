@@ -687,6 +687,10 @@ namespace TownOfHost
                 {
                     SelfSuffix = seer.IsSpellMode() ? "Mode:" + GetString("WitchModeSpell") : "Mode:" + GetString("WitchModeKill");
                 }
+                if (seer.Is(CustomRoles.HexMaster))
+                {
+                    SelfSuffix = seer.IsHexMode() ? "Mode:" + "Hexing" : "Mode:" + "Killing";
+                }
                 if (seer.Is(CustomRoles.Werewolf))
                 {
                     var ModeLang = Main.IsRampaged ? "True" : "False";
