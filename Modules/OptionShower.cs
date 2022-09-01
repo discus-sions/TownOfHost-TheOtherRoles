@@ -105,6 +105,10 @@ namespace TownOfHost
                     listUp(Options.SabotageTimeControl);
                     nameAndValue(Options.StandardHAS);
                     nameAndValue(Options.GlobalRoleBlockDuration);
+                    nameAndValue(Options.MinNK);
+                    nameAndValue(Options.MaxNK);
+                    nameAndValue(Options.MinNonNK);
+                    nameAndValue(Options.MaxNonNK);
                 }
                 else if (Options.CurrentGameMode == CustomGameMode.HideAndSeek)
                 {
