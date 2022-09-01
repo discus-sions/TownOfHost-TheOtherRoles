@@ -673,10 +673,9 @@ namespace TownOfHost
         }
         public static bool LastImpostor(this PlayerControl pc)
         {
-            Utils.CountAliveImpostors();
-            Main.Impostors.Remove(pc);
-            int remaining = Main.Impostors.Count;
-            return remaining <= 0;
+            return pc.GetCustomRole().IsImpostor() &&
+                //  Options.CurrentGameMode != CustomGameMode.HideAndSeek &&
+                Main.AllImpostorCount <= 1;
         }
         public static bool IsDousedPlayer(this PlayerControl arsonist, PlayerControl target)
         {

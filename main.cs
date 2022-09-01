@@ -91,6 +91,7 @@ namespace TownOfHost
         public static Dictionary<byte, int> MayorUsedButtonCount = new();
         public static Dictionary<byte, int> HackerFixedSaboCount = new();
         public static int AliveImpostorCount;
+        public static int AllImpostorCount;
         public static string LastVotedPlayer;
         public static int HexesThisRound;
         public static int SKMadmateNowCount;
@@ -448,6 +449,7 @@ namespace TownOfHost
         MadGuardian,
         Madmate,
         MadSnitch,
+        CrewPostor,
         CorruptedSheriff,
         SKMadmate,
         MSchrodingerCat,//インポスター陣営のシュレディンガーの猫

@@ -54,6 +54,7 @@ namespace TownOfHost
             //            main.RealNames.Remove(data.Character.PlayerId);
             if (GameStates.IsInGame && AmongUsClient.Instance.AmHost)
             {
+                Utils.CountAliveImpostors();
                 if (data.Character.Is(CustomRoles.TimeThief))
                     data.Character.ResetVotingTime();
                 if (data.Character.Is(CustomRoles.Lovers) && !data.Character.Data.IsDead && !data.Character.Is(CustomRoles.Pestilence))
