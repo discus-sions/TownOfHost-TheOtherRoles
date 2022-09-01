@@ -597,6 +597,7 @@ namespace TownOfHost
             IgnoreVent = CustomOption.Create(101003, Color.white, "IgnoreVent", false)
                 .SetGameMode(CustomGameMode.HideAndSeek);
 
+            #region Color Wars
             // COLOR WARS //
 
             // CWAllowCloseDoors = CustomOption.Create(1011000, Color.white, "AllowCloseDoors", false, null, true)
@@ -605,12 +606,15 @@ namespace TownOfHost
                 .SetGameMode(CustomGameMode.ColorWars);
             CWIgnoreVent = CustomOption.Create(1011003, Color.white, "CanVent", false)
                 .SetGameMode(CustomGameMode.ColorWars);
+            #endregion
 
+            #region Splatoon
             // SPLATOON //
             STCD = CustomOption.Create(1001001, Color.white, "KillCDT", 25, 2.5f, 60, 2.5f)
                 .SetGameMode(CustomGameMode.Splatoon);
             STIgnoreVent = CustomOption.Create(1001003, Color.white, "CanVent", false)
                 .SetGameMode(CustomGameMode.Splatoon);
+            #endregion
 
             //デバイス無効化
             DisableDevices = CustomOption.Create(101200, Color.white, "DisableDevices", false, null, true)
