@@ -10,7 +10,8 @@ namespace TownOfHost
     {
         Standard = 0x01,
         HideAndSeek = 0x02,
-        ColorWrs = 0x03,
+        ColorWars = 0x03,
+        Splatoon = 0x04,
         All = int.MaxValue
     }
 
@@ -28,9 +29,9 @@ namespace TownOfHost
 
         // ゲームモード
         public static CustomOption GameMode;
-        public static CustomGameMode CurrentGameMode
-            => GameMode.Selection == 0 ? CustomGameMode.Standard : CustomGameMode.HideAndSeek;
-        
+        // public static CustomGameMode CurrentGameMode
+        //     => GameMode.Selection == 0 ? CustomGameMode.Standard : CustomGameMode.HideAndSeek;
+
         public static CustomGameMode CurrentGameMode()
         {
             switch (GameMode.Selection)
@@ -41,9 +42,13 @@ namespace TownOfHost
                     return CustomGameMode.HideAndSeek;
                 case 2:
                     return CustomGameMode.ColorWars;
+                case 3:
+                    return CustomGameMode.Splatoon;
+                default:
+                    return CustomGameMode.Standard;
             }
         }
-        
+
 
         public static readonly string[] gameModes =
         {
@@ -204,7 +209,7 @@ namespace TownOfHost
         public static CustomOption LadderDeathChance;
 
         // 通常モードでかくれんぼ
-        public static bool IsStandardHAS => StandardHAS.GetBool() && CurrentGameMode == CustomGameMode.Standard;
+        public static bool IsStandardHAS => StandardHAS.GetBool() && CurrentGameMode() == CustomGameMode.Standard;
         public static CustomOption StandardHAS;
         public static CustomOption StandardHASWaitingTime;
 

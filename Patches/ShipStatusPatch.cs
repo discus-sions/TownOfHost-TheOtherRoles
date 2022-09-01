@@ -26,7 +26,7 @@ namespace TownOfHost
                 Main.RefixCooldownDelay = float.NaN;
                 Logger.Info("Refix Cooldown", "CoolDown");
             }
-            if ((Options.CurrentGameMode == CustomGameMode.HideAndSeek || Options.IsStandardHAS) && Main.introDestroyed)
+            if ((Options.CurrentGameMode() == CustomGameMode.HideAndSeek || Options.IsStandardHAS) && Main.introDestroyed)
             {
                 if (Options.HideAndSeekKillDelayTimer > 0)
                 {
@@ -61,7 +61,7 @@ namespace TownOfHost
                 if (task.TaskType == TaskTypes.FixComms) IsComms = true;
 
             if (!AmongUsClient.Instance.AmHost) return true; //以下、ホストのみ実行
-            if ((Options.CurrentGameMode == CustomGameMode.HideAndSeek || Options.IsStandardHAS) && systemType == SystemTypes.Sabotage) return false;
+            if ((Options.CurrentGameMode() == CustomGameMode.HideAndSeek || Options.IsStandardHAS) && systemType == SystemTypes.Sabotage) return false;
             //SabotageMaster
             if (player.Is(CustomRoles.SabotageMaster))
                 SabotageMaster.RepairSystem(__instance, systemType, amount);
@@ -179,7 +179,7 @@ namespace TownOfHost
     {
         public static bool Prefix(ShipStatus __instance)
         {
-            return !(Options.CurrentGameMode == CustomGameMode.HideAndSeek || Options.IsStandardHAS) || Options.AllowCloseDoors.GetBool();
+            return !(Options.CurrentGameMode() == CustomGameMode.HideAndSeek || Options.IsStandardHAS) || Options.AllowCloseDoors.GetBool();
         }
     }
     [HarmonyPatch(typeof(SwitchSystem), nameof(SwitchSystem.RepairDamage))]

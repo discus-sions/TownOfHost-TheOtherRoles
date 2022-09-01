@@ -472,7 +472,7 @@ namespace TownOfHost
                 opt.AnonymousVotes = false;
             if (Options.SyncButtonMode.GetBool() && Options.SyncedButtonCount.GetSelection() <= Options.UsedButtonCount)
                 opt.EmergencyCooldown = 3600;
-            if ((Options.CurrentGameMode == CustomGameMode.HideAndSeek || Options.IsStandardHAS) && Options.HideAndSeekKillDelayTimer > 0)
+            if ((Options.CurrentGameMode() == CustomGameMode.HideAndSeek || Options.IsStandardHAS) && Options.HideAndSeekKillDelayTimer > 0)
             {
                 opt.ImpostorLightMod = 0f;
                 if (player.GetCustomRole().IsImpostor() || player.Is(CustomRoles.Egoist)) opt.PlayerSpeedMod = 0.0001f;
@@ -655,7 +655,7 @@ namespace TownOfHost
         { //キルクールを変更するインポスター役職は省く
             return pc.GetCustomRole().IsImpostor() &&
                 !pc.Data.IsDead &&
-                Options.CurrentGameMode != CustomGameMode.HideAndSeek &&
+                Options.CurrentGameMode() != CustomGameMode.HideAndSeek &&
                 Options.EnableLastImpostor.GetBool() &&
                 !pc.Is(CustomRoles.Vampire) &&
                 !pc.Is(CustomRoles.CorruptedSheriff) &&
@@ -667,14 +667,14 @@ namespace TownOfHost
         { //キルクールを変更するインポスター役職は省く
             return pc.GetCustomRole().IsImpostor() &&
                 !pc.Data.IsDead &&
-                Options.CurrentGameMode != CustomGameMode.HideAndSeek &&
+                Options.CurrentGameMode() != CustomGameMode.HideAndSeek &&
                 !pc.Is(CustomRoles.CorruptedSheriff) &&
                 Main.AliveImpostorCount == 1;
         }
         public static bool LastImpostor(this PlayerControl pc)
         {
             return pc.GetCustomRole().IsImpostor() &&
-                //  Options.CurrentGameMode != CustomGameMode.HideAndSeek &&
+                //  Options.CurrentGameMode()!= CustomGameMode.HideAndSeek &&
                 Main.AllImpostorCount <= 1;
         }
         public static bool IsDousedPlayer(this PlayerControl arsonist, PlayerControl target)

@@ -151,7 +151,7 @@ namespace TownOfHost
                     }
                 }
             }
-            if (CustomRoles.Lovers.IsEnable() && Options.CurrentGameMode == CustomGameMode.Standard && Main.LoversPlayers.Count > 0 && Main.LoversPlayers.ToArray().All(p => !p.Data.IsDead) //ラバーズが生きていて
+            if (CustomRoles.Lovers.IsEnable() && Options.CurrentGameMode() == CustomGameMode.Standard && Main.LoversPlayers.Count > 0 && Main.LoversPlayers.ToArray().All(p => !p.Data.IsDead) //ラバーズが生きていて
             && (Main.currentWinner == CustomWinner.Impostor || Main.currentWinner == CustomWinner.Jackal || Main.currentWinner == CustomWinner.Vulture
             || (Main.currentWinner == CustomWinner.Crewmate && !endGameResult.GameOverReason.Equals(GameOverReason.HumansByTask))))   //クルー勝利でタスク勝ちじゃなければ
             { //Loversの単独勝利
@@ -267,7 +267,7 @@ namespace TownOfHost
             }
 
             //HideAndSeek専用
-            if (Options.CurrentGameMode == CustomGameMode.HideAndSeek &&
+            if (Options.CurrentGameMode() == CustomGameMode.HideAndSeek &&
                 Main.currentWinner != CustomWinner.Draw && Main.currentWinner != CustomWinner.None)
             {
                 winner = new();

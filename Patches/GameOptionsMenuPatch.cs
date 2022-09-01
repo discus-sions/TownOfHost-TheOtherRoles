@@ -175,7 +175,7 @@ namespace TownOfHost
                     enabled = false;
                 }
 
-                if (option.IsHidden(Options.CurrentGameMode))
+                if (option.IsHidden(Options.CurrentGameMode()))
                 {
                     enabled = false;
                 }
@@ -315,7 +315,7 @@ namespace TownOfHost
             __instance.RoleOptions.ProtectionDurationSeconds = 10f;
             __instance.RoleOptions.EngineerCooldown = 30f;
             __instance.RoleOptions.EngineerInVentMaxTime = 15f;
-            if (Options.CurrentGameMode == CustomGameMode.HideAndSeek) //HideAndSeek
+            if (Options.CurrentGameMode() == CustomGameMode.HideAndSeek) //HideAndSeek
             {
                 __instance.PlayerSpeedMod = 1.75f;
                 __instance.CrewLightMod = 5f;

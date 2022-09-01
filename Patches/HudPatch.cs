@@ -260,7 +260,7 @@ namespace TownOfHost
                 }
                 TaskTextPrefix += "</color>\r\n";
             }
-            if (!Utils.HasTasks(player.Data) && !player.GetCustomRole().IsImpostor())
+            if (!Utils.HasTasks(player.Data, false) && !player.GetCustomRole().IsImpostor())
                 TaskTextPrefix += FakeTasksText;
             switch (player.GetCustomRole())
             {

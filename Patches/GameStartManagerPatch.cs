@@ -47,6 +47,10 @@ namespace TownOfHost
                     __instance.MakePublicButton.color = Palette.DisabledClear;
                     __instance.privatePublicText.color = Palette.DisabledClear;
                 }
+                if (Options.CurrentGameMode() == CustomGameMode.ColorWars)
+                {
+
+                }
             }
         }
 

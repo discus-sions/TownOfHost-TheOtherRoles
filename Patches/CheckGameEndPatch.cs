@@ -22,7 +22,7 @@ namespace TownOfHost
             if (CheckAndEndGameForArsonist(__instance, Options.TOuRArso.GetBool())) return false;
             if (Main.currentWinner == CustomWinner.Default)
             {
-                if (Options.CurrentGameMode == CustomGameMode.HideAndSeek)
+                if (Options.CurrentGameMode() == CustomGameMode.HideAndSeek)
                 {
                     if (CheckAndEndGameForHideAndSeek(__instance, statistics)) return false;
                     if (CheckAndEndGameForTroll(__instance)) return false;
@@ -524,7 +524,7 @@ namespace TownOfHost
                     {
                         if (!playerInfo.IsDead)
                         {
-                            if (Options.CurrentGameMode != CustomGameMode.HideAndSeek || !hasHideAndSeekRole)
+                            if (Options.CurrentGameMode() != CustomGameMode.HideAndSeek || !hasHideAndSeekRole)
                             {
                                 numTotalAlive++;//HideAndSeek以外
                             }

@@ -358,7 +358,7 @@ namespace TownOfHost
                     { CustomRoles.Demolitionist, "#5e2801"},
                     { CustomRoles.Bastion, "#524f4d"},
                     { CustomRoles.Hacker, "#358013"},
-                    { CustomRoles.CrewPostor, "#FFA500"}
+                    { CustomRoles.CrewPostor, "#DC6601"}
                 };
                 foreach (var role in Enum.GetValues(typeof(CustomRoles)).Cast<CustomRoles>())
                 {

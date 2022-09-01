@@ -59,7 +59,7 @@ namespace TownOfHost
             int colorId = Main.AllPlayerSkin[player.PlayerId].Item1;
 
 
-            //var sender = CustomRpcSender.Create(name: "RpcSetCamouflague");
+            var sender = CustomRpcSender.Create(name: "RpcSetCamouflague");
 
             player.SetName("");
             player.SetColor(15); //グレー
@@ -87,14 +87,14 @@ namespace TownOfHost
                 .Write("")
                 .EndRpc();*/
 
-            /*player.Shapeshift(PlayerControl.LocalPlayer, false);
+            player.Shapeshift(PlayerControl.LocalPlayer, false);
 
             sender.AutoStartRpc(player.NetId, (byte)RpcCalls.Shapeshift)
                 .Write(PlayerControl.LocalPlayer)
                 .Write(false)
                 .EndRpc();
 
-            sender.SendMessage();*/
+            sender.SendMessage();
         }
 
         public static void RpcRevertSkins(this PlayerControl player)

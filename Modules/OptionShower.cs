@@ -30,7 +30,7 @@ namespace TownOfHost
             else
             {
                 //Standardの時のみ実行
-                if (Options.CurrentGameMode == CustomGameMode.Standard)
+                if (Options.CurrentGameMode() == CustomGameMode.Standard)
                 {
                     //役職一覧
                     text += $"<color={Utils.GetRoleColorCode(CustomRoles.LastImpostor)}>{Utils.GetRoleName(CustomRoles.LastImpostor)}:</color> {Options.EnableLastImpostor.GetString()}\n\n";
@@ -43,7 +43,7 @@ namespace TownOfHost
                 }
                 //有効な役職と詳細設定一覧
                 pages.Add("");
-                if (Options.CurrentGameMode == CustomGameMode.Standard)
+                if (Options.CurrentGameMode() == CustomGameMode.Standard)
                 {
                     if (Options.EnableLastImpostor.GetBool())
                     {
@@ -56,7 +56,7 @@ namespace TownOfHost
                 foreach (var kvp in Options.CustomRoleSpawnChances)
                 {
                     if (!kvp.Key.IsEnable()) continue;
-                    if (!(kvp.Value.GameMode == Options.CurrentGameMode || kvp.Value.GameMode == CustomGameMode.All)) continue; //現在のゲームモードでも全てのゲームモードでも表示しない役職なら飛ばす
+                    if (!(kvp.Value.GameMode == Options.CurrentGameMode() || kvp.Value.GameMode == CustomGameMode.All)) continue; //現在のゲームモードでも全てのゲームモードでも表示しない役職なら飛ばす
                     text += $"{Helpers.ColorString(Utils.GetRoleColor(kvp.Key), Utils.GetRoleName(kvp.Key))}: {kvp.Value.GetString()}×{kvp.Key.GetCount()}\n";
                     foreach (var c in kvp.Value.Children) //詳細設定をループする
                     {
@@ -98,7 +98,7 @@ namespace TownOfHost
                     }
                 }
                 void nameAndValue(CustomOption o) => text += $"{o.GetName()}: {o.GetString()}\n";
-                if (Options.CurrentGameMode == CustomGameMode.Standard)
+                if (Options.CurrentGameMode() == CustomGameMode.Standard)
                 {
                     listUp(Options.SyncButtonMode);
                     listUp(Options.VoteMode);
@@ -110,7 +110,7 @@ namespace TownOfHost
                     nameAndValue(Options.MinNonNK);
                     nameAndValue(Options.MaxNonNK);
                 }
-                else if (Options.CurrentGameMode == CustomGameMode.HideAndSeek)
+                else if (Options.CurrentGameMode() == CustomGameMode.HideAndSeek)
                 {
                     nameAndValue(Options.AllowCloseDoors);
                     nameAndValue(Options.KillDelay);

@@ -101,6 +101,7 @@ namespace TownOfHost
         }
         public static void Postfix(PlayerControl __instance, [HarmonyArgument(0)] byte callId, [HarmonyArgument(1)] MessageReader reader)
         {
+            if (!AmongUsClient.Instance.AmHost || AmongUsClient.Instance.GameMode == GameModes.LocalGame) return; // Not host or no instance or LocalGame
             var rpcType = (CustomRPC)callId;
             switch (rpcType)
             {

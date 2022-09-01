@@ -132,7 +132,7 @@ namespace TownOfHost
             if (p.Disconnected) hasTasks = false;
             if (p.Role.IsImpostor)
                 hasTasks = false; //タスクはCustomRoleを元に判定する
-            if (Options.CurrentGameMode == CustomGameMode.HideAndSeek)
+            if (Options.CurrentGameMode() == CustomGameMode.HideAndSeek)
             {
                 if (p.IsDead) hasTasks = false;
                 var hasRole = Main.AllPlayerCustomRoles.TryGetValue(p.PlayerId, out var role);
@@ -179,6 +179,8 @@ namespace TownOfHost
                     if (cRole == CustomRoles.TheGlitch) hasTasks = false;
                     if (cRole == CustomRoles.Hacker) hasTasks = false;
                     if (cRole == CustomRoles.BloodKnight) hasTasks = false;
+
+                    if (cRole == CustomRoles.CrewPostor && ForRecompute) hasTasks = false;
 
                     if (cRole == CustomRoles.CovenWitch) hasTasks = false;
                     if (cRole == CustomRoles.HexMaster) hasTasks = false;
@@ -324,7 +326,7 @@ namespace TownOfHost
         public static void ShowActiveSettingsHelp()
         {
             SendMessage(GetString("CurrentActiveSettingsHelp") + ":");
-            if (Options.CurrentGameMode == CustomGameMode.HideAndSeek)
+            if (Options.CurrentGameMode() == CustomGameMode.HideAndSeek)
             {
                 SendMessage(GetString("HideAndSeekInfo"));
                 if (CustomRoles.HASFox.IsEnable()) { SendMessage(GetRoleName(CustomRoles.HASFox) + GetString("HASFoxInfoLong")); }
@@ -356,7 +358,7 @@ namespace TownOfHost
                 return;
             }
             var text = "";
-            if (Options.CurrentGameMode == CustomGameMode.HideAndSeek)
+            if (Options.CurrentGameMode() == CustomGameMode.HideAndSeek)
             {
                 text = GetString("Roles") + ":";
                 if (CustomRoles.HASFox.IsEnable()) text += String.Format("\n{0}:{1}", GetRoleName(CustomRoles.HASFox), CustomRoles.HASFox.GetCount());

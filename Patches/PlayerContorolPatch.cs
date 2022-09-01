@@ -84,7 +84,7 @@ namespace TownOfHost
             killer.ResetKillCooldown();
 
             //キルボタンを使えない場合の判定
-            if ((Options.CurrentGameMode == CustomGameMode.HideAndSeek || Options.IsStandardHAS) && Options.HideAndSeekKillDelayTimer > 0)
+            if ((Options.CurrentGameMode() == CustomGameMode.HideAndSeek || Options.IsStandardHAS) && Options.HideAndSeekKillDelayTimer > 0)
             {
                 Logger.Info("HideAndSeekの待機時間中だったため、キルをキャンセルしました。", "CheckMurder");
                 return false;
@@ -1187,7 +1187,7 @@ namespace TownOfHost
                 }
             }
             if (Options.IsStandardHAS && target != null && __instance == target.Object) return true; //[StandardHAS] ボタンでなく、通報者と死体が同じなら許可
-            if (Options.CurrentGameMode == CustomGameMode.HideAndSeek || Options.IsStandardHAS) return false;
+            if (Options.CurrentGameMode() == CustomGameMode.HideAndSeek || Options.IsStandardHAS) return false;
             if (!AmongUsClient.Instance.AmHost) return true;
             BountyHunter.OnReportDeadBody();
             SerialKiller.OnReportDeadBody();
@@ -2219,7 +2219,7 @@ namespace TownOfHost
         {
             //色変更バグ対策
             if (!AmongUsClient.Instance.AmHost || __instance.CurrentOutfit.ColorId == bodyColor || IsAntiGlitchDisabled) return true;
-            if (AmongUsClient.Instance.IsGameStarted && Options.CurrentGameMode == CustomGameMode.HideAndSeek)
+            if (AmongUsClient.Instance.IsGameStarted && Options.CurrentGameMode() == CustomGameMode.HideAndSeek)
             {
                 //ゲーム中に色を変えた場合
                 __instance.RpcMurderPlayer(__instance);
@@ -2253,7 +2253,7 @@ namespace TownOfHost
                     skipCheck = true;
                 }
             }
-            if (Options.CurrentGameMode == CustomGameMode.HideAndSeek && Options.IgnoreVent.GetBool())
+            if (Options.CurrentGameMode() == CustomGameMode.HideAndSeek && Options.IgnoreVent.GetBool())
                 pc.MyPhysics.RpcBootFromVent(__instance.Id);
             if (pc.Is(CustomRoles.Mayor))
             {

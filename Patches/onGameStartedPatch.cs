@@ -137,7 +137,7 @@ namespace TownOfHost
             {
                 RPC.SyncCustomSettingsRPC();
                 Main.RefixCooldownDelay = 0;
-                if (Options.CurrentGameMode == CustomGameMode.HideAndSeek)
+                if (Options.CurrentGameMode() == CustomGameMode.HideAndSeek)
                 {
                     Options.HideAndSeekKillDelayTimer = Options.KillDelay.GetFloat();
                 }
@@ -175,7 +175,7 @@ namespace TownOfHost
             Options.SetWatcherTeam(Options.EvilWatcherChance.GetFloat());
 
             var rand = new System.Random();
-            if (Options.CurrentGameMode != CustomGameMode.HideAndSeek)
+            if (Options.CurrentGameMode() != CustomGameMode.HideAndSeek)
             {
                 //役職の人数を指定
                 RoleOptionsData roleOpt = PlayerControl.GameOptions.RoleOptions;
@@ -309,7 +309,7 @@ namespace TownOfHost
                 }
             }
 
-            if (Options.CurrentGameMode == CustomGameMode.HideAndSeek)
+            if (Options.CurrentGameMode() == CustomGameMode.HideAndSeek)
             {
                 SetColorPatch.IsAntiGlitchDisabled = true;
                 foreach (var pc in PlayerControl.AllPlayerControls)
@@ -734,7 +734,7 @@ namespace TownOfHost
                 Main.AllPlayerCustomRoles[player.PlayerId] = role;
                 Logger.Info("役職設定:" + player?.Data?.PlayerName + " = " + role.ToString(), "AssignRoles");
 
-                if (Options.CurrentGameMode == CustomGameMode.HideAndSeek)
+                if (Options.CurrentGameMode() == CustomGameMode.HideAndSeek)
                 {
                     if (player.Is(CustomRoles.HASTroll))
                         player.RpcSetColor(2);
@@ -761,14 +761,6 @@ namespace TownOfHost
                 players.Remove(player);
                 Main.AllPlayerCustomRoles[player.PlayerId] = role;
                 Logger.Info("役職設定:" + player?.Data?.PlayerName + " = " + role.ToString(), "AssignRoles");
-
-                if (Options.CurrentGameMode == CustomGameMode.HideAndSeek)
-                {
-                    if (player.Is(CustomRoles.HASTroll))
-                        player.RpcSetColor(2);
-                    else if (player.Is(CustomRoles.HASFox))
-                        player.RpcSetColor(3);
-                }
             }
             SetColorPatch.IsAntiGlitchDisabled = false;
             return AssignedPlayers;
