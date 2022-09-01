@@ -62,6 +62,28 @@ namespace TownOfHost
                 CustomRoles.HASTroll or
                 CustomRoles.HASFox;
         }
+        public static bool IsNonNK(this CustomRoles role)
+        {
+            return
+                role is CustomRoles.Jester or
+                CustomRoles.Vulture or
+                CustomRoles.Opportunist or
+                CustomRoles.SchrodingerCat or
+                CustomRoles.Terrorist or
+                CustomRoles.Executioner or
+                CustomRoles.EgoSchrodingerCat or
+                CustomRoles.GuardianAngelTOU or
+                CustomRoles.Amnesiac or
+                CustomRoles.JSchrodingerCat or
+                CustomRoles.Hacker;
+        }
+        public static bool UsesVents(this CustomRoles role)
+        {
+            return
+                role is CustomRoles.Jester or
+                CustomRoles.Terrorist or
+                CustomRoles.GuardianAngelTOU;
+        }
         public static bool IsNeutralKilling(this CustomRoles role)
         {
             return

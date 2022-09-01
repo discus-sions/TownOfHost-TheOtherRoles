@@ -272,6 +272,12 @@ namespace TownOfHost
         public static CustomOption WhenGaTargetDies;
         public static CustomOption SaboAmount;
         public static CustomOption DemoSuicideTime;
+
+        // RANDOM ROLES INFO //
+        public static CustomOption MaxNK;
+        public static CustomOption MinNK;
+        public static CustomOption MaxNonNK;
+        public static CustomOption MinNonNK;
         public static readonly string[] suffixModes =
         {
             "SuffixMode.None",
@@ -627,6 +633,15 @@ namespace TownOfHost
             StandardHAS = CustomOption.Create(100700, Color.white, "StandardHAS", false, null, true)
                 .SetGameMode(CustomGameMode.Standard);
             StandardHASWaitingTime = CustomOption.Create(100701, Color.white, "StandardHASWaitingTime", 10f, 0f, 180f, 2.5f, StandardHAS)
+                .SetGameMode(CustomGameMode.Standard);
+
+            MinNK = CustomOption.Create(100701, Color.white, "MinNK", 0, 0, 15, 1, null, true)
+                .SetGameMode(CustomGameMode.Standard);
+            MaxNK = CustomOption.Create(100701, Color.white, "MaxNK", 0, 0, 15, 1, null, true)
+            .SetGameMode(CustomGameMode.Standard);
+            MinNonNK = CustomOption.Create(100701, Color.white, "MinNonNK", 0, 0, 15, 1, null, true)
+            .SetGameMode(CustomGameMode.Standard);
+            MaxNonNK = CustomOption.Create(100701, Color.white, "MaxNonNK", 0, 0, 15, 1, null, true)
                 .SetGameMode(CustomGameMode.Standard);
 
             // その他

@@ -1410,6 +1410,10 @@ namespace TownOfHost
                         else
                             bitten.RpcMurderPlayer(bitten);
                         RPC.PlaySoundRPC(vampireID, Sounds.KillSound);
+                        if (bitten.Is(CustomRoles.Demolitionist))
+                            Main.KilledDemo.Add(vampireID);
+                        if (bitten.Is(CustomRoles.Bewilder))
+                            Main.KilledBewilder.Add(vampireID);
                         Logger.Info("Vampireに噛まれている" + bitten?.Data?.PlayerName + "を自爆させました。", "ReportDeadBody");
                     }
                     else
@@ -1542,6 +1546,10 @@ namespace TownOfHost
                                     RPC.PlaySoundRPC(vampireID, Sounds.KillSound);
                                     if (bitten.Is(CustomRoles.Trapper))
                                         vampirePC.TrapperKilled(bitten);
+                                    if (bitten.Is(CustomRoles.Demolitionist))
+                                        Main.KilledDemo.Add(vampireID);
+                                    if (bitten.Is(CustomRoles.Bewilder))
+                                        Main.KilledBewilder.Add(vampireID);
                                 }
                             }
                             else

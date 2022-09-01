@@ -486,6 +486,11 @@ SwoopDur,Swoop Duration,Swoop Duration,Swoop Duration
 CamoCD,Camouflage Cooldown,Swoop Cooldown,Swoop Cooldown
 CamoDur,Camouflage Duration,Swoop Duration,Swoop Duration
 
+MaxNK,Max Neutral Killing,Translation Unavailble,Translation Unavailble
+MinNK,Min Neutral Killing,Translation Unavailble,Translation Unavailble
+MaxNonNK,Max Non-Neutral Killing,Translation Unavailble,Translation Unavailble
+MinNonNK,Min Non-Neutral Killing,Translation Unavailble,Translation Unavailble
+
 CanTerroristSuicideWin,Can Terrorist Suicide Win,テロリストの自殺勝ち,恐怖分子可以通过自杀获胜,恐怖分子可以自殺來獲勝
 ShapeMasterShapeshiftDuration,Shapeshift Duration,シェイプマスターの変身持続時間,千面鬼化形持续时间,變形大師變形持續時間
 SilenceDelay,Silence Cooldown,アーソニストのクールダウン,沉默者技能冷却时间,

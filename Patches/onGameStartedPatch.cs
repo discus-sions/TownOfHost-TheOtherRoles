@@ -3,6 +3,8 @@ using System;
 using System.Collections.Generic;
 using HarmonyLib;
 using Hazel;
+using UnityEngine;
+using InnerNet;
 using static TownOfHost.Translator;
 
 namespace TownOfHost
@@ -195,10 +197,12 @@ namespace TownOfHost
 
             var rand = new System.Random();
 
-            Main.chosenRoles = new();
-            Main.chosenDesyncRoles = new();
-            Main.chosenNK = new();
-            Main.chosenNonNK = new();
+            /*
+                        Main.chosenRoles = new();
+                        Main.chosenDesyncRoles = new();
+                        Main.chosenNK = new();
+                        Main.chosenNonNK = new();
+            */
             if (Options.CurrentGameMode != CustomGameMode.HideAndSeek)
             {
                 //役職の人数を指定
@@ -241,6 +245,8 @@ namespace TownOfHost
 
 
                 List<PlayerControl> AllPlayers = new();
+                List<PlayerControl> AllNKPlayers = new();
+                List<PlayerControl> AllnonNKPlayers = new();
                 foreach (var pc in PlayerControl.AllPlayerControls)
                 {
                     AllPlayers.Add(pc);
@@ -254,16 +260,142 @@ namespace TownOfHost
                     PlayerControl.LocalPlayer.Data.IsDead = true;
                 }
 
-                AssignDesyncRole(CustomRoles.Sheriff, AllPlayers, sender, BaseRole: RoleTypes.Impostor);
-                AssignDesyncRole(CustomRoles.Investigator, AllPlayers, sender, BaseRole: RoleTypes.Impostor);
-                AssignDesyncRole(CustomRoles.Arsonist, AllPlayers, sender, BaseRole: RoleTypes.Impostor);
+                // GIVE PLAYERS ROLE //
+
+                int numofNks = UnityEngine.Random.Range(Options.MinNK.GetInt(), Options.MaxNK.GetInt());
+                int numofNonNks = UnityEngine.Random.Range(Options.MinNonNK.GetInt(), Options.MaxNonNK.GetInt());
+
+                for (var i = 0; i < numofNks; i++)
+                {
+                    var rando = new System.Random();
+                    var player = AllPlayers[rando.Next(0, AllPlayers.Count)];
+                    AllPlayers.Remove(player);
+                    AllNKPlayers.Add(player);
+                }
+                for (var i = 0; i < numofNonNks; i++)
+                {
+                    var rando = new System.Random();
+                    var player = AllPlayers[rando.Next(0, AllPlayers.Count)];
+                    AllPlayers.Remove(player);
+                    AllnonNKPlayers.Add(player);
+                }
+
+                if (RoleGoingInList(CustomRoles.Sheriff))
+                    AssignDesyncRole(CustomRoles.Sheriff, AllPlayers, sender, BaseRole: RoleTypes.Impostor);
+                if (RoleGoingInList(CustomRoles.Investigator))
+                    AssignDesyncRole(CustomRoles.Investigator, AllPlayers, sender, BaseRole: RoleTypes.Impostor);
+                // ASSIGN NK ROLES //
+                if (RoleGoingInList(CustomRoles.Arsonist))
+                    Main.chosenNK.Add(CustomRoles.Arsonist);
+
+                if (RoleGoingInList(CustomRoles.Jackal))
+                    Main.chosenNK.Add(CustomRoles.Jackal);
+
+                if (RoleGoingInList(CustomRoles.Juggernaut))
+                    Main.chosenNK.Add(CustomRoles.Juggernaut);
+
+                if (RoleGoingInList(CustomRoles.PlagueBearer))
+                    Main.chosenNK.Add(CustomRoles.PlagueBearer);
+
+                if (RoleGoingInList(CustomRoles.TheGlitch))
+                    Main.chosenNK.Add(CustomRoles.TheGlitch);
+
+                if (RoleGoingInList(CustomRoles.Werewolf))
+                    Main.chosenNK.Add(CustomRoles.Werewolf);
+
+                if (RoleGoingInList(CustomRoles.BloodKnight))
+                    Main.chosenNK.Add(CustomRoles.BloodKnight);
+
+                for (var i = 0; i < numofNks; i++)
+                {
+                    var rando = new System.Random();
+                    var random = new System.Random();
+                    var role = Main.chosenNK[rando.Next(0, Main.chosenNK.Count)];
+                    var player = AllNKPlayers[random.Next(0, AllNKPlayers.Count)];
+                    Main.chosenNK.Remove(role);
+                    AllNKPlayers.Remove(player);
+                    List<PlayerControl> urself = new();
+                    urself.Add(player);
+                    if (role == CustomRoles.TheGlitch)
+                        AssignDesyncRole(CustomRoles.TheGlitch, urself, sender, BaseRole: RoleTypes.Shapeshifter);
+                    else
+                        AssignDesyncRole(role, urself, sender, BaseRole: RoleTypes.Impostor);
+                }
+
+                // ASSIGN NON-NK ROLES //
+                /*
+                CustomRoles.Vulture or
+                CustomRoles.Opportunist or
+                CustomRoles.SchrodingerCat or
+                CustomRoles.Terrorist or
+                CustomRoles.Executioner or
+                CustomRoles.EgoSchrodingerCat or
+                CustomRoles.GuardianAngelTOU or
+                CustomRoles.Amnesiac or
+                CustomRoles.JSchrodingerCat or
+                CustomRoles.Hacker;*/
+
+                if (RoleGoingInList(CustomRoles.Jester))
+                    Main.chosenNonNK.Add(CustomRoles.Jester);
+
+                if (RoleGoingInList(CustomRoles.Opportunist))
+                    Main.chosenNonNK.Add(CustomRoles.Opportunist);
+
+                if (RoleGoingInList(CustomRoles.SchrodingerCat))
+                    Main.chosenNonNK.Add(CustomRoles.SchrodingerCat);
+
+                if (RoleGoingInList(CustomRoles.Terrorist))
+                    Main.chosenNonNK.Add(CustomRoles.Terrorist);
+
+                if (RoleGoingInList(CustomRoles.Executioner))
+                    Main.chosenNonNK.Add(CustomRoles.Executioner);
+
+                if (RoleGoingInList(CustomRoles.SchrodingerCat))
+                    Main.chosenNonNK.Add(CustomRoles.SchrodingerCat);
+
+                if (RoleGoingInList(CustomRoles.GuardianAngelTOU))
+                    Main.chosenNonNK.Add(CustomRoles.GuardianAngelTOU);
+
+                if (RoleGoingInList(CustomRoles.Hacker))
+                    Main.chosenNonNK.Add(CustomRoles.Hacker);
+
+                for (var i = 0; i < numofNonNks; i++)
+                {
+                    var rando = new System.Random();
+                    var random = new System.Random();
+                    var role = Main.chosenNonNK[rando.Next(0, Main.chosenNonNK.Count)];
+                    var player = AllnonNKPlayers[random.Next(0, AllnonNKPlayers.Count)];
+                    Main.chosenNK.Remove(role);
+                    AllnonNKPlayers.Remove(player);
+                    List<PlayerControl> urself = new();
+                    urself.Add(player);
+                    if (role.UsesVents())
+                    {
+                        if (role == CustomRoles.Jester)
+                            if (Options.JesterCanVent.GetBool())
+                                //AssignDesyncRole(role, urself, sender, BaseRole: RoleTypes.Engineer);
+                                AssignCustomRolesFromList(role, urself);
+                            else
+                                //AssignDesyncRole(role, urself, sender, BaseRole: RoleTypes.Crewmate);
+                                AssignCustomRolesFromList(role, urself);
+                        else
+                            //AssignDesyncRole(role, urself, sender, BaseRole: RoleTypes.Engineer);
+                            AssignCustomRolesFromList(role, urself);
+                    }
+                    else
+                        //AssignDesyncRole(role, urself, sender, BaseRole: RoleTypes.Crewmate);
+                        AssignCustomRolesFromList(role, urself);
+                }
+
+                /*AssignDesyncRole(CustomRoles.Arsonist, AllPlayers, sender, BaseRole: RoleTypes.Impostor);
                 AssignDesyncRole(CustomRoles.Jackal, AllPlayers, sender, BaseRole: RoleTypes.Impostor);
                 AssignDesyncRole(CustomRoles.Juggernaut, AllPlayers, sender, BaseRole: RoleTypes.Impostor);
                 AssignDesyncRole(CustomRoles.PlagueBearer, AllPlayers, sender, BaseRole: RoleTypes.Impostor);
                 AssignDesyncRole(CustomRoles.TheGlitch, AllPlayers, sender, BaseRole: RoleTypes.Shapeshifter);
                 AssignDesyncRole(CustomRoles.Werewolf, AllPlayers, sender, BaseRole: RoleTypes.Impostor);
                 AssignDesyncRole(CustomRoles.BloodKnight, AllPlayers, sender, BaseRole: RoleTypes.Impostor);
-                AssignDesyncRole(CustomRoles.Amnesiac, AllPlayers, sender, BaseRole: RoleTypes.Impostor);
+
+                AssignDesyncRole(CustomRoles.Amnesiac, AllPlayers, sender, BaseRole: RoleTypes.Impostor);*/
 
                 //COVEN 
                 AssignDesyncRole(CustomRoles.Coven, AllPlayers, sender, BaseRole: RoleTypes.Impostor);
@@ -601,7 +733,7 @@ namespace TownOfHost
                             break;
                         case CustomRoles.Executioner:
                             List<PlayerControl> targetList = new();
-                            rand = new Random();
+                            rand = new System.Random();
                             foreach (var target in PlayerControl.AllPlayerControls)
                             {
                                 if (pc == target) continue;
@@ -616,7 +748,7 @@ namespace TownOfHost
                             break;
                         case CustomRoles.GuardianAngelTOU:
                             List<PlayerControl> protectList = new();
-                            rand = new Random();
+                            rand = new System.Random();
                             foreach (var target in PlayerControl.AllPlayerControls)
                             {
                                 if (pc == target) continue;
@@ -705,7 +837,7 @@ namespace TownOfHost
             for (var i = 0; i < role.GetCount(); i++)
             {
                 if (AllPlayers.Count <= 0) break;
-                var rand = new Random();
+                var rand = new System.Random();
                 var player = AllPlayers[rand.Next(0, AllPlayers.Count)];
                 AllPlayers.Remove(player);
                 Main.AllPlayerCustomRoles[player.PlayerId] = role;
@@ -764,6 +896,53 @@ namespace TownOfHost
             }
             SetColorPatch.IsAntiGlitchDisabled = false;
             return AssignedPlayers;
+        }
+
+        private static void RandomDesyncRole(CustomRoles role, List<PlayerControl> AllPlayers, CustomRpcSender sender, RoleTypes BaseRole, RoleTypes hostBaseRole = RoleTypes.Crewmate)
+        {
+            if (!role.IsEnable()) return;
+            bool isRole = UnityEngine.Random.Range(1, 100) <= Options.CustomRoleSpawnChances[role].GetFloat();
+            for (var i = 0; i < role.GetCount(); i++)
+            {
+                if (AllPlayers.Count <= 0) break;
+                var rand = new System.Random();
+                var player = AllPlayers[rand.Next(0, AllPlayers.Count)];
+                AllPlayers.Remove(player);
+                Main.AllPlayerCustomRoles[player.PlayerId] = role;
+                //ここからDesyncが始まる
+                if (player.PlayerId != 0)
+                {
+                    int playerCID = player.GetClientId();
+                    sender.RpcSetRole(player, BaseRole, playerCID);
+                    //Desyncする人視点で他プレイヤーを科学者にするループ
+                    foreach (var pc in PlayerControl.AllPlayerControls)
+                    {
+                        if (pc == player) continue;
+                        sender.RpcSetRole(pc, RoleTypes.Scientist, playerCID);
+                    }
+                    //他視点でDesyncする人の役職を科学者にするループ
+                    foreach (var pc in PlayerControl.AllPlayerControls)
+                    {
+                        if (pc == player) continue;
+                        if (pc.PlayerId == 0) player.SetRole(RoleTypes.Scientist); //ホスト視点用
+                        else sender.RpcSetRole(player, RoleTypes.Scientist, pc.GetClientId());
+                    }
+                }
+                else
+                {
+                    //ホストは別の役職にする
+                    player.SetRole(hostBaseRole); //ホスト視点用
+                    sender.RpcSetRole(player, hostBaseRole);
+                }
+                player.Data.IsDead = true;
+            }
+        }
+
+        private static bool RoleGoingInList(CustomRoles role)
+        {
+            if (!role.IsEnable()) return false;
+            bool isRole = UnityEngine.Random.Range(1, 100) <= Options.CustomRoleSpawnChances[role].GetFloat();
+            return isRole;
         }
         private static List<PlayerControl> AssignCovenRoles(CustomRoles role, List<PlayerControl> players, int RawCount = -1)
         {

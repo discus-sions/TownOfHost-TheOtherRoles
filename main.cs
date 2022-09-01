@@ -177,7 +177,7 @@ namespace TownOfHost
         // TRULY RANDOM ROLES TEST //
         public static List<CustomRoles> chosenRoles = new();
         public static List<CustomRoles> chosenDesyncRoles = new();
-        public static List<CustomRoles> chosenNK = new();
+        public static List<CustomRoles> chosenNK = new(); // ROLE : Value -- IsShapeshifter -- Key
         public static List<CustomRoles> chosenNonNK = new();
         public static Dictionary<byte, (int, string, string, string, string, string)> AllPlayerSkin = new(); //Key : PlayerId, Value : (1: color, 2: hat, 3: skin, 4:visor, 5: pet)
         public override void Load()
@@ -515,6 +515,10 @@ namespace TownOfHost
         Mimic,
         Necromancer,
         Conjuror,
+
+        // RANDOM ROLE HELPERS //
+        NonNks,
+        Nks,
         // Sub-roles are After 500. Meaning, all roles under this are Modifiers.
         NoSubRoleAssigned = 500,
 

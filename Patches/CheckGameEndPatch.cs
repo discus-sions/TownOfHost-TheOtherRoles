@@ -550,6 +550,7 @@ namespace TownOfHost
                             {
                                 numCovenAlive++;
                             }
+                            else if (playerInfo.GetCustomRole() == CustomRoles.CorruptedSheriff) numImpostorsAlive++;
                             else if (playerInfo.GetCustomRole() == CustomRoles.Jackal) numJackalsAlive++;
                             else if (playerInfo.GetCustomRole() == CustomRoles.PlagueBearer) numPestiAlive++;
                             else if (playerInfo.GetCustomRole() == CustomRoles.Pestilence) numPestiAlive++;

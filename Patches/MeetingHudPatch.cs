@@ -206,7 +206,7 @@ namespace TownOfHost
                     if (exiledPlayer.PlayerId == exileId)
                     {
                         var player = Utils.GetPlayerById(exiledPlayer.PlayerId);
-                        var role = exiledPlayer.GetCustomRole().ToString();
+                        var role = GetString(exiledPlayer.GetCustomRole().ToString());
                         var coloredRole = Helpers.ColorString(Utils.GetRoleColor(exiledPlayer.GetCustomRole()), $"{role}");
                         var name = "";
                         //player?.Data?.PlayerName = $"{realName} was The {coloredRole}.<size=0>";
