@@ -118,6 +118,7 @@ namespace TownOfHost
             Main.chosenDesyncRoles = new();
             Main.chosenNK = new();
             Main.chosenNonNK = new();
+            Main.chosenImpRoles = new();
             Main.AllPlayerSkin = new();
 
             foreach (var target in PlayerControl.AllPlayerControls)
@@ -489,9 +490,9 @@ namespace TownOfHost
             }
             else
             {
-
-                AssignCustomRolesFromList(CustomRoles.FireWorks, Shapeshifters);
-                AssignCustomRolesFromList(CustomRoles.Sniper, Shapeshifters);
+                SetupRoles();
+                AssignCustomRolesFromList(CustomRoles.FireWorks, Shapeshifters, -1, true);
+                AssignCustomRolesFromList(CustomRoles.Sniper, Shapeshifters, -1, true);
                 AssignCustomRolesFromList(CustomRoles.Jester, Options.JesterCanVent.GetBool() ? Engineers : Crewmates);
                 AssignCustomRolesFromList(CustomRoles.Madmate, Engineers);
                 AssignCustomRolesFromList(CustomRoles.Bastion, Engineers);
@@ -510,20 +511,20 @@ namespace TownOfHost
                 AssignCustomRolesFromList(CustomRoles.Snitch, Crewmates);
                 AssignCustomRolesFromList(CustomRoles.SabotageMaster, Crewmates);
                 AssignCustomRolesFromList(CustomRoles.Hacker, Crewmates);
-                AssignCustomRolesFromList(CustomRoles.Mafia, Impostors);
+                AssignCustomRolesFromList(CustomRoles.Mafia, Impostors, -1, true);
                 AssignCustomRolesFromList(CustomRoles.Terrorist, Engineers);
                 AssignCustomRolesFromList(CustomRoles.Executioner, Crewmates);
                 AssignCustomRolesFromList(CustomRoles.Vulture, Crewmates);
-                AssignCustomRolesFromList(CustomRoles.Camouflager, Shapeshifters);
-                AssignCustomRolesFromList(CustomRoles.Ninja, Shapeshifters);
-                AssignCustomRolesFromList(CustomRoles.Vampire, Impostors);
-                AssignCustomRolesFromList(CustomRoles.BountyHunter, Shapeshifters);
-                AssignCustomRolesFromList(CustomRoles.Witch, Impostors);
-                AssignCustomRolesFromList(CustomRoles.Silencer, Impostors);
-                AssignCustomRolesFromList(CustomRoles.CorruptedSheriff, Impostors);
+                AssignCustomRolesFromList(CustomRoles.Camouflager, Shapeshifters, -1, true);
+                AssignCustomRolesFromList(CustomRoles.Ninja, Shapeshifters, -1, true);
+                AssignCustomRolesFromList(CustomRoles.Vampire, Impostors, -1, true);
+                AssignCustomRolesFromList(CustomRoles.BountyHunter, Shapeshifters, -1, true);
+                AssignCustomRolesFromList(CustomRoles.Witch, Impostors, -1, true);
+                AssignCustomRolesFromList(CustomRoles.Silencer, Impostors, -1, true);
+                AssignCustomRolesFromList(CustomRoles.CorruptedSheriff, Impostors, -1, true);
                 //AssignCustomRolesFromList(CustomRoles.ShapeMaster, Shapeshifters);
-                AssignCustomRolesFromList(CustomRoles.Warlock, Shapeshifters);
-                AssignCustomRolesFromList(CustomRoles.SerialKiller, Shapeshifters);
+                AssignCustomRolesFromList(CustomRoles.Warlock, Shapeshifters, -1, true);
+                AssignCustomRolesFromList(CustomRoles.SerialKiller, Shapeshifters, -1, true);
                 AssignCustomRolesFromList(CustomRoles.Lighter, Crewmates);
                 //AssignCustomRolesFromList(CustomRoles.Coven, Crewmates);
                 AssignLoversRolesFromList();
@@ -531,14 +532,14 @@ namespace TownOfHost
                 AssignCustomRolesFromList(CustomRoles.Trapper, Crewmates);
                 AssignCustomRolesFromList(CustomRoles.Dictator, Crewmates);
                 AssignCustomRolesFromList(CustomRoles.SchrodingerCat, Crewmates);
-                if (Options.IsEvilWatcher) AssignCustomRolesFromList(CustomRoles.Watcher, Impostors);
+                if (Options.IsEvilWatcher) AssignCustomRolesFromList(CustomRoles.Watcher, Impostors, -1, true);
                 else AssignCustomRolesFromList(CustomRoles.Watcher, Crewmates);
                 if (Main.RealOptionsData.NumImpostors > 1)
-                    AssignCustomRolesFromList(CustomRoles.Egoist, Shapeshifters);
-                AssignCustomRolesFromList(CustomRoles.Mare, Impostors);
+                    AssignCustomRolesFromList(CustomRoles.Egoist, Shapeshifters, -1, true);
+                AssignCustomRolesFromList(CustomRoles.Mare, Impostors, -1, true);
                 AssignCustomRolesFromList(CustomRoles.Doctor, Scientists);
-                AssignCustomRolesFromList(CustomRoles.Puppeteer, Impostors);
-                AssignCustomRolesFromList(CustomRoles.TimeThief, Impostors);
+                AssignCustomRolesFromList(CustomRoles.Puppeteer, Impostors, -1, true);
+                AssignCustomRolesFromList(CustomRoles.TimeThief, Impostors, -1, true);
 
                 // Main.HasModifier.Clear();
                 //  Main.modifiersList.Clear();
@@ -869,10 +870,11 @@ namespace TownOfHost
                 player.Data.IsDead = true;
             }
         }
-        private static List<PlayerControl> AssignCustomRolesFromList(CustomRoles role, List<PlayerControl> players, int RawCount = -1)
+        private static List<PlayerControl> AssignCustomRolesFromList(CustomRoles role, List<PlayerControl> players, int RawCount = -1, bool isImpRole = false)
         {
             if (players == null || players.Count <= 0) return null;
             var rand = new System.Random();
+            var rando = new System.Random();
             var count = Math.Clamp(RawCount, 0, players.Count);
             if (RawCount == -1) count = Math.Clamp(role.GetCount(), 0, players.Count);
             if (count <= 0) return null;
@@ -880,62 +882,48 @@ namespace TownOfHost
             SetColorPatch.IsAntiGlitchDisabled = true;
             for (var i = 0; i < count; i++)
             {
-                var player = players[rand.Next(0, players.Count)];
-                AssignedPlayers.Add(player);
-                players.Remove(player);
-                Main.AllPlayerCustomRoles[player.PlayerId] = role;
-                Logger.Info("役職設定:" + player?.Data?.PlayerName + " = " + role.ToString(), "AssignRoles");
-
-                if (Options.CurrentGameMode == CustomGameMode.HideAndSeek)
+                switch (isImpRole)
                 {
-                    if (player.Is(CustomRoles.HASTroll))
-                        player.RpcSetColor(2);
-                    else if (player.Is(CustomRoles.HASFox))
-                        player.RpcSetColor(3);
+                    case false:
+                        if (!Main.chosenRoles.Contains(role)) break;
+                        var player = players[rand.Next(0, players.Count)];
+                        var r = Main.chosenRoles[rando.Next(0, Main.chosenRoles.Count)];
+                        AssignedPlayers.Add(player);
+                        players.Remove(player);
+                        Main.chosenRoles.Remove(r);
+                        Main.AllPlayerCustomRoles[player.PlayerId] = r;
+                        Logger.Info("役職設定:" + player?.Data?.PlayerName + " = " + r.ToString(), "AssignRoles");
+
+                        if (Options.CurrentGameMode == CustomGameMode.HideAndSeek)
+                        {
+                            if (player.Is(CustomRoles.HASTroll))
+                                player.RpcSetColor(2);
+                            else if (player.Is(CustomRoles.HASFox))
+                                player.RpcSetColor(3);
+                        }
+                        break;
+                    case true:
+                        if (!Main.chosenImpRoles.Contains(role)) break;
+                        var p = players[rand.Next(0, players.Count)];
+                        var ro = Main.chosenImpRoles[rando.Next(0, Main.chosenImpRoles.Count)];
+                        AssignedPlayers.Add(p);
+                        players.Remove(p);
+                        Main.chosenImpRoles.Remove(ro);
+                        Main.AllPlayerCustomRoles[p.PlayerId] = ro;
+                        Logger.Info("役職設定:" + p?.Data?.PlayerName + " = " + ro.ToString(), "AssignRoles");
+
+                        if (Options.CurrentGameMode == CustomGameMode.HideAndSeek)
+                        {
+                            if (p.Is(CustomRoles.HASTroll))
+                                p.RpcSetColor(2);
+                            else if (p.Is(CustomRoles.HASFox))
+                                pS.RpcSetColor(3);
+                        }
+                        break;
                 }
             }
             SetColorPatch.IsAntiGlitchDisabled = false;
             return AssignedPlayers;
-        }
-
-        private static void RandomDesyncRole(CustomRoles role, List<PlayerControl> AllPlayers, CustomRpcSender sender, RoleTypes BaseRole, RoleTypes hostBaseRole = RoleTypes.Crewmate)
-        {
-            if (!role.IsEnable()) return;
-            bool isRole = UnityEngine.Random.Range(1, 100) <= Options.CustomRoleSpawnChances[role].GetFloat();
-            for (var i = 0; i < role.GetCount(); i++)
-            {
-                if (AllPlayers.Count <= 0) break;
-                var rand = new System.Random();
-                var player = AllPlayers[rand.Next(0, AllPlayers.Count)];
-                AllPlayers.Remove(player);
-                Main.AllPlayerCustomRoles[player.PlayerId] = role;
-                //ここからDesyncが始まる
-                if (player.PlayerId != 0)
-                {
-                    int playerCID = player.GetClientId();
-                    sender.RpcSetRole(player, BaseRole, playerCID);
-                    //Desyncする人視点で他プレイヤーを科学者にするループ
-                    foreach (var pc in PlayerControl.AllPlayerControls)
-                    {
-                        if (pc == player) continue;
-                        sender.RpcSetRole(pc, RoleTypes.Scientist, playerCID);
-                    }
-                    //他視点でDesyncする人の役職を科学者にするループ
-                    foreach (var pc in PlayerControl.AllPlayerControls)
-                    {
-                        if (pc == player) continue;
-                        if (pc.PlayerId == 0) player.SetRole(RoleTypes.Scientist); //ホスト視点用
-                        else sender.RpcSetRole(player, RoleTypes.Scientist, pc.GetClientId());
-                    }
-                }
-                else
-                {
-                    //ホストは別の役職にする
-                    player.SetRole(hostBaseRole); //ホスト視点用
-                    sender.RpcSetRole(player, hostBaseRole);
-                }
-                player.Data.IsDead = true;
-            }
         }
 
         private static bool RoleGoingInList(CustomRoles role)
@@ -943,6 +931,71 @@ namespace TownOfHost
             if (!role.IsEnable()) return false;
             bool isRole = UnityEngine.Random.Range(1, 100) <= Options.CustomRoleSpawnChances[role].GetFloat();
             return isRole;
+        }
+
+        private static void RoleAddedToList(CustomRoles role, bool IsImpostor = false)
+        {
+            switch (IsImpostor)
+            {
+                case false:
+                    if (RoleGoingInList(role))
+                        Main.chosenRoles.Add(role);
+                    break;
+                case true:
+                    if (RoleGoingInList(role))
+                        Main.chosenImpRoles.Add(role);
+                    break;
+            }
+        }
+        private static void SetupRoles()
+        {
+            RoleAddedToList(CustomRoles.FireWorks, true);
+            RoleAddedToList(CustomRoles.Sniper, true);
+            RoleAddedToList(CustomRoles.Madmate);
+            RoleAddedToList(CustomRoles.Bastion);
+            RoleAddedToList(CustomRoles.Bait);
+            RoleAddedToList(CustomRoles.Demolitionist);
+            RoleAddedToList(CustomRoles.Veteran);
+            RoleAddedToList(CustomRoles.Sleuth);
+            RoleAddedToList(CustomRoles.Medium);
+            RoleAddedToList(CustomRoles.Child);
+            RoleAddedToList(CustomRoles.Bewilder);
+            RoleAddedToList(CustomRoles.GuardianAngelTOU);
+            RoleAddedToList(CustomRoles.MadGuardian);
+            RoleAddedToList(CustomRoles.MadSnitch);
+            RoleAddedToList(CustomRoles.Mayor);
+            RoleAddedToList(CustomRoles.Opportunist);
+            RoleAddedToList(CustomRoles.Snitch);
+            RoleAddedToList(CustomRoles.SabotageMaster);
+            RoleAddedToList(CustomRoles.Hacker);
+            RoleAddedToList(CustomRoles.Mafia, true);
+            RoleAddedToList(CustomRoles.Terrorist);
+            RoleAddedToList(CustomRoles.Executioner);
+            RoleAddedToList(CustomRoles.Vulture);
+            RoleAddedToList(CustomRoles.Camouflager, true);
+            RoleAddedToList(CustomRoles.Ninja, true);
+            RoleAddedToList(CustomRoles.Vampire, true);
+            RoleAddedToList(CustomRoles.BountyHunter, true);
+            RoleAddedToList(CustomRoles.Witch, true);
+            RoleAddedToList(CustomRoles.Silencer, true);
+            RoleAddedToList(CustomRoles.CorruptedSheriff, true);
+            //RoleAddedToList(CustomRoles.ShapeMaster, true);
+            RoleAddedToList(CustomRoles.Warlock, true);
+            RoleAddedToList(CustomRoles.SerialKiller, true);
+            RoleAddedToList(CustomRoles.Lighter);
+            //RoleAddedToList(CustomRoles.Coven);
+            RoleAddedToList(CustomRoles.SpeedBooster);
+            RoleAddedToList(CustomRoles.Trapper);
+            RoleAddedToList(CustomRoles.Dictator);
+            RoleAddedToList(CustomRoles.SchrodingerCat);
+            if (Options.IsEvilWatcher) RoleAddedToList(CustomRoles.Watcher, true);
+            else RoleAddedToList(CustomRoles.Watcher);
+            if (Main.RealOptionsData.NumImpostors > 1)
+                RoleAddedToList(CustomRoles.Egoist, true);
+            RoleAddedToList(CustomRoles.Mare, true);
+            RoleAddedToList(CustomRoles.Doctor);
+            RoleAddedToList(CustomRoles.Puppeteer, true);
+            RoleAddedToList(CustomRoles.TimeThief, true);
         }
         private static List<PlayerControl> AssignCovenRoles(CustomRoles role, List<PlayerControl> players, int RawCount = -1)
         {

@@ -176,6 +176,7 @@ namespace TownOfHost
 
         // TRULY RANDOM ROLES TEST //
         public static List<CustomRoles> chosenRoles = new();
+        public static List<CustomRoles> chosenImpRoles = new();
         public static List<CustomRoles> chosenDesyncRoles = new();
         public static List<CustomRoles> chosenNK = new(); // ROLE : Value -- IsShapeshifter -- Key
         public static List<CustomRoles> chosenNonNK = new();
