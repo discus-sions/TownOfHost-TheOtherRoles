@@ -671,6 +671,14 @@ namespace TownOfHost
                 !pc.Is(CustomRoles.CorruptedSheriff) &&
                 Main.AliveImpostorCount == 1;
         }
+        public static bool LastImpostor(this PlayerControl pc)
+        { //キルクールを変更するインポスター役職は省く
+            return pc.GetCustomRole().IsImpostor() &&
+                //!pc.Data.IsDead &&
+                Options.CurrentGameMode != CustomGameMode.HideAndSeek &&
+                // !pc.Is(CustomRoles.CorruptedSheriff) &&
+                Main.AliveImpostorCount == 1;
+        }
         public static bool IsDousedPlayer(this PlayerControl arsonist, PlayerControl target)
         {
             if (arsonist == null) return false;

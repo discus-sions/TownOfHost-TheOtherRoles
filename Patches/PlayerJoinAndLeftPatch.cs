@@ -52,7 +52,7 @@ namespace TownOfHost
         {
             //            Logger.info($"RealNames[{data.Character.PlayerId}]を削除");
             //            main.RealNames.Remove(data.Character.PlayerId);
-            if (GameStates.IsInGame)
+            if (GameStates.IsInGame && AmongUsClient.Instance.AmHost)
             {
                 if (data.Character.Is(CustomRoles.TimeThief))
                     data.Character.ResetVotingTime();
@@ -75,7 +75,7 @@ namespace TownOfHost
                     Main.GuardianAngelTarget.Remove(data.Character.PlayerId);
                     RPC.RemoveGAKey(data.Character.PlayerId);
                 }
-                if (data.Character.CurrentlyLastImpostor())
+                if (data.Character.LastImpostor())
                 {
                     Main.currentWinner = CustomWinner.None;
                     ShipStatus.Instance.enabled = false;
