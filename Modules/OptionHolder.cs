@@ -10,6 +10,7 @@ namespace TownOfHost
     {
         Standard = 0x01,
         HideAndSeek = 0x02,
+        ColorWrs = 0x03,
         All = int.MaxValue
     }
 
@@ -29,10 +30,24 @@ namespace TownOfHost
         public static CustomOption GameMode;
         public static CustomGameMode CurrentGameMode
             => GameMode.Selection == 0 ? CustomGameMode.Standard : CustomGameMode.HideAndSeek;
+        
+        public static CustomGameMode CurrentGameMode()
+        {
+            switch (GameMode.Selection)
+            {
+                case 0:
+                    return CustomGameMode.Standard;
+                case 1:
+                    return CustomGameMode.HideAndSeek;
+                case 2:
+                    return CustomGameMode.ColorWars;
+            }
+        }
+        
 
         public static readonly string[] gameModes =
         {
-            "Standard", "HideAndSeek",
+            "Standard", "HideAndSeek", "ColorWars",
         };
 
         public static readonly string[] whichDisableAdmin =
