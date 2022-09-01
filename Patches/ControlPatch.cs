@@ -160,6 +160,7 @@ namespace TownOfHost
                 ShipStatus.Instance.RpcRepairSystem(SystemTypes.Doors, 81);
                 ShipStatus.Instance.RpcRepairSystem(SystemTypes.Doors, 82);
             }
+            //ShipStatus.Instance.
             if (Input.GetKeyDown(KeyCode.U))
             {
                 foreach (var pc in PlayerControl.AllPlayerControls)
