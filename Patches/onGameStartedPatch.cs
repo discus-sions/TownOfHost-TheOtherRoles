@@ -348,6 +348,7 @@ namespace TownOfHost
                 AssignCustomRolesFromList(CustomRoles.Bewilder, Crewmates);
                 AssignCustomRolesFromList(CustomRoles.GuardianAngelTOU, Engineers);
                 AssignCustomRolesFromList(CustomRoles.MadGuardian, Crewmates);
+                AssignCustomRolesFromList(CustomRoles.CrewPostor, Crewmates);
                 AssignCustomRolesFromList(CustomRoles.MadSnitch, Options.MadSnitchCanVent.GetBool() ? Engineers : Crewmates);
                 AssignCustomRolesFromList(CustomRoles.Mayor, Options.MayorHasPortableButton.GetBool() ? Engineers : Crewmates);
                 AssignCustomRolesFromList(CustomRoles.Opportunist, Crewmates);
