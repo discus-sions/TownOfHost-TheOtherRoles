@@ -75,6 +75,12 @@ namespace TownOfHost
                     Main.GuardianAngelTarget.Remove(data.Character.PlayerId);
                     RPC.RemoveGAKey(data.Character.PlayerId);
                 }
+                if (data.Character.CurrentlyLastImpostor())
+                {
+                    Main.currentWinner = CustomWinner.None;
+                    ShipStatus.Instance.enabled = false;
+                    ShipStatus.RpcEndGame(GameOverReason.ImpostorDisconnect, false);
+                }
                 if (Main.ExecutionerTarget.ContainsValue(data.Character.PlayerId))
                 {
                     byte Executioner = 0x73;
