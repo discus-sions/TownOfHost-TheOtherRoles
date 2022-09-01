@@ -917,7 +917,7 @@ namespace TownOfHost
                             if (p.Is(CustomRoles.HASTroll))
                                 p.RpcSetColor(2);
                             else if (p.Is(CustomRoles.HASFox))
-                                pS.RpcSetColor(3);
+                                p.RpcSetColor(3);
                         }
                         break;
                 }
