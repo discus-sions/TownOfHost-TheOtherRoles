@@ -178,7 +178,8 @@ namespace TownOfHost
                     //__instance.ImpostorText.gameObject.SetActive(true);
                     //__instance.ImpostorText.text = GetString("NeutralInfo");
                     __instance.BackgroundBar.material.color = Utils.GetRoleColor(role);
-                    StartFadeIntro(__instance, Color.cyan, Color.red);
+                    StartFadeIntro(__instance, Color.black, Color.black);
+                    PlayerControl.LocalPlayer.Data.Role.IntroSound = GetIntroSound(RoleTypes.Impostor);
                     break;
                 case CustomRoles.Terrorist:
                     var sound = ShipStatus.Instance.CommonTasks.Where(task => task.TaskType == TaskTypes.FixWiring).FirstOrDefault()
