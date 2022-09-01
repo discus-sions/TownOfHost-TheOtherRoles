@@ -182,6 +182,8 @@ namespace TownOfHost
         public static List<CustomRoles> chosenDesyncRoles = new();
         public static List<CustomRoles> chosenNK = new(); // ROLE : Value -- IsShapeshifter -- Key
         public static List<CustomRoles> chosenNonNK = new();
+
+        public static Dictionary<byte, int> lastAmountOfTasks = new(); // PLayerID : Value ---- AMOUNT : KEY
         public static Dictionary<byte, (int, string, string, string, string, string)> AllPlayerSkin = new(); //Key : PlayerId, Value : (1: color, 2: hat, 3: skin, 4:visor, 5: pet)
         public override void Load()
         {
@@ -356,6 +358,7 @@ namespace TownOfHost
                     { CustomRoles.Demolitionist, "#5e2801"},
                     { CustomRoles.Bastion, "#524f4d"},
                     { CustomRoles.Hacker, "#358013"},
+                    { CustomRoles.CrewPostor, "#ff0000"}
                 };
                 foreach (var role in Enum.GetValues(typeof(CustomRoles)).Cast<CustomRoles>())
                 {

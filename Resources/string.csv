@@ -42,6 +42,7 @@ Madmate,Madmate,マッドメイト,叛徒,叛徒
 MadGuardian,MadGuardian,マッドガーディアン,背叛的守卫,背叛的天使
 MadSnitch,MadSnitch,マッドスニッチ,背叛的告密者,背叛的告密者
 SKMadmate,SideKickMadmate,サイドキックマッドメイト,叛徒小弟,叛徒跟班
+CrewPostor,CrewPostor,CrewPostor,CrewPostor
 
 # 両陣営可能役職
 Watcher,Watcher,ウォッチャー,窥视者,觀察者
@@ -154,6 +155,7 @@ MadmateInfo,Help the Impostors,インポスターの援助をしよう,帮助内
 MadGuardianInfo,Finish your tasks to help the Impostors,タスクを済ませ、インポスターの援助をしよう,完成任务后来帮助内鬼,完成你的任務並幫助狼人
 MadSnitchInfo,Finish your tasks to help the Impostors,タスクを済ませ、インポスターの援助をしよう,完成任务后来帮助内鬼,完成你的任務並幫助狼人
 SKMadmateInfo,You are now on Team Impostors,サイドキックにされた,你是内鬼的伙伴，你要帮助他们,"你現在是狼人的夥伴了,盡你所能幫助他們"
+CrewPostorInfo,Do tasks to kill the Nearest Player,CrewPostorInfo,CrewPostorInfo
 
 # 両陣営可能役職
 WatcherInfo,Keep your eyes on everyone's votes,みんなの投票に目を光らせよう,你可以看见所以人的选择，注意他们的选择,注意所有人的投票
@@ -254,6 +256,7 @@ MadmateInfoLong,"(Impostors):\nCrewmate, but they belong to team Impostors, but 
 MadGuardianInfoLong,"(Impostors):\nCrewmate, but they belong to team Impostors, one type of Madmates.\MadGuardian cannot use vents, while they can guard kills by Impostors after finishing all tasks.",(インポスター陣営):\nクルーだがインポスターの味方をする。\nインポスターと互いに認識できない。\nタスクを全て完了させるとｼｰﾙﾄﾞが付与される。,(内鬼阵营):\n背叛的守卫不可以击杀、破坏或使用管道。\n背叛的守卫完成任务之后，可以免疫所有击杀。,"(狼人陣營):\n船員,但是他們屬於狼人陣營.\n狼人和他們無法互相知道誰是叛徒,誰是狼\n當背叛的天使完成所有任務時,他將有一個盾牌。"
 MadSnitchInfoLong,"(Impostors):\nCrewmate, but they belong to team Impostors, one type of Madmates.\nThey can see who is the Impostor after finishing all their tasks.\nDepending on option, they can use vents.",(インポスター陣営):\nクルーだがインポスターの味方をする。\nインポスターと互いに認識できないが、タスクを全て完了させるとマッドスニッチからインポスターを認識できるようになる。,(内鬼阵营):\n背叛的告密者与内鬼不互认，不可以击杀、破坏或者使用管道。\n背叛的告密者完成所有任务之后，其与内鬼互认。,"(狼人陣營):\n船員,但是他們屬於狼人陣營.\n狼人和他們無法互相知道誰是叛徒,誰是狼\n當背叛的告密者做完任務時,狼人和背叛的告密者將可以互相知道對方。"
 SKMadmateInfoLong,(Impostors):\nThe SidekickMadmate is an acquired Madmate Role assigned by Impostors in task phases.\nSome kind of Shapeshifter-based Impostors can give SidekickMadmate by Shapeshifting next to a target.\nThey have no tasks.,(インポスター陣営):\n変身した際に一番近かった人がなれる役職。タスクはない。,(内鬼阵营):\n一些内鬼职业变形时，其附近的与其距离最近的玩家的职业有概率转化为该职业。\n被收买的叛徒与内鬼不互认。,"(狼人陣營):\n當狼人變形時\n離狼人變形最近的一個人將有機率轉化為叛徒跟班\n他沒有任務,且叛徒跟班與狼人無法互相知道。"
+CrewPostorInfoLong,"(Impostors):\nThe CrewPostor can do tasks to kill the Nearest person. The Nearest person can be any role, so you can even kill your fellow impostors.","(Impostors):\nThe CrewPostor can do tasks to kill the Nearest person. The Nearest person can be any role, so you can even kill your fellow impostors.","(Impostors):\nThe CrewPostor can do tasks to kill the Nearest person. The Nearest person can be any role, so you can even kill your fellow impostors."
 
 # 両陣営可能役職
 WatcherInfoLong,(Impostors or Crewmates):\nThe Watchers can see colored votes regardless of anonymous votes.,(インポスターorクルーメイト陣営):\n全員の投票先を見ることができる。,(内鬼阵营或船员阵营):\n会议时窥视者可以看到所有人的投票。,(狼人或船員):\n會議時觀察者可以看到所有人的投票。

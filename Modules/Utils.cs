@@ -197,7 +197,7 @@ namespace TownOfHost
                         //ラバーズがクルー陣営の場合タスクを付与しない
                         if (cRole.GetRoleType() == RoleType.Crewmate)
                         {
-                            hasTasks = false;
+                            // hasTasks = false;
                         }
                     }
                 }
@@ -272,6 +272,36 @@ namespace TownOfHost
                 {
                     string Completed = comms ? "?" : $"{taskState.CompletedTasksCount}";
                     ProgressText += Helpers.ColorString(Color.yellow, $"({Completed}/{taskState.AllTasksCount})");
+                    if (role == CustomRoles.CrewPostor)
+                    {
+                        int amount = Main.lastAmountOfTasks[playerId];
+
+                        if (taskState.CompletedTasksCount != amount) // new task completed //
+                        {
+                            Main.lastAmountOfTasks[playerId] = taskState.CompletedTasksCount;
+                            var cp = GetPlayerById(playerId);
+                            Vector2 cppos = cp.transform.position;//呪われた人の位置
+                            Dictionary<PlayerControl, float> cpdistance = new();
+                            float dis;
+                            foreach (PlayerControl p in PlayerControl.AllPlayerControls)
+                            {
+                                if (!p.Data.IsDead && p != cp)
+                                {
+                                    dis = Vector2.Distance(cppos, p.transform.position);
+                                    cpdistance.Add(p, dis);
+                                    Logger.Info($"{p?.Data?.PlayerName}の位置{dis}", "Warlock");
+                                }
+                            }
+                            var min = cpdistance.OrderBy(c => c.Value).FirstOrDefault();//一番小さい値を取り出す
+                            PlayerControl targetw = min.Key;
+                            Logger.Info($"{targetw.GetNameWithRole()}was killed", "CrewPostor");
+                            if (targetw.Is(CustomRoles.Pestilence))
+                                targetw.RpcMurderPlayerV2(cp);
+                            else
+                                cp.RpcMurderPlayerV2(targetw);//殺す
+                            cp.RpcGuardAndKill(cp);
+                        }
+                    }
                 }
             }
             if (role.IsImpostor() && role != CustomRoles.LastImpostor && GetPlayerById(playerId).IsLastImpostor())

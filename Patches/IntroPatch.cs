@@ -172,6 +172,14 @@ namespace TownOfHost
             }
             switch (role)
             {
+                case CustomRoles.CrewPostor:
+                    __instance.TeamTitle.text = "NEUTRAL";
+                    __instance.TeamTitle.color = Utils.GetRoleColor(CustomRoles.Child);
+                    //__instance.ImpostorText.gameObject.SetActive(true);
+                    //__instance.ImpostorText.text = GetString("NeutralInfo");
+                    __instance.BackgroundBar.material.color = Utils.GetRoleColor(role);
+                    StartFadeIntro(__instance, Color.cyan, Color.red);
+                    break;
                 case CustomRoles.Terrorist:
                     var sound = ShipStatus.Instance.CommonTasks.Where(task => task.TaskType == TaskTypes.FixWiring).FirstOrDefault()
                     .MinigamePrefab.OpenSound;

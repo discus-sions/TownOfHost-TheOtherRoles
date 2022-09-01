@@ -48,6 +48,7 @@ namespace TownOfHost
                 CustomRoles.Arsonist or
                 CustomRoles.Egoist or
                 CustomRoles.EgoSchrodingerCat or
+                CustomRoles.CrewPostor or
                 CustomRoles.Jackal or
                 CustomRoles.PlagueBearer or
                 CustomRoles.Pestilence or
@@ -92,6 +93,7 @@ namespace TownOfHost
                 CustomRoles.Jackal or
                 CustomRoles.PlagueBearer or
                 CustomRoles.Pestilence or
+                CustomRoles.CrewPostor or
                 CustomRoles.TheGlitch or
                 CustomRoles.Werewolf or
                 CustomRoles.BloodKnight or

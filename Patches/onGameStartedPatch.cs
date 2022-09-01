@@ -94,6 +94,8 @@ namespace TownOfHost
             Main.IsRampaged = false;
             Main.RampageReady = true;
             Main.Impostors = new();
+            Main.lastAmountOfTasks = new();
+            Main.AllImpostorCount = 0;
             Main.IsHackMode = false;
             Main.bkProtected = false;
             Main.bombedVents = new List<int>();
@@ -614,6 +616,9 @@ namespace TownOfHost
                             break;
                         case CustomRoles.Hacker:
                             Main.HackerFixedSaboCount[pc.PlayerId] = 0;
+                            break;
+                        case CustomRoles.CrewPostor:
+                            Main.lastAmountOfTasks.Add(pc.PlayerId, 0);
                             break;
                         case CustomRoles.SabotageMaster:
                             SabotageMaster.Add(pc.PlayerId);

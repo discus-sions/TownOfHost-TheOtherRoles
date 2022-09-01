@@ -388,6 +388,7 @@ namespace TownOfHost
             SetupRoleOptions(10100, CustomRoles.MadGuardian);
             MadGuardianCanSeeWhoTriedToKill = CustomOption.Create(10110, Color.white, "MadGuardianCanSeeWhoTriedToKill", false, CustomRoleSpawnChances[CustomRoles.MadGuardian]);
             //ID10120~10123を使用
+            SetupRoleOptions(205000, CustomRoles.CrewPostor);
             MadGuardianTasks = OverrideTasksData.Create(10120, CustomRoles.MadGuardian);
             SetupRoleOptions(10200, CustomRoles.MadSnitch);
             MadSnitchCanVent = CustomOption.Create(10210, Color.white, "MadSnitchCanVent", false, CustomRoleSpawnChances[CustomRoles.MadSnitch]);
