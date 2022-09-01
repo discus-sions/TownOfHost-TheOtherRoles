@@ -1060,13 +1060,17 @@ namespace TownOfHost
         public static void CountAliveImpostors()
         {
             int AliveImpostorCount = 0;
+            List<PlayerControl> AllImpostors = new();
             foreach (var pc in PlayerControl.AllPlayerControls)
             {
                 CustomRoles pc_role = pc.GetCustomRole();
                 if (pc_role.IsImpostor() && !pc.Data.IsDead) AliveImpostorCount++;
+                if (pc_role.IsImpostor()) AllImpostors.Add(pc);
             }
             TownOfHost.Logger.Info("生存しているインポスター:" + AliveImpostorCount + "人", "CountAliveImpostors");
             Main.AliveImpostorCount = AliveImpostorCount;
+            Main.Impostors = new();
+            Main.Impostors = AllImpostors;
             if (Options.EnableLastImpostor.GetBool() && AliveImpostorCount == 1)
             {
                 foreach (var pc in PlayerControl.AllPlayerControls)

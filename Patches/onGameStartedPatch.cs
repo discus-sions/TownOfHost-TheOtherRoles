@@ -93,6 +93,7 @@ namespace TownOfHost
 
             Main.IsRampaged = false;
             Main.RampageReady = true;
+            Main.Impostors = new();
             Main.IsHackMode = false;
             Main.bkProtected = false;
             Main.bombedVents = new List<int>();
