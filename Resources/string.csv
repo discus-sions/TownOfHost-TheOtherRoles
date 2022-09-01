@@ -331,6 +331,8 @@ LastImpostorInfoLong,"(Attributes):\nAn Attribute given to the last Impostor.\nK
 
 #モードオプション
 HideAndSeek,HideAndSeek,かくれんぼ,躲猫猫,躲貓貓
+ColorWars,Colow Wars,ColorWars,ColorWars
+Splatoon,Splatoon,Splatoon,Splatoon
 NoGameEnd,NoGameEnd,ゲームを終了しない,测试模式,遊戲不會結束模式
 CamoComms,Camo Comms,Camo Comms,迷彩通信,
 SyncButtonMode,SyncButtonMode,ボタン回数同期モード,所有船员共享会议次数,全場拍桌數同步模式
@@ -558,6 +560,7 @@ SCKTG,Sheriff Can Kill The Glitch,Translation Unavailble,警长可以执法混�
 RBC,Role Block Cooldown,Translation Unavailble,职业切换冷却时间,
 CanVent,Can Vent,Translation Unavailble,可以使用通风管道,
 KillCD,Kill Cooldown,Translation Unavailble,击杀冷却时间,
+KillCDT,Paint Cooldown,Translation Unavailble,击杀冷却时间,
 GRB,Global RoleBlock Duration,Translation Unavailble,全局职业区域持续时间,
 
 ## かくれんぼ設定

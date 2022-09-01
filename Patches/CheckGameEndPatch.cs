@@ -28,6 +28,14 @@ namespace TownOfHost
                     if (CheckAndEndGameForTroll(__instance)) return false;
                     if (CheckAndEndGameForTaskWin(__instance)) return false;
                 }
+                else if (Options.CurrentGameMode() == CustomGameMode.ColorWars)
+                {
+
+                }
+                else if (Options.CurrentGameMode() == CustomGameMode.Splatoon)
+                {
+
+                }
                 else
                 {
                     if (CheckAndEndGameForTaskWin(__instance)) return false;

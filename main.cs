@@ -524,6 +524,13 @@ namespace TownOfHost
         Necromancer,
         Conjuror,
 
+        // NEW GAMEMODE ROLES //
+
+        TeamRed,
+        TeamBlue,
+        TeamGreen,
+        Painter,
+
         // RANDOM ROLE HELPERS //
         NonNks,
         Nks,

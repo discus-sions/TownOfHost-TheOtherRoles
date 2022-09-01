@@ -52,7 +52,7 @@ namespace TownOfHost
 
         public static readonly string[] gameModes =
         {
-            "Standard", "HideAndSeek", "ColorWars",
+            "Standard", "HideAndSeek", "ColorWars", "Splatoon"
         };
 
         public static readonly string[] whichDisableAdmin =
@@ -165,6 +165,17 @@ namespace TownOfHost
         public static CustomOption IgnoreCosmetics;
         public static CustomOption IgnoreVent;
         public static float HideAndSeekKillDelayTimer = 0f;
+
+        // COLOR WARS //
+
+        public static CustomOption CWAllowCloseDoors;
+        public static CustomOption CWCD;
+        public static CustomOption CWIgnoreVent;
+
+        // SPLATOON //
+
+        public static CustomOption STCD;
+        public static CustomOption STIgnoreVent;
 
         //デバイスブロック
         public static CustomOption DisableDevices;
@@ -585,6 +596,21 @@ namespace TownOfHost
             //    .SetGameMode(CustomGameMode.HideAndSeek);
             IgnoreVent = CustomOption.Create(101003, Color.white, "IgnoreVent", false)
                 .SetGameMode(CustomGameMode.HideAndSeek);
+
+            // COLOR WARS //
+
+            // CWAllowCloseDoors = CustomOption.Create(1011000, Color.white, "AllowCloseDoors", false, null, true)
+            //    .SetGameMode(CustomGameMode.ColorWars);
+            CWCD = CustomOption.Create(1011001, Color.white, "KillCD", 30, 2.5f, 60, 2.5f)
+                .SetGameMode(CustomGameMode.ColorWars);
+            CWIgnoreVent = CustomOption.Create(1011003, Color.white, "CanVent", false)
+                .SetGameMode(CustomGameMode.ColorWars);
+
+            // SPLATOON //
+            STCD = CustomOption.Create(1001001, Color.white, "KillCDT", 25, 2.5f, 60, 2.5f)
+                .SetGameMode(CustomGameMode.Splatoon);
+            STIgnoreVent = CustomOption.Create(1001003, Color.white, "CanVent", false)
+                .SetGameMode(CustomGameMode.Splatoon);
 
             //デバイス無効化
             DisableDevices = CustomOption.Create(101200, Color.white, "DisableDevices", false, null, true)
