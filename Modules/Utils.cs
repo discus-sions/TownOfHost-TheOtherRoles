@@ -344,6 +344,10 @@ namespace TownOfHost
                     text += String.Format("\n{0}:{1}", GetRoleName(CustomRoles.LastImpostor), Options.EnableLastImpostor.GetString());
                 }
                 if (Options.CamoComms.GetBool()) text += String.Format("\n{0}:{1}", GetString("CamoComms"), Options.CamoComms.GetString());
+                text += String.Format("\n{0}:{1}", "Min Neutral Killings", Options.MinNK.GetString());
+                text += String.Format("\n{0}:{1}", "Max Neutral Killings", Options.MaxNK.GetString());
+                text += String.Format("\n{0}:{1}", "Min Non-Neutral Killings", Options.MinNonNK.GetString());
+                text += String.Format("\n{0}:{1}", "Max Nin-Neutral Killings", Options.MaxNonNK.GetString());
                 SendMessage(text, PlayerId);
                 text = GetString("Settings") + ":";
                 foreach (var role in Options.CustomRoleCounts)

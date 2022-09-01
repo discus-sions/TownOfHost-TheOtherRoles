@@ -635,13 +635,13 @@ namespace TownOfHost
             StandardHASWaitingTime = CustomOption.Create(100701, Color.white, "StandardHASWaitingTime", 10f, 0f, 180f, 2.5f, StandardHAS)
                 .SetGameMode(CustomGameMode.Standard);
 
-            MinNK = CustomOption.Create(100701, Color.white, "MinNK", 0, 0, 15, 1, null, true)
+            MinNK = CustomOption.Create(1007012, Color.white, "MinNK", 0, 0, 15, 1, null, true)
                 .SetGameMode(CustomGameMode.Standard);
-            MaxNK = CustomOption.Create(100701, Color.white, "MaxNK", 0, 0, 15, 1, null, true)
+            MaxNK = CustomOption.Create(1007013, Color.white, "MaxNK", 0, 0, 15, 1, null, true)
             .SetGameMode(CustomGameMode.Standard);
-            MinNonNK = CustomOption.Create(100701, Color.white, "MinNonNK", 0, 0, 15, 1, null, true)
+            MinNonNK = CustomOption.Create(1007014, Color.white, "MinNonNK", 0, 0, 15, 1, null, true)
             .SetGameMode(CustomGameMode.Standard);
-            MaxNonNK = CustomOption.Create(100701, Color.white, "MaxNonNK", 0, 0, 15, 1, null, true)
+            MaxNonNK = CustomOption.Create(1007015, Color.white, "MaxNonNK", 0, 0, 15, 1, null, true)
                 .SetGameMode(CustomGameMode.Standard);
 
             // その他
