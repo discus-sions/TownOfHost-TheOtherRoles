@@ -156,6 +156,21 @@ namespace TownOfHost
                     }
                 }
 
+                if (Utils.GetPlayerById(exileId).GetCustomRole() == CustomRoles.EvilGuesser)
+                {
+                    if (!Guesser.IsEvilGuesserMeeting)
+                    {
+                        Guesser.isEvilGuesserExiled[exileId] = true;
+                        MeetingHud.Instance.RpcClose();
+                        return false;
+                    }
+                    if (Guesser.IsEvilGuesserMeeting)
+                    {
+                        Guesser.IsEvilGuesserMeeting = false;
+                        Guesser.isEvilGuesserExiled[exileId] = false;
+                    }
+                }
+
                 Logger.Info($"追放者決定: {exileId}({Utils.GetVoteName(exileId)})", "Vote");
                 exiledPlayer = GameData.Instance.AllPlayers.ToArray().FirstOrDefault(info => !tie && info.PlayerId == exileId);
 

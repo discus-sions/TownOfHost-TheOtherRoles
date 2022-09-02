@@ -346,6 +346,9 @@ namespace TownOfHost
                     case CustomWinner.BloodKnight:
                         KnightWin();
                         break;
+                    case CustomWinner.Pirate:
+                        PirateWin();
+                        break;
                     case CustomWinner.Vulture:
                         VultureWin();
                         break;
@@ -437,6 +440,11 @@ namespace TownOfHost
         public static void KnightWin()
         {
             Main.currentWinner = CustomWinner.BloodKnight;
+            CustomWinTrigger(0);
+        }
+        public static void PirateWin()
+        {
+            Main.currentWinner = CustomWinner.Pirate;
             CustomWinTrigger(0);
         }
         public static void JugWin()

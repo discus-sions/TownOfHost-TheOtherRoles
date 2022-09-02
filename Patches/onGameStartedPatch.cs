@@ -158,6 +158,7 @@ namespace TownOfHost
             Investigator.Init();
             Camouflager.Init();
             Ninja.Init();
+            Guesser.Init();
             AntiBlackout.Reset();
         }
     }
@@ -333,6 +334,8 @@ namespace TownOfHost
             }
             else
             {
+                if (Guesser.SetGuesserTeam()) AssignCustomRolesFromList(CustomRoles.Guesser, Impostors);
+                else AssignCustomRolesFromList(CustomRoles.Guesser, Crewmates);
 
                 AssignCustomRolesFromList(CustomRoles.FireWorks, Shapeshifters);
                 AssignCustomRolesFromList(CustomRoles.Sniper, Shapeshifters);
@@ -450,6 +453,7 @@ namespace TownOfHost
                         // so we dont have multiple poisoners
                         Main.VampireDitchesOn = true;
                     }
+                    Guesser.SetRoleToGuesser(pc);
                 }
                 //if (CustomRoles.Veteran.IsEnable())
                 //    Main.VetAlerts = Options.NumOfVets.GetInt();
@@ -638,9 +642,15 @@ namespace TownOfHost
                                 Investigator.hasSeered.Add(ar.PlayerId, false);
                             }
                             break;
+                        case CustomRoles.EvilGuesser:
+                        case CustomRoles.NiceGuesser:
+                        case CustomRoles.Pirate:
+                            Guesser.Add(pc.PlayerId);
+                            break;
                     }
                     pc.ResetKillCooldown();
                 }
+                if (Guesser.IsEnable()) Guesser.SetRoleAndNumber();
 
                 //役職の人数を戻す
                 RoleOptionsData roleOpt = PlayerControl.GameOptions.RoleOptions;

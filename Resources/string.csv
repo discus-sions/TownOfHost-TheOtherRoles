@@ -28,6 +28,7 @@ Warlock,Warlock,ウォーロック,术士,術士
 Witch,Witch,ウィッチ,女巫,女巫
 Mafia,Mafia,マフィア,黑手党,黑手黨
 EvilWatcher,Evil Watcher,イビルウォッチャー,邪恶的窥视者,邪惡的觀察者
+EvilGuesser,Assassin,イビルゲッサー,邪恶的猜测者,邪惡的猜測者
 Puppeteer,Puppeteer,パペッティア,傀儡师,傀儡師
 TimeThief,TimeThief,タイムシーフ,蚀时者,時間小偷
 Sniper,Sniper,スナイパー,狙击手,狙擊手
@@ -46,9 +47,11 @@ CrewPostor,CrewPostor,CrewPostor,CrewPostor
 
 # 両陣営可能役職
 Watcher,Watcher,ウォッチャー,窥视者,觀察者
+Guesser,Guesser,ゲッサー,猜测者,猜測者
 
 # 特殊クルー役職
 NiceWatcher,Nice Watcher,ナイスウォッチャー,正义的窥视者,正義的觀察者
+NiceGuesser,Vigilante,ナイスゲッサー,正义的猜测者,正義的猜測者
 Bait,Bait,ベイト,诱饵,誘餌
 Veteran,Veteran,Veteran,老兵,老將
 Lighter,Lighter,ライター,执灯人,小燈人
@@ -91,6 +94,7 @@ GuardianAngelTOU,Guardian Angel,Guardian Angel,守护天使,守護天使
 Amnesiac,Amnesiac,Amnesiac,失忆师,遗忘大师
 Hacker,Hacker,Hacker,黑客,黑客
 BloodKnight,Blood Knight,BloodKnight,BloodKnight
+Pirate,Pirate,Pirate,Pirate
 
 # Coven 
 Coven,Coven,Coven,巫师,巫師
@@ -149,6 +153,7 @@ CorruptedSheriffInfo,You betrayed the Crewmates,You betrayed the Crewmates,你�
 SwooperInfo,Turn invisible temporarily,Swooper,Swooper
 CamouflagerInfo,Confuse the Crewmates of who's who,Camouflager,Camouflager
 NinjaInfo,Assasinate your Target,NinjaInfo,NinjaInfo
+EvilGuesserInfo,Guess and shoot Crew mid-meeting,推測して打ち抜け,猜测和射击,猜測和射擊
 
 # マッドメイト系役職
 MadmateInfo,Help the Impostors,インポスターの援助をしよう,帮助内鬼,幫助狼人
@@ -159,12 +164,14 @@ CrewPostorInfo,Do tasks to kill the Nearest Player,CrewPostorInfo,CrewPostorInfo
 
 # 両陣営可能役職
 WatcherInfo,Keep your eyes on everyone's votes,みんなの投票に目を光らせよう,你可以看见所以人的选择，注意他们的选择,注意所有人的投票
+GuesserInfo,Guess and Shoot,推測して打ち抜け,猜测和射击,猜測和射擊
 
 # 特殊クルー役職
+NiceGuesserInfo,Guess impostor roles mid-meeting to kill them!,Guess impostor roles mid-meeting to kill them!,Guess impostor roles mid-meeting to kill them!
 BaitInfo,Bait your enemies,敵を罠にはめよう,诱骗敌人，让敌人落入你的陷阱,"犧牲小我,完成大我"
 VeteranInfo,Alert to Kill anyone who Interacts with You,Alert to Kill anyone who Interacts with You,警惕任何和你有互动的人,警告殺死任何與你互動的人
-LighterInfo,Light all over,すべてを照らそう,照亮黑暗，让别人看清楚,照亮黑暗中的一切吧
-MayorInfo,Your vote counts twice,自分の票が何倍もの力を持っている,你的投票更有分量,"你的票數更多,更有料"
+LighterInfo,Expand one's Vision,すべてを照らそう,照亮黑暗，让别人看清楚,照亮黑暗中的一切吧
+MayorInfo,Your vote counts multiple times,自分の票が何倍もの力を持っている,你的投票更有分量,"你的票數更多,更有料"
 SabotageMasterInfo,Fix sabotages faster,より早くサボタージュを直そう,请尽快修理破坏,盡快維修船上的破壞
 SheriffInfo,Shoot the Impostors,インポスターを撃ち抜け,把内鬼统统执法掉,執法狼人們
 InvestigatorInfo,Discover the Truth about their Role,Investigator,Investigator,
@@ -204,6 +211,7 @@ GuardianAngelTOUInfo,Protect your Target from Attacks,Protect your Target from A
 AmnesiacInfo,Report a body to Steal a Role,AmnesiacInfo,报告可以窃取尸体的职业,
 HackerInfo,Fix all the Issues,Hacker,解决所有问题,
 BloodKnightInfo,Each kill strengths You for a Bit,BloodKnight,BloodKnight
+PirateInfo,Successfully plunder people to Win,推測して打ち抜け,猜测和射击,猜測和射擊
 
 # Coven 
 CovenInfo,Support your Leader,Support your Leader,支援你的领袖,支持你的領袖
@@ -260,6 +268,7 @@ CrewPostorInfoLong,"(Impostors):\nThe CrewPostor can do tasks to kill the Neares
 
 # 両陣営可能役職
 WatcherInfoLong,(Impostors or Crewmates):\nThe Watchers can see colored votes regardless of anonymous votes.,(インポスターorクルーメイト陣営):\n全員の投票先を見ることができる。,(内鬼阵营或船员阵营):\n会议时窥视者可以看到所有人的投票。,(狼人或船員):\n會議時觀察者可以看到所有人的投票。
+GuesserInfoLong,(Impostors or Crewmates):\nYou can shoot players in meetings by sending chatcommand.Furst send the command "/shoot show".\nYou can see active roles and number.Then think about What target role is.\nAt last send the command "/shoot (target 's name) (rolenumber).If your thinking is correct you will kill the target.\nIf it is not correct you will die.",(インポスターorクルーメイト陣営):\nこの役職はコマンドによって会議中にキルできる役職です。まず、「/shoot show」というコマンドを打ちましょう。\n役職に対応する番号が出てきます。そしてターゲットの役職を考え、次のコマンドでキルしましょう。\n「/shoot (ターゲットの名前)　(役職の番号)」役職が当たっていればキルが入り、外れていれば自分が死んでしまいます。,(内鬼阵营或船员阵营):/n此角色是可以在会议期间通过命令杀死的角色。首先，让我们输入命令“/shoot show”。 \n 将出现与职位名称相对应的数字。然后想一个目标位置，用下面的命令杀死它。 \n "/shoot (target name) (position number)" 位置对了就死，错了就死。,（冒名頂替者或船員派系）：\n此職位可以在會議期間通過命令殺死。首先，讓我們輸入命令“/shoot show”。 \n 將出現與職位名稱相對應的數字。然後想一個目標位置，用下面的命令殺死它。 \n "/shoot (target name) (position number)" 位置對了就死，錯了就死。
 
 # 特殊クルー役職
 BaitInfoLong,"(Crewmates):\nWhen killed, they force the killer to self report in no time.",(クルーメイト陣営):\nキルされた時に、自身をキルした人に\n強制的にセルフレポートさせる事ができる。,(船员阵营):\n诱饵被击杀时，击杀诱饵的凶手将被迫报告。,"(船員):\n當被殺時,兇手將強制自行舉報"
@@ -415,6 +424,12 @@ MadmateHasImpostorVision,Madmates Have Impostor Vision,マッドメイト系役�
 MadmateVentCooldown,Madmates Vent Cooldown,マッドメイト系役職のベントクールダウン,叛徒职业跳管道冷却时间,叛徒職業的玩家跳管道冷卻
 MadmateVentMaxTime,Madmates Max Time In Vents(s),マッドメイト系役職のベント内での最大時間,叛徒职业在管道中停留的最大时间,叛徒職業的玩家在管道中可以停留的最大時間
 EvilWatcherChance,EvilWatcher Chance,イビルウォッチャーになる確率,窥视者成为内鬼阵营的概率,成為邪惡觀察者的機率
+EvilGuesserChance,Evil Guesser Chance,イビルゲッサーになる確率,成为邪恶猜测者的概率,成為邪惡猜測者的概率
+ConfirmedEvilGuesser,Number of Evil Guesser,確定イビルゲッサーの人数,邪恶猜测者的数量,邪惡猜測者的數量
+CanShootAsNormalCrewmate,Arrow to shoot as Normal Crewmate,クルー打ちを許可,作为正常船员射击的箭头,作為正常船員射擊的箭頭
+GuesserShootLimit,Guesser shoot limit,ゲッサーが打てる回数,猜测者射击限制,猜測者射擊限制
+PirateGuessAmount,Pirate Guess Win Amount,PirateGuessAmount,PirateGuessAmount
+NeutralGuesserChance,Neutral Guesser Chance,NeutralGuesserChance,NeutralGuesserChance
 LighterTaskCompletedVision,Lighter Expanded Vision,ライターのタスク完了時の視界,执灯人完成任务后的视野,小燈人做完任務的視野
 BewilderVision,Vision,Vision,视野,
 LighterTaskCompletedDisableLightOut,Lighter Gains Impostor Vision,タスク完了時に停電を無効にする,完成任务的执灯人不受熄灯影响,完成任務的小燈人視野不受關燈影響
@@ -531,6 +546,9 @@ Trade,Trade,Trade,相互,貿易
 PestiKillsVet,Pestilence Kills Veteran,PestiKillsVet,瘟疫杀死了老兵,瘟疫殺死退伍軍人
 VetKillsPesti,Veteran Kills Pestilence,VetKillsPesti,老兵杀死了瘟疫,退伍軍人殺死瘟疫
 BKdur,Protection Duration,BKdur,BKdur
+
+KilledByGuesser,{0} is killed by Guesser.,{0}はゲッサーにキルされました。,{0} 被猜测者杀死。,{0}被猜測者殺死。
+EvilGuesserMeeting,It is time to shoot!,さあ、撃ち放題だ！,来吧，随心所欲地拍摄！,來吧，隨心所欲地拍攝！
 
 CovenKillCooldown,Coven Kill Cooldown,Coven Kill Cooldown,巫师击杀冷却时间,公會擊殺冷卻時間
 CovenMeetings,Meetings until Necronomicon,Meetings until Necronomicon,会议直到亡灵法师,會議直到死靈之書

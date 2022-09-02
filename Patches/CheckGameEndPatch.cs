@@ -180,6 +180,29 @@ namespace TownOfHost
             }
             return false;
         }
+        public static bool CheckAndEndGameForPirateWin(ShipStatus __instance, PlayerStatistics statistics)
+        {
+            if (Guesser.PirateGuess == Guesser.PirateGuessAmount.GetInt())
+            {
+                // Pirate wins.
+                __instance.enabled = false;
+                var endReason = TempData.LastDeathReason switch
+                {
+                    DeathReason.Exile => GameOverReason.ImpostorByVote,
+                    DeathReason.Kill => GameOverReason.ImpostorByKill,
+                    _ => GameOverReason.ImpostorByVote,
+                };
+
+                MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.EndGame, Hazel.SendOption.Reliable, -1);
+                writer.Write((byte)CustomWinner.Pirate);
+                AmongUsClient.Instance.FinishRpcImmediately(writer);
+                RPC.PirateWin();
+
+                ResetRoleAndEndGame(endReason, false);
+                return true;
+            }
+            return false;
+        }
         private static bool CheckAndEndGameForPestiWin(ShipStatus __instance, PlayerStatistics statistics)
         {
             if (statistics.TeamPestiAlive >= statistics.TotalAlive - statistics.TeamPestiAlive &&
@@ -476,7 +499,7 @@ namespace TownOfHost
             {
                 var LoseImpostorRole = Main.AliveImpostorCount == 0 ? pc.Is(RoleType.Impostor) : pc.Is(CustomRoles.Egoist);
                 if (pc.Is(CustomRoles.Sheriff) || pc.Is(CustomRoles.Investigator) ||
-                    (!(Main.currentWinner == CustomWinner.Arsonist) && pc.Is(CustomRoles.Arsonist)) || (Main.currentWinner != CustomWinner.Vulture && pc.Is(CustomRoles.Vulture)) ||
+                    (!(Main.currentWinner == CustomWinner.Arsonist) && pc.Is(CustomRoles.Arsonist)) || (Main.currentWinner != CustomWinner.Vulture && pc.Is(CustomRoles.Vulture)) || (Main.currentWinner != CustomWinner.Pirate && pc.Is(CustomRoles.Pirate)) ||
                     (Main.currentWinner != CustomWinner.Jackal && pc.Is(CustomRoles.Jackal)) || (Main.currentWinner != CustomWinner.BloodKnight && pc.Is(CustomRoles.BloodKnight)) || (Main.currentWinner != CustomWinner.Pestilence && pc.Is(CustomRoles.Pestilence)) || (Main.currentWinner != CustomWinner.Coven && pc.GetRoleType() == RoleType.Coven) ||
                     LoseImpostorRole || (Main.currentWinner != CustomWinner.Werewolf && pc.Is(CustomRoles.Werewolf)) || (Main.currentWinner != CustomWinner.TheGlitch && pc.Is(CustomRoles.TheGlitch)))
                 {

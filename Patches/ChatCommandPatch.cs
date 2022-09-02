@@ -473,6 +473,7 @@ namespace TownOfHost
                 //両陣営役職
                 { (CustomRoles)(-3), $"== {GetString("Impostor")} or {GetString("Crewmate")} ==" }, //区切り用
                 { CustomRoles.Watcher, "wat" },
+                {CustomRoles.Guesser, "gue"},
                 { CustomRoles.CrewPostor, "cp" },
                 //Crewmate役職
                 { (CustomRoles)(-4), $"== {GetString("Crewmate")} ==" }, //区切り用
@@ -594,6 +595,7 @@ namespace TownOfHost
                 //両陣営役職
                 { (CustomRoles)(-3), $"== {GetString("Impostor")} or {GetString("Crewmate")} ==" }, //区切り用
                 { CustomRoles.Watcher, "wat" },
+                {CustomRoles.Guesser, "gue"},
                 { CustomRoles.CrewPostor, "cp" },
                 //Crewmate役職
                 { (CustomRoles)(-4), $"== {GetString("Crewmate")} ==" }, //区切り用
@@ -704,6 +706,7 @@ namespace TownOfHost
                 //両陣営役職
                 { (CustomRoles)(-3), $"== {GetString("Impostor")} or {GetString("Crewmate")} ==" }, //区切り用
                 { CustomRoles.Watcher, "wat" },
+                {CustomRoles.Guesser, "gue"},
                 { CustomRoles.CrewPostor, "cp" },
                 //Crewmate役職
                 { (CustomRoles)(-4), $"== {GetString("Crewmate")} ==" }, //区切り用

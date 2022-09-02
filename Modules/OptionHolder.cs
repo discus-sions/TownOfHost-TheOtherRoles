@@ -434,6 +434,7 @@ namespace TownOfHost
             // Both
             SetupRoleOptions(30000, CustomRoles.Watcher);
             EvilWatcherChance = CustomOption.Create(30010, Color.white, "EvilWatcherChance", 0, 0, 100, 10, CustomRoleSpawnChances[CustomRoles.Watcher]);
+            Guesser.SetupCustomOption();
             // Crewmate
             SetupRoleOptions(20000, CustomRoles.Bait);
             //  SetupRoleOptions(20001, CustomRoles.Sleuth);

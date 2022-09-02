@@ -138,6 +138,7 @@ For example: `welcome:This room is using the mod Town Of Host: The Other Roles.`
 | [SidekickMadmate](#SidekickMadmate) | [Child](#child)                   | [Amnesiac](#amnesiac)             |
 | [Silencer](#silencer)               | [Sleuth](#sleuth)                 | [Pestilence](#pestilence)         |
 | [CorruptedSheriff](#c-sheriff)      | [Investigator](#investigator)     | [Jackal](#jackal)                 |
+| [Evil Guesser](#Guesser)            | [Nice Guesser](#Guesser)          | [Pirate](#guesser)                |
 
 ### GM
 
@@ -431,6 +432,27 @@ The watcher can see who each player has voted during every meeting. <br>
 | Name               |
 | ------------------ |
 | EvilWatcher Chance |
+
+### Guesser
+
+Create by たんぽぽ<br>
+
+Team : Impostors or Crewmates<br>
+Basis : Impostor or Crewmates<br>
+
+If you can guess target's role during meeting, you can kill the target.<br>
+In addition, Evil Guesser has a chance to kill even after being exiled.<br>
+There is also a neutral Guesser called Pirate. Their goal is guess a number of people to succesfully win.<br>
+
+#### Game Options
+
+| Name                                   |
+| -------------------------------------- |
+|           EvilGuesser Chance           |
+|         Number of Evil Guesser         |
+|    Arrow to shoot as Normal Crewmate   |
+|           Guesser shoot limit          |
+| Can kill multiple times during meeting |
 
 
 ## Crewmate

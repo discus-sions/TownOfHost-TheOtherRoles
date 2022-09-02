@@ -305,6 +305,9 @@ namespace TownOfHost
                         //後で追加
                     //両陣営可能役職
                     { CustomRoles.Watcher, "#800080"},
+                    {CustomRoles.Guesser, "#ffff00"},
+                    {CustomRoles.NiceGuesser, "#E4E085"},
+                    {CustomRoles.Pirate, "#EDC240"},
                     //特殊クルー役職
                     { CustomRoles.NiceWatcher, "#800080"}, //ウォッチャーの派生
                     { CustomRoles.Bait, "#00f7ff"},
@@ -457,6 +460,7 @@ namespace TownOfHost
         SKMadmate,
         MSchrodingerCat,//インポスター陣営のシュレディンガーの猫
                         //両陣営
+        Guesser,
         Watcher,
         //Crewmate(Vanilla)
         Engineer,
@@ -574,6 +578,7 @@ namespace TownOfHost
         Werewolf = CustomRoles.Werewolf,
         Hacker = CustomRoles.Hacker,
         BloodKnight = CustomRoles.BloodKnight,
+        Pirate = CustomRoles.Pirate,
     }
     public enum AdditionalWinners
     {

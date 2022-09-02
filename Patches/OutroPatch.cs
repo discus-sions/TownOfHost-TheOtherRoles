@@ -94,6 +94,14 @@ namespace TownOfHost
                     if (p.Is(CustomRoles.Pestilence) || p.Is(CustomRoles.PlagueBearer)) winner.Add(p);
                 }
             }
+            if (Main.currentWinner == CustomWinner.Pirate)
+            {
+                winner.Clear();
+                foreach (var p in PlayerControl.AllPlayerControls)
+                {
+                    if (p.Is(CustomRoles.Pirate)) winner.Add(p);
+                }
+            }
             if (Main.currentWinner == CustomWinner.Juggernaut)
             {
                 winner.Clear();

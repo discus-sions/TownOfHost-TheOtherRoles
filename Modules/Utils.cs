@@ -179,6 +179,7 @@ namespace TownOfHost
                     if (cRole == CustomRoles.TheGlitch) hasTasks = false;
                     if (cRole == CustomRoles.Hacker) hasTasks = false;
                     if (cRole == CustomRoles.BloodKnight) hasTasks = false;
+                    if (cRole == CustomRoles.Pirate) hasTasks = false;
 
                     if (cRole == CustomRoles.CrewPostor && ForRecompute) hasTasks = false;
 
@@ -245,6 +246,9 @@ namespace TownOfHost
                     break;
                 case CustomRoles.Sheriff:
                     ProgressText += Sheriff.GetShotLimit(playerId);
+                    break;
+                case CustomRoles.Pirate:
+                    ProgressText = Helpers.ColorString(GetRoleColor(CustomRoles.Pirate), $"({Guesser.PirateGuess}/{Guesser.PirateGuessAmount.GetInt()})");
                     break;
                 case CustomRoles.Veteran:
                     ProgressText += Helpers.ColorString(GetRoleColor(CustomRoles.Veteran), $"({Main.VetAlerts}/{Options.NumOfVets.GetInt()})");
@@ -1098,12 +1102,22 @@ namespace TownOfHost
             {
                 if (pc.Is(CustomRoles.Camouflager))
                     pc.RpcGuardAndKill(pc);
+                if (pc.Is(CustomRoles.CovenWitch))
+                    pc.RpcGuardAndKill(pc);
+                if (pc.Is(CustomRoles.PlagueBearer))
+                    pc.RpcGuardAndKill(pc);
+                if (pc.Is(CustomRoles.Arsonist))
+                    pc.RpcGuardAndKill(pc);
                 if (PlayerControl.GameOptions.MapId != 4) // other than Airship
                     if (pc.Is(CustomRoles.Camouflager))
                     {
                         //main.AirshipMeetingTimer.Add(pc.PlayerId , 0f);
                         Main.AllPlayerKillCooldown[pc.PlayerId] *= 2;
                     }
+                if (pc.Is(CustomRoles.EvilGuesser) || pc.Is(CustomRoles.NiceGuesser) || pc.Is(CustomRoles.Pirate))
+                {
+                    Guesser.IsSkillUsed[pc.PlayerId] = false;
+                }
             }
         }
 

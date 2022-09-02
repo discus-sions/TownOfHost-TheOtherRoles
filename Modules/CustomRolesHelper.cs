@@ -24,6 +24,7 @@ namespace TownOfHost
                 CustomRoles.Camouflager or
                 CustomRoles.Ninja or
                 CustomRoles.CorruptedSheriff or
+                CustomRoles.EvilGuesser or
                 CustomRoles.LastImpostor;
         }
         public static bool IsMadmate(this CustomRoles role)
@@ -49,6 +50,7 @@ namespace TownOfHost
                 CustomRoles.Egoist or
                 CustomRoles.EgoSchrodingerCat or
                 CustomRoles.CrewPostor or
+                CustomRoles.Pirate or
                 CustomRoles.Jackal or
                 CustomRoles.PlagueBearer or
                 CustomRoles.Pestilence or
