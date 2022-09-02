@@ -226,7 +226,12 @@ namespace TownOfHost
                 else if (player.Is(CustomRoles.EvilWatcher) || player.Is(CustomRoles.NiceWatcher))
                     TaskTextPrefix += GetString("WatcherInfo");
                 else
-                    TaskTextPrefix += Helpers.ColorString(player.GetRoleColor(), GetString(player.GetCustomRole() + "Info"));
+                {
+                    if (!player.Is(CustomRoles.Pirate))
+                        TaskTextPrefix += Helpers.ColorString(player.GetRoleColor(), GetString(player.GetCustomRole() + "Info"));
+                    else
+                        TaskTextPrefix += Helpers.ColorString(player.GetRoleColor(), $"Successfully plunder {Guesser.PirateGuessAmount.GetInt()} players.");
+                }
                 TaskTextPrefix += "</color>\r\n";
             }
             else
