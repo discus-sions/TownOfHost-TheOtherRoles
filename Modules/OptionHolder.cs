@@ -598,26 +598,27 @@ namespace TownOfHost
             IgnoreVent = CustomOption.Create(101003, Color.white, "IgnoreVent", false)
                 .SetGameMode(CustomGameMode.HideAndSeek);
 
-            #region ColorWars
+            //#region ColorWars
             // COLOR WARS //
 
             // CWAllowCloseDoors = CustomOption.Create(1011000, Color.white, "AllowCloseDoors", false, null, true)
             //    .SetGameMode(CustomGameMode.ColorWars);
-            SetupRoleOptions(1000000, CustomRoles.HASFox, CustomGameMode.ColorWars);
-            SetupRoleOptions(1001000, CustomRoles.HASTroll, CustomGameMode.ColorWars);
+            SetupRoleOptions(1000000, CustomRoles.TeamBlue, CustomGameMode.ColorWars);
+            SetupRoleOptions(1001000, CustomRoles.TeamGreen, CustomGameMode.ColorWars);
+            SetupRoleOptions(1002000, CustomRoles.TeamRed, CustomGameMode.ColorWars);
             CWCD = CustomOption.Create(1011001, Color.white, "KillCD", 30, 2.5f, 60, 2.5f)
                 .SetGameMode(CustomGameMode.ColorWars);
             CWIgnoreVent = CustomOption.Create(1011003, Color.white, "CanVent", false)
                 .SetGameMode(CustomGameMode.ColorWars);
-            #endregion
+            //#endregion
 
-            #region Splatoon
+            //#region Splatoon
             // SPLATOON //
             STCD = CustomOption.Create(1001001, Color.white, "KillCDT", 25, 2.5f, 60, 2.5f)
                 .SetGameMode(CustomGameMode.Splatoon);
             STIgnoreVent = CustomOption.Create(1001003, Color.white, "CanVent", false)
                 .SetGameMode(CustomGameMode.Splatoon);
-            #endregion
+            // #endregion
 
             //デバイス無効化
             DisableDevices = CustomOption.Create(101200, Color.white, "DisableDevices", false, null, true)

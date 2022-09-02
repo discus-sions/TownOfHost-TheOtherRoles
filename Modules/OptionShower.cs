@@ -116,18 +116,18 @@ namespace TownOfHost
                     //nameAndValue(Options.IgnoreCosmetics);
                     nameAndValue(Options.IgnoreVent);
                 }
-                else if (Options.CurrentGameMode() == CustomGameMode.ColorWars)
-                {
-                    nameAndValue(Options.CWCD);
-                    //nameAndValue(Options.IgnoreCosmetics);
-                    nameAndValue(Options.CWIgnoreVent);
-                }
-                else if (Options.CurrentGameMode() == CustomGameMode.Splatoon)
-                {
-                    nameAndValue(Options.STCD);
-                    //nameAndValue(Options.IgnoreCosmetics);
-                    nameAndValue(Options.STIgnoreVent);
-                }
+                /* else if (Options.CurrentGameMode() == CustomGameMode.ColorWars)
+                 {
+                     nameAndValue(Options.CWCD);
+                     //nameAndValue(Options.IgnoreCosmetics);
+                     nameAndValue(Options.CWIgnoreVent);
+                 }
+                 else if (Options.CurrentGameMode() == CustomGameMode.Splatoon)
+                 {
+                     nameAndValue(Options.STCD);
+                     //nameAndValue(Options.IgnoreCosmetics);
+                     nameAndValue(Options.STIgnoreVent);
+                 }*/
                 text += "\n";
                 listUp(Options.LadderDeath);
                 listUp(Options.DisableTasks);
