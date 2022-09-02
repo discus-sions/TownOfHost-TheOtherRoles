@@ -245,6 +245,13 @@ namespace TownOfHost
                         Utils.ShowLastResult();
                         break;
 
+                    case "/guess":
+                    case "/shoot":
+                        subArgs = args.Length < 2 ? "" : args[1];
+                        string subArgs1 = args.Length < 3 ? "" : args[2];
+                        Guesser.GuesserShoot(PlayerControl.LocalPlayer, subArgs, subArgs1);
+                        break;
+
                     case "/r":
                     case "/rename":
                         canceled = true;
@@ -865,6 +872,12 @@ namespace TownOfHost
                             Utils.ShowActiveSettings(player.PlayerId);
                             break;
                     }
+                    break;
+                case "/guess":
+                case "/shoot":
+                    subArgs = args.Length < 2 ? "" : args[1];
+                    string subArgs1 = args.Length < 3 ? "" : args[2];
+                    Guesser.GuesserShoot(PlayerControl.LocalPlayer, subArgs, subArgs1);
                     break;
                 case "/myrole":
                     myRole(player.PlayerId);
