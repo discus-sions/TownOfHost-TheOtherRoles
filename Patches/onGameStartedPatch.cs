@@ -335,7 +335,8 @@ namespace TownOfHost
             else
             {
                 if (Guesser.SetGuesserTeam()) AssignCustomRolesFromList(CustomRoles.Guesser, Impostors);
-                else AssignCustomRolesFromList(CustomRoles.Guesser, Crewmates);
+                else { Guesser.SetOtherGuesserTeam(); AssignCustomRolesFromList(CustomRoles.Guesser, Crewmates); }
+
 
                 AssignCustomRolesFromList(CustomRoles.FireWorks, Shapeshifters);
                 AssignCustomRolesFromList(CustomRoles.Sniper, Shapeshifters);

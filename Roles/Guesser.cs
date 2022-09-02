@@ -93,7 +93,7 @@ namespace TownOfHost
             if (killer.Is(CustomRoles.Pirate) && !canGuess) return;
             //死んでるやつとゲッサーじゃないやつ、ゲームが始まってない場合は引き返す
             if (killer.Is(CustomRoles.NiceGuesser) && IsEvilGuesserMeeting) return;//イビルゲッサー会議の最中はナイスゲッサーは打つな
-            if (!CanKillMultipleTimes.GetBool() && IsSkillUsed[killer.PlayerId] && !IsEvilGuesserMeeting) return;
+            if (!CanKillMultipleTimes.GetBool() && IsSkillUsed[killer.PlayerId] && !IsEvilGuesserMeeting && !killer.Is(CustomRoles.Pirate)) return;
             if (targetname == "show")
             {
                 SendShootChoices();
