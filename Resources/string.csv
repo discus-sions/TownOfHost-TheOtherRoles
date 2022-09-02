@@ -427,7 +427,8 @@ EvilWatcherChance,EvilWatcher Chance,イビルウォッチャーになる確率,
 EvilGuesserChance,Evil Guesser Chance,イビルゲッサーになる確率,成为邪恶猜测者的概率,成為邪惡猜測者的概率
 ConfirmedEvilGuesser,Number of Evil Guesser,確定イビルゲッサーの人数,邪恶猜测者的数量,邪惡猜測者的數量
 CanShootAsNormalCrewmate,Arrow to shoot as Normal Crewmate,クルー打ちを許可,作为正常船员射击的箭头,作為正常船員射擊的箭頭
-GuesserShootLimit,Guesser shoot limit,ゲッサーが打てる回数,猜测者射击限制,猜測者射擊限制
+GuesserShootLimit,Guesser Shoot Limit,ゲッサーが打てる回数,猜测者射击限制,猜測者射擊限制
+CanKillMultipleTimes,Can Kill multiple times during Meeting,１会議中に複数回殺せる,可以在一次会议中被杀死多次,可以在一次會議中被殺死多次
 PirateGuessAmount,Pirate Guess Win Amount,PirateGuessAmount,PirateGuessAmount
 NeutralGuesserChance,Neutral Guesser Chance,NeutralGuesserChance,NeutralGuesserChance
 LighterTaskCompletedVision,Lighter Expanded Vision,ライターのタスク完了時の視界,执灯人完成任务后的视野,小燈人做完任務的視野

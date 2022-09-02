@@ -10,7 +10,7 @@ namespace TownOfHost
 {
     public static class Guesser
     {
-        static readonly int Id = 30100;
+        static readonly int Id = 301000;
         static CustomOption EvilGuesserChance;
         static CustomOption NeutralGuesserChance;
         static CustomOption ConfirmedEvilGuesser;
@@ -32,15 +32,15 @@ namespace TownOfHost
         public static void SetupCustomOption()
         {
             Options.SetupRoleOptions(Id, CustomRoles.Guesser);
-            EvilGuesserChance = CustomOption.Create(30110, Color.white, "EvilGuesserChance", 0, 0, 100, 10, Options.CustomRoleSpawnChances[CustomRoles.Guesser]);
-            NeutralGuesserChance = CustomOption.Create(30160, Color.white, "NeutralGuesserChance", 0, 0, 100, 10, Options.CustomRoleSpawnChances[CustomRoles.Guesser]);
-            ConfirmedEvilGuesser = CustomOption.Create(30120, Color.white, "ConfirmedEvilGuesser", 0, 0, 3, 1, Options.CustomRoleSpawnChances[CustomRoles.Guesser]);
+            EvilGuesserChance = CustomOption.Create(Id + 30110, Color.white, "EvilGuesserChance", 0, 0, 100, 10, Options.CustomRoleSpawnChances[CustomRoles.Guesser]);
+            NeutralGuesserChance = CustomOption.Create(Id + 30160, Color.white, "NeutralGuesserChance", 0, 0, 100, 10, Options.CustomRoleSpawnChances[CustomRoles.Guesser]);
+            ConfirmedEvilGuesser = CustomOption.Create(Id + 30120, Color.white, "ConfirmedEvilGuesser", 0, 0, 3, 1, Options.CustomRoleSpawnChances[CustomRoles.Guesser]);
             Options.CustomRoleCounts.Add(CustomRoles.EvilGuesser, ConfirmedEvilGuesser);
             Options.CustomRoleSpawnChances.Add(CustomRoles.EvilGuesser, ConfirmedEvilGuesser);
-            PirateGuessAmount = CustomOption.Create(30170, Color.white, "PirateGuessAmount", 3, 1, 10, 1, Options.CustomRoleSpawnChances[CustomRoles.Guesser]);
-            CanShootAsNormalCrewmate = CustomOption.Create(30130, Color.white, "CanShootAsNormalCrewmate", true, Options.CustomRoleSpawnChances[CustomRoles.Guesser]);
-            GuesserCanKillCount = CustomOption.Create(30140, Color.white, "GuesserShootLimit", 1, 1, 15, 1, Options.CustomRoleSpawnChances[CustomRoles.Guesser]);
-            CanKillMultipleTimes = CustomOption.Create(30150, Color.white, "CanKillMultipleTimes", false, Options.CustomRoleSpawnChances[CustomRoles.Guesser]);
+            PirateGuessAmount = CustomOption.Create(Id + 30170, Color.white, "PirateGuessAmount", 3, 1, 10, 1, Options.CustomRoleSpawnChances[CustomRoles.Guesser]);
+            CanShootAsNormalCrewmate = CustomOption.Create(Id + 30130, Color.white, "CanShootAsNormalCrewmate", true, Options.CustomRoleSpawnChances[CustomRoles.Guesser]);
+            GuesserCanKillCount = CustomOption.Create(Id + 30140, Color.white, "GuesserShootLimit", 1, 1, 15, 1, Options.CustomRoleSpawnChances[CustomRoles.Guesser]);
+            CanKillMultipleTimes = CustomOption.Create(Id + 30150, Color.white, "CanKillMultipleTimes", false, Options.CustomRoleSpawnChances[CustomRoles.Guesser]);
         }
         public static bool SetGuesserTeam()//確定イビルゲッサーの人数とは別でイビルゲッサーかナイスゲッサーのどちらかに決める。
         {
