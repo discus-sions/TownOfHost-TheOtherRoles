@@ -12,6 +12,7 @@ namespace TownOfHost
         HideAndSeek = 0x02,
         ColorWars = 0x03,
         Splatoon = 0x04,
+        FFA = 0x05,
         All = int.MaxValue
     }
 
@@ -44,6 +45,8 @@ namespace TownOfHost
                     return CustomGameMode.ColorWars;
                 case 3:
                     return CustomGameMode.Splatoon;
+                    case 4:
+                    return CustomGameMode.FFA;
                 default:
                     return CustomGameMode.Standard;
             }
@@ -52,7 +55,7 @@ namespace TownOfHost
 
         public static readonly string[] gameModes =
         {
-            "Standard", "HideAndSeek", "ColorWars", "Splatoon"
+            "Standard", "HideAndSeek", "ColorWars", "Splatoon", "FreeForAll"
         };
 
         public static readonly string[] whichDisableAdmin =
