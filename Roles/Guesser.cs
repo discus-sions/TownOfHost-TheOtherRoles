@@ -31,7 +31,7 @@ namespace TownOfHost
         public static int PirateGuess;
         public static void SetupCustomOption()
         {
-            Options.SetupRoleOptions(Id, CustomRoles.Guesser);
+            Options.SetupSingleRoleOptions(Id, CustomRoles.Guesser, 1);
             EvilGuesserChance = CustomOption.Create(Id + 30110, Color.white, "EvilGuesserChance", 0, 0, 100, 10, Options.CustomRoleSpawnChances[CustomRoles.Guesser]);
             NeutralGuesserChance = CustomOption.Create(Id + 30160, Color.white, "NeutralGuesserChance", 0, 0, 100, 10, Options.CustomRoleSpawnChances[CustomRoles.Guesser]);
             ConfirmedEvilGuesser = CustomOption.Create(Id + 30120, Color.white, "ConfirmedEvilGuesser", 0, 0, 3, 1, Options.CustomRoleSpawnChances[CustomRoles.Guesser]);
@@ -93,7 +93,7 @@ namespace TownOfHost
             if (killer.Is(CustomRoles.Pirate) && !canGuess) return;
             //死んでるやつとゲッサーじゃないやつ、ゲームが始まってない場合は引き返す
             if (killer.Is(CustomRoles.NiceGuesser) && IsEvilGuesserMeeting) return;//イビルゲッサー会議の最中はナイスゲッサーは打つな
-            if (!CanKillMultipleTimes.GetBool() && IsSkillUsed[killer.PlayerId] && !IsEvilGuesserMeeting && !killer.Is(CustomRoles.Pirate)) return;
+            if (!CanKillMultipleTimes.GetBool() && IsSkillUsed[killer.PlayerId] && !IsEvilGuesserMeeting) if (!killer.Is(CustomRoles.Pirate)) return;
             if (targetname == "show")
             {
                 SendShootChoices(killer.PlayerId);
@@ -128,7 +128,61 @@ namespace TownOfHost
                             PlayerState.SetDeathReason(target.PlayerId, PlayerState.DeathReason.Misfire);
                             killer.RpcGuesserMurderPlayer(0f);
                         }
-                        else canGuess = false;
+                        else { canGuess = false; Utils.SendMessage("You missguessed as Pirate. Because of this, instead of dying, your guessing powers have been removed for the rest of the meeting,.", killer.PlayerId); }
+                        if (IsEvilGuesserMeeting)
+                        {
+                            IsEvilGuesserMeeting = false;
+                            isEvilGuesserExiled[killer.PlayerId] = false;
+                            MeetingHud.Instance.RpcClose();
+                        }
+                        return;
+                    }
+                }
+            }
+        }
+        public static void GuesserShootByID(PlayerControl killer, string playerId, string targetrolenum)//ゲッサーが撃てるかどうかのチェック
+        {
+            if ((!killer.Is(CustomRoles.NiceGuesser) && !killer.Is(CustomRoles.EvilGuesser) && !killer.Is(CustomRoles.Pirate)) || killer.Data.IsDead || !AmongUsClient.Instance.IsGameStarted) return;
+            if (killer.Is(CustomRoles.Pirate) && !canGuess) return;
+            //死んでるやつとゲッサーじゃないやつ、ゲームが始まってない場合は引き返す
+            if (killer.Is(CustomRoles.NiceGuesser) && IsEvilGuesserMeeting) return;//イビルゲッサー会議の最中はナイスゲッサーは打つな
+            if (!CanKillMultipleTimes.GetBool() && IsSkillUsed[killer.PlayerId] && !IsEvilGuesserMeeting) if (!killer.Is(CustomRoles.Pirate)) return;
+            if (playerId == "show")
+            {
+                SendShootChoices(killer.PlayerId);
+                SendShootID(killer.PlayerId);
+                return;
+            }
+            foreach (var target in PlayerControl.AllPlayerControls)
+            {
+                if (playerId == $"{target.PlayerId}" && GuesserShootLimit[killer.PlayerId] != 0)//targetnameが人の名前で弾数が０じゃないなら続行
+                {
+                    RoleAndNumber.TryGetValue(int.Parse(targetrolenum), out var r);//番号から役職を取得
+                    if (target.GetCustomRole() == r)//当たっていた場合
+                    {
+                        if (killer.Is(CustomRoles.Pirate))
+                            PirateGuess++;
+                        if (!killer.Is(CustomRoles.Pirate))
+                            if ((target.GetCustomRole() == CustomRoles.Crewmate && !CanShootAsNormalCrewmate.GetBool()) || (target.GetCustomRole() == CustomRoles.Egoist && killer.Is(CustomRoles.EvilGuesser))) return;
+                        //クルー打ちが許可されていない場合とイビルゲッサーがエゴイストを打とうとしている場合はここで帰る
+                        GuesserShootLimit[killer.PlayerId]--;
+                        IsSkillUsed[killer.PlayerId] = true;
+                        PlayerState.SetDeathReason(target.PlayerId, PlayerState.DeathReason.Kill);
+                        target.RpcGuesserMurderPlayer(0f);//専用の殺し方
+                        if (PirateGuess == PirateGuessAmount.GetInt())
+                        {
+                            // pirate wins.
+                        }
+                        return;
+                    }
+                    if (target.GetCustomRole() != r)//外していた場合
+                    {
+                        if (!killer.Is(CustomRoles.Pirate))
+                        {
+                            PlayerState.SetDeathReason(target.PlayerId, PlayerState.DeathReason.Misfire);
+                            killer.RpcGuesserMurderPlayer(0f);
+                        }
+                        else { canGuess = false; Utils.SendMessage("You missguessed as Pirate. Because of this, instead of dying, your guessing powers have been removed for the rest of the meeting,.", killer.PlayerId); }
                         if (IsEvilGuesserMeeting)
                         {
                             IsEvilGuesserMeeting = false;
@@ -147,6 +201,21 @@ namespace TownOfHost
             for (var n = 1; n <= RoleAndNumber.Count(); n++)
             {
                 text += string.Format("{0}:{1}\n", RoleAndNumber[n], n);
+            }
+            Utils.SendMessage(text, PlayerId);
+        }
+        public static void SendShootID(byte PlayerId = byte.MaxValue)//番号と役職をチャットに表示
+        {
+            string text = "";
+            List<PlayerControl> AllPlayers = new();
+            foreach (var pc in PlayerControl.AllPlayerControls)
+            {
+                AllPlayers.Add(pc);
+            }
+            text += "All Players and their IDs:";
+            foreach (var player in AllPlayers)
+            {
+                text += $"\n{player.GetRealName(true)} : {player.PlayerId}";
             }
             Utils.SendMessage(text, PlayerId);
         }

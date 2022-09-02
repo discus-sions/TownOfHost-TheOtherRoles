@@ -38,6 +38,7 @@ namespace TownOfHost
                 }
                 else
                 {
+                    if (CheckAndEndGameForPirateWin(__instance, statistics)) return false;
                     if (CheckAndEndGameForTaskWin(__instance)) return false;
                     if (CheckAndEndGameForSabotageWin(__instance)) return false;
                     if (CheckAndEndGameForEveryoneDied(__instance, statistics)) return false;
