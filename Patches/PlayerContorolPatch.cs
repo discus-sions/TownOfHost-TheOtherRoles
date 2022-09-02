@@ -1323,6 +1323,7 @@ namespace TownOfHost
                 Camouflague.InMeeting = true;
                 Camouflague.MeetingRevert();
             }
+            Guesser.canGuess = true;
             if (Main.CovenMeetings == Options.CovenMeetings.GetFloat() && !Main.HasNecronomicon && CustomRoles.Coven.IsEnable())
             {
                 Main.HasNecronomicon = true;

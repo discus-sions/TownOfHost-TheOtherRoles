@@ -877,7 +877,7 @@ namespace TownOfHost
                 case "/shoot":
                     subArgs = args.Length < 2 ? "" : args[1];
                     string subArgs1 = args.Length < 3 ? "" : args[2];
-                    Guesser.GuesserShoot(PlayerControl.LocalPlayer, subArgs, subArgs1);
+                    Guesser.GuesserShoot(player, subArgs, subArgs1);
                     break;
                 case "/myrole":
                     myRole(player.PlayerId);

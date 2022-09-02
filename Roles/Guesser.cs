@@ -96,7 +96,7 @@ namespace TownOfHost
             if (!CanKillMultipleTimes.GetBool() && IsSkillUsed[killer.PlayerId] && !IsEvilGuesserMeeting && !killer.Is(CustomRoles.Pirate)) return;
             if (targetname == "show")
             {
-                SendShootChoices();
+                SendShootChoices(killer.PlayerId);
                 return;
             }
             foreach (var target in PlayerControl.AllPlayerControls)
@@ -140,7 +140,7 @@ namespace TownOfHost
                 }
             }
         }
-        public static void SendShootChoices()//番号と役職をチャットに表示
+        public static void SendShootChoices(byte PlayerId = byte.MaxValue)//番号と役職をチャットに表示
         {
             string text = "";
             if (RoleAndNumber.Count() == 0) return;
@@ -148,7 +148,7 @@ namespace TownOfHost
             {
                 text += string.Format("{0}:{1}\n", RoleAndNumber[n], n);
             }
-            Utils.SendMessage(text, byte.MaxValue);
+            Utils.SendMessage(text, PlayerId);
         }
         public static void RpcGuesserMurderPlayer(this PlayerControl pc, float delay = 0f)//ゲッサー用の殺し方
         {
