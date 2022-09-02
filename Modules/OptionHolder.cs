@@ -597,7 +597,7 @@ namespace TownOfHost
             IgnoreVent = CustomOption.Create(101003, Color.white, "IgnoreVent", false)
                 .SetGameMode(CustomGameMode.HideAndSeek);
 
-            #region Color Wars
+            #region ColorWars
             // COLOR WARS //
 
             // CWAllowCloseDoors = CustomOption.Create(1011000, Color.white, "AllowCloseDoors", false, null, true)

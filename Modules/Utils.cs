@@ -367,6 +367,26 @@ namespace TownOfHost
                 text = GetString("Settings") + ":";
                 text += GetString("HideAndSeek");
             }
+            else if (Options.CurrentGameMode() == CustomGameMode.ColorWars)
+            {
+                text = GetString("Roles") + ":";
+                if (CustomRoles.HASFox.IsEnable()) text += String.Format("\n{0}:{1}", GetRoleName(CustomRoles.HASFox), CustomRoles.HASFox.GetCount());
+                if (CustomRoles.HASTroll.IsEnable()) text += String.Format("\n{0}:{1}", GetRoleName(CustomRoles.HASTroll), CustomRoles.HASTroll.GetCount());
+                SendMessage(text, PlayerId);
+                text = GetString("Settings") + ":";
+                text += String.Format("\n\n{0}:{1}", "Current Game Mode", Options.GameMode.GetString());
+                text += GetString("ColorWars");
+            }
+            else if (Options.CurrentGameMode() == CustomGameMode.Splatoon)
+            {
+                text = GetString("Roles") + ":";
+                if (CustomRoles.HASFox.IsEnable()) text += String.Format("\n{0}:{1}", GetRoleName(CustomRoles.HASFox), CustomRoles.HASFox.GetCount());
+                if (CustomRoles.HASTroll.IsEnable()) text += String.Format("\n{0}:{1}", GetRoleName(CustomRoles.HASTroll), CustomRoles.HASTroll.GetCount());
+                SendMessage(text, PlayerId);
+                text = GetString("Settings") + ":";
+                text += String.Format("\n\n{0}:{1}", "Current Game Mode", Options.GameMode.GetString());
+                text += GetString("Splatoon");
+            }
             else
             {
                 ShowActiveRoles(PlayerId);

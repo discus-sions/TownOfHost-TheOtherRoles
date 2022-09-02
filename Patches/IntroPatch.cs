@@ -181,6 +181,15 @@ namespace TownOfHost
                     StartFadeIntro(__instance, Color.black, Color.black);
                     PlayerControl.LocalPlayer.Data.Role.IntroSound = GetIntroSound(RoleTypes.Impostor);
                     break;
+                case CustomRoles.Painter:
+                    __instance.TeamTitle.text = "SPLATOON";
+                    __instance.TeamTitle.color = Utils.GetRoleColor(CustomRoles.Child);
+                    __instance.ImpostorText.gameObject.SetActive(true);
+                    __instance.ImpostorText.text = "Be the last color standing.";
+                    __instance.BackgroundBar.material.color = Utils.GetRoleColor(role);
+                    StartFadeIntro(__instance, Color.white, Color.black);
+                    PlayerControl.LocalPlayer.Data.Role.IntroSound = GetIntroSound(RoleTypes.Shapeshifter);
+                    break;
                 case CustomRoles.Terrorist:
                     var sound = ShipStatus.Instance.CommonTasks.Where(task => task.TaskType == TaskTypes.FixWiring).FirstOrDefault()
                     .MinigamePrefab.OpenSound;
@@ -188,13 +197,7 @@ namespace TownOfHost
                     break;
 
                 case CustomRoles.Executioner:
-                    PlayerControl.LocalPlayer.Data.Role.IntroSound = GetIntroSound(RoleTypes.Shapeshifter);
-                    break;
-
                 case CustomRoles.Vampire:
-                    PlayerControl.LocalPlayer.Data.Role.IntroSound = GetIntroSound(RoleTypes.Shapeshifter);
-                    break;
-
                 case CustomRoles.HexMaster:
                 case CustomRoles.CovenWitch:
                 case CustomRoles.Conjuror:
@@ -212,13 +215,11 @@ namespace TownOfHost
                     break;
                 case CustomRoles.Investigator:
                 case CustomRoles.Bastion:
-                    PlayerControl.LocalPlayer.Data.Role.IntroSound = GetIntroSound(RoleTypes.Crewmate);
-                    //__instance.BackgroundBar.material.color = Palette.CrewmateBlue;
-                    break;
                 case CustomRoles.Arsonist:
-                    PlayerControl.LocalPlayer.Data.Role.IntroSound = GetIntroSound(RoleTypes.Crewmate);
-                    break;
-
+                case CustomRoles.Veteran:
+                case CustomRoles.Jester:
+                case CustomRoles.GuardianAngelTOU:
+                case CustomRoles.Mayor:
                 case CustomRoles.PlagueBearer:
                     PlayerControl.LocalPlayer.Data.Role.IntroSound = GetIntroSound(RoleTypes.Crewmate);
                     break;
@@ -230,13 +231,6 @@ namespace TownOfHost
                 case CustomRoles.Juggernaut:
                 case CustomRoles.SchrodingerCat:
                     PlayerControl.LocalPlayer.Data.Role.IntroSound = GetIntroSound(RoleTypes.Impostor);
-                    break;
-
-                case CustomRoles.Veteran:
-                case CustomRoles.Jester:
-                case CustomRoles.GuardianAngelTOU:
-                case CustomRoles.Mayor:
-                    PlayerControl.LocalPlayer.Data.Role.IntroSound = GetIntroSound(RoleTypes.Crewmate);
                     break;
 
                 case CustomRoles.GM:

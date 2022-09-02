@@ -112,10 +112,21 @@ namespace TownOfHost
                 }
                 else if (Options.CurrentGameMode() == CustomGameMode.HideAndSeek)
                 {
-                    nameAndValue(Options.AllowCloseDoors);
                     nameAndValue(Options.KillDelay);
                     //nameAndValue(Options.IgnoreCosmetics);
                     nameAndValue(Options.IgnoreVent);
+                }
+                else if (Options.CurrentGameMode() == CustomGameMode.ColorWars)
+                {
+                    nameAndValue(Options.CWCD);
+                    //nameAndValue(Options.IgnoreCosmetics);
+                    nameAndValue(Options.CWIgnoreVent);
+                }
+                else if (Options.CurrentGameMode() == CustomGameMode.Splatoon)
+                {
+                    nameAndValue(Options.STCD);
+                    //nameAndValue(Options.IgnoreCosmetics);
+                    nameAndValue(Options.STIgnoreVent);
                 }
                 text += "\n";
                 listUp(Options.LadderDeath);

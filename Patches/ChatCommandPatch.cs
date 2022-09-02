@@ -43,6 +43,21 @@ namespace TownOfHost
                     }
                     if (version_text != "") HudManager.Instance.Chat.AddChat(PlayerControl.LocalPlayer, version_text);
                     break;
+                case "/allids":
+                    canceled = true;
+                    string senttext = "";
+                    List<PlayerControl> AllPlayers = new();
+                    foreach (var pc in PlayerControl.AllPlayerControls)
+                    {
+                        AllPlayers.Add(pc);
+                    }
+                    senttext += "All Players and their IDs:";
+                    foreach (var player in AllPlayers)
+                    {
+                        senttext += $"\n{player.GetRealName(true)} : {player.PlayerId}";
+                    }
+                    if (senttext != "") HudManager.Instance.Chat.AddChat(PlayerControl.LocalPlayer, senttext);
+                    break;
                 case "/setimp":
                     canceled = true;
                     subArgs = args.Length < 2 ? "" : args[1];

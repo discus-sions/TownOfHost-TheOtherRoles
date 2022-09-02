@@ -655,6 +655,7 @@ namespace TownOfHost
                     player.RpcExileV2();
                     PlayerState.SetDeathReason(player.PlayerId, PlayerState.DeathReason.Execution);
                     PlayerState.SetDead(player.PlayerId);
+                    Main.unreportableBodies.Add(player.PlayerId);
                     Utils.SendMessage(string.Format(GetString("Message.Executed"), player.Data.PlayerName));
                     Logger.Info($"{player.GetNameWithRole()}を処刑しました", "Execution");
                 });
@@ -668,6 +669,7 @@ namespace TownOfHost
                     PlayerState.SetDeathReason(player.PlayerId, PlayerState.DeathReason.Execution);
                     PlayerState.SetDead(player.PlayerId);
                     player.RpcMurderPlayer(player);
+                    Main.unreportableBodies.Add(player.PlayerId);
                     Utils.SendMessage(string.Format(GetString("Message.Executed"), player.Data.PlayerName));
                     Logger.Info($"{player.GetNameWithRole()}を処刑しました", "Execution");
                 });
@@ -679,7 +681,7 @@ namespace TownOfHost
                     var player = Utils.GetPlayerById(x.TargetPlayerId);
                     player.RpcExileV2();
                     PlayerState.SetDeathReason(player.PlayerId, PlayerState.DeathReason.Alive);
-                    player.RpcMurderPlayer(player);
+                    Main.unreportableBodies.Add(player.PlayerId);
                     Utils.SendMessage(string.Format(GetString("Message.Executed"), player.Data.PlayerName));
                     Logger.Info($"{player.GetNameWithRole()}を処刑しました", "Execution");
                 });
