@@ -643,9 +643,6 @@ namespace TownOfHost
             WhichDisableAdmin = CustomOption.Create(101211, Color.white, "WhichDisableAdmin", whichDisableAdmin, whichDisableAdmin[0], DisableAdmin)
                 .SetGameMode(CustomGameMode.Standard);
 
-            Customise = CustomOption.Create(1003000, Color.white, "DisableTasks", false, null, true)
-                .SetGameMode(CustomGameMode.All);
-
             // ボタン回数同期
             SyncButtonMode = CustomOption.Create(100200, Color.white, "SyncButtonMode", false, null, true)
                 .SetGameMode(CustomGameMode.Standard);
@@ -661,6 +658,8 @@ namespace TownOfHost
                 .SetGameMode(CustomGameMode.Standard);
 
             // タスク無効化
+            Customise = CustomOption.Create(101900, Color.white, "Customise", false, null, true)
+                .SetGameMode(CustomGameMode.All);
             DisableTasks = CustomOption.Create(100300, Color.white, "DisableTasks", false, null, true)
                 .SetGameMode(CustomGameMode.All);
             DisableSwipeCard = CustomOption.Create(100301, Color.white, "DisableSwipeCardTask", false, DisableTasks)
