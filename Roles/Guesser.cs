@@ -34,17 +34,12 @@ namespace TownOfHost
         public static void SetupCustomOption()
         {
             Options.SetupRoleOptions(Id, CustomRoles.EvilGuesser);
-            Options.SetupRoleOptions(Id + 20, CustomRoles.NiceGuesser);
-            Options.SetupRoleOptions(Id + 51, CustomRoles.Pirate);
-            //EvilGuesserChance = CustomOption.Create(Id + 30110, Color.white, "EvilGuesserChance", 0, 0, 100, 10, Options.CustomRoleSpawnChances[CustomRoles.Guesser]);
-            // NeutralGuesserChance = CustomOption.Create(Id + 30160, Color.white, "NeutralGuesserChance", 0, 0, 100, 10, Options.CustomRoleSpawnChances[CustomRoles.Guesser]);
-            //ConfirmedEvilGuesser = CustomOption.Create(Id + 30120, Color.white, "ConfirmedEvilGuesser", 0, 0, 3, 1, Options.CustomRoleSpawnChances[CustomRoles.EvilGuesser]);
-            //Options.CustomRoleCounts.Add(CustomRoles.EvilGuesser, ConfirmedEvilGuesser);
-            //Options.CustomRoleSpawnChances.Add(CustomRoles.EvilGuesser, ConfirmedEvilGuesser);
-            PirateGuessAmount = CustomOption.Create(Id + 30170, Color.white, "PirateGuessAmount", 3, 1, 10, 1, Options.CustomRoleSpawnChances[CustomRoles.Pirate]);
             CanShootAsNormalCrewmate = CustomOption.Create(Id + 30130, Color.white, "CanShootAsNormalCrewmate", true, Options.CustomRoleSpawnChances[CustomRoles.EvilGuesser]);
             GuesserCanKillCount = CustomOption.Create(Id + 30140, Color.white, "GuesserShootLimit", 1, 1, 15, 1, Options.CustomRoleSpawnChances[CustomRoles.EvilGuesser]);
             CanKillMultipleTimes = CustomOption.Create(Id + 30150, Color.white, "CanKillMultipleTimes", false, Options.CustomRoleSpawnChances[CustomRoles.EvilGuesser]);
+            Options.SetupRoleOptions(Id + 20, CustomRoles.NiceGuesser);
+            Options.SetupRoleOptions(Id + 51, CustomRoles.Pirate);
+            PirateGuessAmount = CustomOption.Create(Id + 30170, Color.white, "PirateGuessAmount", 3, 1, 10, 1, Options.CustomRoleSpawnChances[CustomRoles.Pirate]);
         }
         /*public static bool SetGuesserTeam(byte PlayerId = byte.MaxValue)//確定イビルゲッサーの人数とは別でイビルゲッサーかナイスゲッサーのどちらかに決める。
         {
