@@ -347,7 +347,7 @@ namespace TownOfHost
                         KnightWin();
                         break;
                     case CustomWinner.Pirate:
-                        PirateWin();
+                        PirateWin(winner[0]);
                         break;
                     case CustomWinner.Vulture:
                         VultureWin();
@@ -442,10 +442,11 @@ namespace TownOfHost
             Main.currentWinner = CustomWinner.BloodKnight;
             CustomWinTrigger(0);
         }
-        public static void PirateWin()
+        public static void PirateWin(byte hackerID)
         {
+            Main.WonPirateID = hackerID;
             Main.currentWinner = CustomWinner.Pirate;
-            CustomWinTrigger(0);
+            CustomWinTrigger(hackerID);
         }
         public static void JugWin()
         {

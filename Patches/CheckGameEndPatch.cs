@@ -38,7 +38,7 @@ namespace TownOfHost
                 }
                 else
                 {
-                    if (CheckAndEndGameForPirateWin(__instance, statistics)) return false;
+                    //if (CheckAndEndGameForPirateWin(__instance, statistics)) return false;
                     if (CheckAndEndGameForTaskWin(__instance)) return false;
                     if (CheckAndEndGameForSabotageWin(__instance)) return false;
                     if (CheckAndEndGameForEveryoneDied(__instance, statistics)) return false;
@@ -181,7 +181,7 @@ namespace TownOfHost
             }
             return false;
         }
-        public static bool CheckAndEndGameForPirateWin(ShipStatus __instance, PlayerStatistics statistics)
+        /*public static bool CheckAndEndGameForPirateWin(ShipStatus __instance, PlayerStatistics statistics)
         {
             if (Guesser.PirateGuess == Guesser.PirateGuessAmount.GetInt())
             {
@@ -203,7 +203,7 @@ namespace TownOfHost
                 return true;
             }
             return false;
-        }
+        }*/
         private static bool CheckAndEndGameForPestiWin(ShipStatus __instance, PlayerStatistics statistics)
         {
             if (statistics.TeamPestiAlive >= statistics.TotalAlive - statistics.TeamPestiAlive &&

@@ -111,6 +111,7 @@ namespace TownOfHost
         public static byte WonTrollID;
         public static byte ExiledJesterID;
         public static byte WonTerroristID;
+        public static byte WonPirateID;
         public static byte WonExecutionerID;
         public static byte WonHackerID;
         public static byte WonArsonistID;
