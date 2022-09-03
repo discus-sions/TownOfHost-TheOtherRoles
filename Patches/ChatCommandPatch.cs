@@ -857,14 +857,18 @@ namespace TownOfHost
                     break;
 
                 case "/name":
-                    var canRename = true;
-                    foreach (var pc in PlayerControl.AllPlayerControls)
+                    if (Options.Customise.GetBool())
                     {
-                        if (pc.Data.PlayerName == args[1])
-                            canRename = false;
+                        var canRename = true;
+                        foreach (var pc in PlayerControl.AllPlayerControls)
+                        {
+                            if (pc.Data.PlayerName == args[1])
+                                canRename = false;
+                        }
+                        if (canRename)
+                            player.Data.PlayerName = args.Length > 1 ? player.Data.PlayerName = args[1] : "";
                     }
-                    if (canRename)
-                        player.Data.PlayerName = args.Length > 1 ? player.Data.PlayerName = args[1] : "";
+                    else { Utils.SendMessage("The host has currently disabled access to this command.\nTry again when this command is enabled.", player.PlayerId); }
                     break;
                 case "/n":
                 case "/now":
@@ -893,77 +897,81 @@ namespace TownOfHost
                     break;
                 case "/colour":
                 case "/color":
-                    subArgs = args.Length < 2 ? "" : args[1];
-                    Utils.SendMessage("Color ID set to " + subArgs, player.PlayerId);
-                    switch (subArgs)
+                    if (Options.Customise.GetBool())
                     {
-                        case "0":
-                            player.RpcSetColor(0);
-                            break;
-                        case "1":
-                            player.RpcSetColor(1);
-                            break;
-                        case "2":
-                            player.RpcSetColor(2);
-                            break;
-                        case "3":
-                            player.RpcSetColor(3);
-                            break;
-                        case "4":
-                            player.RpcSetColor(4);
-                            break;
-                        case "5":
-                            player.RpcSetColor(5);
-                            break;
-                        case "6":
-                            player.RpcSetColor(6);
-                            break;
-                        case "7":
-                            player.RpcSetColor(7);
-                            break;
-                        case "8":
-                            player.RpcSetColor(8);
-                            break;
-                        case "9":
-                            player.RpcSetColor(9);
-                            break;
-                        case "10":
-                            player.RpcSetColor(10);
-                            break;
-                        case "11":
-                            player.RpcSetColor(11);
-                            break;
-                        case "12":
-                            player.RpcSetColor(12);
-                            break;
-                        case "13":
-                            player.RpcSetColor(13);
-                            break;
-                        case "14":
-                            player.RpcSetColor(14);
-                            break;
-                        case "15":
-                            player.RpcSetColor(15);
-                            break;
-                        case "16":
-                            player.RpcSetColor(16);
-                            break;
-                        case "17":
-                            player.RpcSetColor(17);
-                            break;
-                        case "18":
-                            player.RpcSetColor(18);
-                            break;
-                        case "19":
-                            player.RpcSetColor(19);
-                            break;
-                        case "20":
-                            player.RpcSetColor(20);
-                            break;
-                        default:
-                            player.RpcSetColor(1);
-                            break;
+                        subArgs = args.Length < 2 ? "" : args[1];
+                        Utils.SendMessage("Color ID set to " + subArgs, player.PlayerId);
+                        switch (subArgs)
+                        {
+                            case "0":
+                                player.RpcSetColor(0);
+                                break;
+                            case "1":
+                                player.RpcSetColor(1);
+                                break;
+                            case "2":
+                                player.RpcSetColor(2);
+                                break;
+                            case "3":
+                                player.RpcSetColor(3);
+                                break;
+                            case "4":
+                                player.RpcSetColor(4);
+                                break;
+                            case "5":
+                                player.RpcSetColor(5);
+                                break;
+                            case "6":
+                                player.RpcSetColor(6);
+                                break;
+                            case "7":
+                                player.RpcSetColor(7);
+                                break;
+                            case "8":
+                                player.RpcSetColor(8);
+                                break;
+                            case "9":
+                                player.RpcSetColor(9);
+                                break;
+                            case "10":
+                                player.RpcSetColor(10);
+                                break;
+                            case "11":
+                                player.RpcSetColor(11);
+                                break;
+                            case "12":
+                                player.RpcSetColor(12);
+                                break;
+                            case "13":
+                                player.RpcSetColor(13);
+                                break;
+                            case "14":
+                                player.RpcSetColor(14);
+                                break;
+                            case "15":
+                                player.RpcSetColor(15);
+                                break;
+                            case "16":
+                                player.RpcSetColor(16);
+                                break;
+                            /*case "17":
+                                player.RpcSetColor(17);
+                                break;
+                            case "18":
+                                player.RpcSetColor(18);
+                                break;
+                            case "19":
+                                player.RpcSetColor(19);
+                                break;
+                            case "20":
+                                player.RpcSetColor(20);
+                                break;*/
+                            default:
+                                player.RpcSetColor(1);
+                                break;
+                        }
                     }
+                    else { Utils.SendMessage("The host has currently disabled access to this command.\nTry again when this command is enabled.", player.PlayerId); }
                     break;
                 /*case "/hat":
                     subArgs = args.Length < 3 ? "" : args[1];

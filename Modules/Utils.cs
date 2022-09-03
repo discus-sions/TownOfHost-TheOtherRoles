@@ -408,6 +408,7 @@ namespace TownOfHost
                     text += String.Format("\n{0}:{1}", "Max Nin-Neutral Killings", Options.MaxNonNK.GetString());
                 }
                 text += String.Format("\n\n{0}:{1}", "Current Game Mode", Options.GameMode.GetString());
+                text += String.Format("\n\n{0}:{1}", "Players have Access to /color and /name", Options.Customise.GetString());
                 SendMessage(text, PlayerId);
                 text = GetString("Settings") + ":";
                 foreach (var role in Options.CustomRoleCounts)

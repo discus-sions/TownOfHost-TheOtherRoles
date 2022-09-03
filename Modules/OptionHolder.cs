@@ -211,6 +211,7 @@ namespace TownOfHost
         public static CustomOption VoteMode;
         public static CustomOption WhenSkipVote;
         public static CustomOption WhenNonVote;
+        public static CustomOption Customise;
         public static readonly string[] voteModes =
         {
             "Default", "Suicide", "SelfVote", "Skip"
@@ -641,6 +642,9 @@ namespace TownOfHost
                 .SetGameMode(CustomGameMode.Standard);
             WhichDisableAdmin = CustomOption.Create(101211, Color.white, "WhichDisableAdmin", whichDisableAdmin, whichDisableAdmin[0], DisableAdmin)
                 .SetGameMode(CustomGameMode.Standard);
+
+            Customise = CustomOption.Create(1003000, Color.white, "DisableTasks", false, null, true)
+                .SetGameMode(CustomGameMode.All);
 
             // ボタン回数同期
             SyncButtonMode = CustomOption.Create(100200, Color.white, "SyncButtonMode", false, null, true)

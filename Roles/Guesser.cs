@@ -33,7 +33,7 @@ namespace TownOfHost
         public static Dictionary<byte, int> PirateGuess;
         public static void SetupCustomOption()
         {
-            Options.SetupRoleOptions(Id, CustomRoles.EvilGuesser);
+            Options.SetupRoleOptions(Id + 19, CustomRoles.EvilGuesser);
             CanShootAsNormalCrewmate = CustomOption.Create(Id + 30130, Color.white, "CanShootAsNormalCrewmate", true, Options.CustomRoleSpawnChances[CustomRoles.EvilGuesser]);
             GuesserCanKillCount = CustomOption.Create(Id + 30140, Color.white, "GuesserShootLimit", 1, 1, 15, 1, Options.CustomRoleSpawnChances[CustomRoles.EvilGuesser]);
             CanKillMultipleTimes = CustomOption.Create(Id + 30150, Color.white, "CanKillMultipleTimes", false, Options.CustomRoleSpawnChances[CustomRoles.EvilGuesser]);

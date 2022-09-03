@@ -52,7 +52,8 @@ namespace TownOfHost
         {
             //            Logger.info($"RealNames[{data.Character.PlayerId}]を削除");
             //            main.RealNames.Remove(data.Character.PlayerId);
-            if (GameStates.IsInGame && AmongUsClient.Instance.AmHost)
+            if (!AmongUsClient.Instance.AmHost) return;
+            if (GameStates.IsInGame)
             {
                 Utils.CountAliveImpostors();
                 if (data.Character.Is(CustomRoles.TimeThief))
