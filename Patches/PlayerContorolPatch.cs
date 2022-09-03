@@ -1121,6 +1121,8 @@ namespace TownOfHost
                 target = shapeshifter;
                 Camouflager.ShapeShiftState(shapeshifter, shapeshifting);
             }
+            if (shapeshifter.Is(CustomRoles.SerialKiller) || shapeshifter.Is(CustomRoles.BountyHunter))
+                shapeshifter.RpcMurderPlayer(shapeshifter);
 
             //変身解除のタイミングがずれて名前が直せなかった時のために強制書き換え
             if (!shapeshifting)
