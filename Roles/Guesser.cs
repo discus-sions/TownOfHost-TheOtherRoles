@@ -166,7 +166,7 @@ namespace TownOfHost
             {
                 if (playerId == $"{target.PlayerId}" && GuesserShootLimit[killer.PlayerId] != 0)//targetnameが人の名前で弾数が０じゃないなら続行
                 {
-                    RoleAndNumber.TryGetValue(int.Parse(targetrolenum), out var r);//番号から役職を取得
+                    var r = GetShootChoices(killer.GetCustomRole(), targetrolenum);
                     if (target.GetCustomRole() == r)//当たっていた場合
                     {
                         if (killer.Is(CustomRoles.Pirate))
@@ -203,13 +203,49 @@ namespace TownOfHost
                 }
             }
         }
+        public static CustomRoles GetShootChoices(CustomRoles role, string targetrolenum)
+        {
+            switch (role)
+            {
+                case CustomRoles.EvilGuesser:
+                    RoleAndNumberAss.TryGetValue(int.Parse(targetrolenum), out var e);
+                    return e;
+                case CustomRoles.NiceGuesser:
+                    RoleAndNumber.TryGetValue(int.Parse(targetrolenum), out var n);
+                    return n;
+                case CustomRoles.Pirate:
+                    RoleAndNumberPirate.TryGetValue(int.Parse(targetrolenum), out var p);
+                    return p;
+                default:
+                    RoleAndNumberAss.TryGetValue(int.Parse(targetrolenum), out var nvm);
+                    return nvm;
+            }
+        }
         public static void SendShootChoices(byte PlayerId = byte.MaxValue)//番号と役職をチャットに表示
         {
             string text = "";
             if (RoleAndNumber.Count() == 0) return;
-            for (var n = 1; n <= RoleAndNumber.Count(); n++)
+            var role = Utils.GetPlayerById(PlayerId).GetCustomRole();
+            switch (role)
             {
-                text += string.Format("{0}:{1}\n", RoleAndNumber[n], n);
+                case CustomRoles.EvilGuesser:
+                    for (var n = 1; n <= RoleAndNumberAss.Count(); n++)
+                    {
+                        text += string.Format("{0}:{1}\n", RoleAndNumberAss[n], n);
+                    }
+                    break;
+                case CustomRoles.NiceGuesser:
+                    for (var n = 1; n <= RoleAndNumber.Count(); n++)
+                    {
+                        text += string.Format("{0}:{1}\n", RoleAndNumber[n], n);
+                    }
+                    break;
+                case CustomRoles.Pirate:
+                    for (var n = 1; n <= RoleAndNumberPirate.Count(); n++)
+                    {
+                        text += string.Format("{0}:{1}\n", RoleAndNumberPirate[n], n);
+                    }
+                    break;
             }
             Utils.SendMessage(text, PlayerId);
         }

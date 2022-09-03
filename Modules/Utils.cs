@@ -248,7 +248,7 @@ namespace TownOfHost
                     ProgressText += Sheriff.GetShotLimit(playerId);
                     break;
                 case CustomRoles.Pirate:
-                    ProgressText = Helpers.ColorString(GetRoleColor(CustomRoles.Pirate), $"({Guesser.PirateGuess}/{Guesser.PirateGuessAmount.GetInt()})");
+                    ProgressText = Helpers.ColorString(GetRoleColor(CustomRoles.Pirate), $"({Guesser.PirateGuess[playerId]}/{Guesser.PirateGuessAmount.GetInt()})");
                     break;
                 case CustomRoles.Veteran:
                     ProgressText += Helpers.ColorString(GetRoleColor(CustomRoles.Veteran), $"({Main.VetAlerts}/{Options.NumOfVets.GetInt()})");
