@@ -490,7 +490,7 @@ namespace TownOfHost
             SetupRoleOptions(30100, CustomRoles.Sleuth);
             //SleuthReport = CustomOption.Create(30110, Color.white, "SleuthReport", false, CustomRoleSpawnChances[CustomRoles.Sleuth]);
             // Neutral
-            SetupRoleOptions(50500, CustomRoles.Arsonist);
+            SetupSingleRoleOptions(50500, CustomRoles.Arsonist, 1);
             ArsonistDouseTime = CustomOption.Create(50510, Color.white, "ArsonistDouseTime", 3, 0, 10, 1, CustomRoleSpawnChances[CustomRoles.Arsonist]);
             ArsonistCooldown = CustomOption.Create(50511, Color.white, "ArsonistCooldown", 10, 5, 100, 1, CustomRoleSpawnChances[CustomRoles.Arsonist]);
             TOuRArso = CustomOption.Create(50512, Color.white, "TourArso", false, CustomRoleSpawnChances[CustomRoles.Arsonist]);

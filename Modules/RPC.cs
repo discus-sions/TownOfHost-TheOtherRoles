@@ -329,7 +329,7 @@ namespace TownOfHost
                         HackerWin(winner[0]);
                         break;
                     case CustomWinner.Arsonist:
-                        ArsonistWin(winner[0]);
+                        SingleArsonistWin();
                         break;
                     case CustomWinner.HASTroll:
                         TrollWin(winner[0]);
@@ -421,6 +421,12 @@ namespace TownOfHost
             Main.WonArsonistID = arsonistID;
             Main.currentWinner = CustomWinner.Arsonist;
             CustomWinTrigger(arsonistID);
+        }
+        public static void SingleArsonistWin()
+        {
+            // /Main.WonArsonistID = arsonistID;
+            Main.currentWinner = CustomWinner.Arsonist;
+            CustomWinTrigger(0);
         }
         public static void JackalWin()
         {

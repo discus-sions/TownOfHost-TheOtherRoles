@@ -2245,166 +2245,185 @@ namespace TownOfHost
     {
         public static void Postfix(Vent __instance, [HarmonyArgument(0)] PlayerControl pc)
         {
-            bool skipCheck = false;
-            if (CustomRoles.TheGlitch.IsEnable() && Options.GlitchCanVent.GetBool())
+            if (AmongUsClient.Instance.AmHost)
             {
-                List<PlayerControl> hackedPlayers = new();
-                PlayerControl glitch;
-                foreach (var cp in Main.CursedPlayers)
+                bool skipCheck = false;
+                if (CustomRoles.TheGlitch.IsEnable() && Options.GlitchCanVent.GetBool())
                 {
-                    if (Utils.GetPlayerById(cp.Key).Is(CustomRoles.TheGlitch))
+                    List<PlayerControl> hackedPlayers = new();
+                    PlayerControl glitch;
+                    foreach (var cp in Main.CursedPlayers)
                     {
-                        hackedPlayers.Add(cp.Value);
-                        glitch = Utils.GetPlayerById(cp.Key);
+                        if (Utils.GetPlayerById(cp.Key).Is(CustomRoles.TheGlitch))
+                        {
+                            hackedPlayers.Add(cp.Value);
+                            glitch = Utils.GetPlayerById(cp.Key);
+                        }
+                    }
+
+                    if (hackedPlayers.Contains(pc))
+                    {
+                        pc?.MyPhysics?.RpcBootFromVent(__instance.Id);
+                        skipCheck = true;
                     }
                 }
-
-                if (hackedPlayers.Contains(pc))
+                if (Options.CurrentGameMode() == CustomGameMode.HideAndSeek && Options.IgnoreVent.GetBool())
+                    pc.MyPhysics.RpcBootFromVent(__instance.Id);
+                if (pc.Is(CustomRoles.Mayor))
                 {
+                    if (Main.MayorUsedButtonCount.TryGetValue(pc.PlayerId, out var count) && count < Options.MayorNumOfUseButton.GetInt())
+                    {
+                        pc?.MyPhysics?.RpcBootFromVent(__instance.Id);
+                        pc?.ReportDeadBody(null);
+                    }
+                    skipCheck = true;
+                }
+                if (pc.Is(CustomRoles.Veteran))
+                {
+                    if (Main.VetAlerts != Options.NumOfVets.GetInt())
+                    {
+                        pc.VetAlerted();
+                    }
                     pc?.MyPhysics?.RpcBootFromVent(__instance.Id);
                     skipCheck = true;
                 }
-            }
-            if (Options.CurrentGameMode() == CustomGameMode.HideAndSeek && Options.IgnoreVent.GetBool())
-                pc.MyPhysics.RpcBootFromVent(__instance.Id);
-            if (pc.Is(CustomRoles.Mayor))
-            {
-                if (Main.MayorUsedButtonCount.TryGetValue(pc.PlayerId, out var count) && count < Options.MayorNumOfUseButton.GetInt())
+
+                if (pc.Is(CustomRoles.Arsonist) && Options.TOuRArso.GetBool())
                 {
                     pc?.MyPhysics?.RpcBootFromVent(__instance.Id);
-                    pc?.ReportDeadBody(null);
-                }
-                skipCheck = true;
-            }
-            if (pc.Is(CustomRoles.Veteran))
-            {
-                if (Main.VetAlerts != Options.NumOfVets.GetInt())
-                {
-                    pc.VetAlerted();
-                }
-                pc?.MyPhysics?.RpcBootFromVent(__instance.Id);
-                skipCheck = true;
-            }
-
-            if (pc.Is(CustomRoles.Arsonist) && Options.TOuRArso.GetBool())
-            {
-                pc?.MyPhysics?.RpcBootFromVent(__instance.Id);
-            }
-            if (pc.Is(CustomRoles.Swooper))
-            {
-                pc?.MyPhysics?.RpcBootFromVent(__instance.Id);
-            }
-            /* if (pc.Is(CustomRoles.Camouflager))
-             {
-                 pc?.MyPhysics?.RpcBootFromVent(__instance.Id);
-             }*/
-            if (pc.Is(CustomRoles.Medusa))
-            {
-                pc.StoneGazed();
-                pc?.MyPhysics?.RpcBootFromVent(__instance.Id);
-                skipCheck = true;
-                Utils.NotifyRoles();
-            }
-            if (pc.Is(CustomRoles.GuardianAngelTOU))
-            {
-                if (Main.GAprotects != Options.NumOfProtects.GetInt())
-                {
-                    pc.GaProtect();
-                }
-                pc?.MyPhysics?.RpcBootFromVent(__instance.Id);
-                skipCheck = true;
-            }
-            if (pc.Is(CustomRoles.TheGlitch))
-            {
-                // pc?.MyPhysics?.RpcBootFromVent(__instance.Id);
-                //pc.MyPhysics.RpcBootFromVent(__instance.Id);
-                skipCheck = true;
-                if (Main.IsHackMode)
-                    Main.IsHackMode = false;
-                else
-                    Main.IsHackMode = true;
-                pc.MyPhysics.RpcBootFromVent(__instance.Id);
-                Utils.NotifyRoles();
-            }
-            if (pc.Is(CustomRoles.Bastion))
-            {
-                skipCheck = true;
-                if (!Main.bombedVents.Contains(__instance.Id))
-                    Main.bombedVents.Add(__instance.Id);
-                else
-                {
-                    pc.MyPhysics.RpcBootFromVent(__instance.Id);
-                    pc.RpcMurderPlayer(pc);
-                    PlayerState.SetDeathReason(pc.PlayerId, PlayerState.DeathReason.Bombed);
-                    PlayerState.SetDead(pc.PlayerId);
-                }
-                pc.MyPhysics.RpcBootFromVent(__instance.Id);
-            }
-            if (pc.Is(CustomRoles.Werewolf))
-            {
-                skipCheck = true;
-                Utils.NotifyRoles();
-                if (Main.IsRampaged)
-                {
-
-                    //do nothing.
-                    if (!Options.VentWhileRampaged.GetBool())
+                    List<PlayerControl> doused = Utils.GetDousedPlayer(pc.PlayerId);
+                    foreach (var pcd in doused)
                     {
-                        // pc?.MyPhysics?.RpcBootFromVent(__instance.Id);
-                        pc.MyPhysics.RpcBootFromVent(__instance.Id);
-                        if (Options.VentWhileRampaged.GetBool())
+                        if (!pc.Data.IsDead)
                         {
-                            if (Main.bombedVents.Contains(__instance.Id))
+                            if (pcd != pc && !pcd.Is(CustomRoles.Pestilence))
                             {
-                                pc.RpcMurderPlayer(pc);
-                                PlayerState.SetDeathReason(pc.PlayerId, PlayerState.DeathReason.Bombed);
-                                Main.whoKilledWho.Add(pc, pc);
-                                PlayerState.SetDead(pc.PlayerId);
+                                //生存者は焼殺
+                                pcd.RpcMurderPlayer(pcd);
+                                PlayerState.SetDeathReason(pcd.PlayerId, PlayerState.DeathReason.Torched);
+                                PlayerState.SetDead(pcd.PlayerId);
                             }
+                            else
+                                RPC.PlaySoundRPC(pc.PlayerId, Sounds.KillSound);
                         }
                     }
                 }
-                else
+                if (pc.Is(CustomRoles.Swooper))
                 {
-                    if (Main.RampageReady)
+                    pc?.MyPhysics?.RpcBootFromVent(__instance.Id);
+                }
+                /* if (pc.Is(CustomRoles.Camouflager))
+                 {
+                     pc?.MyPhysics?.RpcBootFromVent(__instance.Id);
+                 }*/
+                if (pc.Is(CustomRoles.Medusa))
+                {
+                    pc.StoneGazed();
+                    pc?.MyPhysics?.RpcBootFromVent(__instance.Id);
+                    skipCheck = true;
+                    Utils.NotifyRoles();
+                }
+                if (pc.Is(CustomRoles.GuardianAngelTOU))
+                {
+                    if (Main.GAprotects != Options.NumOfProtects.GetInt())
                     {
-                        Main.RampageReady = false;
-                        Main.IsRampaged = true;
-                        Utils.CustomSyncAllSettings();
-                        new LateTask(() =>
+                        pc.GaProtect();
+                    }
+                    pc?.MyPhysics?.RpcBootFromVent(__instance.Id);
+                    skipCheck = true;
+                }
+                if (pc.Is(CustomRoles.TheGlitch))
+                {
+                    // pc?.MyPhysics?.RpcBootFromVent(__instance.Id);
+                    //pc.MyPhysics.RpcBootFromVent(__instance.Id);
+                    skipCheck = true;
+                    if (Main.IsHackMode)
+                        Main.IsHackMode = false;
+                    else
+                        Main.IsHackMode = true;
+                    pc.MyPhysics.RpcBootFromVent(__instance.Id);
+                    Utils.NotifyRoles();
+                }
+                if (pc.Is(CustomRoles.Bastion))
+                {
+                    skipCheck = true;
+                    if (!Main.bombedVents.Contains(__instance.Id))
+                        Main.bombedVents.Add(__instance.Id);
+                    else
+                    {
+                        pc.MyPhysics.RpcBootFromVent(__instance.Id);
+                        pc.RpcMurderPlayer(pc);
+                        PlayerState.SetDeathReason(pc.PlayerId, PlayerState.DeathReason.Bombed);
+                        PlayerState.SetDead(pc.PlayerId);
+                    }
+                    pc.MyPhysics.RpcBootFromVent(__instance.Id);
+                }
+                if (pc.Is(CustomRoles.Werewolf))
+                {
+                    skipCheck = true;
+                    Utils.NotifyRoles();
+                    if (Main.IsRampaged)
+                    {
+
+                        //do nothing.
+                        if (!Options.VentWhileRampaged.GetBool())
                         {
-                            Main.IsRampaged = false;
-                            pc?.MyPhysics?.RpcBootFromVent(__instance.Id);
-                            Utils.CustomSyncAllSettings();
-                            new LateTask(() =>
+                            // pc?.MyPhysics?.RpcBootFromVent(__instance.Id);
+                            pc.MyPhysics.RpcBootFromVent(__instance.Id);
+                            if (Options.VentWhileRampaged.GetBool())
                             {
-                                pc?.MyPhysics?.RpcBootFromVent(__instance.Id);
-                                Main.RampageReady = true;
-                                Utils.CustomSyncAllSettings();
-                            }, Options.RampageDur.GetFloat(), "Werewolf Rampage Cooldown");
-                        }, Options.RampageDur.GetFloat(), "Werewolf Rampage Duration");
+                                if (Main.bombedVents.Contains(__instance.Id))
+                                {
+                                    pc.RpcMurderPlayer(pc);
+                                    PlayerState.SetDeathReason(pc.PlayerId, PlayerState.DeathReason.Bombed);
+                                    Main.whoKilledWho.Add(pc, pc);
+                                    PlayerState.SetDead(pc.PlayerId);
+                                }
+                            }
+                        }
                     }
                     else
                     {
-                        pc?.MyPhysics?.RpcBootFromVent(__instance.Id);
+                        if (Main.RampageReady)
+                        {
+                            Main.RampageReady = false;
+                            Main.IsRampaged = true;
+                            Utils.CustomSyncAllSettings();
+                            new LateTask(() =>
+                            {
+                                Main.IsRampaged = false;
+                                pc?.MyPhysics?.RpcBootFromVent(__instance.Id);
+                                Utils.CustomSyncAllSettings();
+                                new LateTask(() =>
+                                {
+                                    pc?.MyPhysics?.RpcBootFromVent(__instance.Id);
+                                    Main.RampageReady = true;
+                                    Utils.CustomSyncAllSettings();
+                                }, Options.RampageDur.GetFloat(), "Werewolf Rampage Cooldown");
+                            }, Options.RampageDur.GetFloat(), "Werewolf Rampage Duration");
+                        }
+                        else
+                        {
+                            pc?.MyPhysics?.RpcBootFromVent(__instance.Id);
+                        }
                     }
                 }
-            }
 
-            if (pc.Is(CustomRoles.Jester) && !Options.JesterCanVent.GetBool())
-            {
-                pc.MyPhysics.RpcBootFromVent(__instance.Id);
-                skipCheck = true;
-            }
-            if (Main.bombedVents.Contains(__instance.Id) && !skipCheck)
-            {
-                if (!pc.Is(CustomRoles.Pestilence))
+                if (pc.Is(CustomRoles.Jester) && !Options.JesterCanVent.GetBool())
                 {
                     pc.MyPhysics.RpcBootFromVent(__instance.Id);
-                    pc.RpcMurderPlayer(pc);
-                    PlayerState.SetDeathReason(pc.PlayerId, PlayerState.DeathReason.Bombed);
-                    Main.whoKilledWho.Add(pc, pc);
-                    PlayerState.SetDead(pc.PlayerId);
+                    skipCheck = true;
+                }
+                if (Main.bombedVents.Contains(__instance.Id) && !skipCheck)
+                {
+                    if (!pc.Is(CustomRoles.Pestilence))
+                    {
+                        pc.MyPhysics.RpcBootFromVent(__instance.Id);
+                        pc.RpcMurderPlayer(pc);
+                        PlayerState.SetDeathReason(pc.PlayerId, PlayerState.DeathReason.Bombed);
+                        Main.whoKilledWho.Add(pc, pc);
+                        PlayerState.SetDead(pc.PlayerId);
+                    }
                 }
             }
         }
@@ -2441,25 +2460,6 @@ namespace TownOfHost
                     AmongUsClient.Instance.FinishRpcImmediately(writer);
                     RPC.ArsonistWin(__instance.myPlayer.PlayerId);
                     return true;
-                }
-                if (__instance.myPlayer.Is(CustomRoles.Arsonist) && Options.TOuRArso.GetBool())
-                {
-                    List<PlayerControl> doused = Utils.GetDousedPlayer(__instance.myPlayer.PlayerId);
-                    foreach (var pc in doused)
-                    {
-                        if (!pc.Data.IsDead)
-                        {
-                            if (pc != __instance.myPlayer && !pc.Is(CustomRoles.Pestilence))
-                            {
-                                //生存者は焼殺
-                                pc.RpcMurderPlayer(pc);
-                                PlayerState.SetDeathReason(pc.PlayerId, PlayerState.DeathReason.Torched);
-                                PlayerState.SetDead(pc.PlayerId);
-                            }
-                            else
-                                RPC.PlaySoundRPC(pc.PlayerId, Sounds.KillSound);
-                        }
-                    }
                 }
                 if (__instance.myPlayer.Is(CustomRoles.Sheriff) ||
                 __instance.myPlayer.Is(CustomRoles.Investigator) ||

@@ -207,11 +207,11 @@ namespace TownOfHost
                 }
             }
             if (Main.currentWinner == CustomWinner.Arsonist && CustomRoles.Arsonist.IsEnable())
-            { //Arsonist単独勝利
+            {
                 winner = new();
                 foreach (var p in PlayerControl.AllPlayerControls)
                 {
-                    if (p.PlayerId == Main.WonArsonistID)
+                    if (p.Is(CustomRoles.Arsonist))
                     {
                         winner.Add(p);
                     }
