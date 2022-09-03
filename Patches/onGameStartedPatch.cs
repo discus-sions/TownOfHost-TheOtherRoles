@@ -112,6 +112,7 @@ namespace TownOfHost
             Main.IsProtected = false;
             Main.PlayerColors = new();
             Main.whoKilledWho = new();
+            Main.SleuthReported = new();
             //名前の記録
             Main.AllPlayerNames = new();
 
@@ -698,6 +699,12 @@ namespace TownOfHost
                             foreach (var ar in PlayerControl.AllPlayerControls)
                             {
                                 Investigator.hasSeered.Add(ar.PlayerId, false);
+                            }
+                            break;
+                        case CustomRoles.Sleuth:
+                            foreach (var ar in PlayerControl.AllPlayerControls)
+                            {
+                                Main.SleuthReported.Add(pc.PlayerId, (ar.PlayerId, false));
                             }
                             break;
                         case CustomRoles.EvilGuesser:

@@ -1216,6 +1216,15 @@ namespace TownOfHost
                 {
                     //Main.MayorUsedButtonCount[__instance.PlayerId] += 1;
                     Utils.SendMessage("The body you reported had a clue about their role. They were " + Utils.GetRoleName(target.GetCustomRole()) + ".", __instance.PlayerId);
+                    foreach (var ar in Main.SleuthReported)
+                    {
+                        if (ar.Key != __instance.PlayerId) break;
+                        if (ar.Value.Item1 != target.PlayerId) break;
+                        // now we set it to true
+                        var stuff = Main.SleuthReported[__instance.PlayerId];
+                        stuff.Item2 = true;
+                        Main.SleuthReported[__instance.PlayerId] = stuff;
+                    }
                 }
             }
 

@@ -134,6 +134,7 @@ namespace TownOfHost
         public static Dictionary<(byte, byte), bool> isInfected = new();
         public static Dictionary<byte, (PlayerControl, float)> PlagueBearerTimer = new();
         public static List<int> bombedVents = new();
+        public static Dictionary<byte, (byte, bool)> SleuthReported = new();
 
         public static Main Instance;
         public static bool CamoComms;

@@ -409,6 +409,8 @@ namespace TownOfHost
                 }
                 text += String.Format("\n\n{0}:{1}", "Current Game Mode", Options.GameMode.GetString());
                 text += String.Format("\n\n{0}:{1}", "Players have Access to /color and /name", Options.Customise.GetString());
+                text += String.Format("\n\n{0}:{1}", "Roles look Similar to ToU", Options.RolesLikeToU.GetString());
+                //Roles look Similar to ToU
                 SendMessage(text, PlayerId);
                 text = GetString("Settings") + ":";
                 foreach (var role in Options.CustomRoleCounts)
@@ -819,22 +821,43 @@ namespace TownOfHost
                     SeerKnowsImpostors = true;
 
                 //RealNameを取得 なければ現在の名前をRealNamesに書き込む
-                string SeerRealName = seer.GetRealName(isMeeting);
+                if (Options.RolesLikeToU.GetBool())
+                {
+                    string SeerRealName = seer.GetRealName(isMeeting);
 
-                //seerの役職名とSelfTaskTextとseerのプレイヤー名とSelfMarkを合成
-                string SelfRoleName = $"<size={fontSize}>{Helpers.ColorString(seer.GetRoleColor(), seer.GetRoleName())}{SelfTaskText}</size>";
-                string SelfName = $"{Helpers.ColorString(seer.GetRoleColor(), SeerRealName)}{SelfMark}";
-                if (Main.KilledDemo.Contains(seer.PlayerId))
-                    SelfName += $"</size>\r\n{Helpers.ColorString(Utils.GetRoleColor(CustomRoles.Demolitionist), "You killed Demolitionist!")}";
-                // else SelfName = $"{Helpers.ColorString(seer.GetRoleColor(), SeerRealName)}{SelfMark}";
-                if (seer.Is(CustomRoles.Arsonist) && seer.IsDouseDone())
-                    SelfName = $"</size>\r\n{Helpers.ColorString(seer.GetRoleColor(), GetString("EnterVentToWin"))}";
-                SelfName = SelfRoleName + "\r\n" + SelfName;
-                SelfName += SelfSuffix == "" ? "" : "\r\n " + SelfSuffix;
-                if (!isMeeting) SelfName += "\r\n";
+                    string SelfRoleName = $"{Helpers.ColorString(seer.GetRoleColor(), seer.GetRoleName())}{SelfTaskText}";
+                    string SelfName = $"{Helpers.ColorString(seer.GetRoleColor(), SeerRealName)}{SelfMark}";
+                    if (Main.KilledDemo.Contains(seer.PlayerId))
+                        SelfName += $"<size={fontSize}>\r\n{Helpers.ColorString(Utils.GetRoleColor(CustomRoles.Demolitionist), "You killed Demolitionist!")}</size>";
+                    // else SelfName = $"{Helpers.ColorString(seer.GetRoleColor(), SeerRealName)}{SelfMark}";
+                    if (seer.Is(CustomRoles.Arsonist) && seer.IsDouseDone())
+                        SelfName = $"</size>\r\n{Helpers.ColorString(seer.GetRoleColor(), GetString("EnterVentToWin"))}";
+                    SelfName = SelfRoleName + "\r\n" + SelfName;
+                    SelfName += SelfSuffix == "" ? "" : "\r\n " + SelfSuffix;
+                    if (!isMeeting) SelfName += "\r\n";
 
-                //適用
-                seer.RpcSetNamePrivate(SelfName, true, force: NoCache);
+                    //適用
+                    seer.RpcSetNamePrivate(SelfName, true, force: NoCache);
+                }
+                else
+                {
+                    string SeerRealName = seer.GetRealName(isMeeting);
+
+                    //seerの役職名とSelfTaskTextとseerのプレイヤー名とSelfMarkを合成
+                    string SelfRoleName = $"<size={fontSize}>{Helpers.ColorString(seer.GetRoleColor(), seer.GetRoleName())}{SelfTaskText}</size>";
+                    string SelfName = $"{Helpers.ColorString(seer.GetRoleColor(), SeerRealName)}{SelfMark}";
+                    if (Main.KilledDemo.Contains(seer.PlayerId))
+                        SelfName += $"</size>\r\n{Helpers.ColorString(Utils.GetRoleColor(CustomRoles.Demolitionist), "You killed Demolitionist!")}";
+                    // else SelfName = $"{Helpers.ColorString(seer.GetRoleColor(), SeerRealName)}{SelfMark}";
+                    if (seer.Is(CustomRoles.Arsonist) && seer.IsDouseDone())
+                        SelfName = $"</size>\r\n{Helpers.ColorString(seer.GetRoleColor(), GetString("EnterVentToWin"))}";
+                    SelfName = SelfRoleName + "\r\n" + SelfName;
+                    SelfName += SelfSuffix == "" ? "" : "\r\n " + SelfSuffix;
+                    if (!isMeeting) SelfName += "\r\n";
+
+                    //適用
+                    seer.RpcSetNamePrivate(SelfName, true, force: NoCache);
+                }
 
                 //seerが死んでいる場合など、必要なときのみ第二ループを実行する
                 if (seer.Data.IsDead //seerが死んでいる
@@ -1070,9 +1093,7 @@ namespace TownOfHost
                         }
 
                         string TargetDeathReason = "";
-                        if (seer.Is(CustomRoles.Doctor) && //seerがDoctor
-                        target.Data.IsDead //変更対象が死人
-                        )
+                        if (seer.Is(CustomRoles.Doctor) && target.Data.IsDead)
                             TargetDeathReason = $"({Helpers.ColorString(GetRoleColor(CustomRoles.Doctor), GetVitalText(target.PlayerId))})";
 
                         //全てのテキストを合成します。
@@ -1080,6 +1101,27 @@ namespace TownOfHost
 
                         //適用
                         target.RpcSetNamePrivate(TargetName, true, seer, force: NoCache);
+                        if (seer.Is(CustomRoles.Sleuth) && target.Data.IsDead)
+                        {
+                            foreach (var ar in Main.SleuthReported)
+                            {
+                                if (ar.Key != seer.PlayerId) break;
+                                if (ar.Value.Item1 != target.PlayerId) break;
+                                // now we set it to true
+                                var stuff = Main.SleuthReported[seer.PlayerId];
+                                if (stuff.Item2)
+                                {
+                                    string SeerRealName = target.GetRealName(isMeeting);
+
+                                    string SelfRoleName = $"<size={fontSize}>{Helpers.ColorString(target.GetRoleColor(), target.GetRoleName())}{SelfTaskText}</size>";
+                                    string SelfName = $"{Helpers.ColorString(target.GetRoleColor(), SeerRealName)}{TargetMark}";
+                                    SelfName = SelfRoleName + "\r\n" + SelfName;
+                                    SelfName += SelfSuffix == "" ? "" : "\r\n " + SelfSuffix;
+                                    if (!isMeeting) SelfName += "\r\n";
+                                    target.RpcSetNamePrivate(SelfName, true, seer, force: NoCache);
+                                }
+                            }
+                        }
 
                         TownOfHost.Logger.Info("NotifyRoles-Loop2-" + target.GetNameWithRole() + ":END", "NotifyRoles");
                     }

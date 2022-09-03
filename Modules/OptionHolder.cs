@@ -212,6 +212,7 @@ namespace TownOfHost
         public static CustomOption WhenSkipVote;
         public static CustomOption WhenNonVote;
         public static CustomOption Customise;
+        public static CustomOption RolesLikeToU;
         public static readonly string[] voteModes =
         {
             "Default", "Suicide", "SelfVote", "Skip"
@@ -658,8 +659,10 @@ namespace TownOfHost
                 .SetGameMode(CustomGameMode.Standard);
 
             // タスク無効化
-            Customise = CustomOption.Create(101900, Color.white, "Customise", false, null, true)
+            Customise = CustomOption.Create(101900, Color.white, "Customise", true, null, true)
                 .SetGameMode(CustomGameMode.All);
+            RolesLikeToU = CustomOption.Create(102000, Color.white, "RolesLikeToU", false, null, true)
+            .SetGameMode(CustomGameMode.All);
             DisableTasks = CustomOption.Create(100300, Color.white, "DisableTasks", false, null, true)
                 .SetGameMode(CustomGameMode.All);
             DisableSwipeCard = CustomOption.Create(100301, Color.white, "DisableSwipeCardTask", false, DisableTasks)
