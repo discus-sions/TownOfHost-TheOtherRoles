@@ -471,6 +471,7 @@ namespace TownOfHost
                 { CustomRoles.Ninja,"ni"},
                 { CustomRoles.Camouflager,"cf"},
                 { CustomRoles.CorruptedSheriff, "csh" },
+                {CustomRoles.EvilGuesser, "eg"},
                 //Madmate役職
                 { (CustomRoles)(-2), $"== {GetString("Madmate")} ==" }, //区切り用
                 { CustomRoles.MadGuardian, "mg" },
@@ -494,6 +495,7 @@ namespace TownOfHost
                 { CustomRoles.Mayor, "my" },
                 { CustomRoles.Veteran, "vet" },
                 { CustomRoles.SabotageMaster, "sa" },
+                {CustomRoles.NiceGuesser, "ng"},
                 { CustomRoles.Sheriff, "sh" },
                 { CustomRoles.Investigator, "inve" },
                 { CustomRoles.Snitch, "sn" },
@@ -511,6 +513,7 @@ namespace TownOfHost
                 { CustomRoles.Jester, "je" },
                 { CustomRoles.Opportunist, "op" },
                 { CustomRoles.SchrodingerCat, "sc" },
+                {CustomRoles.Pirate, "pi"},
                 { CustomRoles.Terrorist, "te" },
                 { CustomRoles.Jackal, "jac" },
                 //{ CustomRoles.Juggernaut, "jn"},
@@ -593,6 +596,7 @@ namespace TownOfHost
                 { CustomRoles.Camouflager,"cf"},
                 { CustomRoles.Ninja,"ni"},
                 { CustomRoles.CorruptedSheriff, "csh" },
+                {CustomRoles.EvilGuesser, "eg"},
                 //Madmate役職
                 { (CustomRoles)(-2), $"== {GetString("Madmate")} ==" }, //区切り用
                 { CustomRoles.MadGuardian, "mg" },
@@ -617,6 +621,7 @@ namespace TownOfHost
                 { CustomRoles.Veteran, "vet" },
                 { CustomRoles.SabotageMaster, "sa" },
                 { CustomRoles.Sheriff, "sh" },
+                {CustomRoles.NiceGuesser, "ng"},
                 { CustomRoles.Investigator, "inve" },
                // { CustomRoles.CorruptedSheriff, "csh" },
                 { CustomRoles.Snitch, "sn" },
@@ -648,6 +653,7 @@ namespace TownOfHost
                 { CustomRoles.Medusa, "med" },
                 { CustomRoles.TheGlitch, "gl" },
                 { CustomRoles.Werewolf, "ww" },
+                {CustomRoles.Pirate, "pi"},
                 { CustomRoles.Amnesiac, "amne" },
                 { CustomRoles.GuardianAngelTOU, "ga" },
                 { CustomRoles.Hacker, "hac" },
@@ -715,6 +721,9 @@ namespace TownOfHost
                 { CustomRoles.Watcher, "wat" },
                 {CustomRoles.Guesser, "gue"},
                 { CustomRoles.CrewPostor, "cp" },
+                {CustomRoles.NiceGuesser, "ng"},
+                {CustomRoles.EvilGuesser, "eg"},
+                {CustomRoles.Pirate, "pi"},
                 //Crewmate役職
                 { (CustomRoles)(-4), $"== {GetString("Crewmate")} ==" }, //区切り用
                 { CustomRoles.Bait, "ba" },
