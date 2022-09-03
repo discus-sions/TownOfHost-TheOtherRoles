@@ -386,8 +386,9 @@ namespace TownOfHost
                 }
                 //if (Guesser.SetGuesserTeam()) AssignCustomRolesFromList(CustomRoles.Guesser, Impostors);
                 //else { Guesser.SetOtherGuesserTeam(); AssignCustomRolesFromList(CustomRoles.Guesser, Crewmates); }
-                AssignCustomRolesFromList(CustomRoles.Guesser, Impostors);
-                AssignCustomRolesFromList(CustomRoles.Guesser, Crewmates);
+                AssignCustomRolesFromList(CustomRoles.EvilGuesser, Impostors);
+                AssignCustomRolesFromList(CustomRoles.NiceGuesser, Crewmates);
+                AssignCustomRolesFromList(CustomRoles.Pirate, Crewmates);
 
                 AssignCustomRolesFromList(CustomRoles.FireWorks, Shapeshifters);
                 AssignCustomRolesFromList(CustomRoles.Sniper, Shapeshifters);
@@ -505,12 +506,12 @@ namespace TownOfHost
                         // so we dont have multiple poisoners
                         Main.VampireDitchesOn = true;
                     }
-                    if (pc.Is(CustomRoles.Guesser))
-                    {
-                        if (!Guesser.SetGuesserTeam(pc.PlayerId))
-                            Guesser.SetOtherGuesserTeam(pc.PlayerId);
-                        Guesser.SetRoleToGuesser(pc);
-                    }
+                    /* if (pc.Is(CustomRoles.Guesser))
+                     {
+                         if (!Guesser.SetGuesserTeam(pc.PlayerId))
+                             Guesser.SetOtherGuesserTeam(pc.PlayerId);
+                         Guesser.SetRoleToGuesser(pc);
+                     }*/
                 }
                 //if (CustomRoles.Veteran.IsEnable())
                 //    Main.VetAlerts = Options.NumOfVets.GetInt();
@@ -701,8 +702,11 @@ namespace TownOfHost
                             break;
                         case CustomRoles.EvilGuesser:
                         case CustomRoles.NiceGuesser:
+                            Guesser.Add(pc.PlayerId);
+                            break;
                         case CustomRoles.Pirate:
                             Guesser.Add(pc.PlayerId);
+                            Guesser.PirateGuess.Add(pc.PlayerId, 0);
                             break;
                     }
                     pc.ResetKillCooldown();

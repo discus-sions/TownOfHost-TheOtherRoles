@@ -55,7 +55,7 @@ namespace TownOfHost
 
         public static readonly string[] gameModes =
         {
-            "Standard", "HideAndSeek", "ColorWars", "Splatoon", "FreeForAll"
+            "Standard", "HideAndSeek", //"ColorWars", "Splatoon", "FreeForAll"
         };
 
         public static readonly string[] whichDisableAdmin =
@@ -602,6 +602,7 @@ namespace TownOfHost
                 .SetGameMode(CustomGameMode.HideAndSeek);
 
             //#region ColorWars
+            /*
             // COLOR WARS //
 
             // CWAllowCloseDoors = CustomOption.Create(1011000, Color.white, "AllowCloseDoors", false, null, true)
@@ -631,6 +632,7 @@ namespace TownOfHost
                 .SetGameMode(CustomGameMode.FFA);
             JackalHasImpostorVision = CustomOption.Create(50913, Color.white, "JackalHasImpostorVision", true, CustomRoleSpawnChances[CustomRoles.Jackal])
                 .SetGameMode(CustomGameMode.FFA);
+                */
 
             //デバイス無効化
             DisableDevices = CustomOption.Create(101200, Color.white, "DisableDevices", false, null, true)

@@ -52,7 +52,7 @@ namespace TownOfHost
                 GameMode:HideAndSeek & gameMode:Standard == 0
                 GameMode:All         & gameMode:Standard != 0
             */
-            if (gameMode == CustomGameMode.Standard)
+            /*if (gameMode == CustomGameMode.Standard)
                 return true;
             else if (gameMode == CustomGameMode.HideAndSeek)
                 return true;
@@ -63,7 +63,8 @@ namespace TownOfHost
             else if (gameMode == CustomGameMode.FFA)
                 return true;
             else
-                return false;
+                return false;*/
+            return (int)(gameMode & GameMode) == 0;
         }
 
         public bool IsHiddenOnDisplay(CustomGameMode gameMode)
