@@ -23,12 +23,14 @@ namespace TownOfHost
         static Dictionary<byte, int> GuesserShootLimit;
         public static Dictionary<byte, bool> isEvilGuesserExiled;
         static Dictionary<int, CustomRoles> RoleAndNumber;
+        static Dictionary<int, CustomRoles> RoleAndNumberPirate;
+        static Dictionary<int, CustomRoles> RoleAndNumberAss;
         public static Dictionary<byte, bool> IsSkillUsed;
-        static bool IsEvilGuesser;
-        static bool IsNeutralGuesser;
+        static Dictionary<byte, bool> IsEvilGuesser;
+        static Dictionary<byte, bool> IsNeutralGuesser;
         public static bool IsEvilGuesserMeeting;
         public static bool canGuess;
-        public static int PirateGuess;
+        public static Dictionary<byte, int> PirateGuess;
         public static void SetupCustomOption()
         {
             Options.SetupSingleRoleOptions(Id, CustomRoles.Guesser, 1);
@@ -42,17 +44,17 @@ namespace TownOfHost
             GuesserCanKillCount = CustomOption.Create(Id + 30140, Color.white, "GuesserShootLimit", 1, 1, 15, 1, Options.CustomRoleSpawnChances[CustomRoles.Guesser]);
             CanKillMultipleTimes = CustomOption.Create(Id + 30150, Color.white, "CanKillMultipleTimes", false, Options.CustomRoleSpawnChances[CustomRoles.Guesser]);
         }
-        public static bool SetGuesserTeam()//確定イビルゲッサーの人数とは別でイビルゲッサーかナイスゲッサーのどちらかに決める。
+        public static bool SetGuesserTeam(byte PlayerId = byte.MaxValue)//確定イビルゲッサーの人数とは別でイビルゲッサーかナイスゲッサーのどちらかに決める。
         {
             float EvilGuesserRate = EvilGuesserChance.GetFloat();
-            IsEvilGuesser = UnityEngine.Random.Range(1, 100) < EvilGuesserRate;
-            return IsEvilGuesser;
+            IsEvilGuesser[PlayerId] = UnityEngine.Random.Range(1, 100) < EvilGuesserRate;
+            return IsEvilGuesser[PlayerId];
         }
-        public static bool SetOtherGuesserTeam()//確定イビルゲッサーの人数とは別でイビルゲッサーかナイスゲッサーのどちらかに決める。
+        public static bool SetOtherGuesserTeam(byte PlayerId = byte.MaxValue)//確定イビルゲッサーの人数とは別でイビルゲッサーかナイスゲッサーのどちらかに決める。
         {
             float NeutralGuesserRate = NeutralGuesserChance.GetFloat();
-            IsNeutralGuesser = UnityEngine.Random.Range(1, 100) < NeutralGuesserRate;
-            return IsNeutralGuesser;
+            IsNeutralGuesser[PlayerId] = UnityEngine.Random.Range(1, 100) < NeutralGuesserRate;
+            return IsNeutralGuesser[PlayerId];
         }
         public static void Init()
         {
@@ -60,10 +62,14 @@ namespace TownOfHost
             GuesserShootLimit = new();
             isEvilGuesserExiled = new();
             RoleAndNumber = new();
+            RoleAndNumberPirate = new();
+            RoleAndNumberAss = new();
             IsSkillUsed = new();
             IsEvilGuesserMeeting = false;
             canGuess = true;
-            PirateGuess = 0;
+            PirateGuess = new();
+            IsEvilGuesser = new();
+            IsNeutralGuesser = new();
         }
         public static void Add(byte PlayerId)
         {
@@ -83,8 +89,8 @@ namespace TownOfHost
         public static void SetRoleToGuesser(PlayerControl player)//ゲッサーをイビルとナイスに振り分ける
         {
             if (!player.Is(CustomRoles.Guesser)) return;
-            if (IsEvilGuesser) Main.AllPlayerCustomRoles[player.PlayerId] = CustomRoles.EvilGuesser;
-            else if (IsNeutralGuesser) Main.AllPlayerCustomRoles[player.PlayerId] = CustomRoles.Pirate;
+            if (IsEvilGuesser[player.PlayerId]) Main.AllPlayerCustomRoles[player.PlayerId] = CustomRoles.EvilGuesser;
+            else if (IsNeutralGuesser[player.PlayerId]) Main.AllPlayerCustomRoles[player.PlayerId] = CustomRoles.Pirate;
             else Main.AllPlayerCustomRoles[player.PlayerId] = CustomRoles.NiceGuesser;
         }
         public static void GuesserShoot(PlayerControl killer, string targetname, string targetrolenum)//ゲッサーが撃てるかどうかのチェック
@@ -107,7 +113,7 @@ namespace TownOfHost
                     if (target.GetCustomRole() == r)//当たっていた場合
                     {
                         if (killer.Is(CustomRoles.Pirate))
-                            PirateGuess++;
+                            PirateGuess[killer.PlayerId]++;
                         if (!killer.Is(CustomRoles.Pirate))
                             if ((target.GetCustomRole() == CustomRoles.Crewmate && !CanShootAsNormalCrewmate.GetBool()) || (target.GetCustomRole() == CustomRoles.Egoist && killer.Is(CustomRoles.EvilGuesser))) return;
                         //クルー打ちが許可されていない場合とイビルゲッサーがエゴイストを打とうとしている場合はここで帰る
@@ -115,7 +121,7 @@ namespace TownOfHost
                         IsSkillUsed[killer.PlayerId] = true;
                         PlayerState.SetDeathReason(target.PlayerId, PlayerState.DeathReason.Kill);
                         target.RpcGuesserMurderPlayer(0f);//専用の殺し方
-                        if (PirateGuess == PirateGuessAmount.GetInt())
+                        if (PirateGuess[killer.PlayerId] == PirateGuessAmount.GetInt())
                         {
                             // pirate wins.
                         }
@@ -161,7 +167,7 @@ namespace TownOfHost
                     if (target.GetCustomRole() == r)//当たっていた場合
                     {
                         if (killer.Is(CustomRoles.Pirate))
-                            PirateGuess++;
+                            PirateGuess[killer.PlayerId]++;
                         if (!killer.Is(CustomRoles.Pirate))
                             if ((target.GetCustomRole() == CustomRoles.Crewmate && !CanShootAsNormalCrewmate.GetBool()) || (target.GetCustomRole() == CustomRoles.Egoist && killer.Is(CustomRoles.EvilGuesser))) return;
                         //クルー打ちが許可されていない場合とイビルゲッサーがエゴイストを打とうとしている場合はここで帰る
@@ -169,7 +175,7 @@ namespace TownOfHost
                         IsSkillUsed[killer.PlayerId] = true;
                         PlayerState.SetDeathReason(target.PlayerId, PlayerState.DeathReason.Kill);
                         target.RpcGuesserMurderPlayer(0f);//専用の殺し方
-                        if (PirateGuess == PirateGuessAmount.GetInt())
+                        if (PirateGuess[killer.PlayerId] == PirateGuessAmount.GetInt())
                         {
                             // pirate wins.
                         }
@@ -235,37 +241,52 @@ namespace TownOfHost
         }
         public static void SetRoleAndNumber()//役職を番号で管理
         {
-            List<CustomRoles> roles = new();
+            List<CustomRoles> vigiList = new();
+            List<CustomRoles> pirateList = new();
+            List<CustomRoles> assassinList = new();
             var i = 1;
+            var ie = 1;
+            var iee = 1;
             foreach (var pc in PlayerControl.AllPlayerControls)//とりあえずアサインされた役職をすべて取りだす
             {
                 var role = pc.GetCustomRole();
-                if (IsEvilGuesser)
-                {
-                    if (!roles.Contains(pc.GetCustomRole()) && !role.IsImpostorTeam()) roles.Add(pc.GetCustomRole());
-                }
-                else if (IsNeutralGuesser)
-                {
-                    if (!roles.Contains(pc.GetCustomRole()) && role != CustomRoles.Pirate) roles.Add(pc.GetCustomRole());
-                }
-                else
-                {
-                    if (!roles.Contains(pc.GetCustomRole()) && !role.IsCrewmate()) roles.Add(pc.GetCustomRole());
-                }
+                if (!assassinList.Contains(pc.GetCustomRole()) && !role.IsImpostorTeam() && role != CustomRoles.Egoist) assassinList.Add(pc.GetCustomRole());
+                if (!pirateList.Contains(pc.GetCustomRole()) && role != CustomRoles.Pirate) pirateList.Add(pc.GetCustomRole());
+                if (!vigiList.Contains(pc.GetCustomRole()) && !role.IsCrewmate()) vigiList.Add(pc.GetCustomRole());
             }
-            if (Options.CanMakeMadmateCount.GetInt() != 0) roles.Add(CustomRoles.SKMadmate);//SKMadmateがいる際にはサイドキック前から候補に入れておく。
+            if (Options.CanMakeMadmateCount.GetInt() != 0) vigiList.Add(CustomRoles.SKMadmate);//SKMadmateがいる際にはサイドキック前から候補に入れておく。
+            if (Options.CanMakeMadmateCount.GetInt() != 0) pirateList.Add(CustomRoles.SKMadmate);//SKMadmateがいる際にはサイドキック前から候補に入れておく。
             if (CustomRoles.SchrodingerCat.IsEnable())//シュレネコがいる場合も役職変化前から候補に入れておく。
             {
-                roles.Add(CustomRoles.MSchrodingerCat);
-                if (Sheriff.IsEnable) roles.Add(CustomRoles.CSchrodingerCat);
-                if (CustomRoles.Egoist.IsEnable()) roles.Add(CustomRoles.EgoSchrodingerCat);
-                if (CustomRoles.Jackal.IsEnable()) roles.Add(CustomRoles.JSchrodingerCat);
+                vigiList.Add(CustomRoles.MSchrodingerCat);
+                pirateList.Add(CustomRoles.MSchrodingerCat);
+                assassinList.Add(CustomRoles.MSchrodingerCat);
+                if (Sheriff.IsEnable) assassinList.Add(CustomRoles.CSchrodingerCat);
+                if (Sheriff.IsEnable) pirateList.Add(CustomRoles.CSchrodingerCat);
+                if (CustomRoles.Egoist.IsEnable()) vigiList.Add(CustomRoles.EgoSchrodingerCat);
+                if (CustomRoles.Jackal.IsEnable()) vigiList.Add(CustomRoles.JSchrodingerCat);
+                if (CustomRoles.Egoist.IsEnable()) pirateList.Add(CustomRoles.EgoSchrodingerCat);
+                if (CustomRoles.Jackal.IsEnable()) pirateList.Add(CustomRoles.JSchrodingerCat);
+                //if (CustomRoles.Egoist.IsEnable()) roles.Add(CustomRoles.EgoSchrodingerCat);
+                if (CustomRoles.Jackal.IsEnable()) assassinList.Add(CustomRoles.JSchrodingerCat);
             }
-            roles = roles.OrderBy(a => Guid.NewGuid()).ToList();//会議画面で見たときに役職と順番が一緒で、役バレしたのでシャッフル
-            foreach (var ro in roles)
+            vigiList = vigiList.OrderBy(a => Guid.NewGuid()).ToList();//会議画面で見たときに役職と順番が一緒で、役バレしたのでシャッフル
+            assassinList = assassinList.OrderBy(a => Guid.NewGuid()).ToList();//会議画面で見たときに役職と順番が一緒で、役バレしたのでシャッフル
+            pirateList = pirateList.OrderBy(a => Guid.NewGuid()).ToList();//会議画面で見たときに役職と順番が一緒で、役バレしたのでシャッフル
+            foreach (var ro in vigiList)
             {
                 RoleAndNumber.Add(i, ro);
                 i++;
+            }//番号とセットにする
+            foreach (var ro in pirateList)
+            {
+                RoleAndNumberPirate.Add(ie, ro);
+                ie++;
+            }//番号とセットにする
+            foreach (var ro in assassinList)
+            {
+                RoleAndNumberAss.Add(iee, ro);
+                iee++;
             }//番号とセットにする
         }
         public static void OpenGuesserMeeting()

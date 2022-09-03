@@ -45,7 +45,7 @@ namespace TownOfHost
                     return CustomGameMode.ColorWars;
                 case 3:
                     return CustomGameMode.Splatoon;
-                    case 4:
+                case 4:
                     return CustomGameMode.FFA;
                 default:
                     return CustomGameMode.Standard;
@@ -622,6 +622,15 @@ namespace TownOfHost
             STIgnoreVent = CustomOption.Create(1001003, Color.white, "CanVent", false)
                 .SetGameMode(CustomGameMode.Splatoon);
             // #endregion
+
+            // FFA //
+            SetupSingleRoleOptions(50900, CustomRoles.Jackal, 15, CustomGameMode.FFA);
+            JackalKillCooldown = CustomOption.Create(50910, Color.white, "JackalKillCooldown", 30, 2.5f, 180, 2.5f, CustomRoleSpawnChances[CustomRoles.Jackal])
+                .SetGameMode(CustomGameMode.FFA);
+            JackalCanVent = CustomOption.Create(50911, Color.white, "JackalCanVent", true, CustomRoleSpawnChances[CustomRoles.Jackal])
+                .SetGameMode(CustomGameMode.FFA);
+            JackalHasImpostorVision = CustomOption.Create(50913, Color.white, "JackalHasImpostorVision", true, CustomRoleSpawnChances[CustomRoles.Jackal])
+                .SetGameMode(CustomGameMode.FFA);
 
             //デバイス無効化
             DisableDevices = CustomOption.Create(101200, Color.white, "DisableDevices", false, null, true)

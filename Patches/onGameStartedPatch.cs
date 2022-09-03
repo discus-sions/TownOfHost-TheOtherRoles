@@ -179,79 +179,97 @@ namespace TownOfHost
             if (Options.CurrentGameMode() != CustomGameMode.HideAndSeek)
             {
                 //役職の人数を指定
-                RoleOptionsData roleOpt = PlayerControl.GameOptions.RoleOptions;
-                int ScientistNum = roleOpt.GetNumPerGame(RoleTypes.Scientist);
-                int AdditionalScientistNum = CustomRoles.Doctor.GetCount();
-                roleOpt.SetRoleRate(RoleTypes.Scientist, ScientistNum + AdditionalScientistNum, AdditionalScientistNum > 0 ? 100 : roleOpt.GetChancePerGame(RoleTypes.Scientist));
-
-                int EngineerNum = roleOpt.GetNumPerGame(RoleTypes.Engineer);
-
-                int AdditionalEngineerNum = CustomRoles.Madmate.GetCount() + CustomRoles.Terrorist.GetCount();// - EngineerNum;
-
-                if (Options.MayorHasPortableButton.GetBool())
-                    AdditionalEngineerNum += CustomRoles.Mayor.GetCount();
-
-                if (Options.MadSnitchCanVent.GetBool())
-                    AdditionalEngineerNum += CustomRoles.MadSnitch.GetCount();
-
-                if (Options.JesterCanVent.GetBool())
-                    AdditionalEngineerNum += CustomRoles.Jester.GetCount();
-
-                if (CustomRoles.Bastion.IsEnable())
-                    AdditionalEngineerNum += CustomRoles.Bastion.GetCount();
-
-                if (CustomRoles.Veteran.IsEnable())
-                    AdditionalEngineerNum += CustomRoles.Veteran.GetCount();
-
-                if (CustomRoles.GuardianAngelTOU.IsEnable())
-                    AdditionalEngineerNum += CustomRoles.GuardianAngelTOU.GetCount();
-
-                roleOpt.SetRoleRate(RoleTypes.Engineer, EngineerNum + AdditionalEngineerNum, AdditionalEngineerNum > 0 ? 100 : roleOpt.GetChancePerGame(RoleTypes.Engineer));
-
-                int ShapeshifterNum = roleOpt.GetNumPerGame(RoleTypes.Shapeshifter);
-                int AdditionalShapeshifterNum = CustomRoles.SerialKiller.GetCount() + CustomRoles.TheGlitch.GetCount() + CustomRoles.BountyHunter.GetCount() + CustomRoles.Camouflager.GetCount() + CustomRoles.Warlock.GetCount()/* + CustomRoles.ShapeMaster.GetCount()*/ + CustomRoles.FireWorks.GetCount() + CustomRoles.Sniper.GetCount() + CustomRoles.Ninja.GetCount(); ;//- ShapeshifterNum;
-                if (Main.RealOptionsData.NumImpostors > 1)
-                    AdditionalShapeshifterNum += CustomRoles.Egoist.GetCount();
-                //if (CustomRoles.TheGlitch.IsEnable())
-                //   AdditionalShapeshifterNum += CustomRoles.TheGlitch.GetCount();
-                roleOpt.SetRoleRate(RoleTypes.Shapeshifter, ShapeshifterNum + AdditionalShapeshifterNum, AdditionalShapeshifterNum > 0 ? 100 : roleOpt.GetChancePerGame(RoleTypes.Shapeshifter));
-
-
-                List<PlayerControl> AllPlayers = new();
-                foreach (var pc in PlayerControl.AllPlayerControls)
+                if (Options.CurrentGameMode() != CustomGameMode.FFA)
                 {
-                    AllPlayers.Add(pc);
-                }
+                    if (Options.CurrentGameMode() != CustomGameMode.Splatoon)
+                    {
+                        if (Options.CurrentGameMode() != CustomGameMode.ColorWars)
+                        {
+                            RoleOptionsData roleOpt = PlayerControl.GameOptions.RoleOptions;
+                            int ScientistNum = roleOpt.GetNumPerGame(RoleTypes.Scientist);
+                            int AdditionalScientistNum = CustomRoles.Doctor.GetCount();
+                            roleOpt.SetRoleRate(RoleTypes.Scientist, ScientistNum + AdditionalScientistNum, AdditionalScientistNum > 0 ? 100 : roleOpt.GetChancePerGame(RoleTypes.Scientist));
 
-                if (Options.EnableGM.GetBool())
+                            int EngineerNum = roleOpt.GetNumPerGame(RoleTypes.Engineer);
+
+                            int AdditionalEngineerNum = CustomRoles.Madmate.GetCount() + CustomRoles.Terrorist.GetCount();// - EngineerNum;
+
+                            if (Options.MayorHasPortableButton.GetBool())
+                                AdditionalEngineerNum += CustomRoles.Mayor.GetCount();
+
+                            if (Options.MadSnitchCanVent.GetBool())
+                                AdditionalEngineerNum += CustomRoles.MadSnitch.GetCount();
+
+                            if (Options.JesterCanVent.GetBool())
+                                AdditionalEngineerNum += CustomRoles.Jester.GetCount();
+
+                            if (CustomRoles.Bastion.IsEnable())
+                                AdditionalEngineerNum += CustomRoles.Bastion.GetCount();
+
+                            if (CustomRoles.Veteran.IsEnable())
+                                AdditionalEngineerNum += CustomRoles.Veteran.GetCount();
+
+                            if (CustomRoles.GuardianAngelTOU.IsEnable())
+                                AdditionalEngineerNum += CustomRoles.GuardianAngelTOU.GetCount();
+
+                            roleOpt.SetRoleRate(RoleTypes.Engineer, EngineerNum + AdditionalEngineerNum, AdditionalEngineerNum > 0 ? 100 : roleOpt.GetChancePerGame(RoleTypes.Engineer));
+
+                            int ShapeshifterNum = roleOpt.GetNumPerGame(RoleTypes.Shapeshifter);
+                            int AdditionalShapeshifterNum = CustomRoles.SerialKiller.GetCount() + CustomRoles.TheGlitch.GetCount() + CustomRoles.BountyHunter.GetCount() + CustomRoles.Camouflager.GetCount() + CustomRoles.Warlock.GetCount()/* + CustomRoles.ShapeMaster.GetCount()*/ + CustomRoles.FireWorks.GetCount() + CustomRoles.Sniper.GetCount() + CustomRoles.Ninja.GetCount(); ;//- ShapeshifterNum;
+                            if (Main.RealOptionsData.NumImpostors > 1)
+                                AdditionalShapeshifterNum += CustomRoles.Egoist.GetCount();
+                            //if (CustomRoles.TheGlitch.IsEnable())
+                            //   AdditionalShapeshifterNum += CustomRoles.TheGlitch.GetCount();
+                            roleOpt.SetRoleRate(RoleTypes.Shapeshifter, ShapeshifterNum + AdditionalShapeshifterNum, AdditionalShapeshifterNum > 0 ? 100 : roleOpt.GetChancePerGame(RoleTypes.Shapeshifter));
+
+
+                            List<PlayerControl> AllPlayers = new();
+                            foreach (var pc in PlayerControl.AllPlayerControls)
+                            {
+                                AllPlayers.Add(pc);
+                            }
+
+                            if (Options.EnableGM.GetBool())
+                            {
+                                AllPlayers.RemoveAll(x => x == PlayerControl.LocalPlayer);
+                                PlayerControl.LocalPlayer.RpcSetCustomRole(CustomRoles.GM);
+                                PlayerControl.LocalPlayer.RpcSetRole(RoleTypes.Crewmate);
+                                PlayerControl.LocalPlayer.Data.IsDead = true;
+                            }
+
+                            AssignDesyncRole(CustomRoles.Sheriff, AllPlayers, sender, BaseRole: RoleTypes.Impostor);
+                            AssignDesyncRole(CustomRoles.Investigator, AllPlayers, sender, BaseRole: RoleTypes.Impostor);
+                            AssignDesyncRole(CustomRoles.Arsonist, AllPlayers, sender, BaseRole: RoleTypes.Impostor);
+                            AssignDesyncRole(CustomRoles.Jackal, AllPlayers, sender, BaseRole: RoleTypes.Impostor);
+                            AssignDesyncRole(CustomRoles.Juggernaut, AllPlayers, sender, BaseRole: RoleTypes.Impostor);
+                            AssignDesyncRole(CustomRoles.PlagueBearer, AllPlayers, sender, BaseRole: RoleTypes.Impostor);
+                            AssignDesyncRole(CustomRoles.TheGlitch, AllPlayers, sender, BaseRole: RoleTypes.Shapeshifter);
+                            AssignDesyncRole(CustomRoles.Werewolf, AllPlayers, sender, BaseRole: RoleTypes.Impostor);
+                            AssignDesyncRole(CustomRoles.BloodKnight, AllPlayers, sender, BaseRole: RoleTypes.Impostor);
+                            AssignDesyncRole(CustomRoles.Amnesiac, AllPlayers, sender, BaseRole: RoleTypes.Impostor);
+
+                            //COVEN 
+                            AssignDesyncRole(CustomRoles.Coven, AllPlayers, sender, BaseRole: RoleTypes.Impostor);
+                            //AssignCovenRoles
+                            AssignDesyncRole(CustomRoles.CovenWitch, AllPlayers, sender, BaseRole: RoleTypes.Impostor);
+                            AssignDesyncRole(CustomRoles.HexMaster, AllPlayers, sender, BaseRole: RoleTypes.Impostor);
+                            AssignDesyncRole(CustomRoles.PotionMaster, AllPlayers, sender, BaseRole: RoleTypes.Impostor);
+                            AssignDesyncRole(CustomRoles.Poisoner, AllPlayers, sender, BaseRole: RoleTypes.Impostor);
+                            AssignDesyncRole(CustomRoles.Medusa, AllPlayers, sender, BaseRole: RoleTypes.Impostor);
+                            AssignDesyncRole(CustomRoles.Mimic, AllPlayers, sender, BaseRole: RoleTypes.Impostor);
+                            AssignDesyncRole(CustomRoles.Necromancer, AllPlayers, sender, BaseRole: RoleTypes.Impostor);
+                        }
+                    }
+                }
+                else
                 {
-                    AllPlayers.RemoveAll(x => x == PlayerControl.LocalPlayer);
-                    PlayerControl.LocalPlayer.RpcSetCustomRole(CustomRoles.GM);
-                    PlayerControl.LocalPlayer.RpcSetRole(RoleTypes.Crewmate);
-                    PlayerControl.LocalPlayer.Data.IsDead = true;
+                    List<PlayerControl> AllPlayers = new();
+                    foreach (var pc in PlayerControl.AllPlayerControls)
+                    {
+                        AllPlayers.Add(pc);
+                    }
+                    AssignDesyncRole(CustomRoles.Jackal, AllPlayers, sender, BaseRole: RoleTypes.Impostor);
                 }
-
-                AssignDesyncRole(CustomRoles.Sheriff, AllPlayers, sender, BaseRole: RoleTypes.Impostor);
-                AssignDesyncRole(CustomRoles.Investigator, AllPlayers, sender, BaseRole: RoleTypes.Impostor);
-                AssignDesyncRole(CustomRoles.Arsonist, AllPlayers, sender, BaseRole: RoleTypes.Impostor);
-                AssignDesyncRole(CustomRoles.Jackal, AllPlayers, sender, BaseRole: RoleTypes.Impostor);
-                AssignDesyncRole(CustomRoles.Juggernaut, AllPlayers, sender, BaseRole: RoleTypes.Impostor);
-                AssignDesyncRole(CustomRoles.PlagueBearer, AllPlayers, sender, BaseRole: RoleTypes.Impostor);
-                AssignDesyncRole(CustomRoles.TheGlitch, AllPlayers, sender, BaseRole: RoleTypes.Shapeshifter);
-                AssignDesyncRole(CustomRoles.Werewolf, AllPlayers, sender, BaseRole: RoleTypes.Impostor);
-                AssignDesyncRole(CustomRoles.BloodKnight, AllPlayers, sender, BaseRole: RoleTypes.Impostor);
-                AssignDesyncRole(CustomRoles.Amnesiac, AllPlayers, sender, BaseRole: RoleTypes.Impostor);
-
-                //COVEN 
-                AssignDesyncRole(CustomRoles.Coven, AllPlayers, sender, BaseRole: RoleTypes.Impostor);
-                //AssignCovenRoles
-                AssignDesyncRole(CustomRoles.CovenWitch, AllPlayers, sender, BaseRole: RoleTypes.Impostor);
-                AssignDesyncRole(CustomRoles.HexMaster, AllPlayers, sender, BaseRole: RoleTypes.Impostor);
-                AssignDesyncRole(CustomRoles.PotionMaster, AllPlayers, sender, BaseRole: RoleTypes.Impostor);
-                AssignDesyncRole(CustomRoles.Poisoner, AllPlayers, sender, BaseRole: RoleTypes.Impostor);
-                AssignDesyncRole(CustomRoles.Medusa, AllPlayers, sender, BaseRole: RoleTypes.Impostor);
-                AssignDesyncRole(CustomRoles.Mimic, AllPlayers, sender, BaseRole: RoleTypes.Impostor);
-                AssignDesyncRole(CustomRoles.Necromancer, AllPlayers, sender, BaseRole: RoleTypes.Impostor);
             }
             if (sender.CurrentState == CustomRpcSender.State.InRootMessage) sender.EndMessage();
             //以下、バニラ側の役職割り当てが入る
@@ -332,11 +350,44 @@ namespace TownOfHost
                 //色設定処理
                 SetColorPatch.IsAntiGlitchDisabled = true;
             }
+            else if (Options.CurrentGameMode() == CustomGameMode.Splatoon)
+            {
+                SetColorPatch.IsAntiGlitchDisabled = true;
+
+                //役職設定処理
+                AssignCustomRolesFromList(CustomRoles.HASFox, Crewmates);
+                AssignCustomRolesFromList(CustomRoles.HASTroll, Crewmates);
+                foreach (var pair in Main.AllPlayerCustomRoles)
+                {
+                    //RPCによる同期
+                    ExtendedPlayerControl.RpcSetCustomRole(pair.Key, pair.Value);
+                }
+                //色設定処理
+                SetColorPatch.IsAntiGlitchDisabled = true;
+            }
+            else if (Options.CurrentGameMode() == CustomGameMode.ColorWars)
+            {
+
+            }
+            else if (Options.CurrentGameMode() == CustomGameMode.FFA)
+            {
+                foreach (var pair in Main.AllPlayerCustomRoles)
+                {
+                    //RPCによる同期
+                    ExtendedPlayerControl.RpcSetCustomRole(pair.Key, pair.Value);
+                }
+            }
             else
             {
-                if (Guesser.SetGuesserTeam()) AssignCustomRolesFromList(CustomRoles.Guesser, Impostors);
-                else { Guesser.SetOtherGuesserTeam(); AssignCustomRolesFromList(CustomRoles.Guesser, Crewmates); }
-
+                List<PlayerControl> AllPlayers = new();
+                foreach (var pc in PlayerControl.AllPlayerControls)
+                {
+                    AllPlayers.Add(pc);
+                }
+                //if (Guesser.SetGuesserTeam()) AssignCustomRolesFromList(CustomRoles.Guesser, Impostors);
+                //else { Guesser.SetOtherGuesserTeam(); AssignCustomRolesFromList(CustomRoles.Guesser, Crewmates); }
+                AssignCustomRolesFromList(CustomRoles.Guesser, Impostors);
+                AssignCustomRolesFromList(CustomRoles.Guesser, Crewmates);
 
                 AssignCustomRolesFromList(CustomRoles.FireWorks, Shapeshifters);
                 AssignCustomRolesFromList(CustomRoles.Sniper, Shapeshifters);
@@ -454,7 +505,12 @@ namespace TownOfHost
                         // so we dont have multiple poisoners
                         Main.VampireDitchesOn = true;
                     }
-                    Guesser.SetRoleToGuesser(pc);
+                    if (pc.Is(CustomRoles.Guesser))
+                    {
+                        if (!Guesser.SetGuesserTeam(pc.PlayerId))
+                            Guesser.SetOtherGuesserTeam(pc.PlayerId);
+                        Guesser.SetRoleToGuesser(pc);
+                    }
                 }
                 //if (CustomRoles.Veteran.IsEnable())
                 //    Main.VetAlerts = Options.NumOfVets.GetInt();

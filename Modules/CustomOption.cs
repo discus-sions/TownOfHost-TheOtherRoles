@@ -52,15 +52,15 @@ namespace TownOfHost
                 GameMode:HideAndSeek & gameMode:Standard == 0
                 GameMode:All         & gameMode:Standard != 0
             */
-            if (gameMode == 0 && GameMode == 0)
+            if (gameMode == CustomGameMode.Standard && GameMode == CustomGameMode.Standard)
                 return (int)(gameMode & GameMode) == 0;
-            else if (gameMode == 1 && GameMode == 1)
+            else if (gameMode == CustomGameMode.HideAndSeek && GameMode == CustomGameMode.HideAndSeek)
                 return (int)(gameMode & GameMode) == 1;
-            else if (gameMode == 2 && GameMode == 2)
+            else if (gameMode == CustomGameMode.ColorWars && GameMode == CustomGameMode.ColorWars)
                 return (int)(gameMode & GameMode) == 2;
-            else if (gameMode == 3 && GameMode == 3)
+            else if (gameMode == CustomGameMode.Splatoon && GameMode == CustomGameMode.Splatoon)
                 return (int)(gameMode & GameMode) == 3;
-            else if (gameMode == 4 && GameMode == 4)
+            else if (gameMode == CustomGameMode.FFA && GameMode == CustomGameMode.FFA)
                 return (int)(gameMode & GameMode) == 4;
             else
                 return (int)(gameMode & GameMode) == 0;
