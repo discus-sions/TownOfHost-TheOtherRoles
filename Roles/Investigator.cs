@@ -101,6 +101,8 @@ namespace TownOfHost
                 CustomRoles.PlagueBearer => NKareRed.GetBool(),
                 CustomRoles.Juggernaut => NKareRed.GetBool(),
                 CustomRoles.Vulture => NEareRed.GetBool(),
+                CustomRoles.Pirate => NKareRed.GetBool(),
+                CustomRoles.NiceGuesser => CrewKillingRed.GetBool(),
                 CustomRoles.TheGlitch => NKareRed.GetBool(),
                 CustomRoles.BloodKnight => NKareRed.GetBool(),
                 CustomRoles.Werewolf => NKareRed.GetBool(),

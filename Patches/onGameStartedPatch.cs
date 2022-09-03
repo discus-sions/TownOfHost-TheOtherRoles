@@ -646,6 +646,7 @@ namespace TownOfHost
                             {
                                 if (pc == target) continue;
                                 else if (!Options.ExecutionerCanTargetImpostor.GetBool() && target.GetCustomRole().IsImpostor()) continue;
+                                else if (target.GetCustomRole().IsNeutral()) continue;
 
                                 targetList.Add(target);
                             }

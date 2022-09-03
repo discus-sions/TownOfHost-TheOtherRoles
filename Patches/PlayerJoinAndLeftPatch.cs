@@ -79,7 +79,7 @@ namespace TownOfHost
                 }
                 if (data.Character.LastImpostor())
                 {
-                    Main.currentWinner = CustomWinner.None;
+                    //Main.currentWinner = CustomWinner.None;
                     ShipStatus.Instance.enabled = false;
                     ShipStatus.RpcEndGame(GameOverReason.ImpostorDisconnect, false);
                 }

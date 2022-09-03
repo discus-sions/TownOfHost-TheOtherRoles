@@ -832,7 +832,7 @@ namespace TownOfHost
                     // else SelfName = $"{Helpers.ColorString(seer.GetRoleColor(), SeerRealName)}{SelfMark}";
                     if (seer.Is(CustomRoles.Arsonist) && seer.IsDouseDone())
                         SelfName = $"</size>\r\n{Helpers.ColorString(seer.GetRoleColor(), GetString("EnterVentToWin"))}";
-                    SelfName = SelfRoleName + "\r\n" + SelfName;
+                    SelfName = SelfName + "\r\n" + SelfRoleName;
                     SelfName += SelfSuffix == "" ? "" : "\r\n " + SelfSuffix;
                     if (!isMeeting) SelfName += "\r\n";
 
