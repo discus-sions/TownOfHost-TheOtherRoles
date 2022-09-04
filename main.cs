@@ -216,6 +216,7 @@ namespace TownOfHost
             AllPlayerCustomSubRoles = new Dictionary<byte, CustomRoles>();
             CustomWinTrigger = false;
             BitPlayers = new Dictionary<byte, (byte, float)>();
+            SurvivorStuff = new Dictionary<byte, (int, bool, bool, bool, bool)>();
             WarlockTimer = new Dictionary<byte, float>();
             CursedPlayers = new Dictionary<byte, PlayerControl>();
             SpelledPlayer = new List<PlayerControl>();

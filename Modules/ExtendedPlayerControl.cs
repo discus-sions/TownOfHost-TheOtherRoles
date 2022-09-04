@@ -415,8 +415,8 @@ namespace TownOfHost
                         {
                             if (stuff.Item5)
                             {
-                                opt.RoleOptions.EngineerCooldown = 10f;
-                                stuff.Item5 = true;
+                                opt.RoleOptions.EngineerCooldown = 10;
+                                stuff.Item5 = false;
                             }
                             else if (!stuff.Item4)
                                 opt.RoleOptions.EngineerCooldown = Options.VestCD.GetFloat();
@@ -897,19 +897,16 @@ namespace TownOfHost
         {
             if (survivor.Is(CustomRoles.Survivor))
             {
-                foreach (var ar in Main.SurvivorStuff)
+                var stuff = Main.SurvivorStuff[survivor.PlayerId];
+                if (stuff.Item1 != Options.NumOfVests.GetInt())
                 {
-                    if (ar.Key != survivor.PlayerId) break;
-                    var stuff = Main.SurvivorStuff[survivor.PlayerId];
-                    if (stuff.Item1 != Options.NumOfVests.GetInt())
+                    stuff.Item1++;
+                    stuff.Item2 = true;
+                    stuff.Item4 = true;
+                    new LateTask(() =>
                     {
-                        stuff.Item1++;
-                        stuff.Item2 = true;
-                        new LateTask(() =>
-                        {
-                            stuff.Item2 = false;
-                        }, Options.VestDuration.GetFloat(), "Survivor Vesting Duration");
-                    }
+                        stuff.Item2 = false;
+                    }, Options.VestDuration.GetFloat(), "Survivor Vesting Duration");
                 }
             }
         }

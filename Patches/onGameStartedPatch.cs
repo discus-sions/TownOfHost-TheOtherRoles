@@ -211,6 +211,8 @@ namespace TownOfHost
 
                             if (CustomRoles.Veteran.IsEnable())
                                 AdditionalEngineerNum += CustomRoles.Veteran.GetCount();
+                            if (CustomRoles.Survivor.IsEnable())
+                                AdditionalEngineerNum += CustomRoles.Survivor.GetCount();
 
                             if (CustomRoles.GuardianAngelTOU.IsEnable())
                                 AdditionalEngineerNum += CustomRoles.GuardianAngelTOU.GetCount();
@@ -411,7 +413,7 @@ namespace TownOfHost
                 AssignCustomRolesFromList(CustomRoles.MadSnitch, Options.MadSnitchCanVent.GetBool() ? Engineers : Crewmates);
                 AssignCustomRolesFromList(CustomRoles.Mayor, Options.MayorHasPortableButton.GetBool() ? Engineers : Crewmates);
                 AssignCustomRolesFromList(CustomRoles.Opportunist, Crewmates);
-                AssignCustomRolesFromList(CustomRoles.Survivor, Crewmates);
+                AssignCustomRolesFromList(CustomRoles.Survivor, Engineers);
                 AssignCustomRolesFromList(CustomRoles.Snitch, Crewmates);
                 AssignCustomRolesFromList(CustomRoles.SabotageMaster, Crewmates);
                 AssignCustomRolesFromList(CustomRoles.Hacker, Crewmates);
@@ -643,7 +645,7 @@ namespace TownOfHost
                                 Main.isInfected.Add((pc.PlayerId, ar.PlayerId), false);
                             break;
                         case CustomRoles.Survivor:
-                            Main.SurvivorStuff.Add(pc.PlayerId, (0, false, false, false, false));
+                            Main.SurvivorStuff.Add(pc.PlayerId, (0, false, false, false, true));
                             break;
                         case CustomRoles.Executioner:
                             List<PlayerControl> targetList = new();

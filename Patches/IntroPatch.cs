@@ -222,6 +222,7 @@ namespace TownOfHost
                 case CustomRoles.Veteran:
                 case CustomRoles.Jester:
                 case CustomRoles.GuardianAngelTOU:
+                case CustomRoles.Survivor:
                 case CustomRoles.Mayor:
                 case CustomRoles.PlagueBearer:
                     PlayerControl.LocalPlayer.Data.Role.IntroSound = GetIntroSound(RoleTypes.Crewmate);

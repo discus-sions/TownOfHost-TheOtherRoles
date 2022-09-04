@@ -220,6 +220,14 @@ namespace TownOfHost
                         return false;
                     }
                     break;
+                case CustomRoles.Survivor:
+                    var stuff = Main.SurvivorStuff[target.PlayerId];
+                    if (stuff.Item2 == true)
+                    {
+                        killer.RpcGuardAndKill(target);
+                        return false;
+                    }
+                    break;
             }
 
             Main.whoKilledWho.Add(killer, target);
@@ -264,20 +272,6 @@ namespace TownOfHost
                 {
                     target.RpcMurderPlayer(killer);
                     return false;
-                }
-                if (target.Is(CustomRoles.Survivor))
-                {
-                    foreach (var ar in Main.SurvivorStuff)
-                    {
-                        if (ar.Key != target.PlayerId) break;
-                        var stuff = Main.SurvivorStuff[target.PlayerId];
-                        if (stuff.Item2)
-                        {
-                            //killer.RpcGuardAndKill(killer);
-                            killer.RpcGuardAndKill(target);
-                            return false;
-                        }
-                    }
                 }
                 if (target.Is(CustomRoles.BloodKnight))
                 {
