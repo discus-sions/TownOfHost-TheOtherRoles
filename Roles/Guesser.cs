@@ -205,6 +205,18 @@ namespace TownOfHost
                         if (PirateGuess[killer.PlayerId] == PirateGuessAmount.GetInt())
                         {
                             // pirate wins.
+                            //__instance.enabled = false;
+                            var endReason = TempData.LastDeathReason switch
+                            {
+                                DeathReason.Exile => GameOverReason.ImpostorByVote,
+                                DeathReason.Kill => GameOverReason.ImpostorByKill,
+                                _ => GameOverReason.ImpostorByVote,
+                            };
+
+                            MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.EndGame, Hazel.SendOption.Reliable, -1);
+                            writer.Write((byte)CustomWinner.Pirate);
+                            AmongUsClient.Instance.FinishRpcImmediately(writer);
+                            RPC.PirateWin(killer.PlayerId);
                         }
                         return;
                     }
