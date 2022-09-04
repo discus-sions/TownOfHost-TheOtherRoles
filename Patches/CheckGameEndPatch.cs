@@ -475,7 +475,7 @@ namespace TownOfHost
         private static bool CheckAndEndGameForArsonist(ShipStatus __instance, PlayerStatistics statistics)
         {
             if (statistics.TeamArsoAlive >= statistics.TotalAlive - statistics.TeamArsoAlive &&
-                statistics.TeamImpostorsAlive <= 0 && statistics.TeamJuggernautAlive <= 0 && statistics.TeamPestiAlive <= 0
+                statistics.TeamImpostorsAlive <= 0 && statistics.TeamJuggernautAlive <= 0 && statistics.TeamPestiAlive <= 0 && statistics.TeamJackalAlive <= 0
                 && statistics.TeamWolfAlive <= 0 && statistics.TeamCovenAlive <= 0 && statistics.TeamKnightAlive <= 0 && statistics.TeamGlitchAlive <= 0)
             {
                 if (Options.IsStandardHAS && statistics.TotalAlive - statistics.TeamArsoAlive != 0) return false;

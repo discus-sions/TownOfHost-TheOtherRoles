@@ -451,6 +451,20 @@ namespace TownOfHost
                 }, 3f, "SetName To Chat");
             }
 
+            foreach (var protect in Main.GuardianAngelTarget)
+            {
+                PlayerControl ga = Utils.GetPlayerById(protect.Key);
+                PlayerControl protecting = Utils.GetPlayerById(protect.Value);
+                if (!ga.Data.IsDead)
+                {
+                    if (Options.GAknowsRole.GetBool())
+                        Utils.SendMessage("You are a Guardian Angel. Your Job is to protect your target from Death. Your target's role is: " + Utils.GetRoleName(protecting.GetCustomRole()), ga.PlayerId);
+                }
+                if (Options.TargetKnowsGA.GetBool() && !protecting.Data.IsDead)
+                    Utils.SendMessage("You have a Guardian Angel. Find out who they are and keep them to protect you.", protecting.PlayerId);
+            }
+
+
             foreach (var pva in __instance.playerStates)
             {
                 if (pva == null) continue;
@@ -562,19 +576,6 @@ namespace TownOfHost
                         break;
                 }
 
-                foreach (var protect in Main.GuardianAngelTarget)
-                {
-                    PlayerControl ga = Utils.GetPlayerById(protect.Key);
-                    PlayerControl protecting = Utils.GetPlayerById(protect.Value);
-                    if (protecting == target) continue;
-                    if (!ga.Data.IsDead)
-                    {
-                        if (Options.GAknowsRole.GetBool() && seer.Is(CustomRoles.GuardianAngelTOU))
-                            Utils.SendMessage("You are a Guardian Angel. Your Job is to protect your target from Death. Your target's role is: " + Utils.GetRoleName(protecting.GetCustomRole()), ga.PlayerId);
-                    }
-                    if (Options.TargetKnowsGA.GetBool() && target.PlayerId == protecting.PlayerId)
-                        Utils.SendMessage("You have a Guardian Angel. Find out who they are and keep them to protect you.", protecting.PlayerId);
-                }
                 switch (target.GetCustomRole())
                 {
                     case CustomRoles.Egoist:
