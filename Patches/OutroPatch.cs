@@ -206,7 +206,18 @@ namespace TownOfHost
                     }
                 }
             }
-            if (Main.currentWinner == CustomWinner.Arsonist && CustomRoles.Arsonist.IsEnable())
+            if (Main.currentWinner == CustomWinner.Arsonist && CustomRoles.Arsonist.IsEnable() && !Options.TOuRArso.GetBool())
+            {
+                winner = new();
+                foreach (var p in PlayerControl.AllPlayerControls)
+                {
+                    if (p.PlayerId == Main.WonArsonistID)
+                    {
+                        winner.Add(p);
+                    }
+                }
+            }
+            if (Main.currentWinner == CustomWinner.Arsonist && CustomRoles.Arsonist.IsEnable() && Options.TOuRArso.GetBool())
             {
                 winner = new();
                 foreach (var p in PlayerControl.AllPlayerControls)

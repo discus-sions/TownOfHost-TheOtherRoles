@@ -46,6 +46,7 @@ namespace TownOfHost
             Main.witchMeeting = false;
             Main.firstKill = new List<PlayerControl>();
             Main.unreportableBodies = new List<byte>();
+            Main.dousedIDs = new List<byte>();
             Main.isSilenced = false;
             Main.SilencedPlayer = new List<PlayerControl>();
             Main.CheckShapeshift = new Dictionary<byte, bool>();

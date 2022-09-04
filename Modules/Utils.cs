@@ -1291,8 +1291,7 @@ namespace TownOfHost
         }
         public static List<PlayerControl> GetDousedPlayer(byte playerId)
         {
-            List<PlayerControl> doused = null; //学校で習った書き方
-                                               //多分この方がMain.isDousedでforeachするより他のアーソニストの分ループ数少なくて済む
+            List<PlayerControl> doused = null;
             foreach (var pc in PlayerControl.AllPlayerControls)
             {
                 if (pc == null ||
@@ -1303,7 +1302,6 @@ namespace TownOfHost
 
                 //all++;
                 if (Main.isDoused.TryGetValue((playerId, pc.PlayerId), out var isDoused) && isDoused)
-                    //塗れている場合
                     doused.Add(Utils.GetPlayerById(pc.PlayerId));
             }
 

@@ -1642,6 +1642,7 @@ namespace TownOfHost
                             Main.AllPlayerKillCooldown[player.PlayerId] = Options.ArsonistCooldown.GetFloat() * 2;
                             Utils.CustomSyncAllSettings();//同期
                             player.RpcGuardAndKill(ar_target);//通知とクールリセット
+                            Main.dousedIDs.Add(ar_target.PlayerId);
                             Main.ArsonistTimer.Remove(player.PlayerId);//塗が完了したのでDictionaryから削除
                             Main.isDoused[(player.PlayerId, ar_target.PlayerId)] = true;//塗り完了
                             player.RpcSetDousedPlayer(ar_target, true);
@@ -2290,22 +2291,38 @@ namespace TownOfHost
 
                 if (pc.Is(CustomRoles.Arsonist) && Options.TOuRArso.GetBool())
                 {
+                    skipCheck = true;
                     pc?.MyPhysics?.RpcBootFromVent(__instance.Id);
-                    List<PlayerControl> doused = Utils.GetDousedPlayer(pc.PlayerId);
-                    foreach (var pcd in doused)
+                    List<PlayerControl> doused = new();
+                    foreach (var playerId in Main.dousedIDs)
                     {
-                        if (!pc.Data.IsDead)
+                        var player = Utils.GetPlayerById(playerId);
+                        if (!player.Data.IsDead)
                         {
-                            if (pcd != pc && !pcd.Is(CustomRoles.Pestilence))
-                            {
-                                //生存者は焼殺
-                                pcd.RpcMurderPlayer(pcd);
-                                PlayerState.SetDeathReason(pcd.PlayerId, PlayerState.DeathReason.Torched);
-                                PlayerState.SetDead(pcd.PlayerId);
-                            }
-                            else
-                                RPC.PlaySoundRPC(pc.PlayerId, Sounds.KillSound);
+                            if (!player.Data.Disconnected)
+                                doused.Add(player);
                         }
+                    }
+                    if (doused.Count != 0)
+                    {
+                        foreach (var pcd in doused)
+                        {
+                            if (!pc.Data.IsDead)
+                            {
+                                if (!pcd.Data.Disconnected)
+                                {
+                                    if (!pcd.Is(CustomRoles.Pestilence))
+                                    {
+                                        //生存者は焼殺
+                                        pcd.RpcMurderPlayer(pcd);
+                                        PlayerState.SetDeathReason(pcd.PlayerId, PlayerState.DeathReason.Torched);
+                                        PlayerState.SetDead(pcd.PlayerId);
+                                    }
+                                }
+                            }
+                        }
+                        RPC.PlaySoundRPC(pc.PlayerId, Sounds.KillSound);
+                        doused.Clear();
                     }
                 }
                 if (pc.Is(CustomRoles.Swooper))
@@ -2464,7 +2481,7 @@ namespace TownOfHost
                 if (__instance.myPlayer.Is(CustomRoles.Sheriff) ||
                 __instance.myPlayer.Is(CustomRoles.Investigator) ||
                 __instance.myPlayer.Is(CustomRoles.SKMadmate) ||
-                __instance.myPlayer.Is(CustomRoles.Arsonist) ||
+                __instance.myPlayer.Is(CustomRoles.Arsonist) && !Options.TOuRArso.GetBool() ||
                 __instance.myPlayer.Is(CustomRoles.PlagueBearer) ||
                 (__instance.myPlayer.Is(CustomRoles.Juggernaut) && !Options.JuggerCanVent.GetBool()) ||
                 (__instance.myPlayer.Is(CustomRoles.CovenWitch) && !Main.HasNecronomicon) || (__instance.myPlayer.Is(CustomRoles.HexMaster) && !Main.HasNecronomicon) ||
