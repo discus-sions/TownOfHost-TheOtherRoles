@@ -43,6 +43,7 @@ namespace TownOfHost
                 role is CustomRoles.Jester or
                 CustomRoles.Vulture or
                 CustomRoles.Opportunist or
+                CustomRoles.Survivor or
                 CustomRoles.SchrodingerCat or
                 CustomRoles.Terrorist or
                 CustomRoles.Executioner or
@@ -71,6 +72,7 @@ namespace TownOfHost
                 role is CustomRoles.Jester or
                 CustomRoles.Vulture or
                 CustomRoles.Opportunist or
+                CustomRoles.Survivor or
                 CustomRoles.SchrodingerCat or
                 CustomRoles.Terrorist or
                 CustomRoles.Executioner or

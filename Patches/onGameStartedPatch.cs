@@ -24,6 +24,7 @@ namespace TownOfHost
             Main.BitPlayers = new Dictionary<byte, (byte, float)>();
             Main.WarlockTimer = new Dictionary<byte, float>();
             Main.isDoused = new Dictionary<(byte, byte), bool>();
+            Main.SurvivorStuff = new Dictionary<byte, (int, bool, bool, bool, bool)>();
             Main.isHexed = new Dictionary<(byte, byte), bool>();
             Main.ArsonistTimer = new Dictionary<byte, (PlayerControl, float)>();
             Main.isInfected = new Dictionary<(byte, byte), bool>();
@@ -44,7 +45,7 @@ namespace TownOfHost
 
             Main.SpelledPlayer = new List<PlayerControl>();
             Main.witchMeeting = false;
-            Main.firstKill = new List<PlayerControl>();
+            Main.firstKill = new List<byte>();
             Main.unreportableBodies = new List<byte>();
             Main.dousedIDs = new List<byte>();
             Main.isSilenced = false;
@@ -410,6 +411,7 @@ namespace TownOfHost
                 AssignCustomRolesFromList(CustomRoles.MadSnitch, Options.MadSnitchCanVent.GetBool() ? Engineers : Crewmates);
                 AssignCustomRolesFromList(CustomRoles.Mayor, Options.MayorHasPortableButton.GetBool() ? Engineers : Crewmates);
                 AssignCustomRolesFromList(CustomRoles.Opportunist, Crewmates);
+                AssignCustomRolesFromList(CustomRoles.Survivor, Crewmates);
                 AssignCustomRolesFromList(CustomRoles.Snitch, Crewmates);
                 AssignCustomRolesFromList(CustomRoles.SabotageMaster, Crewmates);
                 AssignCustomRolesFromList(CustomRoles.Hacker, Crewmates);
@@ -640,6 +642,9 @@ namespace TownOfHost
                             foreach (var ar in PlayerControl.AllPlayerControls)
                                 Main.isInfected.Add((pc.PlayerId, ar.PlayerId), false);
                             break;
+                        case CustomRoles.Survivor:
+                            Main.SurvivorStuff.Add(pc.PlayerId, (0, false, false, false, false));
+                            break;
                         case CustomRoles.Executioner:
                             List<PlayerControl> targetList = new();
                             rand = new Random();
@@ -703,12 +708,12 @@ namespace TownOfHost
                                 Investigator.hasSeered.Add(ar.PlayerId, false);
                             }
                             break;
-                        case CustomRoles.Sleuth:
+                        /*case CustomRoles.Sleuth:
                             foreach (var ar in PlayerControl.AllPlayerControls)
                             {
                                 Main.SleuthReported.Add(pc.PlayerId, (ar.PlayerId, false));
                             }
-                            break;
+                            break;*/
                         case CustomRoles.EvilGuesser:
                         case CustomRoles.NiceGuesser:
                             Guesser.Add(pc.PlayerId);

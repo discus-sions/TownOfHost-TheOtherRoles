@@ -54,6 +54,7 @@ NiceWatcher,Nice Watcher,ナイスウォッチャー,正义的窥视者,正義�
 NiceGuesser,Vigilante,ナイスゲッサー,正义的猜测者,正義的猜測者
 Bait,Bait,ベイト,诱饵,誘餌
 Veteran,Veteran,Veteran,老兵,老將
+Survivor,Survivor,Survivor,Survivor
 Lighter,Lighter,ライター,执灯人,小燈人
 Mayor,Mayor,メイヤー,市长,市長
 SabotageMaster,SabotageMaster,サボタージュマスター,修理大师,破壞大師
@@ -99,7 +100,7 @@ Pirate,Pirate,Pirate,Pirate
 # Coven 
 Coven,Coven,Coven,巫师,巫師
 Poisoner,Poisoner,Poisoner,毒师,毒藥
-CovenWitch,Witch,Witch,女巫,巫婆
+CovenWitch,Coven Leader,Witch,女巫,巫婆
 HexMaster,Hex Master,Hex Master,六芒星法师,妖術大師
 PotionMaster,Potion Master,Potion Master,药剂师,藥水大師
 Medusa,Medusa,Medusa,美杜莎,美杜莎
@@ -212,6 +213,7 @@ AmnesiacInfo,Report a body to Steal a Role,AmnesiacInfo,报告可以窃取尸体
 HackerInfo,Fix all the Issues,Hacker,解决所有问题,
 BloodKnightInfo,Each kill strengths You for a Bit,BloodKnight,BloodKnight
 PirateInfo,Successfully plunder people to Win,推測して打ち抜け,猜测和射击,猜測和射擊
+SurvivorInfo,Do what it takes to Surive,Survivor,Survivor,Survivor
 
 # Coven 
 CovenInfo,Support your Leader,Support your Leader,支援你的领袖,支持你的領袖
@@ -269,9 +271,9 @@ CrewPostorInfoLong,"(Impostors):\nThe CrewPostor can do tasks to kill the Neares
 # 両陣営可能役職
 WatcherInfoLong,(Impostors or Crewmates):\nThe Watchers can see colored votes regardless of anonymous votes.,(インポスターorクルーメイト陣営):\n全員の投票先を見ることができる。,(内鬼阵营或船员阵营):\n会议时窥视者可以看到所有人的投票。,(狼人或船員):\n會議時觀察者可以看到所有人的投票。
 GuesserInfoLong,"(Impostors or Crewmates):\nAs a Guessing role, type ''/shoot show'' to show all possible role IDs that can be guessed. And a list of player Ids corresponding to players. Then try to match up roles with player IDs to get a succesful guess. To guess, type ''/shoot playerID roleID'', and let the magic happen.","(Impostors or Crewmates):\nAs a Guessing role, type ''/shoot show'' to show all possible role IDs that can be guessed. And a list of player Ids corresponding to players. Then try to match up roles with player IDs to get a succesful guess. To guess, type ''/shoot playerID roleID'', and let the magic happen.","(Impostors or Crewmates):\nAs a Guessing role, type ''/shoot show'' to show all possible role IDs that can be guessed. And a list of player Ids corresponding to players. Then try to match up roles with player IDs to get a succesful guess. To guess, type ''/shoot playerID roleID'', and let the magic happen."
-EvilGuesserInfoLong,"(Impostors):\nAs a Guessing role, type ''/shoot show'' to show all possible role IDs that can be guessed. And a list of player Ids corresponding to players. Then try to match up roles with player IDs to get a succesful guess. To guess, type ''/shoot playerID roleID'', and let the magic happen.","(Impostors):\nAs a Guessing role, type ''/shoot show'' to show all possible role IDs that can be guessed. And a list of player Ids corresponding to players. Then try to match up roles with player IDs to get a succesful guess. To guess, type ''/shoot playerID roleID'', and let the magic happen.","(Impostors):\nAs a Guessing role, type ''/shoot show'' to show all possible role IDs that can be guessed. And a list of player Ids corresponding to players. Then try to match up roles with player IDs to get a succesful guess. To guess, type ''/shoot playerID roleID'', and let the magic happen."
-NiceGuesserInfoLong,"(Crewmates):\nAs a Guessing role, type ''/shoot show'' to show all possible role IDs that can be guessed. And a list of player Ids corresponding to players. Then try to match up roles with player IDs to get a succesful guess. To guess, type ''/shoot playerID roleID'', and let the magic happen.","(Impostors):\nAs a Guessing role, type ''/shoot show'' to show all possible role IDs that can be guessed. And a list of player Ids corresponding to players. Then try to match up roles with player IDs to get a succesful guess. To guess, type ''/shoot playerID roleID'', and let the magic happen.","(Impostors):\nAs a Guessing role, type ''/shoot show'' to show all possible role IDs that can be guessed. And a list of player Ids corresponding to players. Then try to match up roles with player IDs to get a succesful guess. To guess, type ''/shoot playerID roleID'', and let the magic happen."
-PirateInfoLong,"(Neutrals):\nAs a Guessing role, type ''/shoot show'' to show all possible role IDs that can be guessed. And a list of player Ids corresponding to players. Then try to match up roles with player IDs to get a succesful guess. To guess, type ''/shoot playerID roleID'', and let the magic happen.","(Impostors):\nAs a Guessing role, type ''/shoot show'' to show all possible role IDs that can be guessed. And a list of player Ids corresponding to players. Then try to match up roles with player IDs to get a succesful guess. To guess, type ''/shoot playerID roleID'', and let the magic happen.","(Impostors):\nAs a Guessing role, type ''/shoot show'' to show all possible role IDs that can be guessed. And a list of player Ids corresponding to players. Then try to match up roles with player IDs to get a succesful guess. To guess, type ''/shoot playerID roleID'', and let the magic happen."
+EvilGuesserInfoLong,"(Impostors):\nAs a Guessing role, type ''/shoot show'' to show all possible role IDs that can be guessed. And a list of player Ids corresponding to players. Then try to match up roles with player IDs to get a succesful guess. To guess, type ''/shoot playerID roleID'', and let the magic happen.\n\nYour job is to guess other's roles during meetings and help impostors.","(Impostors):\nAs a Guessing role, type ''/shoot show'' to show all possible role IDs that can be guessed. And a list of player Ids corresponding to players. Then try to match up roles with player IDs to get a succesful guess. To guess, type ''/shoot playerID roleID'', and let the magic happen.","(Impostors):\nAs a Guessing role, type ''/shoot show'' to show all possible role IDs that can be guessed. And a list of player Ids corresponding to players. Then try to match up roles with player IDs to get a succesful guess. To guess, type ''/shoot playerID roleID'', and let the magic happen."
+NiceGuesserInfoLong,"(Crewmates):\nAs a Guessing role, type ''/shoot show'' to show all possible role IDs that can be guessed. And a list of player Ids corresponding to players. Then try to match up roles with player IDs to get a succesful guess. To guess, type ''/shoot playerID roleID'', and let the magic happen.\n\nYour job is to guess impostors and neutral roles and help the crew win.","(Impostors):\nAs a Guessing role, type ''/shoot show'' to show all possible role IDs that can be guessed. And a list of player Ids corresponding to players. Then try to match up roles with player IDs to get a succesful guess. To guess, type ''/shoot playerID roleID'', and let the magic happen.","(Impostors):\nAs a Guessing role, type ''/shoot show'' to show all possible role IDs that can be guessed. And a list of player Ids corresponding to players. Then try to match up roles with player IDs to get a succesful guess. To guess, type ''/shoot playerID roleID'', and let the magic happen."
+PirateInfoLong,"(Neutrals):\nAs a Guessing role, type ''/shoot show'' to show all possible role IDs that can be guessed. And a list of player Ids corresponding to players. Then try to match up roles with player IDs to get a succesful guess. To guess, type ''/shoot playerID roleID'', and let the magic happen.\n\nYour job is to guess an amount of people to win. Misguessing does not cause you to die, but instead just not able to guess until next meeting.","(Impostors):\nAs a Guessing role, type ''/shoot show'' to show all possible role IDs that can be guessed. And a list of player Ids corresponding to players. Then try to match up roles with player IDs to get a succesful guess. To guess, type ''/shoot playerID roleID'', and let the magic happen.","(Impostors):\nAs a Guessing role, type ''/shoot show'' to show all possible role IDs that can be guessed. And a list of player Ids corresponding to players. Then try to match up roles with player IDs to get a succesful guess. To guess, type ''/shoot playerID roleID'', and let the magic happen."
 
 # 特殊クルー役職
 BaitInfoLong,"(Crewmates):\nWhen killed, they force the killer to self report in no time.",(クルーメイト陣営):\nキルされた時に、自身をキルした人に\n強制的にセルフレポートさせる事ができる。,(船员阵营):\n诱饵被击杀时，击杀诱饵的凶手将被迫报告。,"(船員):\n當被殺時,兇手將強制自行舉報"
@@ -312,6 +314,7 @@ GuardianAngelTOUInfoLong,"(Neutral):\nThe Guardian Angel has a target they are s
 AmnesiacInfoLong,"(Neutral):\nSteal someone's role by clicking the report button.","(Neutral):\nInfo unfinished.",(中立阵营):\n通过点击报告键，来窃取其他人的职业。,
 HackerInfoLong,"(Neutral):\nAs the Hacker, your goal is to fix a number of points by fixing sabotages. \nYou have the powers of a SabotageMaster. \nComplete sabotages to win. \nElectrical gains the most points. \nReactor gives you like 2 points. \nThe Sheriff can kill Hacker no matter what.","(Neutral):\nInfo unfinished.",(中立阵营):\n作为黑客，你的目标是通过修复破坏行为来获得积分点。\n你拥有修理大师的能力。\n完成破坏才能获胜。\n修复配电获得的积分最多，反应堆获得2点积分。\n警长无论如何都可以杀死黑客。,
 BloodKnightInfoLong,"(Neutral):\nEach kill the Bloodknight does will protect them from attacks for a few seconds.","(Neutral):\Each kill the Bloodknight does will protect them from attacks for a few seconds.","(Neutral):\Each kill the Bloodknight does will protect them from attacks for a few seconds."
+SurvivorInfoLong,"(Neutrals):\nThe Survivor is Opportunist with a buff. The Survivor can vent to protect them from all attacks. However, unlike Opportunist, Survivor cannot win with Child, Jester, and Executioner.","(Neutrals):\nThe Survivor is Opportunist with a buff. The Survivor can vent to protect them from all attacks. However, unlike Opportunist, Survivor cannot win with Child, Jester, and Executioner.","(Neutrals):\nThe Survivor is Opportunist with a buff. The Survivor can vent to protect them from all attacks. However, unlike Opportunist, Survivor cannot win with Child, Jester, and Executioner."
 
 CovenInfoLong,"""(Coven):\nNothing special about regular Coven. They just help support the Leader.""","""(Coven):\nNothing special about regular Coven. They just help support the Leader.""","""(法师):\n普通的法师没什么特别之处他们只会支援领袖.""",
 PoisonerInfoLong,"""(Coven):\nThe Poisoner works exactly like the Vampire. Same cooldown and everything. This will remove Vamp from Impostor Team and join Coven.""","""(Coven):\nInfo unfinished.""","""(巫师阵营):\n资料未填写完成.""",
@@ -449,7 +452,7 @@ SA,Hacker Sabotage Amount,Hacker Sabotage Amount,黑客需要修复的破坏的�
 SheriffCanKillJester,Sheriff Can Kill Jester,シェリフがジェスターをキルできる,警长可以执法小丑,警長可以槍死小丑
 SheriffCanKillTerrorist,Sheriff Can Kill Terrorist,シェリフがテロリストをキルできる,警长可以执法恐怖分子,警長可以槍死恐怖分子
 SheriffCanKillExecutioner,Sheriff Can Kill Executioner,シェリフがエクスキューショナーをキルできる,警长可以执法处刑人,警長可以槍死劊子手
-SheriffCanKillOpportunist,Sheriff Can Kill Opportunist,シェリフがオポチュニストをキルできる,警长可以执法投机者,警長可以槍死投機主義者
+SheriffCanKillOpportunist,Sheriff Can Kill Opportunist/Survivor,シェリフがオポチュニストをキルできる,警长可以执法投机者,警長可以槍死投機主義者
 SheriffCanKillMadmate,Sheriff Can Kill Madmates,シェリフがマッドメイトをキルできる,警长可以执法叛徒,警長可以槍死叛徒
 SheriffCanKillEgoist,Sheriff Can Kill Egoist,シェリフがエゴイストをキルできる,警长可以执法野心家,警長可以槍死利己主義者
 SheriffCanKillPB,Sheriff Can Kill PlagueBearer,Sheriff Can Kill PlagueBearer,警长可以执法疫医,
@@ -552,6 +555,10 @@ PestiKillsVet,Pestilence Kills Veteran,PestiKillsVet,瘟疫杀死了老兵,瘟�
 VetKillsPesti,Veteran Kills Pestilence,VetKillsPesti,老兵杀死了瘟疫,退伍軍人殺死瘟疫
 BKdur,Protection Duration,BKdur,BKdur
 
+VestCD,Vest Cooldown,Alert Cooldown,警报冷却时间,警報冷卻
+VestDur,Vest Duration,Alert Duration,警报持续时间,警報持續時間
+NVest,Number of Vests,Number of Alerts,警报数量,警報數量
+
 KilledByGuesser,{0} is killed by Guesser.,{0}はゲッサーにキルされました。,{0} 被猜测者杀死。,{0}被猜測者殺死。
 EvilGuesserMeeting,It is time to shoot!,さあ、撃ち放題だ！,来吧，随心所欲地拍摄！,來吧，隨心所欲地拍攝！
 
@@ -566,6 +573,8 @@ NecromancerOn,Necromancer On,Necromancer On,使用亡灵法师,死靈法師開�
 ConjurorOn,Conjuror On,Conjuror On,使用魔术师,魔術師開
 Customise,Players have Access to /color and /name,Players have Access to /color and /name,Players have Access to /color and /name
 RolesLikeToU,Roles look Similar to ToU,Roles look Similar to ToU,Roles look Similar to ToU
+ImpostorKnowsRolesOfTeam,Impostors know the Roles of their Team,ImpostorKnowsRolesOfTeam,ImpostorKnowsRolesOfTeam
+CovenKnowsRolesOfTeam,Coven knows the Roles of their Team,CovenKnowsRolesOfTeam,CovenKnowsRolesOfTeam
 
 NProtects,Number of Protects,NumOfProtects,保护的次数,
 PCD,Protect Cooldown,Translation Unavailble,保护冷却时间,

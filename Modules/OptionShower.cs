@@ -109,6 +109,8 @@ namespace TownOfHost
                     nameAndValue(Options.MaxNK);
                     nameAndValue(Options.MinNonNK);
                     nameAndValue(Options.MaxNonNK);
+                    nameAndValue(Options.ImpostorKnowsRolesOfTeam);
+                    nameAndValue(Options.CovenKnowsRolesOfTeam);
                 }
                 else if (Options.CurrentGameMode() == CustomGameMode.HideAndSeek)
                 {
@@ -135,6 +137,8 @@ namespace TownOfHost
                 listUp(Options.DisableDevices);
                 nameAndValue(Options.NoGameEnd);
                 nameAndValue(Options.CamoComms);
+                nameAndValue(Options.Customise);
+                nameAndValue(Options.RolesLikeToU);
                 nameAndValue(Options.GhostCanSeeOtherRoles);
                 nameAndValue(Options.HideGameSettings);
             }

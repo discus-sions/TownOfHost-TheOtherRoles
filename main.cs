@@ -98,7 +98,8 @@ namespace TownOfHost
         public static int SKMadmateNowCount;
         public static bool witchMeeting;
         public static bool isCursed;
-        public static List<PlayerControl> firstKill = new();
+        public static List<byte> firstKill = new();
+        public static Dictionary<byte, (int, bool, bool, bool, bool)> SurvivorStuff = new(); // KEY - player ID, Item1 - NumberOfVests, Item2 - IsVesting, Item3 - HasVested, Item4 - VestedThisRound, Item5 - RoundOneVest
         public static List<byte> unreportableBodies = new();
         public static List<PlayerControl> SilencedPlayer = new();
         public static List<byte> KilledBewilder = new();
@@ -339,6 +340,7 @@ namespace TownOfHost
                     { CustomRoles.Terrorist, "#00ff00"},
                     { CustomRoles.Executioner, "#C96600"},
                     { CustomRoles.Opportunist, "#00ff00"},
+                    { CustomRoles.Survivor, "#dddd00"},
                     { CustomRoles.SchrodingerCat, "#696969"},
                     { CustomRoles.Egoist, "#5600ff"},
                     { CustomRoles.EgoSchrodingerCat, "#5600ff"},
@@ -511,6 +513,7 @@ namespace TownOfHost
         Pirate,
         Juggernaut,
         Opportunist,
+        Survivor,
         SchrodingerCat,//第三陣営のシュレディンガーの猫
         Terrorist,
         Executioner,
@@ -588,6 +591,7 @@ namespace TownOfHost
     {
         None = -1,
         Opportunist = CustomRoles.Opportunist,
+        Survivor = CustomRoles.Survivor,
         SchrodingerCat = CustomRoles.SchrodingerCat,
         Executioner = CustomRoles.Executioner,
         HASFox = CustomRoles.HASFox,

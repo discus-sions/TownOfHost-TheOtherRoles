@@ -152,6 +152,7 @@ namespace TownOfHost
                     if (cRole == CustomRoles.MadGuardian && ForRecompute) hasTasks = false;
                     if (cRole == CustomRoles.MadSnitch && ForRecompute) hasTasks = false;
                     if (cRole == CustomRoles.Opportunist) hasTasks = false;
+                    if (cRole == CustomRoles.Survivor) hasTasks = false;
                     if (cRole == CustomRoles.Sheriff) hasTasks = false;
                     if (cRole == CustomRoles.Investigator) hasTasks = false;
                     if (cRole == CustomRoles.Amnesiac) hasTasks = false;
@@ -406,10 +407,12 @@ namespace TownOfHost
                     text += String.Format("\n{0}:{1}", "Max Neutral Killings", Options.MaxNK.GetString());
                     text += String.Format("\n{0}:{1}", "Min Non-Neutral Killings", Options.MinNonNK.GetString());
                     text += String.Format("\n{0}:{1}", "Max Nin-Neutral Killings", Options.MaxNonNK.GetString());
+                    text += String.Format("\n{0}:{1}", "Impostors know the Roles of their Team", Options.ImpostorKnowsRolesOfTeam.GetString());
+                    text += String.Format("\n{0}:{1}", "Coven knows the Roles of their Team", Options.CovenKnowsRolesOfTeam.GetString());
                 }
                 text += String.Format("\n\n{0}:{1}", "Current Game Mode", Options.GameMode.GetString());
-                text += String.Format("\n\n{0}:{1}", "Players have Access to /color and /name", Options.Customise.GetString());
-                text += String.Format("\n\n{0}:{1}", "Roles look Similar to ToU", Options.RolesLikeToU.GetString());
+                text += String.Format("\n{0}:{1}", "Players have Access to /color and /name", Options.Customise.GetString());
+                text += String.Format("\n{0}:{1}", "Roles look Similar to ToU", Options.RolesLikeToU.GetString());
                 //Roles look Similar to ToU
                 SendMessage(text, PlayerId);
                 text = GetString("Settings") + ":";
@@ -567,7 +570,7 @@ namespace TownOfHost
                             PlayerState.SetDeathReason(pc.PlayerId, PlayerState.DeathReason.Suicide);
                         }
                     }
-                    else if (!pc.Data.IsDead)
+                    else if (!pc.Data.IsDead && !pc.Is(CustomRoles.Pestilence))
                     {
                         //生存者は爆死
                         pc.RpcMurderPlayer(pc);
@@ -734,6 +737,10 @@ namespace TownOfHost
                 if (Main.SilencedPlayer.Find(x => x.PlayerId == seer.PlayerId) != null && isMeeting)
                     SelfMark += "<color=#ff0000> (S)</color>";
 
+                if (seer.Is(CustomRoles.Survivor) && !Main.SurvivorStuff.ContainsKey(seer.PlayerId))
+                {
+                    Main.SurvivorStuff.Add(seer.PlayerId, (0, false, false, false, false));
+                }
                 if (Sniper.IsEnable())
                 {
                     //銃声が聞こえるかチェック
@@ -810,7 +817,6 @@ namespace TownOfHost
                 {
                     SeerKnowsCoven = true;
                 }
-
                 if (seer.Is(CustomRoles.MadSnitch))
                 {
                     var TaskState = seer.GetPlayerTaskState();
@@ -821,6 +827,7 @@ namespace TownOfHost
                     SeerKnowsImpostors = true;
 
                 //RealNameを取得 なければ現在の名前をRealNamesに書き込む
+                SelfSuffix = Helpers.ColorString(Utils.GetRoleColor(seer.GetCustomRole()), SelfSuffix);
                 if (Options.RolesLikeToU.GetBool())
                 {
                     string SeerRealName = seer.GetRealName(isMeeting);
@@ -900,7 +907,6 @@ namespace TownOfHost
                               Main.CamoComms = true;
                           }
                       }*/
-
                     if (Camouflague.IsActive && !Camouflague.InMeeting && !Camouflague.did && Options.CamoComms.GetBool())
                     {
                         Camouflague.did = true;
@@ -914,7 +920,9 @@ namespace TownOfHost
                         TownOfHost.Logger.Info("NotifyRoles-Loop2-" + target.GetNameWithRole() + ":START", "NotifyRoles");
 
                         //他人のタスクはtargetがタスクを持っているかつ、seerが死んでいる場合のみ表示されます。それ以外の場合は空になります。
-                        string TargetTaskText = seer.Data.IsDead && Options.GhostCanSeeOtherRoles.GetBool() ? $"{GetProgressText(target)}" : "";
+                        string TargetTaskText = "";
+                        if (seer.Data.IsDead && Options.GhostCanSeeOtherRoles.GetBool())
+                            TargetTaskText = $"{GetProgressText(target)}";
 
                         //名前の後ろに付けるマーカー
                         string TargetMark = "";
@@ -933,7 +941,43 @@ namespace TownOfHost
                             if (taskState.DoExpose)
                                 TargetMark += $"<color={GetRoleColorCode(CustomRoles.Snitch)}>★</color>";
                         }
+                        string TeamText = "";
 
+                        if (seer.GetCustomRole().IsImpostor())
+                        {
+                            if (Options.ImpostorKnowsRolesOfTeam.GetBool())
+                            {
+                                //so we gotta make it so they can see the team. of their impostor
+                                if (target.GetCustomRole().IsImpostor())
+                                {
+                                    if (!seer.Data.IsDead)
+                                    {
+                                        // TeamText += "\r\n";
+                                        if (!Options.RolesLikeToU.GetBool())
+                                            TeamText += $"<size={fontSize}>{Helpers.ColorString(target.GetRoleColor(), target.GetRoleName())}</size>\r\n";
+                                        else
+                                            TeamText = $"\r\n{Helpers.ColorString(target.GetRoleColor(), target.GetRoleName())}";
+                                    }
+                                }
+                            }
+                        }
+                        if (seer.GetCustomRole().IsCoven())
+                        {
+                            if (Options.CovenKnowsRolesOfTeam.GetBool())
+                            {
+                                if (target.GetCustomRole().IsCoven())
+                                {
+                                    if (!seer.Data.IsDead)
+                                    {
+                                        // TeamText += "\r\n";
+                                        if (!Options.RolesLikeToU.GetBool())
+                                            TeamText += $"<size={fontSize}>{Helpers.ColorString(target.GetRoleColor(), target.GetRoleName())}</size>\r\n";
+                                        else
+                                            TeamText = $"\r\n{Helpers.ColorString(target.GetRoleColor(), target.GetRoleName())}";
+                                    }
+                                }
+                            }
+                        }
                         //ハートマークを付ける(相手に)
                         if (seer.Is(CustomRoles.Lovers) && target.Is(CustomRoles.Lovers))
                         {
@@ -994,7 +1038,12 @@ namespace TownOfHost
                             TargetMark += $"<color={Utils.GetRoleColorCode(CustomRoles.CovenWitch)}>◆</color>";
 
                         //他人の役職とタスクは幽霊が他人の役職を見れるようになっていてかつ、seerが死んでいる場合のみ表示されます。それ以外の場合は空になります。
-                        string TargetRoleText = seer.Data.IsDead && Options.GhostCanSeeOtherRoles.GetBool() ? $"<size={fontSize}>{Helpers.ColorString(target.GetRoleColor(), target.GetRoleName())}{TargetTaskText}</size>\r\n" : "";
+                        string TargetRoleText = "";
+                        if (seer.Data.IsDead && Options.GhostCanSeeOtherRoles.GetBool())
+                            if (!Options.RolesLikeToU.GetBool())
+                                TargetRoleText = $"<size={fontSize}>{Helpers.ColorString(target.GetRoleColor(), target.GetRoleName())}{TargetTaskText}</size>\r\n";
+                            else
+                                TargetRoleText = $"\r\n{Helpers.ColorString(target.GetRoleColor(), target.GetRoleName())}{TargetTaskText}";
 
                         if (target.Is(CustomRoles.GM))
                             TargetRoleText = $"<size={fontSize}>{Helpers.ColorString(target.GetRoleColor(), target.GetRoleName())}</size>\r\n";
@@ -1052,6 +1101,8 @@ namespace TownOfHost
                             target.PlayerId == GATarget.Value) //targetがValue
                                 TargetMark += $"<color={Utils.GetRoleColorCode(CustomRoles.GuardianAngel)}>♦</color>";
                         }
+                        if (seer.Data.IsDead && Options.GhostCanSeeOtherRoles.GetBool())
+                            TargetPlayerName = Helpers.ColorString(Utils.GetRoleColor(target.GetCustomRole()), TargetPlayerName);
                         if (seer.Is(CustomRoles.Investigator))
                         {
                             if (Investigator.hasSeered[target.PlayerId] == true)
@@ -1097,11 +1148,15 @@ namespace TownOfHost
                             TargetDeathReason = $"({Helpers.ColorString(GetRoleColor(CustomRoles.Doctor), GetVitalText(target.PlayerId))})";
 
                         //全てのテキストを合成します。
-                        string TargetName = $"{TargetRoleText}{TargetPlayerName}{TargetDeathReason}{TargetMark}";
+                        string TargetName = "";
+                        if (!Options.RolesLikeToU.GetBool())
+                            TargetName = $"{TargetRoleText}{TeamText}{TargetPlayerName}{TargetDeathReason}{TargetMark}";
+                        else
+                            TargetName = $"{TargetPlayerName}{TeamText}{TargetRoleText}{TargetDeathReason}{TargetMark}";
 
                         //適用
                         target.RpcSetNamePrivate(TargetName, true, seer, force: NoCache);
-                        if (seer.Is(CustomRoles.Sleuth) && target.Data.IsDead)
+                        /*if (seer.Is(CustomRoles.Sleuth) && target.Data.IsDead)
                         {
                             foreach (var ar in Main.SleuthReported)
                             {
@@ -1113,15 +1168,14 @@ namespace TownOfHost
                                 {
                                     string SeerRealName = target.GetRealName(isMeeting);
 
-                                    string SelfRoleName = $"<size={fontSize}>{Helpers.ColorString(target.GetRoleColor(), target.GetRoleName())}{SelfTaskText}</size>";
-                                    string SelfName = $"{Helpers.ColorString(target.GetRoleColor(), SeerRealName)}{TargetMark}";
-                                    SelfName = SelfRoleName + "\r\n" + SelfName;
-                                    SelfName += SelfSuffix == "" ? "" : "\r\n " + SelfSuffix;
-                                    if (!isMeeting) SelfName += "\r\n";
+                                    string SelfRoleName = $"<size={fontSize}>{Helpers.ColorString(target.GetRoleColor(), target.GetRoleName())}</size>";
+                                    string SelfName = "";
+                                    SelfName += "\r\n" + SelfRoleName;
                                     target.RpcSetNamePrivate(SelfName, true, seer, force: NoCache);
                                 }
                             }
-                        }
+                        }*/
+                        //target.RpcSetNamePlatePrivate("");
 
                         TownOfHost.Logger.Info("NotifyRoles-Loop2-" + target.GetNameWithRole() + ":END", "NotifyRoles");
                     }
@@ -1129,6 +1183,26 @@ namespace TownOfHost
                 TownOfHost.Logger.Info("NotifyRoles-Loop1-" + seer.GetNameWithRole() + ":END", "NotifyRoles");
             }
             Main.witchMeeting = false;
+        }
+        public static void CheckSurvivorVest(PlayerControl survivor, PlayerControl killer, bool suicide = true)
+        {
+            foreach (var ar in Main.SurvivorStuff)
+            {
+                if (ar.Key != survivor.PlayerId) break;
+                var stuff = Main.SurvivorStuff[survivor.PlayerId];
+                if (stuff.Item2)
+                {
+                    //killer.RpcGuardAndKill(killer);
+                    killer.RpcGuardAndKill(survivor);
+                }
+                else
+                {
+                    if (!suicide)
+                        killer.RpcMurderPlayerV2(survivor);
+                    else
+                        survivor.RpcMurderPlayerV2(survivor);
+                }
+            }
         }
         public static void CustomSyncAllSettings()
         {
@@ -1143,14 +1217,7 @@ namespace TownOfHost
             SerialKiller.AfterMeetingTasks();
             foreach (var pc in PlayerControl.AllPlayerControls)
             {
-                if (pc.Is(CustomRoles.Camouflager))
-                    pc.RpcGuardAndKill(pc);
-                if (pc.Is(CustomRoles.CovenWitch))
-                    pc.RpcGuardAndKill(pc);
-                if (pc.Is(CustomRoles.PlagueBearer))
-                    pc.RpcGuardAndKill(pc);
-                if (pc.Is(CustomRoles.Arsonist))
-                    pc.RpcGuardAndKill(pc);
+                pc.RpcGuardAndKill(pc);
                 if (PlayerControl.GameOptions.MapId != 4) // other than Airship
                     if (pc.Is(CustomRoles.Camouflager))
                     {

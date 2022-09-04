@@ -84,11 +84,11 @@ namespace TownOfHost
 
         public static readonly string[] GAChangeRoles =
         {
-            CustomRoles.Crewmate.ToString(), CustomRoles.Engineer.ToString(), CustomRoles.Opportunist.ToString(),
+            CustomRoles.Crewmate.ToString(), CustomRoles.Engineer.ToString(), CustomRoles.Survivor.ToString(),
         };
         public static readonly CustomRoles[] CRoleGuardianAngelChangeRoles =
         {
-            CustomRoles.Crewmate, CustomRoles.Engineer, CustomRoles.Opportunist,
+            CustomRoles.Crewmate, CustomRoles.Engineer, CustomRoles.Survivor,
         };
 
         public static readonly string[] PestiAttacksVetString =
@@ -281,6 +281,12 @@ namespace TownOfHost
         public static CustomOption CrewRolesVetted;
         public static CustomOption PestiAttacksVet;
 
+        // SURVIVOR //
+        public static CustomOption VestCD;
+        public static CustomOption VestDuration;
+        public static CustomOption NumOfVests;
+
+
         // OTHER NEUTRALS
 
         // BLOOD-KNIHT //
@@ -314,6 +320,8 @@ namespace TownOfHost
         public static CustomOption MinNK;
         public static CustomOption MaxNonNK;
         public static CustomOption MinNonNK;
+        public static CustomOption ImpostorKnowsRolesOfTeam;
+        public static CustomOption CovenKnowsRolesOfTeam;
         public static readonly string[] suffixModes =
         {
             "SuffixMode.None",
@@ -494,8 +502,8 @@ namespace TownOfHost
             ArsonistDouseTime = CustomOption.Create(50510, Color.white, "ArsonistDouseTime", 3, 0, 10, 1, CustomRoleSpawnChances[CustomRoles.Arsonist]);
             ArsonistCooldown = CustomOption.Create(50511, Color.white, "ArsonistCooldown", 10, 5, 100, 1, CustomRoleSpawnChances[CustomRoles.Arsonist]);
             TOuRArso = CustomOption.Create(50512, Color.white, "TourArso", false, CustomRoleSpawnChances[CustomRoles.Arsonist]);
-            SetupRoleOptions(50550, CustomRoles.PlagueBearer);
-            InfectCooldown = CustomOption.Create(50560, Color.white, "InfectCD", 30, 2.5f, 180, 2.5f, CustomRoleSpawnChances[CustomRoles.PlagueBearer]);
+            SetupSingleRoleOptions(50550, CustomRoles.PlagueBearer, 1);
+            InfectCooldown = CustomOption.Create(50560, Color.white, "InfectCD", 20, 2.5f, 180, 2.5f, CustomRoleSpawnChances[CustomRoles.PlagueBearer]);
             PestilKillCooldown = CustomOption.Create(50561, Color.white, "PestiKillCooldown", 30, 2.5f, 180, 2.5f, CustomRoleSpawnChances[CustomRoles.PlagueBearer]);
             PestiCanVent = CustomOption.Create(50562, Color.white, "PestiCanVent", true, CustomRoleSpawnChances[CustomRoles.PlagueBearer]);
             InfectionSkip = CustomOption.Create(50563, Color.white, "SkipInfect", false, CustomRoleSpawnChances[CustomRoles.PlagueBearer]);
@@ -503,7 +511,10 @@ namespace TownOfHost
             JesterCanVent = CustomOption.Create(50010, Color.white, "JesterVent", false, CustomRoleSpawnChances[CustomRoles.Jester]);
             JesterHasImpostorVision = CustomOption.Create(6000013, Color.white, "JesterHasImpostorVision", false, CustomRoleSpawnChances[CustomRoles.Jester]);
 
-            SetupRoleOptions(50100, CustomRoles.Opportunist);
+            SetupRoleOptions(50100, CustomRoles.Survivor);
+            NumOfVests = CustomOption.Create(50110, Color.white, "NVest", 11, 1, 15, 1, CustomRoleSpawnChances[CustomRoles.Survivor]);
+            VestCD = CustomOption.Create(50120, Color.white, "VestCD", 30, 2.5f, 180, 2.5f, CustomRoleSpawnChances[CustomRoles.Survivor]);
+            VestDuration = CustomOption.Create(50130, Color.white, "VestDur", 15, 2.5f, 180, 2.5f, CustomRoleSpawnChances[CustomRoles.Survivor]);
             SetupRoleOptions(50200, CustomRoles.Terrorist);
             CanTerroristSuicideWin = CustomOption.Create(50210, Color.white, "CanTerroristSuicideWin", false, CustomRoleSpawnChances[CustomRoles.Terrorist], false)
                 .SetGameMode(CustomGameMode.Standard);
@@ -535,7 +546,7 @@ namespace TownOfHost
 
             SetupSingleRoleOptions(60000, CustomRoles.Coven, 3);
             CovenKillCooldown = CustomOption.Create(60020, Color.white, "CovenKillCooldown", 30, 2.5f, 180, 2.5f, CustomRoleSpawnChances[CustomRoles.Coven]);
-            CovenMeetings = CustomOption.Create(60021, Color.white, "CovenMeetings", 10, 0, 15, 1, CustomRoleSpawnChances[CustomRoles.Coven]);
+            CovenMeetings = CustomOption.Create(60021, Color.white, "CovenMeetings", 3, 0, 15, 1, CustomRoleSpawnChances[CustomRoles.Coven]);
             HexMasterOn = CustomOption.Create(60022, Color.white, "HexMasterOn", false, CustomRoleSpawnChances[CustomRoles.Coven]);
 
             HexCD = CustomOption.Create(60028, Color.white, "HexCD", 30, 2.5f, 180, 2.5f, HexMasterOn);
@@ -583,6 +594,10 @@ namespace TownOfHost
             //NumOfCoven = CustomOption.Create(60010, Color.white, "ArsonistDouseTime", 3, 1, 3, 1, CustomRoleSpawnChances[CustomRoles.Coven]);
 
             // Attribute
+            ImpostorKnowsRolesOfTeam = CustomOption.Create(102000, Color.white, "ImpostorKnowsRolesOfTeam", true, null, true)
+                .SetGameMode(CustomGameMode.Standard);
+            CovenKnowsRolesOfTeam = CustomOption.Create(102300, Color.white, "CovenKnowsRolesOfTeam", true, null, true)
+                .SetGameMode(CustomGameMode.Standard);
             GlobalRoleBlockDuration = CustomOption.Create(80009, Color.yellow, "GRB", 30, 2.5f, 180, 2.5f, null, true)
                 .SetGameMode(CustomGameMode.Standard);
             EnableLastImpostor = CustomOption.Create(80010, Utils.GetRoleColor(CustomRoles.Impostor), "LastImpostor", false, null, true)

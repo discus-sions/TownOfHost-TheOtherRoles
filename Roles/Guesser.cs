@@ -33,7 +33,7 @@ namespace TownOfHost
         public static Dictionary<byte, int> PirateGuess;
         public static void SetupCustomOption()
         {
-            Options.SetupRoleOptions(Id + 19, CustomRoles.EvilGuesser);
+            Options.SetupRoleOptions(Id + 21, CustomRoles.EvilGuesser);
             CanShootAsNormalCrewmate = CustomOption.Create(Id + 30130, Color.white, "CanShootAsNormalCrewmate", true, Options.CustomRoleSpawnChances[CustomRoles.EvilGuesser]);
             GuesserCanKillCount = CustomOption.Create(Id + 30140, Color.white, "GuesserShootLimit", 1, 1, 15, 1, Options.CustomRoleSpawnChances[CustomRoles.EvilGuesser]);
             CanKillMultipleTimes = CustomOption.Create(Id + 30150, Color.white, "CanKillMultipleTimes", false, Options.CustomRoleSpawnChances[CustomRoles.EvilGuesser]);
@@ -106,7 +106,9 @@ namespace TownOfHost
             {
                 if (targetname == $"{target.name}" && GuesserShootLimit[killer.PlayerId] != 0)//targetnameが人の名前で弾数が０じゃないなら続行
                 {
-                    RoleAndNumber.TryGetValue(int.Parse(targetrolenum), out var r);//番号から役職を取得
+                    //if (target.Data.IsDead) return;
+                    var r = GetGuessingType(killer.GetCustomRole(), targetrolenum);
+                    if (target.Data.IsDead) return;
                     if (target.GetCustomRole() == r)//当たっていた場合
                     {
                         if (killer.Is(CustomRoles.Pirate))
@@ -118,6 +120,7 @@ namespace TownOfHost
                         IsSkillUsed[killer.PlayerId] = true;
                         PlayerState.SetDeathReason(target.PlayerId, PlayerState.DeathReason.Kill);
                         target.RpcGuesserMurderPlayer(0f);//専用の殺し方
+                        PlayerState.SetDeathReason(target.PlayerId, PlayerState.DeathReason.Kill);
                         if (PirateGuess[killer.PlayerId] == PirateGuessAmount.GetInt())
                         {
                             // pirate wins.
@@ -136,6 +139,7 @@ namespace TownOfHost
                         {
                             PlayerState.SetDeathReason(target.PlayerId, PlayerState.DeathReason.Misfire);
                             killer.RpcGuesserMurderPlayer(0f);
+                            PlayerState.SetDeathReason(target.PlayerId, PlayerState.DeathReason.Misfire);
                         }
                         else { canGuess = false; Utils.SendMessage("You missguessed as Pirate. Because of this, instead of dying, your guessing powers have been removed for the rest of the meeting,.", killer.PlayerId); }
                         if (IsEvilGuesserMeeting)
@@ -149,9 +153,28 @@ namespace TownOfHost
                 }
             }
         }
+        public static CustomRoles GetGuessingType(CustomRoles role, string targetrolenum)
+        {
+            switch (role)
+            {
+                case CustomRoles.EvilGuesser:
+                    RoleAndNumberAss.TryGetValue(int.Parse(targetrolenum), out var r);
+                    return r;
+                    break;
+                case CustomRoles.NiceGuesser:
+                    RoleAndNumber.TryGetValue(int.Parse(targetrolenum), out var re);
+                    return re;
+                    break;
+                case CustomRoles.Pirate:
+                    RoleAndNumberPirate.TryGetValue(int.Parse(targetrolenum), out var ree);
+                    return ree;
+                    break;
+            }
+            return CustomRoles.Amnesiac;
+        }
         public static void GuesserShootByID(PlayerControl killer, string playerId, string targetrolenum)//ゲッサーが撃てるかどうかのチェック
         {
-            if ((!killer.Is(CustomRoles.NiceGuesser) && !killer.Is(CustomRoles.EvilGuesser) && !killer.Is(CustomRoles.Pirate)) || killer.Data.IsDead || !AmongUsClient.Instance.IsGameStarted) return;
+            if ((!killer.Is(CustomRoles.NiceGuesser) && !killer.Is(CustomRoles.EvilGuesser) && !killer.Is(CustomRoles.Pirate)) || killer.Data.IsDead || !AmongUsClient.Instance.IsGameStarted) if (killer.GetCustomRole().IsCoven() && !Main.HasNecronomicon) return;
             if (killer.Is(CustomRoles.Pirate) && !canGuess) return;
             //死んでるやつとゲッサーじゃないやつ、ゲームが始まってない場合は引き返す
             if (killer.Is(CustomRoles.NiceGuesser) && IsEvilGuesserMeeting) return;//イビルゲッサー会議の最中はナイスゲッサーは打つな
@@ -167,6 +190,7 @@ namespace TownOfHost
                 if (playerId == $"{target.PlayerId}" && GuesserShootLimit[killer.PlayerId] != 0)//targetnameが人の名前で弾数が０じゃないなら続行
                 {
                     var r = GetShootChoices(killer.GetCustomRole(), targetrolenum);
+                    if (target.Data.IsDead) return;
                     if (target.GetCustomRole() == r)//当たっていた場合
                     {
                         if (killer.Is(CustomRoles.Pirate))

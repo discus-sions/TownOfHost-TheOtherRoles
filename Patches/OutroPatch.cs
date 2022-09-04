@@ -235,7 +235,7 @@ namespace TownOfHost
             foreach (var pc in PlayerControl.AllPlayerControls)
             {
                 if (Main.currentWinner == CustomWinner.None) break;
-                if (pc.Is(CustomRoles.Opportunist) && !pc.Data.IsDead && Main.currentWinner != CustomWinner.Draw && Main.currentWinner != CustomWinner.Terrorist)
+                if (pc.Is(CustomRoles.Opportunist) && !pc.Data.IsDead && Main.currentWinner != CustomWinner.Draw && Main.currentWinner != CustomWinner.Terrorist && Main.currentWinner != CustomWinner.Child)
                 {
                     winner.Add(pc);
                     Main.additionalwinners.Add(AdditionalWinners.Opportunist);
@@ -285,6 +285,11 @@ namespace TownOfHost
                         }
                         // }
                     }
+                }
+                if (pc.Is(CustomRoles.Survivor) && !pc.Data.IsDead && Main.currentWinner != CustomWinner.Draw && Main.currentWinner != CustomWinner.Terrorist && Main.currentWinner != CustomWinner.Child && Main.currentWinner != CustomWinner.Jester && Main.currentWinner != CustomWinner.Executioner)
+                {
+                    winner.Add(pc);
+                    Main.additionalwinners.Add(AdditionalWinners.Survivor);
                 }
             }
 

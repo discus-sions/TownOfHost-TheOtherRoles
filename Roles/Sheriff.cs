@@ -153,9 +153,9 @@ namespace TownOfHost
                         if (!pc.Data.IsDead)
                         {
                             IsAlive++;
-                            if (pc.GetCustomRole().IsNeutralKilling() && Sheriff.TraitorCanSpawnIfNK.GetBool())
+                            if (pc.GetCustomRole().IsNeutralKilling() && !Sheriff.TraitorCanSpawnIfNK.GetBool())
                                 numNKalive++;
-                            if (pc.GetCustomRole().IsCoven() && Sheriff.TraitorCanSpawnIfCoven.GetBool())
+                            if (pc.GetCustomRole().IsCoven() && !Sheriff.TraitorCanSpawnIfCoven.GetBool())
                                 numCovenAlive++;
                             if (pc.Is(CustomRoles.Sheriff))
                                 seer = pc;
@@ -189,6 +189,7 @@ namespace TownOfHost
                 CustomRoles.Terrorist => CanKillTerrorist.GetBool(),
                 CustomRoles.Executioner => CanKillExecutioner.GetBool(),
                 CustomRoles.Opportunist => CanKillOpportunist.GetBool(),
+                CustomRoles.Survivor => CanKillOpportunist.GetBool(),
                 CustomRoles.Arsonist => CanKillArsonist.GetBool(),
                 CustomRoles.Egoist => CanKillEgoist.GetBool(),
                 CustomRoles.EgoSchrodingerCat => CanKillEgoShrodingerCat.GetBool(),
@@ -199,6 +200,7 @@ namespace TownOfHost
                 CustomRoles.Vulture => CanKillVulture.GetBool(),
                 CustomRoles.TheGlitch => CanKillGlitch.GetBool(),
                 CustomRoles.Werewolf => CanKillWerewolf.GetBool(),
+                CustomRoles.Pirate => true,
                 // COVEN //
                 CustomRoles.Coven => SheriffCanKillCoven.GetBool(),
                 CustomRoles.CovenWitch => SheriffCanKillCoven.GetBool(),

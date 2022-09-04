@@ -244,9 +244,9 @@ namespace TownOfHost
                             if (!pc.Data.IsDead)
                             {
                                 IsAlive++;
-                                if (pc.GetCustomRole().IsNeutralKilling() && Sheriff.TraitorCanSpawnIfNK.GetBool())
+                                if (pc.GetCustomRole().IsNeutralKilling() && !Sheriff.TraitorCanSpawnIfNK.GetBool())
                                     numNKalive++;
-                                if (pc.GetCustomRole().IsCoven() && Sheriff.TraitorCanSpawnIfCoven.GetBool())
+                                if (pc.GetCustomRole().IsCoven() && !Sheriff.TraitorCanSpawnIfCoven.GetBool())
                                     numCovenAlive++;
                                 if (pc.Is(CustomRoles.Sheriff))
                                     Sheriff.seer = pc;
@@ -276,9 +276,9 @@ namespace TownOfHost
                             if (!pc.Data.IsDead)
                             {
                                 IsAlive++;
-                                if (pc.GetCustomRole().IsNeutralKilling() && Sheriff.TraitorCanSpawnIfNK.GetBool())
+                                if (pc.GetCustomRole().IsNeutralKilling() && !Sheriff.TraitorCanSpawnIfNK.GetBool())
                                     numNKalive++;
-                                if (pc.GetCustomRole().IsCoven() && Sheriff.TraitorCanSpawnIfCoven.GetBool())
+                                if (pc.GetCustomRole().IsCoven() && !Sheriff.TraitorCanSpawnIfCoven.GetBool())
                                     numCovenAlive++;
                                 if (pc.Is(CustomRoles.Sheriff))
                                     Sheriff.seer = pc;

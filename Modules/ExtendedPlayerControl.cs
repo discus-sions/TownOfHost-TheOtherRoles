@@ -404,6 +404,31 @@ namespace TownOfHost
                         opt.RoleOptions.EngineerCooldown = Options.VetCD.GetFloat() + Options.VetDuration.GetFloat();
                     opt.RoleOptions.EngineerInVentMaxTime = 1;
                     break;
+                case CustomRoles.Survivor:
+                    opt.RoleOptions.EngineerInVentMaxTime = 1;
+                    foreach (var ar in Main.SurvivorStuff)
+                    {
+                        if (ar.Key != player.PlayerId) break;
+                        // now we set it to true
+                        var stuff = Main.SurvivorStuff[player.PlayerId];
+                        if (stuff.Item1 != Options.NumOfVests.GetInt())
+                        {
+                            if (stuff.Item5)
+                            {
+                                opt.RoleOptions.EngineerCooldown = 10f;
+                                stuff.Item5 = true;
+                            }
+                            else if (!stuff.Item4)
+                                opt.RoleOptions.EngineerCooldown = Options.VestCD.GetFloat();
+                            else
+                                opt.RoleOptions.EngineerCooldown = Options.VestCD.GetFloat() + Options.VestDuration.GetFloat();
+                        }
+                    }
+                    break;
+                case CustomRoles.Opportunist:
+                    opt.RoleOptions.EngineerInVentMaxTime = 1;
+                    opt.RoleOptions.EngineerCooldown = 999999;
+                    break;
                 case CustomRoles.GuardianAngelTOU:
                     if (Main.IsRoundOneGA)
                     {
@@ -868,6 +893,26 @@ namespace TownOfHost
                 }, Options.VetDuration.GetFloat(), "Veteran Duration");
             }
         }
+        public static void SurvivorVested(this PlayerControl survivor)
+        {
+            if (survivor.Is(CustomRoles.Survivor))
+            {
+                foreach (var ar in Main.SurvivorStuff)
+                {
+                    if (ar.Key != survivor.PlayerId) break;
+                    var stuff = Main.SurvivorStuff[survivor.PlayerId];
+                    if (stuff.Item1 != Options.NumOfVests.GetInt())
+                    {
+                        stuff.Item1++;
+                        stuff.Item2 = true;
+                        new LateTask(() =>
+                        {
+                            stuff.Item2 = false;
+                        }, Options.VestDuration.GetFloat(), "Survivor Vesting Duration");
+                    }
+                }
+            }
+        }
         public static void GaProtect(this PlayerControl ga)
         {
             if (ga.Is(CustomRoles.GuardianAngelTOU) && !Main.IsProtected)
@@ -987,19 +1032,37 @@ namespace TownOfHost
         }
         public static void RpcMurderPlayerV2(this PlayerControl killer, PlayerControl target)
         {
+            bool sendRpc = true;
             if (target == null) target = killer;
             if (AmongUsClient.Instance.AmClient)
             {
                 if (!target.Is(CustomRoles.Pestilence))
                     killer.MurderPlayer(target);
-                else if (target == killer && target.Is(CustomRoles.Pestilence)) //PESTILENCE WILL NOT SUICIDE
-                { }
+                else if (target.Is(CustomRoles.Pestilence)) //PESTILENCE WILL NOT SUICIDE
+                { sendRpc = false; }
+                else if (target.Is(CustomRoles.Survivor))
+                {
+                    foreach (var ar in Main.SurvivorStuff)
+                    {
+                        if (ar.Key != target.PlayerId) break;
+                        var stuff = Main.SurvivorStuff[target.PlayerId];
+                        if (stuff.Item2)
+                        {
+                            //killer.RpcGuardAndKill(killer);
+                            killer.RpcGuardAndKill(target);
+                            sendRpc = false;
+                        }
+                    }
+                }
                 else
                     target.MurderPlayer(killer);
             }
-            MessageWriter messageWriter = AmongUsClient.Instance.StartRpcImmediately(killer.NetId, (byte)RpcCalls.MurderPlayer, SendOption.None, -1);
-            messageWriter.WriteNetObject(target);
-            AmongUsClient.Instance.FinishRpcImmediately(messageWriter);
+            if (sendRpc)
+            {
+                MessageWriter messageWriter = AmongUsClient.Instance.StartRpcImmediately(killer.NetId, (byte)RpcCalls.MurderPlayer, SendOption.None, -1);
+                messageWriter.WriteNetObject(target);
+                AmongUsClient.Instance.FinishRpcImmediately(messageWriter);
+            }
             Utils.NotifyRoles();
         }
         public static void NoCheckStartMeeting(this PlayerControl reporter, GameData.PlayerInfo target)
