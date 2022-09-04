@@ -407,7 +407,7 @@ namespace TownOfHost
             // SetupRoleOptions(1200, CustomRoles.ShapeMaster);
             // ShapeMasterShapeshiftDuration = CustomOption.Create(1210, Color.white, "ShapeMasterShapeshiftDuration", 10, 1, 1000, 1, CustomRoleSpawnChances[CustomRoles.ShapeMaster]);
             SetupRoleOptions(1300, CustomRoles.Vampire);
-            VampireKillDelay = CustomOption.Create(1310, Color.white, "VampireKillDelay", 10, 1, 1000, 1, CustomRoleSpawnChances[CustomRoles.Vampire]);
+            VampireKillDelay = CustomOption.Create(1310, Color.white, "VampireKillDelay", 5, 1, 1000, 1, CustomRoleSpawnChances[CustomRoles.Vampire]);
             VampireBuff = CustomOption.Create(1311, Color.white, "VampBuff", true, CustomRoleSpawnChances[CustomRoles.Vampire]);
             SetupRoleOptions(1400, CustomRoles.Warlock);
             SetupRoleOptions(1500, CustomRoles.Witch);
@@ -457,15 +457,15 @@ namespace TownOfHost
             SetupRoleOptions(20002, CustomRoles.Demolitionist);
             DemoSuicideTime = CustomOption.Create(20004, Color.white, "DemoSuicideTime", 5f, 1f, 180, 1, CustomRoleSpawnChances[CustomRoles.Demolitionist]);
             SetupSingleRoleOptions(20005, CustomRoles.Bewilder, 1);
-            BewilderVision = CustomOption.Create(20020, Color.white, "BewilderVision", 2f, 0f, 5f, 0.25f, CustomRoleSpawnChances[CustomRoles.Bewilder]);
+            BewilderVision = CustomOption.Create(20020, Color.white, "BewilderVision", 0.5f, 0f, 5f, 0.25f, CustomRoleSpawnChances[CustomRoles.Bewilder]);
             /*SetupSingleRoleOptions(20006, CustomRoles.Flash, 1);
             FlashSpeed = CustomOption.Create(20030, Color.white, "SpeedBoosterUpSpeed", 2f, 0.25f, 3f, 0.25f, CustomRoleSpawnChances[CustomRoles.Flash]); */
             SetupRoleOptions(20850, CustomRoles.Bastion);
             SetupSingleRoleOptions(20010, CustomRoles.Veteran, 1);
-            NumOfVets = CustomOption.Create(20011, Color.white, "NVet", 15, 1, 15, 1, CustomRoleSpawnChances[CustomRoles.Veteran]);
+            NumOfVets = CustomOption.Create(20011, Color.white, "NVet", 10, 1, 15, 1, CustomRoleSpawnChances[CustomRoles.Veteran]);
             VetCD = CustomOption.Create(20012, Color.white, "VetCD", 30, 2.5f, 180, 2.5f, CustomRoleSpawnChances[CustomRoles.Veteran]);
-            VetDuration = CustomOption.Create(20013, Color.white, "VetDur", 30, 2.5f, 180, 2.5f, CustomRoleSpawnChances[CustomRoles.Veteran]);
-            CrewRolesVetted = CustomOption.Create(20014, Color.white, "CRGV", false, CustomRoleSpawnChances[CustomRoles.Veteran]);
+            VetDuration = CustomOption.Create(20013, Color.white, "VetDur", 15, 2.5f, 180, 2.5f, CustomRoleSpawnChances[CustomRoles.Veteran]);
+            CrewRolesVetted = CustomOption.Create(20014, Color.white, "CRGV", true, CustomRoleSpawnChances[CustomRoles.Veteran]);
             PestiAttacksVet = CustomOption.Create(20015, Color.white, "PestiAttacks", PestiAttacksVetString, PestiAttacksVetString[2], CustomRoleSpawnChances[CustomRoles.Veteran]);
             SetupRoleOptions(20100, CustomRoles.Lighter);
             LighterTaskCompletedVision = CustomOption.Create(20110, Color.white, "LighterTaskCompletedVision", 2f, 0f, 5f, 0.25f, CustomRoleSpawnChances[CustomRoles.Lighter]);
@@ -521,7 +521,7 @@ namespace TownOfHost
             //50220~50223を使用
             TerroristTasks = OverrideTasksData.Create(50220, CustomRoles.Terrorist);
             SetupRoleOptions(50250, CustomRoles.Hacker);
-            SaboAmount = CustomOption.Create(50260, Color.white, "SA", 30, 10, 99, 1, CustomRoleSpawnChances[CustomRoles.Hacker]);
+            SaboAmount = CustomOption.Create(50260, Color.white, "SA", 20, 10, 99, 1, CustomRoleSpawnChances[CustomRoles.Hacker]);
             SetupLoversRoleOptionsToggle(50300);
 
             SetupRoleOptions(50400, CustomRoles.SchrodingerCat);
