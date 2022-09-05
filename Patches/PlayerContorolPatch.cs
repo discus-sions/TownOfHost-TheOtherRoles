@@ -1904,7 +1904,7 @@ namespace TownOfHost
                 if (GameStates.IsInGame && Main.RefixCooldownDelay <= 0)
                     foreach (var pc in PlayerControl.AllPlayerControls)
                     {
-                        if (pc.Is(CustomRoles.Vampire) || pc.Is(CustomRoles.Warlock))
+                        if (/*pc.Is(CustomRoles.Vampire) ||*/ pc.Is(CustomRoles.Warlock))
                             Main.AllPlayerKillCooldown[pc.PlayerId] = Options.DefaultKillCooldown * 2;
                     }
 
