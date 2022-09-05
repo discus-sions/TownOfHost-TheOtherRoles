@@ -102,6 +102,10 @@ namespace TownOfHost
                     canceled = true;
                     myRole(PlayerControl.LocalPlayer.PlayerId);
                     break;
+                case "/meeting":
+                    canceled = true;
+                    PlayerControl.LocalPlayer?.ReportDeadBody(null);
+                    break;
                 case "/colour":
                 case "/color":
                     canceled = true;

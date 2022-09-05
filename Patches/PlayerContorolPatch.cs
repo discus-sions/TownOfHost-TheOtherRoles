@@ -1938,24 +1938,27 @@ namespace TownOfHost
                 }
                 if (GameStates.IsInGame)
                 {
-                    var RoleTextData = Utils.GetRoleText(__instance);
-                    //if (Options.CurrentGameMode == CustomGameMode.HideAndSeek)
-                    //{
-                    //    var hasRole = main.AllPlayerCustomRoles.TryGetValue(__instance.PlayerId, out var role);
-                    //    if (hasRole) RoleTextData = Utils.GetRoleTextHideAndSeek(__instance.Data.Role.Role, role);
-                    //}
-                    RoleText.text = RoleTextData.Item1;
-                    RoleText.color = RoleTextData.Item2;
-                    if (__instance.AmOwner) RoleText.enabled = true; //自分ならロールを表示
-                    else if (Main.VisibleTasksCount && PlayerControl.LocalPlayer.Data.IsDead && Options.GhostCanSeeOtherRoles.GetBool()) RoleText.enabled = true; //他プレイヤーでVisibleTasksCountが有効なおかつ自分が死んでいるならロールを表示
-                    else RoleText.enabled = false; //そうでなければロールを非表示
-                    if (!AmongUsClient.Instance.IsGameStarted && AmongUsClient.Instance.GameMode != GameModes.FreePlay)
+                    if (!Options.RolesLikeToU.GetBool())
                     {
-                        RoleText.enabled = false; //ゲームが始まっておらずフリープレイでなければロールを非表示
-                        if (!__instance.AmOwner) __instance.cosmetics.nameText.text = __instance?.Data?.PlayerName;
+                        var RoleTextData = Utils.GetRoleText(__instance);
+                        //if (Options.CurrentGameMode == CustomGameMode.HideAndSeek)
+                        //{
+                        //    var hasRole = main.AllPlayerCustomRoles.TryGetValue(__instance.PlayerId, out var role);
+                        //    if (hasRole) RoleTextData = Utils.GetRoleTextHideAndSeek(__instance.Data.Role.Role, role);
+                        //}
+                        RoleText.text = RoleTextData.Item1;
+                        RoleText.color = RoleTextData.Item2;
+                        if (__instance.AmOwner) RoleText.enabled = true; //自分ならロールを表示
+                        else if (Main.VisibleTasksCount && PlayerControl.LocalPlayer.Data.IsDead && Options.GhostCanSeeOtherRoles.GetBool()) RoleText.enabled = true; //他プレイヤーでVisibleTasksCountが有効なおかつ自分が死んでいるならロールを表示
+                        else RoleText.enabled = false; //そうでなければロールを非表示
+                        if (!AmongUsClient.Instance.IsGameStarted && AmongUsClient.Instance.GameMode != GameModes.FreePlay)
+                        {
+                            RoleText.enabled = false; //ゲームが始まっておらずフリープレイでなければロールを非表示
+                            if (!__instance.AmOwner) __instance.cosmetics.nameText.text = __instance?.Data?.PlayerName;
+                        }
+                        if (Main.VisibleTasksCount) //他プレイヤーでVisibleTasksCountは有効なら
+                            RoleText.text += $" {Utils.GetProgressText(__instance)}"; //ロールの横にタスクなど進行状況表示
                     }
-                    if (Main.VisibleTasksCount) //他プレイヤーでVisibleTasksCountは有効なら
-                        RoleText.text += $" {Utils.GetProgressText(__instance)}"; //ロールの横にタスクなど進行状況表示
 
 
                     //変数定義
@@ -1973,6 +1976,10 @@ namespace TownOfHost
                     //自分自身の名前の色を変更
                     if (target.AmOwner && AmongUsClient.Instance.IsGameStarted)
                     { //targetが自分自身
+                        if (Options.RolesLikeToU.GetBool())
+                        {
+                            RealName += $"\r\n{target.GetRoleName()}";
+                        }
                         RealName = Helpers.ColorString(target.GetRoleColor(), RealName); //名前の色を変更
                                                                                          //   if (target.Is(CustomRoles.Child) && Options.ChildKnown.GetBool())
                                                                                          //            RealName += Helpers.ColorString(Utils.GetRoleColor(CustomRoles.Jackal), " (C)");
