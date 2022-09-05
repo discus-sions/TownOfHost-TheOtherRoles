@@ -253,8 +253,20 @@ namespace TownOfHost
                             }
                         }
 
+                        if (Sheriff.seer == null)
+                        {
+                            foreach (var pc in PlayerControl.AllPlayerControls)
+                            {
+                                if (!pc.Data.IsDead)
+                                {
+                                    if (pc.Is(CustomRoles.Investigator))
+                                        Sheriff.seer = pc;
+                                }
+                            }
+                        }
+
                         //foreach (var pva in __instance.playerStates)
-                        if (IsAlive >= Sheriff.PlayersForTraitor.GetFloat())
+                        if (IsAlive >= Sheriff.PlayersForTraitor.GetFloat() && Sheriff.seer != null)
                         {
                             if (numCovenAlive == 0 && numNKalive == 0)
                             {
@@ -284,9 +296,20 @@ namespace TownOfHost
                                     Sheriff.seer = pc;
                             }
                         }
+                        if (Sheriff.seer == null)
+                        {
+                            foreach (var pc in PlayerControl.AllPlayerControls)
+                            {
+                                if (!pc.Data.IsDead)
+                                {
+                                    if (pc.Is(CustomRoles.Investigator))
+                                        Sheriff.seer = pc;
+                                }
+                            }
+                        }
 
                         //foreach (var pva in __instance.playerStates)
-                        if (IsAlive >= Sheriff.PlayersForTraitor.GetFloat())
+                        if (IsAlive >= Sheriff.PlayersForTraitor.GetFloat() && Sheriff.seer != null)
                         {
                             if (numCovenAlive == 0 && numNKalive == 0)
                             {

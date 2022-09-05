@@ -162,8 +162,20 @@ namespace TownOfHost
                         }
                     }
 
+                    if (seer == null)
+                    {
+                        foreach (var pc in PlayerControl.AllPlayerControls)
+                        {
+                            if (!pc.Data.IsDead)
+                            {
+                                if (pc.Is(CustomRoles.Investigator))
+                                    seer = pc;
+                            }
+                        }
+                    }
+
                     //foreach (var pva in __instance.playerStates)
-                    if (IsAlive >= Sheriff.PlayersForTraitor.GetFloat())
+                    if (IsAlive >= Sheriff.PlayersForTraitor.GetFloat() && seer != null)
                     {
                         foreach (var ar in PlayerControl.AllPlayerControls)
                         {

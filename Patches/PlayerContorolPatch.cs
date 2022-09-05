@@ -860,8 +860,8 @@ namespace TownOfHost
                         }
                         break;
                 }
-                Sheriff.SwitchToCorrupt(killer, target);
             }
+            Sheriff.SwitchToCorrupt(killer, target);
 
             //==キル処理==D
             if (!killer.Is(CustomRoles.Silencer))
