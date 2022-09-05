@@ -481,6 +481,18 @@ namespace TownOfHost
                 if (target != null && target.AmOwner && AmongUsClient.Instance.IsGameStarted) //変更先が自分自身
                     pva.NameText.color = seer.GetRoleColor();//名前の色を変更
 
+                foreach (var pc in PlayerControl.AllPlayerControls)
+                {
+                    if (pc == null ||
+                        pc.Data.IsDead ||
+                        pc.Data.Disconnected ||
+                        pc.PlayerId == seer.PlayerId
+                    ) continue; //塗れない人は除外 (死んでたり切断済みだったり あとアーソニスト自身も)
+
+                    if (Main.isDoused.TryGetValue((seer.PlayerId, pc.PlayerId), out var isDoused) && isDoused)
+                        Utils.SendMessage("You have been hexed by the Hex Master!", pc.PlayerId);
+                }
+
                 //とりあえずSnitchは会議中にもインポスターを確認することができる仕様にしていますが、変更する可能性があります。
 
                 //インポスター表示

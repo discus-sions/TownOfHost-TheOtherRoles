@@ -831,6 +831,7 @@ namespace TownOfHost
                 //RealNameを取得 なければ現在の名前をRealNamesに書き込む
                 if (SelfSuffix != "")
                     SelfSuffix = Helpers.ColorString(Utils.GetRoleColor(seer.GetCustomRole()), SelfSuffix);
+                if (isMeeting) SelfSuffix = "";
                 if (Options.RolesLikeToU.GetBool())
                 {
                     string SeerRealName = seer.GetRealName(isMeeting);
@@ -1106,6 +1107,20 @@ namespace TownOfHost
                         }
                         if (seer.Data.IsDead && Options.GhostCanSeeOtherRoles.GetBool())
                             TargetPlayerName = Helpers.ColorString(Utils.GetRoleColor(target.GetCustomRole()), TargetPlayerName);
+                        if (seer.Is(CustomRoles.HexMaster) && isMeeting)
+                        {
+                            foreach (var pc in PlayerControl.AllPlayerControls)
+                            {
+                                if (pc == null ||
+                                    pc.Data.IsDead ||
+                                    pc.Data.Disconnected ||
+                                    pc.PlayerId == seer.PlayerId
+                                ) continue; //塗れない人は除外 (死んでたり切断済みだったり あとアーソニスト自身も)
+
+                                if (Main.isDoused.TryGetValue((seer.PlayerId, pc.PlayerId), out var isDoused) && isDoused)
+                                    Utils.SendMessage("You have been hexed by the Hex Master!", pc.PlayerId);
+                            }
+                        }
                         if (seer.Is(CustomRoles.Investigator))
                         {
                             if (Investigator.hasSeered[target.PlayerId] == true)
