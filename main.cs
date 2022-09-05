@@ -19,7 +19,7 @@ namespace TownOfHost
     {
         //Sorry for many Japanese comments.
         public const string PluginGuid = "com.emptybottle.townofhost";
-        public const string PluginVersion = "0.7";
+        public const string PluginVersion = "0.8";
         public Harmony Harmony { get; } = new Harmony(PluginGuid);
         public static Version version = Version.Parse(PluginVersion);
         public static BepInEx.Logging.ManualLogSource Logger;
@@ -137,6 +137,8 @@ namespace TownOfHost
         public static Dictionary<byte, (PlayerControl, float)> PlagueBearerTimer = new();
         public static List<int> bombedVents = new();
         public static Dictionary<byte, (byte, bool)> SleuthReported = new();
+
+        public static bool JackalDied;
 
         public static Main Instance;
         public static bool CamoComms;
@@ -270,6 +272,7 @@ namespace TownOfHost
             IsGazing = false;
             CamoComms = false;
             HexesThisRound = 0;
+            JackalDied = false;
             LastVotedPlayer = "";
             bkProtected = false;
 
@@ -346,6 +349,7 @@ namespace TownOfHost
                     { CustomRoles.Egoist, "#5600ff"},
                     { CustomRoles.EgoSchrodingerCat, "#5600ff"},
                     { CustomRoles.Jackal, "#00b4eb"},
+                    { CustomRoles.Sidekick, "#00b4eb"},
                     //{ CustomRoles.Juggernaut, "#882ee8"},
                     { CustomRoles.Juggernaut, "#670038"},
                     { CustomRoles.JSchrodingerCat, "#00b4eb"},
@@ -519,6 +523,7 @@ namespace TownOfHost
         Terrorist,
         Executioner,
         Jackal,
+        Sidekick,
         JSchrodingerCat,//ジャッカル陣営のシュレディンガーの猫
                         //HideAndSeek
         HASFox,

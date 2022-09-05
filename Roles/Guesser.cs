@@ -205,18 +205,19 @@ namespace TownOfHost
                         if (PirateGuess[killer.PlayerId] == PirateGuessAmount.GetInt())
                         {
                             // pirate wins.
-                            //__instance.enabled = false;
                             var endReason = TempData.LastDeathReason switch
                             {
                                 DeathReason.Exile => GameOverReason.ImpostorByVote,
                                 DeathReason.Kill => GameOverReason.ImpostorByKill,
                                 _ => GameOverReason.ImpostorByVote,
                             };
-
+                            Main.WonPirateID = killer.PlayerId;
                             MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.EndGame, Hazel.SendOption.Reliable, -1);
                             writer.Write((byte)CustomWinner.Pirate);
+                            writer.Write(killer.PlayerId);
                             AmongUsClient.Instance.FinishRpcImmediately(writer);
                             RPC.PirateWin(killer.PlayerId);
+                            PirateEndGame(endReason, false);
                         }
                         return;
                     }
@@ -305,12 +306,14 @@ namespace TownOfHost
             string text = "";
             new LateTask(() =>
             {
+                pc.RpcMurderPlayer(pc);
                 MessageWriter MurderWriter = AmongUsClient.Instance.StartRpcImmediately(pc.NetId, (byte)RpcCalls.MurderPlayer, SendOption.Reliable, pc.GetClientId());
                 MessageExtensions.WriteNetObject(MurderWriter, pc);
                 AmongUsClient.Instance.FinishRpcImmediately(MurderWriter);
             }, 0.2f + delay, "Guesser Murder");//ここまでの処理でターゲットで視点キルを発生させる
             pc.Data.IsDead = true;//それ以外のやつ視点で勝手に死んだことにする
             text += string.Format(GetString("KilledByGuesser"), pc.name);//ホスト以外死んだのがわからないのでチャットで送信
+            Main.unreportableBodies.Add(pc.PlayerId);
             Utils.SendMessage(text, byte.MaxValue);
 
         }
@@ -377,6 +380,29 @@ namespace TownOfHost
                     Utils.SendMessage(text, byte.MaxValue);
                 }
             }
+        }
+        private static void PirateEndGame(GameOverReason reason, bool showAd)
+        {
+            foreach (var pc in PlayerControl.AllPlayerControls)
+            {
+                var LoseImpostorRole = Main.AliveImpostorCount == 0 ? pc.Is(RoleType.Impostor) : pc.Is(CustomRoles.Egoist);
+                if (pc.Is(CustomRoles.Sheriff) || pc.Is(CustomRoles.Investigator) ||
+                    (!(Main.currentWinner == CustomWinner.Arsonist) && pc.Is(CustomRoles.Arsonist)) || (Main.currentWinner != CustomWinner.Vulture && pc.Is(CustomRoles.Vulture)) || (Main.currentWinner != CustomWinner.Pirate && pc.Is(CustomRoles.Pirate)) ||
+                    (Main.currentWinner != CustomWinner.Jackal && pc.Is(CustomRoles.Jackal)) || (Main.currentWinner != CustomWinner.BloodKnight && pc.Is(CustomRoles.BloodKnight)) || (Main.currentWinner != CustomWinner.Pestilence && pc.Is(CustomRoles.Pestilence)) || (Main.currentWinner != CustomWinner.Coven && pc.GetRoleType() == RoleType.Coven) ||
+                    LoseImpostorRole || (Main.currentWinner != CustomWinner.Werewolf && pc.Is(CustomRoles.Werewolf)) || (Main.currentWinner != CustomWinner.TheGlitch && pc.Is(CustomRoles.TheGlitch)))
+                {
+                    pc.RpcSetRole(RoleTypes.GuardianAngel);
+                }
+                if (pc.Is(CustomRoles.Pirate))
+                {
+                    //pc.RpcSetCustomRole(CustomRoles.Impostor);
+                    pc.RpcSetRole(RoleTypes.Impostor);
+                }
+            }
+            new LateTask(() =>
+            {
+                ShipStatus.RpcEndGame(reason, showAd);
+            }, 0.5f, "EndGameTask");
         }
     }
 }

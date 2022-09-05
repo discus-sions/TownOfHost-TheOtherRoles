@@ -112,6 +112,18 @@ namespace TownOfHost
                 }
                 teamToDisplay = covenTeam;
             }
+            if (PlayerControl.LocalPlayer.GetCustomRole().IsJackalTeam())
+            {
+                //ぼっち役職
+                var jackalTeam = new Il2CppSystem.Collections.Generic.List<PlayerControl>();
+                jackalTeam.Add(PlayerControl.LocalPlayer);
+                foreach (var ar in PlayerControl.AllPlayerControls)
+                {
+                    if (ar.GetCustomRole().IsJackalTeam() && ar != PlayerControl.LocalPlayer)
+                        jackalTeam.Add(ar);
+                }
+                teamToDisplay = jackalTeam;
+            }
             if (PlayerControl.LocalPlayer.Is(CustomRoles.GuardianAngelTOU))
             {
                 var gaTeam = new Il2CppSystem.Collections.Generic.List<PlayerControl>();
@@ -223,6 +235,8 @@ namespace TownOfHost
                 case CustomRoles.Jester:
                 case CustomRoles.GuardianAngelTOU:
                 case CustomRoles.Survivor:
+                case CustomRoles.Vulture:
+                case CustomRoles.Werewolf:
                 case CustomRoles.Mayor:
                 case CustomRoles.PlagueBearer:
                     PlayerControl.LocalPlayer.Data.Role.IntroSound = GetIntroSound(RoleTypes.Crewmate);
@@ -232,6 +246,7 @@ namespace TownOfHost
                 case CustomRoles.Ninja:
                 case CustomRoles.Camouflager:
                 case CustomRoles.Jackal:
+                case CustomRoles.Sidekick:
                 case CustomRoles.Juggernaut:
                 case CustomRoles.SchrodingerCat:
                     PlayerControl.LocalPlayer.Data.Role.IntroSound = GetIntroSound(RoleTypes.Impostor);

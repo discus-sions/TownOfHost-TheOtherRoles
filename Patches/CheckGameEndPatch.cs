@@ -584,7 +584,7 @@ namespace TownOfHost
                             playerInfo.GetCustomRole() != CustomRoles.Jackal || playerInfo.GetCustomRole() != CustomRoles.Pestilence ||
                             playerInfo.GetCustomRole() != CustomRoles.Juggernaut || playerInfo.GetCustomRole() != CustomRoles.Werewolf ||
                             !playerInfo.GetCustomRole().IsCoven() || playerInfo.GetCustomRole() != CustomRoles.Investigator
-                            || playerInfo.GetCustomRole() != CustomRoles.BloodKnight))
+                            || playerInfo.GetCustomRole() != CustomRoles.BloodKnight || playerInfo.GetCustomRole() != CustomRoles.Jackal))
                             {
                                 numImpostorsAlive++;
                             }
@@ -594,6 +594,7 @@ namespace TownOfHost
                             }
                             else if (playerInfo.GetCustomRole() == CustomRoles.CorruptedSheriff) numImpostorsAlive++;
                             else if (playerInfo.GetCustomRole() == CustomRoles.Jackal) numJackalsAlive++;
+                            else if (playerInfo.GetCustomRole() == CustomRoles.Sidekick) numJackalsAlive++;
                             else if (playerInfo.GetCustomRole() == CustomRoles.PlagueBearer) numPestiAlive++;
                             else if (playerInfo.GetCustomRole() == CustomRoles.Pestilence) numPestiAlive++;
                             else if (playerInfo.GetCustomRole() == CustomRoles.Juggernaut) numJugAlive++;

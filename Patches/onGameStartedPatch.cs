@@ -62,6 +62,7 @@ namespace TownOfHost
             Main.TeamJuggernautAlive = false;
             Main.TeamPestiAlive = false;
             Main.CamoComms = false;
+            Main.JackalDied = false;
 
             ////////////// COVEN INFO //////////////    
             Main.TeamCovenAlive = 3;
@@ -161,6 +162,7 @@ namespace TownOfHost
             Investigator.Init();
             Camouflager.Init();
             Ninja.Init();
+            Necromancer.Init();
             Guesser.Init();
             AntiBlackout.Reset();
         }
@@ -211,8 +213,12 @@ namespace TownOfHost
 
                             if (CustomRoles.Veteran.IsEnable())
                                 AdditionalEngineerNum += CustomRoles.Veteran.GetCount();
+
                             if (CustomRoles.Survivor.IsEnable())
                                 AdditionalEngineerNum += CustomRoles.Survivor.GetCount();
+
+                            if (CustomRoles.Vulture.IsEnable() && Options.VultureCanVent.GetBool())
+                                AdditionalEngineerNum += CustomRoles.Vulture.GetCount();
 
                             if (CustomRoles.GuardianAngelTOU.IsEnable())
                                 AdditionalEngineerNum += CustomRoles.GuardianAngelTOU.GetCount();
@@ -246,6 +252,8 @@ namespace TownOfHost
                             AssignDesyncRole(CustomRoles.Investigator, AllPlayers, sender, BaseRole: RoleTypes.Impostor);
                             AssignDesyncRole(CustomRoles.Arsonist, AllPlayers, sender, BaseRole: RoleTypes.Impostor);
                             AssignDesyncRole(CustomRoles.Jackal, AllPlayers, sender, BaseRole: RoleTypes.Impostor);
+                            if (Options.JackalHasSidekick.GetBool() && CustomRoles.Jackal.IsEnable())
+                                AssignJackalSidekick(CustomRoles.Sidekick, AllPlayers, sender, BaseRole: RoleTypes.Impostor);
                             AssignDesyncRole(CustomRoles.Juggernaut, AllPlayers, sender, BaseRole: RoleTypes.Impostor);
                             AssignDesyncRole(CustomRoles.PlagueBearer, AllPlayers, sender, BaseRole: RoleTypes.Impostor);
                             AssignDesyncRole(CustomRoles.TheGlitch, AllPlayers, sender, BaseRole: RoleTypes.Shapeshifter);
@@ -420,7 +428,7 @@ namespace TownOfHost
                 AssignCustomRolesFromList(CustomRoles.Mafia, Impostors);
                 AssignCustomRolesFromList(CustomRoles.Terrorist, Engineers);
                 AssignCustomRolesFromList(CustomRoles.Executioner, Crewmates);
-                AssignCustomRolesFromList(CustomRoles.Vulture, Crewmates);
+                AssignCustomRolesFromList(CustomRoles.Vulture, Options.VultureCanVent.GetBool() ? Engineers : Crewmates);
                 AssignCustomRolesFromList(CustomRoles.Camouflager, Shapeshifters);
                 AssignCustomRolesFromList(CustomRoles.Ninja, Shapeshifters);
                 AssignCustomRolesFromList(CustomRoles.Vampire, Impostors);
@@ -635,7 +643,9 @@ namespace TownOfHost
                         case CustomRoles.Ninja:
                             Ninja.Add(pc.PlayerId);
                             break;
-
+                        case CustomRoles.Necromancer:
+                            Necromancer.Add(pc.PlayerId);
+                            break;
                         case CustomRoles.Arsonist:
                             foreach (var ar in PlayerControl.AllPlayerControls)
                                 Main.isDoused.Add((pc.PlayerId, ar.PlayerId), false);
@@ -742,6 +752,9 @@ namespace TownOfHost
                 if (Options.MayorHasPortableButton.GetBool())
                     EngineerNum -= CustomRoles.Mayor.GetCount();
 
+                if (Options.VultureCanVent.GetBool() && Options.VultureCanVent.GetBool())
+                    EngineerNum -= CustomRoles.Vulture.GetCount();
+
                 if (Options.MadSnitchCanVent.GetBool())
                     EngineerNum -= CustomRoles.MadSnitch.GetCount();
 
@@ -770,6 +783,43 @@ namespace TownOfHost
             if (!role.IsEnable()) return;
 
             for (var i = 0; i < role.GetCount(); i++)
+            {
+                if (AllPlayers.Count <= 0) break;
+                var rand = new Random();
+                var player = AllPlayers[rand.Next(0, AllPlayers.Count)];
+                AllPlayers.Remove(player);
+                Main.AllPlayerCustomRoles[player.PlayerId] = role;
+                //ここからDesyncが始まる
+                if (player.PlayerId != 0)
+                {
+                    int playerCID = player.GetClientId();
+                    sender.RpcSetRole(player, BaseRole, playerCID);
+                    //Desyncする人視点で他プレイヤーを科学者にするループ
+                    foreach (var pc in PlayerControl.AllPlayerControls)
+                    {
+                        if (pc == player) continue;
+                        sender.RpcSetRole(pc, RoleTypes.Scientist, playerCID);
+                    }
+                    //他視点でDesyncする人の役職を科学者にするループ
+                    foreach (var pc in PlayerControl.AllPlayerControls)
+                    {
+                        if (pc == player) continue;
+                        if (pc.PlayerId == 0) player.SetRole(RoleTypes.Scientist); //ホスト視点用
+                        else sender.RpcSetRole(player, RoleTypes.Scientist, pc.GetClientId());
+                    }
+                }
+                else
+                {
+                    //ホストは別の役職にする
+                    player.SetRole(hostBaseRole); //ホスト視点用
+                    sender.RpcSetRole(player, hostBaseRole);
+                }
+                player.Data.IsDead = true;
+            }
+        }
+        private static void AssignJackalSidekick(CustomRoles role, List<PlayerControl> AllPlayers, CustomRpcSender sender, RoleTypes BaseRole, RoleTypes hostBaseRole = RoleTypes.Crewmate)
+        {
+            for (var i = 0; i < 1; i++)
             {
                 if (AllPlayers.Count <= 0) break;
                 var rand = new Random();

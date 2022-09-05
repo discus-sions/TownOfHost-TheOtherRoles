@@ -112,10 +112,14 @@ namespace TownOfHost
             { CustomRoles.Silencer, RoleTypes.Impostor },
             { CustomRoles.Veteran, RoleTypes.Engineer },
             { CustomRoles.TheGlitch, RoleTypes.Shapeshifter },
+            { CustomRoles.Necromancer, RoleTypes.Shapeshifter },
             {CustomRoles.EvilGuesser,RoleTypes.Impostor},
+            {CustomRoles.Sidekick,RoleTypes.Impostor},
             //{ }
-            { CustomRoles.GuardianAngelTOU, RoleTypes.Engineer },
-            { CustomRoles.Survivor, RoleTypes.Engineer },
+            { CustomRoles.GuardianAngelTOU, RoleTypes.Engineer
+    },
+            { CustomRoles.Survivor, RoleTypes.Engineer
+},
             { CustomRoles.LastImpostor, RoleTypes.Impostor },
             { CustomRoles.Camouflager, RoleTypes.Shapeshifter },
             { CustomRoles.Ninja, RoleTypes.Shapeshifter },

@@ -404,7 +404,7 @@ namespace TownOfHost
             {
                 ShipStatus.Instance.enabled = false;
                 Main.currentWinner = CustomWinner.Child;
-                ShipStatus.RpcEndGame(GameOverReason.ImpostorByKill, false);
+                ShipStatus.RpcEndGame(GameOverReason.HumansByTask, false);
             }
         }
         public static void ExecutionerWin(byte executionerID)

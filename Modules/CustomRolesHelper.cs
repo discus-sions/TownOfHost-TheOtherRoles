@@ -60,6 +60,7 @@ namespace TownOfHost
                 CustomRoles.GuardianAngelTOU or
                 CustomRoles.Amnesiac or
                 CustomRoles.Juggernaut or
+                CustomRoles.Sidekick or
                 CustomRoles.JSchrodingerCat or
                 CustomRoles.Hacker or
                 CustomRoles.BloodKnight or
@@ -98,10 +99,18 @@ namespace TownOfHost
                 CustomRoles.PlagueBearer or
                 CustomRoles.Pestilence or
                 CustomRoles.CrewPostor or
+                CustomRoles.Sidekick or
                 CustomRoles.TheGlitch or
                 CustomRoles.Werewolf or
                 CustomRoles.BloodKnight or
                 CustomRoles.Juggernaut;
+        }
+        public static bool IsJackalTeam(this CustomRoles role)
+        {
+            return
+                role is CustomRoles.Jackal or
+                CustomRoles.JSchrodingerCat or
+                CustomRoles.Sidekick;
         }
         public static bool IsCrewmate(this CustomRoles role) => !role.IsImpostorTeam() && !role.IsNeutral() && !role.IsCoven();
         public static bool IsVanilla(this CustomRoles role)

@@ -133,6 +133,13 @@ namespace TownOfHost
                     //==========第三陣営役職==========//
 
                     //==========クルー役職==========//
+                    case CustomRoles.Sidekick:
+                        if (!Main.JackalDied)
+                        {
+                            if (!Options.SidekickCanKill.GetBool())
+                                return false;
+                        }
+                        break;
                     case CustomRoles.Sheriff:
                         if (!Sheriff.CanUseKillButton(killer))
                             return false;
@@ -177,7 +184,7 @@ namespace TownOfHost
                                 target.RpcSetCustomRole(CustomRoles.CSchrodingerCat);
                             if (killer.Is(CustomRoles.Egoist))
                                 target.RpcSetCustomRole(CustomRoles.EgoSchrodingerCat);
-                            if (killer.Is(CustomRoles.Jackal))
+                            if (killer.Is(CustomRoles.Jackal) || killer.Is(CustomRoles.Sidekick))
                                 target.RpcSetCustomRole(CustomRoles.JSchrodingerCat);
                             if (killer.Is(CustomRoles.Pestilence))
                             {
@@ -256,6 +263,11 @@ namespace TownOfHost
                 if (killer.GetRoleType() == target.GetRoleType() && killer.GetRoleType() == RoleType.Coven)
                 {
                     //they are both coven
+                    return false;
+                }
+                if (killer.GetRoleType() == target.GetRoleType() && killer.GetCustomRole().IsJackalTeam())
+                {
+                    //they are both Jackal.
                     return false;
                 }
                 if (killer.GetCustomRole().IsCoven() && !Main.HasNecronomicon && !killer.Is(CustomRoles.PotionMaster) && !killer.Is(CustomRoles.HexMaster) && !killer.Is(CustomRoles.CovenWitch))
@@ -338,6 +350,7 @@ namespace TownOfHost
                             return false;
                         }
                         break;
+                    case CustomRoles.Sidekick:
                     case CustomRoles.Jackal:
                         if (target.Is(CustomRoles.Veteran) && Main.VetIsAlerted)
                         {
@@ -398,6 +411,9 @@ namespace TownOfHost
                     //break;
                     case CustomRoles.Ninja:
                         Ninja.KillCheck(killer, target);
+                        return false;
+                    case CustomRoles.Necromancer:
+                        Necromancer.OnCheckMurder(killer, target);
                         return false;
                     case CustomRoles.Werewolf:
                         if (Main.IsRampaged)
@@ -919,6 +935,18 @@ namespace TownOfHost
                     Utils.ChildWin(target.Data);
                 }
             }
+            else if (target.Is(CustomRoles.Jackal))
+            {
+                Main.JackalDied = true;
+                if (Options.SidekickGetsPromoted.GetBool())
+                {
+                    foreach (var pc in PlayerControl.AllPlayerControls)
+                    {
+                        if (pc.Is(CustomRoles.Sidekick))
+                            pc.RpcSetCustomRole(CustomRoles.Jackal);
+                    }
+                }
+            }
             else if (target.Is(CustomRoles.Investigator) && killer.PlayerId != target.PlayerId)
             {
                 Investigator.hasSeered = new();
@@ -1131,6 +1159,7 @@ namespace TownOfHost
             if (shapeshifter.Is(CustomRoles.FireWorks)) FireWorks.ShapeShiftState(shapeshifter, shapeshifting);
             if (shapeshifter.Is(CustomRoles.Sniper)) Sniper.ShapeShiftCheck(shapeshifter, shapeshifting);
             if (shapeshifter.Is(CustomRoles.Ninja)) Ninja.ShapeShiftCheck(shapeshifter, shapeshifting);
+            if (shapeshifter.Is(CustomRoles.Necromancer)) Necromancer.OnShapeshiftCheck(shapeshifter, shapeshifting);
             if (shapeshifter.Is(CustomRoles.Camouflager))
             {
                 target = shapeshifter;
@@ -1286,6 +1315,14 @@ namespace TownOfHost
                     {
                         Utils.SendMessage("The body had no hints on how they died.", __instance.PlayerId);
                     }
+                }
+            }
+
+            if (target != null) //Sleuth Report for Non-Buttons
+            {
+                if (__instance.Is(CustomRoles.Necromancer))
+                {
+                    Necromancer.OnReportBody(target.GetCustomRole(), __instance);
                 }
             }
 
@@ -1855,7 +1892,7 @@ namespace TownOfHost
             if (__instance.AmOwner)
             {
                 //キルターゲットの上書き処理
-                if (GameStates.IsInTask && (__instance.Is(CustomRoles.Sheriff) || __instance.Is(CustomRoles.Investigator) || __instance.Is(CustomRoles.BloodKnight) || __instance.Is(CustomRoles.CorruptedSheriff) || __instance.GetRoleType() == RoleType.Coven || __instance.Is(CustomRoles.Arsonist) || __instance.Is(CustomRoles.Werewolf) || __instance.Is(CustomRoles.TheGlitch) || __instance.Is(CustomRoles.Juggernaut) || __instance.Is(CustomRoles.PlagueBearer) || __instance.Is(CustomRoles.Pestilence) || __instance.Is(CustomRoles.Jackal)) && !__instance.Data.IsDead)
+                if (GameStates.IsInTask && (__instance.Is(CustomRoles.Sheriff) || __instance.Is(CustomRoles.Investigator) || __instance.Is(CustomRoles.BloodKnight) || __instance.Is(CustomRoles.Sidekick) || __instance.Is(CustomRoles.CorruptedSheriff) || __instance.GetRoleType() == RoleType.Coven || __instance.Is(CustomRoles.Arsonist) || __instance.Is(CustomRoles.Werewolf) || __instance.Is(CustomRoles.TheGlitch) || __instance.Is(CustomRoles.Juggernaut) || __instance.Is(CustomRoles.PlagueBearer) || __instance.Is(CustomRoles.Pestilence) || __instance.Is(CustomRoles.Jackal)) && !__instance.Data.IsDead)
                 {
                     var players = __instance.GetPlayersInAbilityRangeSorted(false);
                     PlayerControl closest = players.Count <= 0 ? null : players[0];
@@ -1951,7 +1988,7 @@ namespace TownOfHost
                         RealName = Helpers.ColorString(Utils.GetRoleColor(CustomRoles.Egoist), RealName); //targetの名前をエゴイスト色で表示
 
                     else if ((seer.Is(CustomRoles.EgoSchrodingerCat) && target.Is(CustomRoles.Egoist)) || //エゴ猫 --> エゴイスト
-                             (seer.Is(CustomRoles.JSchrodingerCat) && target.Is(CustomRoles.Jackal)) //J猫 --> ジャッカル
+                             (seer.GetCustomRole().IsJackalTeam() && target.GetCustomRole().IsJackalTeam()) //J猫 --> ジャッカル
                     )
                         RealName = Helpers.ColorString(target.GetRoleColor(), RealName); //targetの名前をtargetの役職の色で表示
                     else if (target.Is(CustomRoles.Mare) && Utils.IsActive(SystemTypes.Electrical))
@@ -2397,6 +2434,11 @@ namespace TownOfHost
                         pc.VetAlerted();
                     }
                     pc?.MyPhysics?.RpcBootFromVent(__instance.Id);
+                    skipCheck = true;
+                }
+                if (pc.Is(CustomRoles.Necromancer))
+                {
+                    Necromancer.OnUseVent(__instance.Id);
                     skipCheck = true;
                 }
                 if (pc.Is(CustomRoles.Survivor))

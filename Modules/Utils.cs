@@ -170,6 +170,7 @@ namespace TownOfHost
                     if (cRole == CustomRoles.JSchrodingerCat) hasTasks = false;
                     if (cRole == CustomRoles.Egoist) hasTasks = false;
                     if (cRole == CustomRoles.Jackal) hasTasks = false;
+                    if (cRole == CustomRoles.Sidekick) hasTasks = false;
                     if (cRole == CustomRoles.Juggernaut) hasTasks = false;
                     if (cRole == CustomRoles.PlagueBearer) hasTasks = false;
                     if (cRole == CustomRoles.Pestilence) hasTasks = false;
@@ -827,7 +828,8 @@ namespace TownOfHost
                     SeerKnowsImpostors = true;
 
                 //RealNameを取得 なければ現在の名前をRealNamesに書き込む
-                SelfSuffix = Helpers.ColorString(Utils.GetRoleColor(seer.GetCustomRole()), SelfSuffix);
+                if (SelfSuffix != "")
+                    SelfSuffix = Helpers.ColorString(Utils.GetRoleColor(seer.GetCustomRole()), SelfSuffix);
                 if (Options.RolesLikeToU.GetBool())
                 {
                     string SeerRealName = seer.GetRealName(isMeeting);
@@ -836,7 +838,6 @@ namespace TownOfHost
                     string SelfName = $"{Helpers.ColorString(seer.GetRoleColor(), SeerRealName)}{SelfMark}";
                     if (Main.KilledDemo.Contains(seer.PlayerId))
                         SelfName += $"<size={fontSize}>\r\n{Helpers.ColorString(Utils.GetRoleColor(CustomRoles.Demolitionist), "You killed Demolitionist!")}</size>";
-                    // else SelfName = $"{Helpers.ColorString(seer.GetRoleColor(), SeerRealName)}{SelfMark}";
                     if (seer.Is(CustomRoles.Arsonist) && seer.IsDouseDone())
                         SelfName = $"</size>\r\n{Helpers.ColorString(seer.GetRoleColor(), GetString("EnterVentToWin"))}";
                     SelfName = SelfName + "\r\n" + SelfRoleName;
@@ -873,6 +874,7 @@ namespace TownOfHost
                     || seer.GetCustomRole().IsImpostor() //seerがインポスター
                     || seer.Is(CustomRoles.EgoSchrodingerCat) //seerがエゴイストのシュレディンガーの猫
                     || seer.Is(CustomRoles.JSchrodingerCat) //seerがJackal陣営のシュレディンガーの猫
+                    || seer.GetCustomRole().IsJackalTeam()
                     || NameColorManager.Instance.GetDataBySeer(seer.PlayerId).Count > 0 //seer視点用の名前色データが一つ以上ある
                     || seer.Is(CustomRoles.Arsonist)
                     || seer.Is(CustomRoles.Lovers)
@@ -1078,7 +1080,7 @@ namespace TownOfHost
                         else if (seer.GetCustomRole().IsImpostor() && target.Is(CustomRoles.Egoist))
                             TargetPlayerName = Helpers.ColorString(GetRoleColor(CustomRoles.Egoist), TargetPlayerName);
                         else if ((seer.Is(CustomRoles.EgoSchrodingerCat) && target.Is(CustomRoles.Egoist)) || //エゴ猫 --> エゴイスト
-                                 (seer.Is(CustomRoles.JSchrodingerCat) && target.Is(CustomRoles.Jackal))) // J猫 --> ジャッカル
+                                 (seer.GetCustomRole().IsJackalTeam() && target.GetCustomRole().IsJackalTeam())) // J猫 --> ジャッカル
                             TargetPlayerName = Helpers.ColorString(target.GetRoleColor(), TargetPlayerName);
                         else if (Utils.IsActive(SystemTypes.Electrical) && target.Is(CustomRoles.Mare) && !isMeeting)
                             TargetPlayerName = Helpers.ColorString(GetRoleColor(CustomRoles.Impostor), TargetPlayerName); //targetの赤色で表示

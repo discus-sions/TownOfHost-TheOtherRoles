@@ -584,7 +584,7 @@ namespace TownOfHost
                             pva.NameText.color = Utils.GetRoleColor(CustomRoles.Egoist);//変更対象の名前をエゴイスト色にする
                         break;
                     case CustomRoles.Jackal:
-                        if (seer.Is(CustomRoles.JSchrodingerCat))
+                        if (seer.GetCustomRole().IsJackalTeam())
                             pva.NameText.color = Utils.GetRoleColor(CustomRoles.Jackal);//変更対象の名前をジャッカル色にする
                         break;
                     case CustomRoles.Lovers:

@@ -48,7 +48,7 @@ namespace TownOfHost
                 canUse = couldUse = VentForTrigger = true;
             else if (pc.Object.Is(CustomRoles.Arsonist) && Options.TOuRArso.GetBool())
                 canUse = couldUse = true;
-            else if (pc.Object.Is(CustomRoles.Jackal))
+            else if (pc.Object.Is(CustomRoles.Jackal) || pc.Object.Is(CustomRoles.Sidekick))
                 canUse = couldUse = Options.JackalCanVent.GetBool();
             else if (pc.Object.Is(CustomRoles.Jester))
                 canUse = couldUse = Options.JesterCanVent.GetBool();
@@ -64,6 +64,8 @@ namespace TownOfHost
                 canUse = couldUse = true;
             else if (pc.Object.Is(CustomRoles.CorruptedSheriff))
                 canUse = couldUse = true;
+            else if (pc.Object.Is(CustomRoles.Necromancer))
+                canUse = couldUse = Necromancer.CanUseVent();
             else if (pc.Object.Is(CustomRoles.CovenWitch) && Main.HasNecronomicon)
                 canUse = couldUse = true;
             else if (pc.Object.Is(CustomRoles.HexMaster) && Main.HasNecronomicon)

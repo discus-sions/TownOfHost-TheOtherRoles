@@ -339,6 +339,7 @@ namespace TownOfHost
                     //TaskTextPrefix += FakeTasksText;
                     player.CanUseImpostorVent();
                     goto DesyncImpostor;
+                case CustomRoles.Sidekick:
                 case CustomRoles.Jackal:
                     //   TaskTextPrefix += FakeTasksText;
                     player.CanUseImpostorVent();
@@ -432,6 +433,7 @@ namespace TownOfHost
                 player.GetCustomRole() == CustomRoles.CorruptedSheriff ||
                 player.GetCustomRole() == CustomRoles.Arsonist ||
                 player.GetCustomRole() == CustomRoles.Jackal ||
+                player.GetCustomRole() == CustomRoles.Sidekick ||
                 player.GetCustomRole() == CustomRoles.TheGlitch ||
                 player.GetCustomRole() == CustomRoles.Werewolf ||
                 player.GetCustomRole() == CustomRoles.Juggernaut ||
@@ -474,6 +476,7 @@ namespace TownOfHost
                     __instance.ImpostorVentButton.ToggleVisible(false);
                     __instance.AbilityButton.ToggleVisible(false);
                     break;
+                case CustomRoles.Sidekick:
                 case CustomRoles.Jackal:
                     if (player.Data.Role.Role != RoleTypes.GuardianAngel)
                         __instance.KillButton.ToggleVisible(isActive && !player.Data.IsDead);

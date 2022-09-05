@@ -77,6 +77,18 @@ namespace TownOfHost
                     Main.GuardianAngelTarget.Remove(data.Character.PlayerId);
                     RPC.RemoveGAKey(data.Character.PlayerId);
                 }
+                if (data.Character.Is(CustomRoles.Jackal))
+                {
+                    Main.JackalDied = true;
+                    if (Options.SidekickGetsPromoted.GetBool())
+                    {
+                        foreach (var pc in PlayerControl.AllPlayerControls)
+                        {
+                            if (pc.Is(CustomRoles.Sidekick))
+                                pc.RpcSetCustomRole(CustomRoles.Jackal);
+                        }
+                    }
+                }
                 if (data.Character.LastImpostor())
                 {
                     //Main.currentWinner = CustomWinner.None;

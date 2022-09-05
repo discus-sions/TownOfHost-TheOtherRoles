@@ -134,6 +134,7 @@ namespace TownOfHost
         public static CustomOption ChildKnown;
         public static CustomOption SleuthReport;
         public static CustomOption JesterCanVent;
+        public static CustomOption VultureCanVent;
         public static CustomOption CanTerroristSuicideWin;
         public static CustomOption ArsonistDouseTime;
         public static CustomOption ArsonistCooldown;
@@ -154,7 +155,12 @@ namespace TownOfHost
         public static CustomOption JackalCanUseSabotage;
         public static CustomOption JackalHasImpostorVision;
 
+        public static CustomOption JackalHasSidekick;
+        public static CustomOption SidekickCanKill;
+        public static CustomOption SidekickGetsPromoted;
+
         public static CustomOption JesterHasImpostorVision;
+        public static CustomOption VultureHasImpostorVision;
 
         public static CustomOption JuggerKillCooldown;
         public static CustomOption JuggerCanVent;
@@ -273,6 +279,7 @@ namespace TownOfHost
         public static CustomOption HexCD;
         public static CustomOption MaxHexesPerRound;
         public static CustomOption PKTAH;
+        public static CustomOption NecroCanUseSheriff;
 
         //VETERAN
         public static CustomOption VetCD;
@@ -544,6 +551,10 @@ namespace TownOfHost
             JackalCanUseSabotage = CustomOption.Create(50912, Color.white, "JackalCanUseSabotage", false, CustomRoleSpawnChances[CustomRoles.Jackal]);
             JackalHasImpostorVision = CustomOption.Create(50913, Color.white, "JackalHasImpostorVision", true, CustomRoleSpawnChances[CustomRoles.Jackal]);
 
+            JackalHasSidekick = CustomOption.Create(50914, Color.white, "JackalHasSidekick", false, CustomRoleSpawnChances[CustomRoles.Jackal]);
+            SidekickCanKill = CustomOption.Create(50915, Color.white, "SidekickCanKill", false, JackalHasSidekick);
+            SidekickGetsPromoted = CustomOption.Create(50916, Color.white, "SidekickGetsPromoted", true, JackalHasSidekick);
+
             SetupSingleRoleOptions(60000, CustomRoles.Coven, 3);
             CovenKillCooldown = CustomOption.Create(60020, Color.white, "CovenKillCooldown", 30, 2.5f, 180, 2.5f, CustomRoleSpawnChances[CustomRoles.Coven]);
             CovenMeetings = CustomOption.Create(60021, Color.white, "CovenMeetings", 3, 0, 15, 1, CustomRoleSpawnChances[CustomRoles.Coven]);
@@ -562,7 +573,8 @@ namespace TownOfHost
             StoneReport = CustomOption.Create(60027, Color.white, "StoneTime", 35, 2.5f, 180, 2.5f, MedusaOn);
 
             //MimicOn = CustomOption.Create(60016, Color.white, "MimicOn", false, CustomRoleSpawnChances[CustomRoles.Coven]);
-            //NecromancerOn = CustomOption.Create(60017, Color.white, "NecromancerOn", false, CustomRoleSpawnChances[CustomRoles.Coven]);
+            NecromancerOn = CustomOption.Create(60017, Color.white, "NecromancerOn", false, CustomRoleSpawnChances[CustomRoles.Coven]);
+            NecroCanUseSheriff = CustomOption.Create(60019, Color.white, "NecroCanUseSheriff", false, NecromancerOn);
             ConjurorOn = CustomOption.Create(60018, Color.white, "ConjurorOn", false, CustomRoleSpawnChances[CustomRoles.Coven]);
 
             SetupSingleRoleOptions(70000, CustomRoles.Juggernaut, 1);
@@ -571,7 +583,9 @@ namespace TownOfHost
             JuggerCanVent = CustomOption.Create(60012, Color.white, "JuggerCanVent", true, CustomRoleSpawnChances[CustomRoles.Juggernaut]);
 
             SetupSingleRoleOptions(80000, CustomRoles.Vulture, 1);
-            BodiesAmount = CustomOption.Create(50515, Color.white, "Bodies", 10, 1, 10, 1, CustomRoleSpawnChances[CustomRoles.Vulture]);
+            BodiesAmount = CustomOption.Create(50515, Color.white, "Bodies", 3, 1, 10, 1, CustomRoleSpawnChances[CustomRoles.Vulture]);
+            VultureCanVent = CustomOption.Create(6000017, Color.white, "VultureVent", false, CustomRoleSpawnChances[CustomRoles.Vulture]);
+            VultureHasImpostorVision = CustomOption.Create(6000015, Color.white, "VultureHasImpostorVision", false, CustomRoleSpawnChances[CustomRoles.Vulture]);
 
             SetupSingleRoleOptions(80500, CustomRoles.TheGlitch, 1);
             GlitchRoleBlockCooldown = CustomOption.Create(80510, Color.white, "RBC", 30, 2.5f, 180, 2.5f, CustomRoleSpawnChances[CustomRoles.TheGlitch]);

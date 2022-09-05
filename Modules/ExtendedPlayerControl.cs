@@ -345,7 +345,6 @@ namespace TownOfHost
                 case CustomRoles.Investigator:
                 case CustomRoles.Arsonist:
                 case CustomRoles.Amnesiac:
-                case CustomRoles.Vulture:
                     opt.SetVision(player, false);
                     break;
                 case CustomRoles.PlagueBearer:
@@ -381,6 +380,11 @@ namespace TownOfHost
                 case CustomRoles.Juggernaut:
                     opt.SetVision(player, true);
                     if (Options.JuggerCanVent.GetBool())
+                        goto InfinityVent;
+                    break;
+                case CustomRoles.Vulture:
+                    opt.SetVision(player, Options.VultureHasImpostorVision.GetBool());
+                    if (Options.VultureCanVent.GetBool())
                         goto InfinityVent;
                     break;
                 //case CustomRoles.WereW
@@ -466,6 +470,7 @@ namespace TownOfHost
                     opt.SetVision(player, true);
                     break;
                 case CustomRoles.Jackal:
+                case CustomRoles.Sidekick:
                 case CustomRoles.JSchrodingerCat:
                     opt.SetVision(player, Options.JackalHasImpostorVision.GetBool());
                     break;
@@ -799,6 +804,7 @@ namespace TownOfHost
                         Main.AllPlayerKillCooldown[player.PlayerId] = Options.DefaultKillCooldown;
                     }
                     break;
+                case CustomRoles.Sidekick:
                 case CustomRoles.Jackal:
                     Main.AllPlayerKillCooldown[player.PlayerId] = Options.JackalKillCooldown.GetFloat();
                     break;
@@ -961,6 +967,7 @@ namespace TownOfHost
                     DestroyableSingleton<HudManager>.Instance.ImpostorVentButton.ToggleVisible(jug_canUse && !player.Data.IsDead);
                     player.Data.Role.CanVent = jug_canUse;
                     return;
+                case CustomRoles.Sidekick:
                 case CustomRoles.Jackal:
                     bool jackal_canUse = Options.JackalCanVent.GetBool();
                     DestroyableSingleton<HudManager>.Instance.ImpostorVentButton.ToggleVisible(jackal_canUse && !player.Data.IsDead);
@@ -1100,6 +1107,7 @@ namespace TownOfHost
                 player.GetCustomRole() is
                 CustomRoles.Egoist or
                 CustomRoles.Jackal or
+                CustomRoles.Sidekick or
                 CustomRoles.PlagueBearer or
                 CustomRoles.Juggernaut or
                 CustomRoles.Pestilence or

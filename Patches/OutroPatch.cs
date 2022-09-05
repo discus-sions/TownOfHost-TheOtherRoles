@@ -51,7 +51,7 @@ namespace TownOfHost
                 winner.Clear();
                 foreach (var p in PlayerControl.AllPlayerControls)
                 {
-                    if (p.Is(CustomRoles.Jackal) || p.Is(CustomRoles.JSchrodingerCat)) winner.Add(p);
+                    if (p.GetCustomRole().IsJackalTeam()) winner.Add(p);
                 }
             }
             if (Main.currentWinner == CustomWinner.Werewolf)
@@ -94,7 +94,7 @@ namespace TownOfHost
                     if (p.Is(CustomRoles.Pestilence) || p.Is(CustomRoles.PlagueBearer)) winner.Add(p);
                 }
             }
-            if (Main.currentWinner == CustomWinner.Pirate && CustomRoles.Guesser.IsEnable())
+            if (Main.currentWinner == CustomWinner.Pirate && CustomRoles.Pirate.IsEnable())
             {
                 winner = new();
                 foreach (var p in PlayerControl.AllPlayerControls)
