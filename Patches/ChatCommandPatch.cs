@@ -104,7 +104,7 @@ namespace TownOfHost
                     break;
                 case "/meeting":
                     canceled = true;
-                    PlayerControl.LocalPlayer?.ReportDeadBody(null);
+                    PlayerControl.LocalPlayer.ReportDeadBody(null);
                     break;
                 case "/colour":
                 case "/color":

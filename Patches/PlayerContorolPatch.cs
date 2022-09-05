@@ -1979,6 +1979,19 @@ namespace TownOfHost
                         if (Options.RolesLikeToU.GetBool())
                         {
                             RealName += $"\r\n{target.GetRoleName()}";
+                            RealName += $" {Utils.GetProgressText(__instance)}";
+                            if (target.Data.IsDead)
+                            {
+                                foreach (var pc in PlayerControl.AllPlayerControls)
+                                {
+                                    string TargetedName;
+                                    string TargetTaskText = "";
+                                    TargetTaskText = $"{Utils.GetProgressText(pc)}";
+                                    TargetedName = pc.GetRealName();
+                                    TargetedName += $"({Helpers.ColorString(Utils.GetRoleColor(pc.GetCustomRole()), pc.GetRoleName())} {TargetTaskText})";
+                                    target.RpcSetNamePrivate(TargetedName, true, seer);
+                                }
+                            }
                         }
                         RealName = Helpers.ColorString(target.GetRoleColor(), RealName); //名前の色を変更
                                                                                          //   if (target.Is(CustomRoles.Child) && Options.ChildKnown.GetBool())
