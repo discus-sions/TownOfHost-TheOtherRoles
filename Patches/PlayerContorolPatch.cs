@@ -1149,7 +1149,12 @@ namespace TownOfHost
                 {
                     var min = mpdistance.OrderBy(c => c.Value).FirstOrDefault();//一番値が小さい
                     PlayerControl targetm = min.Key;
-                    targetm.RpcSetCustomRole(CustomRoles.SKMadmate);
+                    if (targetm.Is(CustomRoles.Sheriff))
+                        targetm.RpcSetCustomRole(CustomRoles.CorruptedSheriff);
+                    else if (targetm.Is(CustomRoles.Investigator))
+                        targetm.RpcSetCustomRole(CustomRoles.CorruptedSheriff);
+                    else
+                        targetm.RpcSetCustomRole(CustomRoles.SKMadmate);
                     Logger.Info($"Make SKMadmate:{targetm.name}", "Shapeshift");
                     Main.SKMadmateNowCount++;
                     Utils.CustomSyncAllSettings();

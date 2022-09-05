@@ -698,6 +698,7 @@ namespace TownOfHost
             foreach (var seer in seerList)
             {
                 if (seer.IsModClient()) continue;
+                if (seer.Data.Disconnected) continue;
                 string fontSize = "1.5";
                 if (isMeeting && (seer.GetClient().PlatformData.Platform.ToString() == "Playstation" || seer.GetClient().PlatformData.Platform.ToString() == "Switch")) fontSize = "70%";
                 TownOfHost.Logger.Info("NotifyRoles-Loop1-" + seer.GetNameWithRole() + ":START", "NotifyRoles");
@@ -952,7 +953,7 @@ namespace TownOfHost
                                 //so we gotta make it so they can see the team. of their impostor
                                 if (target.GetCustomRole().IsImpostor())
                                 {
-                                    if (!seer.Data.IsDead)
+                                    if (!seer.Data.IsDead && !seer.Data.Disconnected)
                                     {
                                         // TeamText += "\r\n";
                                         if (!Options.RolesLikeToU.GetBool())

@@ -464,6 +464,10 @@ namespace TownOfHost
                     Utils.SendMessage("You have a Guardian Angel. Find out who they are and keep them to protect you.", protecting.PlayerId);
             }
 
+            foreach (var ar in PlayerControl.AllPlayerControls)
+                if (ar.IsHexedDone())
+                    Utils.SendMessage("The Hex Master is done hexing people. If they survive the current meeting, they will kill everyone with a hex bomb!");
+
 
             foreach (var pva in __instance.playerStates)
             {
@@ -637,8 +641,6 @@ namespace TownOfHost
                 {
                     Utils.SendMessage("Some people are Silenced! While they may have 2 crosses next to their name, they are silenced. Being silenced means you cannot talk.", target.PlayerId);
                 }
-                if (seer.IsHexedDone())
-                    Utils.SendMessage("The Hex Master is done hexing people. If they survive the current meeting, they will kill everyone with a hex bomb!");
                 //if (target.GetCustomSubRole().GetModifierType() != ModifierType.None)
                 //    {
                 //      Utils.SendMessage("You have a modifier. Your modifier is: " + target.GetSubRoleName() + ".", target.PlayerId);
