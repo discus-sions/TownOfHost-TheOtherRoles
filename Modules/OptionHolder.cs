@@ -166,6 +166,9 @@ namespace TownOfHost
         public static CustomOption JuggerCanVent;
         public static CustomOption JuggerDecrease;
 
+        public static CustomOption MarksmanKillCooldown;
+        public static CustomOption MarksmanCanVent;
+
         public static CustomOption SilenceCooldown;
 
         // HideAndSeek
@@ -581,6 +584,10 @@ namespace TownOfHost
             JuggerKillCooldown = CustomOption.Create(60010, Color.white, "JuggerKillCooldown", 30, 2.5f, 180, 2.5f, CustomRoleSpawnChances[CustomRoles.Juggernaut]);
             JuggerDecrease = CustomOption.Create(60011, Color.white, "JuggerDecrease", 30, 2.5f, 60, 2.5f, CustomRoleSpawnChances[CustomRoles.Juggernaut]);
             JuggerCanVent = CustomOption.Create(60012, Color.white, "JuggerCanVent", true, CustomRoleSpawnChances[CustomRoles.Juggernaut]);
+
+            SetupSingleRoleOptions(70001, CustomRoles.Marksman, 1);
+            MarksmanKillCooldown = CustomOption.Create(60011, Color.white, "MarksmanKillCooldown", 30, 2.5f, 180, 2.5f, CustomRoleSpawnChances[CustomRoles.Marksman]);
+            MarksmanCanVent = CustomOption.Create(60032, Color.white, "MarksmanCanVent", true, CustomRoleSpawnChances[CustomRoles.Marksman]);
 
             SetupSingleRoleOptions(80000, CustomRoles.Vulture, 1);
             BodiesAmount = CustomOption.Create(50515, Color.white, "Bodies", 3, 1, 10, 1, CustomRoleSpawnChances[CustomRoles.Vulture]);

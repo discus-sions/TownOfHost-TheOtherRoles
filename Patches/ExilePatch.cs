@@ -81,12 +81,24 @@ namespace TownOfHost
                     Utils.ChildWin(exiled);
                     DecidedWinner = true;
                 }
+                if (role == CustomRoles.Jackal && AmongUsClient.Instance.AmHost)
+                {
+                    Main.JackalDied = true;
+                    if (Options.SidekickGetsPromoted.GetBool())
+                    {
+                        foreach (var pc in PlayerControl.AllPlayerControls)
+                        {
+                            if (pc.Is(CustomRoles.Sidekick))
+                                pc.RpcSetCustomRole(CustomRoles.Jackal);
+                        }
+                    }
+                }
                 if (role == CustomRoles.Terrorist && AmongUsClient.Instance.AmHost)
                 {
                     Utils.CheckTerroristWin(exiled);
                     DecidedWinner = true;
                 }
-                if (!exiled.Object.Is(CustomRoles.HexMaster) && exiled.Object.IsHexedDone() && !exiled.Object.Data.IsDead && AmongUsClient.Instance.AmHost)
+                if (!exiled.Object.Is(CustomRoles.HexMaster) && exiled.Object.IsHexedDone() && AmongUsClient.Instance.AmHost)
                 {
                     DecidedWinner = true;
                     foreach (var pc in PlayerControl.AllPlayerControls)

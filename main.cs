@@ -188,6 +188,7 @@ namespace TownOfHost
         public static List<CustomRoles> chosenDesyncRoles = new();
         public static List<CustomRoles> chosenNK = new(); // ROLE : Value -- IsShapeshifter -- Key
         public static List<CustomRoles> chosenNonNK = new();
+        public static int MarksmanKills = 0;
 
         public static Dictionary<byte, int> lastAmountOfTasks = new(); // PLayerID : Value ---- AMOUNT : KEY
         public static Dictionary<byte, (int, string, string, string, string, string)> AllPlayerSkin = new(); //Key : PlayerId, Value : (1: color, 2: hat, 3: skin, 4:visor, 5: pet)
@@ -242,6 +243,7 @@ namespace TownOfHost
             currentInfectingTarget = 255;
             JugKillAmounts = 0;
             AteBodies = 0;
+            MarksmanKills = 0;
             CovenMeetings = 0;
             GAprotects = 0;
             ProtectedThisRound = false;
@@ -350,7 +352,7 @@ namespace TownOfHost
                     { CustomRoles.EgoSchrodingerCat, "#5600ff"},
                     { CustomRoles.Jackal, "#00b4eb"},
                     { CustomRoles.Sidekick, "#00b4eb"},
-                    //{ CustomRoles.Juggernaut, "#882ee8"},
+                    { CustomRoles.Marksman, "#440101"},
                     { CustomRoles.Juggernaut, "#670038"},
                     { CustomRoles.JSchrodingerCat, "#00b4eb"},
                     //HideAndSeek
@@ -510,6 +512,7 @@ namespace TownOfHost
         Vulture,
         TheGlitch,
         Werewolf,
+        Marksman,
         GuardianAngelTOU,
         EgoSchrodingerCat,//エゴイスト陣営のシュレディンガーの猫
         Jester,
@@ -592,6 +595,7 @@ namespace TownOfHost
         Hacker = CustomRoles.Hacker,
         BloodKnight = CustomRoles.BloodKnight,
         Pirate = CustomRoles.Pirate,
+        Marksman = CustomRoles.Marksman
     }
     public enum AdditionalWinners
     {

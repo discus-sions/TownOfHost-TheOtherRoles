@@ -62,6 +62,14 @@ namespace TownOfHost
                     if (p.Is(CustomRoles.Werewolf)) winner.Add(p);
                 }
             }
+            if (Main.currentWinner == CustomWinner.Marksman)
+            {
+                winner.Clear();
+                foreach (var p in PlayerControl.AllPlayerControls)
+                {
+                    if (p.Is(CustomRoles.Marksman)) winner.Add(p);
+                }
+            }
             if (Main.currentWinner == CustomWinner.TheGlitch)
             {
                 winner.Clear();

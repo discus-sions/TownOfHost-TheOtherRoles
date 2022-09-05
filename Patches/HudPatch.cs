@@ -339,6 +339,7 @@ namespace TownOfHost
                     //TaskTextPrefix += FakeTasksText;
                     player.CanUseImpostorVent();
                     goto DesyncImpostor;
+                case CustomRoles.Marksman:
                 case CustomRoles.Sidekick:
                 case CustomRoles.Jackal:
                     //   TaskTextPrefix += FakeTasksText;
@@ -437,6 +438,7 @@ namespace TownOfHost
                 player.GetCustomRole() == CustomRoles.TheGlitch ||
                 player.GetCustomRole() == CustomRoles.Werewolf ||
                 player.GetCustomRole() == CustomRoles.Juggernaut ||
+                player.GetCustomRole() == CustomRoles.Marksman ||
                 player.GetCustomRole() == CustomRoles.BloodKnight ||
                 player.GetCustomRole() == CustomRoles.PlagueBearer ||
                 player.GetCustomRole() == CustomRoles.Pestilence ||
@@ -535,6 +537,13 @@ namespace TownOfHost
                         __instance.KillButton.ToggleVisible(isActive && !player.Data.IsDead);
                     __instance.SabotageButton.ToggleVisible(false);
                     __instance.ImpostorVentButton.ToggleVisible(Options.BKcanVent.GetBool() && !player.Data.IsDead);
+                    __instance.AbilityButton.ToggleVisible(false);
+                    break;
+                case CustomRoles.Marksman:
+                    if (player.Data.Role.Role != RoleTypes.GuardianAngel)
+                        __instance.KillButton.ToggleVisible(isActive && !player.Data.IsDead);
+                    __instance.SabotageButton.ToggleVisible(false);
+                    __instance.ImpostorVentButton.ToggleVisible(Options.MarksmanCanVent.GetBool() && !player.Data.IsDead);
                     __instance.AbilityButton.ToggleVisible(false);
                     break;
                 case CustomRoles.Amnesiac:

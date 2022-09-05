@@ -181,6 +181,7 @@ namespace TownOfHost
                     if (cRole == CustomRoles.TheGlitch) hasTasks = false;
                     if (cRole == CustomRoles.Hacker) hasTasks = false;
                     if (cRole == CustomRoles.BloodKnight) hasTasks = false;
+                    if (cRole == CustomRoles.Marksman) hasTasks = false;
                     if (cRole == CustomRoles.Pirate) hasTasks = false;
 
                     if (cRole == CustomRoles.CrewPostor && ForRecompute) hasTasks = false;

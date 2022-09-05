@@ -51,6 +51,7 @@ namespace TownOfHost
                 CustomRoles.Egoist or
                 CustomRoles.EgoSchrodingerCat or
                 CustomRoles.CrewPostor or
+                CustomRoles.Marksman or
                 CustomRoles.Pirate or
                 CustomRoles.Jackal or
                 CustomRoles.PlagueBearer or
@@ -101,6 +102,7 @@ namespace TownOfHost
                 CustomRoles.CrewPostor or
                 CustomRoles.Sidekick or
                 CustomRoles.TheGlitch or
+                CustomRoles.Marksman or
                 CustomRoles.Werewolf or
                 CustomRoles.BloodKnight or
                 CustomRoles.Juggernaut;

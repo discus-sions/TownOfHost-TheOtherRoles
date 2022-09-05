@@ -497,6 +497,31 @@ namespace TownOfHost
             }
             return false;
         }
+        private static bool CheckAndEndGameForMarksman(ShipStatus __instance, PlayerStatistics statistics)
+        {
+            if (statistics.TeamMarksAlive >= statistics.TotalAlive - statistics.TeamMarksAlive &&
+                statistics.TeamImpostorsAlive <= 0 && statistics.TeamJuggernautAlive <= 0 && statistics.TeamPestiAlive <= 0 && statistics.TeamJackalAlive <= 0
+                && statistics.TeamWolfAlive <= 0 && statistics.TeamCovenAlive <= 0 && statistics.TeamKnightAlive <= 0 && statistics.TeamGlitchAlive <= 0 && statistics.TeamArsoAlive <= 0)
+            {
+                if (Options.IsStandardHAS && statistics.TotalAlive - statistics.TeamMarksAlive != 0) return false;
+                __instance.enabled = false;
+                var endReason = TempData.LastDeathReason switch
+                {
+                    DeathReason.Exile => GameOverReason.ImpostorByVote,
+                    DeathReason.Kill => GameOverReason.ImpostorByKill,
+                    _ => GameOverReason.ImpostorByVote,
+                };
+
+                MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.EndGame, Hazel.SendOption.Reliable, -1);
+                writer.Write((byte)CustomWinner.Marksman);
+                AmongUsClient.Instance.FinishRpcImmediately(writer);
+                RPC.MarksmanWin();
+
+                ResetRoleAndEndGame(endReason, false);
+                return true;
+            }
+            return false;
+        }
 
 
         private static void EndGameForSabotage(ShipStatus __instance)
@@ -511,7 +536,7 @@ namespace TownOfHost
             {
                 var LoseImpostorRole = Main.AliveImpostorCount == 0 ? pc.Is(RoleType.Impostor) : pc.Is(CustomRoles.Egoist);
                 if (pc.Is(CustomRoles.Sheriff) || pc.Is(CustomRoles.Investigator) ||
-                    (!(Main.currentWinner == CustomWinner.Arsonist) && pc.Is(CustomRoles.Arsonist)) || (Main.currentWinner != CustomWinner.Vulture && pc.Is(CustomRoles.Vulture)) || (Main.currentWinner != CustomWinner.Pirate && pc.Is(CustomRoles.Pirate)) ||
+                    (!(Main.currentWinner == CustomWinner.Arsonist) && pc.Is(CustomRoles.Arsonist)) || (Main.currentWinner != CustomWinner.Vulture && pc.Is(CustomRoles.Vulture)) || (Main.currentWinner != CustomWinner.Marksman && pc.Is(CustomRoles.Marksman)) || (Main.currentWinner != CustomWinner.Pirate && pc.Is(CustomRoles.Pirate)) ||
                     (Main.currentWinner != CustomWinner.Jackal && pc.Is(CustomRoles.Jackal)) || (Main.currentWinner != CustomWinner.BloodKnight && pc.Is(CustomRoles.BloodKnight)) || (Main.currentWinner != CustomWinner.Pestilence && pc.Is(CustomRoles.Pestilence)) || (Main.currentWinner != CustomWinner.Coven && pc.GetRoleType() == RoleType.Coven) ||
                     LoseImpostorRole || (Main.currentWinner != CustomWinner.Werewolf && pc.Is(CustomRoles.Werewolf)) || (Main.currentWinner != CustomWinner.TheGlitch && pc.Is(CustomRoles.TheGlitch)))
                 {
@@ -536,6 +561,7 @@ namespace TownOfHost
             public int TeamGlitchAlive { get; set; }
             public int TeamKnightAlive { get; set; }
             public int TeamArsoAlive { get; set; }
+            public int TeamMarksAlive { get; set; }
             //public Dictionary<byte, byte> TeamArsoAlive = new();
             //public int TeamJuggernautAlive { get; set; }
 
@@ -556,6 +582,7 @@ namespace TownOfHost
                 int numWolfAlive = 0;
                 int bkAlive = 0;
                 int arsonists = 0;
+                int marksman = 0;
                 //int numArsonistsAlive = 0;
 
                 for (int i = 0; i < GameData.Instance.PlayerCount; i++)
@@ -584,7 +611,8 @@ namespace TownOfHost
                             playerInfo.GetCustomRole() != CustomRoles.Jackal || playerInfo.GetCustomRole() != CustomRoles.Pestilence ||
                             playerInfo.GetCustomRole() != CustomRoles.Juggernaut || playerInfo.GetCustomRole() != CustomRoles.Werewolf ||
                             !playerInfo.GetCustomRole().IsCoven() || playerInfo.GetCustomRole() != CustomRoles.Investigator
-                            || playerInfo.GetCustomRole() != CustomRoles.BloodKnight || playerInfo.GetCustomRole() != CustomRoles.Jackal))
+                            || playerInfo.GetCustomRole() != CustomRoles.BloodKnight || playerInfo.GetCustomRole() != CustomRoles.Sidekick
+                            || playerInfo.GetCustomRole() != CustomRoles.Marksman))
                             {
                                 numImpostorsAlive++;
                             }
@@ -602,6 +630,7 @@ namespace TownOfHost
                             else if (playerInfo.GetCustomRole() == CustomRoles.TheGlitch) numGlitchAlive++;
                             else if (playerInfo.GetCustomRole() == CustomRoles.BloodKnight) bkAlive++;
                             else if (playerInfo.GetCustomRole() == CustomRoles.Arsonist) arsonists++;
+                            else if (playerInfo.GetCustomRole() == CustomRoles.Marksman) marksman++;
                         }
                     }
                 }
@@ -616,6 +645,7 @@ namespace TownOfHost
                 TeamWolfAlive = numWolfAlive;
                 TeamKnightAlive = bkAlive;
                 TeamArsoAlive = arsonists;
+                TeamMarksAlive = marksman;
             }
         }
     }

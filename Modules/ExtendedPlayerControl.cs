@@ -309,6 +309,11 @@ namespace TownOfHost
 
             switch (player.GetCustomRole())
             {
+                case CustomRoles.Marksman:
+                    opt.KillDistance = Main.MarksmanKills + 1;
+                    opt.killDistance = Main.MarksmanKills + 1;
+                    opt.SetVision(player, true);
+                    break;
                 case CustomRoles.Terrorist:
                     goto InfinityVent;
                 // case CustomRoles.ShapeMaster:
@@ -764,6 +769,9 @@ namespace TownOfHost
             Main.AllPlayerKillCooldown[player.PlayerId] = Options.DefaultKillCooldown; //キルクールをデフォルトキルクールに変更
             switch (player.GetCustomRole())
             {
+                case CustomRoles.Marksman:
+                    Main.AllPlayerKillCooldown[player.PlayerId] = Options.MarksmanKillCooldown.GetFloat();
+                    break;
                 case CustomRoles.Juggernaut:
                     float DecreasedAmount = Main.JugKillAmounts * Options.JuggerDecrease.GetFloat();
                     Main.AllPlayerKillCooldown[player.PlayerId] = Options.JuggerKillCooldown.GetFloat() - DecreasedAmount;
@@ -972,6 +980,11 @@ namespace TownOfHost
                     bool jackal_canUse = Options.JackalCanVent.GetBool();
                     DestroyableSingleton<HudManager>.Instance.ImpostorVentButton.ToggleVisible(jackal_canUse && !player.Data.IsDead);
                     player.Data.Role.CanVent = jackal_canUse;
+                    return;
+                case CustomRoles.Marksman:
+                    bool marks_canUse = Options.MarksmanCanVent.GetBool();
+                    DestroyableSingleton<HudManager>.Instance.ImpostorVentButton.ToggleVisible(marks_canUse && !player.Data.IsDead);
+                    player.Data.Role.CanVent = marks_canUse;
                     return;
                 case CustomRoles.PlagueBearer:
                     DestroyableSingleton<HudManager>.Instance.ImpostorVentButton.ToggleVisible(false);

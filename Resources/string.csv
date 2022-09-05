@@ -89,6 +89,7 @@ Sidekick,Sidekick,Sidekick,Sidekick
 PlagueBearer,PlagueBearer,PlagueBearer,疫医,疫醫
 Pestilence,Pestilence,Pestilence,传染者,感染者
 Juggernaut,Juggernaut,Juggernaut,欲望杀人魔,巨人
+Marksman,Marksman,Marksman,Marksman
 Vulture,Vulture,Vulture,秃鹫,禿鷹
 Werewolf,Werewolf,Werewolf,狼人,狼人
 TheGlitch,The Glitch,The Glitch,混沌,毛刺
@@ -207,6 +208,7 @@ SidekickInfo,Support the Jackal,SidekickInfo,SidekickInfo,SidekickInfo
 PlagueBearerInfo,Infect Everyone and Become Pestilence,Infect Everyone and Become Pestilence,请把所有人都感染了，引起大型瘟疫,快去把所有人都感染
 PestilenceInfo,Kill Everyone and Leave None,Kill Everyone and Leave None,把所有人杀都杀光一只蚊子都不要剩,殺光所有人
 JuggernautInfo,Your cooldown decreaes with Each Kill,Your cooldown decreaes with Each Kill,你杀的人越多就会越兴奋，击杀冷却时间也会越短,殺人會讓擊殺冷卻時間縮短
+MarksmanInfo,You can Kill Farther with Each Kill,MarksmanInfo,MarksmanInfo
 VultureInfo,Eat bodies by clicking Report,Eat bodies by clicking Report,通过报告键来吞噬尸体,通過點擊報告來吃屍體
 WerewolfInfo,Rampage to Kill Everyone,Rampage to Kill Everyone,狂暴地杀死所有人,
 TheGlitchInfo,foreach PlayerControl Glitch.MurderPlayer,foreach PlayerControl Glitch.MurderPlayer,操控其他船员杀死所有人,
@@ -310,6 +312,7 @@ SidekickInfoLong,"(Neutrals):\nThe Sidekick is the Jackal's pal and helps them w
 PlagueBearerInfoLong,"(Neutrals):\nYou're kill button is an Infect button. Infect everyone until you become Pestilence.","(Neutrals):\nYou're kill button is an Infect button. Infect everyone until you become Pestilence.","(中立阵营):\n你的击杀按钮变成了感染，你需要将所有人感染造成瘟疫.",
 PestilenceInfoLong,"(Neutrals):\nPestilence cannot die and can only be voted. \nWhen someone tries to kill Pestilence, they die instead. \nEven their Lover dying won't bring the Pestilence down.","(Neutrals):\nPestilence cannot die and can only be voted. \nWhen someone triesto kill Pestilence, they die instead.","(中立阵营):\n疫医不能被杀死，当有人试图击杀他是他会受到反伤而死.",
 JuggernautInfoLong,"(Neutrals):\nThe Juggernaut's kill cooldown decreases with each kill.","(Neutrals):\nThe Juggernaut's kill cooldown decreases with each kill.","(中立阵营):\n欲望杀人魔的击杀冷却时间随着每次击杀而减少。"
+MarksmanInfoLong,"(Neutrals):\nThe Marksman's kill distance increaes with eadch kill.","(Neutrals):\nThe Marksman's kill distance increaes with eadch kill.","(Neutrals):\nThe Marksman's kill distance increaes with eadch kill."
 VultureInfoLong,"(Neutrals):\nThe Vulture has to eat a certain number of bodies to win. \nWhen the Vulture attempts to report a body, the body will be determined ate to the Vulture. \nThis means that the Vulture cannot report any dead bodies.","(Neutrals):\nThe Vulture has to eat a certain number of bodies to win. \nDue to techincal limitations, we cannot make the body disappear, but we can make the body unreportable. \nBecause of this, the number of bodies aten by the Vulture will display at every meeting.",(中立阵营):\n秃鹫必须吃掉一定数量的尸体才能获胜。\n由于技术上的限制，不能让尸体消失，但可以让尸体无法报告。\n正因为如此，秃鹰吃掉的尸体数量将在每次会议上显示。",
 WerewolfInfoLong,"(Neutrals):\nThe Werewolf can vent to activate their rampage function. Once you don't get kicked out of the vent, then your rampage is ready. While rampaged, they have a short kill cooldown and can only kill for a short amount of time. After the Rampage Duration, they can no longer kill. You can choose if the Werewolf can vent during rampage.","(Neutral):\nInfo unfinished.","(中立阵营):\n狼人可以通过使用管道键来激活他们的横冲直撞功能。如果你没有被踢出通风管道，那么你就处于横冲直撞的状态。在横冲直撞的时候，他们有一个很短的杀戮冷却时间，只能在短时间内杀戮。在横冲直撞持续时间之后，它们就不能再杀人了。你可以选择狼人在横冲直撞期间是否可以使用管道键。",
 TheGlitchInfoLong,"(Neutrals):\nThe Glitch is a neutral killing role with the Ability to shapeshift. \nThey can vent to switch killing modes. \nAfter every meeting, you are on killing mode. \nWhen you vent, you are on Hacking Mode. \nOn hacking mode, press the kill button on someone to prevent them from doing something for a set period of time.","(Neutral):\nInfo unfinished.","(Neutrals):\nThe Glitch is a neutral killing role. \nThey can vent to switch killing modes. \nAfter every meeting, you are on killing mode. \nWhen you vent, you are on Hacking Mode. \nOn hacking mode, press the kill button on someone to prevent them from doing something for a set period of time."
@@ -469,7 +472,7 @@ SheriffCanKillJackal,Sheriff Can Kill Jackal,シェリフがジャッカルを�
 SheriffCanKillJShrodingerCat,Sheriff Can Kill JackalSide ShrodingerCat,シェリフがジャッカル陣営のシュレディンガーの猫をキルできる,警长可以执法豺狼阵营的薛定谔的猫,警長可以槍死豺狼方的薛定諤的貓
 SheriffCanKillCrewmatesAsIt,Sheriff Can Kill Crewmates As It,シェリフがそのままクルーをキルできる,警长尝试执法船员时会和被执法者同归于尽,警長走火時會讓嘗試槍的玩家同歸於盡
 SheriffShotLimit,Sheriff Shot Limit,シェリフのキル可能回数,警长最大执法次数,警長最大子彈數量
-SheriffCanKillJug,Sheriff Can Kill Juggernaut,シェリフのキル可能回数,警长最大执法次数,警長最大子彈數量
+SheriffCanKillJug,Sheriff Can Kill Juggernaut/Marksman,シェリフのキル可能回数,警长最大执法次数,警長最大子彈數量
 DoctorTaskCompletedBatteryCharge,Doctor Battery Duration,ドクターがタスクを終わらせたときにセットされるバイタルの秒数,科学家每完成一个任务增加的设备充能数,醫生完成任務充電秒數
 SnitchEnableTargetArrow,Snitch Can See Target Arrow,ターゲットを示す矢印が見える,告密者完成任务后可以通过箭头确认所有被发现目标,告密者完成任務後可以看到目標的箭頭
 SnitchCanGetArrowColor,Snitch Can See Colored Arrow,矢印の色で陣営がわかる,告密者对不同阵营的目标使用不同颜色的箭头确认,對不同陣營的目標使用不同顏色的箭頭標示
@@ -549,6 +552,8 @@ EgoistKillCooldown,Egoist KillCooldown,エゴイストのキルクール,野心�
 JuggerKillCooldown,Juggernaut Kill Cooldown,ジャッカルのキルクール,欲望杀人魔击杀冷却,豺狼殺人冷卻
 JuggerDecrease,Juggernaut Cooldown Decrease,ジャッカルのキルクール,欲望杀人魔技能冷却,豺狼殺人冷卻
 JuggerCanVent,Juggernaut Can Use Vents,ジャッカルがベントを使用できる,欲望杀人魔可以使用管道,
+MarksmanKillCooldown,Marksman Kill Cooldown,MarksmanKillCooldown,MarksmanKillCooldown,MarksmanKillCooldown
+MarksmanCanVent,Marksman Can Vent,MarksmanCanVent,MarksmanCanVent,MarksmanCanVent
 VampBuff,Vampire Buff,Vampire Buff,血猩红热加成,吸血鬼愛好者
 TraitorCanSpawnIfNK,Traitor can Spawn If an NK is Alive,Traitor can Spawn If an NK is Alive,Traitor can Spawn If an NK is Alive
 TraitorCanSpawnIfCoven,Traitor can Spawn If a Coven Member is Alive,Traitor can Spawn If an NK is Alive,Traitor can Spawn If an NK is Alive

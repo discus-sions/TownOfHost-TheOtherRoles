@@ -56,6 +56,8 @@ namespace TownOfHost
                 canUse = couldUse = Options.PestiCanVent.GetBool();
             else if (pc.Object.Is(CustomRoles.Juggernaut))
                 canUse = couldUse = Options.JuggerCanVent.GetBool();
+            else if (pc.Object.Is(CustomRoles.Marksman))
+                canUse = couldUse = Options.MarksmanCanVent.GetBool();
             else if (pc.Object.Is(CustomRoles.BloodKnight))
                 canUse = couldUse = Options.BKcanVent.GetBool();
             else if (pc.Object.Is(CustomRoles.TheGlitch))
