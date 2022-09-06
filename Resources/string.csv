@@ -1,13 +1,12 @@
 ﻿id,0,11,13,14
 ## Translators
-#13 SChinese:fivefirex&ZeMingOH233  2T&MC-AS-Huier&xiaojin (Edit: Tanakanira)
+#13 SChinese: fivefirex&ZeMingOH233 New Roles: 2T&MC-AS-Huier&xiaojin (Edit: Tanakanira)
 #14 TChinese: NetherDragon_Tw (Edit: Soukunsandesu)
-#15 Schincese New Roles: MC-AS-Huier
 
 ## 役職
 Neutral,Neutral and Coven,第三陣営,中立阵营(包括巫师),中立陣營
 SubRole,Modifiers,サブ役職,附加职业,附加職業
-CovenChat,Coven Roles,Coven Roles,巫师角色,巫師陣營
+CovenChat,Coven Roles,Coven Roles,巫师职业,巫師陣營
 
 # バニラ役職
 Crewmate,Crewmate,クルーメイト,船员,船員
@@ -33,17 +32,17 @@ Puppeteer,Puppeteer,パペッティア,傀儡师,傀儡師
 TimeThief,TimeThief,タイムシーフ,蚀时者,時間小偷
 Sniper,Sniper,スナイパー,狙击手,狙擊手
 Silencer,Silencer,Silencer,沉默者,消音器
-CorruptedSheriff,Traitor,CorruptedSheriff,贪污的警长,腐敗的警官
-Swooper,Swooper,Swooper,Swooper
-Camouflager,Camouflager,Camouflager,Camouflager
-Ninja,Ninja,ニンジャ,Ninja
+CorruptedSheriff,CorruptedSheriff,CorruptedSheriff,背叛的警长,腐敗的警官
+Swooper,Swooper,Swooper,隐身人,
+Camouflager,Camouflager,Camouflager,伪装师,
+Ninja,Ninja,ニンジャ,忍者,
 
 # マッドメイト系役職
 Madmate,Madmate,マッドメイト,叛徒,叛徒
 MadGuardian,MadGuardian,マッドガーディアン,背叛的守卫,背叛的天使
 MadSnitch,MadSnitch,マッドスニッチ,背叛的告密者,背叛的告密者
 SKMadmate,SideKickMadmate,サイドキックマッドメイト,叛徒小弟,叛徒跟班
-CrewPostor,CrewPostor,CrewPostor,CrewPostor
+CrewPostor,CrewPostor,CrewPostor,舰长
 
 # 両陣営可能役職
 Watcher,Watcher,ウォッチャー,窥视者,觀察者
@@ -54,12 +53,12 @@ NiceWatcher,Nice Watcher,ナイスウォッチャー,正义的窥视者,正義�
 NiceGuesser,Vigilante,ナイスゲッサー,正义的猜测者,正義的猜測者
 Bait,Bait,ベイト,诱饵,誘餌
 Veteran,Veteran,Veteran,老兵,老將
-Survivor,Survivor,Survivor,Survivor
+Survivor,Survivor,Survivor,求生者,
 Lighter,Lighter,ライター,执灯人,小燈人
 Mayor,Mayor,メイヤー,市长,市長
 SabotageMaster,SabotageMaster,サボタージュマスター,修理大师,破壞大師
 Sheriff,Sheriff,シェリフ,警长,警長
-Investigator,Investigator,Investigator,Investigator
+Investigator,Investigator,Investigator,调查员
 Arsonist,Arsonist,アーソニスト,纵火犯,縱火犯
 Snitch,Snitch,スニッチ,告密者,告密者
 SpeedBooster,SpeedBooster,スピードブースター,增速者,加速器
@@ -68,7 +67,7 @@ Trapper,Trapper,トラッパー,陷阱师,設陷者
 Dictator,Dictator,ディクテーター,独裁者,獨裁主義者
 Child,Child,Child,小孩,小孩
 Sleuth,Sleuth,Sleuth,侦探,偵探
-Medium,Medium,Medium,Medium
+Medium,Medium,Medium,灵媒,
 Bastion,Bastion,Bastion,埋雷兵,炸彈師
 Demolitionist,Demolitionist,Demolitionist,同命爆手,拆遷者
 
@@ -85,24 +84,24 @@ Opportunist,Opportunist,オポチュニスト,投机者,投機主義者
 Egoist,Egoist,エゴイスト,野心家,利己主義者
 Lovers,Lovers,恋人,恋人,戀人
 Jackal,Jackal,ジャッカル,豺狼,豺狼
-Sidekick,Sidekick,Sidekick,Sidekick
+Sidekick,Sidekick,Sidekick,跟班,
 PlagueBearer,PlagueBearer,PlagueBearer,疫医,疫醫
 Pestilence,Pestilence,Pestilence,传染者,感染者
-Juggernaut,Juggernaut,Juggernaut,欲望杀人魔,巨人
-Marksman,Marksman,Marksman,Marksman
+Juggernaut,Juggernaut,Juggernaut,欲望杀手,剑圣
+Marksman,Marksman,Marksman,弓箭手
 Vulture,Vulture,Vulture,秃鹫,禿鷹
 Werewolf,Werewolf,Werewolf,狼人,狼人
 TheGlitch,The Glitch,The Glitch,混沌,毛刺
 GuardianAngelTOU,Guardian Angel,Guardian Angel,守护天使,守護天使
-Amnesiac,Amnesiac,Amnesiac,失忆师,遗忘大师
+Amnesiac,Amnesiac,Amnesiac,窃忆者,遗忘大师
 Hacker,Hacker,Hacker,黑客,黑客
-BloodKnight,Blood Knight,BloodKnight,BloodKnight
-Pirate,Pirate,Pirate,Pirate
+BloodKnight,Blood Knight,BloodKnight,嗜血骑士,
+Pirate,Pirate,Pirate,海盗,
 
 # Coven 
 Coven,Coven,Coven,巫师,巫師
-Poisoner,Poisoner,Poisoner,毒师,毒藥
-CovenWitch,Coven Leader,Witch,女巫,巫婆
+Poisoner,Poisoner,Poisoner,巫毒师,毒藥
+CovenWitch,Witch,Witch,女巫,巫婆
 HexMaster,Hex Master,Hex Master,六芒星法师,妖術大師
 PotionMaster,Potion Master,Potion Master,药剂师,藥水大師
 Medusa,Medusa,Medusa,美杜莎,美杜莎
@@ -112,7 +111,7 @@ Conjuror,Conjuror,Conjuror,魔术师,魔術師
 
 # Modifiers
 Flash,Flash,Flash,闪电侠,閃電俠
-TieBreaker,TieBreaker,TieBreaker,残局终结者,殘局終結者
+TieBreaker,TieBreaker,TieBreaker,破局者,殘局終結者
 Oblivious,Oblivious,Oblivious,胆小鬼,膽小鬼,
 Bewilder,Bewilder,Bewilder,患者,致幻師
 Torch,Torch,Torch,火炬手,火炬手
@@ -152,32 +151,32 @@ TimeThiefInfo,Kill the Crewmates to steal discussion time,敵を殺し、会議�
 SniperInfo,Shoot the Crewmates in the distance,狙い撃つぜ,瞄准敌人，射击！,讓你的敵人在你的狙擊下死亡
 SilencerInfo,Silence Crewmates in Meetings,Silence Crewmates in Meetings,在会议上让船员阵营保持沉默,在會議上使船員保持沉默
 LastImpostorInfo,You are the last one,残ったのはあなただけ,你是最后的希望…,你是狼村最後的希望...
-CorruptedSheriffInfo,You betrayed the Crewmates,You betrayed the Crewmates,你禁受不住眼前的利益，成为了一个叛徒,你成為了一位叛徒
-SwooperInfo,Turn invisible temporarily,Swooper,Swooper
-CamouflagerInfo,Confuse the Crewmates of who's who,Camouflager,Camouflager
-NinjaInfo,Assasinate your Target,NinjaInfo,NinjaInfo
-EvilGuesserInfo,Guess and shoot Crew mid-meeting,推測して打ち抜け,猜测和射击,猜測和射擊
+CorruptedSheriffInfo,You betrayed the Crewmates,You betrayed the Crewmates,你成为了一个叛徒,你成為了一位叛徒
+SwooperInfo,Turn invisible temporarily,Swooper,利用隐身偷袭其他人,
+CamouflagerInfo,Confuse the Crewmates of who's who,Camouflager,让船员们分不清楚谁是谁,
+NinjaInfo,Assasinate your Target,NinjaInfo,利用忍术暗杀你的目标,
+EvilGuesserInfo,Guess and shoot Crew mid-meeting,推測して打ち抜け,让我猜猜你的身份,猜測和射擊
 
 # マッドメイト系役職
 MadmateInfo,Help the Impostors,インポスターの援助をしよう,帮助内鬼,幫助狼人
 MadGuardianInfo,Finish your tasks to help the Impostors,タスクを済ませ、インポスターの援助をしよう,完成任务后来帮助内鬼,完成你的任務並幫助狼人
 MadSnitchInfo,Finish your tasks to help the Impostors,タスクを済ませ、インポスターの援助をしよう,完成任务后来帮助内鬼,完成你的任務並幫助狼人
 SKMadmateInfo,You are now on Team Impostors,サイドキックにされた,你是内鬼的伙伴，你要帮助他们,"你現在是狼人的夥伴了,盡你所能幫助他們"
-CrewPostorInfo,Do tasks to kill the Nearest Player,CrewPostorInfo,CrewPostorInfo
+CrewPostorInfo,Do tasks to kill the Nearest Player,CrewPostorInfo,做任务并杀死附近的人,
 
 # 両陣営可能役職
 WatcherInfo,Keep your eyes on everyone's votes,みんなの投票に目を光らせよう,你可以看见所以人的选择，注意他们的选择,注意所有人的投票
-GuesserInfo,Guess and Shoot,推測して打ち抜け,猜测和射击,猜測和射擊
+GuesserInfo,Guess and Shoot,推測して打ち抜け,让我猜猜你的身份,猜測和射擊
 
 # 特殊クルー役職
-NiceGuesserInfo,Guess impostor roles mid-meeting to kill them!,Guess impostor roles mid-meeting to kill them!,Guess impostor roles mid-meeting to kill them!
+NiceGuesserInfo,Guess impostor roles mid-meeting to kill them!,Guess impostor roles mid-meeting to kill them!,在会议中猜测内鬼的身份并击杀他！
 BaitInfo,Bait your enemies,敵を罠にはめよう,诱骗敌人，让敌人落入你的陷阱,"犧牲小我,完成大我"
 VeteranInfo,Alert to Kill anyone who Interacts with You,Alert to Kill anyone who Interacts with You,警惕任何和你有互动的人,警告殺死任何與你互動的人
-LighterInfo,Expand one's Vision,すべてを照らそう,照亮黑暗，让别人看清楚,照亮黑暗中的一切吧
-MayorInfo,Your vote counts multiple times,自分の票が何倍もの力を持っている,你的投票更有分量,"你的票數更多,更有料"
+LighterInfo,Light all over,すべてを照らそう,照亮黑暗，让别人看清楚,照亮黑暗中的一切吧
+MayorInfo,Your vote counts twice,自分の票が何倍もの力を持っている,你的投票更有分量,"你的票數更多,更有料"
 SabotageMasterInfo,Fix sabotages faster,より早くサボタージュを直そう,请尽快修理破坏,盡快維修船上的破壞
 SheriffInfo,Shoot the Impostors,インポスターを撃ち抜け,把内鬼统统执法掉,執法狼人們
-InvestigatorInfo,Discover the Truth about their Role,Investigator,Investigator,
+InvestigatorInfo,Discover the Truth about their Role,Investigator,发现关于他们职业的真相,
 SnitchInfo,Finish your tasks to snitch out the Killers,タスクを早く済ませよう,完成任务来找出内鬼,完成你的所有任務來找到狼人們
 SpeedBoosterInfo,Boost the players,走らせろ,让其他人跑起来吧,讓其他人跑得更快
 DoctorInfo,Access vitals and cause of death,斯くして奴は死んだ,调查他人死因,看見他們的死因
@@ -185,9 +184,9 @@ TrapperInfo,Trap your enemies,敵を罠にはめよう,引诱敌人落入你的�
 DictatorInfo,Hang your enemy based on your own judgement,独裁政治をしよう,让我统治世界，拥有无上的权利,讓所有人臣服於你
 ChildInfo,No one will Harm You,No one will Harm You,在你长大之前没有人敢伤害你,在你長大前都不敢擊殺你
 SleuthInfo,Discover the Unknown,Discover the Unknown,你发现了一些关于死者的线索,你發現了一些線索
-MediumInfo,Find out what killed who,Medium,Medium
-BastionInfo,Blow up Venters,Bastion,把通风管道全部炸掉吧！,
-DemolitionistInfo,Blow up the Killer,Demolitionist,炸死凶手,
+MediumInfo,Find out what killed who,Medium,查明真相找出凶手,
+BastionInfo,Blow up Venters,Bastion,把所有的通风管道全部炸掉吧！,
+DemolitionistInfo,Blow up the Killer,Demolitionist,炸死杀害你的仇人！,
 
 
 # 第三陣営役職
@@ -204,31 +203,31 @@ ExecutionerInfo,Get your target voted out,ターゲットを追放させよう,�
 EgoistInfo,Replace the Impostor win,インポスター勝利を独占しよう,我们要把属于内鬼的胜利给夺走！,讓我們來奪取狼人的勝利
 LoversInfo,Survive with your lover,恋人と生きて幸せを掴もう,你坠入了爱河，成为了一对恋人，一起活到最后吧！,你墜入了愛河(心理)
 JackalInfo,Kill Everyone and Last Alone,すべてを殺せ,快去杀光所有人，一只苍蝇都不要剩下！,殺光所有人不留活口
-SidekickInfo,Support the Jackal,SidekickInfo,SidekickInfo,SidekickInfo
+SidekickInfo,Support the Jackal,SidekickInfo,帮助豺狼干掉所有人,SidekickInfo
 PlagueBearerInfo,Infect Everyone and Become Pestilence,Infect Everyone and Become Pestilence,请把所有人都感染了，引起大型瘟疫,快去把所有人都感染
 PestilenceInfo,Kill Everyone and Leave None,Kill Everyone and Leave None,把所有人杀都杀光一只蚊子都不要剩,殺光所有人
 JuggernautInfo,Your cooldown decreaes with Each Kill,Your cooldown decreaes with Each Kill,你杀的人越多就会越兴奋，击杀冷却时间也会越短,殺人會讓擊殺冷卻時間縮短
-MarksmanInfo,You can Kill Farther with Each Kill,MarksmanInfo,MarksmanInfo
+MarksmanInfo,You can Kill Farther with Each Kill,MarksmanInfo,射击的次数越多，射击距离越远,
 VultureInfo,Eat bodies by clicking Report,Eat bodies by clicking Report,通过报告键来吞噬尸体,通過點擊報告來吃屍體
 WerewolfInfo,Rampage to Kill Everyone,Rampage to Kill Everyone,狂暴地杀死所有人,
 TheGlitchInfo,foreach PlayerControl Glitch.MurderPlayer,foreach PlayerControl Glitch.MurderPlayer,操控其他船员杀死所有人,
 GuardianAngelTOUInfo,Protect your Target from Attacks,Protect your Target from Attacks,保护你的目标免受攻击,
 AmnesiacInfo,Report a body to Steal a Role,AmnesiacInfo,报告可以窃取尸体的职业,
 HackerInfo,Fix all the Issues,Hacker,解决所有问题,
-BloodKnightInfo,Each kill strengths You for a Bit,BloodKnight,BloodKnight
-PirateInfo,Successfully plunder people to Win,推測して打ち抜け,猜测和射击,猜測和射擊
-SurvivorInfo,Do what it takes to Survive,Survivor,Survivor,Survivor
+BloodKnightInfo,Each kill strengths You for a Bit,BloodKnight,每一次杀戮都会给你带来一点力量
+PirateInfo,Successfully plunder people to Win,推測して打ち抜け,成功地猜测其他人的身份以获得胜利,猜測和射擊
+SurvivorInfo,Do what it takes to Survive,Survivor,为了生存而努力!,Survivor
 
 # Coven 
 CovenInfo,Support your Leader,Support your Leader,支援你的领袖,支持你的領袖
-PoisonerInfo,Poison a crewmate to kill them in a few seconds,PoisonerInfo,毒师信息,毒物信息
-CovenWitchInfo,Taglock players to kill others,WitchInfo,巫师信息,女巫資訊
-HexMasterInfo,Hex everyone to then kill them all with a Hex Bomb,Hex MasterInfo,六芒星法师信息,十六進制主信息
-PotionMasterInfo,Use your potions and kill everyone.,Potion MasterInfo,药剂师信息,藥劑師信息
-MedusaInfo,Stone gaze to kill anyone who interacts with you,MedusaInfo,美杜莎信息,美杜莎資訊
-MimicInfo,Mimic an unused Impostor role,MimicInfo,模仿大师信息,模仿者信息
-NecromancerInfo,Become a killing role from outside the Coven,NecromancerInfo,亡灵法师信息,死靈法師印
-ConjurorInfo,Place acid traps to kill the next player that enters it,ConjurorInfo,魔术师信息,魔術師信息
+PoisonerInfo,Poison a crewmate to kill them in a few seconds,PoisonerInfo,在几秒钟内给一个队友下毒杀死他们,
+CovenWitchInfo,Taglock players to kill others,WitchInfo,标记玩家来击杀他,
+HexMasterInfo,Hex everyone to then kill them all with a Hex Bomb,Hex MasterInfo,给每个玩家设下法术，用法术将他们击杀,
+PotionMasterInfo,Use your potions and kill everyone.,Potion MasterInfo,使用你的药水杀死所有人,
+MedusaInfo,Stone gaze to kill anyone who interacts with you,MedusaInfo,石化对方并杀死,
+MimicInfo,Mimic an unused Impostor role,MimicInfo,模仿成场上没有的内鬼职业,
+NecromancerInfo,Become a killing role from outside the Coven,NecromancerInfo,出巫师阵营外的击杀职业,
+ConjurorInfo,Place acid traps to kill the next player that enters it,ConjurorInfo,变出陷阱来让碰触它的玩家死亡,
 
 # Modifiers
 FlashInfo,SUPERSPEED!!!,Flash,速度*Max，你是一束光,
@@ -259,45 +258,45 @@ MafiaInfoLong,"(Impostors):\nInitially, the Mafias cannot kill (still have a but
 PuppeteerInfoLong,"(Impostors):\nThey can perform secondhand kills but cannot kill like other Impostors.\nTheir direct kill is blocked, but instead, the protected player forcibly kills another player first getting in kill range.",(インポスター陣営):\nキルした対象に、対象が次に近づいたクルーをキルさせる事ができる。\n対象がキルした相手がキルされた瞬間に発動するものであった場合、対象にその効果が反映される。\n普通のキルを行うことはできない。,(内鬼阵营):\n傀儡师的击杀对象会击杀其遇到的下一个船员。\n若后者在接触的同时死亡，则前者死亡。\n傀儡师不可以执行正常击杀。,"(狼人陣營):\n當傀儡師嘗試殺人時,\n他會下咒離他最近的一個人,接著如果碰到非狼人陣營的人並且在殺人範圍內,\n被下咒對象將會砍死他且效果不再持續,\n傀儡師無法正常殺人。"
 TimeThiefInfoLong,"(Impostors):\nEvery kill cuts down discussion and voting time in meeting.\nDepending on option, the lost time is returned after they die.",(インポスター陣営):\nキルを行うと会議時間が減少する。\nタイムシーフが追放または殺害されると、失われた会議時間が返ってきます。,(内鬼阵营):\n蚀时者每击杀一个人，会议持续时间将减少一定时间。\n如果蚀时者死亡，被偷取的时间的会议时间会返还。,"(狼人陣營):\n時間小偷每次殺人將會減少會議時間\n如果時間小偷被丟出或被殺死,減少的會議時間將會回來"
 SniperInfoLong,(Impostors):\nSniper can shoot players so far away.\nthey kill a player on the extension line from Shapeshift point to release point.\nYou can perform normal kills after all bullets run out.,(インポスター陣営):\n遠くの敵を狙撃できるインポスター。\nシェイプシフトした地点から解除した地点の延長線上の敵を一人撃ち抜く。\n撃ちきるまで通常キル出来ない。,(内鬼阵营):\n狙击手拥有远距离击杀的能力。\n狙击手化形后，其击杀能够将其现在为止与化形时所处位置连线及其延长线上的一名玩家击杀。\n狙击手的子弹耗尽前，狙击手不可以进行通常击杀。",(狼人陣營):\n狙擊遠處的敵人\n子彈將從變形處延伸到取消變形處並往直線前進並殺死在這條線上非狼人陣營的人\n狙擊手無法正常殺人在狙擊手用光子彈前。"
-SilencerInfoLong,"(Impostors):\nThe first killing attempt will silence the crewmate in the next meeting. After that, you are a regular impostor.","(Impostors):\nThe first killing attempt will silence the crewmate in the next meeting. After that, you are a regular impostor.","(内鬼阵营):n第一次尝试杀人将在下一次会议上让船员朋友沉默。在那之后，你就是一名普通的内鬼了.",
-CorruptedSheriffInfoLong,"(Impostors):\nA Corrupted Sheriff, or Traitor, spawns when the last Impostor is voted off inside a meeting or killed.\nNo Traitor will spawn if the Impostor died by other means.\nThe Traitor will replace the Sheriff role always when Corrupted Sheriff is not at 0%.\nYou can also make it so there is a minimum number of players for Traitor to spawn.\nOtherwise, it is just a regular Impostor with nothing different.","(Impostors):\nA Corrupted Sheriff, or Traitor, spawns when the last Impostor is voted off inside a meeting.\nNo Traitor will spawn if the Impostor died by other means.\nThe Traitor will replace the Sheriff role always when Corrupted Sheriff is not at 0%.\nYou can also make it so there is a minimum number of players for Traitor to spawn.","(内鬼阵营）：当最后一个内鬼在会议中被投票淘汰时，就会产生一个贪污的警长，或叛徒。\n如果内鬼以其他方式死亡，则不会产生叛徒。\n当贪污的警长没有达到0%时，叛徒将永远取代警长的角色。\n你也可以设置最低叛徒数量。",
-SwooperInfoLong,"(Impostors):\nThe Swooper can vent to temporarily turn invisible. This means if the Swooper kills demolitionist, it is over for the Swooper. The Swooper can never vent.","(Impostors):\nThe Swooper can vent to temporarily turn invisible. This means if the Swooper kills demolitionist, it is over for the Swooper. The Swooper can never vent.","(Impostors):\nThe Swooper can vent to temporarily turn invisible. This means if the Swooper kills demolitionist, it is over for the Swooper. The Swooper can never vent."
-CamouflagerInfoLong,"(Impostors):\nThe Camouflager can shift to temporarily make everyone gray. After shifting, everyone has no name and no cosmetics. When a body is called or after the duration is up, they turn back to their regular player.","(Impostors):\nThe Camouflager can vent to temporarily make themselves gray. While gray, they have no name and no cosmetics. When a body is called or after the duration is up, they turn back to their regular player.","(Impostors):\nThe Camouflager can vent to temporarily make themselves gray. While gray, they have no name and no cosmetics. When a body is called or after the duration is up, they turn back to their regular player."
-NinjaInfoLong,"(Impostors):\nThe Ninja is an Imposter that can kill players from anywhere.\nIf a kill is made during a shape-shift, the kill is guarded. When the transformation is released, the player teleports to the player they used their button on and does the kill.\nWhen not shape-shifting, it is possible to make normal kills./nThere is no transformation cooldown, and the transformation can be performed indefinitely.",(インポスター陣営):\nどこからでもプレイヤーをキルすることができるインポスター。\nシェイプシフト中にキルを行うとキルがガードされ、変身を解除するとキルボタンを押したプレイヤーにテレポートし、キルをする。\nシェイプシフトしていないときは普通のキルをすることが可能で、変身クールダウンがなく、無限に変身できる。,"(Impostors):\nThe Ninja is an Imposter that can kill players from anywhere.\nIf a kill is made during a shape-shift, the kill is guarded. When the transformation is released, the player teleports to the player they used their button on and does the kill.\nWhen not shape-shifting, it is possible to make normal kills./nThere is no transformation cooldown, and the transformation can be performed indefinitely."
+SilencerInfoLong,"(Impostors):\nThe first killing attempt will silence the crewmate in the next meeting. After that, you are a regular impostor.","(Impostors):\nThe first killing attempt will silence the crewmate in the next meeting. After that, you are a regular impostor.",(内鬼阵营):n第一次尝试杀人将在下一次会议上让船员朋友沉默。在那之后，你就是一名普通的内鬼了。,
+CorruptedSheriffInfoLong,"(Impostors):\nA Corrupted Sheriff, or Traitor, spawns when the last Impostor is voted off inside a meeting.\nNo Traitor will spawn if the Impostor died by other means.\nThe Traitor will replace the Sheriff role always when Corrupted Sheriff is not at 0%.\nYou can also make it so there is a minimum number of players for Traitor to spawn.\nOtherwise, it is just a regular Impostor with nothing different.","(Impostors):\nA Corrupted Sheriff, or Traitor, spawns when the last Impostor is voted off inside a meeting.\nNo Traitor will spawn if the Impostor died by other means.\nThe Traitor will replace the Sheriff role always when Corrupted Sheriff is not at 0%.\nYou can also make it so there is a minimum number of players for Traitor to spawn.","(内鬼阵营）：当最后一个内鬼在会议中被投票淘汰时，就会产生一个背叛的警长，或叛徒。\n如果内鬼以其他方式死亡，则不会产生叛徒。\n当背叛的警长没有达到0%时，叛徒将永远取代警长的角色。\n你也可以设置最低叛徒数量。,
+SwooperInfoLong,"(Impostors):\nThe Swooper can vent to temporarily turn invisible. \nThis means if the Swooper kills demolitionist, it is over for the Swooper. \nThe Swooper can never vent.","(Impostors):\nThe Swooper can vent to temporarily turn invisible. \nThis means if the Swooper kills demolitionist, it is over for the Swooper. \nThe Swooper can never vent.",(内鬼阵营):\n隐身人可以通过使用通风管道键在一段时间隐身，这意味着当隐身人杀死同命爆手后，他的隐身效果就结束了。\n隐身人永远不能长时间使用通风管道。
+CamouflagerInfoLong,"(Impostors):\nThe Camouflager can shift to temporarily make everyone gray. After shifting, everyone has no name and no cosmetics. When a body is called or after the duration is up, they turn back to their regular player.","(Impostors):\nThe Camouflager can vent to temporarily make themselves gray. While gray, they have no name and no cosmetics. When a body is called or after the duration is up, they turn back to their regular player.",(内鬼阵营):\n伪装师可以伪装，使每个人暂时变成灰色。伪装后，每个人都没有名字，也没有宠物。当伪装师被招募或持续时间结束后，所有人会变回原来的样子。
+NinjaInfoLong,"(Impostors):\nThe Ninja is an Imposter that can kill players from anywhere.\nIf a kill is made during a shape-shift, the kill is guarded. When the transformation is released, the player teleports to the player they used their button on and does the kill.\nWhen not shape-shifting, it is possible to make normal kills./nThere is no transformation cooldown, and the transformation can be performed indefinitely.",(インポスター陣営):\nどこからでもプレイヤーをキルすることができるインポスター。\nシェイプシフト中にキルを行うとキルがガードされ、変身を解除するとキルボタンを押したプレイヤーにテレポートし、キルをする。\nシェイプシフトしていないときは普通のキルをすることが可能で、変身クールダウンがなく、無限に変身できる。,(内鬼阵营):忍者是一个内鬼，可以从任何地方杀死其他人。\n如果在变身过程中进行击杀，击杀会受到保护。\n当变身释放时，忍者会传送到他们使用按钮的船员身边并进行击杀。\n当不进行变身时，可以进行正常击杀。\n没有变身的冷却时间，变身可以无限期地进行。
 
 # マッドメイト系役職
 MadmateInfoLong,"(Impostors):\nCrewmate, but they belong to team Impostors, but they don't know who are Impostors.\nImpostor and are unrecognizable to each other. Can use vent, no tasks.",(インポスター陣営):\nクルーだがインポスターの味方をする。\nインポスターと互いに認識できない。\nベントが使え、タスクはない。,(内鬼阵营):\n叛徒不可以击杀或者破坏，可以跳管道。,"(狼人陣營):\n船員,但是他們屬於狼人陣營.\n狼人無法知道叛徒是誰,\n他可以跳洞且沒有任務。"
 MadGuardianInfoLong,"(Impostors):\nCrewmate, but they belong to team Impostors, one type of Madmates.\MadGuardian cannot use vents, while they can guard kills by Impostors after finishing all tasks.",(インポスター陣営):\nクルーだがインポスターの味方をする。\nインポスターと互いに認識できない。\nタスクを全て完了させるとｼｰﾙﾄﾞが付与される。,(内鬼阵营):\n背叛的守卫不可以击杀、破坏或使用管道。\n背叛的守卫完成任务之后，可以免疫所有击杀。,"(狼人陣營):\n船員,但是他們屬於狼人陣營.\n狼人和他們無法互相知道誰是叛徒,誰是狼\n當背叛的天使完成所有任務時,他將有一個盾牌。"
 MadSnitchInfoLong,"(Impostors):\nCrewmate, but they belong to team Impostors, one type of Madmates.\nThey can see who is the Impostor after finishing all their tasks.\nDepending on option, they can use vents.",(インポスター陣営):\nクルーだがインポスターの味方をする。\nインポスターと互いに認識できないが、タスクを全て完了させるとマッドスニッチからインポスターを認識できるようになる。,(内鬼阵营):\n背叛的告密者与内鬼不互认，不可以击杀、破坏或者使用管道。\n背叛的告密者完成所有任务之后，其与内鬼互认。,"(狼人陣營):\n船員,但是他們屬於狼人陣營.\n狼人和他們無法互相知道誰是叛徒,誰是狼\n當背叛的告密者做完任務時,狼人和背叛的告密者將可以互相知道對方。"
 SKMadmateInfoLong,(Impostors):\nThe SidekickMadmate is an acquired Madmate Role assigned by Impostors in task phases.\nSome kind of Shapeshifter-based Impostors can give SidekickMadmate by Shapeshifting next to a target.\nThey have no tasks.,(インポスター陣営):\n変身した際に一番近かった人がなれる役職。タスクはない。,(内鬼阵营):\n一些内鬼职业变形时，其附近的与其距离最近的玩家的职业有概率转化为该职业。\n被收买的叛徒与内鬼不互认。,"(狼人陣營):\n當狼人變形時\n離狼人變形最近的一個人將有機率轉化為叛徒跟班\n他沒有任務,且叛徒跟班與狼人無法互相知道。"
-CrewPostorInfoLong,"(Impostors):\nThe CrewPostor can do tasks to kill the Nearest person. The Nearest person can be any role, so you can even kill your fellow impostors.","(Impostors):\nThe CrewPostor can do tasks to kill the Nearest person. The Nearest person can be any role, so you can even kill your fellow impostors.","(Impostors):\nThe CrewPostor can do tasks to kill the Nearest person. The Nearest person can be any role, so you can even kill your fellow impostors."
+CrewPostorInfoLong,"(Impostors):\nThe CrewPostor can do tasks to kill the Nearest person. \nThe Nearest person can be any role, so you can even kill your fellow impostors.","(Impostors):\nThe CrewPostor can do tasks to kill the Nearest person. \nThe Nearest person can be any role, so you can even kill your fellow impostors.",(内鬼职业):\n舰长可以通过做任务来杀死最近的人。\n无论最近的人是什么职业、阵营都可以杀死他。
 
 # 両陣営可能役職
 WatcherInfoLong,(Impostors or Crewmates):\nThe Watchers can see colored votes regardless of anonymous votes.,(インポスターorクルーメイト陣営):\n全員の投票先を見ることができる。,(内鬼阵营或船员阵营):\n会议时窥视者可以看到所有人的投票。,(狼人或船員):\n會議時觀察者可以看到所有人的投票。
-GuesserInfoLong,"(Impostors or Crewmates):\nAs a Guessing role, type ''/shoot show'' to show all possible role IDs that can be guessed. And a list of player Ids corresponding to players. Then try to match up roles with player IDs to get a succesful guess. To guess, type ''/shoot playerID roleID'', and let the magic happen.","(Impostors or Crewmates):\nAs a Guessing role, type ''/shoot show'' to show all possible role IDs that can be guessed. And a list of player Ids corresponding to players. Then try to match up roles with player IDs to get a succesful guess. To guess, type ''/shoot playerID roleID'', and let the magic happen.","(Impostors or Crewmates):\nAs a Guessing role, type ''/shoot show'' to show all possible role IDs that can be guessed. And a list of player Ids corresponding to players. Then try to match up roles with player IDs to get a succesful guess. To guess, type ''/shoot playerID roleID'', and let the magic happen."
-EvilGuesserInfoLong,"(Impostors):\nAs a Guessing role, type ''/shoot show'' to show all possible role IDs that can be guessed. And a list of player Ids corresponding to players. Then try to match up roles with player IDs to get a succesful guess. To guess, type ''/shoot playerID roleID'', and let the magic happen.\n\nYour job is to guess other's roles during meetings and help impostors.","(Impostors):\nAs a Guessing role, type ''/shoot show'' to show all possible role IDs that can be guessed. And a list of player Ids corresponding to players. Then try to match up roles with player IDs to get a succesful guess. To guess, type ''/shoot playerID roleID'', and let the magic happen.","(Impostors):\nAs a Guessing role, type ''/shoot show'' to show all possible role IDs that can be guessed. And a list of player Ids corresponding to players. Then try to match up roles with player IDs to get a succesful guess. To guess, type ''/shoot playerID roleID'', and let the magic happen."
-NiceGuesserInfoLong,"(Crewmates):\nAs a Guessing role, type ''/shoot show'' to show all possible role IDs that can be guessed. And a list of player Ids corresponding to players. Then try to match up roles with player IDs to get a succesful guess. To guess, type ''/shoot playerID roleID'', and let the magic happen.\n\nYour job is to guess impostors and neutral roles and help the crew win.","(Impostors):\nAs a Guessing role, type ''/shoot show'' to show all possible role IDs that can be guessed. And a list of player Ids corresponding to players. Then try to match up roles with player IDs to get a succesful guess. To guess, type ''/shoot playerID roleID'', and let the magic happen.","(Impostors):\nAs a Guessing role, type ''/shoot show'' to show all possible role IDs that can be guessed. And a list of player Ids corresponding to players. Then try to match up roles with player IDs to get a succesful guess. To guess, type ''/shoot playerID roleID'', and let the magic happen."
-PirateInfoLong,"(Neutrals):\nAs a Guessing role, type ''/shoot show'' to show all possible role IDs that can be guessed. And a list of player Ids corresponding to players. Then try to match up roles with player IDs to get a succesful guess. To guess, type ''/shoot playerID roleID'', and let the magic happen.\n\nYour job is to guess an amount of people to win. Misguessing does not cause you to die, but instead just not able to guess until next meeting.","(Impostors):\nAs a Guessing role, type ''/shoot show'' to show all possible role IDs that can be guessed. And a list of player Ids corresponding to players. Then try to match up roles with player IDs to get a succesful guess. To guess, type ''/shoot playerID roleID'', and let the magic happen.","(Impostors):\nAs a Guessing role, type ''/shoot show'' to show all possible role IDs that can be guessed. And a list of player Ids corresponding to players. Then try to match up roles with player IDs to get a succesful guess. To guess, type ''/shoot playerID roleID'', and let the magic happen."
+GuesserInfoLong,"(Impostors or Crewmates):\nAs a Guessing role, type ''/shoot show'' to show all possible role IDs that can be guessed. And a list of player Ids corresponding to players. Then try to match up roles with player IDs to get a succesful guess. To guess, type ''/shoot playerID roleID'', and let the magic happen.","(Impostors or Crewmates):\nAs a Guessing role, type ''/shoot show'' to show all possible role IDs that can be guessed. And a list of player Ids corresponding to players. Then try to match up roles with player IDs to get a succesful guess. To guess, type ''/shoot playerID roleID'', and let the magic happen.",(内鬼阵营或船员阵营):\n身为猜测者，可以在聊天栏输入“/shoot show”可以显示所有可能被猜测的职业ID。\n还有一个玩家ID的列表，对应于玩家。\n然后尝试将职业与玩家ID相匹配，以获得成功的猜测。\n如果想要猜测别人的职业，在聊天栏输入"/shoot 玩家ID 职业ID"即可。
+EvilGuesserInfoLong,"(Impostors):\nAs a Guessing role, type ''/shoot show'' to show all possible role IDs that can be guessed. And a list of player Ids corresponding to players. Then try to match up roles with player IDs to get a succesful guess. To guess, type ''/shoot playerID roleID'', and let the magic happen.","(Impostors):\nAs a Guessing role, type ''/shoot show'' to show all possible role IDs that can be guessed. And a list of player Ids corresponding to players. Then try to match up roles with player IDs to get a succesful guess. To guess, type ''/shoot playerID roleID'', and let the magic happen.",(内鬼阵营):\n身为邪恶的猜测者，可以在聊天栏输入“/shoot show”可以显示所有可能被猜测的职业ID。\n还有一个玩家ID的列表，对应于玩家。\n然后尝试将职业与玩家ID相匹配，以获得成功的猜测。\n如果想要猜测别人的职业，在聊天栏输入"/shoot 玩家ID 职业ID"即可。
+NiceGuesserInfoLong,"(Crewmates):\nAs a Guessing role, type ''/shoot show'' to show all possible role IDs that can be guessed. And a list of player Ids corresponding to players. Then try to match up roles with player IDs to get a succesful guess. To guess, type ''/shoot playerID roleID'', and let the magic happen.","(Impostors):\nAs a Guessing role, type ''/shoot show'' to show all possible role IDs that can be guessed. And a list of player Ids corresponding to players. Then try to match up roles with player IDs to get a succesful guess. To guess, type ''/shoot playerID roleID'', and let the magic happen.",(船员阵营):\n身为正义的猜测者，可以在聊天栏输入“/shoot show”可以显示所有可能被猜测的职业ID。\n还有一个玩家ID的列表，对应于玩家。\n然后尝试将职业与玩家ID相匹配，以获得成功的猜测。\n如果想要猜测别人的职业，在聊天栏输入"/shoot 玩家ID 职业ID"即可。
+PirateInfoLong,"(Neutrals):\nAs a Guessing role, type ''/shoot show'' to show all possible role IDs that can be guessed. And a list of player Ids corresponding to players. Then try to match up roles with player IDs to get a succesful guess. To guess, type ''/shoot playerID roleID'', and let the magic happen.","(Impostors):\nAs a Guessing role, type ''/shoot show'' to show all possible role IDs that can be guessed. And a list of player Ids corresponding to players. Then try to match up roles with player IDs to get a succesful guess. To guess, type ''/shoot playerID roleID'', and let the magic happen.",(中立阵营):\n身为海盗，可以在聊天栏输入“/shoot show”可以显示所有可能被猜测的职业ID。\n还有一个玩家ID的列表，对应于玩家。\n然后尝试将职业与玩家ID相匹配，以获得成功的猜测。\n如果想要猜测别人的职业，在聊天栏输入"/shoot 玩家ID 职业ID"即可。
 
 # 特殊クルー役職
 BaitInfoLong,"(Crewmates):\nWhen killed, they force the killer to self report in no time.",(クルーメイト陣営):\nキルされた時に、自身をキルした人に\n強制的にセルフレポートさせる事ができる。,(船员阵营):\n诱饵被击杀时，击杀诱饵的凶手将被迫报告。,"(船員):\n當被殺時,兇手將強制自行舉報"
-VeteranInfoLong,"(Crewmates):\nVeteran can vent to activate their Alert function.\nWhen alerted, any role that interacts with the Veteran, will die.\nSettings can choose the duration, cooldown, and how many alerts. \nOnly 1 Veteran can exist per game.","(Crewmates):\nVeteran can vent to activate their Alert function. \nWhen alerted, any role that interacts with the Veteran, will die. \nSettings can choose the duration, cooldown, and how many alerts.\nOnly 1 Veteran can exist per game.",(船员阵营):\n老兵可以通过使用管道以激活他们的警报功能。\n当警报响起时，任何与老兵互动的角色都会死亡。\n可以通过设置选择持续时间、冷却时间和警报的数量。\n每个游戏只能有一个老兵。",
+VeteranInfoLong,"(Crewmates):\nVeteran can vent to activate their Alert function.\nWhen alerted, any role that interacts with the Veteran, will die.\nSettings can choose the duration, cooldown, and how many alerts. \nOnly 1 Veteran can exist per game.","(Crewmates):\nVeteran can vent to activate their Alert function. \nWhen alerted, any role that interacts with the Veteran, will die. \nSettings can choose the duration, cooldown, and how many alerts.\nOnly 1 Veteran can exist per game.",(船员阵营):\n老兵可以通过使用管道以激活他们的警惕功能。\n当警惕响起时，任何与老兵互动的角色都会死亡。\n可以通过设置选择持续时间、冷却时间和警惕的数量。\n每个游戏只能有一个老兵。",
 LighterInfoLong,"(Crewmates):\nAfter finishing all the task, The lighters have their vision expanded and ignore lights out.",(クルーメイト陣営):\nタスクを終わらせると、自分の視界を広げることができる。,(船员阵营):\n执灯人完成任务后，视野会扩大，且不受照明破坏影响。,"(船員):\n當做完所有任務時可以增大視野且不受關燈影響"
 MayorInfoLong,"(Crewmates):\nThe Mayors' votes count twice or more.\nDepending on the options, they can call emergency meeting by entering vents.",(クルーメイト陣営):\n会議の票を複数持ち、まとめて一人または\nスキップに入れることができる。(設定有),(船员阵营):\n市长的一票等价于多个玩家的票数。(可以进行设置),"(船員):\n可以一次投很多票並可以將它灌到一個人身上或跳過 (可以設定票數)"
 SabotageMasterInfoLong,"(Crewmates):\nthey can fix both of Communications in MIRA HQ, Reactor and O2 by fixing either.\nLights can be fixed by touching a single lever.\nOpening a door will open all the linked doors.",(クルーメイト陣営):\nリアクター・O2・通信妨害を一人で修理可能。\n停電は一箇所のレバーに触れる事で全て直る。\nドアを開けるとその部屋の全てのドアが開く。,(船员阵营):\n氧气泄露、核反应堆熔毁以及米拉总部的通讯破坏维修大师只需要修复一边则另一边即可同时被修复。\n维修大师只需要按一个开关便可以修复照明破坏。\n维修大师打开波鲁斯与飞艇地图的门时维修大师所在房间的所有门同时打开。,"(船員):\n反應堆,氧氣,通訊以及其他破壞可以破壞大師一個人修復\n關燈可以通過拉一根拉桿來\n開門將開啟該房間所有關閉中的的門。"
 SheriffInfoLong,"(Crewmates):\nThe Sheriffs can kill Impostors.\nIf trying to kill the Crewmates, however, they will kill themselves instead.\nWhether or not they can kill Madmates or Neutrals is up to each option.\nThey have no tasks.",(クルーメイト陣営):\nインポスター陣営をキルすることができる。\n※第三陣営をキル可能にする設定有。\nｸﾙｰﾒｲﾄをキルすると自殺する。タスクはない。,(船员阵营):\n警长可以击杀内鬼（根据房间设置，警长也可以击杀中立阵营玩家）。\n警长若尝试击杀内鬼阵营以外的玩家，警长将会走火。\n警长没有任务。,"(船員):\n警長可以殺死狼人陣營的人,\n*可以設定中立陣營是否可以被殺\n警長若槍到好人陣營將會自殺,警長沒有任務。"
-InvestigatorInfoLong,"(Crewmates):\nThe Investigator can investigate people to find out if their role is bad or not. Use the kill button to investigate. The Veteran can kill you if the option is turned on.","(Crewmates):\nThe Investigator can investigate people to find out if their role is bad or not. Use the kill button to investigate. The Veteran can kill you if the option is turned on.","(Crewmates):\nThe Investigator can investigate people to find out if their role is bad or not. Use the kill button to investigate. The Veteran can kill you if the option is turned on."
+InvestigatorInfoLong,"(Crewmates):\nThe Investigator can investigate people to find out if their role is bad or not. \nUse the kill button to investigate. \nThe Veteran can kill you if the option is turned on.","(Crewmates):\nThe Investigator can investigate people to find out if their role is bad or not. \nUse the kill button to investigate. \nThe Veteran can kill you if the option is turned on.",(船员阵营):\n调查员可以调查其他人，找出他们的职业是否是坏的。\n使用击杀按钮进行调查。\n如果去调查老兵，老兵可以杀死你。
 SnitchInfoLong,"(Crewmates):\nWhen finishing all the tasks, the Snitches can see Impostors with their red player name.\nWhen the Snitches have one task left, they will be revealed to the Impostors",(クルーメイト陣営):\nタスク完了と同時にインポスターの名前の色が\n赤く表示され逆に自身のタスクが少なくなると\n名前の横に★が表示されｲﾝﾎﾟｽﾀｰに暴かれる。,(船员阵营):\n告密者完成所有任务后，所有内鬼的昵称在告密者来看将变为红色显示。\n当告密者剩余任务到达一定数量时，内鬼会收到提示。\n（注:恋人告密者的技能失效）,"(船員):\n當告密者做完所有任務,狼人的名字將會變成紅色(僅告密者可見),\n但是當他剩下最後一個任務時,\n狼人會看見告密者頭上會有個星號標記。(中立或船員不可見)\n(P.S:戀人告密者技能失效)"
 LoversInfoLong,"(Modifiers),\nThe Lovers are additionally assigned to two of all players.\nWin if the game ends with both lovers alive(except Crewmates task completion).\nIf one lover dies, the other lover suisides.",(第三陣営):\n全プレイヤーの中からランダムで2人に他の役職と重複して配役される第三陣営。\n恋人が2人とも生き残っている状態で試合終了すれば勝利。\n恋人の片方が死んだときにもう片方も死ぬ。クルーメイトのタスクが完了すると敗北。,恋人为两名玩家的组合。\n恋人存活到游戏结束则恋人独自获胜。\n船员阵营的恋人玩家没有任务。\n从恋人阵营玩家可以看到两名恋人玩家昵称旁有心形标志。\n恋人一同赴死。\n恋人中的一方在会议中被放逐时，另一方将死亡并变为不可以被报告的尸体。,"(中立),\n遊戲開始系統會隨機抽取兩人當戀人,該職業可以和其他職業屬於同一個玩家身上\n戀人將獲勝在遊戲結束時如果兩個戀人都活著.\n但是當一個戀人死去,另一個戀人也會跟著死去\n如果船員完成所有任務,戀人即宣告失敗。"
 SpeedBoosterInfoLong,(Crewmates):Finishing all the tasks boosts the player speed of someone alive.,(クルーメイト陣営):\nタスクを終わらせると、ランダムな生存者のスピードを上げる事ができる。,(船员阵营):\n增速者完成所有任务后，场上任意一名存活玩家的速度将被加快。,"(船員):加速器做完任務時可以讓隨機的活著玩家速度加快"
 DoctorInfoLong,"(Crewmates):\nThe Doctors have a portable vitals panel just like the vanilla Role Scientists.\nIn addtion, the Doctors can see all causes of death in meetings.",(クルーメイト陣営):\nプレイヤーの死因を知ることができる。\nまた、充電がある限りどこでもバイタルを確認できる。,(船员阵营):\n医生可以确认所有死亡玩家的死因。\n医生可以远程观看生命监测装置，观看持续时间与设备充能挂钩。,"(船員):\n醫生可以知道每個玩家的死因\n還有醫生有一個跟科學家一樣的心電圖,它也需要充電。"
 TrapperInfoLong,(Crewmates):\nThe Trappers forbid the killer to move in the least for a configurable seconds.,(クルーメイト陣営):\nキルされると、キルした人を数秒間移動不可にすることができる。(設定有),(船员阵营):\n陷阱师被击杀时，凶手一段时间内将不能移动。,"(船員):\n如果設限者被殺,殺他的兇手將會被困在原地幾秒(可以設定)"
 DictatorInfoLong,"(Crewmates):\nWhen you vote for someone in a meeting, they forcibly break that meeting and exile the player they vote for.\nAfter exercising the force, the Dictators die just after meeting.",(クルーメイト陣営):\n会議中に誰かに投票をすると、会議を強制終了させて投票先を吊る事ができる。\n投票したタイミングでディクテーターは死ぬ。,(船员阵营):\n会议阶段独裁者投票后，可以选择强制结束会议并放逐其投票对象。\n这技能发动后独裁者将会死亡。,"(船員):\n如果獨裁主義者在會議上投票給某位玩家,\n獨裁主義者將強制結束會議並無視場上票數將獨裁主義者投的那個人投出\n但是獨裁主義者將死於他投票的瞬間。"
-ChildInfoLong,"(Crewmates):\nWhen you die by voting or killing, you instantly win. (Arsonist still wins even if Child is killed.)","(Crewmates):\nWhen you die by voting or killing, you instantly win.","(船员阵营):\n你被票出去或者被杀掉会因为你是小孩而获得胜利.",
-SleuthInfoLong,"(Crewmates):\nThe Sleuth knows the role of the bodies they report.","(Crewmates):\nWhen a body is reported, you know the role of the body. You can make it so the Sleuth has to report.","(船员阵营):\n当报告尸体时你知道关于尸体的线索，你可以让侦探必须报告.",
+ChildInfoLong,"(Crewmates):\nWhen you die by voting or killing, you instantly win. (Arsonist still wins even if Child is killed.)","(Crewmates):\nWhen you die by voting or killing, you instantly win.",(船员阵营):\n你被票出去或者被杀掉会因为你是小孩而获得胜利。,
+SleuthInfoLong,"(Crewmates):\nThe Sleuth knows the role of the bodies they report.","(Crewmates):\nWhen a body is reported, you know the role of the body. You can make it so the Sleuth has to report.",(船员阵营):\n当报告尸体时你知道关于尸体的线索，你可以让侦探必须报告,
 BastionInfoLong,"(Crewmates):\nAs Bastion, vent inside a vent to place a bomb inside of it. \nAfterwards, if another Bastion or a role that can vent without being kicked out vents in that vent, they die. \nYou can only bomb 1 person per round.","(Crewmates):\nInfo unfinished.",(船员阵营):\n身为埋雷兵，你可以在通风管道中放置炸弹。\n如果其他可以进入通风管道的玩家进入这个通风管道，他将会死亡。\n每轮只能炸死一个人。,
 DemolitionistInfoLong,"(Crewmates):\nWhen the Demolitionist is killed, they bomb the ground, giving the killer a few seconds to find a vent. \nIf they don't vent in time, the killer suicides. \nThe killer is marked with an Arsonist triangle.","(Crewmates):\nInfo unfinished.",(船员阵营):\n当同命爆手被击杀时，会对凶手的地面进行破坏，给凶手几秒中的时间去寻找通风管道。\n如果没有在规定时间内进入通风管道，凶手将会死亡。\n凶手会被标记“纵火犯”的三角形图标。,
-MediumInfoLong,"(Crewmates):\nThe Medium is basically Sleuth but for the killer. When the Medium reports a body, they know the killer's role.","(Crewmates):\nThe Medium is basically Sleuth but for the killer. When the Medium reports a body, they know the killer's role.","(Crewmates):\nThe Medium is basically Sleuth but for the killer. When the Medium reports a body, they know the killer's role."
+MediumInfoLong,"(Crewmates):\nThe Medium is basically Sleuth but for the killer. \nWhen the Medium reports a body, they know the killer's role.","(Crewmates):\nThe Medium is basically Sleuth but for the killer. \nWhen the Medium reports a body, they know the killer's role.",(船员阵营):\n灵媒与侦探相似，但只针对凶手。\n当灵媒报告尸体时，他可以看见凶手的职业,
 
 # 第三陣営役職
 ArsonistInfoLong,(Neutrals):\nThey can douse other players by using the kill button and remaining next to the player for a few seconds.\nAfter dousing everyone alive the Arsonists can enter the vents to ignite which results in Arsonist win.,(第三陣営):\nキルボタンを使おうとすると、ターゲットに油を塗れる。\nすべてのクルーに油を塗ったら船を燃やして勝利する。,(中立阵营):\n在一名玩家附近时点击击杀按钮，纵火犯可以给那名玩家涂油。\n所有存活玩家都被纵火犯涂油后，纵火犯点火将会单独获得胜利。,"(中立):\n當縱火犯嘗試使用殺人鍵,它將對他身邊最近的一個人澆上油,\n當他對所有玩家澆上油之後,縱火縱火犯點火即勝利。"
@@ -308,29 +307,29 @@ SchrodingerCatInfoLong,"(Neutrals):\nWhen killed, they prevents the kill and bel
 OpportunistInfoLong,(Neutrals):\nThey win the game with any other Roles only if they are just alive at the game end.,(第三陣営):\n試合終了時に生存していれば追加勝利となる。,(中立阵营):\n若投机者在游戏结束时存活，则投机者跟随获胜玩家一同获得胜利。,"(中立):\n如果投機主義者活到最後,他將跟著遊戲結束獲勝的陣營一起獲勝。"
 EgoistInfoLong,"(Neutrals):\nAfter all the Impostors has gone, the Egoists Replace Impostor win.\nThe Impostors and Egoists can see each other.",(第三陣営):\n味方がすべて死んだ状態でインポスターが勝つと単独勝利する。\nインポスターは誰がエゴイストか分かる。エゴイストも、誰がインポスターか分かる。,(中立阵营):\n规则上野心家属于内鬼阵营。野心家与内鬼阵营玩家互认且不可以击杀对方。\n内鬼阵营玩家全部死亡后，若野心家存活且内鬼阵营达成胜利条件，则野心家单独获得胜利。,"(中立):\n如果所有的狼人都死光了且利己主義者活著,利己主義者將獨自獲勝。\n(狼人和利己主義者互相知道對方但是不可以互刀對方)"
 JackalInfoLong,(Neutrals):\nJackal can kill every Crewmates and Impostors.\nJackal can win when living players are only 1 jackal and 1 crew.,(第三陣営):\nジャッカルはすべてのプレイヤーを殺すことができる。\n生き残っているプレイヤーがジャッカル1人とクルー1人の時、ジャッカルが勝利する。,(中立阵营):\n豺狼需要击杀所有人。\n存活的玩家只剩豺狼和一名其他船员时，豺狼获得胜利。,"(中立):\n豺狼需要殺死所有人來獲得勝利,\n如果場上存活的玩家只剩下豺狼和另一名不帶刀職業時,豺狼將獲勝。"
-SidekickInfoLong,"(Neutrals):\nThe Sidekick is the Jackal's pal and helps them win. If Jackal and Sidekick are among 2 crew, they auto-win.","(Neutrals):\nThe Sidekick is the Jackal's pal and helps them win. If Jackal and Sidekick are among 2 crew, they auto-win.","(Neutrals):\nThe Sidekick is the Jackal's pal and helps them win. If Jackal and Sidekick are among 2 crew, they auto-win."
-PlagueBearerInfoLong,"(Neutrals):\nYou're kill button is an Infect button. Infect everyone until you become Pestilence.","(Neutrals):\nYou're kill button is an Infect button. Infect everyone until you become Pestilence.","(中立阵营):\n你的击杀按钮变成了感染，你需要将所有人感染造成瘟疫.",
-PestilenceInfoLong,"(Neutrals):\nPestilence cannot die and can only be voted. \nWhen someone tries to kill Pestilence, they die instead. \nEven their Lover dying won't bring the Pestilence down.","(Neutrals):\nPestilence cannot die and can only be voted. \nWhen someone triesto kill Pestilence, they die instead.","(中立阵营):\n疫医不能被杀死，当有人试图击杀他是他会受到反伤而死.",
-JuggernautInfoLong,"(Neutrals):\nThe Juggernaut's kill cooldown decreases with each kill.","(Neutrals):\nThe Juggernaut's kill cooldown decreases with each kill.","(中立阵营):\n欲望杀人魔的击杀冷却时间随着每次击杀而减少。"
-MarksmanInfoLong,"(Neutrals):\nThe Marksman's kill distance increaes with each kill.","(Neutrals):\nThe Marksman's kill distance increaes with each kill.","(Neutrals):\nThe Marksman's kill distance increaes with each kill."
-VultureInfoLong,"(Neutrals):\nThe Vulture has to eat a certain number of bodies to win. \nWhen the Vulture attempts to report a body, the body will be determined ate to the Vulture. \nThis means that the Vulture cannot report any dead bodies.","(Neutrals):\nThe Vulture has to eat a certain number of bodies to win. \nDue to techincal limitations, we cannot make the body disappear, but we can make the body unreportable. \nBecause of this, the number of bodies aten by the Vulture will display at every meeting.",(中立阵营):\n秃鹫必须吃掉一定数量的尸体才能获胜。\n由于技术上的限制，不能让尸体消失，但可以让尸体无法报告。\n正因为如此，秃鹰吃掉的尸体数量将在每次会议上显示。",
-WerewolfInfoLong,"(Neutrals):\nThe Werewolf can vent to activate their rampage function. Once you don't get kicked out of the vent, then your rampage is ready. While rampaged, they have a short kill cooldown and can only kill for a short amount of time. After the Rampage Duration, they can no longer kill. You can choose if the Werewolf can vent during rampage.","(Neutral):\nInfo unfinished.","(中立阵营):\n狼人可以通过使用管道键来激活他们的横冲直撞功能。如果你没有被踢出通风管道，那么你就处于横冲直撞的状态。在横冲直撞的时候，他们有一个很短的杀戮冷却时间，只能在短时间内杀戮。在横冲直撞持续时间之后，它们就不能再杀人了。你可以选择狼人在横冲直撞期间是否可以使用管道键。",
-TheGlitchInfoLong,"(Neutrals):\nThe Glitch is a neutral killing role with the Ability to shapeshift. \nThey can vent to switch killing modes. \nAfter every meeting, you are on killing mode. \nWhen you vent, you are on Hacking Mode. \nOn hacking mode, press the kill button on someone to prevent them from doing something for a set period of time.","(Neutral):\nInfo unfinished.","(Neutrals):\nThe Glitch is a neutral killing role. \nThey can vent to switch killing modes. \nAfter every meeting, you are on killing mode. \nWhen you vent, you are on Hacking Mode. \nOn hacking mode, press the kill button on someone to prevent them from doing something for a set period of time."
+SidekickInfoLong,"(Neutrals):\nThe Sidekick is the Jackal's pal and helps them win. If Jackal and Sidekick are among 2 crew, they auto-win.","(Neutrals):\nThe Sidekick is the Jackal's pal and helps them win. If Jackal and Sidekick are among 2 crew, they auto-win.",(中立阵营):\n跟班是豺狼招募后的产物，帮助豺狼获胜。如果场上只剩下跟班与豺狼，他们会一起胜利。,
+PlagueBearerInfoLong,"(Neutrals):\nYou're kill button is an Infect button. Infect everyone until you become Pestilence.","(Neutrals):\nYou're kill button is an Infect button. Infect everyone until you become Pestilence.",(中立阵营):\n你的击杀按钮变成了感染，你需要将所有人感染造成瘟疫.",
+PestilenceInfoLong,"(Neutrals):\nPestilence cannot die and can only be voted. \nWhen someone tries to kill Pestilence, they die instead. \nEven their Lover dying won't bring the Pestilence down.","(Neutrals):\nPestilence cannot die and can only be voted. \nWhen someone triesto kill Pestilence, they die instead.",(中立阵营):\n当疫医将所有玩家感染后会成为传染者且不能被杀死。\n当有人试图击杀他是他会受到反伤而死."
+JuggernautInfoLong,"(Neutrals):\nThe Juggernaut's kill cooldown decreases with each kill.","(Neutrals):\nThe Juggernaut's kill cooldown decreases with each kill.",(中立阵营):\n欲望杀手的击杀冷却时间随着每次击杀而减少。,
+VultureInfoLong,"(Neutrals):\nThe Vulture has to eat a certain number of bodies to win. \nWhen the Vulture attempts to report a body, the body will be determined ate to the Vulture. \nThis means that the Vulture cannot report any dead bodies.","(Neutrals):\nThe Vulture has to eat a certain number of bodies to win. \nDue to techincal limitations, we cannot make the body disappear, but we can make the body unreportable. \nBecause of this, the number of bodies aten by the Vulture will display at every meeting.",(中立阵营):\n秃鹫必须吃掉一定数量的尸体才能获胜。\n由于技术上的限制，不能让尸体消失，但可以让尸体无法报告。\n正因为如此，秃鹰吃掉的尸体数量将在每次会议上显示。,
+WerewolfInfoLong,"(Neutrals):\nThe Werewolf can vent to activate their rampage function. Once you don't get kicked out of the vent, then your rampage is ready. While rampaged, they have a short kill cooldown and can only kill for a short amount of time. After the Rampage Duration, they can no longer kill. You can choose if the Werewolf can vent during rampage.","(Neutral):\nInfo unfinished.",(中立阵营):\n狼人可以通过使用管道键来激活他们的横冲直撞功能。如果你没有被踢出通风管道，那么你就处于横冲直撞的状态。在横冲直撞的时候，他们有一个很短的杀戮冷却时间，只能在短时间内杀戮。在横冲直撞持续时间之后，它们就不能再杀人了。你可以选择狼人在横冲直撞期间是否可以使用管道键。,
+TheGlitchInfoLong,"(Neutrals):\nThe Glitch is a neutral killing role with the Ability to shapeshift. \nThey can vent to switch killing modes. \nAfter every meeting, you are on killing mode. \nWhen you vent, you are on Hacking Mode. \nOn hacking mode, press the kill button on someone to prevent them from doing something for a set period of time.","(Neutral):\nInfo unfinished.",(中立阵营):\n混沌是一个具有变形能力的杀戮型独立角色，你可以通过使用通风管道进行切换形态。\n杀戮模式，与内鬼相似。\n黑客模式，可以使用击杀键对船员进行限制，防止在一段时间做其他事情。,
+TheGlitchInfoLong,"(Neutrals):\nThe Glitch is a neutral killing role with the Ability to shapeshift. \nThey can vent to switch killing modes. \nAfter every meeting, you are on killing mode. \nWhen you vent, you are on Hacking Mode. \nOn hacking mode, press the kill button on someone to prevent them from doing something for a set period of time.","(Neutral):\nInfo unfinished.","(中立阵营):\nGlitch是一个中立的杀戮角色。 \n他们可以发泄来切换杀戮模式。 \n每次会议结束后，你都会进入杀戮模式。 \n当你发泄时，你处于黑客模式。 \n在黑客模式下，按下某人的杀戮按钮以阻止他们在一段时间内做某事。"
 GuardianAngelTOUInfoLong,"(Neutral):\nThe Guardian Angel has a target they are supposed to protect. \nIf their target wins, so does the GA. \nThe GA can vent to temporarily prevent their target from being killed.","(Neutral):\nInfo unfinished.",(中立阵营):\n守护天使有一个他应该保护的目标。\n如果他保护的目标胜利了，守护天使也会胜利。\n守护天使可以使用管道键，暂时防止他们的目标被杀。,
 AmnesiacInfoLong,"(Neutral):\nSteal someone's role by clicking the report button.","(Neutral):\nInfo unfinished.",(中立阵营):\n通过点击报告键，来窃取其他人的职业。,
 HackerInfoLong,"(Neutral):\nAs the Hacker, your goal is to fix a number of points by fixing sabotages. \nYou have the powers of a SabotageMaster. \nComplete sabotages to win. \nElectrical gains the most points. \nReactor gives you like 2 points. \nThe Sheriff can kill Hacker no matter what.","(Neutral):\nInfo unfinished.",(中立阵营):\n作为黑客，你的目标是通过修复破坏行为来获得积分点。\n你拥有修理大师的能力。\n完成破坏才能获胜。\n修复配电获得的积分最多，反应堆获得2点积分。\n警长无论如何都可以杀死黑客。,
-BloodKnightInfoLong,"(Neutral):\nEach kill the Bloodknight does will protect them from attacks for a few seconds.","(Neutral):\Each kill the Bloodknight does will protect them from attacks for a few seconds.","(Neutral):\Each kill the Bloodknight does will protect them from attacks for a few seconds."
-SurvivorInfoLong,"(Neutrals):\nThe Survivor is Opportunist with a buff. The Survivor can vent to protect them from all attacks. However, unlike Opportunist, Survivor cannot win with Child, Jester, and Executioner.","(Neutrals):\nThe Survivor is Opportunist with a buff. The Survivor can vent to protect them from all attacks. However, unlike Opportunist, Survivor cannot win with Child, Jester, and Executioner.","(Neutrals):\nThe Survivor is Opportunist with a buff. The Survivor can vent to protect them from all attacks. However, unlike Opportunist, Survivor cannot win with Child, Jester, and Executioner."
+BloodKnightInfoLong,"(Neutral):\nEach kill the Bloodknight does will protect them from attacks for a few seconds.","(Neutral):\nEach kill the Bloodknight does will protect them from attacks for a few seconds.",(中立阵营):\n嗜血骑士每杀一个人都会保护他在几秒钟内不受攻击。,
+SurvivorInfoLong,"(Neutrals):\nThe Survivor is Opportunist with a buff. The Survivor can vent to protect them from all attacks. However, unlike Opportunist, Survivor cannot win with Child, Jester, and Executioner.","(Neutrals):\nThe Survivor is Opportunist with a buff. The Survivor can vent to protect them from all attacks. However, unlike Opportunist, Survivor cannot win with Child, Jester, and Executioner.",(中立阵营):\n求生者是一个自带投机者特性的职业。\n求生者可以通过使用管道按键来获得一段时间的庇护，使他不会受到任何伤害。\n与投机者不同的是他不可以与小丑、小孩、处刑人一起共享胜利。,
 
-CovenInfoLong,"""(Coven):\nNothing special about regular Coven. They just help support the Leader.""","""(Coven):\nNothing special about regular Coven. They just help support the Leader.""","""(法师):\n普通的法师没什么特别之处他们只会支援领袖.""",
-PoisonerInfoLong,"""(Coven):\nThe Poisoner works exactly like the Vampire. Same cooldown and everything. This will remove Vamp from Impostor Team and join Coven.""","""(Coven):\nInfo unfinished.""","""(巫师阵营):\n资料未填写完成.""",
-CovenWitchInfoLong,"""(Coven):\nThe Witch is similar to Puppeteer, allowing you to taglock players to kill others.""","""(Coven):\nInfo unfinished.""","""(巫师阵营):\n资料未填写完成.""",
-HexMasterInfoLong,"""(Coven):\nThe Hex Master can hex people like an Arsonist. After hexing everyione, if they survive the next meeting, they hex bomb everyone and win.""","""(Coven):\nInfo unfinished.""","""(巫师阵营):\n资料未填写完成.""",
-PotionMasterInfoLong,"""(Coven):\nThe Potion Master can use potions to reveal something about their target. They have 3 potions. Kill, Curse, and Reveal. Kill is just kill. Revealing allows you to reveal someone's role to all coven members. And cursing is like Warlock after revealing.""","""(Coven):\nInfo unfinished.""","""(巫师阵营):\n资料未填写完成.""",
-MedusaInfoLong,"""(Coven):\nMedusa can Stone Gaze just like the Veteran to counterattack any attacks. However, if a body killed by Medusa isn't reported in a set amount of time, the body turns to stone and is unreportable.""","""(Coven):\nInfo unfinished.""","""(巫师阵营):\n资料未填写完成.""",
-MimicInfoLong,"""(Coven):\nThe Mimic can mimic an Impostor role that currently isnt being used. The Mimic cannot spawn in a game with the Necromancer.""","""(Coven):\nInfo unfinished.""","""(巫师阵营):\n资料未填写完成.""",
-NecromancerInfoLong,"""(Coven):\nThe Necromancer can mimic any killing role. The Necromancer cannot spawn with a Mimic.""","""(Coven):\nInfo unfinished.""","""(巫师阵营):\n资料未填写完成.""",
-ConjurorInfoLong,"""(Coven):\nThe Conjuror can shift to place traps. These acid traps will kill anyone who walks through them.""","""(Coven):\nInfo unfinished.""","""(巫师阵营):\n资料未填写完成.""",
+CovenInfoLong,(Coven):\nNothing special about regular Coven. \nThey just help support the Leader.,(Coven):\nNothing special about regular Coven. \nThey just help support the Leader.,(巫师):\n普通的法师没什么特别之处他们只会支援领袖.,
+PoisonerInfoLong,(Coven):\nThe Poisoner works exactly like the Vampire. \nSame cooldown and everything. \nThis will remove Vamp from Impostor Team and join Coven.,(Coven):\nInfo unfinished.,(巫师):\n巫毒师的技能与吸血鬼完全一样。\n同样的冷却时间和一切。\n这将把吸血鬼从内鬼阵营中移除，并加入巫师团。,
+CovenWitchInfoLong,"(Coven):\nThe Witch is similar to Puppeteer, allowing you to taglock players to kill others.","(Coven):\nInfo unfinished.",(巫师):\n女巫与傀儡师类似，允许你用操控玩家来杀死其他人。,
+HexMasterInfoLong,"(Coven):\nH\The Hex Master can hex people like an Arsonist. \nAfter hexing everyioone, if they survive the next meeting, they hex bomb everyone and win.","(Coven):\nInfo unfinished.",(巫师):\n六芒星法师的技能与纵火犯完全一样。\n为活下来的人使用魔法，直到所有人都被六芒星法师标记就可以胜利。,
+PotionMasterInfoLong,"(Coven):\nThe Potion Master can use potions to reveal something about their target. \nThey have 3 potions. \nKill, Curse, and Reveal. \nKill is just kill. \nRevealing allows you to reveal someone's role to all coven members. \nAnd cursing is like Warlock after revealing.","(Coven):\nInfo unfinished.",(巫师):\n药剂师可以用药水来揭示目标的一些情况。\n他有3种药水。\n杀戮、诅咒和揭发。\n杀戮就是杀戮。\n揭发可以让你向所有巫师团成员揭发某人的职业。\n而诅咒就跟术士一样。,
+MedusaInfoLong,"(Coven):\nMedusa can Stone Gaze just like the Veteran to counterattack any attacks. \nHowever, if a body killed by Medusa isn't reported in a set amount of time, the body turns to stone and is unreportable.","(Coven):\nInfo unfinished.","(巫师):\n美杜莎可以像老兵一样来反击任何攻击。\n如果被美杜莎击杀的玩家的尸体在规定的时间内没有被报告，尸体就会变成石头，无法报告。,
+MimicInfoLong,"(Coven):\nThe Mimic can mimic an Impostor role that currently isnt being used. \nThe Mimic cannot spawn in a game with the Necromancer.","(Coven):\nInfo unfinished.",(巫师):\n模仿大师可以模仿一个没有被使用的内鬼职业。\n模仿大师不会与亡灵法师一起出现。,
+NecromancerInfoLong,"(Coven):\nThe Necromancer can mimic any killing role. \nThe Necromancer cannot spawn with a Mimic.","(Coven):\nInfo unfinished.",(巫师):\n亡灵法师可以模仿任何一个带刀职业。\n亡灵法师不会与模仿大师一起出现。,
+ConjurorInfoLong,"(Coven):\nThe Conjuror can shift to place traps. \nThese acid traps will kill anyone who walks through them.","(Coven):\nInfo unfinished.",(巫师):\魔术师可以通过转移、放置陷阱。\n这些陷阱会杀死任何走过它们的人。,
 
 
 # HideAndSeek
@@ -342,7 +341,7 @@ GMInfoLong,"(None):/nThe GM (Game Master) is an observer role.\nTheir presence h
 
 # Modifiers
 FlashInfoLong,"(Modifiers):\nFlash is a Global Modifier that can be applied to anyone. \nThe Flash has a boost of speed that makes them faster than others.","(Modifiers):\n",(附加职业):\n闪电侠是一个全局附加职业，可以应用于任何人。\n闪电侠有一个速度的提升，使他们比其他人更快。,
-TieBreakerInfoLong,"(Modifiers):\nTieBreaker is a Global Modifier that can be applied to anyone. \nWhenever there is a tie, and the TieBreaker is on one of the sides that tied, their vote gets priority.","(Modifiers):\n",(附加职业):\n残局终结者是一个全局附加职业，可以应用于任何人。\n每当出现残局时，如果残局终结者是在残局的一方，他的投票就会得到优先权。,
+TieBreakerInfoLong,"(Modifiers):\nTieBreaker is a Global Modifier that can be applied to anyone. \nWhenever there is a tie, and the TieBreaker is on one of the sides that tied, their vote gets priority.","(Modifiers):\n",(附加职业):\n破局者是一个全局附加职业，可以应用于任何人。\n每当出现平局时，如果破局者是在平局的一方，他的投票就会得到优先权。,
 ObliviousInfoLong,"(Modifiers):\nOblivious is a Global Modifier that can be applied to anyone. \nAs Oblivious, you cannot report dead bodies.","(Modifiers):\n",(附加职业):\n胆小鬼是一个全局附加职业，可以适用于任何人。\n作为胆小鬼，你不能报告死尸。,
 BewilderInfoLong,"(Modifiers):\nBewilder is a Crew Modifier that can only be applied to crewmates. \nAs Bewilder, when you get killed, the killer will steal your vision.","(Modifiers):\n",(附加职业):\n患者是一个船员附加职业，只能适用于船员。\n作为患者，当你被杀时，凶手的视野会因为感染而降低视野。,
 TorchInfoLong,"(Modifiers):\nTorch is a Crew Modifier that can only be applied to crewmates. \nAs Torch, you still have full vision even when lights are turned off.","(Modifiers):\n",(附加职业):\n火炬手是一个船员附加职业，只能适用于船员。\n作为火炬手，即使在熄灯的情况下，你仍然有完整的视野。,
@@ -352,12 +351,12 @@ LastImpostorInfoLong,"(Attributes):\nAn Attribute given to the last Impostor.\nK
 
 #モードオプション
 HideAndSeek,HideAndSeek,かくれんぼ,躲猫猫,躲貓貓
-ColorWars,ColorWars,ColorWars,ColorWars
-Splatoon,Splatoon,Splatoon,Splatoon
-FreeForAll,Free For All,FreeForAll,FreeForAll,FreeForAll
+ColorWars,ColorWars,ColorWars,颜色战争模式,
+Splatoon,Splatoon,Splatoon,喷漆,
+FreeForAll,Free For All,FreeForAll,免费为大家服务,FreeForAll
 NoGameEnd,NoGameEnd,ゲームを終了しない,测试模式,遊戲不會結束模式
-CamoComms,Camo Comms,Camo Comms,迷彩通信,
-SyncButtonMode,SyncButtonMode,ボタン回数同期モード,所有船员共享会议次数,全場拍桌數同步模式
+CamoComms,Camo Comms,Camo Comms,破坏通讯干扰信息,
+SyncButtonMode,SyncButtonMode,ボタン回数同期モード,船员共享会议次数,全場拍桌數同步模式
 RandomMapsMode,RandomMapsMode,ランダムマップモード,随机地图模式,隨機地圖模式
 SyncedButtonCount,Max Button Count,合計ボタン使用可能回数(回),紧急会议可使用的次数,全場最大拍桌數量
 AddedTheSkeld,Include TheSkeld,TheSkeldを追加,添加骷髅舰地图,將The Skeld地圖列入選項
@@ -399,13 +398,13 @@ WhichDisableAdmin,Which Disable admin,どのアドミンを無効化するか,�
 
 ## モード説明
 HideAndSeekInfo,"HideAndSeek:\nNo one can call emergency meeting, Crewmates (Blue) can win only by completing tasks\nand Impostors (Red) can win only by killing all the Crewmates.",かくれんぼ:\n会議を開くことはできず、クルーはタスク完了、インポスターは全クルー殺害でのみ勝利することができる。\nインポスターは赤、クルーは青に体の色が変更される。,躲猫猫:\n没有会议阶段；船员只能完成任务；\n内鬼需要杀死所有船员来获得胜利；\n内鬼的皮肤颜色将变为红色，船员变为蓝色，以示区分。,"躲貓貓:\n不能拍桌或舉報,船員只能做任務\n狼人的勝利條件為殺光所有船員\n狼人的身體顏色會轉變為紅色,船員則會變為藍色。"
-StandardHASInfo,"HideAndSeek with Roles:\nNo one can call emergency meeting, Crewmates can win only by completing tasks\nand Impostors can win only by killing all the Crewmates.",役職入りでかくれんぼ:\n会議を開くことはできず、クルーはタスク完了、インポスターは全クルー殺害でのみ勝利することができる。,躲猫猫（模组）:\n没有会议阶段；船员只能完成任务；\n内鬼需要杀死所有船员来获得胜利。,"躲貓貓(附加普通模式職業):\n不能拍桌或舉報,船員只能做任務\n狼人的勝利條件為殺光所有船員\n狼人的身體顏色會轉變為紅色,船員則會變為藍色。"
+StandardHASInfo,"HideAndSeek with Roles:\nNo one can call emergency meeting, Crewmates can win only by completing tasks\nand Impostors can win only by killing all the Crewmates.",役職入りでかくれんぼ:\n会議を開くことはできず、クルーはタスク完了、インポスターは全クルー殺害でのみ勝利することができる。,躲猫猫（附加职业）:\n没有会议阶段；船员只能完成任务；\n内鬼需要杀死所有船员来获得胜利。,"躲貓貓(附加普通模式職業):\n不能拍桌或舉報,船員只能做任務\n狼人的勝利條件為殺光所有船員\n狼人的身體顏色會轉變為紅色,船員則會變為藍色。"
 NoGameEndInfo,NoGameEnd:\nA mode for debugging in which there is no win Basis.\nThe game cannot be exited except by SHIFT+L+ENTER of the host.,ゲームを終了しない:\n勝利判定が存在しないデバッグ用のモード。ホストのSHIFT+L+ENTER以外でのゲーム終了ができない。,测试模式:\n本模式用于进行测试。本模式没有游戏结束判定，房主按下shift+L+enter可以结束游戏。,"遊戲不會結束模式:\n該模式僅限用來測試,這裡沒有勝利條件\n該模式無法通過正常勝利條件結束,僅能讓房主使用SHIFT+L+ENTER或指令/dis來結束遊戲。"
 SyncButtonModeInfo,SyncButtonMode:\nThis mode limits the maximum number of meetings that can be called in total.,ボタン回数同期モード:\nプレイヤー全員のボタン回数が同期されているモード。(設定有),所有船员共享会议次数:\n游戏中存在全员共有的最大紧急会议次数。(可以进行设置),"全場拍桌數同步模式:\n該模式會讓全場玩家的拍桌數同步。(可以設定拍桌數)"
 SabotageTimeControlInfo,Sabotage time control:\nIt is possible to change the time limit for some sabotage. (with settings),サボタージュの時間制御:\n一部サボタージュの制限時間を変更することができる。(設定有),破坏调整:\n可以调整一部分破坏的限制时间。(可以进行设置),"控制緊急任務時間:\n該模式可以讓某些地圖的破壞時間重新設定。 (可以設定)"
 RandomMapsModeInfo,RandomMapsMode:\nA mode in which the map changes randomly. (with settings),ランダムマップモード:\nランダムにマップが変わるモード。(設定有),随机地图:\n随机选择地图游玩的模式。(可以进行设置),"隨機地圖模式:\n該模式會隨機挑選地圖。 (可以設定)"
 
-CamoCommsInfo,"CamoComms:\nDuring the Comms sabotage, everyone will have no name or clothing and all appear gray.","CamoComms:\nDuring the Comms sabotage, everyone will have no name or clothing and all appear gray.","巫师阵营:\n在通讯破坏过程中，每个人都没有名字和衣服，都是灰色的。.",
+CamoCommsInfo,"CamoComms:\nDuring the Comms sabotage, everyone will have no name or clothing and all appear gray.","CamoComms:\nDuring the Comms sabotage, everyone will have no name or clothing and all appear gray.","破坏通讯干扰信息:\n当通讯被破坏时，所有人的信息会被干扰，颜色变成统一的灰色。",
 DisableDevicesInfo,"DisableDevices:\nVarious devices can be disabled (currently admin only, MiraHQ not supported)",デバイスを無効化:\n各種機器を無効化することができる。(現在はアドミンのみ、MiraHQ非対応),禁用设备:\n可以禁用各种设备。(目前只支持管理地图，不支持米拉总部),"禁用設備:\n可以禁用各種設備。 (目前只支持管理室地圖,不支持MIRA HQ)"
 
 ## 詳細設定
@@ -422,8 +421,8 @@ VampireKillDelay,Vampire Kill Delay(s),ヴァンパイアの殺害までの時�
 MareSpeedInLightsOut,Mare Player Speed In Lights Out,停電時のメアーの移動速度,梦魇熄灯时的移动速度,關燈時黑暗博士的移動速度
 MareKillCooldownInLightsOut,Mare Kill Cooldown In Lights Out,停電時のメアーのキルクール,梦魇熄灯时的击杀冷却,關燈時黑暗博士的殺人冷卻
 SabotageMasterSkillLimit,SabotageMaster Fix Ability Limit(Except Opening Doors),ｻﾎﾞﾀｰｼﾞｭﾏｽﾀｰがｻﾎﾞﾀｰｼﾞｭに対して能力を使用できる回数(ﾄﾞｱ閉鎖は除く),修理大师修理破坏的最大次数,破壞大師修理破壞次數上限
-CamouflagerCamouflageCoolDown,Camouflager Camouflage CoolDown,カモフラージャーのカモフラージュクールダウン
-CamouflagerCamouflageDuration,Camouflager Camouflage Duration,カモフラージャーのカモフラージュ持続時間
+CamouflagerCamouflageCoolDown,Camouflager Camouflage CoolDown,カモフラージャーのカモフラージュクールダウン,伪装师伪装冷却时间
+CamouflagerCamouflageDuration,Camouflager Camouflage Duration,カモフラージャーのカモフラージュ持続時間,伪装师伪装持续时间
 CanMakeMadmateCount,SidekickMadmate Maximum,マッドメイトを作れる人数,变形者可以招募叛徒的数量,變形者招募叛徒最大人數
 MadSnitchCanVent,MadSnitch Can Use Vent,マッドスニッチがベントを使える,背叛的告密者可以使用管道,背叛的告密者可以使用管道
 MadSnitchTasks,MadSnitch Tasks,マッドスニッチのタスク数,背叛的告密者任务数,背叛告密者任務數量
@@ -439,11 +438,11 @@ MadmateVentMaxTime,Madmates Max Time In Vents(s),マッドメイト系役職の�
 EvilWatcherChance,EvilWatcher Chance,イビルウォッチャーになる確率,窥视者成为内鬼阵营的概率,成為邪惡觀察者的機率
 EvilGuesserChance,Evil Guesser Chance,イビルゲッサーになる確率,成为邪恶猜测者的概率,成為邪惡猜測者的概率
 ConfirmedEvilGuesser,Number of Evil Guesser,確定イビルゲッサーの人数,邪恶猜测者的数量,邪惡猜測者的數量
-CanShootAsNormalCrewmate,Arrow to shoot as Normal Crewmate,クルー打ちを許可,作为正常船员射击的箭头,作為正常船員射擊的箭頭
-GuesserShootLimit,Guesser Shoot Limit,ゲッサーが打てる回数,猜测者射击限制,猜測者射擊限制
-CanKillMultipleTimes,Can Kill multiple times during Meeting,１会議中に複数回殺せる,可以在一次会议中被杀死多次,可以在一次會議中被殺死多次
-PirateGuessAmount,Pirate Guess Win Amount,PirateGuessAmount,PirateGuessAmount
-NeutralGuesserChance,Neutral Guesser Chance,NeutralGuesserChance,NeutralGuesserChance
+CanShootAsNormalCrewmate,Arrow to shoot as Normal Crewmate,クルー打ちを許可,可以猜测普通船员,作為正常船員射擊的箭頭
+GuesserShootLimit,Guesser shoot limit,ゲッサーが打てる回数,猜测最大次数,猜測者猜测限制
+CanKillMultipleTimes,Can Kill multiple times during Meeting,１会議中に複数回殺せる,可以连续猜测,可以在一次會議中被殺死多次
+PirateGuessAmount,Pirate Guess Win Amount,PirateGuessAmount,海盗猜中多少次胜利,
+NeutralGuesserChance,Neutral Guesser Chance,NeutralGuesserChance,海盗出现的概率,
 LighterTaskCompletedVision,Lighter Expanded Vision,ライターのタスク完了時の視界,执灯人完成任务后的视野,小燈人做完任務的視野
 BewilderVision,Vision,Vision,视野,
 LighterTaskCompletedDisableLightOut,Lighter Gains Impostor Vision,タスク完了時に停電を無効にする,完成任务的执灯人不受熄灯影响,完成任務的小燈人視野不受關燈影響
@@ -454,11 +453,11 @@ SabotageMasterFixesCommunications,SabotageMaster Can Fix Both Comms In MIRA HQ,�
 SabotageMasterFixesElectrical,SabotageMaster Can Fix Lights Out All At Once,ｻﾎﾞﾀｰｼﾞｭﾏｽﾀｰが停電に対して能力を使える,修理大师按一个按钮就可以修复照明破坏,破壞大師拉一根拉桿就可以修理電燈
 SheriffKillCooldown,Sheriff Kill Cooldown,シェリフのキルクール,警长执法冷却,警長執法冷卻
 SheriffCanKillArsonist,Sheriff Can kill Arsonist,シェリフがアーソニストをキルできる,警长可以执法纵火犯,警長可以槍死縱火犯
-SA,Hacker Sabotage Amount,Hacker Sabotage Amount,黑客需要修复的破坏的积分,
+SA,Hacker Sabotage Amount,Hacker Sabotage Amount,黑客需要修复破坏获得积分,
 SheriffCanKillJester,Sheriff Can Kill Jester,シェリフがジェスターをキルできる,警长可以执法小丑,警長可以槍死小丑
 SheriffCanKillTerrorist,Sheriff Can Kill Terrorist,シェリフがテロリストをキルできる,警长可以执法恐怖分子,警長可以槍死恐怖分子
 SheriffCanKillExecutioner,Sheriff Can Kill Executioner,シェリフがエクスキューショナーをキルできる,警长可以执法处刑人,警長可以槍死劊子手
-SheriffCanKillOpportunist,Sheriff Can Kill Opportunist/Survivor,シェリフがオポチュニストをキルできる,警长可以执法投机者,警長可以槍死投機主義者
+SheriffCanKillOpportunist,Sheriff Can Kill Opportunist/Survivor,シェリフがオポチュニストをキルできる,警长可以执法投机者和求生者,警長可以槍死投機主義者
 SheriffCanKillMadmate,Sheriff Can Kill Madmates,シェリフがマッドメイトをキルできる,警长可以执法叛徒,警長可以槍死叛徒
 SheriffCanKillEgoist,Sheriff Can Kill Egoist,シェリフがエゴイストをキルできる,警长可以执法野心家,警長可以槍死利己主義者
 SheriffCanKillPB,Sheriff Can Kill PlagueBearer,Sheriff Can Kill PlagueBearer,警长可以执法疫医,
@@ -472,7 +471,7 @@ SheriffCanKillJackal,Sheriff Can Kill Jackal,シェリフがジャッカルを�
 SheriffCanKillJShrodingerCat,Sheriff Can Kill JackalSide ShrodingerCat,シェリフがジャッカル陣営のシュレディンガーの猫をキルできる,警长可以执法豺狼阵营的薛定谔的猫,警長可以槍死豺狼方的薛定諤的貓
 SheriffCanKillCrewmatesAsIt,Sheriff Can Kill Crewmates As It,シェリフがそのままクルーをキルできる,警长尝试执法船员时会和被执法者同归于尽,警長走火時會讓嘗試槍的玩家同歸於盡
 SheriffShotLimit,Sheriff Shot Limit,シェリフのキル可能回数,警长最大执法次数,警長最大子彈數量
-SheriffCanKillJug,Sheriff Can Kill Juggernaut/Marksman,シェリフのキル可能回数,警长最大执法次数,警長最大子彈數量
+SheriffCanKillJug,Sheriff Can Kill Juggernaut,シェリフのキル可能回数,警长可以执法欲望杀人魔,
 DoctorTaskCompletedBatteryCharge,Doctor Battery Duration,ドクターがタスクを終わらせたときにセットされるバイタルの秒数,科学家每完成一个任务增加的设备充能数,醫生完成任務充電秒數
 SnitchEnableTargetArrow,Snitch Can See Target Arrow,ターゲットを示す矢印が見える,告密者完成任务后可以通过箭头确认所有被发现目标,告密者完成任務後可以看到目標的箭頭
 SnitchCanGetArrowColor,Snitch Can See Colored Arrow,矢印の色で陣営がわかる,告密者对不同阵营的目标使用不同颜色的箭头确认,對不同陣營的目標使用不同顏色的箭頭標示
@@ -490,40 +489,40 @@ SerialKillerLimit,Time Limit To Suiside(s),シリアルキラーが自爆する�
 ArsonistDouseTime,Arsonist Douse Duration,アーソニストの塗り時間,纵火犯涂油所需时间,縱火犯澆油所需時間
 ArsonistCooldown,Arsonist Douse Cooldown,アーソニストのクールダウン,纵火犯涂油冷却,縱火犯澆油冷卻
 
-TourArso,TOuR Arsonist,TOuR Arsonist,TOuR的纵火犯,
+TourArso,TOuR Arsonist,TOuR Arsonist,TOU的纵火犯,
 InfectCD,Infect Cooldown,アーソニストの塗り時間,感染冷却时间,
 
-SeerCooldown,Investigate Cooldown,Investigate Cooldown,Investigate Cooldown
-NBareRed,Neutral Benigns are Red,Neutral Benigns are Red,Neutral Benigns are Red
-NKareRed,Neutral Killings are Red,NKareRed,NKareRed
-NEareRed,Neutral Evils are Red,NEareRed,NEareRed
-CrewKillingRed,Crewmate Killing are Red,CrewKillingRed,CrewKillingRed
-CovenIsPurple,Coven appears Purple,CovenIsPurple,CovenIsPurple
-ChildIsRed,Child is Red,ChildIsRed,ChildIsRed
-TerroIsRed,Terrorist appears Red,TerroIsRed,TerroIsRed
-CSheriffSwitches,Corrupted Sheriff switches Color,CSheriffSwitches,CSheriffSwitches
-MadMateIsRed,Madmate is Red,MadMateIsRed,MadMateIsRed
+SeerCooldown,Investigate Cooldown,Investigate Cooldown,调查冷却时间,
+NBareRed,Neutral Benigns are Red,Neutral Benigns are Red,友善型中立阵营是红色的,
+NKareRed,Neutral Killings are Red,NKareRed,击杀型中立阵营是红色,
+NEareRed,Neutral Evils are Red,NEareRed,邪恶中立阵营是红色,
+CrewKillingRed,Crewmate Killing are Red,CrewKillingRed,击杀型船员阵营是红色,
+CovenIsPurple,Coven appears Purple,CovenIsPurple,巫师名字显示为紫色,
+ChildIsRed,Child is Red,ChildIsRed,小孩名字显示为红色,
+TerroIsRed,Terrorist appears Red,TerroIsRed,恐怖分子名字显示为红色,
+CSheriffSwitches,Corrupted Sheriff switches Color,CSheriffSwitches,背叛的警长切换颜色,
+MadMateIsRed,Madmate is Red,MadMateIsRed,叛徒名字显示为红色,
 
-PestiKillCooldown,Pestilence Kill Cooldown,アーソニストのクールダウン,疫医击杀冷却时间,
-PestiCanVent,Pestilence Can Vent,アーソニストのクールダウン,疫医可以使用通风管道,
+PestiKillCooldown,Pestilence Kill Cooldown,アーソニストのクールダウン,传染者击杀冷却时间,
+PestiCanVent,Pestilence Can Vent,アーソニストのクールダウン,传染者可以使用通风管道,
 DemoSuicideTime,Time To Vent Till Suicide,DemoSuicideTime,自杀倒计时,
 StoneCD,Stone Cooldown,Stone Cooldown,石化冷却时间,
 StoneDur,Stone Duration,Stone Duration,石化持续时间,
-StoneTime,Time Until Body is Stoned,Time Until Body is Stoned,Time Until Body is Stoned
-PKTAH,Players Know They Are Hexed,Players Know They Are Hexed,玩家知道谁被诅咒了,
-HexCD,Hex Cooldown,Hex Cooldown,诅咒冷却时间,
-MHPR,Max Hexes Per Round,Max Hexes Per Round,每轮最大诅咒人数,
+StoneTime,Time Until Body is Stoned,Time Until Body is Stoned,尸体腐烂消失的时间
+PKTAH,Players Know They Are Hexed,Players Know They Are Hexed,船员知道自己被六芒星法师标记,
+HexCD,Hex Cooldown,Hex Cooldown,六芒星法师冷却时间,
+MHPR,Max Hexes Per Round,Max Hexes Per Round,魔术师每回合最多标记数,
 
-SwoopCD,Swoop Cooldown,Swoop Cooldown,Swoop Cooldown
-SwoopDur,Swoop Duration,Swoop Duration,Swoop Duration
+SwoopCD,Swoop Cooldown,Swoop Cooldown,隐身冷却时间,
+SwoopDur,Swoop Duration,Swoop Duration,隐身持续时间,
 
-CamoCD,Camouflage Cooldown,Swoop Cooldown,Swoop Cooldown
-CamoDur,Camouflage Duration,Swoop Duration,Swoop Duration
+CamoCD,Camouflage Cooldown,Swoop Cooldown,伪装冷却时间,
+CamoDur,Camouflage Duration,Swoop Duration,伪装持续时间,
 
-MaxNK,Max Neutral Killing,Translation Unavailble,Translation Unavailble
-MinNK,Min Neutral Killing,Translation Unavailble,Translation Unavailble
-MaxNonNK,Max Non-Neutral Killing,Translation Unavailble,Translation Unavailble
-MinNonNK,Min Non-Neutral Killing,Translation Unavailble,Translation Unavailble
+MaxNK,Max Neutral Killing,Translation Unavailble,中立阵营最大击杀数,
+MinNK,Min Neutral Killing,Translation Unavailble,中立阵营最小击杀数,
+MaxNonNK,Max Non-Neutral Killing,Translation Unavailble,非中立阵营最大击杀数,
+MinNonNK,Min Non-Neutral Killing,Translation Unavailble,非中立阵营最小击杀数,
 
 CanTerroristSuicideWin,Can Terrorist Suicide Win,テロリストの自殺勝ち,恐怖分子可以通过自杀获胜,恐怖分子可以自殺來獲勝
 ShapeMasterShapeshiftDuration,Shapeshift Duration,シェイプマスターの変身持続時間,千面鬼化形持续时间,變形大師變形持續時間
@@ -541,40 +540,40 @@ JackalKillCooldown,Jackal Kill Cooldown,ジャッカルのキルクール,豺狼
 JackalCanVent,Jackal Can Use Vents,ジャッカルがベントを使用できる,豺狼可以使用管道,豺狼可以跳管道
 JackalCanUseSabotage,Jackal Can Use Sabotage,ジャッカルがサボタージュを使用できる,豺狼可以破坏,豺狼可以破壞
 JackalHasImpostorVision,Jackal Has Impostor Vision,ジャッカルがインポスターと同じ視界を持つ,豺狼拥有内鬼视野,豺狼擁有狼人的視野
-SidekickCanKill,Sidekick can Kill,SidekickCanKill,SidekickCanKill
-JackalHasSidekick,Jackal Has Sidekick,JackalHasSidekick,JackalHasSidekick
-SidekickGetsPromoted,Sidekick Gets Promoted to Jackal on Jackal Death,SidekickGetsPromoted,SidekickGetsPromoted
-VultureVent,Vulture can Vent,VultureVent,VultureVent
-VultureHasImpostorVision,Vulture Has Impostor Vision,VultureHasImpostorVision,VultureHasImpostorVision
-VultureHasArrow,Vulture has Arrow Leading to Bodies,VultureHasArrow,VultureHasArrow
+SidekickCanKill,Sidekick can Kill,SidekickCanKill,跟班可以击杀,
+JackalHasSidekick,Jackal Has Sidekick,JackalHasSidekick,豺狼可以招募跟班,
+SidekickGetsPromoted,Sidekick Gets Promoted to Jackal on Jackal Death,SidekickGetsPromoted,跟班可以晋级成为豺狼
+VultureVent,Vulture can Vent,VultureVent,秃鹫可以使用通风管道,
+VultureHasImpostorVision,Vulture Has Impostor Vision,VultureHasImpostorVision,秃鹫可以拥有内鬼视野,
+VultureHasArrow,Vulture has Arrow Leading to Bodies,VultureHasArrow,秃鹫有指向尸体的箭头,
 TraitorSpawn,Min Number of Players Needed for CorruptedSheriff,Number of Players Needed for Traitor,背叛的警长所需的最小玩家数量,
 TurnCorrupt,Sheriff Can Turn Corrupted,Number of Players Needed for Traitor,警长可以成为叛徒,
 EgoistKillCooldown,Egoist KillCooldown,エゴイストのキルクール,野心家击杀冷却时间,
 JuggerKillCooldown,Juggernaut Kill Cooldown,ジャッカルのキルクール,欲望杀人魔击杀冷却,豺狼殺人冷卻
 JuggerDecrease,Juggernaut Cooldown Decrease,ジャッカルのキルクール,欲望杀人魔技能冷却,豺狼殺人冷卻
 JuggerCanVent,Juggernaut Can Use Vents,ジャッカルがベントを使用できる,欲望杀人魔可以使用管道,
-MarksmanKillCooldown,Marksman Kill Cooldown,MarksmanKillCooldown,MarksmanKillCooldown,MarksmanKillCooldown
-MarksmanCanVent,Marksman Can Vent,MarksmanCanVent,MarksmanCanVent,MarksmanCanVent
-VampBuff,Vampire Buff,Vampire Buff,血猩红热加成,吸血鬼愛好者
-TraitorCanSpawnIfNK,Traitor can Spawn If an NK is Alive,Traitor can Spawn If an NK is Alive,Traitor can Spawn If an NK is Alive
-TraitorCanSpawnIfCoven,Traitor can Spawn If a Coven Member is Alive,Traitor can Spawn If an NK is Alive,Traitor can Spawn If an NK is Alive
+MarksmanKillCooldown,Marksman Kill Cooldown,MarksmanKillCooldown,弓箭手击杀冷却时间,
+MarksmanCanVent,Marksman Can Vent,MarksmanCanVent,弓箭手能跳管道,
+VampBuff,Vampire Buff,Vampire Buff,血猩红热特性,
+TraitorCanSpawnIfNK,Traitor can Spawn If an NK is Alive,Traitor can Spawn If an NK is Alive,有中立阵营的情况下可以产生叛徒,
+TraitorCanSpawnIfCoven,Traitor can Spawn If a Coven Member is Alive,Traitor can Spawn If an NK is Alive,如果 NK 还活着，叛徒可以生成,
 
-VetCD,Alert Cooldown,Alert Cooldown,警报冷却时间,警報冷卻
-VetDur,Alert Duration,Alert Duration,警报持续时间,警報持續時間
-CRGV,Crew Roles get Vetted,Crew Roles get Vetted,船员阵营获得审查,船員角色得到審查
+VetCD,Alert Cooldown,Alert Cooldown,警惕冷却时间,警報冷卻
+VetDur,Alert Duration,Alert Duration,警惕持续时间,警報持續時間
+CRGV,Crew Roles get Vetted,Crew Roles get Vetted,船员职业不会被反伤,船員角色得到審查
 PestiAttacks,If Pestilence Attacks Veteran,If Pestilence Attacks Veteran,如果瘟疫击退了老兵,如果瘟疫襲擊退伍軍人
-NVet,Number of Alerts,Number of Alerts,警报数量,警報數量
+NVet,Number of Alerts,Number of Alerts,警惕最大次数,警報數量
 Trade,Trade,Trade,相互,貿易
-PestiKillsVet,Pestilence Kills Veteran,PestiKillsVet,瘟疫杀死了老兵,瘟疫殺死退伍軍人
-VetKillsPesti,Veteran Kills Pestilence,VetKillsPesti,老兵杀死了瘟疫,退伍軍人殺死瘟疫
-BKdur,Protection Duration,BKdur,BKdur
+PestiKillsVet,Pestilence Kills Veteran,PestiKillsVet,传染者杀死了老兵,瘟疫殺死退伍軍人
+VetKillsPesti,Veteran Kills Pestilence,VetKillsPesti,老兵杀死了传染者,退伍軍人殺死瘟疫
+BKdur,Protection Duration,BKdur,保护持续时间,
 
-VestCD,Vest Cooldown,Alert Cooldown,警报冷却时间,警報冷卻
-VestDur,Vest Duration,Alert Duration,警报持续时间,警報持續時間
-NVest,Number of Vests,Number of Alerts,警报数量,警報數量
+VestCD,Vest Cooldown,Alert Cooldown,副甲冷却时间,
+VestDur,Vest Duration,Alert Duration,副甲持续时间,
+NVest,Number of Vests,Number of Alerts,副甲最大次数,
 
 KilledByGuesser,{0} is killed by Guesser.,{0}はゲッサーにキルされました。,{0} 被猜测者杀死。,{0}被猜測者殺死。
-EvilGuesserMeeting,It is time to shoot!,さあ、撃ち放題だ！,来吧，随心所欲地拍摄！,來吧，隨心所欲地拍攝！
+EvilGuesserMeeting,It is time to shoot!,さあ、撃ち放題だ！,是时候了！,來吧，隨心所欲地拍攝！
 
 CovenKillCooldown,Coven Kill Cooldown,Coven Kill Cooldown,巫师击杀冷却时间,公會擊殺冷卻時間
 CovenMeetings,Meetings until Necronomicon,Meetings until Necronomicon,会议直到亡灵法师,會議直到死靈之書
@@ -584,12 +583,12 @@ VampireDitchesOn,Vampire Joins Coven,Vampire Joins Coven,吸血鬼加入巫师�
 MedusaOn,Medusa On,Medusa On,使用美杜莎,美杜莎賀
 MimicOn,Mimic On,Mimic On,使用模仿大师,模仿者開
 NecromancerOn,Necromancer On,Necromancer On,使用亡灵法师,死靈法師開啟
-NecroCanUseSheriff,Necromancer Can Use Sheriff,NecroCanUseSheriff,NecroCanUseSheriff
+NecroCanUseSheriff,Necromancer Can Use Sheriff,NecroCanUseSheriff,亡灵法师可以模仿警长,
 ConjurorOn,Conjuror On,Conjuror On,使用魔术师,魔術師開
-Customise,Players have Access to /color and /name,Players have Access to /color and /name,Players have Access to /color and /name
-RolesLikeToU,Roles look Similar to ToU,Roles look Similar to ToU,Roles look Similar to ToU
-ImpostorKnowsRolesOfTeam,Impostors know the Roles of their Team,ImpostorKnowsRolesOfTeam,ImpostorKnowsRolesOfTeam
-CovenKnowsRolesOfTeam,Coven knows the Roles of their Team,CovenKnowsRolesOfTeam,CovenKnowsRolesOfTeam
+Customise,Players have Access to /color and /name,Players have Access to /color and /name,其他玩家可以使用“/color”和“/name”指令,
+RolesLikeToU,Roles look Similar to ToU,Roles look Similar to ToU,使用TOU职业设定,
+ImpostorKnowsRolesOfTeam,Impostors know the Roles of their Team,ImpostorKnowsRolesOfTeam,内鬼阵营可以知道队友的职业,
+CovenKnowsRolesOfTeam,Coven knows the Roles of their Team,CovenKnowsRolesOfTeam,巫师团可以知道队友的职业,
 
 NProtects,Number of Protects,NumOfProtects,保护的次数,
 PCD,Protect Cooldown,Translation Unavailble,保护冷却时间,
