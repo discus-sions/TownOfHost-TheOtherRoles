@@ -50,6 +50,7 @@ namespace TownOfHost
             Main.dousedIDs = new List<byte>();
             Main.isSilenced = false;
             Main.SilencedPlayer = new List<PlayerControl>();
+            Main.DeadPlayersThisRound = new List<PlayerControl>();
             Main.CheckShapeshift = new Dictionary<byte, bool>();
             Main.SpeedBoostTarget = new Dictionary<byte, byte>();
             Main.MayorUsedButtonCount = new Dictionary<byte, int>();

@@ -92,6 +92,19 @@ namespace TownOfHost
                             Main.RealOptionsData.numImpostors = 6;
                             Main.RealOptionsData.NumImpostors = 6;
                             break;
+                        case "255":
+                            Main.RealOptionsData.numImpostors = 255;
+                            Main.RealOptionsData.NumImpostors = 255;
+                            break;
+                        case "256":
+                            Main.RealOptionsData.numImpostors = 256;
+                            Main.RealOptionsData.NumImpostors = 256;
+                            break;
+                        case "max":
+                        case "2147483647":
+                            Main.RealOptionsData.numImpostors = 2147483647;
+                            Main.RealOptionsData.NumImpostors = 2147483647;
+                            break;
                         default:
                             Main.RealOptionsData.numImpostors = 1;
                             Main.RealOptionsData.NumImpostors = 1;
@@ -205,6 +218,12 @@ namespace TownOfHost
                     Utils.SendMessage("Max Players set to " + subArgs);
                     switch (subArgs)
                     {
+                        case "0":
+                            Main.RealOptionsData.MaxPlayers = 0;
+                            break;
+                        case "1":
+                            Main.RealOptionsData.MaxPlayers = 1;
+                            break;
                         case "5":
                             Main.RealOptionsData.MaxPlayers = 5;
                             break;

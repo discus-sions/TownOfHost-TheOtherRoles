@@ -135,6 +135,7 @@ namespace TownOfHost
         public static CustomOption SleuthReport;
         public static CustomOption JesterCanVent;
         public static CustomOption VultureCanVent;
+        public static CustomOption VultureArrow;
         public static CustomOption CanTerroristSuicideWin;
         public static CustomOption ArsonistDouseTime;
         public static CustomOption ArsonistCooldown;
@@ -593,6 +594,7 @@ namespace TownOfHost
             BodiesAmount = CustomOption.Create(50515, Color.white, "Bodies", 3, 1, 10, 1, CustomRoleSpawnChances[CustomRoles.Vulture]);
             VultureCanVent = CustomOption.Create(6000017, Color.white, "VultureVent", false, CustomRoleSpawnChances[CustomRoles.Vulture]);
             VultureHasImpostorVision = CustomOption.Create(6000015, Color.white, "VultureHasImpostorVision", false, CustomRoleSpawnChances[CustomRoles.Vulture]);
+            VultureArrow = CustomOption.Create(6000019, Color.white, "VultureHasArrow", false, CustomRoleSpawnChances[CustomRoles.Vulture]);
 
             SetupSingleRoleOptions(80500, CustomRoles.TheGlitch, 1);
             GlitchRoleBlockCooldown = CustomOption.Create(80510, Color.white, "RBC", 30, 2.5f, 180, 2.5f, CustomRoleSpawnChances[CustomRoles.TheGlitch]);

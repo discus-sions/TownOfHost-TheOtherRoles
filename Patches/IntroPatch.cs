@@ -247,6 +247,7 @@ namespace TownOfHost
                 case CustomRoles.Marksman:
                 case CustomRoles.Camouflager:
                 case CustomRoles.Jackal:
+                case CustomRoles.Pestilence:
                 case CustomRoles.Sidekick:
                 case CustomRoles.Juggernaut:
                 case CustomRoles.SchrodingerCat:

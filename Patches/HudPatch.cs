@@ -588,12 +588,21 @@ namespace TownOfHost
                 __state = player.Data.Role.TeamType;
                 player.Data.Role.TeamType = RoleTeamTypes.Crewmate;
             }
+            if (player.Is(CustomRoles.CorruptedSheriff))
+            {
+                __state = player.Data.Role.TeamType;
+                player.Data.Role.TeamType = RoleTeamTypes.Impostor;
+            }
         }
 
         public static void Postfix(ref RoleTeamTypes __state)
         {
             var player = PlayerControl.LocalPlayer;
             if (player.Is(CustomRoles.Sheriff) || player.Is(CustomRoles.BloodKnight) || player.Is(CustomRoles.Investigator) || player.Is(CustomRoles.Arsonist) || player.Is(CustomRoles.PlagueBearer) || player.Is(CustomRoles.TheGlitch) || player.Is(CustomRoles.Werewolf) || player.Is(CustomRoles.Pestilence))
+            {
+                player.Data.Role.TeamType = __state;
+            }
+            if (player.Is(CustomRoles.CorruptedSheriff))
             {
                 player.Data.Role.TeamType = __state;
             }

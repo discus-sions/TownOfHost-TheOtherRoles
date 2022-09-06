@@ -76,6 +76,7 @@ namespace TownOfHost
         public static Dictionary<byte, PlayerControl> CursedPlayers = new();
         public static List<PlayerControl> SpelledPlayer = new();
         public static List<PlayerControl> Impostors = new();
+        public static List<PlayerControl> DeadPlayersThisRound = new();
         public static Dictionary<byte, bool> KillOrSpell = new();
         public static Dictionary<byte, bool> KillOrSilence = new();
         public static Dictionary<byte, bool> isCurseAndKill = new();
@@ -234,6 +235,7 @@ namespace TownOfHost
             GuardianAngelTarget = new Dictionary<byte, byte>();
             MayorUsedButtonCount = new Dictionary<byte, int>();
             HackerFixedSaboCount = new Dictionary<byte, int>();
+            DeadPlayersThisRound = new List<PlayerControl>();
             dousedIDs = new List<byte>();
             //firstKill = new Dictionary<byte, (PlayerControl, float)>();
             winnerList = new();

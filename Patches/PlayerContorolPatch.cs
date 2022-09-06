@@ -1090,6 +1090,7 @@ namespace TownOfHost
                     Main.AllPlayerKillCooldown[pc.PlayerId] = Options.LastImpostorKillCooldown.GetFloat();
             }
             FixedUpdatePatch.LoversSuicide(target.PlayerId);
+            Main.DeadPlayersThisRound.Add(target);
 
             PlayerState.SetDead(target.PlayerId);
             Utils.CountAliveImpostors();
@@ -1191,7 +1192,9 @@ namespace TownOfHost
             if (shapeshifter.Is(CustomRoles.SerialKiller) || shapeshifter.Is(CustomRoles.BountyHunter))
                 shapeshifter.RpcMurderPlayer(shapeshifter);
 
-            //変身解除のタイミングがずれて名前が直せなかった時のために強制書き換え
+            //変身解除のタイミングがずれて名前が直せなかった時のために強制書き換
+
+            Sheriff.SwitchToCorrupt(shapeshifter, shapeshifter);
             if (!shapeshifting)
             {
                 new LateTask(() =>
@@ -1576,6 +1579,7 @@ namespace TownOfHost
             Main.BitPlayers = new Dictionary<byte, (byte, float)>();
             Main.KilledDemo.Clear();
             Main.PuppeteerList.Clear();
+            Main.DeadPlayersThisRound.Clear();
             Main.WitchedList.Clear();
             Sniper.OnStartMeeting();
             Main.VetIsAlerted = false;
@@ -2258,7 +2262,6 @@ namespace TownOfHost
                             Utils.NotifyRoles(SpecifySeer: target);
                         }
                     }
-
                     //ハートマークを付ける(会議中MOD視点)
                     if (__instance.Is(CustomRoles.Lovers) && PlayerControl.LocalPlayer.Is(CustomRoles.Lovers))
                     {
@@ -2291,6 +2294,34 @@ namespace TownOfHost
                                 if (target.AmOwner)
                                 {
                                     //MODなら矢印表示
+                                    Suffix += Main.targetArrows[key];
+                                }
+                            }
+                            if (AmongUsClient.Instance.AmHost && seer.PlayerId != target.PlayerId && update)
+                            {
+                                //更新があったら非Modに通知
+                                Utils.NotifyRoles(SpecifySeer: target);
+                            }
+                        }
+                    }
+                    if (GameStates.IsInTask && Options.VultureArrow.GetBool() && target.Is(CustomRoles.Vulture))
+                    {
+                        var TaskState = Options.VultureArrow.GetBool();
+                        if (TaskState)
+                        {
+                            var coloredArrow = true;
+                            var update = false;
+                            foreach (var pc in PlayerControl.AllPlayerControls)
+                            {
+                                var foundCheck = pc.Data.IsDead && !pc.Data.Disconnected;
+
+                                //発見対象じゃ無ければ次
+                                if (!foundCheck) continue;
+
+                                update = VultureArrowUpdate(target, pc, update, coloredArrow);
+                                var key = (target.PlayerId, pc.PlayerId);
+                                if (target.AmOwner)
+                                {
                                     Suffix += Main.targetArrows[key];
                                 }
                             }
@@ -2399,6 +2430,49 @@ namespace TownOfHost
                 //Logger.info($"{seer.name}->{target.name}:{arrow}");
             }
             return updateFlag;
+        }
+        public static bool VultureArrowUpdate(PlayerControl seer, PlayerControl target, bool updateFlag, bool coloredArrow)
+        {
+            var key = (seer.PlayerId, target.PlayerId);
+            if (Main.DeadPlayersThisRound.Contains(target))
+            {
+                if (!Main.targetArrows.TryGetValue(key, out var oldArrow))
+                {
+                    //初回は必ず被らないもの
+                    oldArrow = "_";
+                }
+                //初期値は死んでる場合の空白にしておく
+                var arrow = "";
+                if (!PlayerState.isDead[seer.PlayerId])
+                {
+                    //対象の方角ベクトルを取る
+                    var dir = target.transform.position - seer.transform.position;
+                    byte index;
+                    if (dir.magnitude < 2)
+                    {
+                        //近い時はドット表示
+                        index = 8;
+                    }
+                    else
+                    {
+                        //-22.5～22.5度を0とするindexに変換
+                        var angle = Vector3.SignedAngle(Vector3.down, dir, Vector3.back) + 180 + 22.5;
+                        index = (byte)(((int)(angle / 45)) % 8);
+                    }
+                    arrow = "↑↗→↘↓↙←↖・"[index].ToString();
+                    if (coloredArrow)
+                    {
+                        arrow = $"<color={seer.GetRoleColorCode()}>{arrow}</color>";
+                    }
+                }
+                if (oldArrow != arrow)
+                {
+                    Main.targetArrows[key] = arrow;
+                    updateFlag = true;
+                }
+                return updateFlag;
+            }
+            return false;
         }
     }
     [HarmonyPatch(typeof(PlayerControl), nameof(PlayerControl.Start))]

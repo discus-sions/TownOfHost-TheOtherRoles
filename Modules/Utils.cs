@@ -821,6 +821,24 @@ namespace TownOfHost
                     }
                 }
 
+                if (seer.Is(CustomRoles.Vulture))
+                {
+                    var TaskState = Options.VultureArrow.GetBool();
+                    if (TaskState)
+                    {
+                        if (!isMeeting)
+                        {
+                            foreach (var arrow in Main.targetArrows)
+                            {
+                                //自分用の矢印で対象が死んでない時
+                                if (Main.DeadPlayersThisRound.Contains(Utils.GetPlayerById(arrow.Key.Item2)))
+                                    if (arrow.Key.Item1 == seer.PlayerId && PlayerState.isDead[arrow.Key.Item2])
+                                        SelfSuffix += arrow.Value;
+                            }
+                        }
+                    }
+                }
+
                 if (seer.GetCustomRole().IsCoven())
                 {
                     SeerKnowsCoven = true;
