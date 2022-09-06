@@ -597,19 +597,19 @@ namespace TownOfHost
                     }
                     CustomRpcSender sender = CustomRpcSender.Create("SelectRoles Sender", SendOption.Reliable);
                     RpcSetRoleReplacer.StartReplace(sender);
-                    ForceAssignRole(CustomRoles.CovenWitch, AllCovenPlayers, sender, BaseRole: RoleTypes.Impostor, skip: true);
+                    ForceAssignRole(CustomRoles.CovenWitch, AllCovenPlayers, sender, BaseRole: RoleTypes.Impostor, skip: false);
                     if (Options.HexMasterOn.GetBool())
-                        ForceAssignRole(CustomRoles.HexMaster, AllCovenPlayers, sender, BaseRole: RoleTypes.Impostor, skip: true);
+                        ForceAssignRole(CustomRoles.HexMaster, AllCovenPlayers, sender, BaseRole: RoleTypes.Impostor, skip: false);
                     if (Options.PotionMasterOn.GetBool())
-                        ForceAssignRole(CustomRoles.PotionMaster, AllCovenPlayers, sender, BaseRole: RoleTypes.Impostor, skip: true);
+                        ForceAssignRole(CustomRoles.PotionMaster, AllCovenPlayers, sender, BaseRole: RoleTypes.Impostor, skip: false);
                     if (Options.VampireDitchesOn.GetBool())
-                        ForceAssignRole(CustomRoles.Poisoner, AllCovenPlayers, sender, BaseRole: RoleTypes.Impostor, skip: true);
+                        ForceAssignRole(CustomRoles.Poisoner, AllCovenPlayers, sender, BaseRole: RoleTypes.Impostor, skip: false);
                     if (Options.MedusaOn.GetBool())
-                        ForceAssignRole(CustomRoles.Medusa, AllCovenPlayers, sender, BaseRole: RoleTypes.Impostor, skip: true);
+                        ForceAssignRole(CustomRoles.Medusa, AllCovenPlayers, sender, BaseRole: RoleTypes.Impostor, skip: false);
                     if (Options.MimicOn.GetBool())
-                        ForceAssignRole(CustomRoles.Mimic, AllCovenPlayers, sender, BaseRole: RoleTypes.Impostor, skip: true);
+                        ForceAssignRole(CustomRoles.Mimic, AllCovenPlayers, sender, BaseRole: RoleTypes.Impostor, skip: false);
                     if (Options.NecromancerOn.GetBool())
-                        ForceAssignRole(CustomRoles.Necromancer, AllCovenPlayers, sender, BaseRole: RoleTypes.Impostor, skip: true);
+                        ForceAssignRole(CustomRoles.Necromancer, AllCovenPlayers, sender, BaseRole: RoleTypes.Impostor, skip: false);
                 }
                 foreach (var pair in Main.AllPlayerCustomRoles)
                 {
@@ -879,7 +879,6 @@ namespace TownOfHost
                         player.SetRole(hostBaseRole); //ホスト視点用
                         sender.RpcSetRole(player, hostBaseRole);
                     }
-                    player.Data.IsDead = true;
                 }
             }
         }
@@ -894,6 +893,10 @@ namespace TownOfHost
             SetColorPatch.IsAntiGlitchDisabled = true;
             for (var i = 0; i < count; i++)
             {
+                /*  float RoleRate = role.GetChance();
+                  bool IsChosen = UnityEngine.Random.Range(1, 100) < RoleRate;
+                  if (IsChosen || Options.CurrentGameMode() == CustomGameMode.HideAndSeek)
+                  {*/
                 var player = players[rand.Next(0, players.Count)];
                 AssignedPlayers.Add(player);
                 players.Remove(player);
@@ -907,6 +910,7 @@ namespace TownOfHost
                     else if (player.Is(CustomRoles.HASFox))
                         player.RpcSetColor(3);
                 }
+                // }
             }
             SetColorPatch.IsAntiGlitchDisabled = false;
             return AssignedPlayers;

@@ -123,6 +123,15 @@ namespace TownOfHost
             { CustomRoles.LastImpostor, RoleTypes.Impostor },
             { CustomRoles.Camouflager, RoleTypes.Shapeshifter },
             { CustomRoles.Ninja, RoleTypes.Shapeshifter },
+            // COVEN //
+            {CustomRoles.CovenWitch,RoleTypes.Impostor},
+            {CustomRoles.Coven,RoleTypes.Impostor},
+            {CustomRoles.HexMaster,RoleTypes.Impostor},
+            {CustomRoles.PotionMaster,RoleTypes.Impostor},
+            {CustomRoles.Poisoner,RoleTypes.Impostor},
+            {CustomRoles.Medusa,RoleTypes.Impostor},
+            {CustomRoles.Necromancer,RoleTypes.Impostor},
+            {CustomRoles.Mimic,RoleTypes.Impostor},
         };
         public static bool Prefix(TaskAddButton __instance)
         {
