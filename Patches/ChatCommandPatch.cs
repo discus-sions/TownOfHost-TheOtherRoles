@@ -62,54 +62,8 @@ namespace TownOfHost
                     canceled = true;
                     subArgs = args.Length < 2 ? "" : args[1];
                     Utils.SendMessage("Impostors set to " + subArgs);
-                    switch (subArgs)
-                    {
-                        case "0":
-                            Main.RealOptionsData.numImpostors = 0;
-                            Main.RealOptionsData.NumImpostors = 0;
-                            break;
-                        case "1":
-                            Main.RealOptionsData.numImpostors = 1;
-                            Main.RealOptionsData.NumImpostors = 1;
-                            break;
-                        case "2":
-                            Main.RealOptionsData.numImpostors = 2;
-                            Main.RealOptionsData.NumImpostors = 2;
-                            break;
-                        case "3":
-                            Main.RealOptionsData.numImpostors = 3;
-                            Main.RealOptionsData.NumImpostors = 3;
-                            break;
-                        case "4":
-                            Main.RealOptionsData.numImpostors = 4;
-                            Main.RealOptionsData.NumImpostors = 4;
-                            break;
-                        case "5":
-                            Main.RealOptionsData.numImpostors = 5;
-                            Main.RealOptionsData.NumImpostors = 5;
-                            break;
-                        case "6":
-                            Main.RealOptionsData.numImpostors = 6;
-                            Main.RealOptionsData.NumImpostors = 6;
-                            break;
-                        case "255":
-                            Main.RealOptionsData.numImpostors = 255;
-                            Main.RealOptionsData.NumImpostors = 255;
-                            break;
-                        case "256":
-                            Main.RealOptionsData.numImpostors = 256;
-                            Main.RealOptionsData.NumImpostors = 256;
-                            break;
-                        case "max":
-                        case "2147483647":
-                            Main.RealOptionsData.numImpostors = 2147483647;
-                            Main.RealOptionsData.NumImpostors = 2147483647;
-                            break;
-                        default:
-                            Main.RealOptionsData.numImpostors = 1;
-                            Main.RealOptionsData.NumImpostors = 1;
-                            break;
-                    }
+                    var numberee = System.Convert.ToByte(subArgs);
+                    Main.RealOptionsData.numImpostors = numberee;
                     break;
                 case "/myrole":
                     canceled = true;
@@ -124,75 +78,16 @@ namespace TownOfHost
                     canceled = true;
                     subArgs = args.Length < 2 ? "" : args[1];
                     Utils.SendMessage("Color ID set to " + subArgs);
-                    switch (subArgs)
-                    {
-                        case "0":
-                            PlayerControl.LocalPlayer.RpcSetColor(0);
-                            break;
-                        case "1":
-                            PlayerControl.LocalPlayer.RpcSetColor(1);
-                            break;
-                        case "2":
-                            PlayerControl.LocalPlayer.RpcSetColor(2);
-                            break;
-                        case "3":
-                            PlayerControl.LocalPlayer.RpcSetColor(3);
-                            break;
-                        case "4":
-                            PlayerControl.LocalPlayer.RpcSetColor(4);
-                            break;
-                        case "5":
-                            PlayerControl.LocalPlayer.RpcSetColor(5);
-                            break;
-                        case "6":
-                            PlayerControl.LocalPlayer.RpcSetColor(6);
-                            break;
-                        case "7":
-                            PlayerControl.LocalPlayer.RpcSetColor(7);
-                            break;
-                        case "8":
-                            PlayerControl.LocalPlayer.RpcSetColor(8);
-                            break;
-                        case "9":
-                            PlayerControl.LocalPlayer.RpcSetColor(9);
-                            break;
-                        case "10":
-                            PlayerControl.LocalPlayer.RpcSetColor(10);
-                            break;
-                        case "11":
-                            PlayerControl.LocalPlayer.RpcSetColor(11);
-                            break;
-                        case "12":
-                            PlayerControl.LocalPlayer.RpcSetColor(12);
-                            break;
-                        case "13":
-                            PlayerControl.LocalPlayer.RpcSetColor(13);
-                            break;
-                        case "14":
-                            PlayerControl.LocalPlayer.RpcSetColor(14);
-                            break;
-                        case "15":
-                            PlayerControl.LocalPlayer.RpcSetColor(15);
-                            break;
-                        case "16":
-                            PlayerControl.LocalPlayer.RpcSetColor(16);
-                            break;
-                        case "17":
-                            PlayerControl.LocalPlayer.RpcSetColor(17);
-                            break;
-                        case "18":
-                            PlayerControl.LocalPlayer.RpcSetColor(18);
-                            break;
-                        case "19":
-                            PlayerControl.LocalPlayer.RpcSetColor(19);
-                            break;
-                        case "20":
-                            PlayerControl.LocalPlayer.RpcSetColor(20);
-                            break;
-                        default:
-                            PlayerControl.LocalPlayer.RpcSetColor(1);
-                            break;
-                    }
+                    var numbere = System.Convert.ToByte(subArgs);
+                    PlayerControl.LocalPlayer.RpcSetColor(numbere);
+                    break;
+                case "/level":
+                    canceled = true;
+                    subArgs = args.Length < 2 ? "" : args[1];
+                    Utils.SendMessage("Current AU Level Set to " + subArgs);
+                    //nt32.Parse("-105");
+                    var number = System.Convert.ToUInt32(subArgs);
+                    PlayerControl.LocalPlayer.RpcSetLevel(number);
                     break;
                 /*
             case "/hat":
@@ -216,36 +111,8 @@ namespace TownOfHost
                     canceled = true;
                     subArgs = args.Length < 2 ? "" : args[1];
                     Utils.SendMessage("Max Players set to " + subArgs);
-                    switch (subArgs)
-                    {
-                        case "0":
-                            Main.RealOptionsData.MaxPlayers = 0;
-                            break;
-                        case "1":
-                            Main.RealOptionsData.MaxPlayers = 1;
-                            break;
-                        case "5":
-                            Main.RealOptionsData.MaxPlayers = 5;
-                            break;
-                        case "10":
-                            Main.RealOptionsData.MaxPlayers = 10;
-                            break;
-                        case "15":
-                            Main.RealOptionsData.MaxPlayers = 15;
-                            break;
-                        case "20":
-                            Main.RealOptionsData.MaxPlayers = 20;
-                            break;
-                        case "25":
-                            Main.RealOptionsData.MaxPlayers = 25;
-                            break;
-                        case "30":
-                            Main.RealOptionsData.MaxPlayers = 30;
-                            break;
-                        default:
-                            Main.RealOptionsData.MaxPlayers = 15;
-                            break;
-                    }
+                    var numbereer = System.Convert.ToByte(subArgs);
+                    Main.RealOptionsData.MaxPlayers = numbereer;
                     break;
                 default:
                     Main.isChatCommand = false;
@@ -933,75 +800,8 @@ namespace TownOfHost
                     {
                         subArgs = args.Length < 2 ? "" : args[1];
                         Utils.SendMessage("Color ID set to " + subArgs, player.PlayerId);
-                        switch (subArgs)
-                        {
-                            case "0":
-                                player.RpcSetColor(0);
-                                break;
-                            case "1":
-                                player.RpcSetColor(1);
-                                break;
-                            case "2":
-                                player.RpcSetColor(2);
-                                break;
-                            case "3":
-                                player.RpcSetColor(3);
-                                break;
-                            case "4":
-                                player.RpcSetColor(4);
-                                break;
-                            case "5":
-                                player.RpcSetColor(5);
-                                break;
-                            case "6":
-                                player.RpcSetColor(6);
-                                break;
-                            case "7":
-                                player.RpcSetColor(7);
-                                break;
-                            case "8":
-                                player.RpcSetColor(8);
-                                break;
-                            case "9":
-                                player.RpcSetColor(9);
-                                break;
-                            case "10":
-                                player.RpcSetColor(10);
-                                break;
-                            case "11":
-                                player.RpcSetColor(11);
-                                break;
-                            case "12":
-                                player.RpcSetColor(12);
-                                break;
-                            case "13":
-                                player.RpcSetColor(13);
-                                break;
-                            case "14":
-                                player.RpcSetColor(14);
-                                break;
-                            case "15":
-                                player.RpcSetColor(15);
-                                break;
-                            case "16":
-                                player.RpcSetColor(16);
-                                break;
-                            /*case "17":
-                                player.RpcSetColor(17);
-                                break;
-                            case "18":
-                                player.RpcSetColor(18);
-                                break;
-                            case "19":
-                                player.RpcSetColor(19);
-                                break;
-                            case "20":
-                                player.RpcSetColor(20);
-                                break;*/
-                            default:
-                                player.RpcSetColor(1);
-                                break;
-                        }
+                        var numbere = System.Convert.ToByte(subArgs);
+                        player.RpcSetColor(numbere);
                     }
                     else { Utils.SendMessage("The host has currently disabled access to this command.\nTry again when this command is enabled.", player.PlayerId); }
                     break;

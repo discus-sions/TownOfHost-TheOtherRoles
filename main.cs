@@ -76,7 +76,7 @@ namespace TownOfHost
         public static Dictionary<byte, PlayerControl> CursedPlayers = new();
         public static List<PlayerControl> SpelledPlayer = new();
         public static List<PlayerControl> Impostors = new();
-        public static List<PlayerControl> DeadPlayersThisRound = new();
+        public static List<byte> DeadPlayersThisRound = new();
         public static Dictionary<byte, bool> KillOrSpell = new();
         public static Dictionary<byte, bool> KillOrSilence = new();
         public static Dictionary<byte, bool> isCurseAndKill = new();
@@ -235,7 +235,7 @@ namespace TownOfHost
             GuardianAngelTarget = new Dictionary<byte, byte>();
             MayorUsedButtonCount = new Dictionary<byte, int>();
             HackerFixedSaboCount = new Dictionary<byte, int>();
-            DeadPlayersThisRound = new List<PlayerControl>();
+            DeadPlayersThisRound = new List<byte>();
             dousedIDs = new List<byte>();
             //firstKill = new Dictionary<byte, (PlayerControl, float)>();
             winnerList = new();
@@ -341,6 +341,7 @@ namespace TownOfHost
                     { CustomRoles.Vulture, "#a36727"},
                     { CustomRoles.CSchrodingerCat, "#ffffff"}, //シュレディンガーの猫の派生
                     { CustomRoles.Medium, "#A680FF"},
+                    { CustomRoles.Alturist, "#440101"},
                     { CustomRoles.Psychic, "#6F698C"},
                     //第三陣営役職
                     { CustomRoles.Arsonist, "#ff6633"},

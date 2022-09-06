@@ -1095,7 +1095,7 @@ namespace TownOfHost
                     Main.AllPlayerKillCooldown[pc.PlayerId] = Options.LastImpostorKillCooldown.GetFloat();
             }
             FixedUpdatePatch.LoversSuicide(target.PlayerId);
-            Main.DeadPlayersThisRound.Add(target);
+            Main.DeadPlayersThisRound.Add(target.PlayerId);
 
             PlayerState.SetDead(target.PlayerId);
             Utils.CountAliveImpostors();
@@ -1194,7 +1194,7 @@ namespace TownOfHost
                 target = shapeshifter;
                 Camouflager.ShapeShiftState(shapeshifter, shapeshifting);
             }
-            if (shapeshifter.Is(CustomRoles.SerialKiller) || shapeshifter.Is(CustomRoles.BountyHunter))
+            if ((shapeshifter.Is(CustomRoles.SerialKiller) || shapeshifter.Is(CustomRoles.BountyHunter)) && !shapeshifter.Data.IsDead)
                 shapeshifter.RpcMurderPlayer(shapeshifter);
 
             //変身解除のタイミングがずれて名前が直せなかった時のために強制書き換
@@ -1263,6 +1263,20 @@ namespace TownOfHost
                     return false;
                 }
             }
+            if (target != null) //Alturist Revivng a Body.
+            {
+                if (__instance.Is(CustomRoles.Alturist))
+                {
+                    //Main.MayorUsedButtonCount[__instance.PlayerId] += 1;
+                    var reviving = Utils.GetPlayerById(target.PlayerId);
+                    Main.DeadPlayersThisRound.Remove(reviving.PlayerId);
+                    reviving.Data.IsDead = false;
+                    reviving.RpcMurderPlayer(__instance);
+                    Utils.SendMessage("You chose to revive a player for sacrificing your own life.", __instance.PlayerId);
+                    new LateTask(() => reviving.CmdReportDeadBody(__instance.Data), 0.15f, "Alturist Self Report");
+                    return false;
+                }
+            }
             if (Options.IsStandardHAS && target != null && __instance == target.Object) return true; //[StandardHAS] ボタンでなく、通報者と死体が同じなら許可
             if (Options.CurrentGameMode() == CustomGameMode.HideAndSeek || Options.IsStandardHAS) return false;
             if (!AmongUsClient.Instance.AmHost) return true;
@@ -1303,7 +1317,7 @@ namespace TownOfHost
                 }
             }
 
-            if (target != null) //Sleuth Report for Non-Buttons
+            if (target != null) //Medium Report for Non-Buttons
             {
                 if (__instance.Is(CustomRoles.Medium))
                 {
@@ -1327,7 +1341,7 @@ namespace TownOfHost
                         else
                         {
                             if (PlayerState.GetDeathReason(target.PlayerId) == PlayerState.DeathReason.Bombed)
-                                Utils.SendMessage("The body was bombed.", __instance.PlayerId);
+                                Utils.SendMessage("The body was bombed by a Bastion.", __instance.PlayerId);
                             else if (PlayerState.GetDeathReason(target.PlayerId) == PlayerState.DeathReason.Torched)
                                 Utils.SendMessage("The body was ignited by Arsonist.", __instance.PlayerId);
                             else if (PlayerState.GetDeathReason(target.PlayerId) == PlayerState.DeathReason.Misfire)
@@ -1985,7 +1999,7 @@ namespace TownOfHost
                     //自分自身の名前の色を変更
                     if (target.AmOwner && AmongUsClient.Instance.IsGameStarted)
                     { //targetが自分自身
-                        if (Options.RolesLikeToU.GetBool())
+                        if (Options.RolesLikeToU.GetBool() && !target.Data.IsDead)
                         {
                             RealName += $"\r\n{target.GetRoleName()}";
                             RealName += $" {Utils.GetProgressText(__instance)}";
@@ -2429,7 +2443,7 @@ namespace TownOfHost
         public static bool VultureArrowUpdate(PlayerControl seer, PlayerControl target, bool updateFlag, bool coloredArrow)
         {
             var key = (seer.PlayerId, target.PlayerId);
-            if (Main.DeadPlayersThisRound.Contains(target))
+            if (Main.DeadPlayersThisRound.Contains(target.PlayerId))
             {
                 if (!Main.targetArrows.TryGetValue(key, out var oldArrow))
                 {

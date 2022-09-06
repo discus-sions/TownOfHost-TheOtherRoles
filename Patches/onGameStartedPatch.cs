@@ -50,7 +50,7 @@ namespace TownOfHost
             Main.dousedIDs = new List<byte>();
             Main.isSilenced = false;
             Main.SilencedPlayer = new List<PlayerControl>();
-            Main.DeadPlayersThisRound = new List<PlayerControl>();
+            Main.DeadPlayersThisRound = new List<byte>();
             Main.CheckShapeshift = new Dictionary<byte, bool>();
             Main.SpeedBoostTarget = new Dictionary<byte, byte>();
             Main.MayorUsedButtonCount = new Dictionary<byte, int>();
@@ -418,6 +418,7 @@ namespace TownOfHost
                 AssignCustomRolesFromList(CustomRoles.Medium, Crewmates);
                 AssignCustomRolesFromList(CustomRoles.Child, Crewmates);
                 AssignCustomRolesFromList(CustomRoles.Bewilder, Crewmates);
+                AssignCustomRolesFromList(CustomRoles.Alturist, Crewmates);
                 AssignCustomRolesFromList(CustomRoles.GuardianAngelTOU, Engineers);
                 AssignCustomRolesFromList(CustomRoles.MadGuardian, Crewmates);
                 AssignCustomRolesFromList(CustomRoles.CrewPostor, Crewmates);
