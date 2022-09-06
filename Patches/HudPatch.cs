@@ -365,14 +365,16 @@ namespace TownOfHost
                     ///  TaskTextPrefix += FakeTasksText;
                     if (player.Data.Role.Role != RoleTypes.GuardianAngel)
                         player.Data.Role.CanUseKillButton = true;
+                    if (Main.HasNecronomicon)
+                        player.CanUseImpostorVent();
                     break;
                 case CustomRoles.Medusa:
                     // TaskTextPrefix += FakeTasksText;
+                    player.CanUseImpostorVent();
                     if (Main.HasNecronomicon)
                     {
                         if (player.Data.Role.Role != RoleTypes.GuardianAngel)
                             player.Data.Role.CanUseKillButton = true;
-                        player.CanUseImpostorVent();
                     }
                     else
                         player.Data.Role.CanUseKillButton = false;
@@ -562,7 +564,7 @@ namespace TownOfHost
                     break;
                 case CustomRoles.HexMaster:
                     if (player.Data.Role.Role != RoleTypes.GuardianAngel)
-                        __instance.KillButton.ToggleVisible(isActive && !player.Data.IsDead);
+                        __instance.KillButton.ToggleVisible(true);
                     __instance.SabotageButton.ToggleVisible(false);
                     __instance.ImpostorVentButton.ToggleVisible(isActive && Main.HasNecronomicon);
                     __instance.AbilityButton.ToggleVisible(false);

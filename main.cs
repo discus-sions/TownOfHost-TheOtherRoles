@@ -484,6 +484,7 @@ namespace TownOfHost
         //Crewmate
         Bait,
         Sleuth,
+        Alturist,
         Bewilder,
         Lighter,
         Medium,

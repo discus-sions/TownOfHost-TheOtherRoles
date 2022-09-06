@@ -709,7 +709,7 @@ namespace TownOfHost
                     PlayerState.SetDeathReason(player.PlayerId, PlayerState.DeathReason.Execution);
                     PlayerState.SetDead(player.PlayerId);
                     Main.unreportableBodies.Add(player.PlayerId);
-                    Utils.SendMessage(string.Format(GetString("Message.Executed"), player.Data.PlayerName));
+                    //Utils.SendMessage(string.Format(GetString("Message.Executed"), player.Data.PlayerName));
                     Logger.Info($"{player.GetNameWithRole()}を処刑しました", "Execution");
                 });
             }

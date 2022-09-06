@@ -705,12 +705,12 @@ namespace TownOfHost
             {
                 if (seer.IsModClient()) continue;
                 if (seer.Data.Disconnected) continue;
+                if (seer == null) return;
                 string fontSize = "1.5";
                 if (isMeeting && (seer.GetClient().PlatformData.Platform.ToString() == "Playstation" || seer.GetClient().PlatformData.Platform.ToString() == "Switch")) fontSize = "70%";
                 TownOfHost.Logger.Info("NotifyRoles-Loop1-" + seer.GetNameWithRole() + ":START", "NotifyRoles");
                 //Loop1-bottleのSTART-END間でKeyNotFoundException
                 //seerが落ちているときに何もしない
-                if (seer.Data.Disconnected) continue;
 
                 //タスクなど進行状況を含むテキスト
                 string SelfTaskText = GetProgressText(seer);
@@ -922,29 +922,17 @@ namespace TownOfHost
                     || ForceLoop
                 )
                 {
-                    /*  foreach (var p in PlayerControl.AllPlayerControls)
-                      {
-                          if (IsActive(SystemTypes.Comms) && Options.CamoComms.GetBool() && !Main.CamoComms)
-                          {
-                              p.RpcSetColor(15);
-                              p.RpcSetVisor("");
-                              p.RpcSetPet("");
-                              p.RpcSetHat("");
-                              p.RpcSetSkin("");
-                              p.RpcSetName("");
-                              Main.CamoComms = true;
-                          }
-                      }*/
-                    if (Camouflague.IsActive && !Camouflague.InMeeting && !Camouflague.did && Options.CamoComms.GetBool())
+                    /*if (Camouflague.IsActive && !Camouflague.InMeeting && !Camouflague.did && Options.CamoComms.GetBool())
                     {
                         Camouflague.did = true;
                         Camouflague.MeetingCause();
-                    }
+                    }*/
 
                     foreach (var target in PlayerControl.AllPlayerControls)
                     {
                         //targetがseer自身の場合は何もしない
                         if (target == seer || target.Data.Disconnected) continue;
+                        if (target == null) continue;
                         TownOfHost.Logger.Info("NotifyRoles-Loop2-" + target.GetNameWithRole() + ":START", "NotifyRoles");
 
                         //他人のタスクはtargetがタスクを持っているかつ、seerが死んでいる場合のみ表示されます。それ以外の場合は空になります。
@@ -1141,7 +1129,7 @@ namespace TownOfHost
                                     pc.PlayerId == seer.PlayerId
                                 ) continue; //塗れない人は除外 (死んでたり切断済みだったり あとアーソニスト自身も)
 
-                                if (Main.isDoused.TryGetValue((seer.PlayerId, pc.PlayerId), out var isDoused) && isDoused)
+                                if (Main.isHexed.TryGetValue((seer.PlayerId, pc.PlayerId), out var isDoused) && isDoused)
                                     Utils.SendMessage("You have been hexed by the Hex Master!", pc.PlayerId);
                             }
                         }
@@ -1198,25 +1186,6 @@ namespace TownOfHost
 
                         //適用
                         target.RpcSetNamePrivate(TargetName, true, seer, force: NoCache);
-                        /*if (seer.Is(CustomRoles.Sleuth) && target.Data.IsDead)
-                        {
-                            foreach (var ar in Main.SleuthReported)
-                            {
-                                if (ar.Key != seer.PlayerId) break;
-                                if (ar.Value.Item1 != target.PlayerId) break;
-                                // now we set it to true
-                                var stuff = Main.SleuthReported[seer.PlayerId];
-                                if (stuff.Item2)
-                                {
-                                    string SeerRealName = target.GetRealName(isMeeting);
-
-                                    string SelfRoleName = $"<size={fontSize}>{Helpers.ColorString(target.GetRoleColor(), target.GetRoleName())}</size>";
-                                    string SelfName = "";
-                                    SelfName += "\r\n" + SelfRoleName;
-                                    target.RpcSetNamePrivate(SelfName, true, seer, force: NoCache);
-                                }
-                            }
-                        }*/
                         //target.RpcSetNamePlatePrivate("");
 
                         TownOfHost.Logger.Info("NotifyRoles-Loop2-" + target.GetNameWithRole() + ":END", "NotifyRoles");

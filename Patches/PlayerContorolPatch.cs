@@ -270,6 +270,11 @@ namespace TownOfHost
                     //they are both Jackal.
                     return false;
                 }
+                if (killer.GetCustomRole().IsImpostor() && killer.Is(CustomRoles.CorruptedSheriff))
+                {
+                    // cannot kill traitor. //
+                    return false;
+                }
                 if (killer.GetCustomRole().IsCoven() && !Main.HasNecronomicon && !killer.Is(CustomRoles.PotionMaster) && !killer.Is(CustomRoles.HexMaster) && !killer.Is(CustomRoles.CovenWitch))
                     return false;
                 foreach (var protect in Main.GuardianAngelTarget)
@@ -1942,7 +1947,7 @@ namespace TownOfHost
                 }
                 if (GameStates.IsInGame)
                 {
-                    if (!Options.RolesLikeToU.GetBool())
+                    if (!Options.RolesLikeToU.GetBool() || PlayerControl.LocalPlayer.Data.IsDead)
                     {
                         var RoleTextData = Utils.GetRoleText(__instance);
                         //if (Options.CurrentGameMode == CustomGameMode.HideAndSeek)
@@ -1984,18 +1989,6 @@ namespace TownOfHost
                         {
                             RealName += $"\r\n{target.GetRoleName()}";
                             RealName += $" {Utils.GetProgressText(__instance)}";
-                            if (target.Data.IsDead)
-                            {
-                                foreach (var pc in PlayerControl.AllPlayerControls)
-                                {
-                                    string TargetedName;
-                                    string TargetTaskText = "";
-                                    TargetTaskText = $"{Utils.GetProgressText(pc)}";
-                                    TargetedName = pc.GetRealName();
-                                    TargetedName += $"({Helpers.ColorString(Utils.GetRoleColor(pc.GetCustomRole()), pc.GetRoleName())} {TargetTaskText})";
-                                    target.RpcSetNamePrivate(TargetedName, true, seer);
-                                }
-                            }
                         }
                         RealName = Helpers.ColorString(target.GetRoleColor(), RealName); //名前の色を変更
                                                                                          //   if (target.Is(CustomRoles.Child) && Options.ChildKnown.GetBool())
@@ -2070,6 +2063,8 @@ namespace TownOfHost
                                 }
                             }
                         }
+                        if (target.Is(CustomRoles.CorruptedSheriff))
+                            RealName = $"{Helpers.ColorString(target.GetRoleColor(), RealName)}";
                     }
                     if (seer.GetCustomRole().IsCoven())
                     {

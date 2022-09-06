@@ -10,7 +10,7 @@ namespace TownOfHost
 {
     public static class Guesser
     {
-        static readonly int Id = 301000;
+        static readonly int Id = 3010000;
         static CustomOption EvilGuesserChance;
         static CustomOption NeutralGuesserChance;
         static CustomOption ConfirmedEvilGuesser;
@@ -25,6 +25,7 @@ namespace TownOfHost
         static Dictionary<int, CustomRoles> RoleAndNumber;
         static Dictionary<int, CustomRoles> RoleAndNumberPirate;
         static Dictionary<int, CustomRoles> RoleAndNumberAss;
+        static Dictionary<int, CustomRoles> RoleAndNumberCoven;
         public static Dictionary<byte, bool> IsSkillUsed;
         static Dictionary<byte, bool> IsEvilGuesser;
         static Dictionary<byte, bool> IsNeutralGuesser;
@@ -61,6 +62,7 @@ namespace TownOfHost
             RoleAndNumber = new();
             RoleAndNumberPirate = new();
             RoleAndNumberAss = new();
+            RoleAndNumberCoven = new();
             IsSkillUsed = new();
             IsEvilGuesserMeeting = false;
             canGuess = true;
@@ -170,6 +172,11 @@ namespace TownOfHost
                     return ree;
                     break;
             }
+            if (role.IsCoven())
+            {
+                RoleAndNumberCoven.TryGetValue(int.Parse(targetrolenum), out var ree);
+                return ree;
+            }
             return CustomRoles.Amnesiac;
         }
         public static void GuesserShootByID(PlayerControl killer, string playerId, string targetrolenum)//ゲッサーが撃てるかどうかのチェック
@@ -243,6 +250,11 @@ namespace TownOfHost
         }
         public static CustomRoles GetShootChoices(CustomRoles role, string targetrolenum)
         {
+            if (role.IsCoven())
+            {
+                RoleAndNumberCoven.TryGetValue(int.Parse(targetrolenum), out var nvm);
+                return nvm;
+            }
             switch (role)
             {
                 case CustomRoles.EvilGuesser:
@@ -323,16 +335,20 @@ namespace TownOfHost
             List<CustomRoles> vigiList = new();
             List<CustomRoles> pirateList = new();
             List<CustomRoles> assassinList = new();
+            List<CustomRoles> covenList = new();
             var i = 1;
             var ie = 1;
             var iee = 1;
+            var c = 1;
             foreach (var pc in PlayerControl.AllPlayerControls)//とりあえずアサインされた役職をすべて取りだす
             {
                 var role = pc.GetCustomRole();
                 if (!assassinList.Contains(pc.GetCustomRole()) && !role.IsImpostorTeam() && role != CustomRoles.Egoist) assassinList.Add(pc.GetCustomRole());
                 if (!pirateList.Contains(pc.GetCustomRole()) && role != CustomRoles.Pirate) pirateList.Add(pc.GetCustomRole());
                 if (!vigiList.Contains(pc.GetCustomRole()) && !role.IsCrewmate()) vigiList.Add(pc.GetCustomRole());
+                if (!covenList.Contains(pc.GetCustomRole()) && !role.IsCoven()) covenList.Add(pc.GetCustomRole());
             }
+            if (Options.CanMakeMadmateCount.GetInt() != 0) covenList.Add(CustomRoles.SKMadmate);
             if (Options.CanMakeMadmateCount.GetInt() != 0) vigiList.Add(CustomRoles.SKMadmate);//SKMadmateがいる際にはサイドキック前から候補に入れておく。
             if (Options.CanMakeMadmateCount.GetInt() != 0) pirateList.Add(CustomRoles.SKMadmate);//SKMadmateがいる際にはサイドキック前から候補に入れておく。
             if (CustomRoles.SchrodingerCat.IsEnable())//シュレネコがいる場合も役職変化前から候補に入れておく。
@@ -340,10 +356,14 @@ namespace TownOfHost
                 vigiList.Add(CustomRoles.MSchrodingerCat);
                 pirateList.Add(CustomRoles.MSchrodingerCat);
                 assassinList.Add(CustomRoles.MSchrodingerCat);
+                covenList.Add(CustomRoles.MSchrodingerCat);
                 if (Sheriff.IsEnable) assassinList.Add(CustomRoles.CSchrodingerCat);
+                if (Sheriff.IsEnable) covenList.Add(CustomRoles.CSchrodingerCat);
                 if (Sheriff.IsEnable) pirateList.Add(CustomRoles.CSchrodingerCat);
                 if (CustomRoles.Egoist.IsEnable()) vigiList.Add(CustomRoles.EgoSchrodingerCat);
                 if (CustomRoles.Jackal.IsEnable()) vigiList.Add(CustomRoles.JSchrodingerCat);
+                if (CustomRoles.Egoist.IsEnable()) covenList.Add(CustomRoles.EgoSchrodingerCat);
+                if (CustomRoles.Jackal.IsEnable()) covenList.Add(CustomRoles.JSchrodingerCat);
                 if (CustomRoles.Egoist.IsEnable()) pirateList.Add(CustomRoles.EgoSchrodingerCat);
                 if (CustomRoles.Jackal.IsEnable()) pirateList.Add(CustomRoles.JSchrodingerCat);
                 //if (CustomRoles.Egoist.IsEnable()) roles.Add(CustomRoles.EgoSchrodingerCat);
@@ -352,6 +372,7 @@ namespace TownOfHost
             vigiList = vigiList.OrderBy(a => Guid.NewGuid()).ToList();//会議画面で見たときに役職と順番が一緒で、役バレしたのでシャッフル
             assassinList = assassinList.OrderBy(a => Guid.NewGuid()).ToList();//会議画面で見たときに役職と順番が一緒で、役バレしたのでシャッフル
             pirateList = pirateList.OrderBy(a => Guid.NewGuid()).ToList();//会議画面で見たときに役職と順番が一緒で、役バレしたのでシャッフル
+            covenList = covenList.OrderBy(a => Guid.NewGuid()).ToList();//会議画面で見たときに役職と順番が一緒で、役バレしたのでシャッフル
             foreach (var ro in vigiList)
             {
                 RoleAndNumber.Add(i, ro);
@@ -366,6 +387,11 @@ namespace TownOfHost
             {
                 RoleAndNumberAss.Add(iee, ro);
                 iee++;
+            }//番号とセットにする
+            foreach (var ro in covenList)
+            {
+                RoleAndNumberCoven.Add(c, ro);
+                c++;
             }//番号とセットにする
         }
         public static void OpenGuesserMeeting()
