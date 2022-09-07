@@ -84,12 +84,12 @@ namespace TownOfHost
             killer.ResetKillCooldown();
 
             //キルボタンを使えない場合の判定
-            if (!Options.SplatoonOn.GetBool())
-                if ((Options.CurrentGameMode() == CustomGameMode.HideAndSeek || Options.IsStandardHAS) && Options.HideAndSeekKillDelayTimer > 0)
-                {
-                    Logger.Info("HideAndSeekの待機時間中だったため、キルをキャンセルしました。", "CheckMurder");
-                    return false;
-                }
+            //if (!Options.SplatoonOn.GetBool())
+            if ((Options.CurrentGameMode() == CustomGameMode.HideAndSeek || Options.IsStandardHAS) && Options.HideAndSeekKillDelayTimer > 0)
+            {
+                Logger.Info("HideAndSeekの待機時間中だったため、キルをキャンセルしました。", "CheckMurder");
+                return false;
+            }
 
             //キル可能判定
             if (killer.PlayerId != target.PlayerId)
@@ -336,6 +336,14 @@ namespace TownOfHost
                         killer.RpcGuardAndKill(target);
                         target.SetColor(killer.CurrentOutfit.ColorId);
                         killer.ResetKillCooldown();
+                        target.RpcShapeshift(target, true);
+                        return false;
+                    case CustomRoles.Janitor:
+                        int startingColorId = Main.AllPlayerSkin[target.PlayerId].Item1;
+                        if (target.CurrentOutfit.ColorId == startingColorId) return false;
+                        killer.RpcGuardAndKill(target);
+                        killer.ResetKillCooldown();
+                        target.RpcRevertShapeshift(true);
                         return false;
                     case CustomRoles.CovenWitch:
                         if (Main.HasNecronomicon)
@@ -1945,7 +1953,7 @@ namespace TownOfHost
             if (__instance.AmOwner)
             {
                 //キルターゲットの上書き処理
-                if (GameStates.IsInTask && (__instance.Is(CustomRoles.Sheriff) || __instance.Is(CustomRoles.Investigator) || __instance.Is(CustomRoles.Painter) || __instance.Is(CustomRoles.Marksman) || __instance.Is(CustomRoles.BloodKnight) || __instance.Is(CustomRoles.Sidekick) || __instance.Is(CustomRoles.CorruptedSheriff) || __instance.GetRoleType() == RoleType.Coven || __instance.Is(CustomRoles.Arsonist) || __instance.Is(CustomRoles.Werewolf) || __instance.Is(CustomRoles.TheGlitch) || __instance.Is(CustomRoles.Juggernaut) || __instance.Is(CustomRoles.PlagueBearer) || __instance.Is(CustomRoles.Pestilence) || __instance.Is(CustomRoles.Jackal)) && !__instance.Data.IsDead)
+                if (GameStates.IsInTask && (__instance.Is(CustomRoles.Sheriff) || __instance.Is(CustomRoles.Investigator) || __instance.Is(CustomRoles.Janitor) || __instance.Is(CustomRoles.Painter) || __instance.Is(CustomRoles.Marksman) || __instance.Is(CustomRoles.BloodKnight) || __instance.Is(CustomRoles.Sidekick) || __instance.Is(CustomRoles.CorruptedSheriff) || __instance.GetRoleType() == RoleType.Coven || __instance.Is(CustomRoles.Arsonist) || __instance.Is(CustomRoles.Werewolf) || __instance.Is(CustomRoles.TheGlitch) || __instance.Is(CustomRoles.Juggernaut) || __instance.Is(CustomRoles.PlagueBearer) || __instance.Is(CustomRoles.Pestilence) || __instance.Is(CustomRoles.Jackal)) && !__instance.Data.IsDead)
                 {
                     var players = __instance.GetPlayersInAbilityRangeSorted(false);
                     PlayerControl closest = players.Count <= 0 ? null : players[0];
@@ -2606,7 +2614,7 @@ namespace TownOfHost
                     {
                         foreach (var pcd in doused)
                         {
-                            if (!pc.Data.IsDead)
+                            if (!pcd.Data.IsDead)
                             {
                                 if (!pcd.Data.Disconnected)
                                 {

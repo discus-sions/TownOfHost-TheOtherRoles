@@ -56,6 +56,7 @@ namespace TownOfHost
             Main.MayorUsedButtonCount = new Dictionary<byte, int>();
             Main.HackerFixedSaboCount = new Dictionary<byte, int>();
             Main.KilledBewilder = new();
+            Main.AllPlayerSkin = new();
             Main.KilledDemo = new();
             Main.targetArrows = new();
             Main.JugKillAmounts = 0;
@@ -141,6 +142,7 @@ namespace TownOfHost
             Main.VisibleTasksCount = true;
             if (__instance.AmHost)
             {
+                SaveSkin();
                 RPC.SyncCustomSettingsRPC();
                 Main.RefixCooldownDelay = 0;
                 if (Options.CurrentGameMode() == CustomGameMode.HideAndSeek)
@@ -167,6 +169,18 @@ namespace TownOfHost
             Necromancer.Init();
             Guesser.Init();
             AntiBlackout.Reset();
+        }
+        private static void SaveSkin()
+        {
+            foreach (var player in PlayerControl.AllPlayerControls)
+            {
+                var color = player.CurrentOutfit.ColorId;
+                var hat = player.CurrentOutfit.HatId;
+                var skin = player.CurrentOutfit.SkinId;
+                var visor = player.CurrentOutfit.VisorId;
+                var pet = player.CurrentOutfit.PetId;
+                Main.AllPlayerSkin[player.PlayerId] = (color, hat, skin, visor, pet, player.GetRealName(true));
+            }
         }
     }
     [HarmonyPatch(typeof(RoleManager), nameof(RoleManager.SelectRoles))]
@@ -305,6 +319,7 @@ namespace TownOfHost
                     AllPlayers.Add(pc);
                 }
                 //AssignDesyncRole(CustomRoles.Supporter, AllPlayers, sender, BaseRole: RoleTypes.Crewmate);
+                AssignDesyncRole(CustomRoles.Janitor, AllPlayers, sender, BaseRole: RoleTypes.Impostor);
                 AssignPainters(CustomRoles.Painter, AllPlayers, sender, BaseRole: RoleTypes.Impostor);
             }
             if (sender.CurrentState == CustomRpcSender.State.InRootMessage) sender.EndMessage();

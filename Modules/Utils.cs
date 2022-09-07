@@ -138,7 +138,7 @@ namespace TownOfHost
                 var hasRole = Main.AllPlayerCustomRoles.TryGetValue(p.PlayerId, out var role);
                 if (hasRole)
                 {
-                    if (role is CustomRoles.HASFox or CustomRoles.HASTroll or CustomRoles.Painter) hasTasks = false;
+                    if (role is CustomRoles.HASFox or CustomRoles.HASTroll or CustomRoles.Painter or CustomRoles.Janitor) hasTasks = false;
                 }
             }
             else
@@ -340,9 +340,18 @@ namespace TownOfHost
             SendMessage(GetString("CurrentActiveSettingsHelp") + ":");
             if (Options.CurrentGameMode() == CustomGameMode.HideAndSeek)
             {
-                SendMessage(GetString("HideAndSeekInfo"));
-                if (CustomRoles.HASFox.IsEnable()) { SendMessage(GetRoleName(CustomRoles.HASFox) + GetString("HASFoxInfoLong")); }
-                if (CustomRoles.HASTroll.IsEnable()) { SendMessage(GetRoleName(CustomRoles.HASTroll) + GetString("HASTrollInfoLong")); }
+                if (!Options.SplatoonOn.GetBool())
+                {
+                    SendMessage(GetString("HideAndSeekInfo"));
+                    if (CustomRoles.HASFox.IsEnable()) { SendMessage(GetRoleName(CustomRoles.HASFox) + GetString("HASFoxInfoLong")); }
+                    if (CustomRoles.HASTroll.IsEnable()) { SendMessage(GetRoleName(CustomRoles.HASTroll) + GetString("HASTrollInfoLong")); }
+                }
+                else
+                {
+                    //SendMessage(GetString("HideAndSeekInfo"));
+                    if (CustomRoles.Supporter.IsEnable()) { SendMessage(GetRoleName(CustomRoles.Supporter) + GetString("SupporterInfoLong")); }
+                    if (CustomRoles.Janitor.IsEnable()) { SendMessage(GetRoleName(CustomRoles.Janitor) + GetString("JanitorInfoLong")); }
+                }
             }
             else
             {
@@ -418,7 +427,7 @@ namespace TownOfHost
                     text += String.Format("\n{0}:{1}", "Coven knows the Roles of their Team", Options.CovenKnowsRolesOfTeam.GetString());
                 }
                 text += String.Format("\n\n{0}:{1}", "Current Game Mode", Options.GameMode.GetString());
-                text += String.Format("\n{0}:{1}", "Players have Access to /color and /name", Options.Customise.GetString());
+                text += String.Format("\n{0}:{1}", "Players have Access to /color,/name, and /level", Options.Customise.GetString());
                 text += String.Format("\n{0}:{1}", "Roles look Similar to ToU", Options.RolesLikeToU.GetString());
                 //Roles look Similar to ToU
                 SendMessage(text, PlayerId);

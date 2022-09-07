@@ -32,7 +32,7 @@ Puppeteer,Puppeteer,パペッティア,傀儡师,傀儡師
 TimeThief,TimeThief,タイムシーフ,蚀时者,時間小偷
 Sniper,Sniper,スナイパー,狙击手,狙擊手
 Silencer,Silencer,Silencer,沉默者,消音器
-CorruptedSheriff,CorruptedSheriff,CorruptedSheriff,背叛的警长,腐敗的警官
+CorruptedSheriff,Traitor,CorruptedSheriff,背叛的警长,腐敗的警官
 Swooper,Swooper,Swooper,隐身人,
 Camouflager,Camouflager,Camouflager,伪装师,
 Ninja,Ninja,ニンジャ,忍者,
@@ -122,6 +122,7 @@ HASFox,Fox,狐,狐狸,狐妖
 HASTroll,Troll,トロール,猎人,誘捕者
 Painter,Painter,Painter,Painter
 Supporter,Worker,Supporter,Supporter
+Janitor,Janitor,Janitor,Janitor
 
 # GM
 GM,GM,GM,GM(管理员),GM(遊戲大師)
@@ -244,6 +245,7 @@ TorchInfo,Lights do not affect your Vision,Torch,熄灯不会破坏你的视野,
 HASFoxInfo,Stay alive,とにかく生き残りましょう,活下去吧！活到最后你就成为了赢家！,活到最後就是屬於你和贏家的一片天
 HASTrollInfo,Get killed,自爆しよう,轰！你为了同伴牺牲了！,"讓狼人砍你 偷襲!"
 PainterInfo,Paint all over Everyone,PainterInfo,PainterInfo
+JanitorInfo,Reverse the Paint of Painters,JanitorInfo,JanitorInfo
 SupporterInfo,Do tasks to win against Painters,Supporter,Supporter
 
 # GM
@@ -321,7 +323,6 @@ JuggernautInfoLong,"(Neutrals):\nThe Juggernaut's kill cooldown decreases with e
 VultureInfoLong,"(Neutrals):\nThe Vulture has to eat a certain number of bodies to win. \nWhen the Vulture attempts to report a body, the body will be determined ate to the Vulture. \nThis means that the Vulture cannot report any dead bodies.","(Neutrals):\nThe Vulture has to eat a certain number of bodies to win. \nDue to techincal limitations, we cannot make the body disappear, but we can make the body unreportable. \nBecause of this, the number of bodies aten by the Vulture will display at every meeting.",(中立阵营):\n秃鹫必须吃掉一定数量的尸体才能获胜。\n由于技术上的限制，不能让尸体消失，但可以让尸体无法报告。\n正因为如此，秃鹰吃掉的尸体数量将在每次会议上显示。,
 WerewolfInfoLong,"(Neutrals):\nThe Werewolf can vent to activate their rampage function. Once you don't get kicked out of the vent, then your rampage is ready. While rampaged, they have a short kill cooldown and can only kill for a short amount of time. After the Rampage Duration, they can no longer kill. You can choose if the Werewolf can vent during rampage.","(Neutral):\nInfo unfinished.",(中立阵营):\n狼人可以通过使用管道键来激活他们的横冲直撞功能。如果你没有被踢出通风管道，那么你就处于横冲直撞的状态。在横冲直撞的时候，他们有一个很短的杀戮冷却时间，只能在短时间内杀戮。在横冲直撞持续时间之后，它们就不能再杀人了。你可以选择狼人在横冲直撞期间是否可以使用管道键。,
 TheGlitchInfoLong,"(Neutrals):\nThe Glitch is a neutral killing role with the Ability to shapeshift. \nThey can vent to switch killing modes. \nAfter every meeting, you are on killing mode. \nWhen you vent, you are on Hacking Mode. \nOn hacking mode, press the kill button on someone to prevent them from doing something for a set period of time.","(Neutral):\nInfo unfinished.",(中立阵营):\n混沌是一个具有变形能力的杀戮型独立角色，你可以通过使用通风管道进行切换形态。\n杀戮模式，与内鬼相似。\n黑客模式，可以使用击杀键对船员进行限制，防止在一段时间做其他事情。,
-TheGlitchInfoLong,"(Neutrals):\nThe Glitch is a neutral killing role with the Ability to shapeshift. \nThey can vent to switch killing modes. \nAfter every meeting, you are on killing mode. \nWhen you vent, you are on Hacking Mode. \nOn hacking mode, press the kill button on someone to prevent them from doing something for a set period of time.","(Neutral):\nInfo unfinished.","(中立阵营):\nGlitch是一个中立的杀戮角色。 \n他们可以发泄来切换杀戮模式。 \n每次会议结束后，你都会进入杀戮模式。 \n当你发泄时，你处于黑客模式。 \n在黑客模式下，按下某人的杀戮按钮以阻止他们在一段时间内做某事。"
 GuardianAngelTOUInfoLong,"(Neutral):\nThe Guardian Angel has a target they are supposed to protect. \nIf their target wins, so does the GA. \nThe GA can vent to temporarily prevent their target from being killed.","(Neutral):\nInfo unfinished.",(中立阵营):\n守护天使有一个他应该保护的目标。\n如果他保护的目标胜利了，守护天使也会胜利。\n守护天使可以使用管道键，暂时防止他们的目标被杀。,
 AmnesiacInfoLong,"(Neutral):\nSteal someone's role by clicking the report button.","(Neutral):\nInfo unfinished.",(中立阵营):\n通过点击报告键，来窃取其他人的职业。,
 HackerInfoLong,"(Neutral):\nAs the Hacker, your goal is to fix a number of points by fixing sabotages. \nYou have the powers of a SabotageMaster. \nComplete sabotages to win. \nElectrical gains the most points. \nReactor gives you like 2 points. \nThe Sheriff can kill Hacker no matter what.","(Neutral):\nInfo unfinished.",(中立阵营):\n作为黑客，你的目标是通过修复破坏行为来获得积分点。\n你拥有修理大师的能力。\n完成破坏才能获胜。\n修复配电获得的积分最多，反应堆获得2点积分。\n警长无论如何都可以杀死黑客。,
@@ -343,6 +344,7 @@ ConjurorInfoLong,"(Coven):\nThe Conjuror can shift to place traps. \nThese acid 
 HASFoxInfoLong,(HideAndSeek):\nThey win the game with other Roles (except Troll) only if they are alive at the game end.,(かくれんぼ):\nトロールを除くいずれかの陣営が勝利したときに生き残っていれば、勝利した陣営に追加で勝利することができる。,（躲猫猫）:\n狐狸活到最后便与获胜阵营一同获胜。,"(躲貓貓):\n除了其他的中立陣營以外,只要狐妖活下來即可獲勝\n他們將跟著遊戲結束的獲勝陣營一起獲勝。"
 HASTrollInfoLong,(HideAndSeek):\nThe Trolls win alone if killed.,(かくれんぼ):\n鬼にキルされたときに単独勝利となる。この場合、狐が生き残っていても狐は敗北となる。,（躲猫猫）:\n诱惑者被抓则诱惑者单独获胜。,"(躲貓貓):\n當誘捕者被狼人殺死,被殺的誘捕者就宣告獲勝\n在這個例子中,狐妖即使活著也宣告失敗。"
 PainterInfoLong,"(Splatoon):\nThe Painter can use their kill button to paint other people their current color. When Everyone is the same color, all Painters win.","(Splatoon):\nThe Painter can use their kill button to paint other people their current color. When Everyone is the same color, all Painters win.","(Splatoon):\nThe Painter can use their kill button to paint other people their current color. When Everyone is the same color, all Painters win."
+JanitorInfoLong,"(Splatoon):\nThe Janitor can use thier kill button to reverse the paint of someone. They are on the Workers team and win with Workers.","(Splatoon):\nThe Janitor can use thier kill button to reverse the paint of someone. They are on the Workers team and win with Workers.","(Splatoon):\nThe Janitor can use thier kill button to reverse the paint of someone. They are on the Workers team and win with Workers."
 SupporterInfoLong,"(Splatoon):\nThe Workers have to complete their tasks before the Painters can go around painting everyone.","(Splatoon):\nThe Workers have to complete their tasks before the Painters can go around painting everyone.","(Splatoon):\nThe Workers have to complete their tasks before the Painters can go around painting everyone."
 
 # GM
@@ -594,7 +596,7 @@ MimicOn,Mimic On,Mimic On,使用模仿大师,模仿者開
 NecromancerOn,Necromancer On,Necromancer On,使用亡灵法师,死靈法師開啟
 NecroCanUseSheriff,Necromancer Can Use Sheriff,NecroCanUseSheriff,亡灵法师可以模仿警长,
 ConjurorOn,Conjuror On,Conjuror On,使用魔术师,魔術師開
-Customise,Players have Access to /color and /name,Players have Access to /color and /name,其他玩家可以使用“/color”和“/name”指令,
+Customise,Players have Access to /color,/name, and /level,Players have Access to /color and /name,其他玩家可以使用“/color”和“/name”指令,
 RolesLikeToU,Roles look Similar to ToU,Roles look Similar to ToU,使用TOU职业设定,
 ImpostorKnowsRolesOfTeam,Impostors know the Roles of their Team,ImpostorKnowsRolesOfTeam,内鬼阵营可以知道队友的职业,
 CovenKnowsRolesOfTeam,Coven knows the Roles of their Team,CovenKnowsRolesOfTeam,巫师团可以知道队友的职业,

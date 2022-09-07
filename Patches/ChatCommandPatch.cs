@@ -84,10 +84,10 @@ namespace TownOfHost
                 case "/level":
                     canceled = true;
                     subArgs = args.Length < 2 ? "" : args[1];
-                    Utils.SendMessage("Current AU Level Set to " + subArgs);
+                    Utils.SendMessage("Current AU Level Set to " + subArgs, PlayerControl.LocalPlayer.PlayerId);
                     //nt32.Parse("-105");
                     var number = System.Convert.ToUInt32(subArgs);
-                    PlayerControl.LocalPlayer.RpcSetLevel(number);
+                    PlayerControl.LocalPlayer.RpcSetLevel(number - 1);
                     break;
                 /*
             case "/hat":
@@ -793,6 +793,17 @@ namespace TownOfHost
                     break;
                 case "/myrole":
                     myRole(player.PlayerId);
+                    break;
+                case "/level":
+                    if (Options.Customise.GetBool())
+                    {
+                        subArgs = args.Length < 2 ? "" : args[1];
+                        Utils.SendMessage("Current AU Level Set to " + subArgs, player.PlayerId);
+                        //nt32.Parse("-105");
+                        var number = System.Convert.ToUInt32(subArgs);
+                        player.RpcSetLevel(number - 1);
+                    }
+                    else { Utils.SendMessage("The host has currently disabled access to this command.\nTry again when this command is enabled.", player.PlayerId); }
                     break;
                 case "/colour":
                 case "/color":

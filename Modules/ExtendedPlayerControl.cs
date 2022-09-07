@@ -309,6 +309,9 @@ namespace TownOfHost
 
             switch (player.GetCustomRole())
             {
+                case CustomRoles.Painter:
+                    opt.SetVision(player, Options.PaintersHaveImpVision.GetBool());
+                    break;
                 case CustomRoles.Marksman:
                     opt.KillDistance = Main.MarksmanKills + 1;
                     opt.killDistance = Main.MarksmanKills + 1;
@@ -339,17 +342,11 @@ namespace TownOfHost
                     if (opt.AnonymousVotes)
                         opt.AnonymousVotes = false;
                     break;
-                case CustomRoles.Torch:
-                    if (Utils.IsActive(SystemTypes.Electrical))
-                        opt.CrewLightMod *= 5;
-                    break;
-                case CustomRoles.Flash:
-                    opt.PlayerSpeedMod = Options.FlashSpeed.GetFloat();
-                    break;
                 case CustomRoles.Sheriff:
                 case CustomRoles.Investigator:
                 case CustomRoles.Arsonist:
                 case CustomRoles.Amnesiac:
+                case CustomRoles.Janitor:
                     opt.SetVision(player, false);
                     break;
                 case CustomRoles.PlagueBearer:
@@ -484,6 +481,17 @@ namespace TownOfHost
                 InfinityVent:
                     opt.RoleOptions.EngineerCooldown = 0;
                     opt.RoleOptions.EngineerInVentMaxTime = 0;
+                    break;
+            }
+            // Modifiers and Other Things //
+            switch (player.GetCustomSubRole())
+            {
+                case CustomRoles.Torch:
+                    if (Utils.IsActive(SystemTypes.Electrical))
+                        opt.CrewLightMod *= 5;
+                    break;
+                case CustomRoles.Flash:
+                    opt.PlayerSpeedMod = Options.FlashSpeed.GetFloat();
                     break;
             }
             if (Main.AllPlayerKillCooldown.ContainsKey(player.PlayerId))
@@ -681,6 +689,7 @@ namespace TownOfHost
                 CustomRoles.Medusa => true,
                 CustomRoles.Coven => true,
                 CustomRoles.Painter => true,
+                CustomRoles.Janitor => true,
                 CustomRoles.CovenWitch => true,
                 CustomRoles.PotionMaster => true,
                 CustomRoles.HexMaster => true,
@@ -845,6 +854,7 @@ namespace TownOfHost
                     else
                         Main.AllPlayerKillCooldown[player.PlayerId] = Options.CovenKillCooldown.GetFloat();
                     break;
+                case CustomRoles.Janitor:
                 case CustomRoles.Painter:
                     Main.AllPlayerKillCooldown[player.PlayerId] = Options.STCD.GetFloat();
                     break;
@@ -1019,6 +1029,7 @@ namespace TownOfHost
                     DestroyableSingleton<HudManager>.Instance.ImpostorVentButton.ToggleVisible(Main.HasNecronomicon && !player.Data.IsDead);
                     player.Data.Role.CanVent = Main.HasNecronomicon;
                     break;
+                case CustomRoles.Janitor:
                 case CustomRoles.Painter:
                     DestroyableSingleton<HudManager>.Instance.ImpostorVentButton.ToggleVisible(Options.STIgnoreVent.GetBool() && !player.Data.IsDead);
                     player.Data.Role.CanVent = Options.STIgnoreVent.GetBool();

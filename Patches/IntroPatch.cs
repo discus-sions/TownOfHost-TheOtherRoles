@@ -198,16 +198,25 @@ namespace TownOfHost
                     break;
                 case CustomRoles.Painter:
                     __instance.TeamTitle.text = "SPLATOON";
-                    __instance.TeamTitle.color = Utils.GetRoleColor(CustomRoles.Child);
+                    __instance.TeamTitle.color = Utils.GetRoleColor(CustomRoles.Painter);
                     __instance.ImpostorText.gameObject.SetActive(true);
                     __instance.ImpostorText.text = "Be the last color standing.";
                     __instance.BackgroundBar.material.color = Utils.GetRoleColor(role);
                     StartFadeIntro(__instance, Color.white, Color.black);
                     PlayerControl.LocalPlayer.Data.Role.IntroSound = GetIntroSound(RoleTypes.Shapeshifter);
                     break;
-                case CustomRoles.Supporter:
+                case CustomRoles.Janitor:
                     __instance.TeamTitle.text = "SPLATOON";
                     __instance.TeamTitle.color = Utils.GetRoleColor(CustomRoles.Child);
+                    __instance.ImpostorText.gameObject.SetActive(true);
+                    __instance.ImpostorText.text = "Undo all of the paints Painters have done.";
+                    __instance.BackgroundBar.material.color = Utils.GetRoleColor(role);
+                    StartFadeIntro(__instance, Color.white, Color.black);
+                    PlayerControl.LocalPlayer.Data.Role.IntroSound = GetIntroSound(RoleTypes.Impostor);
+                    break;
+                case CustomRoles.Supporter:
+                    __instance.TeamTitle.text = "SPLATOON";
+                    __instance.TeamTitle.color = Utils.GetRoleColor(CustomRoles.Supporter);
                     __instance.ImpostorText.gameObject.SetActive(true);
                     __instance.ImpostorText.text = "Do your tasks to win against Painters.";
                     __instance.BackgroundBar.material.color = Utils.GetRoleColor(role);
@@ -319,7 +328,7 @@ namespace TownOfHost
     {
         public static bool Prefix(IntroCutscene __instance, ref Il2CppSystem.Collections.Generic.List<PlayerControl> yourTeam)
         {
-            if (PlayerControl.LocalPlayer.Is(CustomRoles.Sheriff) || PlayerControl.LocalPlayer.Is(CustomRoles.Investigator))
+            if (PlayerControl.LocalPlayer.Is(CustomRoles.Sheriff) || PlayerControl.LocalPlayer.Is(CustomRoles.Investigator) || PlayerControl.LocalPlayer.Is(CustomRoles.Janitor))
             {
                 //シェリフの場合はキャンセルしてBeginCrewmateに繋ぐ
                 yourTeam = new Il2CppSystem.Collections.Generic.List<PlayerControl>();

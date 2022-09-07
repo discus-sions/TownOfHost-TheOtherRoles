@@ -363,6 +363,7 @@ namespace TownOfHost
                     { CustomRoles.BloodKnight, "#630000"},
                     { CustomRoles.HASTroll, "#00ff00"},
                     { CustomRoles.Painter, "#FF5733"},
+                    {CustomRoles.Janitor, "##c67051"},
                     { CustomRoles.Supporter, "#00b4eb"},
                     // GM
                     { CustomRoles.GM, "#ff5b70"},
@@ -557,6 +558,7 @@ namespace TownOfHost
         TeamBlue,
         TeamGreen,
         Painter,
+        Janitor,
 
         // RANDOM ROLE HELPERS //
         NonNks,
