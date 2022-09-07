@@ -32,7 +32,7 @@ namespace TownOfHost
                     {
                         if (CheckAndEndGameForPainterWin(__instance, statistics)) return false;
                     }
-                    if (!Options.NoGameEnd.GetBool())
+                    if (!Options.NoGameEnd.GetBool() || (Options.SplatoonOn.GetBool() && !CustomRoles.Supporter.IsEnable()))
                         if (CheckAndEndGameForTaskWin(__instance)) return false;
                 }
                 else if (Options.CurrentGameMode() == CustomGameMode.ColorWars)

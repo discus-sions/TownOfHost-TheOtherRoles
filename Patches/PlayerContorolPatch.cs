@@ -343,6 +343,7 @@ namespace TownOfHost
                         if (target.CurrentOutfit.ColorId == startingColorId) return false;
                         killer.RpcGuardAndKill(target);
                         killer.ResetKillCooldown();
+                        target.SetColor(startingColorId);
                         target.RpcRevertShapeshift(true);
                         return false;
                     case CustomRoles.CovenWitch:

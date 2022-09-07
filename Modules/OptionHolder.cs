@@ -655,6 +655,8 @@ namespace TownOfHost
                 .SetGameMode(CustomGameMode.HideAndSeek);
             STIgnoreVent = CustomOption.Create(1001003, Color.white, "CanVent", false)
                 .SetGameMode(CustomGameMode.HideAndSeek);
+            PaintersHaveImpVision = CustomOption.Create(1001004, Color.white, "PaintersHaveImpVision", false)
+            .SetGameMode(CustomGameMode.HideAndSeek);
 
             //#region ColorWars
             /*

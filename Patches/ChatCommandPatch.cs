@@ -431,6 +431,9 @@ namespace TownOfHost
                 { (CustomRoles)(-7), $"== {GetString("HideAndSeek")} ==" }, //区切り用
                 { CustomRoles.HASFox, "hfo" },
                 { CustomRoles.HASTroll, "htr" },
+                { CustomRoles.Supporter, "wor" },
+                { CustomRoles.Janitor, "jan" },
+                { CustomRoles.Painter, "pan" },
 
             };
             var msg = "";
@@ -560,6 +563,9 @@ namespace TownOfHost
                 { (CustomRoles)(-7), $"== {GetString("HideAndSeek")} ==" }, //区切り用
                 { CustomRoles.HASFox, "hfo" },
                 { CustomRoles.HASTroll, "htr" },
+                { CustomRoles.Supporter, "wor" },
+                { CustomRoles.Janitor, "jan" },
+                { CustomRoles.Painter, "pan" },
 
             };
             var msg = "";
@@ -676,6 +682,9 @@ namespace TownOfHost
                 { (CustomRoles)(-7), $"== {GetString("HideAndSeek")} ==" }, //区切り用
                 { CustomRoles.HASFox, "hfo" },
                 { CustomRoles.HASTroll, "htr" },
+                { CustomRoles.Supporter, "wor" },
+                { CustomRoles.Janitor, "jan" },
+                { CustomRoles.Painter, "pan" },
 
             };
                 var msg = "";

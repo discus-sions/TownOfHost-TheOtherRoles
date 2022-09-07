@@ -119,12 +119,9 @@ namespace TownOfHost
                     nameAndValue(Options.IgnoreVent);
                     nameAndValue(Options.MaxNK);
                     nameAndValue(Options.SplatoonOn);
-                    if (Options.SplatoonOn.GetBool())
-                    {
-                        nameAndValue(Options.STCD);
-                        nameAndValue(Options.STIgnoreVent);
-                        nameAndValue(Options.PaintersHaveImpVision);
-                    }
+                    nameAndValue(Options.STCD);
+                    nameAndValue(Options.STIgnoreVent);
+                    nameAndValue(Options.PaintersHaveImpVision);
                 }
                 else if (Options.CurrentGameMode() == CustomGameMode.ColorWars)
                 {
