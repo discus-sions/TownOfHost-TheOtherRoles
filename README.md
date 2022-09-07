@@ -27,6 +27,11 @@ KNOWN BUGS:
 - Poisoner doesn't replace a Coven
 - Some Roles have double their Cooldown or half their cooldown sometimes.
 - Sheriff doesn't turn Corrupted
+- Black screens on consoles when dead as a role that uses a desynced Impostor role (Lag spikes triggered by name changes cause this)
+- Sometimes players will see some or all players using desynced Impostor roles (known as Impostor Desync)
+- Chat sometimes disappears for the host when a player leaves the game (this prevents commands from working until the host dies)
+- Some or all roles disappear for ghosts in meetings, this does not apply to players with the mod
+- If GA turns into a SidekickMadmate then the GA target dies, the GA turned SidekickMadmate will still turn into the role set in the settings for GA
 
 ## Features
 
@@ -104,6 +109,9 @@ You can execute chat commands by typing in chat.
 | /now<br>/n                  | Show active settings                    |
 | /now roles<br>/n r          | Show active roles settings              |
 | /template <tag><br>/t <tag> | Show template text corresponding to tag |
+| /color<br>/colour           | Change your current color (0-20)        |
+| /name                       | Change your current name                |
+| /myrole                     | Display your current role's description |
 
 ### Template
 This function allows you to send prepared messages.<br>
@@ -115,6 +123,9 @@ Also, you can break lines by writing `\n` in the sentence like `tag:line breaks 
 #### Welcome Message
 If the tag is set to "welcome" in the template function, it will be sent automatically when a player joins.<br>
 For example: `welcome:This room is using the mod Town Of Host: The Other Roles.`
+
+### Impostor Disconnect Detection
+If all Impostors leave the game, the game will automatically end with the unused Impostor Disconnected screen. This was done as all impostors leaving the game would black screen all players who do not use desynced Impostor roles.
 
 ## Roles
 
@@ -575,7 +586,7 @@ Basis : Crewmate<br>
 Once all of the snitch's tasks are completed, the imposters names will be displayed in red.<br>
 Dependent on the settings, the snitch may also see arrows pointed in the remaining impostors directions when their tasks are completed.<br>
 When the snitch has 0 or 1 tasks remaining, the impostors will be able to see a star next to the name of the snitch and that there is an alive snitch who has 0 or 1 tasks left.<br>
-The imposters also see an arrow pointed in the snitch's direction when the snitch has one or less tasks remaining.<br>
+The impostors also see an arrow pointed in the snitch's direction when the snitch has one or less tasks remaining.<br>
 
 #### Game Options
 
