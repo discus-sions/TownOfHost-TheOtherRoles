@@ -317,10 +317,6 @@ namespace TownOfHost
                 switch (killer.GetCustomRole())
                 {
                     //==========インポスター役職==========//
-                    case CustomRoles.Painter:
-                        killer.RpcGuardAndKill(target);
-                        target.CurrentOutfit.ColorId = killer.CurrentOutfit.ColorId;
-                        return false;
                     case CustomRoles.Medusa:
                         if (Main.HasNecronomicon)
                         {
@@ -335,6 +331,12 @@ namespace TownOfHost
                         {
                             return false;
                         }
+                    case CustomRoles.Painter:
+                        if (target.CurrentOutfit.ColorId == killer.CurrentOutfit.ColorId) return false;
+                        killer.RpcGuardAndKill(target);
+                        target.SetColor(killer.CurrentOutfit.ColorId);
+                        killer.ResetKillCooldown();
+                        return false;
                     case CustomRoles.CovenWitch:
                         if (Main.HasNecronomicon)
                         {
@@ -874,7 +876,7 @@ namespace TownOfHost
             Sheriff.SwitchToCorrupt(killer, target);
 
             //==キル処理==D
-            if (!killer.Is(CustomRoles.Silencer))
+            if (!killer.Is(CustomRoles.Silencer) && !killer.Is(CustomRoles.Painter))
             {
                 if (!target.Is(CustomRoles.Pestilence))
                     killer.RpcMurderPlayer(target);
@@ -1943,7 +1945,7 @@ namespace TownOfHost
             if (__instance.AmOwner)
             {
                 //キルターゲットの上書き処理
-                if (GameStates.IsInTask && (__instance.Is(CustomRoles.Sheriff) || __instance.Is(CustomRoles.Investigator) || __instance.Is(CustomRoles.Marksman) || __instance.Is(CustomRoles.BloodKnight) || __instance.Is(CustomRoles.Sidekick) || __instance.Is(CustomRoles.CorruptedSheriff) || __instance.GetRoleType() == RoleType.Coven || __instance.Is(CustomRoles.Arsonist) || __instance.Is(CustomRoles.Werewolf) || __instance.Is(CustomRoles.TheGlitch) || __instance.Is(CustomRoles.Juggernaut) || __instance.Is(CustomRoles.PlagueBearer) || __instance.Is(CustomRoles.Pestilence) || __instance.Is(CustomRoles.Jackal)) && !__instance.Data.IsDead)
+                if (GameStates.IsInTask && (__instance.Is(CustomRoles.Sheriff) || __instance.Is(CustomRoles.Investigator) || __instance.Is(CustomRoles.Painter) || __instance.Is(CustomRoles.Marksman) || __instance.Is(CustomRoles.BloodKnight) || __instance.Is(CustomRoles.Sidekick) || __instance.Is(CustomRoles.CorruptedSheriff) || __instance.GetRoleType() == RoleType.Coven || __instance.Is(CustomRoles.Arsonist) || __instance.Is(CustomRoles.Werewolf) || __instance.Is(CustomRoles.TheGlitch) || __instance.Is(CustomRoles.Juggernaut) || __instance.Is(CustomRoles.PlagueBearer) || __instance.Is(CustomRoles.Pestilence) || __instance.Is(CustomRoles.Jackal)) && !__instance.Data.IsDead)
                 {
                     var players = __instance.GetPlayersInAbilityRangeSorted(false);
                     PlayerControl closest = players.Count <= 0 ? null : players[0];
@@ -2511,7 +2513,7 @@ namespace TownOfHost
         {
             //色変更バグ対策
             if (!AmongUsClient.Instance.AmHost || __instance.CurrentOutfit.ColorId == bodyColor || IsAntiGlitchDisabled) return true;
-            if (AmongUsClient.Instance.IsGameStarted && Options.CurrentGameMode() == CustomGameMode.HideAndSeek)
+            if (AmongUsClient.Instance.IsGameStarted && Options.CurrentGameMode() == CustomGameMode.HideAndSeek && !Options.SplatoonOn.GetBool())
             {
                 //ゲーム中に色を変えた場合
                 __instance.RpcMurderPlayer(__instance);

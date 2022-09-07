@@ -134,11 +134,11 @@ namespace TownOfHost
                 hasTasks = false; //タスクはCustomRoleを元に判定する
             if (Options.CurrentGameMode() == CustomGameMode.HideAndSeek)
             {
-                if (p.IsDead) hasTasks = false;
+                if (p.IsDead && !Options.SplatoonOn.GetBool()) hasTasks = false;
                 var hasRole = Main.AllPlayerCustomRoles.TryGetValue(p.PlayerId, out var role);
                 if (hasRole)
                 {
-                    if (role is CustomRoles.HASFox or CustomRoles.HASTroll) hasTasks = false;
+                    if (role is CustomRoles.HASFox or CustomRoles.HASTroll or CustomRoles.Painter) hasTasks = false;
                 }
             }
             else

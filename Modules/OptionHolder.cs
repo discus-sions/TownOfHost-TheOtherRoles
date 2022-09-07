@@ -649,7 +649,7 @@ namespace TownOfHost
             SplatoonOn = CustomOption.Create(1001008, Color.white, "Splatoon", false)
                 .SetGameMode(CustomGameMode.HideAndSeek);
             SetupRoleOptions(100110, CustomRoles.Supporter, CustomGameMode.HideAndSeek);
-            SetupRoleOptions(100111, CustomRoles.Painter, CustomGameMode.HideAndSeek);
+            // SetupRoleOptions(100111, CustomRoles.Painter, CustomGameMode.HideAndSeek);
             STCD = CustomOption.Create(1001001, Color.white, "KillCDT", 25, 2.5f, 60, 2.5f)
                 .SetGameMode(CustomGameMode.HideAndSeek);
             STIgnoreVent = CustomOption.Create(1001003, Color.white, "CanVent", false)

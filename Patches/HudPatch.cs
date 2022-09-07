@@ -440,6 +440,7 @@ namespace TownOfHost
                 player.GetCustomRole() == CustomRoles.Sidekick ||
                 player.GetCustomRole() == CustomRoles.TheGlitch ||
                 player.GetCustomRole() == CustomRoles.Werewolf ||
+                player.GetCustomRole() == CustomRoles.Painter ||
                 player.GetCustomRole() == CustomRoles.Juggernaut ||
                 player.GetCustomRole() == CustomRoles.Marksman ||
                 player.GetCustomRole() == CustomRoles.BloodKnight ||

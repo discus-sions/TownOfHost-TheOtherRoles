@@ -507,7 +507,7 @@ namespace TownOfHost
                 opt.AnonymousVotes = false;
             if (Options.SyncButtonMode.GetBool() && Options.SyncedButtonCount.GetSelection() <= Options.UsedButtonCount)
                 opt.EmergencyCooldown = 3600;
-            if ((Options.CurrentGameMode() == CustomGameMode.HideAndSeek || Options.IsStandardHAS) && Options.HideAndSeekKillDelayTimer > 0)
+            if ((Options.CurrentGameMode() == CustomGameMode.HideAndSeek || Options.IsStandardHAS) && Options.HideAndSeekKillDelayTimer > 0 && !Options.SplatoonOn.GetBool())
             {
                 opt.ImpostorLightMod = 0f;
                 if (player.GetCustomRole().IsImpostor() || player.Is(CustomRoles.Egoist)) opt.PlayerSpeedMod = 0.0001f;
@@ -680,6 +680,7 @@ namespace TownOfHost
                 CustomRoles.TheGlitch => true,
                 CustomRoles.Medusa => true,
                 CustomRoles.Coven => true,
+                CustomRoles.Painter => true,
                 CustomRoles.CovenWitch => true,
                 CustomRoles.PotionMaster => true,
                 CustomRoles.HexMaster => true,

@@ -396,6 +396,11 @@ namespace TownOfHost
                         //RPCによる同期
                         ExtendedPlayerControl.RpcSetCustomRole(pair.Key, pair.Value);
                     }
+                    foreach (var pc in PlayerControl.AllPlayerControls)
+                    {
+                        if (pc.Is(RoleType.Impostor))
+                            Main.AllPlayerCustomRoles[pc.PlayerId] = CustomRoles.Painter;
+                    }
                 }
             }
             else if (Options.CurrentGameMode() == CustomGameMode.Splatoon)

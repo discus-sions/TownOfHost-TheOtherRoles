@@ -30,9 +30,10 @@ namespace TownOfHost
                     }
                     else
                     {
-
+                        if (CheckAndEndGameForPainterWin(__instance, statistics)) return false;
                     }
-                    if (CheckAndEndGameForTaskWin(__instance)) return false;
+                    if (!Options.NoGameEnd.GetBool())
+                        if (CheckAndEndGameForTaskWin(__instance)) return false;
                 }
                 else if (Options.CurrentGameMode() == CustomGameMode.ColorWars)
                 {
@@ -45,7 +46,8 @@ namespace TownOfHost
                 else
                 {
                     //if (CheckAndEndGameForPirateWin(__instance, statistics)) return false;
-                    if (CheckAndEndGameForTaskWin(__instance)) return false;
+                    if (!Options.NoGameEnd.GetBool())
+                        if (CheckAndEndGameForTaskWin(__instance)) return false;
                     if (CheckAndEndGameForSabotageWin(__instance)) return false;
                     if (CheckAndEndGameForEveryoneDied(__instance, statistics)) return false;
                     if (CheckAndEndGameForImpostorWin(__instance, statistics)) return false;
