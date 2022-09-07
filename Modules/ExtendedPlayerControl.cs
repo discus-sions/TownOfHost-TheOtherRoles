@@ -844,6 +844,9 @@ namespace TownOfHost
                     else
                         Main.AllPlayerKillCooldown[player.PlayerId] = Options.CovenKillCooldown.GetFloat();
                     break;
+                case CustomRoles.Painter:
+                    Main.AllPlayerKillCooldown[player.PlayerId] = Options.STCD.GetFloat();
+                    break;
             }
             if (player.IsLastImpostor())
                 Main.AllPlayerKillCooldown[player.PlayerId] = Options.LastImpostorKillCooldown.GetFloat();
@@ -1014,6 +1017,10 @@ namespace TownOfHost
                 case CustomRoles.CovenWitch:
                     DestroyableSingleton<HudManager>.Instance.ImpostorVentButton.ToggleVisible(Main.HasNecronomicon && !player.Data.IsDead);
                     player.Data.Role.CanVent = Main.HasNecronomicon;
+                    break;
+                case CustomRoles.Painter:
+                    DestroyableSingleton<HudManager>.Instance.ImpostorVentButton.ToggleVisible(Options.STIgnoreVent.GetBool() && !player.Data.IsDead);
+                    player.Data.Role.CanVent = Options.STIgnoreVent.GetBool();
                     break;
             }
         }

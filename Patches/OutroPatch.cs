@@ -329,6 +329,10 @@ namespace TownOfHost
                         };
                         break;
                     }
+                    else if (Main.currentWinner == CustomWinner.Painter && pc.Is(CustomRoles.Painter))
+                    {
+                        winner.Add(pc);
+                    }
                     else if (role == CustomRoles.HASFox && Main.currentWinner != CustomWinner.HASTroll && !pc.Data.IsDead)
                     {
                         winner.Add(pc);

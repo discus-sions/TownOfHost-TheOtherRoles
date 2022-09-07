@@ -333,6 +333,10 @@ namespace TownOfHost
         public static CustomOption MinNonNK;
         public static CustomOption ImpostorKnowsRolesOfTeam;
         public static CustomOption CovenKnowsRolesOfTeam;
+
+        // GAMEMODE //
+        public static CustomOption SplatoonOn;
+        public static CustomOption ColorWarsOn;
         public static readonly string[] suffixModes =
         {
             "SuffixMode.None",
@@ -472,7 +476,7 @@ namespace TownOfHost
             /*SetupSingleRoleOptions(20006, CustomRoles.Flash, 1);
             FlashSpeed = CustomOption.Create(20030, Color.white, "SpeedBoosterUpSpeed", 2f, 0.25f, 3f, 0.25f, CustomRoleSpawnChances[CustomRoles.Flash]); */
             SetupRoleOptions(20850, CustomRoles.Bastion);
-            SetupRoleOptions(700850, CustomRoles.Alturist);
+            //SetupRoleOptions(700850, CustomRoles.Alturist);
             SetupSingleRoleOptions(20010, CustomRoles.Veteran, 1);
             NumOfVets = CustomOption.Create(20011, Color.white, "NVet", 10, 1, 15, 1, CustomRoleSpawnChances[CustomRoles.Veteran]);
             VetCD = CustomOption.Create(20012, Color.white, "VetCD", 30, 2.5f, 180, 2.5f, CustomRoleSpawnChances[CustomRoles.Veteran]);
@@ -640,6 +644,15 @@ namespace TownOfHost
             //IgnoreCosmetics = CustomOption.Create(101002, Color.white, "IgnoreCosmetics", false)
             //    .SetGameMode(CustomGameMode.HideAndSeek);
             IgnoreVent = CustomOption.Create(101003, Color.white, "IgnoreVent", false)
+                .SetGameMode(CustomGameMode.HideAndSeek);
+
+            SplatoonOn = CustomOption.Create(1001008, Color.white, "Splatoon", false)
+                .SetGameMode(CustomGameMode.HideAndSeek);
+            SetupRoleOptions(100110, CustomRoles.Supporter, CustomGameMode.HideAndSeek);
+            SetupRoleOptions(100111, CustomRoles.Painter, CustomGameMode.HideAndSeek);
+            STCD = CustomOption.Create(1001001, Color.white, "KillCDT", 25, 2.5f, 60, 2.5f)
+                .SetGameMode(CustomGameMode.HideAndSeek);
+            STIgnoreVent = CustomOption.Create(1001003, Color.white, "CanVent", false)
                 .SetGameMode(CustomGameMode.HideAndSeek);
 
             //#region ColorWars

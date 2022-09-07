@@ -316,6 +316,7 @@ namespace TownOfHost
                     }
                     player.CanUseImpostorVent();
                     goto DesyncImpostor;
+                case CustomRoles.Painter:
                 case CustomRoles.PlagueBearer:
                     // TaskTextPrefix += FakeTasksText;
                     player.CanUseImpostorVent();
@@ -478,6 +479,13 @@ namespace TownOfHost
                         __instance.KillButton.ToggleVisible(isActive && !player.Data.IsDead);
                     __instance.SabotageButton.ToggleVisible(false);
                     __instance.ImpostorVentButton.ToggleVisible(false);
+                    __instance.AbilityButton.ToggleVisible(false);
+                    break;
+                case CustomRoles.Painter:
+                    if (player.Data.Role.Role != RoleTypes.GuardianAngel)
+                        __instance.KillButton.ToggleVisible(isActive && !player.Data.IsDead);
+                    __instance.SabotageButton.ToggleVisible(false);
+                    __instance.ImpostorVentButton.ToggleVisible(isActive && Options.STIgnoreVent.GetBool());
                     __instance.AbilityButton.ToggleVisible(false);
                     break;
                 case CustomRoles.Sidekick:

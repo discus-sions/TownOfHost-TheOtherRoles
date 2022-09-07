@@ -107,6 +107,7 @@ namespace TownOfHost
             { CustomRoles.Terrorist, RoleTypes.Engineer },
             { CustomRoles.EvilWatcher, RoleTypes.Impostor },
             { CustomRoles.Mare, RoleTypes.Impostor },
+            { CustomRoles.Painter, RoleTypes.Impostor },
             { CustomRoles.Doctor, RoleTypes.Scientist },
             { CustomRoles.TimeThief, RoleTypes.Impostor },
             { CustomRoles.Silencer, RoleTypes.Impostor },
@@ -130,7 +131,7 @@ namespace TownOfHost
             {CustomRoles.PotionMaster,RoleTypes.Impostor},
             {CustomRoles.Poisoner,RoleTypes.Impostor},
             {CustomRoles.Medusa,RoleTypes.Impostor},
-            {CustomRoles.Necromancer,RoleTypes.Impostor},
+            {CustomRoles.Necromancer,RoleTypes.Shapeshifter},
             {CustomRoles.Mimic,RoleTypes.Impostor},
         };
         public static bool Prefix(TaskAddButton __instance)

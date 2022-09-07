@@ -120,6 +120,8 @@ Torch,Torch,Torch,火炬手,火炬手
 # HideAndSeek
 HASFox,Fox,狐,狐狸,狐妖
 HASTroll,Troll,トロール,猎人,誘捕者
+Painter,Painter,Painter,Painter
+Supporter,Worker,Supporter,Supporter
 
 # GM
 GM,GM,GM,GM(管理员),GM(遊戲大師)
@@ -241,6 +243,8 @@ TorchInfo,Lights do not affect your Vision,Torch,熄灯不会破坏你的视野,
 # HideAndSeek
 HASFoxInfo,Stay alive,とにかく生き残りましょう,活下去吧！活到最后你就成为了赢家！,活到最後就是屬於你和贏家的一片天
 HASTrollInfo,Get killed,自爆しよう,轰！你为了同伴牺牲了！,"讓狼人砍你 偷襲!"
+PainterInfo,Paint all over Everyone,PainterInfo,PainterInfo
+SupporterInfo,Do tasks to win against Painters,Supporter,Supporter
 
 # GM
 GMInfo,You're the Game Master,ゲームマスターだ,你是管理员，在旁边看戏吧,當吃瓜群眾在一旁看戲吧
@@ -338,6 +342,8 @@ ConjurorInfoLong,"(Coven):\nThe Conjuror can shift to place traps. \nThese acid 
 # HideAndSeek
 HASFoxInfoLong,(HideAndSeek):\nThey win the game with other Roles (except Troll) only if they are alive at the game end.,(かくれんぼ):\nトロールを除くいずれかの陣営が勝利したときに生き残っていれば、勝利した陣営に追加で勝利することができる。,（躲猫猫）:\n狐狸活到最后便与获胜阵营一同获胜。,"(躲貓貓):\n除了其他的中立陣營以外,只要狐妖活下來即可獲勝\n他們將跟著遊戲結束的獲勝陣營一起獲勝。"
 HASTrollInfoLong,(HideAndSeek):\nThe Trolls win alone if killed.,(かくれんぼ):\n鬼にキルされたときに単独勝利となる。この場合、狐が生き残っていても狐は敗北となる。,（躲猫猫）:\n诱惑者被抓则诱惑者单独获胜。,"(躲貓貓):\n當誘捕者被狼人殺死,被殺的誘捕者就宣告獲勝\n在這個例子中,狐妖即使活著也宣告失敗。"
+PainterInfoLong,"(Splatoon):\nThe Painter can use their kill button to paint other people their current color. When Everyone is the same color, all Painters win.","(Splatoon):\nThe Painter can use their kill button to paint other people their current color. When Everyone is the same color, all Painters win.","(Splatoon):\nThe Painter can use their kill button to paint other people their current color. When Everyone is the same color, all Painters win."
+SupporterInfoLong,"(Splatoon):\nThe Workers have to complete their tasks before the Painters can go around painting everyone.","(Splatoon):\nThe Workers have to complete their tasks before the Painters can go around painting everyone.","(Splatoon):\nThe Workers have to complete their tasks before the Painters can go around painting everyone."
 
 # GM
 GMInfoLong,"(None):/nThe GM (Game Master) is an observer role.\nTheir presence has no effect on the game itself, and all players know who the GM is at all times.\nAlways assigned to a host and is ghosted from the start.",(なし):\nGM(ゲームマスター)はオブザーバー役職である。\nGMはゲーム自体には何の影響も与えず、すべてのプレイヤーは誰がGMであるかがわかる。必ずホストに割り当てられ、始めから幽霊状態になっている。,（无）：\nGM（管理员）是观察者角色。 \nGM对游戏本身没有影响，所有玩家都知道GM是谁。 它总是分配给一名玩家，从一开始就处于幽灵状态，在旁边观战。,"（不屬於任何陣營）：\nGM(遊戲大師)是遊戲的觀察者, \nGM對遊戲進行過程沒有影響,所有玩家都知道GM是誰,該職業絕對會分配給房主。\nGM(遊戲大師)從開始遊戲時就處於死亡狀態。"
@@ -353,7 +359,7 @@ TorchInfoLong,"(Modifiers):\nTorch is a Crew Modifier that can only be applied t
 LastImpostorInfoLong,"(Attributes):\nAn Attribute given to the last Impostor.\nKill cooldown gets shorter than usual.\nNot assigned to BountyHunter, SerialKiller, or Vampire.",(属性):\n最後のインポスターに付与される属性。\nキルクールが設定した時間まで短くなる。\nバウンティハンター、シリアルキラー、ヴァンパイアには付与されない。,（效果）:\n这个效果在内鬼仅剩下一名时赋予那名内鬼。\n这名内鬼冷却减少。\n该效果对赏金猎人、嗜血杀手或者吸血鬼不适用。,"(附加效果):\n該效果給予在場上的最後一隻狼人,擁有該效果的狼人刀人冷卻時間會變短,該效果不會給予:\n賞金獵人,連環殺手或吸血鬼 (可以設定冷卻)"
 
 #モードオプション
-HideAndSeek,HideAndSeek,かくれんぼ,躲猫猫,躲貓貓
+HideAndSeek,Other GameModes,かくれんぼ,躲猫猫,躲貓貓
 ColorWars,ColorWars,ColorWars,颜色战争模式,
 Splatoon,Splatoon,Splatoon,喷漆,
 FreeForAll,Free For All,FreeForAll,免费为大家服务,FreeForAll

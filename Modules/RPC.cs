@@ -343,6 +343,9 @@ namespace TownOfHost
                     case CustomWinner.Marksman:
                         MarksmanWin();
                         break;
+                    case CustomWinner.Painter:
+                        PainterWin();
+                        break;
                     case CustomWinner.TheGlitch:
                         GlitchWin();
                         break;
@@ -442,6 +445,11 @@ namespace TownOfHost
         public static void GlitchWin()
         {
             Main.currentWinner = CustomWinner.TheGlitch;
+            CustomWinTrigger(0);
+        }
+        public static void PainterWin()
+        {
+            Main.currentWinner = CustomWinner.Painter;
             CustomWinTrigger(0);
         }
         public static void MarksmanWin()

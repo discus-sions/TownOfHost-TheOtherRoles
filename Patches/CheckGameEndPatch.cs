@@ -23,8 +23,15 @@ namespace TownOfHost
             {
                 if (Options.CurrentGameMode() == CustomGameMode.HideAndSeek)
                 {
-                    if (CheckAndEndGameForHideAndSeek(__instance, statistics)) return false;
-                    if (CheckAndEndGameForTroll(__instance)) return false;
+                    if (!Options.SplatoonOn.GetBool())
+                    {
+                        if (CheckAndEndGameForHideAndSeek(__instance, statistics)) return false;
+                        if (CheckAndEndGameForTroll(__instance)) return false;
+                    }
+                    else
+                    {
+
+                    }
                     if (CheckAndEndGameForTaskWin(__instance)) return false;
                 }
                 else if (Options.CurrentGameMode() == CustomGameMode.ColorWars)
@@ -111,6 +118,48 @@ namespace TownOfHost
                 RPC.EveryoneDied();
                 ResetRoleAndEndGame(GameOverReason.ImpostorByKill, false);
                 return true;
+            }
+            return false;
+        }
+        private static bool CheckAndEndGameForPainterWin(ShipStatus __instance, PlayerStatistics statistics)
+        {
+            if (Options.SplatoonOn.GetBool())
+            {
+                int AllPainters = 0;
+                int AllAlive = 0;
+                Dictionary<int, int> allColors = new();
+                foreach (var pc in PlayerControl.AllPlayerControls)
+                {
+                    if (!pc.Data.Disconnected)
+                    {
+                        AllAlive++;
+                        if (pc.Is(CustomRoles.Painter)) AllPainters++;
+                        if (!allColors.ContainsKey(pc.CurrentOutfit.ColorId))
+                            allColors.Add(pc.CurrentOutfit.ColorId, 1);
+                        else
+                            allColors[pc.CurrentOutfit.ColorId]++;
+                    }
+                }
+                foreach (var color in allColors)
+                {
+                    if (color.Value == AllAlive)
+                    {
+                        __instance.enabled = false;
+                        var endReason = TempData.LastDeathReason switch
+                        {
+                            DeathReason.Exile => GameOverReason.ImpostorByVote,
+                            DeathReason.Kill => GameOverReason.ImpostorByKill,
+                            _ => GameOverReason.ImpostorByVote,
+                        };
+
+                        MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.EndGame, Hazel.SendOption.Reliable, -1);
+                        writer.Write((byte)CustomWinner.Painter);
+                        AmongUsClient.Instance.FinishRpcImmediately(writer);
+                        RPC.PainterWin();
+
+                        ResetRoleAndEndGame(endReason, false);
+                    }
+                }
             }
             return false;
         }
@@ -537,7 +586,7 @@ namespace TownOfHost
             {
                 var LoseImpostorRole = Main.AliveImpostorCount == 0 ? pc.Is(RoleType.Impostor) : pc.Is(CustomRoles.Egoist);
                 if (pc.Is(CustomRoles.Sheriff) || pc.Is(CustomRoles.Investigator) ||
-                    (!(Main.currentWinner == CustomWinner.Arsonist) && pc.Is(CustomRoles.Arsonist)) || (Main.currentWinner != CustomWinner.Vulture && pc.Is(CustomRoles.Vulture)) || (Main.currentWinner != CustomWinner.Marksman && pc.Is(CustomRoles.Marksman)) || (Main.currentWinner != CustomWinner.Pirate && pc.Is(CustomRoles.Pirate)) ||
+                    (!(Main.currentWinner == CustomWinner.Arsonist) && pc.Is(CustomRoles.Arsonist)) || (Main.currentWinner != CustomWinner.Vulture && pc.Is(CustomRoles.Vulture)) || (Main.currentWinner != CustomWinner.Painter && pc.Is(CustomRoles.Painter)) || (Main.currentWinner != CustomWinner.Marksman && pc.Is(CustomRoles.Marksman)) || (Main.currentWinner != CustomWinner.Pirate && pc.Is(CustomRoles.Pirate)) ||
                     (Main.currentWinner != CustomWinner.Jackal && pc.Is(CustomRoles.Jackal)) || (Main.currentWinner != CustomWinner.BloodKnight && pc.Is(CustomRoles.BloodKnight)) || (Main.currentWinner != CustomWinner.Pestilence && pc.Is(CustomRoles.Pestilence)) || (Main.currentWinner != CustomWinner.Coven && pc.GetRoleType() == RoleType.Coven) ||
                     LoseImpostorRole || (Main.currentWinner != CustomWinner.Werewolf && pc.Is(CustomRoles.Werewolf)) || (Main.currentWinner != CustomWinner.TheGlitch && pc.Is(CustomRoles.TheGlitch)))
                 {

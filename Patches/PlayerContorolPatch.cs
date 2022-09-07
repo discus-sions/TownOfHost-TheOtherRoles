@@ -84,11 +84,12 @@ namespace TownOfHost
             killer.ResetKillCooldown();
 
             //キルボタンを使えない場合の判定
-            if ((Options.CurrentGameMode() == CustomGameMode.HideAndSeek || Options.IsStandardHAS) && Options.HideAndSeekKillDelayTimer > 0)
-            {
-                Logger.Info("HideAndSeekの待機時間中だったため、キルをキャンセルしました。", "CheckMurder");
-                return false;
-            }
+            if (!Options.SplatoonOn.GetBool())
+                if ((Options.CurrentGameMode() == CustomGameMode.HideAndSeek || Options.IsStandardHAS) && Options.HideAndSeekKillDelayTimer > 0)
+                {
+                    Logger.Info("HideAndSeekの待機時間中だったため、キルをキャンセルしました。", "CheckMurder");
+                    return false;
+                }
 
             //キル可能判定
             if (killer.PlayerId != target.PlayerId)
@@ -316,6 +317,10 @@ namespace TownOfHost
                 switch (killer.GetCustomRole())
                 {
                     //==========インポスター役職==========//
+                    case CustomRoles.Painter:
+                        killer.RpcGuardAndKill(target);
+                        target.CurrentOutfit.ColorId = killer.CurrentOutfit.ColorId;
+                        return false;
                     case CustomRoles.Medusa:
                         if (Main.HasNecronomicon)
                         {
@@ -2523,6 +2528,13 @@ namespace TownOfHost
             if (AmongUsClient.Instance.AmHost)
             {
                 bool skipCheck = false;
+                if (Options.SplatoonOn.GetBool())
+                {
+                    if (!Options.STIgnoreVent.GetBool())
+                    {
+                        pc?.MyPhysics?.RpcBootFromVent(__instance.Id);
+                    }
+                }
                 if (CustomRoles.TheGlitch.IsEnable() && Options.GlitchCanVent.GetBool())
                 {
                     List<PlayerControl> hackedPlayers = new();
@@ -2542,7 +2554,7 @@ namespace TownOfHost
                         skipCheck = true;
                     }
                 }
-                if (Options.CurrentGameMode() == CustomGameMode.HideAndSeek && Options.IgnoreVent.GetBool())
+                if (Options.CurrentGameMode() == CustomGameMode.HideAndSeek && Options.IgnoreVent.GetBool() && !Options.SplatoonOn.GetBool())
                     pc.MyPhysics.RpcBootFromVent(__instance.Id);
                 if (pc.Is(CustomRoles.Mayor))
                 {

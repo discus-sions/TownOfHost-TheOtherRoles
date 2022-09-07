@@ -205,6 +205,15 @@ namespace TownOfHost
                     StartFadeIntro(__instance, Color.white, Color.black);
                     PlayerControl.LocalPlayer.Data.Role.IntroSound = GetIntroSound(RoleTypes.Shapeshifter);
                     break;
+                case CustomRoles.Supporter:
+                    __instance.TeamTitle.text = "SPLATOON";
+                    __instance.TeamTitle.color = Utils.GetRoleColor(CustomRoles.Child);
+                    __instance.ImpostorText.gameObject.SetActive(true);
+                    __instance.ImpostorText.text = "Do your tasks to win against Painters.";
+                    __instance.BackgroundBar.material.color = Utils.GetRoleColor(role);
+                    StartFadeIntro(__instance, Color.white, Color.black);
+                    PlayerControl.LocalPlayer.Data.Role.IntroSound = ShipStatus.Instance.SabotageSound;
+                    break;
                 case CustomRoles.Terrorist:
                     var sound = ShipStatus.Instance.CommonTasks.Where(task => task.TaskType == TaskTypes.FixWiring).FirstOrDefault()
                     .MinigamePrefab.OpenSound;
@@ -213,6 +222,7 @@ namespace TownOfHost
 
                 case CustomRoles.Executioner:
                 case CustomRoles.Vampire:
+                case CustomRoles.Medusa:
                 case CustomRoles.HexMaster:
                 case CustomRoles.CovenWitch:
                 case CustomRoles.Conjuror:

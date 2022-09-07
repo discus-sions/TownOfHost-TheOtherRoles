@@ -188,7 +188,7 @@ namespace TownOfHost
                 //役職の人数を指定
                 if (Options.CurrentGameMode() != CustomGameMode.FFA)
                 {
-                    if (Options.CurrentGameMode() != CustomGameMode.Splatoon)
+                    if (!Options.SplatoonOn.GetBool())
                     {
                         if (Options.CurrentGameMode() != CustomGameMode.ColorWars)
                         {
@@ -276,6 +276,16 @@ namespace TownOfHost
                             AssignDesyncRole(CustomRoles.Necromancer, AllPlayers, sender, BaseRole: RoleTypes.Impostor);
                         }
                     }
+                    else
+                    {
+                        List<PlayerControl> AllPlayers = new();
+                        foreach (var pc in PlayerControl.AllPlayerControls)
+                        {
+                            AllPlayers.Add(pc);
+                        }
+                        //AssignDesyncRole(CustomRoles.Supporter, AllPlayers, sender, BaseRole: RoleTypes.Crewmate);
+                        AssignDesyncRole(CustomRoles.Painter, AllPlayers, sender, BaseRole: RoleTypes.Impostor);
+                    }
                 }
                 else
                 {
@@ -286,6 +296,16 @@ namespace TownOfHost
                     }
                     AssignDesyncRole(CustomRoles.Jackal, AllPlayers, sender, BaseRole: RoleTypes.Impostor);
                 }
+            }
+            else if (Options.SplatoonOn.GetBool())
+            {
+                List<PlayerControl> AllPlayers = new();
+                foreach (var pc in PlayerControl.AllPlayerControls)
+                {
+                    AllPlayers.Add(pc);
+                }
+                //AssignDesyncRole(CustomRoles.Supporter, AllPlayers, sender, BaseRole: RoleTypes.Crewmate);
+                AssignPainters(CustomRoles.Painter, AllPlayers, sender, BaseRole: RoleTypes.Impostor);
             }
             if (sender.CurrentState == CustomRpcSender.State.InRootMessage) sender.EndMessage();
             //以下、バニラ側の役職割り当てが入る
@@ -346,25 +366,37 @@ namespace TownOfHost
 
             if (Options.CurrentGameMode() == CustomGameMode.HideAndSeek)
             {
-                SetColorPatch.IsAntiGlitchDisabled = true;
-                foreach (var pc in PlayerControl.AllPlayerControls)
+                if (!Options.SplatoonOn.GetBool())
                 {
-                    if (pc.Is(RoleType.Impostor))
-                        pc.RpcSetColor(0);
-                    else if (pc.Is(RoleType.Crewmate))
-                        pc.RpcSetColor(1);
-                }
+                    SetColorPatch.IsAntiGlitchDisabled = true;
+                    foreach (var pc in PlayerControl.AllPlayerControls)
+                    {
+                        if (pc.Is(RoleType.Impostor))
+                            pc.RpcSetColor(0);
+                        else if (pc.Is(RoleType.Crewmate))
+                            pc.RpcSetColor(1);
+                    }
 
-                //役職設定処理
-                AssignCustomRolesFromList(CustomRoles.HASFox, Crewmates);
-                AssignCustomRolesFromList(CustomRoles.HASTroll, Crewmates);
-                foreach (var pair in Main.AllPlayerCustomRoles)
-                {
-                    //RPCによる同期
-                    ExtendedPlayerControl.RpcSetCustomRole(pair.Key, pair.Value);
+                    //役職設定処理
+                    AssignCustomRolesFromList(CustomRoles.HASFox, Crewmates);
+                    AssignCustomRolesFromList(CustomRoles.HASTroll, Crewmates);
+                    foreach (var pair in Main.AllPlayerCustomRoles)
+                    {
+                        //RPCによる同期
+                        ExtendedPlayerControl.RpcSetCustomRole(pair.Key, pair.Value);
+                    }
+                    //色設定処理
+                    SetColorPatch.IsAntiGlitchDisabled = true;
                 }
-                //色設定処理
-                SetColorPatch.IsAntiGlitchDisabled = true;
+                else
+                {
+                    AssignCustomRolesFromList(CustomRoles.Supporter, Crewmates);
+                    foreach (var pair in Main.AllPlayerCustomRoles)
+                    {
+                        //RPCによる同期
+                        ExtendedPlayerControl.RpcSetCustomRole(pair.Key, pair.Value);
+                    }
+                }
             }
             else if (Options.CurrentGameMode() == CustomGameMode.Splatoon)
             {
@@ -379,6 +411,7 @@ namespace TownOfHost
                     ExtendedPlayerControl.RpcSetCustomRole(pair.Key, pair.Value);
                 }
                 //色設定処理
+                Utils.CustomSyncAllSettings();
                 SetColorPatch.IsAntiGlitchDisabled = true;
             }
             else if (Options.CurrentGameMode() == CustomGameMode.ColorWars)
@@ -806,11 +839,15 @@ namespace TownOfHost
             Utils.CustomSyncAllSettings();
             SetColorPatch.IsAntiGlitchDisabled = false;
         }
-        private static void AssignDesyncRole(CustomRoles role, List<PlayerControl> AllPlayers, CustomRpcSender sender, RoleTypes BaseRole, RoleTypes hostBaseRole = RoleTypes.Crewmate)
+        private static void AssignDesyncRole(CustomRoles role, List<PlayerControl> AllPlayers, CustomRpcSender sender, RoleTypes BaseRole, RoleTypes hostBaseRole = RoleTypes.Crewmate, int Count = -1)
         {
             if (!role.IsEnable()) return;
 
-            for (var i = 0; i < role.GetCount(); i++)
+            var count = role.GetCount();
+
+            if (Count != -1)
+                count = Count;
+            for (var i = 0; i < count; i++)
             {
                 if (AllPlayers.Count <= 0) break;
                 var rand = new Random();
@@ -845,9 +882,52 @@ namespace TownOfHost
                 player.Data.IsDead = true;
             }
         }
-        private static void ForceAssignRole(CustomRoles role, List<PlayerControl> AllPlayers, CustomRpcSender sender, RoleTypes BaseRole, RoleTypes hostBaseRole = RoleTypes.Crewmate, bool skip = false)
+        private static void ForceAssignRole(CustomRoles role, List<PlayerControl> AllPlayers, CustomRpcSender sender, RoleTypes BaseRole, RoleTypes hostBaseRole = RoleTypes.Crewmate, bool skip = false, int Count = -1)
         {
-            for (var i = 0; i < 1; i++)
+            var count = 1;
+
+            if (Count != -1)
+                count = Count;
+            for (var i = 0; i < count; i++)
+            {
+                if (AllPlayers.Count <= 0) break;
+                var rand = new Random();
+                var player = AllPlayers[rand.Next(0, AllPlayers.Count)];
+                AllPlayers.Remove(player);
+                Main.AllPlayerCustomRoles[player.PlayerId] = role;
+                if (!skip)
+                {
+                    if (player.PlayerId != 0)
+                    {
+                        int playerCID = player.GetClientId();
+                        sender.RpcSetRole(player, BaseRole, playerCID);
+                        //Desyncする人視点で他プレイヤーを科学者にするループ
+                        foreach (var pc in PlayerControl.AllPlayerControls)
+                        {
+                            if (pc == player) continue;
+                            sender.RpcSetRole(pc, RoleTypes.Scientist, playerCID);
+                        }
+                        //他視点でDesyncする人の役職を科学者にするループ
+                        foreach (var pc in PlayerControl.AllPlayerControls)
+                        {
+                            if (pc == player) continue;
+                            if (pc.PlayerId == 0) player.SetRole(RoleTypes.Scientist); //ホスト視点用
+                            else sender.RpcSetRole(player, RoleTypes.Scientist, pc.GetClientId());
+                        }
+                    }
+                    else
+                    {
+                        //ホストは別の役職にする
+                        player.SetRole(hostBaseRole); //ホスト視点用
+                        sender.RpcSetRole(player, hostBaseRole);
+                    }
+                }
+            }
+        }
+        private static void AssignPainters(CustomRoles role, List<PlayerControl> AllPlayers, CustomRpcSender sender, RoleTypes BaseRole, RoleTypes hostBaseRole = RoleTypes.Crewmate, bool skip = false)
+        {
+            var count = AllPlayers.Count - CustomRoles.Supporter.GetCount();
+            for (var i = 0; i < count; i++)
             {
                 if (AllPlayers.Count <= 0) break;
                 var rand = new Random();

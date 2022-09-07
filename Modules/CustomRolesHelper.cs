@@ -66,6 +66,7 @@ namespace TownOfHost
                 CustomRoles.Hacker or
                 CustomRoles.BloodKnight or
                 CustomRoles.HASTroll or
+                CustomRoles.Painter or
                 CustomRoles.HASFox;
         }
         public static bool IsNonNK(this CustomRoles role)

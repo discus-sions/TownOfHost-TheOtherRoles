@@ -362,6 +362,8 @@ namespace TownOfHost
                     { CustomRoles.HASFox, "#e478ff"},
                     { CustomRoles.BloodKnight, "#630000"},
                     { CustomRoles.HASTroll, "#00ff00"},
+                    { CustomRoles.Painter, "#FF5733"},
+                    { CustomRoles.Supporter, "#00b4eb"},
                     // GM
                     { CustomRoles.GM, "#ff5b70"},
                     //サブ役職
@@ -518,6 +520,7 @@ namespace TownOfHost
         Werewolf,
         Marksman,
         GuardianAngelTOU,
+        Supporter,
         EgoSchrodingerCat,//エゴイスト陣営のシュレディンガーの猫
         Jester,
         Amnesiac,
@@ -599,7 +602,8 @@ namespace TownOfHost
         Hacker = CustomRoles.Hacker,
         BloodKnight = CustomRoles.BloodKnight,
         Pirate = CustomRoles.Pirate,
-        Marksman = CustomRoles.Marksman
+        Marksman = CustomRoles.Marksman,
+        Painter = CustomRoles.Painter
     }
     public enum AdditionalWinners
     {
