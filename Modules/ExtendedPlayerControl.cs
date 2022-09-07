@@ -856,7 +856,7 @@ namespace TownOfHost
                     break;
                 case CustomRoles.Janitor:
                 case CustomRoles.Painter:
-                    Main.AllPlayerKillCooldown[player.PlayerId] = Options.STCD.GetFloat();
+                    Main.AllPlayerKillCooldown[player.PlayerId] = Options.STCD.GetFloat() * 2;
                     break;
             }
             if (player.IsLastImpostor())

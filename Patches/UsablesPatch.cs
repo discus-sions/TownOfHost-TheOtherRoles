@@ -64,6 +64,8 @@ namespace TownOfHost
                 canUse = couldUse = true;
             else if (pc.Object.Is(CustomRoles.Painter))
                 canUse = couldUse = Options.STIgnoreVent.GetBool();
+            else if (pc.Object.Is(CustomRoles.Janitor))
+                canUse = couldUse = Options.STIgnoreVent.GetBool();
             else if (pc.Object.Is(CustomRoles.Werewolf))
                 canUse = couldUse = true;
             else if (pc.Object.Is(CustomRoles.CorruptedSheriff))
