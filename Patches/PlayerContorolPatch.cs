@@ -271,7 +271,7 @@ namespace TownOfHost
                     //they are both Jackal.
                     return false;
                 }
-                if (killer.GetCustomRole().IsImpostor() && killer.Is(CustomRoles.CorruptedSheriff))
+                if (killer.GetCustomRole().IsImpostor() && target.GetCustomRole().IsImpostor())
                 {
                     // cannot kill traitor. //
                     return false;
@@ -1236,13 +1236,6 @@ namespace TownOfHost
         {
             if (GameStates.IsMeeting) return false;
             //if (Main.KilledDemo.Contains(__instance.PlayerId)) return false;
-            if (target != null) //ボタン
-            {
-                if (__instance.Is(CustomRoles.Oblivious))
-                {
-                    return false;
-                }
-            }
             Logger.Info($"{__instance.GetNameWithRole()} => {target?.GetNameWithRole() ?? "null"}", "ReportDeadBody");
             if (target != null)
             {
@@ -1262,6 +1255,13 @@ namespace TownOfHost
                         //CheckForEndVotingPatch.Prefix();
                         return true;
                     }
+                    return false;
+                }
+            }
+            if (target != null) //ボタン
+            {
+                if (__instance.Is(CustomRoles.Oblivious))
+                {
                     return false;
                 }
             }
