@@ -465,15 +465,13 @@ namespace TownOfHost
             EvilWatcherChance = CustomOption.Create(30010, Color.white, "EvilWatcherChance", 0, 0, 100, 10, CustomRoleSpawnChances[CustomRoles.Watcher]);
             Guesser.SetupCustomOption();
             // Crewmate
-            SetupRoleOptions(20000, CustomRoles.Bait);
+            //SetupRoleOptions(20000, CustomRoles.Bait);
             //  SetupRoleOptions(20001, CustomRoles.Sleuth);
             /* SetupSingleRoleOptions(20002, CustomRoles.Oblivious, 1);
              SetupSingleRoleOptions(20003, CustomRoles.TieBreaker, 1);
              SetupSingleRoleOptions(20004, CustomRoles.Torch, 1);*/
             SetupRoleOptions(20002, CustomRoles.Demolitionist);
             DemoSuicideTime = CustomOption.Create(20004, Color.white, "DemoSuicideTime", 5f, 1f, 180, 1, CustomRoleSpawnChances[CustomRoles.Demolitionist]);
-            SetupSingleRoleOptions(20005, CustomRoles.Bewilder, 1);
-            BewilderVision = CustomOption.Create(20020, Color.white, "BewilderVision", 0.5f, 0f, 5f, 0.25f, CustomRoleSpawnChances[CustomRoles.Bewilder]);
             /*SetupSingleRoleOptions(20006, CustomRoles.Flash, 1);
             FlashSpeed = CustomOption.Create(20030, Color.white, "SpeedBoosterUpSpeed", 2f, 0.25f, 3f, 0.25f, CustomRoleSpawnChances[CustomRoles.Flash]); */
             SetupRoleOptions(20850, CustomRoles.Bastion);
@@ -512,7 +510,7 @@ namespace TownOfHost
 
             SetupRoleOptions(30000, CustomRoles.Child);
             ChildKnown = CustomOption.Create(30010, Color.white, "ChildKnown", false, CustomRoleSpawnChances[CustomRoles.Child]);
-            SetupRoleOptions(30100, CustomRoles.Sleuth);
+            //SetupRoleOptions(30100, CustomRoles.Sleuth);
             //SleuthReport = CustomOption.Create(30110, Color.white, "SleuthReport", false, CustomRoleSpawnChances[CustomRoles.Sleuth]);
             // Neutral
             SetupSingleRoleOptions(50500, CustomRoles.Arsonist, 1);
@@ -621,6 +619,16 @@ namespace TownOfHost
             TargetKnowsGA = CustomOption.Create(90514, Color.white, "TKGA", true, CustomRoleSpawnChances[CustomRoles.GuardianAngelTOU]);
             WhenGaTargetDies = CustomOption.Create(90515, Color.white, "WhenGAdies", GAChangeRoles, GAChangeRoles[2], CustomRoleSpawnChances[CustomRoles.GuardianAngelTOU]);
             //NumOfCoven = CustomOption.Create(60010, Color.white, "ArsonistDouseTime", 3, 1, 3, 1, CustomRoleSpawnChances[CustomRoles.Coven]);
+
+            SetupSingleRoleOptions(200025, CustomRoles.Oblivious, 1);
+            SetupSingleRoleOptions(200035, CustomRoles.Flash, 1);
+            FlashSpeed = CustomOption.Create(200305, Color.white, "SpeedBoosterUpSpeed", 2f, 0.25f, 3f, 0.25f, CustomRoleSpawnChances[CustomRoles.Flash]);
+            SetupSingleRoleOptions(30100, CustomRoles.Sleuth, 1);
+
+            SetupSingleRoleOptions(200045, CustomRoles.Torch, 1);
+            SetupSingleRoleOptions(20000, CustomRoles.Bait, 1);
+            SetupSingleRoleOptions(20005, CustomRoles.Bewilder, 1);
+            BewilderVision = CustomOption.Create(20020, Color.white, "BewilderVision", 0.5f, 0f, 5f, 0.25f, CustomRoleSpawnChances[CustomRoles.Bewilder]);
 
             // Attribute
             ImpostorKnowsRolesOfTeam = CustomOption.Create(102000, Color.white, "ImpostorKnowsRolesOfTeam", true, null, true)

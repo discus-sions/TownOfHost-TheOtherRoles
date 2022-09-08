@@ -27,6 +27,7 @@ namespace TownOfHost
                     {
                         if (CheckAndEndGameForHideAndSeek(__instance, statistics)) return false;
                         if (CheckAndEndGameForTroll(__instance)) return false;
+
                         if (!Options.NoGameEnd.GetBool())
                             if (CheckAndEndGameForTaskWin(__instance)) return false;
                     }

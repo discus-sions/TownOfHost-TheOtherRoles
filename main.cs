@@ -323,7 +323,7 @@ namespace TownOfHost
                     {CustomRoles.Pirate, "#EDC240"},
                     //特殊クルー役職
                     { CustomRoles.NiceWatcher, "#800080"}, //ウォッチャーの派生
-                    { CustomRoles.Bait, "#00f7ff"},
+                    { CustomRoles.Bait, "#00B3B3"},
                     { CustomRoles.SabotageMaster, "#0000ff"},
                     { CustomRoles.Snitch, "#b8fb4f"},
                     { CustomRoles.Mayor, "#204d42"},
@@ -335,7 +335,7 @@ namespace TownOfHost
                     { CustomRoles.Child, "#FFFFFF"},
                     { CustomRoles.Trapper, "#5a8fd0"},
                     { CustomRoles.Dictator, "#df9b00"},
-                    { CustomRoles.Sleuth, "#800000"},
+                    { CustomRoles.Sleuth, "#803333"},
                     { CustomRoles.PlagueBearer, "#F1F89E"},
                     { CustomRoles.Pestilence, "#393939"},
                     { CustomRoles.Vulture, "#a36727"},
@@ -369,9 +369,11 @@ namespace TownOfHost
                     { CustomRoles.GM, "#ff5b70"},
                     //サブ役職
                     { CustomRoles.NoSubRoleAssigned, "#ffffff"},
-                    { CustomRoles.Lovers, "#ffaaaa"},
-                    { CustomRoles.Flash, "#ffaaaa"},
-                    { CustomRoles.Torch, "#ffaaaa"},
+                    { CustomRoles.Lovers, "#FF66CC"},
+                    { CustomRoles.Flash, "#FF8080"},
+                    { CustomRoles.Oblivious, "#808080"},
+                    { CustomRoles.Torch, "#FFFF99"},
+                    { CustomRoles.TieBreaker, "#99E699"},
 
                     { CustomRoles.Coven, "#592e98"},
                     { CustomRoles.Veteran, "#978046"},
@@ -489,10 +491,10 @@ namespace TownOfHost
         GuardianAngel,
         Scientist,
         //Crewmate
-        Bait,
-        Sleuth,
+        //Bait,
+        //Sleuth,
         Alturist,
-        Bewilder,
+        //Bewilder,
         Lighter,
         Medium,
         Demolitionist,
@@ -574,11 +576,11 @@ namespace TownOfHost
         Flash, // DONE
         TieBreaker,
         Oblivious, // DONE
-        //Sleuth, // DONE
+        Sleuth, // DONE
 
         // CREW MODIFIERS //
-        //Bewilder, // DONE
-        //Bait, // DONE
+        Bewilder, // DONE
+        Bait, // DONE
         Torch, // DONE
     }
     //WinData

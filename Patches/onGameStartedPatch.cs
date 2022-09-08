@@ -464,13 +464,13 @@ namespace TownOfHost
                 AssignCustomRolesFromList(CustomRoles.Jester, Options.JesterCanVent.GetBool() ? Engineers : Crewmates);
                 AssignCustomRolesFromList(CustomRoles.Madmate, Engineers);
                 AssignCustomRolesFromList(CustomRoles.Bastion, Engineers);
-                AssignCustomRolesFromList(CustomRoles.Bait, Crewmates);
+                //AssignCustomRolesFromList(CustomRoles.Bait, Crewmates);
                 AssignCustomRolesFromList(CustomRoles.Demolitionist, Crewmates);
                 AssignCustomRolesFromList(CustomRoles.Veteran, Engineers);
-                AssignCustomRolesFromList(CustomRoles.Sleuth, Crewmates);
+                //AssignCustomRolesFromList(CustomRoles.Sleuth, Crewmates);
                 AssignCustomRolesFromList(CustomRoles.Medium, Crewmates);
                 AssignCustomRolesFromList(CustomRoles.Child, Crewmates);
-                AssignCustomRolesFromList(CustomRoles.Bewilder, Crewmates);
+                // AssignCustomRolesFromList(CustomRoles.Bewilder, Crewmates);
                 AssignCustomRolesFromList(CustomRoles.Alturist, Crewmates);
                 AssignCustomRolesFromList(CustomRoles.GuardianAngelTOU, Engineers);
                 AssignCustomRolesFromList(CustomRoles.MadGuardian, Crewmates);
@@ -511,6 +511,13 @@ namespace TownOfHost
                 AssignCustomRolesFromList(CustomRoles.Doctor, Scientists);
                 AssignCustomRolesFromList(CustomRoles.Puppeteer, Impostors);
                 AssignCustomRolesFromList(CustomRoles.TimeThief, Impostors);
+
+                GiveModifier(CustomRoles.Oblivious);
+                GiveModifier(CustomRoles.Flash);
+                GiveModifier(CustomRoles.Torch);
+                GiveModifier(CustomRoles.Bait);
+                GiveModifier(CustomRoles.Sleuth);
+                GiveModifier(CustomRoles.Bewilder);
 
                 // Main.HasModifier.Clear();
                 //  Main.modifiersList.Clear();
@@ -1083,6 +1090,7 @@ namespace TownOfHost
             foreach (var player in PlayerControl.AllPlayerControls)
             {
                 if (player.Is(CustomRoles.GM)) continue;
+                if (Main.AllPlayerCustomRoles[player.PlayerId] == CustomRoles.Lovers) continue;
                 allPlayers.Add(player);
             }
             var loversRole = role;
@@ -1110,7 +1118,6 @@ namespace TownOfHost
                     Logger.Info("役職設定:" + player?.Data?.PlayerName + " = " + player.GetCustomRole().ToString() + " + " + loversRole.ToString(), "AssignGlobalModifier");
                 }
             }
-            RPC.SyncLoversPlayers();
         }
 
         private static void AssignModifiers(List<CustomRoles> PossibleModifers, int RawCount = -1)

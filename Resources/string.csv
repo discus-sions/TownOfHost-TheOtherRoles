@@ -113,7 +113,7 @@ Conjuror,Conjuror,Conjuror,魔术师,魔術師
 # Modifiers
 Flash,Flash,Flash,闪电侠,閃電俠
 TieBreaker,TieBreaker,TieBreaker,破局者,殘局終結者
-Oblivious,Oblivious,Oblivious,胆小鬼,膽小鬼,
+Oblivious,Oblivious,Oblivious,胆小鬼,膽小鬼
 Bewilder,Bewilder,Bewilder,患者,致幻師
 Torch,Torch,Torch,火炬手,火炬手
 
@@ -187,7 +187,7 @@ DoctorInfo,Access vitals and cause of death,斯くして奴は死んだ,调查�
 TrapperInfo,Trap your enemies,敵を罠にはめよう,引诱敌人落入你的陷阱当中,讓你的敵人受困於陷阱中
 DictatorInfo,Hang your enemy based on your own judgement,独裁政治をしよう,让我统治世界，拥有无上的权利,讓所有人臣服於你
 ChildInfo,No one will Harm You,No one will Harm You,在你长大之前没有人敢伤害你,在你長大前都不敢擊殺你
-SleuthInfo,Discover the Unknown,Discover the Unknown,你发现了一些关于死者的线索,你發現了一些線索
+SleuthInfo,Know the role of Reported Bodies,Discover the Unknown,你发现了一些关于死者的线索,你發現了一些線索
 AlturistInfo,Sacrifice your Own Life to Save Another,Alturist,Alturist
 MediumInfo,Find out what killed who,Medium,查明真相找出凶手,
 BastionInfo,Blow up Venters,Bastion,把所有的通风管道全部炸掉吧！,
@@ -597,7 +597,7 @@ MimicOn,Mimic On,Mimic On,使用模仿大师,模仿者開
 NecromancerOn,Necromancer On,Necromancer On,使用亡灵法师,死靈法師開啟
 NecroCanUseSheriff,Necromancer Can Use Sheriff,NecroCanUseSheriff,亡灵法师可以模仿警长,
 ConjurorOn,Conjuror On,Conjuror On,使用魔术师,魔術師開
-Customise,Players have Access to /color and /name, and /level,Players have Access to /color and /name,其他玩家可以使用“/color”和“/name”指令,
+Customise,Players have Access to /color and /name and /level,Players have Access to /color and /name,其他玩家可以使用“/color”和“/name”指令,
 RolesLikeToU,Roles look Similar to ToU,Roles look Similar to ToU,使用TOU职业设定,
 ImpostorKnowsRolesOfTeam,Impostors know the Roles of their Team,ImpostorKnowsRolesOfTeam,内鬼阵营可以知道队友的职业,
 CovenKnowsRolesOfTeam,Coven knows the Roles of their Team,CovenKnowsRolesOfTeam,巫师团可以知道队友的职业,

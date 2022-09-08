@@ -368,9 +368,6 @@ namespace TownOfHost
                 case CustomRoles.EgoSchrodingerCat:
                     opt.SetVision(player, true);
                     break;
-                case CustomRoles.Bewilder:
-                    opt.CrewLightMod = Options.BewilderVision.GetFloat();
-                    break;
                 case CustomRoles.Doctor:
                     opt.RoleOptions.ScientistCooldown = 0f;
                     opt.RoleOptions.ScientistBatteryCharge = Options.DoctorTaskCompletedBatteryCharge.GetFloat();
@@ -492,6 +489,19 @@ namespace TownOfHost
                     break;
                 case CustomRoles.Flash:
                     opt.PlayerSpeedMod = Options.FlashSpeed.GetFloat();
+                    break;
+                case CustomRoles.Bewilder:
+                    if (player.Is(CustomRoles.Lighter))
+                    {
+                        if (player.GetPlayerTaskState().IsTaskFinished)
+                        {
+                            opt.CrewLightMod = Options.LighterTaskCompletedVision.GetFloat();
+                            if (Utils.IsActive(SystemTypes.Electrical) && Options.LighterTaskCompletedDisableLightOut.GetBool())
+                                opt.CrewLightMod *= 5;
+                        }
+                        else opt.CrewLightMod = Options.BewilderVision.GetFloat();
+                    }
+                    else opt.CrewLightMod = Options.BewilderVision.GetFloat();
                     break;
             }
             if (Main.AllPlayerKillCooldown.ContainsKey(player.PlayerId))
