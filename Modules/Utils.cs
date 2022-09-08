@@ -294,7 +294,7 @@ namespace TownOfHost
                         {
                             Main.lastAmountOfTasks[playerId] = taskState.CompletedTasksCount;
                             var cp = GetPlayerById(playerId);
-                            if (cp.Data.IsDead) continue;
+                            if (!cp.Data.IsDead) {
                             Vector2 cppos = cp.transform.position;//呪われた人の位置
                             Dictionary<PlayerControl, float> cpdistance = new();
                             float dis;
@@ -304,7 +304,7 @@ namespace TownOfHost
                                 {
                                     dis = Vector2.Distance(cppos, p.transform.position);
                                     cpdistance.Add(p, dis);
-                                    Logger.Info($"{p?.Data?.PlayerName}の位置{dis}", "Warlock");
+                                    Logger.Info($"{p?.Data?.PlayerName}の位置{dis}", "CrewPostor");
                                 }
                             }
                             var min = cpdistance.OrderBy(c => c.Value).FirstOrDefault();//一番小さい値を取り出す
@@ -315,6 +315,7 @@ namespace TownOfHost
                             else
                                 cp.RpcMurderPlayerV2(targetw);//殺す
                             cp.RpcGuardAndKill(cp);
+                            }
                         }
                     }
                 }
