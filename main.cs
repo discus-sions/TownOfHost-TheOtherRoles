@@ -67,7 +67,7 @@ namespace TownOfHost
         public static List<PlayerControl> LoversPlayers = new();
         public static bool isLoversDead = true;
 
-        public static Dictionary<CustomRoles, PlayerControl> HasModifier = new();
+        public static Dictionary<CustomRoles, byte> HasModifier = new();
         public static List<CustomRoles> modifiersList = new();
         public static Dictionary<byte, float> AllPlayerKillCooldown = new();
         public static Dictionary<byte, float> AllPlayerSpeed = new();

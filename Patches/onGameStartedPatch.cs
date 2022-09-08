@@ -1077,6 +1077,7 @@ namespace TownOfHost
                     Main.LoversPlayers.Add(player);
                     allPlayers.Remove(player);
                     Main.AllPlayerCustomSubRoles[player.PlayerId] = loversRole;
+                    Main.HasModifier.Add(loversRole, player.PlayerId);
                     Logger.Info("役職設定:" + player?.Data?.PlayerName + " = " + player.GetCustomRole().ToString() + " + " + loversRole.ToString(), "AssignLovers");
                 }
             }
@@ -1091,6 +1092,7 @@ namespace TownOfHost
             {
                 if (player.Is(CustomRoles.GM)) continue;
                 if (Main.AllPlayerCustomRoles[player.PlayerId] == CustomRoles.Lovers) continue;
+                if (Main.HasModifier.ContainsValue(player.PlayerId)) continue;
                 allPlayers.Add(player);
             }
             var loversRole = role;
@@ -1104,57 +1106,18 @@ namespace TownOfHost
                 var player = allPlayers[rand.Next(0, allPlayers.Count)];
                 if (role.IsCrewModifier())
                 {
-                    if (!player.GetCustomRole().IsCrewmate()) continue;
-                    Main.HasModifier.Add(role, player);
+                    if (!player.GetCustomRole().CanGetCrewModifier()) continue;
+                    Main.HasModifier.Add(role, player.PlayerId);
                     allPlayers.Remove(player);
                     Main.AllPlayerCustomSubRoles[player.PlayerId] = loversRole;
                     Logger.Info("役職設定:" + player?.Data?.PlayerName + " = " + player.GetCustomRole().ToString() + " + " + loversRole.ToString(), "AssignCrewModifier");
                 }
                 else
                 {
-                    Main.HasModifier.Add(role, player);
+                    Main.HasModifier.Add(role, player.PlayerId);
                     allPlayers.Remove(player);
                     Main.AllPlayerCustomSubRoles[player.PlayerId] = loversRole;
                     Logger.Info("役職設定:" + player?.Data?.PlayerName + " = " + player.GetCustomRole().ToString() + " + " + loversRole.ToString(), "AssignGlobalModifier");
-                }
-            }
-        }
-
-        private static void AssignModifiers(List<CustomRoles> PossibleModifers, int RawCount = -1)
-        {
-            var allPlayers = new List<PlayerControl>();
-            foreach (var player in PlayerControl.AllPlayerControls)
-            {
-                if (player.Is(CustomRoles.GM)) continue;
-                allPlayers.Add(player);
-            }
-            var roles = PossibleModifers;
-            var rand = new System.Random();
-            var randMod = new System.Random();
-            var count = Math.Clamp(RawCount, 0, allPlayers.Count);
-            if (RawCount == -1) count = Math.Clamp(roles.Count, 0, allPlayers.Count);
-            if (count <= 0) return;
-
-            for (var i = 0; i < count; i++)
-            {
-                var player = allPlayers[rand.Next(0, allPlayers.Count)];
-                var role = roles[rand.Next(0, PossibleModifers.Count)];
-                bool checkModifier = true;
-                if (role == CustomRoles.NoSubRoleAssigned)
-                    checkModifier = false;
-                while (Main.AllPlayerCustomSubRoles[player.PlayerId] != CustomRoles.Lovers)
-                {
-                    if (checkModifier)
-                    {
-                        if (Main.HasModifier.ContainsKey(role))
-                        {
-                            Main.HasModifier.Add(role, player);
-                            Main.modifiersList.Remove(role); // NO 2 PEOPLE CAN HAVE THE SAME MODIFIER //
-                            allPlayers.Remove(player);
-                            Main.AllPlayerCustomSubRoles[player.PlayerId] = role;
-                            Logger.Info("役職設定:" + player?.Data?.PlayerName + " = " + player.GetCustomRole().ToString() + " + " + role.ToString(), "AssignModifiers");
-                        }
-                    }
                 }
             }
         }

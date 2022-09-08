@@ -2540,13 +2540,14 @@ namespace TownOfHost
             if (AmongUsClient.Instance.AmHost)
             {
                 bool skipCheck = false;
-                if (Options.SplatoonOn.GetBool())
-                {
-                    if (!Options.STIgnoreVent.GetBool())
+                if (Options.CurrentGameMode() == CustomGameMode.HideAndSeek)
+                    if (Options.SplatoonOn.GetBool())
                     {
-                        pc?.MyPhysics?.RpcBootFromVent(__instance.Id);
+                        if (!Options.STIgnoreVent.GetBool())
+                        {
+                            pc?.MyPhysics?.RpcBootFromVent(__instance.Id);
+                        }
                     }
-                }
                 if (CustomRoles.TheGlitch.IsEnable() && Options.GlitchCanVent.GetBool())
                 {
                     List<PlayerControl> hackedPlayers = new();

@@ -265,16 +265,16 @@ namespace TownOfHost
                 }
                 TaskTextPrefix += "</color>\r\n";
             }
-            if (Main.HasModifier.ContainsValue(player))
+            if (Main.HasModifier.ContainsValue(player.PlayerId))
             {
                 CustomRoles role = CustomRoles.Amnesiac;
                 foreach (var modifier in Main.HasModifier)
                 {
-                    if (modifier.Value == player)
+                    if (modifier.Value == player.PlayerId)
                         role = modifier.Key;
                 }
                 TaskTextPrefix += Helpers.ColorString(Utils.GetRoleColor(player.GetCustomSubRole()), $"Modifier: {player.GetSubRoleName()}\r\n");
-                TaskTextPrefix += Helpers.ColorString(Utils.GetRoleColor(player.GetCustomSubRole()), $"{GetString(player.GetSubRoleName() + "Info")}]\r\n");
+                TaskTextPrefix += Helpers.ColorString(Utils.GetRoleColor(player.GetCustomSubRole()), $"{GetString(player.GetSubRoleName() + "Info")}\r\n");
             }
             if (!Utils.HasTasks(player.Data, false) && !player.GetCustomRole().IsImpostor())
                 TaskTextPrefix += FakeTasksText;

@@ -488,7 +488,7 @@ namespace TownOfHost
                         opt.CrewLightMod *= 5;
                     break;
                 case CustomRoles.Flash:
-                    opt.PlayerSpeedMod = Options.FlashSpeed.GetFloat();
+                    Main.AllPlayerSpeed[player.PlayerId] = Options.FlashSpeed.GetFloat();
                     break;
                 case CustomRoles.Bewilder:
                     if (player.Is(CustomRoles.Lighter))

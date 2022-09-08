@@ -69,6 +69,33 @@ namespace TownOfHost
                 CustomRoles.Painter or
                 CustomRoles.HASFox;
         }
+        public static bool IsNeutralBad(this CustomRoles role)
+        {
+            return
+                role is CustomRoles.Jester or
+                CustomRoles.Vulture or
+                CustomRoles.Terrorist or
+                CustomRoles.Executioner or
+                CustomRoles.Arsonist or
+                CustomRoles.Egoist or
+                CustomRoles.EgoSchrodingerCat or
+                CustomRoles.CrewPostor or
+                CustomRoles.Marksman or
+                CustomRoles.Pirate or
+                CustomRoles.Jackal or
+                CustomRoles.PlagueBearer or
+                CustomRoles.Pestilence or
+                CustomRoles.TheGlitch or
+                CustomRoles.Werewolf or
+                CustomRoles.Amnesiac or
+                CustomRoles.Juggernaut or
+                CustomRoles.Sidekick or
+                CustomRoles.JSchrodingerCat or
+                CustomRoles.Hacker or
+                CustomRoles.BloodKnight or
+                CustomRoles.HASTroll or
+                CustomRoles.Painter;
+        }
         public static bool IsNonNK(this CustomRoles role)
         {
             return
@@ -116,6 +143,7 @@ namespace TownOfHost
                 CustomRoles.Sidekick;
         }
         public static bool IsCrewmate(this CustomRoles role) => !role.IsImpostorTeam() && !role.IsNeutral() && !role.IsCoven();
+        public static bool CanGetCrewModifier(this CustomRoles role) => !role.IsImpostorTeam() && !role.IsNeutralBad() && !role.IsCoven();
         public static bool IsVanilla(this CustomRoles role)
         {
             return
