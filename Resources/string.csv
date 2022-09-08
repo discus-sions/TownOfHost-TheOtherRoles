@@ -492,7 +492,7 @@ DoctorTaskCompletedBatteryCharge,Doctor Battery Duration,Длительност�
 SnitchEnableTargetArrow,Snitch Can See Target Arrow,Snitch Может Видеть Стрелку Цели,ターゲットを示す矢印が見える,告密者完成任务后可以通过箭头确认所有被发现目标,告密者完成任務後可以看到目標的箭頭
 SnitchCanGetArrowColor,Snitch Can See Colored Arrow,Snitch Может Видеть Цвета Стрелок,矢印の色で陣営がわかる,告密者对不同阵营的目标使用不同颜色的箭头确认,對不同陣營的目標使用不同顏色的箭頭標示
 SnitchCanFindNeutralKiller,Snitch Can Find Neutral Killer,Snitch Может Видеть Нейтральных Убийц,第三陣営のキル可能役職を見つけることが出来る,告密者也可以和拥有击杀能力的中立阵营玩家互相发现,告密者也可以和中立陣營帶刀職業互認
-SnitchCanFindCoven,Snitch Can Find Coven,第三陣営のキル可能役職を見つけることが出来る,告密者也可以和拥有击杀能力的中立阵营玩家互相发现,告密者也可以和中立陣營帶刀職業互認
+SnitchCanFindCoven,Snitch Can Find Coven,Snitch Может Видеть Ковенов,第三陣営のキル可能役職を見つけることが出来る,告密者也可以和拥有击杀能力的中立阵营玩家互相发现,告密者也可以和中立陣營帶刀職業互認
 MayorAdditionalVote,Mayor Additional Votes Count,Дополнительные голоса Mayor,メイヤーの追加投票の個数,市长投票时多出来的票数,市長附加票數
 MayorHasPortableButton,Mayor Has Mobile Emergency Button,У Mayor Есть Портативная Кнопка,メイヤーがポータブルボタンを持っている,市长可以选择是否进行投票,市長可以隨時拍桌
 MayorNumOfUseButton,Number Of Mobile Emergency Button,Количество Портативных Кнопок,メイヤーが使えるボタンの回数,市长选择进行投票的最大次数,市長隨時拍桌最大次數
@@ -520,7 +520,7 @@ CSheriffSwitches,Corrupted Sheriff switches Color,Corrupted Sheriff Перекл
 MadMateIsRed,Madmate is Red,Madmate Подсвечивается Красным,MadMateIsRed,叛徒名字显示为红色,
 
 PestiKillCooldown,Pestilence Kill Cooldown,Pestilence Откат Убийства,アーソニストのクールダウン,传染者击杀冷却时间,
-PestiCanVent,Pestilence Can Vent,Pestilence Может Вентоватьсяアーソニストのクールダウン,传染者可以使用通风管道,
+PestiCanVent,Pestilence Can Vent,Pestilence Может Вентоваться,アーソニストのクールダウン,传染者可以使用通风管道,
 DemoSuicideTime,Time To Vent Till Suicide,Время Вентиляции До Самоубийства,DemoSuicideTime,自杀倒计时,
 StoneCD,Stone Cooldown,Stone Откат,Stone Cooldown,石化冷却时间,
 StoneDur,Stone Duration,Stone Длительность,Stone Duration,石化持续时间,
@@ -561,7 +561,7 @@ JackalHasSidekick,Jackal Has Sidekick,У Jackal Есть Sidekick,JackalHasSidek
 SidekickGetsPromoted,Sidekick Gets Promoted to Jackal on Jackal Death,Sidekick становится Jackal После Смерти Jackal,SidekickGetsPromoted,跟班可以晋级成为豺狼
 VultureVent,Vulture can Vent,Vulture может Вентоваться,VultureVent,秃鹫可以使用通风管道,
 VultureHasImpostorVision,Vulture Has Impostor Vision,Vulture Имеет Дальность Обзора Предателя,VultureHasImpostorVision,秃鹫可以拥有内鬼视野,
-VultureHasArrow,Vulture has Arrow Leading to Bodies,VultureHasArrow,秃鹫有指向尸体的箭头,
+VultureHasArrow,Vulture has Arrow Leading to Bodies,У Vulture Есть Стрела Ведущая к трупу,VultureHasArrow,秃鹫有指向尸体的箭头,
 TraitorSpawn,Min Number of Players Needed for CorruptedSheriff,Минимальное количество игроков для появления CorruptedSheriff,Number of Players Needed for Traitor,背叛的警长所需的最小玩家数量,
 TurnCorrupt,Sheriff Can Turn Corrupted,Sheriff Может Стать Corrupted,Number of Players Needed for Traitor,警长可以成为叛徒,
 EgoistKillCooldown,Egoist KillCooldown,Egoist Откат Убийства,エゴイストのキルクール,野心家击杀冷却时间,
@@ -571,7 +571,7 @@ JuggerCanVent,Juggernaut Can Use Vents,Juggernaut Может Использов�
 MarksmanKillCooldown,Marksman Kill Cooldown,MarksmanKillCooldown,MarksmanKillCooldown,弓箭手击杀冷却时间,
 MarksmanCanVent,Marksman Can Vent,MarksmanCanVent,MarksmanCanVent,弓箭手能跳管道,
 VampBuff,Vampire Buff,Vampire Buff,Vampire Buff,血猩红热特性,
-TraitorCanSpawnIfNK,Traitor can Spawn If an NK is Alive,Предатель Может Появиться Если НейтралУбийца Жив,有中立阵营的情况下可以产生叛徒,
+TraitorCanSpawnIfNK,Traitor can Spawn If an NK is Alive,Предатель Может Появиться Если НейтралУбийца Жив,Traitor can Spawn If an NK is Alive,有中立阵营的情况下可以产生叛徒,
 TraitorCanSpawnIfCoven,Traitor can Spawn If a Coven Member is Alive,Предатель Может Появиться Если Ковен Жив,Traitor can Spawn If an NK is Alive,如果 NK 还活着，叛徒可以生成,
 
 VetCD,Alert Cooldown,Alert Пререзарядка,Alert Cooldown,警惕冷却时间,警報冷卻
@@ -764,7 +764,7 @@ doOverride,Override %role%'s Tasks,Изменить у %role% Задания,%ro
 assignCommonTasks,%role% has Common Tasks,%role% Имеет Общие Задания,%role%に通常タスクを割り当てる,%role%的普通任务数,%role%有普通任務
 roleLongTasksNum,%role% Long Tasks,%role% Долгие Задания,%role%のロングタスクの数,%role%的长任务数,%role%的長任務數量
 roleShortTasksNum,%role% Short Tasks,%role% Короткие Задания,%role%のショートタスクの数,%role%的短任务数,%role%的短任務數量
-KillButtonText,Kill,Убитьキル,击杀,殺死
+KillButtonText,Kill,Убить,キル,击杀,殺死
 SilenceButtonText,Silence,Обезмолвить,キル,击杀,殺死
 InfectButtonText,Infect,Заразить,キル,击杀,殺死
 SniperSnipeButtonText,Snipe,Снайпнуть,狙撃,狙杀,狙擊
