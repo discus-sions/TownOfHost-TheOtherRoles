@@ -563,7 +563,7 @@ namespace TownOfHost
                             }, Options.StoneReport.GetFloat(), "Medusa Stone Gazing");
                             return false;
                         }
-                        if (!target.Is(CustomRoles.Bait))
+                        if (target.GetCustomSubRole() != CustomRoles.Bait)
                         { //キルキャンセル&自爆処理
                             if (!target.Is(CustomRoles.Bewilder))
                             {
@@ -954,7 +954,7 @@ namespace TownOfHost
             }
 
             //When Bait is killed
-            if (target.GetCustomRole() == CustomRoles.Bait && killer.PlayerId != target.PlayerId)
+            if (target.GetCustomSubRole() == CustomRoles.Bait && killer.PlayerId != target.PlayerId)
             {
                 Logger.Info(target?.Data?.PlayerName + "はBaitだった", "MurderPlayer");
                 new LateTask(() => killer.CmdReportDeadBody(target.Data), 0.15f, "Bait Self Report");
@@ -1318,7 +1318,7 @@ namespace TownOfHost
 
             if (target != null) //Sleuth Report for Non-Buttons
             {
-                if (__instance.Is(CustomRoles.Sleuth))
+                if (__instance.GetCustomSubRole() == CustomRoles.Sleuth)
                 {
                     //Main.MayorUsedButtonCount[__instance.PlayerId] += 1;
                     Utils.SendMessage("The body you reported had a clue about their role. They were " + Utils.GetRoleName(target.GetCustomRole()) + ".", __instance.PlayerId);
