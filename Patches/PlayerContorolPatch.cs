@@ -1441,6 +1441,21 @@ namespace TownOfHost
                     Utils.GetPlayerById(target.PlayerId).SetDefaultRole();
                 }
             }
+            foreach (var pc in PlayerControl.AllPlayerControls)
+            {
+                if (pc.IsModClient()) continue;
+                if (Main.HasModifier.ContainsValue(pc.PlayerId))
+                {
+                    CustomRoles role = CustomRoles.Amnesiac;
+                    foreach (var modifier in Main.HasModifier)
+                    {
+                        if (modifier.Value == pc.PlayerId)
+                            role = modifier.Key;
+                    }
+                    Utils.SendMessage($"Modifier: {pc.GetSubRoleName()}", pc.PlayerId);
+                    Utils.SendMessage($"{GetString(pc.GetSubRoleName() + "Info")}", pc.PlayerId);
+                }
+            }
             if (!Main.HasNecronomicon)
                 Main.CovenMeetings++;
             if (Camouflague.IsActive && Options.CamoComms.GetBool())
