@@ -55,6 +55,7 @@ namespace TownOfHost
             Main.SpeedBoostTarget = new Dictionary<byte, byte>();
             Main.MayorUsedButtonCount = new Dictionary<byte, int>();
             Main.HackerFixedSaboCount = new Dictionary<byte, int>();
+            Main.HasModifier = new Dictionary<CustomRoles, byte>();
             Main.KilledBewilder = new();
             Main.AllPlayerSkin = new();
             Main.KilledDemo = new();

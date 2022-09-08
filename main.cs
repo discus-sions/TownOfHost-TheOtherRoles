@@ -235,6 +235,7 @@ namespace TownOfHost
             GuardianAngelTarget = new Dictionary<byte, byte>();
             MayorUsedButtonCount = new Dictionary<byte, int>();
             HackerFixedSaboCount = new Dictionary<byte, int>();
+            HasModifier = new Dictionary<CustomRoles, byte>();
             DeadPlayersThisRound = new List<byte>();
             dousedIDs = new List<byte>();
             //firstKill = new Dictionary<byte, (PlayerControl, float)>();

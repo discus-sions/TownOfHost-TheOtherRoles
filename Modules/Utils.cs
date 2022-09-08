@@ -1102,6 +1102,8 @@ namespace TownOfHost
                         }
                         else if (seer.GetCustomRole().IsImpostor() && target.Is(CustomRoles.Egoist))
                             TargetPlayerName = Helpers.ColorString(GetRoleColor(CustomRoles.Egoist), TargetPlayerName);
+                        else if (seer.GetCustomRole().IsImpostor() && target.Is(CustomRoles.CorruptedSheriff))
+                            TargetPlayerName = Helpers.ColorString(GetRoleColor(CustomRoles.Impostor), TargetPlayerName);
                         else if ((seer.Is(CustomRoles.EgoSchrodingerCat) && target.Is(CustomRoles.Egoist)) || //エゴ猫 --> エゴイスト
                                  (seer.GetCustomRole().IsJackalTeam() && target.GetCustomRole().IsJackalTeam())) // J猫 --> ジャッカル
                             TargetPlayerName = Helpers.ColorString(target.GetRoleColor(), TargetPlayerName);

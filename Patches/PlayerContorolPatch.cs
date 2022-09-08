@@ -1443,6 +1443,12 @@ namespace TownOfHost
             }
             foreach (var pc in PlayerControl.AllPlayerControls)
             {
+                if (pc.Data.Disconnected) continue;
+                if (pc.Data.IsDead) continue;
+                if (pc.Is(CustomRoles.CorruptedSheriff))
+                {
+                    Utils.SendMessage($"You have betrayed the Crewmates and joined the Impostors team.\nThe names in red are your fellow Impostors. \nKill and sabotage with your new team.", pc.PlayerId);
+                }
                 if (pc.IsModClient()) continue;
                 if (Main.HasModifier.ContainsValue(pc.PlayerId))
                 {
@@ -1452,8 +1458,11 @@ namespace TownOfHost
                         if (modifier.Value == pc.PlayerId)
                             role = modifier.Key;
                     }
-                    Utils.SendMessage($"Modifier: {pc.GetSubRoleName()}", pc.PlayerId);
-                    Utils.SendMessage($"{GetString(pc.GetSubRoleName() + "Info")}", pc.PlayerId);
+                    if (role != CustomRoles.Amnesiac)
+                    {
+                        Utils.SendMessage($"Modifier: {pc.GetSubRoleName()}", pc.PlayerId);
+                        Utils.SendMessage($"{GetString(pc.GetSubRoleName() + "Info")}", pc.PlayerId);
+                    }
                 }
             }
             if (!Main.HasNecronomicon)
@@ -2622,9 +2631,9 @@ namespace TownOfHost
                     foreach (var playerId in Main.dousedIDs)
                     {
                         var player = Utils.GetPlayerById(playerId);
-                        if (!player.Data.IsDead)
+                        if (!player.Data.Disconnected)
                         {
-                            if (!player.Data.Disconnected)
+                            if (!player.Data.IsDead)
                                 doused.Add(player);
                         }
                     }
