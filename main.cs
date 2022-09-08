@@ -370,6 +370,9 @@ namespace TownOfHost
                     //サブ役職
                     { CustomRoles.NoSubRoleAssigned, "#ffffff"},
                     { CustomRoles.Lovers, "#ffaaaa"},
+                    { CustomRoles.Flash, "#ffaaaa"},
+                    { CustomRoles.Torch, "#ffaaaa"},
+
                     { CustomRoles.Coven, "#592e98"},
                     { CustomRoles.Veteran, "#978046"},
                     { CustomRoles.GuardianAngelTOU, "#26FEFE"},

@@ -313,8 +313,8 @@ namespace TownOfHost
                     opt.SetVision(player, Options.PaintersHaveImpVision.GetBool());
                     break;
                 case CustomRoles.Marksman:
-                    opt.KillDistance = Main.MarksmanKills + 1;
-                    opt.killDistance = Main.MarksmanKills + 1;
+                    opt.KillDistance = Main.MarksmanKills;
+                    opt.killDistance = Main.MarksmanKills;
                     opt.SetVision(player, true);
                     break;
                 case CustomRoles.Terrorist:

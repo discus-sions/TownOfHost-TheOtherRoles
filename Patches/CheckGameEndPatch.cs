@@ -27,13 +27,15 @@ namespace TownOfHost
                     {
                         if (CheckAndEndGameForHideAndSeek(__instance, statistics)) return false;
                         if (CheckAndEndGameForTroll(__instance)) return false;
+                        if (!Options.NoGameEnd.GetBool())
+                            if (CheckAndEndGameForTaskWin(__instance)) return false;
                     }
                     else
                     {
                         if (CheckAndEndGameForPainterWin(__instance, statistics)) return false;
+                        if (!CustomRoles.Supporter.IsEnable())
+                            if (CheckAndEndGameForTaskWin(__instance)) return false;
                     }
-                    if (!Options.NoGameEnd.GetBool() || (Options.SplatoonOn.GetBool() && !CustomRoles.Supporter.IsEnable()))
-                        if (CheckAndEndGameForTaskWin(__instance)) return false;
                 }
                 else if (Options.CurrentGameMode() == CustomGameMode.ColorWars)
                 {

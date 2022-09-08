@@ -1076,6 +1076,43 @@ namespace TownOfHost
             RPC.SyncLoversPlayers();
         }
 
+        private static void GiveModifier(CustomRoles role, int RawCount = -1)
+        {
+            if (!role.IsEnable()) return;
+            var allPlayers = new List<PlayerControl>();
+            foreach (var player in PlayerControl.AllPlayerControls)
+            {
+                if (player.Is(CustomRoles.GM)) continue;
+                allPlayers.Add(player);
+            }
+            var loversRole = role;
+            var rand = new System.Random();
+            var count = Math.Clamp(RawCount, 0, allPlayers.Count);
+            if (RawCount == -1) count = Math.Clamp(loversRole.GetCount(), 0, allPlayers.Count);
+            if (count <= 0) return;
+
+            for (var i = 0; i < count; i++)
+            {
+                var player = allPlayers[rand.Next(0, allPlayers.Count)];
+                if (role.IsCrewModifier())
+                {
+                    if (!player.GetCustomRole().IsCrewmate()) continue;
+                    Main.HasModifier.Add(role, player);
+                    allPlayers.Remove(player);
+                    Main.AllPlayerCustomSubRoles[player.PlayerId] = loversRole;
+                    Logger.Info("役職設定:" + player?.Data?.PlayerName + " = " + player.GetCustomRole().ToString() + " + " + loversRole.ToString(), "AssignCrewModifier");
+                }
+                else
+                {
+                    Main.HasModifier.Add(role, player);
+                    allPlayers.Remove(player);
+                    Main.AllPlayerCustomSubRoles[player.PlayerId] = loversRole;
+                    Logger.Info("役職設定:" + player?.Data?.PlayerName + " = " + player.GetCustomRole().ToString() + " + " + loversRole.ToString(), "AssignGlobalModifier");
+                }
+            }
+            RPC.SyncLoversPlayers();
+        }
+
         private static void AssignModifiers(List<CustomRoles> PossibleModifers, int RawCount = -1)
         {
             var allPlayers = new List<PlayerControl>();

@@ -483,7 +483,8 @@ namespace TownOfHost
                             }, Options.StoneReport.GetFloat(), "Medusa Stone Gazing");
                             return false;
                         }
-                        Main.MarksmanKills++;
+                        if (Main.MarksmanKills != 3)
+                            Main.MarksmanKills++;
                         killer.CustomSyncSettings();
                         break;
                     case CustomRoles.Juggernaut:
