@@ -294,6 +294,7 @@ namespace TownOfHost
                         {
                             Main.lastAmountOfTasks[playerId] = taskState.CompletedTasksCount;
                             var cp = GetPlayerById(playerId);
+                            if (cp.Data.IsDead) continue;
                             Vector2 cppos = cp.transform.position;//呪われた人の位置
                             Dictionary<PlayerControl, float> cpdistance = new();
                             float dis;
