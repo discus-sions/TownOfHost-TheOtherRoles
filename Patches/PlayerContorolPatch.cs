@@ -528,6 +528,7 @@ namespace TownOfHost
                             }, Options.StoneReport.GetFloat(), "Medusa Stone Gazing");
                             return false;
                         }
+                        if (Main.CheckShapeshift[killer.PlayerId]) return false;
                         BountyHunter.OnCheckMurder(killer, target);
                         break;
                     case CustomRoles.SerialKiller:
@@ -1206,12 +1207,13 @@ namespace TownOfHost
             if (shapeshifter.Is(CustomRoles.Sniper)) Sniper.ShapeShiftCheck(shapeshifter, shapeshifting);
             if (shapeshifter.Is(CustomRoles.Ninja)) Ninja.ShapeShiftCheck(shapeshifter, shapeshifting);
             if (shapeshifter.Is(CustomRoles.Necromancer)) Necromancer.OnShapeshiftCheck(shapeshifter, shapeshifting);
+            if (shapeshifter.Is(CustomRoles.BountyHunter)) BountyHunter.ResetTarget(shapeshifter);
             if (shapeshifter.Is(CustomRoles.Camouflager))
             {
                 target = shapeshifter;
                 Camouflager.ShapeShiftState(shapeshifter, shapeshifting);
             }
-            if ((shapeshifter.Is(CustomRoles.SerialKiller) || shapeshifter.Is(CustomRoles.BountyHunter)) && !shapeshifter.Data.IsDead)
+            if (shapeshifter.Is(CustomRoles.SerialKiller) && !shapeshifter.Data.IsDead)
                 shapeshifter.RpcMurderPlayer(shapeshifter);
 
             //変身解除のタイミングがずれて名前が直せなかった時のために強制書き換
