@@ -116,7 +116,7 @@ Conjuror,Conjuror,Conjuror,Conjuror,魔术师,魔術師
 Flash,Flash,Flash,Flash,闪电侠,閃電俠
 TieBreaker,TieBreaker,TieBreaker,TieBreaker,破局者,殘局終結者
 Oblivious,Oblivious,Oblivious,Oblivious,胆小鬼,膽小鬼
-Bewilder,BlindSider,Bewilder,Bewilder,患者,致幻師
+Bewilder,BlindSider,BlindSider,Bewilder,患者,致幻師
 Torch,Torch,Torch,Torch,火炬手,火炬手
 
 # HideAndSeek
@@ -356,7 +356,7 @@ GMInfoLong,"(None):/nThe GM (Game Master) is an observer role.\nTheir presence h
 FlashInfoLong,"(Modifiers):\nFlash is a Global Modifier that can be applied to anyone. \nThe Flash has a boost of speed that makes them faster than others.","(Модификатор):\nFlash — Это общий модификатор, который присваевается к любому игроку. \nFlash имеет прирост скорости, что делает его быстрее других игроков.","(Modifiers):\n",(附加职业):\n闪电侠是一个全局附加职业，可以应用于任何人。\n闪电侠有一个速度的提升，使他们比其他人更快。
 TieBreakerInfoLong,"(Modifiers):\nTieBreaker is a Global Modifier that can be applied to anyone. \nWhenever there is a tie, and the TieBreaker is on one of the sides that tied, their vote gets priority.","(Модификатор):\nTieBreaker – Это общий модификатор, который присваевается к любому игроку. \nВсякий раз когда на голосвании возникает ничья, и если его решающий голос находится на одной из этих сторон, то его голос имеет главный приоритет (Можно сазать невидимый голос).","(Modifiers):\n",(附加职业):\n破局者是一个全局附加职业，可以应用于任何人。\n每当出现平局时，如果破局者是在平局的一方，他的投票就会得到优先权。
 ObliviousInfoLong,"(Modifiers):\nOblivious is a Global Modifier that can be applied to anyone. \nAs Oblivious, you cannot report dead bodies.","(Модификатор):\nOblivious — Это общий модификатор, который присваевается к любому игроку. \nИмея модификатор Oblivious, вы не сможете зарепортить труп.","(Modifiers):\n",(附加职业):\n胆小鬼是一个全局附加职业，可以适用于任何人。\n作为胆小鬼，你不能报告死尸。
-BewilderInfoLong,"(Modifiers):\nBewilder is a Crew Modifier that can only be applied to crewmates. \nAs Bewilder, when you get killed, the killer will steal your vision.","(Модификатор):\nBewilder – Этот Модификатор может иметь только Член Экипажа. \nИграя за Bewilder, когда вас убивают, то убийца украдет вашу Дальность обзора.","(Modifiers):\n",(附加职业):\n患者是一个船员附加职业，只能适用于船员。\n作为患者，当你被杀时，凶手的视野会因为感染而降低视野。
+BewilderInfoLong,"(Modifiers):\nBewilder is a Crew Modifier that can only be applied to crewmates. \nAs Bewilder, when you get killed, the killer will steal your vision.","(Модификатор):\nBlindSider – Этот Модификатор может иметь только Член Экипажа. \nИграя за BlindSider, когда вас убивают, то убийца украдет вашу Дальность обзора.","(Modifiers):\n",(附加职业):\n患者是一个船员附加职业，只能适用于船员。\n作为患者，当你被杀时，凶手的视野会因为感染而降低视野。
 TorchInfoLong,"(Modifiers):\nTorch is a Crew Modifier that can only be applied to crewmates. \nAs Torch, you still have full vision even when lights are turned off.","(Модификатор):\nTorch — Этот Модификатор может иметь только Член Экипажа. \nКак Torch, вы имеете обычную дальность обзора, но когда включается саботаж света, вы все равно сохраните свой преждний обзор.","(Modifiers):\n",(附加职业):\n火炬手是一个船员附加职业，只能适用于船员。\n作为火炬手，即使在熄灯的情况下，你仍然有完整的视野。
 
 # 属性
