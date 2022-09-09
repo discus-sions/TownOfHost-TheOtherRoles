@@ -589,20 +589,20 @@ NVest,Number of Vests,Количество Жилетов,Number of Alerts,副�
 KilledByGuesser,{0} is killed by Guesser.,{0} Был Убит Угадывателем.,{0}はゲッサーにキルされました。,{0} 被猜测者杀死。,{0}被猜測者殺死。
 EvilGuesserMeeting,It is time to shoot!,Время Отгадывать Роли!,さあ、撃ち放題だ！,是时候了！,來吧，隨心所欲地拍攝！
 
-CovenKillCooldown,Coven Kill Cooldown,Coven Kill Cooldown,巫师击杀冷却时间,公會擊殺冷卻時間
-CovenMeetings,Meetings until Necronomicon,Meetings until Necronomicon,会议直到亡灵法师,會議直到死靈之書
-HexMasterOn,Hex Master On,Hex Master On,使用六芒星法师,十六進制大師開啟
-PotionMasterOn,Potion Master On,Potion Master On,使用药剂师,魔藥大師開啟
-VampireDitchesOn,Vampire Joins Coven,Vampire Joins Coven,吸血鬼加入巫师阵营,吸血鬼加入女巫團
-MedusaOn,Medusa On,Medusa On,使用美杜莎,美杜莎賀
-MimicOn,Mimic On,Mimic On,使用模仿大师,模仿者開
-NecromancerOn,Necromancer On,Necromancer On,使用亡灵法师,死靈法師開啟
-NecroCanUseSheriff,Necromancer Can Use Sheriff,NecroCanUseSheriff,亡灵法师可以模仿警长
-ConjurorOn,Conjuror On,Conjuror On,使用魔术师,魔術師開
-Customise,Players have Access to /color and /name and /level,Players have Access to /color and /name,其他玩家可以使用“/color”和“/name”和“/level”指令
-RolesLikeToU,Roles look Similar to ToU,Roles look Similar to ToU,使用TOU职业设定
-ImpostorKnowsRolesOfTeam,Impostors know the Roles of their Team,ImpostorKnowsRolesOfTeam,内鬼阵营可以知道队友的职业
-CovenKnowsRolesOfTeam,Coven knows the Roles of their Team,CovenKnowsRolesOfTeam,巫师团可以知道队友的职业
+CovenKillCooldown,Coven Kill Cooldown,Coven Откат Убийства,Coven Kill Cooldown,巫师击杀冷却时间,公會擊殺冷卻時間
+CovenMeetings,Meetings until Necronomicon,Экстренные Встречи До Necronomicon,Meetings until Necronomicon,会议直到亡灵法师,會議直到死靈之書
+HexMasterOn,Hex Master On,Hex Master Вкл,Hex Master On,使用六芒星法师,十六進制大師開啟
+PotionMasterOn,Potion Master On,Potion Master Вкл,Potion Master On,使用药剂师,魔藥大師開啟
+VampireDitchesOn,Vampire Joins Coven,Vampire Присоединяется к Ковену,Vampire Joins Coven,吸血鬼加入巫师阵营,吸血鬼加入女巫團
+MedusaOn,Medusa On,Medusa Вкл,Medusa On,使用美杜莎,美杜莎賀
+MimicOn,Mimic On,Mimic Вкл,Mimic On,使用模仿大师,模仿者開
+NecromancerOn,Necromancer On,Necromancer Вкл,Necromancer On,使用亡灵法师,死靈法師開啟
+NecroCanUseSheriff,Necromancer Can Use Sheriff,Necromancer Может использовать Sheriff,NecroCanUseSheriff,亡灵法师可以模仿警长
+ConjurorOn,Conjuror On,Conjuror Вкл,Conjuror On,使用魔术师,魔術師開
+Customise,Players have Access to /color and /name and /level,У игроков есть доступ к /color и /name и /level,Players have Access to /color and /name,其他玩家可以使用“/color”和“/name”和“/level”指令
+RolesLikeToU,Roles look Similar to ToU,Роли Похожи на ToU,Roles look Similar to ToU,使用TOU职业设定
+ImpostorKnowsRolesOfTeam,Impostors know the Roles of their Team,Предатели знают Роли своей команды,ImpostorKnowsRolesOfTeam,内鬼阵营可以知道队友的职业
+CovenKnowsRolesOfTeam,Coven knows the Roles of their Team,Ковены знают Роли своей команды,CovenKnowsRolesOfTeam,巫师团可以知道队友的职业
 
 NProtects,Number of Protects,Количество Защит,NumOfProtects,保护的次数
 PCD,Protect Cooldown,Откат Защиты,Protect Cooldown,Translation Unavailble,保护冷却时间
