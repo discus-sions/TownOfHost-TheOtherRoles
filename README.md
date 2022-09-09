@@ -7,6 +7,8 @@ This mod is not affiliated with Among Us or Innersloth LLC, Town Of Host, and th
 I sometimes host this mod myself on Public Lobbies under several names such as **Whited**, **TOH-TOR**, and **TOH GOOD**.
 I constantly update this mod and test it with randoms.
 
+DISCORD SERVER: https://discord.gg/ha6XBCCHAN 
+
 ## Releases
 
 AmongUs Version: **2022.7.12**<br>

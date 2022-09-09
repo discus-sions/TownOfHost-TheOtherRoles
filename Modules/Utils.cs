@@ -389,6 +389,7 @@ namespace TownOfHost
                 if (CustomRoles.HASTroll.IsEnable()) text += String.Format("\n{0}:{1}", GetRoleName(CustomRoles.HASTroll), CustomRoles.HASTroll.GetCount());
                 SendMessage(text, PlayerId);
                 text = GetString("Settings") + ":";
+                text += Main.versionText;
                 text += GetString("HideAndSeek");
             }
             else if (Options.CurrentGameMode() == CustomGameMode.ColorWars)
@@ -399,6 +400,7 @@ namespace TownOfHost
                 SendMessage(text, PlayerId);
                 text = GetString("Settings") + ":";
                 text += String.Format("\n\n{0}:{1}", "Current Game Mode", Options.GameMode.GetString());
+                text += Main.versionText;
                 text += GetString("ColorWars");
             }
             else if (Options.CurrentGameMode() == CustomGameMode.Splatoon)
@@ -409,6 +411,7 @@ namespace TownOfHost
                 SendMessage(text, PlayerId);
                 text = GetString("Settings") + ":";
                 text += String.Format("\n\n{0}:{1}", "Current Game Mode", Options.GameMode.GetString());
+                text += Main.versionText;
                 text += GetString("Splatoon");
             }
             else
@@ -432,6 +435,7 @@ namespace TownOfHost
                 text += String.Format("\n\n{0}:{1}", "Current Game Mode", Options.GameMode.GetString());
                 text += String.Format("\n{0}:{1}", "Players have Access to /color,/name, and /level", Options.Customise.GetString());
                 text += String.Format("\n{0}:{1}", "Roles look Similar to ToU", Options.RolesLikeToU.GetString());
+                text += Main.versionText;
                 //Roles look Similar to ToU
                 SendMessage(text, PlayerId);
                 text = GetString("Settings") + ":";
