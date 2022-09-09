@@ -1247,7 +1247,8 @@ Roles from:
 5. [au.libhalt.net](https://au.libhalt.net)<br>
 6. [Foolers Mod](https://github.com/MengTube/Foolers-Mod)<br>
 7. [Town-Of-Us-R](https://github.com/eDonnes124/Town-Of-Us-R)<br>
-8. Mek, My friend on Discord
+8. Mek, My friend on Discord<br>
+9. Original [Town Of Host](https://github.com/tukasa0001/TownOfHost) (Mod itself plus pull requests for roles such as the guesser roles)
 
 ## Developers
 - [Discussions](https://github.com/music-discussion) ([YouTube](https://www.youtube.com/channel/UCAawAIWR5XfJE6T0JdYpzzg)) - Coding
