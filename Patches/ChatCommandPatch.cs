@@ -820,10 +820,10 @@ namespace TownOfHost
                     if (Options.Customise.GetBool())
                     {
                         subArgs = args.Length < 2 ? "" : args[1];
-                        Utils.SendMessage("Current AU Level Set to " + subArgs, player.PlayerId);
+                        Utils.SendMessage("Current AU Level Set to " + subArgs + ". AU auto adds 1 to your current level. Starting players are at level 0, so AU adds 1 to make you level 1. So no one is level 100, we are all just at level 99.", player.PlayerId);
                         //nt32.Parse("-105");
                         var number = System.Convert.ToUInt32(subArgs);
-                        player.RpcSetLevel(number - 1);
+                        player.RpcSetLevel(number);
                     }
                     else { Utils.SendMessage("The host has currently disabled access to this command.\nTry again when this command is enabled.", player.PlayerId); }
                     break;
