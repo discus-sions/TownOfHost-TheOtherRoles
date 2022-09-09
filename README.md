@@ -1066,16 +1066,6 @@ If your lover dies, you die.<br>
 If the crewmates win by tasks, the lovers lose.<br>
 The lovers can also win if both are still alive at the end of the game and the crewmates don't win by tasks.<br>
 If the lovers win, everyone else loses.<br>
-Crewmate lovers do not have tasks assigned. <br>
-
-Example of overlapping Roles: <br>
-- [Terrorist](#terrorist) Lover: You have tasks and If you die after completing the task, you will win as a terrorist. <br>
-- [MadSnitch](#madsnitch) Lover: You have tasks, and you can see the Impostor after completing the task. <br>
-- [Snitch](#snitch) Lover: No tasks, Impostor remains unknown. <br>
-- [Sheriff](#sheriff) Lover: You can kill Impostors as usual. Whether or not you can kill depends on Roles and Options. (Impostor Lover can be killed. Crewmate Lover cannot be killed) <br>
-- [Opportunist](#opportunist) Lover: Win if you survive. <br>
-- [Jester](#jester) Lover: If you are voted out, you will win as Jester. If the other Lover is voted out, you are defeated. <br>
-- [Bait](#bait) Lover: When the other Lover is killed and you die afterwards, the other Lover immediately reports you. <br>
 
 ## DisableDevice
 
@@ -1163,6 +1153,44 @@ Killed by Impostors.<br>
 | Ignore Cosmetics          |
 | Disable Vents             |
 
+### Splatoon
+
+Create and idea by Discussions<br>
+
+#### Workers and Janitors (Blue) Victory Conditions
+
+Completing all tasks.<br>
+The Janitor can use their kill button to reverse a paint.<br>
+*You cannot die.
+
+#### Painter Team (Orange) Victory Conditions
+
+The Painters goal is to use their kill button to paint everyone their color.<br>
+Painters can paint other painters.<br>
+When everyone is painted the same color, the Painters win.<br>
+
+#### Prohibited items
+
+- Sabotage<br>
+- Admin<br>
+- Camera<br>
+- Venting if turned Off<br>
+
+#### What you can't do
+
+- Reporting a dead bodies<br>
+- Emergency meeting button<br>
+- Sabotage<br>
+
+#### Game Options
+
+| Name                      |
+| ------------------------- |
+| Allow Venting.            |
+| Impostors Waiting Time(s) |
+| Ignore Cosmetics          |
+| Paint/Clean Cooldown      |
+
 ### NoGameEnd
 
 #### Crewmates Team Victory Conditions
@@ -1247,11 +1275,11 @@ Roles from:
 5. [au.libhalt.net](https://au.libhalt.net)<br>
 6. [Foolers Mod](https://github.com/MengTube/Foolers-Mod)<br>
 7. [Town-Of-Us-R](https://github.com/eDonnes124/Town-Of-Us-R)<br>
-8. Mek, My friend on Discord<br>
+8. Mek, My friend on Discord (Bewilder, Bastion, Demolitionist)<br>
 9. Original [Town Of Host](https://github.com/tukasa0001/TownOfHost) (Mod itself plus pull requests for roles such as the guesser roles)
 
 ## Developers
 - [Discussions](https://github.com/music-discussion) ([YouTube](https://www.youtube.com/channel/UCAawAIWR5XfJE6T0JdYpzzg)) - Coding
-- [MC-AS-Huier](https://github.com/MC-AS-Huier) - Translations
+- [MC-AS-Huier](https://github.com/MC-AS-Huier) - SChinese Translations
 - [Tommy-XL](https://github.com/Tommy-XL) - Rus Translations
 - TheSkullCreeper#0001 - Art Direction
