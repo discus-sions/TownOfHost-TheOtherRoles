@@ -566,15 +566,15 @@ namespace TownOfHost
                         }
                         if (target.GetCustomSubRole() != CustomRoles.Bait)
                         { //キルキャンセル&自爆処理
-                            if (!target.Is(CustomRoles.Bewilder))
-                            {
-                                Utils.CustomSyncAllSettings();
-                                Main.AllPlayerKillCooldown[killer.PlayerId] = Options.DefaultKillCooldown * 2;
-                                killer.CustomSyncSettings(); //負荷軽減のため、killerだけがCustomSyncSettingsを実行
-                                killer.RpcGuardAndKill(target);
-                                Main.BitPlayers.Add(target.PlayerId, (killer.PlayerId, 0f));
-                                return false;
-                            }
+                          //if (!target.Is(CustomRoles.Bewilder))
+                          // {
+                            Utils.CustomSyncAllSettings();
+                            Main.AllPlayerKillCooldown[killer.PlayerId] = Options.DefaultKillCooldown * 2;
+                            killer.CustomSyncSettings(); //負荷軽減のため、killerだけがCustomSyncSettingsを実行
+                            killer.RpcGuardAndKill(target);
+                            Main.BitPlayers.Add(target.PlayerId, (killer.PlayerId, 0f));
+                            return false;
+                            //  }
                         }
                         else
                         {
@@ -1045,7 +1045,7 @@ namespace TownOfHost
                 target.RpcMurderPlayer(killer);
                 // return false;
             }
-            else if (target.Is(CustomRoles.Bewilder))
+            else if (target.GetCustomSubRole() == CustomRoles.Bewilder)
             {
                 Main.KilledBewilder.Add(killer.PlayerId);
             }
@@ -1215,7 +1215,7 @@ namespace TownOfHost
             if (shapeshifter.Is(CustomRoles.Sniper)) Sniper.ShapeShiftCheck(shapeshifter, shapeshifting);
             if (shapeshifter.Is(CustomRoles.Ninja)) Ninja.ShapeShiftCheck(shapeshifter, shapeshifting);
             if (shapeshifter.Is(CustomRoles.Necromancer)) Necromancer.OnShapeshiftCheck(shapeshifter, shapeshifting);
-            if (shapeshifter.Is(CustomRoles.BountyHunter)) BountyHunter.ResetTarget(shapeshifter);
+            if (shapeshifter.Is(CustomRoles.BountyHunter) && !shapeshifting) BountyHunter.ResetTarget(shapeshifter);
             if (shapeshifter.Is(CustomRoles.Camouflager))
             {
                 target = shapeshifter;
@@ -1576,7 +1576,7 @@ namespace TownOfHost
                         RPC.PlaySoundRPC(vampireID, Sounds.KillSound);
                         if (bitten.Is(CustomRoles.Demolitionist))
                             Main.KilledDemo.Add(vampireID);
-                        if (bitten.Is(CustomRoles.Bewilder))
+                        if (bitten.GetCustomSubRole() == CustomRoles.Bewilder)
                             Main.KilledBewilder.Add(vampireID);
                         Logger.Info("Vampireに噛まれている" + bitten?.Data?.PlayerName + "を自爆させました。", "ReportDeadBody");
                     }
@@ -1752,7 +1752,7 @@ namespace TownOfHost
                                         vampirePC.TrapperKilled(bitten);
                                     if (bitten.Is(CustomRoles.Demolitionist))
                                         Main.KilledDemo.Add(vampireID);
-                                    if (bitten.Is(CustomRoles.Bewilder))
+                                    if (bitten.GetCustomSubRole() == CustomRoles.Bewilder)
                                         Main.KilledBewilder.Add(vampireID);
                                 }
                             }

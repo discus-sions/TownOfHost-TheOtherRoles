@@ -294,27 +294,28 @@ namespace TownOfHost
                         {
                             Main.lastAmountOfTasks[playerId] = taskState.CompletedTasksCount;
                             var cp = GetPlayerById(playerId);
-                            if (!cp.Data.IsDead) {
-                            Vector2 cppos = cp.transform.position;//呪われた人の位置
-                            Dictionary<PlayerControl, float> cpdistance = new();
-                            float dis;
-                            foreach (PlayerControl p in PlayerControl.AllPlayerControls)
+                            if (!cp.Data.IsDead)
                             {
-                                if (!p.Data.IsDead && p != cp)
+                                Vector2 cppos = cp.transform.position;//呪われた人の位置
+                                Dictionary<PlayerControl, float> cpdistance = new();
+                                float dis;
+                                foreach (PlayerControl p in PlayerControl.AllPlayerControls)
                                 {
-                                    dis = Vector2.Distance(cppos, p.transform.position);
-                                    cpdistance.Add(p, dis);
-                                    Logger.Info($"{p?.Data?.PlayerName}の位置{dis}", "CrewPostor");
+                                    if (!p.Data.IsDead && p != cp)
+                                    {
+                                        dis = Vector2.Distance(cppos, p.transform.position);
+                                        cpdistance.Add(p, dis);
+                                        Logger.Info($"{p?.Data?.PlayerName}の位置{dis}", "CrewPostor");
+                                    }
                                 }
-                            }
-                            var min = cpdistance.OrderBy(c => c.Value).FirstOrDefault();//一番小さい値を取り出す
-                            PlayerControl targetw = min.Key;
-                            Logger.Info($"{targetw.GetNameWithRole()}was killed", "CrewPostor");
-                            if (targetw.Is(CustomRoles.Pestilence))
-                                targetw.RpcMurderPlayerV2(cp);
-                            else
-                                cp.RpcMurderPlayerV2(targetw);//殺す
-                            cp.RpcGuardAndKill(cp);
+                                var min = cpdistance.OrderBy(c => c.Value).FirstOrDefault();//一番小さい値を取り出す
+                                PlayerControl targetw = min.Key;
+                                Logger.Info($"{targetw.GetNameWithRole()}was killed", "CrewPostor");
+                                if (targetw.Is(CustomRoles.Pestilence))
+                                    targetw.RpcMurderPlayerV2(cp);
+                                else
+                                    cp.RpcMurderPlayerV2(targetw);//殺す
+                                cp.RpcGuardAndKill(cp);
                             }
                         }
                     }
@@ -570,7 +571,7 @@ namespace TownOfHost
         {
             if (!AmongUsClient.Instance.AmHost) return;
             var taskState = GetPlayerById(Terrorist.PlayerId).GetPlayerTaskState();
-            if (taskState.IsTaskFinished && (!PlayerState.IsSuicide(Terrorist.PlayerId) || Options.CanTerroristSuicideWin.GetBool())) //タスクが完了で（自殺じゃない OR 自殺勝ちが許可）されていれば
+            if (taskState.IsTaskFinished && Main.DeadPlayersThisRound.Contains(Terrorist.PlayerId) && (!PlayerState.IsSuicide(Terrorist.PlayerId) || Options.CanTerroristSuicideWin.GetBool())) //タスクが完了で（自殺じゃない OR 自殺勝ちが許可）されていれば
             {
                 foreach (var pc in PlayerControl.AllPlayerControls)
                 {

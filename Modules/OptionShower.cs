@@ -34,7 +34,7 @@ namespace TownOfHost
                 {
                     //役職一覧
                     text += $"<color={Utils.GetRoleColorCode(CustomRoles.LastImpostor)}>{Utils.GetRoleName(CustomRoles.LastImpostor)}:</color> {Options.EnableLastImpostor.GetString()}\n\n";
-                    text += $"<color={Utils.GetRoleColorCode(CustomRoles.GM)}>{Utils.GetRoleName(CustomRoles.GM)}:</color> {Options.EnableGM.GetString()}\n";
+                    //text += $"<color={Utils.GetRoleColorCode(CustomRoles.GM)}>{Utils.GetRoleName(CustomRoles.GM)}:</color> {Options.EnableGM.GetString()}\n";
                     foreach (var kvp in Options.CustomRoleSpawnChances)
                         if (kvp.Value.GameMode is CustomGameMode.Standard or CustomGameMode.All) //スタンダードか全てのゲームモードで表示する役職
                             text += $"{Helpers.ColorString(Utils.GetRoleColor(kvp.Key), Utils.GetRoleName(kvp.Key))}: {kvp.Value.GetString()}×{kvp.Key.GetCount()}\n";
@@ -52,7 +52,7 @@ namespace TownOfHost
                     }
                     text += $"\t{GetString("GRB")}: {Options.GlobalRoleBlockDuration.GetString()}\n\n";
                 }
-                nameAndValue(Options.EnableGM);
+                // nameAndValue(Options.EnableGM);
                 foreach (var kvp in Options.CustomRoleSpawnChances)
                 {
                     if (!kvp.Key.IsEnable()) continue;

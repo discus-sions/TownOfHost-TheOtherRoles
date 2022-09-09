@@ -58,6 +58,7 @@ namespace TownOfHost
                     exiled.Object.Data.PlayerName = Main.LastVotedPlayer;
                 }
                 var role = exiled.GetCustomRole();
+                Main.DeadPlayersThisRound.Add(exiled.PlayerId);
                 /*if (Main.RealOptionsData.ConfirmImpostor)
                 {
                     exiled.PlayerName = exiled.GetNameWithRole();
