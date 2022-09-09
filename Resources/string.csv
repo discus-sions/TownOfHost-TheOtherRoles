@@ -626,13 +626,13 @@ KillCDT,Paint Cooldown,Paint Откат,Translation Unavailble,击杀冷却时�
 GRB,Global RoleBlock Duration,Продолжительность Глобальной Блокировки Ролей,Translation Unavailble,全局职业区域持续时间
 
 ## かくれんぼ設定
-HideAndSeekOptions,HideAndSeek Options,かくれんぼの設定,躲猫猫设置,躲貓貓設定
-AllowCloseDoors,Allow Closing Doors,ドア閉鎖を許可する,允许关门,可以關門
-SpeedBoosterUpSpeed,Boosted Player Speed,スピードアップ時の速さ,增速者加速时的移动速度,被加速器加速的玩家的移動速度
-TrapperBlockMoveTime,Freeze Duration,移動を封じる時間,陷阱师技能封锁凶手移动时长,設陷者封鎖兇手移動時間
-HideAndSeekWaitingTime,Impostor Waiting Time(s),インポスターの待機時間(秒),内鬼阵营在游戏开始后的等待时间,狼人在遊戲開始後的等待時間
-IgnoreVent,Disable Vents,通気口の使用を禁止する,禁止使用管道,禁止使用管道
-HideAndSeekRoles,HideAndSeek Roles,かくれんぼの役職,躲猫猫职业,躲貓貓職業
+HideAndSeekOptions,HideAndSeek Options,Настройки Пряток,かくれんぼの設定,躲猫猫设置,躲貓貓設定
+AllowCloseDoors,Allow Closing Doors,Разрешить Закрытие Дверей,ドア閉鎖を許可する,允许关门,可以關門
+SpeedBoosterUpSpeed,Boosted Player Speed,Повышенная Скорость Игрока,スピードアップ時の速さ,增速者加速时的移动速度,被加速器加速的玩家的移動速度
+TrapperBlockMoveTime,Freeze Duration,Продолжительность Заморозки,移動を封じる時間,陷阱师技能封锁凶手移动时长,設陷者封鎖兇手移動時間
+HideAndSeekWaitingTime,Impostor Waiting Time(s),Время Ожидания Предателей,インポスターの待機時間(秒),内鬼阵营在游戏开始后的等待时间,狼人在遊戲開始後的等待時間
+IgnoreVent,Disable Vents,Отключить Вентиляцию,通気口の使用を禁止する,禁止使用管道,禁止使用管道
+HideAndSeekRoles,HideAndSeek Roles,Прятки Роли,かくれんぼの役職,躲猫猫职业,躲貓貓職業
 
 ## 死因
 DeathReason.Kill,Kill,Убит,死亡,被杀,被殺
