@@ -92,6 +92,8 @@ namespace TownOfHost
         public static Dictionary<byte, byte> SpeedBoostTarget = new();
         public static Dictionary<byte, int> MayorUsedButtonCount = new();
         public static Dictionary<byte, int> HackerFixedSaboCount = new();
+        public static Dictionary<byte, int> LastEnteredVent = new();
+        public static Dictionary<byte, Vector2> LastEnteredVentLocation = new();
         public static int AliveImpostorCount;
         public static int AllImpostorCount;
         public static string LastVotedPlayer;
@@ -235,6 +237,8 @@ namespace TownOfHost
             GuardianAngelTarget = new Dictionary<byte, byte>();
             MayorUsedButtonCount = new Dictionary<byte, int>();
             HackerFixedSaboCount = new Dictionary<byte, int>();
+            LastEnteredVent = new Dictionary<byte, int>();
+            LastEnteredVentLocation = new Dictionary<byte, Vector2>();
             HasModifier = new Dictionary<CustomRoles, byte>();
             DeadPlayersThisRound = new List<byte>();
             dousedIDs = new List<byte>();
@@ -468,6 +472,7 @@ namespace TownOfHost
         Witch,
         Warlock,
         Mare,
+        Miner,
         Puppeteer,
         TimeThief,
         Silencer,

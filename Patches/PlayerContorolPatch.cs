@@ -1173,7 +1173,15 @@ namespace TownOfHost
                     Main.CursedPlayers[shapeshifter.PlayerId] = null;
                 }
             }
-
+            if (shapeshifter.Is(CustomRoles.Miner) && shapeshifting)
+            {
+                if (Main.LastEnteredVent.ContainsKey(shapeshifter.PlayerId))
+                {
+                    int ventId = Main.LastEnteredVent[shapeshifter.PlayerId];
+                    shapeshifter.transform.position = Main.LastEnteredVentLocation[shapeshifter.PlayerId];
+                    shapeshifter?.MyPhysics?.RpcEnterVent(ventId);
+                }
+            }
             if (shapeshifter.CanMakeMadmate() && shapeshifting)
             {//変身したとき一番近い人をマッドメイトにする処理
                 Vector2 shapeshifterPosition = shapeshifter.transform.position;//変身者の位置
@@ -2566,6 +2574,12 @@ namespace TownOfHost
             if (AmongUsClient.Instance.AmHost)
             {
                 bool skipCheck = false;
+                if (Main.LastEnteredVent.ContainsKey(pc.PlayerId))
+                    Main.LastEnteredVent.Remove(pc.PlayerId);
+                Main.LastEnteredVent.Add(pc.PlayerId, __instance.Id);
+                if (Main.LastEnteredVentLocation.ContainsKey(pc.PlayerId))
+                    Main.LastEnteredVentLocation.Remove(pc.PlayerId);
+                Main.LastEnteredVentLocation.Add(pc.PlayerId, pc.transform.position);
                 if (Options.CurrentGameMode() == CustomGameMode.HideAndSeek)
                     if (Options.SplatoonOn.GetBool())
                     {

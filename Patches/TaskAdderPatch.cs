@@ -94,6 +94,7 @@ namespace TownOfHost
             { CustomRoles.Engineer, RoleTypes.Engineer },
             { CustomRoles.Scientist, RoleTypes.Scientist },
             { CustomRoles.Shapeshifter, RoleTypes.Shapeshifter },
+            { CustomRoles.Miner, RoleTypes.Shapeshifter },
             { CustomRoles.Impostor, RoleTypes.Impostor },
             { CustomRoles.GuardianAngel, RoleTypes.GuardianAngel },
             { CustomRoles.Mafia, RoleTypes.Impostor },

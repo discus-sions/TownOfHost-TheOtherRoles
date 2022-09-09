@@ -264,6 +264,7 @@ namespace TownOfHost
                 case CustomRoles.BloodKnight:
                 case CustomRoles.Ninja:
                 case CustomRoles.Marksman:
+                case CustomRoles.Miner:
                 case CustomRoles.Camouflager:
                 case CustomRoles.Jackal:
                 case CustomRoles.Pestilence:

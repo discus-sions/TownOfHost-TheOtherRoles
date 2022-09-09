@@ -359,6 +359,7 @@ namespace TownOfHost
                 { CustomRoles.Witch, "wi" },
                 { CustomRoles.Silencer, "si" },
                 { CustomRoles.Ninja,"ni"},
+                { CustomRoles.Miner,"mi"},
                 { CustomRoles.Camouflager,"cf"},
                 { CustomRoles.CorruptedSheriff, "csh" },
                 {CustomRoles.EvilGuesser, "eg"},
@@ -375,10 +376,8 @@ namespace TownOfHost
                 { CustomRoles.CrewPostor, "cp" },
                 //Crewmate役職
                 { (CustomRoles)(-4), $"== {GetString("Crewmate")} ==" }, //区切り用
-                { CustomRoles.Bait, "ba" },
                 { CustomRoles.Dictator, "dic" },
                 { CustomRoles.Child, "cd" },
-                { CustomRoles.Sleuth, "sl" },
                 { CustomRoles.Medium, "med" },
                 { CustomRoles.Doctor, "doc" },
                 { CustomRoles.Lighter, "li" },
@@ -391,7 +390,6 @@ namespace TownOfHost
                 { CustomRoles.Snitch, "sn" },
                 { CustomRoles.SpeedBooster, "sb" },
                 { CustomRoles.Trapper, "tra" },
-                { CustomRoles.Bewilder, "be"},
                 { CustomRoles.Bastion, "bas"},
                 { CustomRoles.Demolitionist, "demo"},
                 //Neutral役職
@@ -427,6 +425,12 @@ namespace TownOfHost
                 //Sub役職
                 { (CustomRoles)(-6), $"== {GetString("SubRole")} ==" }, //区切り用
                 {CustomRoles.Lovers, "lo" },
+                { CustomRoles.Sleuth, "sl" },
+                { CustomRoles.Bait, "ba" },
+                { CustomRoles.Oblivious, "obl" },
+                { CustomRoles.Torch, "to" },
+                { CustomRoles.Flash, "fl" },
+                { CustomRoles.Bewilder, "be" },
                 //HAS
                 { (CustomRoles)(-7), $"== {GetString("HideAndSeek")} ==" }, //区切り用
                 { CustomRoles.HASFox, "hfo" },
@@ -491,6 +495,7 @@ namespace TownOfHost
                 { CustomRoles.Silencer, "si" },
                 { CustomRoles.Camouflager,"cf"},
                 { CustomRoles.Ninja,"ni"},
+                { CustomRoles.Miner,"mi"},
                 { CustomRoles.CorruptedSheriff, "csh" },
                 {CustomRoles.EvilGuesser, "eg"},
                 //Madmate役職
@@ -506,10 +511,8 @@ namespace TownOfHost
                 { CustomRoles.CrewPostor, "cp" },
                 //Crewmate役職
                 { (CustomRoles)(-4), $"== {GetString("Crewmate")} ==" }, //区切り用
-                { CustomRoles.Bait, "ba" },
                 { CustomRoles.Dictator, "dic" },
                 { CustomRoles.Child, "cd" },
-                { CustomRoles.Sleuth, "sl" },
                 { CustomRoles.Medium, "med" },
                 { CustomRoles.Doctor, "doc" },
                 { CustomRoles.Lighter, "li" },
@@ -523,7 +526,6 @@ namespace TownOfHost
                 { CustomRoles.Snitch, "sn" },
                 { CustomRoles.SpeedBooster, "sb" },
                 { CustomRoles.Trapper, "tra" },
-                { CustomRoles.Bewilder, "be"},
                 { CustomRoles.Bastion, "bas"},
                 { CustomRoles.Demolitionist, "demo"},
                 //Neutral役職
@@ -559,6 +561,12 @@ namespace TownOfHost
                 //Sub役職
                 { (CustomRoles)(-6), $"== {GetString("SubRole")} ==" }, //区切り用
                 {CustomRoles.Lovers, "lo" },
+                { CustomRoles.Sleuth, "sl" },
+                { CustomRoles.Bait, "ba" },
+                { CustomRoles.Oblivious, "obl" },
+                { CustomRoles.Torch, "to" },
+                { CustomRoles.Flash, "fl" },
+                { CustomRoles.Bewilder, "be" },
                 //HAS
                 { (CustomRoles)(-7), $"== {GetString("HideAndSeek")} ==" }, //区切り用
                 { CustomRoles.HASFox, "hfo" },
@@ -610,6 +618,7 @@ namespace TownOfHost
                 { CustomRoles.Witch, "wi" },
                 { CustomRoles.Silencer, "si" },
                 { CustomRoles.Ninja,"ni"},
+                { CustomRoles.Miner,"mi"},
                 { CustomRoles.Camouflager,"cf"},
                 { CustomRoles.CorruptedSheriff, "csh" },
                 //Madmate役職
@@ -628,10 +637,8 @@ namespace TownOfHost
                 {CustomRoles.Pirate, "pi"},
                 //Crewmate役職
                 { (CustomRoles)(-4), $"== {GetString("Crewmate")} ==" }, //区切り用
-                { CustomRoles.Bait, "ba" },
                 { CustomRoles.Dictator, "dic" },
                 { CustomRoles.Child, "cd" },
-                { CustomRoles.Sleuth, "sl" },
                 { CustomRoles.Medium, "med" },
                 { CustomRoles.Doctor, "doc" },
                 { CustomRoles.Lighter, "li" },
@@ -643,7 +650,6 @@ namespace TownOfHost
                 { CustomRoles.Snitch, "sn" },
                 { CustomRoles.SpeedBooster, "sb" },
                 { CustomRoles.Trapper, "tra" },
-                { CustomRoles.Bewilder, "be"},
                 { CustomRoles.Bastion, "bas"},
                 { CustomRoles.Demolitionist, "demo"},
                 //Neutral役職
@@ -678,6 +684,13 @@ namespace TownOfHost
                 //Sub役職
                 { (CustomRoles)(-6), $"== {GetString("SubRole")} ==" }, //区切り用
                 { CustomRoles.Lovers, "lo" },
+
+                { CustomRoles.Sleuth, "sl" },
+                { CustomRoles.Bait, "ba" },
+                { CustomRoles.Oblivious, "obl" },
+                { CustomRoles.Torch, "to" },
+                { CustomRoles.Flash, "fl" },
+                { CustomRoles.Bewilder, "be" },
                 //HAS
                 { (CustomRoles)(-7), $"== {GetString("HideAndSeek")} ==" }, //区切り用
                 { CustomRoles.HASFox, "hfo" },
