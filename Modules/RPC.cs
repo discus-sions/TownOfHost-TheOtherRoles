@@ -329,10 +329,7 @@ namespace TownOfHost
                         HackerWin(winner[0]);
                         break;
                     case CustomWinner.Arsonist:
-                        if (Options.TOuRArso.GetBool())
-                            SingleArsonistWin();
-                        else
-                            ArsonistWin(winner[0]);
+                        SingleArsonistWin();
                         break;
                     case CustomWinner.HASTroll:
                         TrollWin(winner[0]);

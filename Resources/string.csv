@@ -177,7 +177,7 @@ GuesserInfo,Guess and Shoot,Угадай и стреляй,推測して打ち抜
 
 # 特殊クルー役職来让他死亡！
 NiceGuesserInfo,Guess impostor roles mid-meeting to kill them!,Угадайте роли Предателей посреди встречи чтобы убить их!,Guess impostor roles mid-meeting to kill them!,在会议中猜测内鬼的身份来让他死亡！
-BaitInfo,Killing you casues an Instant Self Report,Приманивайте ваших врагов,敵を罠にはめよう,诱骗敌人，让敌人落入你的陷阱,"犧牲小我,完成大我"
+BaitInfo,Killing you causes an Instant Self Report,Приманивайте ваших врагов,敵を罠にはめよう,诱骗敌人，让敌人落入你的陷阱,"犧牲小我,完成大我"
 VeteranInfo,Alert to Kill anyone who Interacts with You,Оповещение об убийстве любого кто взаимодействует с вами,Alert to Kill anyone who Interacts with You,警惕任何和你有互动的人,警告殺死任何與你互動的人
 LighterInfo,Expand one's Vision,Увеличьте свой обзор,すべてを照らそう,照亮黑暗，让别人看清楚,照亮黑暗中的一切吧
 MayorInfo,Your vote counts multiple times,Ваши голоса учитывается несколько раз,自分の票が何倍もの力を持っている,你的投票更有分量,"你的票數更多,更有料"
@@ -734,6 +734,7 @@ WitchModeKill,Kill,Убить,キル,击杀,殺人
 WitchModeSpell,Spell,Заклинать,スペル,下咒,下咒
 BountyCurrentTarget,Current Target,Текущая Цель,現在のターゲット,当前目标,目標
 Roles,Roles,Роли,役職,职业,職業
+Percentages,Percentages,Роли,役職,职业,職業
 Settings,Settings,Настройки,設定,设定,設定
 Attributes,Attributes,Атрибуты,属性,属性,屬性
 RoleAssignment,Role Assignment,Назначение Ролей,ロール割り当て,职业分配,職業分配

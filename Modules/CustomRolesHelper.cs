@@ -169,6 +169,37 @@ namespace TownOfHost
                 CustomRoles.Conjuror or
                 CustomRoles.Necromancer;
         }
+        public static bool RoleCannotBeInList(this CustomRoles role)
+        {
+            return
+                role is CustomRoles.Coven or
+                CustomRoles.Poisoner or
+                CustomRoles.HexMaster or
+                CustomRoles.PotionMaster or
+                CustomRoles.CovenWitch or
+                CustomRoles.Medusa or
+                CustomRoles.Mimic or
+                CustomRoles.Conjuror or
+                CustomRoles.Necromancer or
+                CustomRoles.EgoSchrodingerCat or
+                CustomRoles.Impostor or
+                CustomRoles.Crewmate or
+                CustomRoles.Engineer or
+                CustomRoles.GuardianAngel or
+                CustomRoles.Pestilence or
+                CustomRoles.JSchrodingerCat or
+                CustomRoles.LastImpostor or
+                CustomRoles.CorruptedSheriff or
+                CustomRoles.Sidekick or
+                CustomRoles.Painter or
+                CustomRoles.Janitor or
+                CustomRoles.Painter or
+                CustomRoles.Alturist or
+                CustomRoles.Miner or
+                CustomRoles.Amnesiac or
+                CustomRoles.CSchrodingerCat or
+                CustomRoles.MSchrodingerCat;
+        }
         public static RoleType GetRoleType(this CustomRoles role)
         {
             RoleType type = RoleType.Crewmate;

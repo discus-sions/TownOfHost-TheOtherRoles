@@ -43,52 +43,6 @@ namespace TownOfHost
                     }
                     if (version_text != "") HudManager.Instance.Chat.AddChat(PlayerControl.LocalPlayer, version_text);
                     break;
-                case "/allids":
-                    canceled = true;
-                    string senttext = "";
-                    List<PlayerControl> AllPlayers = new();
-                    foreach (var pc in PlayerControl.AllPlayerControls)
-                    {
-                        AllPlayers.Add(pc);
-                    }
-                    senttext += "All Players and their IDs:";
-                    foreach (var player in AllPlayers)
-                    {
-                        senttext += $"\n{player.GetRealName(true)} : {player.PlayerId}";
-                    }
-                    if (senttext != "") HudManager.Instance.Chat.AddChat(PlayerControl.LocalPlayer, senttext);
-                    break;
-                case "/setimp":
-                    canceled = true;
-                    subArgs = args.Length < 2 ? "" : args[1];
-                    Utils.SendMessage("Impostors set to " + subArgs);
-                    var numberee = System.Convert.ToByte(subArgs);
-                    Main.RealOptionsData.numImpostors = numberee;
-                    break;
-                case "/myrole":
-                    canceled = true;
-                    myRole(PlayerControl.LocalPlayer.PlayerId);
-                    break;
-                case "/meeting":
-                    canceled = true;
-                    PlayerControl.LocalPlayer.CmdReportDeadBody(null);
-                    break;
-                case "/colour":
-                case "/color":
-                    canceled = true;
-                    subArgs = args.Length < 2 ? "" : args[1];
-                    Utils.SendMessage("Color ID set to " + subArgs);
-                    var numbere = System.Convert.ToByte(subArgs);
-                    PlayerControl.LocalPlayer.RpcSetColor(numbere);
-                    break;
-                case "/level":
-                    canceled = true;
-                    subArgs = args.Length < 2 ? "" : args[1];
-                    Utils.SendMessage("Current AU Level Set to " + subArgs, PlayerControl.LocalPlayer.PlayerId);
-                    //nt32.Parse("-105");
-                    var number = System.Convert.ToUInt32(subArgs);
-                    PlayerControl.LocalPlayer.RpcSetLevel(number - 1);
-                    break;
                 /*
             case "/hat":
                 var betterArgs = String.Compare("-", "_", true);
@@ -147,7 +101,51 @@ namespace TownOfHost
                         canceled = true;
                         Main.nickName = args.Length > 1 ? Main.nickName = args[1] : "";
                         break;
-
+                    case "/allids":
+                        canceled = true;
+                        string senttext = "";
+                        List<PlayerControl> AllPlayers = new();
+                        foreach (var pc in PlayerControl.AllPlayerControls)
+                        {
+                            AllPlayers.Add(pc);
+                        }
+                        senttext += "All Players and their IDs:";
+                        foreach (var player in AllPlayers)
+                        {
+                            senttext += $"\n{player.GetRealName(true)} : {player.PlayerId}";
+                        }
+                        if (senttext != "") HudManager.Instance.Chat.AddChat(PlayerControl.LocalPlayer, senttext);
+                        break;
+                    case "/setimp":
+                        canceled = true;
+                        subArgs = args.Length < 2 ? "" : args[1];
+                        Utils.SendMessage("Impostors set to " + subArgs);
+                        var numberee = System.Convert.ToByte(subArgs);
+                        Main.RealOptionsData.numImpostors = numberee;
+                        break;
+                    case "/myrole":
+                        myRole(PlayerControl.LocalPlayer.PlayerId);
+                        break;
+                    case "/meeting":
+                        canceled = true;
+                        PlayerControl.LocalPlayer.CmdReportDeadBody(null);
+                        break;
+                    case "/colour":
+                    case "/color":
+                        canceled = true;
+                        subArgs = args.Length < 2 ? "" : args[1];
+                        Utils.SendMessage("Color ID set to " + subArgs);
+                        var numbere = System.Convert.ToByte(subArgs);
+                        PlayerControl.LocalPlayer.RpcSetColor(numbere);
+                        break;
+                    case "/level":
+                        canceled = true;
+                        subArgs = args.Length < 2 ? "" : args[1];
+                        Utils.SendMessage("Current AU Level Set to " + subArgs, PlayerControl.LocalPlayer.PlayerId);
+                        //nt32.Parse("-105");
+                        var number = System.Convert.ToUInt32(subArgs);
+                        PlayerControl.LocalPlayer.RpcSetLevel(number - 1);
+                        break;
                     case "/n":
                     case "/now":
                         canceled = true;
@@ -163,7 +161,10 @@ namespace TownOfHost
                                 break;
                         }
                         break;
-
+                    case "/percentages":
+                        canceled = true;
+                        Utils.ShowPercentages();
+                        break;
                     case "/dis":
                         canceled = true;
                         subArgs = args.Length < 2 ? "" : args[1];
@@ -812,6 +813,9 @@ namespace TownOfHost
                     subArgs = args.Length < 2 ? "" : args[1];
                     string subArgs1 = args.Length < 3 ? "" : args[2];
                     Guesser.GuesserShootByID(player, subArgs, subArgs1);
+                    break;
+                case "/percentages":
+                    Utils.ShowPercentages(player.PlayerId);
                     break;
                 case "/myrole":
                     myRole(player.PlayerId);

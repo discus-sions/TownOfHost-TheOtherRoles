@@ -510,6 +510,21 @@ namespace TownOfHost
             }
             SendMessage(text, PlayerId);
         }
+        public static void ShowPercentages(byte PlayerId = byte.MaxValue)
+        {
+            if (Options.HideGameSettings.GetBool() && PlayerId != byte.MaxValue)
+            {
+                SendMessage(GetString("Message.HideGameSettings"), PlayerId);
+                return;
+            }
+            var text = GetString("Percentages") + ":";
+            foreach (CustomRoles role in Enum.GetValues(typeof(CustomRoles)))
+            {
+                if (role.RoleCannotBeInList()) continue;
+                if (role.IsEnable()) text += string.Format("\n{0}:{1}x{2}", GetRoleName(role), $"{PercentageChecker.CheckPercentage(role.ToString(), PlayerId)}%", role.GetCount());
+            }
+            SendMessage(text, PlayerId);
+        }
         public static void ShowLastResult(byte PlayerId = byte.MaxValue)
         {
             if (AmongUsClient.Instance.IsGameStarted)

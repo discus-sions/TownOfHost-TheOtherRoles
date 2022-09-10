@@ -676,6 +676,7 @@ namespace TownOfHost
                                 numCovenAlive++;
                             }
                             else if (playerInfo.GetCustomRole() == CustomRoles.CorruptedSheriff) numImpostorsAlive++;
+                            //else if (playerInfo.GetCustomRole() == CustomRoles.Arsonist) arsonists++;
                             else if (playerInfo.GetCustomRole() == CustomRoles.Jackal) numJackalsAlive++;
                             else if (playerInfo.GetCustomRole() == CustomRoles.Sidekick) numJackalsAlive++;
                             else if (playerInfo.GetCustomRole() == CustomRoles.PlagueBearer) numPestiAlive++;
