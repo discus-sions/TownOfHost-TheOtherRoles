@@ -384,7 +384,7 @@ namespace TownOfHost
                             }
                             else
                             {
-                                if (!role.IsNeutral())
+                                if (role.IsCrewmate())
                                 {
                                     // role is crew //
                                     for (var i = 0; i < role.GetCount(); i++)
