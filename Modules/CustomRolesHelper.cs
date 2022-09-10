@@ -275,6 +275,32 @@ namespace TownOfHost
             }
         }
         public static bool IsEnable(this CustomRoles role) => role.GetCount() > 0;
+
+        // SPECIFIC ROLE TYPES //
+        public static bool IsShapeShifter(this CustomRoles role)
+        {
+            return
+                role is CustomRoles.Shapeshifter or
+                CustomRoles.BountyHunter or
+                CustomRoles.Warlock or
+                CustomRoles.SerialKiller or
+                CustomRoles.FireWorks or
+                CustomRoles.Sniper or
+                CustomRoles.Camouflager or
+                CustomRoles.Miner or
+                CustomRoles.Ninja or
+                CustomRoles.TheGlitch;
+        }
+        public static bool IsEngineer(this CustomRoles role)
+        {
+            if (Options.JesterCanVent.GetBool() && role == CustomRoles.Jester) return true;
+            if (Options.VultureCanVent.GetBool() && role == CustomRoles.Vulture) return true;
+            if (Options.MadSnitchCanVent.GetBool() && role == CustomRoles.MadSnitch) return true;
+            return
+                role is CustomRoles.Survivor or
+                CustomRoles.Terrorist or
+                CustomRoles.GuardianAngelTOU;
+        }
     }
     public enum RoleType
     {
