@@ -354,9 +354,8 @@ namespace TownOfHost
                         }
 
                         List<CustomRoles> rolesChosenImp = new();
-
-                        List<CustomRoles> chosenCrewEngi = new();
                         List<CustomRoles> chosenCrew = new();
+
                         foreach (CustomRoles role in Enum.GetValues(typeof(CustomRoles)))
                         {
                             if (role.RoleCannotBeInList()) continue;
@@ -387,17 +386,13 @@ namespace TownOfHost
                             }
                             else
                             {
-                                if (role.IsCrewmate())
+                                if (role.IsCrewmate() && role.IsEnable())
                                 {
                                     // role is crew //
                                     for (var i = 0; i < role.GetCount(); i++)
                                     {
                                         if (RoleGoingInList(role))
                                         {
-                                            /*if (role.IsEngineer())
-                                                chosenCrewEngi.Add(role);
-                                            else
-                                                chosenCrew.Add(role);*/
                                             chosenCrew.Add(role);
                                         }
                                     }
