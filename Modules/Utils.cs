@@ -502,6 +502,7 @@ namespace TownOfHost
                 return;
             }
             var text = GetString("Roles") + ":";
+            text += "\nFor acurate Percentages, please type /percentages.";
             // text += string.Format("\n{0}:{1}", GetRoleName(CustomRoles.GM), GetOnOff(Options.EnableGM.GetBool()));
             foreach (CustomRoles role in Enum.GetValues(typeof(CustomRoles)))
             {
