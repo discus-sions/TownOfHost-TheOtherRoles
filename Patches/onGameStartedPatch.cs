@@ -358,6 +358,7 @@ namespace TownOfHost
 
                         foreach (CustomRoles role in Enum.GetValues(typeof(CustomRoles)))
                         {
+                            if (role.IsVanilla()) continue;
                             if (role.RoleCannotBeInList()) continue;
                             if (role.IsEnable() && role.IsImpostor())
                             {
