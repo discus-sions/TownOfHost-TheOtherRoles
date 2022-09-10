@@ -367,11 +367,6 @@ namespace TownOfHost
                                     if (RoleGoingInList(role))
                                     {
                                         rolesChosenImp.Add(role);
-                                        /*if (role.IsShapeShifter())
-                                        {
-                                            Main.chosenImpRoles.Remove(role);
-                                            Main.chosenShifterRoles.Add(role);
-                                        }*/
                                     }
                                 }
                             }
@@ -406,33 +401,40 @@ namespace TownOfHost
                         bool haveCoven = RoleGoingInList(CustomRoles.Coven);
 
                         var impnum = Main.RealOptionsData.NumImpostors;
-                        var crewnum = AllPlayers.Count - Main.RealOptionsData.NumImpostors;
+                        var crewnum = AllPlayers.Count - impnum;
                         if (haveSheriff)
                             crewnum -= CustomRoles.Sheriff.GetCount();
                         if (haveInvest)
                             crewnum -= CustomRoles.Investigator.GetCount();
                         if (haveCoven)
                             crewnum -= CustomRoles.Coven.GetCount();
-                        for (var i = 0; i < impnum; i++)
+                        if (rolesChosenImp.Count != 0)
                         {
-                            var rando = new System.Random();
-                            var role = rolesChosenImp[rando.Next(0, rolesChosenImp.Count)];
-                            rolesChosenImp.Remove(role);
-                            if (role.IsShapeShifter())
-                                Main.chosenShifterRoles.Add(role);
-                            else
-                                Main.chosenImpRoles.Add(role);
+                            for (var i = 0; i < impnum; i++)
+                            {
+                                var rando = new System.Random();
+                                var role = rolesChosenImp[rando.Next(0, rolesChosenImp.Count)];
+                                rolesChosenImp.Remove(role);
+                                if (role.IsShapeShifter())
+                                    Main.chosenShifterRoles.Add(role);
+                                else
+                                    Main.chosenImpRoles.Add(role);
+
+                            }
                         }
                         // NOW WE CHOOSE CREW ROLES //
-                        for (var i = 0; i < crewnum; i++)
+                        if (chosenCrew.Count != 0)
                         {
-                            var rando = new System.Random();
-                            var role = chosenCrew[rando.Next(0, chosenCrew.Count)];
-                            chosenCrew.Remove(role);
-                            if (role.IsEngineer())
-                                Main.chosenEngiRoles.Add(role);
-                            else
-                                Main.chosenRoles.Add(role);
+                            for (var i = 0; i < crewnum; i++)
+                            {
+                                var rando = new System.Random();
+                                var role = chosenCrew[rando.Next(0, chosenCrew.Count)];
+                                chosenCrew.Remove(role);
+                                if (role.IsEngineer())
+                                    Main.chosenEngiRoles.Add(role);
+                                else
+                                    Main.chosenRoles.Add(role);
+                            }
                         }
 
                         RoleOptionsData roleOpt = PlayerControl.GameOptions.RoleOptions;
