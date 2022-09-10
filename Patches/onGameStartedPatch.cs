@@ -246,35 +246,36 @@ namespace TownOfHost
                         // ASSIGN NK ROLES //
                         if (Options.MaxNK.GetInt() != 0)
                         {
+                            List<CustomRoles> rolesChosen = new();
                             if (RoleGoingInList(CustomRoles.Arsonist))
-                                Main.chosenNK.Add(CustomRoles.Arsonist);
+                                rolesChosen.Add(CustomRoles.Arsonist);
 
                             if (RoleGoingInList(CustomRoles.Jackal))
-                                Main.chosenNK.Add(CustomRoles.Jackal);
+                                rolesChosen.Add(CustomRoles.Jackal);
 
                             if (RoleGoingInList(CustomRoles.Juggernaut))
-                                Main.chosenNK.Add(CustomRoles.Juggernaut);
+                                rolesChosen.Add(CustomRoles.Juggernaut);
 
                             if (RoleGoingInList(CustomRoles.Egoist))
-                                Main.chosenNK.Add(CustomRoles.Egoist);
+                                rolesChosen.Add(CustomRoles.Egoist);
 
                             if (RoleGoingInList(CustomRoles.PlagueBearer))
-                                Main.chosenNK.Add(CustomRoles.PlagueBearer);
+                                rolesChosen.Add(CustomRoles.PlagueBearer);
 
                             if (RoleGoingInList(CustomRoles.TheGlitch))
-                                Main.chosenNK.Add(CustomRoles.TheGlitch);
+                                rolesChosen.Add(CustomRoles.TheGlitch);
 
                             if (RoleGoingInList(CustomRoles.Werewolf))
-                                Main.chosenNK.Add(CustomRoles.Werewolf);
+                                rolesChosen.Add(CustomRoles.Werewolf);
 
                             if (RoleGoingInList(CustomRoles.BloodKnight))
-                                Main.chosenNK.Add(CustomRoles.BloodKnight);
+                                rolesChosen.Add(CustomRoles.BloodKnight);
 
                             if (RoleGoingInList(CustomRoles.Marksman))
-                                Main.chosenNK.Add(CustomRoles.Marksman);
+                                rolesChosen.Add(CustomRoles.Marksman);
 
                             if (RoleGoingInList(CustomRoles.CrewPostor))
-                                Main.chosenNK.Add(CustomRoles.CrewPostor);
+                                rolesChosen.Add(CustomRoles.CrewPostor);
 
                             for (var i = 0; i < numofNks; i++)
                             {
@@ -282,7 +283,7 @@ namespace TownOfHost
                                 var random = new System.Random();
                                 var role = Main.chosenNK[rando.Next(0, Main.chosenNK.Count)];
                                 var player = AllNKPlayers[random.Next(0, AllNKPlayers.Count)];
-                                Main.chosenNK.Remove(role);
+                                rolesChosen.Remove(role);
                                 AllNKPlayers.Remove(player);
                                 List<PlayerControl> urself = new();
                                 urself.Add(player);
@@ -307,27 +308,30 @@ namespace TownOfHost
                         // ASSIGN NON-NK ROLES //
                         if (Options.MaxNonNK.GetInt() != 0)
                         {
-
+                            List<CustomRoles> rolesChosen = new();
                             if (RoleGoingInList(CustomRoles.Jester))
-                                Main.chosenNonNK.Add(CustomRoles.Jester);
+                                rolesChosen.Add(CustomRoles.Jester);
 
                             if (RoleGoingInList(CustomRoles.Survivor))
-                                Main.chosenNonNK.Add(CustomRoles.Survivor);
+                                rolesChosen.Add(CustomRoles.Survivor);
 
                             if (RoleGoingInList(CustomRoles.SchrodingerCat))
-                                Main.chosenNonNK.Add(CustomRoles.SchrodingerCat);
+                                rolesChosen.Add(CustomRoles.SchrodingerCat);
 
                             if (RoleGoingInList(CustomRoles.Terrorist))
-                                Main.chosenNonNK.Add(CustomRoles.Terrorist);
+                                rolesChosen.Add(CustomRoles.Terrorist);
 
                             if (RoleGoingInList(CustomRoles.Executioner))
-                                Main.chosenNonNK.Add(CustomRoles.Executioner);
+                                rolesChosen.Add(CustomRoles.Executioner);
 
                             if (RoleGoingInList(CustomRoles.GuardianAngelTOU))
-                                Main.chosenNonNK.Add(CustomRoles.GuardianAngelTOU);
+                                rolesChosen.Add(CustomRoles.GuardianAngelTOU);
 
                             if (RoleGoingInList(CustomRoles.Hacker))
-                                Main.chosenNonNK.Add(CustomRoles.Hacker);
+                                rolesChosen.Add(CustomRoles.Hacker);
+
+                            if (RoleGoingInList(CustomRoles.Vulture))
+                                rolesChosen.Add(CustomRoles.Vulture);
 
                             for (var i = 0; i < numofNonNks; i++)
                             {
@@ -335,7 +339,7 @@ namespace TownOfHost
                                 var random = new System.Random();
                                 var role = Main.chosenNonNK[rando.Next(0, Main.chosenNonNK.Count)];
                                 var player = AllnonNKPlayers[random.Next(0, AllnonNKPlayers.Count)];
-                                Main.chosenNK.Remove(role);
+                                rolesChosen.Remove(role);
                                 AllnonNKPlayers.Remove(player);
                                 List<PlayerControl> urself = new();
                                 urself.Add(player);
