@@ -325,7 +325,7 @@ namespace TownOfHost
                                 rolesChosenNon.Add(CustomRoles.Executioner);
 
                             if (RoleGoingInList(CustomRoles.GuardianAngelTOU))
-                                rolesChosen.Add(CustomRoles.GuardianAngelTOU);
+                                rolesChosenNon.Add(CustomRoles.GuardianAngelTOU);
 
                             if (RoleGoingInList(CustomRoles.Hacker))
                                 rolesChosenNon.Add(CustomRoles.Hacker);
@@ -394,17 +394,29 @@ namespace TownOfHost
                                     {
                                         if (RoleGoingInList(role))
                                         {
-                                            if (role.IsEngineer())
+                                            /*if (role.IsEngineer())
                                                 chosenCrewEngi.Add(role);
                                             else
-                                                chosenCrew.Add(role);
+                                                chosenCrew.Add(role);*/
+                                            chosenCrew.Add(role);
                                         }
                                     }
                                 }
                             }
                         }
 
+                        bool haveSheriff = RoleGoingInList(CustomRoles.Sheriff);
+                        bool haveInvest = RoleGoingInList(CustomRoles.Investigator);
+                        bool haveCoven = RoleGoingInList(CustomRoles.Coven);
+
                         var impnum = Main.RealOptionsData.NumImpostors;
+                        var crewnum = AllPlayers.Count - Main.RealOptionsData.NumImpostors;
+                        if (haveSheriff)
+                            crewnum -= CustomRoles.Sheriff.GetCount();
+                        if (haveInvest)
+                            crewnum -= CustomRoles.Investigator.GetCount();
+                        if (haveCoven)
+                            crewnum -= CustomRoles.Coven.GetCount();
                         for (var i = 0; i < impnum; i++)
                         {
                             var rando = new System.Random();
@@ -415,6 +427,18 @@ namespace TownOfHost
                             else
                                 Main.chosenImpRoles.Add(role);
                         }
+                        // NOW WE CHOOSE CREW ROLES //
+                        for (var i = 0; i < crewnum; i++)
+                        {
+                            var rando = new System.Random();
+                            var role = chosenCrew[rando.Next(0, chosenCrew.Count)];
+                            chosenCrew.Remove(role);
+                            if (role.IsEngineer())
+                                Main.chosenEngiRoles.Add(role);
+                            else
+                                Main.chosenRoles.Add(role);
+                        }
+
                         RoleOptionsData roleOpt = PlayerControl.GameOptions.RoleOptions;
                         int ScientistNum = roleOpt.GetNumPerGame(RoleTypes.Scientist);
                         int AdditionalScientistNum = Main.chosenScientistRoles.Count;
@@ -428,20 +452,12 @@ namespace TownOfHost
                         int AdditionalShapeshifterNum = Main.chosenShifterRoles.Count;
                         roleOpt.SetRoleRate(RoleTypes.Shapeshifter, ShapeshifterNum + AdditionalShapeshifterNum, AdditionalShapeshifterNum > 0 ? 100 : roleOpt.GetChancePerGame(RoleTypes.Shapeshifter));
 
-                        if (RoleGoingInList(CustomRoles.Sheriff))
+                        if (haveSheriff)
                             AssignDesyncRole(CustomRoles.Sheriff, AllPlayers, sender, BaseRole: RoleTypes.Impostor);
-                        if (RoleGoingInList(CustomRoles.Investigator))
+                        if (haveInvest)
                             AssignDesyncRole(CustomRoles.Investigator, AllPlayers, sender, BaseRole: RoleTypes.Impostor);
-                        //COVEN 
-                        AssignDesyncRole(CustomRoles.Coven, AllPlayers, sender, BaseRole: RoleTypes.Impostor);
-                        //AssignCovenRoles
-                        AssignDesyncRole(CustomRoles.CovenWitch, AllPlayers, sender, BaseRole: RoleTypes.Impostor);
-                        AssignDesyncRole(CustomRoles.HexMaster, AllPlayers, sender, BaseRole: RoleTypes.Impostor);
-                        AssignDesyncRole(CustomRoles.PotionMaster, AllPlayers, sender, BaseRole: RoleTypes.Impostor);
-                        AssignDesyncRole(CustomRoles.Poisoner, AllPlayers, sender, BaseRole: RoleTypes.Impostor);
-                        AssignDesyncRole(CustomRoles.Medusa, AllPlayers, sender, BaseRole: RoleTypes.Impostor);
-                        AssignDesyncRole(CustomRoles.Mimic, AllPlayers, sender, BaseRole: RoleTypes.Impostor);
-                        AssignDesyncRole(CustomRoles.Necromancer, AllPlayers, sender, BaseRole: RoleTypes.Impostor);
+                        if (haveCoven)
+                            AssignDesyncRole(CustomRoles.Coven, AllPlayers, sender, BaseRole: RoleTypes.Impostor);
                     }
                 }
                 else
@@ -858,12 +874,12 @@ namespace TownOfHost
                 roleOpt.SetRoleRate(RoleTypes.Engineer, EngineerNum, roleOpt.GetChancePerGame(RoleTypes.Engineer));
 
                 int ShapeshifterNum = roleOpt.GetNumPerGame(RoleTypes.Shapeshifter);
-                ShapeshifterNum -= Main.chosenScientistRoles.Count;
+                ShapeshifterNum -= Main.chosenShifterRoles.Count;
                 roleOpt.SetRoleRate(RoleTypes.Shapeshifter, ShapeshifterNum, roleOpt.GetChancePerGame(RoleTypes.Shapeshifter));
             }
 
             // ResetCamが必要なプレイヤーのリストにクラス化が済んでいない役職のプレイヤーを追加
-            Main.ResetCamPlayerList.AddRange(PlayerControl.AllPlayerControls.ToArray().Where(p => p.GetCustomRole() is CustomRoles.Arsonist or CustomRoles.Jackal or CustomRoles.PlagueBearer or CustomRoles.Pestilence or CustomRoles.Werewolf or CustomRoles.TheGlitch).Select(p => p.PlayerId));
+            Main.ResetCamPlayerList.AddRange(PlayerControl.AllPlayerControls.ToArray().Where(p => p.IsNeutralKiller()).Select(p => p.PlayerId));
             Utils.CountAliveImpostors();
             Utils.CustomSyncAllSettings();
             SetColorPatch.IsAntiGlitchDisabled = false;
