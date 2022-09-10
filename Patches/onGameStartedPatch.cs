@@ -244,9 +244,9 @@ namespace TownOfHost
                             }
 
                         // ASSIGN NK ROLES //
+                        List<CustomRoles> rolesChosen = new();
                         if (Options.MaxNK.GetInt() != 0)
                         {
-                            List<CustomRoles> rolesChosen = new();
                             if (RoleGoingInList(CustomRoles.Arsonist))
                                 rolesChosen.Add(CustomRoles.Arsonist);
 
@@ -306,32 +306,32 @@ namespace TownOfHost
                         }
 
                         // ASSIGN NON-NK ROLES //
+                        List<CustomRoles> rolesChosenNon = new();
                         if (Options.MaxNonNK.GetInt() != 0)
                         {
-                            List<CustomRoles> rolesChosen = new();
                             if (RoleGoingInList(CustomRoles.Jester))
-                                rolesChosen.Add(CustomRoles.Jester);
+                                rolesChosenNon.Add(CustomRoles.Jester);
 
                             if (RoleGoingInList(CustomRoles.Survivor))
-                                rolesChosen.Add(CustomRoles.Survivor);
+                                rolesChosenNon.Add(CustomRoles.Survivor);
 
                             if (RoleGoingInList(CustomRoles.SchrodingerCat))
-                                rolesChosen.Add(CustomRoles.SchrodingerCat);
+                                rolesChosenNon.Add(CustomRoles.SchrodingerCat);
 
                             if (RoleGoingInList(CustomRoles.Terrorist))
-                                rolesChosen.Add(CustomRoles.Terrorist);
+                                rolesChosenNon.Add(CustomRoles.Terrorist);
 
                             if (RoleGoingInList(CustomRoles.Executioner))
-                                rolesChosen.Add(CustomRoles.Executioner);
+                                rolesChosenNon.Add(CustomRoles.Executioner);
 
                             if (RoleGoingInList(CustomRoles.GuardianAngelTOU))
                                 rolesChosen.Add(CustomRoles.GuardianAngelTOU);
 
                             if (RoleGoingInList(CustomRoles.Hacker))
-                                rolesChosen.Add(CustomRoles.Hacker);
+                                rolesChosenNon.Add(CustomRoles.Hacker);
 
                             if (RoleGoingInList(CustomRoles.Vulture))
-                                rolesChosen.Add(CustomRoles.Vulture);
+                                rolesChosenNon.Add(CustomRoles.Vulture);
 
                             for (var i = 0; i < numofNonNks; i++)
                             {
@@ -339,7 +339,7 @@ namespace TownOfHost
                                 var random = new System.Random();
                                 var role = Main.chosenNonNK[rando.Next(0, Main.chosenNonNK.Count)];
                                 var player = AllnonNKPlayers[random.Next(0, AllnonNKPlayers.Count)];
-                                rolesChosen.Remove(role);
+                                rolesChosenNon.Remove(role);
                                 AllnonNKPlayers.Remove(player);
                                 List<PlayerControl> urself = new();
                                 urself.Add(player);
