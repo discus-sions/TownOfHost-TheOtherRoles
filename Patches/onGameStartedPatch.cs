@@ -370,16 +370,6 @@ namespace TownOfHost
                                     }
                                 }
                             }
-                            else if (role.IsEnable() && role == CustomRoles.Doctor && RoleGoingInList(role))
-                            {
-                                for (var i = 0; i < role.GetCount(); i++)
-                                {
-                                    if (RoleGoingInList(role))
-                                    {
-                                        Main.chosenScientistRoles.Add(role);
-                                    }
-                                }
-                            }
                             else
                             {
                                 if (role.IsCrewmate() && role.IsEnable())
@@ -432,6 +422,8 @@ namespace TownOfHost
                                 chosenCrew.Remove(role);
                                 if (role.IsEngineer())
                                     Main.chosenEngiRoles.Add(role);
+                                else if (role == CustomRoles.Doctor)
+                                    Main.chosenScientistRoles.Add(role);
                                 else
                                     Main.chosenRoles.Add(role);
                             }

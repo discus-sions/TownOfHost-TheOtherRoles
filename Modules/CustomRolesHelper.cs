@@ -172,8 +172,7 @@ namespace TownOfHost
         public static bool RoleCannotBeInList(this CustomRoles role)
         {
             return
-                role is CustomRoles.Coven or
-                CustomRoles.Poisoner or
+                role is CustomRoles.Poisoner or
                 CustomRoles.HexMaster or
                 CustomRoles.PotionMaster or
                 CustomRoles.CovenWitch or
