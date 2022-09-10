@@ -281,7 +281,7 @@ namespace TownOfHost
                             {
                                 var rando = new System.Random();
                                 var random = new System.Random();
-                                var role = Main.chosenNK[rando.Next(0, Main.chosenNK.Count)];
+                                var role = rolesChosen[rando.Next(0, rolesChosen.Count)];
                                 var player = AllNKPlayers[random.Next(0, AllNKPlayers.Count)];
                                 rolesChosen.Remove(role);
                                 AllNKPlayers.Remove(player);
@@ -337,7 +337,7 @@ namespace TownOfHost
                             {
                                 var rando = new System.Random();
                                 var random = new System.Random();
-                                var role = Main.chosenNonNK[rando.Next(0, Main.chosenNonNK.Count)];
+                                var role = rolesChosenNon[rando.Next(0, rolesChosenNon.Count)];
                                 var player = AllnonNKPlayers[random.Next(0, AllnonNKPlayers.Count)];
                                 rolesChosenNon.Remove(role);
                                 AllnonNKPlayers.Remove(player);
