@@ -363,11 +363,11 @@ namespace TownOfHost
                                     if (RoleGoingInList(role))
                                     {
                                         Main.chosenImpRoles.Add(role);
-                                        if (role.IsShapeShifter())
+                                        /*if (role.IsShapeShifter())
                                         {
                                             Main.chosenImpRoles.Remove(role);
                                             Main.chosenShifterRoles.Add(role);
-                                        }
+                                        }*/
                                     }
                                 }
                             }
@@ -400,6 +400,18 @@ namespace TownOfHost
                             }
                         }
 
+                        var impnum = Main.RealOptionsData.NumImpostors;
+                        var roles = Main.chosenImpRoles;
+                        Main.chosenImpRoles.Clear();
+                        for (var i = 0; i < impnum; i++)
+                        {
+                            var rando = new System.Random();
+                            var role = roles[rando.Next(0, roles.Count)];
+                            if (role.IsShapeShifter())
+                                Main.chosenShifterRoles.Add(role);
+                            else
+                                Main.chosenImpRoles.Add(role);
+                        }
                         RoleOptionsData roleOpt = PlayerControl.GameOptions.RoleOptions;
                         int ScientistNum = roleOpt.GetNumPerGame(RoleTypes.Scientist);
                         int AdditionalScientistNum = Main.chosenScientistRoles.Count;
