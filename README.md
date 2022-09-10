@@ -133,25 +133,25 @@ If all Impostors leave the game, the game will automatically end with the unused
 
 | Impostors                           | Crewmates                         | Neutrals                          |
 | ----------------------------------- | --------------------------------- | --------------------------------- |
-| [BountyHunter](#BountyHunter)       | [Bait](#Bait)                     | [Arsonist](#Arsonist)             |
-| [Evil Watcher](#Watcher)            | [Dictator](#Dictator)             | [Egoist](#Egoist)                 |
-| [FireWorks](#FireWorks)             | [Doctor](#Doctor)                 | [Executioner](#Executioner)       |
-| [Mare](#Mare)                       | [Lighter](#Lighter)               | [Jester](#Jester)                 |
-| [Puppeteer](#Puppeteer)             | [Mayor](#Mayor)                   | [Lovers](#Lovers)                 |
-| [SerialKiller](#SerialKiller)       | [Nice Watcher](#Watcher)          | [Opportunist](#Opportunist)       |
-| [Sniper](#Sniper)                   | [SabotageMaster](#SabotageMaster) | [Terrorist](#Terrorist)           |
-| [TimeThief](#TimeThief)             | [Sheriff](#Sheriff)               | [SchrodingerCat](#SchrodingerCat) |
-| [Vampire](#Vampire)                 | [Snitch](#Snitch)                 | [Juggernaut](#juggernaut)         |
-| [Warlock](#Warlock)                 | [SpeedBooster](#SpeedBooster)     | [Vulture](#vulture)               |
-| [Witch](#Witch)                     | [Trapper](#Trapper)               | [Hacker](#hacker)                 |
-| [Mafia](#Mafia)                     | [Demolitionist](#demolitionist)   | [PlagueBearer](#plaguebearer)     |
-| [Madmate](#Madmate)                 | [Bastion](#bastion)               | [The-Glitch](#the-glitch)         |
-| [MadGuardian](#MadGuardian)         | [Bewilder](#bewilder)             | [Werewolf](#werewolf)             |
-| [MadSnitch](#MadSnitch)             | [Veteran](#veteran)               | [Guardian-Angel](#guardian-angel) |
-| [SidekickMadmate](#SidekickMadmate) | [Child](#child)                   | [Amnesiac](#amnesiac)             |
+| [BountyHunter](#bountyhunter)       | [Bait](#bait)                     | [Arsonist](#arsonist)             |
+| [Evil Watcher](#watcher)            | [Dictator](#dictator)             | [Egoist](#egoist)                 |
+| [FireWorks](#fireworks)             | [Doctor](#doctor)                 | [Executioner](#executioner)       |
+| [Mare](#mare)                       | [Lighter](#lighter)               | [Jester](#jester)                 |
+| [Puppeteer](#puppeteer)             | [Mayor](#mayor)                   | [Lovers](#lovers)                 |
+| [Mercenary](#mercenary)             | [Nice Watcher](#watcher)          | [Opportunist](#opportunist)       |
+| [Sniper](#sniper)                   | [SabotageMaster](#sabotagemaster) | [Terrorist](#terrorist)           |
+| [TimeThief](#timethief)             | [Sheriff](#sheriff)               | [SchrodingerCat](#schrodingercat) |
+| [Vampire](#vampire)                 | [Snitch](#snitch)                 | [Juggernaut](#juggernaut)         |
+| [Warlock](#warlock)                 | [SpeedBooster](#speedbooster)     | [Vulture](#vulture)               |
+| [Witch](#witch)                     | [Trapper](#trapper)               | [Hacker](#hacker)                 |
+| [Mafia](#mafia)                     | [Demolitionist](#demolitionist)   | [PlagueBearer](#plaguebearer)     |
+| [Madmate](#madmate)                 | [Bastion](#bastion)               | [The-Glitch](#the-glitch)         |
+| [MadGuardian](#madguardian)         | [Bewilder](#bewilder)             | [Werewolf](#werewolf)             |
+| [MadSnitch](#madsnitch)             | [Veteran](#veteran)               | [Guardian-Angel](#guardian-angel) |
+| [SidekickMadmate](#sidekickmadmate) | [Child](#child)                   | [Amnesiac](#amnesiac)             |
 | [Silencer](#silencer)               | [Sleuth](#sleuth)                 | [Pestilence](#pestilence)         |
-| [CorruptedSheriff](#c-sheriff)      | [Investigator](#investigator)     | [Jackal](#jackal)                 |
-| [Assassin](#Guesser)                | [Vigilante](#Guesser)             | [Pirate](#guesser)                |
+| [CorruptedSheriff](#c-sheriff)      | [Investigator](#investigator)     | [Serial Killer](#serial-killer)   |
+| [Assassin](#guesser)                | [Vigilante](#guesser)             | [Pirate](#guesser)                |
 
 ### GM
 
@@ -224,7 +224,7 @@ The puppeteer can curse a crewmate and force them to kill the next non-impostor 
 The cursed crewmate can kill a mad role also.<br>
 It is not possible for puppeteer to perform a normal kill.<br>
 
-### SerialKiller
+### Mercenary
 
 **Warning**
 Broken with latest Among Us Update.
@@ -232,14 +232,14 @@ Broken with latest Among Us Update.
 Team : Impostors<br>
 Basis : Shapeshifter<br>
 
-The SerialKillers have even shorter kill cooldown.<br>
-Unless taking a kill by deadline, they murder themselves instantly.<br>
+The Mercenary has a shorter kill cooldown.<br>
+Unless they get a kill by deadline, they suicide instantly.<br>
 
 #### Game Options
 
 | Name                          |
 | ----------------------------- |
-| SerialKiller Kill Cooldown(s) |
+| Mercenary Kill Cooldown(s)    |
 | Time Limit To Suiside(s)      |
 
 ### ShapeMaster
@@ -793,22 +793,23 @@ After infecting everyone, you turn into Pestilence.
 | ----------------------- |
 | PlagueeBearer Infect CD |
 
-### Jackal
+### Serial Killer
 
 Team: Neutral<br>
 Basis: Impostor<br>
 Victory Condition: Kill Everyone<br>
 
-The Jackal can kill both impostors and crewmates.<br>
+The Serial Killer can kill both impostors and crewmates.<br>
 Their goal is to be the last one standing.<br>
 
 #### Game Options
 
 | Name                    |
 | ----------------------- |
-| Jackal Kill Cooldown    |
-| Jackal Can Vent         |
-| Jackal Can Sabotage     |
+| SK Kill Cooldown        |
+| SK Can Vent             |
+| SK Can Sabotage         |
+| SK Has Sidekick         |
 
 ### Pestilence
 
@@ -819,7 +820,7 @@ Victory Condition : Kill all Living Player<br>
 PlagueBearer becomes Pestilence when they finish infecting.<br>
 Pestilence is an unkillable force. When someone tries to kill Pestilence, the pestilence will kill with a lunge. Pestilence can only be voted.<br>
 
-* As a measure against blackout, after death, the Arsonist can only see the motion of committing suicide at each meeting. There is no corpse. <br>
+* As a measure against blackout, after death, the PlagueBearer/Pestilence can only see the motion of committing suicide at each meeting. There is no corpse. <br>
 
 #### Game Options
 
