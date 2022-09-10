@@ -289,8 +289,15 @@ namespace TownOfHost
                                 urself.Add(player);
                                 if (role.IsShapeShifter())
                                 {
-                                    AssignDesyncRole(role, urself, sender, BaseRole: RoleTypes.Shapeshifter);
-                                    Main.chosenShifterRoles.Add(role);
+                                    if (role != CustomRoles.Egoist)
+                                    {
+                                        AssignDesyncRole(role, urself, sender, BaseRole: RoleTypes.Shapeshifter);
+                                        Main.chosenShifterRoles.Add(role);
+                                    }
+                                    else
+                                    {
+                                        Main.chosenShifterRoles.Add(role);
+                                    }
                                 }
                                 else
                                     AssignDesyncRole(role, urself, sender, BaseRole: RoleTypes.Impostor);
@@ -696,6 +703,9 @@ namespace TownOfHost
                 {
                     if (!role.IsNeutral())
                         AssignCustomRolesFromList(role, Shapeshifters);
+                    else if (role == CustomRoles.Egoist)
+                        if (Main.RealOptionsData.NumImpostors > 1)
+                            AssignCustomRolesFromList(role, Shapeshifters);
                 }
 
                 if (RoleGoingInList(CustomRoles.Oblivious))
