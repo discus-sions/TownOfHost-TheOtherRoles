@@ -452,11 +452,11 @@ namespace TownOfHost
                 TownOfHost.Logger.Info("Could not find percentage.txt in the same folder as Among Us.exe. This will cause roles to not spawn at all. Please redownload the mod.", "Percentage");
                 try
                 {
-                    File.WriteAllText(@"percentag.txt", "Download the correct version at: https://github.com/music-discussion/TownOfHost-TheOtherRoles");
+                    File.WriteAllText(@"percentage.txt", "Download the correct version at: https://github.com/music-discussion/TownOfHost-TheOtherRoles");
                 }
                 catch (Exception ex)
                 {
-                    TownOfHost.Logger.Error(ex.ToString(), "Template");
+                    TownOfHost.Logger.Error(ex.ToString(), "Percentage");
                 }
             }
 
