@@ -255,6 +255,9 @@ namespace TownOfHost
                             if (RoleGoingInList(CustomRoles.Juggernaut))
                                 Main.chosenNK.Add(CustomRoles.Juggernaut);
 
+                            if (RoleGoingInList(CustomRoles.Egoist))
+                                Main.chosenNK.Add(CustomRoles.Egoist);
+
                             if (RoleGoingInList(CustomRoles.PlagueBearer))
                                 Main.chosenNK.Add(CustomRoles.PlagueBearer);
 
@@ -301,8 +304,8 @@ namespace TownOfHost
                             if (RoleGoingInList(CustomRoles.Jester))
                                 Main.chosenNonNK.Add(CustomRoles.Jester);
 
-                            if (RoleGoingInList(CustomRoles.Opportunist))
-                                Main.chosenNonNK.Add(CustomRoles.Opportunist);
+                            if (RoleGoingInList(CustomRoles.Survivor))
+                                Main.chosenNonNK.Add(CustomRoles.Survivor);
 
                             if (RoleGoingInList(CustomRoles.SchrodingerCat))
                                 Main.chosenNonNK.Add(CustomRoles.SchrodingerCat);
@@ -312,9 +315,6 @@ namespace TownOfHost
 
                             if (RoleGoingInList(CustomRoles.Executioner))
                                 Main.chosenNonNK.Add(CustomRoles.Executioner);
-
-                            if (RoleGoingInList(CustomRoles.SchrodingerCat))
-                                Main.chosenNonNK.Add(CustomRoles.SchrodingerCat);
 
                             if (RoleGoingInList(CustomRoles.GuardianAngelTOU))
                                 Main.chosenNonNK.Add(CustomRoles.GuardianAngelTOU);

@@ -2089,7 +2089,7 @@ namespace TownOfHost
                         }
                     }
                     else if (seer.GetCustomRole().IsImpostor() && //seerがインポスター
-                        target.Is(CustomRoles.Egoist) //targetがエゴイスト
+                        target.Is(CustomRoles.Egoist) && Egoist.ImpostorsKnowEgo.GetBool() //targetがエゴイスト
                     )
                         RealName = Helpers.ColorString(Utils.GetRoleColor(CustomRoles.Egoist), RealName); //targetの名前をエゴイスト色で表示
 

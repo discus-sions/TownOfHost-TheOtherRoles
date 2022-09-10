@@ -151,7 +151,7 @@ If all Impostors leave the game, the game will automatically end with the unused
 | [SidekickMadmate](#SidekickMadmate) | [Child](#child)                   | [Amnesiac](#amnesiac)             |
 | [Silencer](#silencer)               | [Sleuth](#sleuth)                 | [Pestilence](#pestilence)         |
 | [CorruptedSheriff](#c-sheriff)      | [Investigator](#investigator)     | [Jackal](#jackal)                 |
-| [Evil Guesser](#Guesser)            | [Nice Guesser](#Guesser)          | [Pirate](#guesser)                |
+| [Assassin](#Guesser)                | [Vigilante](#Guesser)             | [Pirate](#guesser)                |
 
 ### GM
 

@@ -502,7 +502,7 @@ namespace TownOfHost
                 return;
             }
             var text = GetString("Roles") + ":";
-            text += "\nFor acurate Percentages, \nPlease type /percentages.";
+            text += "\nFor Percentages, \nPlease type /percentages.";
             // text += string.Format("\n{0}:{1}", GetRoleName(CustomRoles.GM), GetOnOff(Options.EnableGM.GetBool()));
             foreach (CustomRoles role in Enum.GetValues(typeof(CustomRoles)))
             {
@@ -522,7 +522,7 @@ namespace TownOfHost
             foreach (CustomRoles role in Enum.GetValues(typeof(CustomRoles)))
             {
                 if (role.RoleCannotBeInList()) continue;
-                if (role.IsEnable()) text += string.Format("\n{0}:{1}x{2}", GetRoleName(role), $"{PercentageChecker.CheckPercentage(role.ToString(), PlayerId)}%", role.GetCount());
+                if (role.IsEnable()) text += string.Format("\n{0}x{1}", GetRoleName(role), role.GetCount());
             }
             SendMessage(text, PlayerId);
         }
@@ -995,19 +995,41 @@ namespace TownOfHost
                         {
                             if (Options.ImpostorKnowsRolesOfTeam.GetBool())
                             {
-                                //so we gotta make it so they can see the team. of their impostor
-                                if (target.GetCustomRole().IsImpostor())
+                                if (!CustomRoles.Egoist.IsEnable())
                                 {
-                                    if (!seer.Data.IsDead && !seer.Data.Disconnected)
+                                    //so we gotta make it so they can see the team. of their impostor
+                                    if (target.GetCustomRole().IsImpostor())
                                     {
-                                        // TeamText += "\r\n";
-                                        if (!Options.RolesLikeToU.GetBool())
-                                            TeamText += $"<size={fontSize}>{Helpers.ColorString(target.GetRoleColor(), target.GetRoleName())}</size>\r\n";
-                                        else
-                                            TeamText = $"\r\n{Helpers.ColorString(target.GetRoleColor(), target.GetRoleName())}";
+                                        if (!seer.Data.IsDead && !seer.Data.Disconnected)
+                                        {
+                                            // TeamText += "\r\n";
+                                            if (!Options.RolesLikeToU.GetBool())
+                                                TeamText += $"<size={fontSize}>{Helpers.ColorString(target.GetRoleColor(), target.GetRoleName())}</size>\r\n";
+                                            else
+                                                TeamText = $"\r\n{Helpers.ColorString(target.GetRoleColor(), target.GetRoleName())}";
+                                        }
+                                    }
+                                }
+                                else
+                                {
+                                    if (!Egoist.ImpostorsKnowEgo.GetBool())
+                                    {
+                                        //so we gotta make it so they can see the team. of their impostor
+                                        if (target.GetCustomRole().IsImpostor())
+                                        {
+                                            if (!seer.Data.IsDead && !seer.Data.Disconnected)
+                                            {
+                                                // TeamText += "\r\n";
+                                                if (!Options.RolesLikeToU.GetBool())
+                                                    TeamText += $"<size={fontSize}>{Helpers.ColorString(target.GetRoleColor(), target.GetRoleName())}</size>\r\n";
+                                                else
+                                                    TeamText = $"\r\n{Helpers.ColorString(target.GetRoleColor(), target.GetRoleName())}";
+                                            }
+                                        }
                                     }
                                 }
                             }
+
                         }
                         if (seer.GetCustomRole().IsCoven())
                         {
@@ -1123,7 +1145,7 @@ namespace TownOfHost
                             if (foundCheck)
                                 TargetPlayerName = Helpers.ColorString(target.GetRoleColor(), TargetPlayerName);
                         }
-                        else if (seer.GetCustomRole().IsImpostor() && target.Is(CustomRoles.Egoist))
+                        else if (seer.GetCustomRole().IsImpostor() && target.Is(CustomRoles.Egoist) && Egoist.ImpostorsKnowEgo.GetBool())
                             TargetPlayerName = Helpers.ColorString(GetRoleColor(CustomRoles.Egoist), TargetPlayerName);
                         else if (seer.GetCustomRole().IsImpostor() && target.Is(CustomRoles.CorruptedSheriff))
                             TargetPlayerName = Helpers.ColorString(GetRoleColor(CustomRoles.Impostor), TargetPlayerName);

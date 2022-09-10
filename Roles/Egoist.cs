@@ -9,11 +9,13 @@ namespace TownOfHost
         public static List<byte> playerIdList = new();
 
         private static CustomOption KillCooldown;
+        public static CustomOption ImpostorsKnowEgo;
 
         public static void SetupCustomOption()
         {
             Options.SetupRoleOptions(Id, CustomRoles.Egoist);
             KillCooldown = CustomOption.Create(Id + 10, Color.white, "EgoistKillCooldown", 20f, 2.5f, 180f, 2.5f, Options.CustomRoleSpawnChances[CustomRoles.Egoist]);
+            ImpostorsKnowEgo = CustomOption.Create(Id + 11, Color.white, "ImpostorsKnowEgo", false, Options.CustomRoleSpawnChances[CustomRoles.Egoist]);
         }
         public static void Init()
         {

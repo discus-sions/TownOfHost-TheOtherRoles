@@ -286,6 +286,7 @@ namespace TownOfHost
                 CustomRoles.SerialKiller or
                 CustomRoles.FireWorks or
                 CustomRoles.Sniper or
+                CustomRoles.Egoist or
                 CustomRoles.Camouflager or
                 CustomRoles.Miner or
                 CustomRoles.Ninja or
