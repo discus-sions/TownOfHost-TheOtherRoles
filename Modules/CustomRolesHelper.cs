@@ -296,8 +296,13 @@ namespace TownOfHost
             if (Options.JesterCanVent.GetBool() && role == CustomRoles.Jester) return true;
             if (Options.VultureCanVent.GetBool() && role == CustomRoles.Vulture) return true;
             if (Options.MadSnitchCanVent.GetBool() && role == CustomRoles.MadSnitch) return true;
+            if (Options.MayorHasPortableButton.GetBool() && role == CustomRoles.Mayor) return true;
             return
                 role is CustomRoles.Survivor or
+                CustomRoles.Engineer or
+                CustomRoles.Survivor or
+                CustomRoles.Madmate or
+                CustomRoles.Bastion or
                 CustomRoles.Terrorist or
                 CustomRoles.GuardianAngelTOU;
         }
