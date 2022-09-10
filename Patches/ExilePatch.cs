@@ -212,6 +212,51 @@ namespace TownOfHost
                     }
                 }, 0.5f, "Restore IsDead Task");
                 //Guesser.OpenGuesserMeeting();
+                if (Sheriff.SheriffCorrupted.GetBool())
+                {
+                    int IsAlive = 0;
+                    int numCovenAlive = 0;
+                    int numImpsAlive = 0;
+                    int numNKalive = 0;
+                    foreach (var pc in PlayerControl.AllPlayerControls)
+                    {
+                        if (!pc.Data.Disconnected)
+                            if (!pc.Data.IsDead)
+                            {
+                                IsAlive++;
+                                if (pc.GetCustomRole().IsNeutralKilling() && !Sheriff.TraitorCanSpawnIfNK.GetBool())
+                                    numNKalive++;
+                                if (pc.GetCustomRole().IsCoven() && !Sheriff.TraitorCanSpawnIfCoven.GetBool())
+                                    numCovenAlive++;
+                                if (pc.Is(CustomRoles.Sheriff))
+                                    Sheriff.seer = pc;
+                                if (pc.GetCustomRole().IsImpostor())
+                                    numImpsAlive++;
+                            }
+                    }
+
+                    if (Sheriff.seer == null)
+                    {
+                        foreach (var pc in PlayerControl.AllPlayerControls)
+                        {
+                            if (!pc.Data.Disconnected)
+                                if (!pc.Data.IsDead)
+                                {
+                                    if (pc.Is(CustomRoles.Investigator))
+                                        Sheriff.seer = pc;
+                                }
+                        }
+                    }
+
+                    //foreach (var pva in __instance.playerStates)
+                    if (IsAlive >= Sheriff.PlayersForTraitor.GetFloat() && Sheriff.seer != null)
+                    {
+                        if (numCovenAlive == 0 && numNKalive == 0 && numCovenAlive == 0 && numImpsAlive == 0)
+                        {
+                            Sheriff.seer.RpcSetCustomRole(CustomRoles.CorruptedSheriff);
+                        }
+                    }
+                }
             }
             Logger.Info("タスクフェイズ開始", "Phase");
         }

@@ -19,7 +19,7 @@ namespace TownOfHost
     {
         //Sorry for many Japanese comments.
         public const string PluginGuid = "com.emptybottle.townofhost";
-        public const string PluginVersion = "0.8.2";
+        public const string PluginVersion = "0.8.3";
         public Harmony Harmony { get; } = new Harmony(PluginGuid);
         public static Version version = Version.Parse(PluginVersion);
         public static BepInEx.Logging.ManualLogSource Logger;
@@ -192,6 +192,13 @@ namespace TownOfHost
         public static List<CustomRoles> chosenDesyncRoles = new();
         public static List<CustomRoles> chosenNK = new(); // ROLE : Value -- IsShapeshifter -- Key
         public static List<CustomRoles> chosenNonNK = new();
+
+        // specific roles //
+        public static List<CustomRoles> chosenEngiRoles = new();
+        public static List<CustomRoles> chosenScientistRoles = new();
+        public static List<CustomRoles> chosenShifterRoles = new();
+
+
         public static int MarksmanKills = 0;
 
         public static Dictionary<byte, int> lastAmountOfTasks = new(); // PLayerID : Value ---- AMOUNT : KEY

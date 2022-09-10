@@ -344,9 +344,9 @@ namespace TownOfHost
                     break;
                 case CustomRoles.Sheriff:
                 case CustomRoles.Investigator:
+                case CustomRoles.Janitor:
                 case CustomRoles.Arsonist:
                 case CustomRoles.Amnesiac:
-                case CustomRoles.Janitor:
                     opt.SetVision(player, false);
                     break;
                 case CustomRoles.PlagueBearer:

@@ -146,46 +146,46 @@ namespace TownOfHost
                 {
                     int IsAlive = 0;
                     int numCovenAlive = 0;
+                    int numImpsAlive = 0;
                     int numNKalive = 0;
                     //PlayerControl seer = PlayerControl.LocalPlayer;
                     foreach (var pc in PlayerControl.AllPlayerControls)
                     {
-                        if (!pc.Data.IsDead)
-                        {
-                            IsAlive++;
-                            if (pc.GetCustomRole().IsNeutralKilling() && !Sheriff.TraitorCanSpawnIfNK.GetBool())
-                                numNKalive++;
-                            if (pc.GetCustomRole().IsCoven() && !Sheriff.TraitorCanSpawnIfCoven.GetBool())
-                                numCovenAlive++;
-                            if (pc.Is(CustomRoles.Sheriff))
-                                seer = pc;
-                        }
+                        if (!pc.Data.Disconnected)
+                            if (!pc.Data.IsDead)
+                            {
+                                IsAlive++;
+                                if (pc.GetCustomRole().IsNeutralKilling() && !Sheriff.TraitorCanSpawnIfNK.GetBool())
+                                    numNKalive++;
+                                if (pc.GetCustomRole().IsCoven() && !Sheriff.TraitorCanSpawnIfCoven.GetBool())
+                                    numCovenAlive++;
+                                if (pc.Is(CustomRoles.Sheriff))
+                                    seer = pc;
+                                if (pc.GetCustomRole().IsImpostor())
+                                    numImpsAlive++;
+                            }
                     }
 
                     if (seer == null)
                     {
                         foreach (var pc in PlayerControl.AllPlayerControls)
                         {
-                            if (!pc.Data.IsDead)
-                            {
-                                if (pc.Is(CustomRoles.Investigator))
-                                    seer = pc;
-                            }
+                            if (!pc.Data.Disconnected)
+                                if (!pc.Data.IsDead)
+                                {
+                                    if (pc.Is(CustomRoles.Investigator))
+                                        seer = pc;
+                                }
                         }
                     }
 
                     //foreach (var pva in __instance.playerStates)
                     if (IsAlive >= Sheriff.PlayersForTraitor.GetFloat() && seer != null)
                     {
-                        foreach (var ar in PlayerControl.AllPlayerControls)
+                        if (seer.GetCustomRole() == CustomRoles.Sheriff && numCovenAlive == 0 && numNKalive == 0 && numImpsAlive == 0)
                         {
-                            //PlayerControl target = Utils.GetPlayerById(ar.playerId);
-
-                            if (seer.GetCustomRole() == CustomRoles.Sheriff && numCovenAlive == 0 && numNKalive == 0)
-                            {
-                                seer.RpcSetCustomRole(CustomRoles.CorruptedSheriff);
-                                seer.CustomSyncSettings();
-                            }
+                            seer.RpcSetCustomRole(CustomRoles.CorruptedSheriff);
+                            seer.CustomSyncSettings();
                         }
                     }
                 }
@@ -211,6 +211,7 @@ namespace TownOfHost
                 CustomRoles.PlagueBearer => CanKillPlagueBearer.GetBool(),
                 CustomRoles.Juggernaut => CanKillJug.GetBool(),
                 CustomRoles.Marksman => CanKillJug.GetBool(),
+                CustomRoles.BloodKnight => CanKillJug.GetBool(),
                 CustomRoles.Vulture => CanKillVulture.GetBool(),
                 CustomRoles.TheGlitch => CanKillGlitch.GetBool(),
                 CustomRoles.Werewolf => CanKillWerewolf.GetBool(),

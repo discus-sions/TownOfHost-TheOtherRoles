@@ -1293,7 +1293,7 @@ namespace TownOfHost
                         break;
                     }
                 }
-                NotifyRoles();
+                NotifyRoles(isMeeting: GameStates.IsMeeting);
                 CustomSyncAllSettings();
             }
         }
