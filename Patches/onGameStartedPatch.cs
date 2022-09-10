@@ -353,6 +353,7 @@ namespace TownOfHost
                             }
                         }
 
+                        List<CustomRoles> rolesChosenImp = new();
                         foreach (CustomRoles role in Enum.GetValues(typeof(CustomRoles)))
                         {
                             if (role.RoleCannotBeInList()) continue;
@@ -362,7 +363,7 @@ namespace TownOfHost
                                 {
                                     if (RoleGoingInList(role))
                                     {
-                                        Main.chosenImpRoles.Add(role);
+                                        rolesChosenImp.Add(role);
                                         /*if (role.IsShapeShifter())
                                         {
                                             Main.chosenImpRoles.Remove(role);
@@ -401,12 +402,10 @@ namespace TownOfHost
                         }
 
                         var impnum = Main.RealOptionsData.NumImpostors;
-                        var roles = Main.chosenImpRoles;
-                        Main.chosenImpRoles.Clear();
                         for (var i = 0; i < impnum; i++)
                         {
                             var rando = new System.Random();
-                            var role = roles[rando.Next(0, roles.Count)];
+                            var role = rolesChosenImp[rando.Next(0, rolesChosenImp.Count)];
                             if (role.IsShapeShifter())
                                 Main.chosenShifterRoles.Add(role);
                             else
