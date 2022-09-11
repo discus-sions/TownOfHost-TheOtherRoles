@@ -361,6 +361,7 @@ namespace TownOfHost
                             if (role.IsVanilla()) continue;
                             if (role.RoleCannotBeInList()) continue;
                             if (role.IsDesyncRole()) continue;
+                            if (role.IsNeutral()) continue;
                             if (role.IsModifier()) continue;
                             if (role.IsEnable() && role.IsImpostor())
                             {

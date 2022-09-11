@@ -161,6 +161,7 @@ namespace TownOfHost
                                 break;
                         }
                         break;
+                    case "/perc":
                     case "/percentages":
                         canceled = true;
                         Utils.ShowPercentages();
@@ -814,6 +815,7 @@ namespace TownOfHost
                     string subArgs1 = args.Length < 3 ? "" : args[2];
                     Guesser.GuesserShootByID(player, subArgs, subArgs1);
                     break;
+                case "/perc":
                 case "/percentages":
                     Utils.ShowPercentages(player.PlayerId);
                     break;
