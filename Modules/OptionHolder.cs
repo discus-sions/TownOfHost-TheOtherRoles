@@ -592,7 +592,7 @@ namespace TownOfHost
             JuggerCanVent = CustomOption.Create(60012, Color.white, "JuggerCanVent", true, CustomRoleSpawnChances[CustomRoles.Juggernaut]);
 
             SetupSingleRoleOptions(70001, CustomRoles.Marksman, 1);
-            MarksmanKillCooldown = CustomOption.Create(60011, Color.white, "MarksmanKillCooldown", 30, 2.5f, 180, 2.5f, CustomRoleSpawnChances[CustomRoles.Marksman]);
+            MarksmanKillCooldown = CustomOption.Create(600110, Color.white, "MarksmanKillCooldown", 30, 2.5f, 180, 2.5f, CustomRoleSpawnChances[CustomRoles.Marksman]);
             MarksmanCanVent = CustomOption.Create(60032, Color.white, "MarksmanCanVent", true, CustomRoleSpawnChances[CustomRoles.Marksman]);
 
             SetupSingleRoleOptions(80000, CustomRoles.Vulture, 1);
