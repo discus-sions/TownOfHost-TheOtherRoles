@@ -171,7 +171,6 @@ namespace TownOfHost
                 if (player.Is(CustomRoles.TimeThief) && x.Value == PlayerState.DeathReason.LoversSuicide)
                     player?.ResetVotingTime();
             });*/
-            Main.AfterMeetingDeathPlayers.Clear();
             Main.IsRampaged = false;
             Main.RampageReady = false;
             new LateTask(() =>
@@ -212,6 +211,7 @@ namespace TownOfHost
                     if (player.Is(CustomRoles.TimeThief) && x.Value == PlayerState.DeathReason.LoversSuicide)
                         player?.ResetVotingTime();
                 }
+                Main.AfterMeetingDeathPlayers.Clear();
                 if (Sheriff.SheriffCorrupted.GetBool())
                 {
                     int IsAlive = 0;

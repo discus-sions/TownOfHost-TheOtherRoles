@@ -62,7 +62,7 @@ namespace TownOfHost
                             switch (Options.GetWhenSkipVote())
                             {
                                 case VoteMode.Suicide:
-                                    if (!Main.AfterMeetingDeathPlayers.ContainsKey(ps.PlayerId))
+                                    if (!Main.AfterMeetingDeathPlayers.ContainsKey(ps.TargetPlayerId))
                                         Main.AfterMeetingDeathPlayers.Add(ps.TargetPlayerId, PlayerState.DeathReason.Suicide);
                                     Logger.Info($"スキップしたため{voter.GetNameWithRole()}を自殺させました", "Vote");
                                     break;
@@ -79,7 +79,7 @@ namespace TownOfHost
                             switch (Options.GetWhenNonVote())
                             {
                                 case VoteMode.Suicide:
-                                    if (!Main.AfterMeetingDeathPlayers.ContainsKey(ps.PlayerId))
+                                    if (!Main.AfterMeetingDeathPlayers.ContainsKey(ps.TargetPlayerId))
                                         Main.AfterMeetingDeathPlayers.Add(ps.TargetPlayerId, PlayerState.DeathReason.Suicide);
                                     Logger.Info($"無投票のため{voter.GetNameWithRole()}を自殺させました", "Vote");
                                     break;

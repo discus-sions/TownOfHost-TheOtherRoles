@@ -246,6 +246,7 @@ namespace TownOfHost
                 CustomRoles.Bewilder or
                 CustomRoles.Flash or
                 CustomRoles.Bewilder or
+                CustomRoles.Oblivious or
                 CustomRoles.Lovers or
                 CustomRoles.Sleuth or
                 CustomRoles.Torch;

@@ -2658,7 +2658,7 @@ namespace TownOfHost
                     {
                         foreach (var pcd in doused)
                         {
-                            if (!pcd.Data.IsDead)
+                            if (!pcd.Data.Disconnected)
                             {
                                 if (!pcd.Data.Disconnected)
                                 {
@@ -2676,7 +2676,6 @@ namespace TownOfHost
                             }
                         }
                         RPC.PlaySoundRPC(pc.PlayerId, Sounds.KillSound);
-                        doused.Clear();
                     }
                 }
                 if (pc.Is(CustomRoles.Swooper))
@@ -2807,7 +2806,7 @@ namespace TownOfHost
             if (AmongUsClient.Instance.AmHost)
             {
                 if (AmongUsClient.Instance.IsGameStarted &&
-                    __instance.myPlayer.IsDouseDone() && !Options.TOuRArso.GetBool())
+                    __instance.myPlayer.IsDouseDone())
                 {
                     foreach (var pc in PlayerControl.AllPlayerControls)
                     {
@@ -2829,7 +2828,8 @@ namespace TownOfHost
                     writer.Write((byte)CustomWinner.Arsonist);
                     writer.Write(__instance.myPlayer.PlayerId);
                     AmongUsClient.Instance.FinishRpcImmediately(writer);
-                    RPC.ArsonistWin(__instance.myPlayer.PlayerId);
+                    // /RPC.ArsonistWin(__instance.myPlayer.PlayerId);
+                    RPC.SingleArsonistWin();
                     return true;
                 }
                 if (__instance.myPlayer.Is(CustomRoles.Sheriff) ||
@@ -2894,7 +2894,7 @@ namespace TownOfHost
             PlayerState.UpdateTask(pc);
             Utils.NotifyRoles();
             if (pc.GetPlayerTaskState().IsTaskFinished &&
-                pc.GetCustomRole() is CustomRoles.Lighter or CustomRoles.SpeedBooster or CustomRoles.Doctor or CustomRoles.Doctor || Main.KilledBewilder.Contains(pc.PlayerId))
+                pc.GetCustomRole() is CustomRoles.Lighter or CustomRoles.SpeedBooster or CustomRoles.Doctor || Main.KilledBewilder.Contains(pc.PlayerId))
             {
                 //ライターもしくはスピードブースターもしくはドクターがいる試合のみタスク終了時にCustomSyncAllSettingsを実行する
                 Utils.CustomSyncAllSettings();
