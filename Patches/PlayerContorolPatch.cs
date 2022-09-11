@@ -403,7 +403,7 @@ namespace TownOfHost
                             }, Options.StoneReport.GetFloat(), "Medusa Stone Gazing");
                             return false;
                         }
-                        if (Main.IsHackMode && Main.CursedPlayers[killer.PlayerId] == killer)
+                        if (Main.IsHackMode && Main.CursedPlayers[killer.PlayerId] == null)
                         { //Warlockが変身時以外にキルしたら、呪われる処理
                             Utils.CustomSyncAllSettings();
                             Main.CursedPlayers[killer.PlayerId] = target;
@@ -412,7 +412,8 @@ namespace TownOfHost
                             killer.RpcGuardAndKill(target);
                             new LateTask(() =>
                             {
-                                Main.CursedPlayers[killer.PlayerId] = killer;
+                                Main.CursedPlayers[killer.PlayerId] = null;
+                                Main.isCurseAndKill[killer.PlayerId] = false;
                             }, Options.GlobalRoleBlockDuration.GetFloat(), "Glitch Hacking");
                             return false;
                         }
@@ -2015,24 +2016,19 @@ namespace TownOfHost
                     if (!Options.RolesLikeToU.GetBool() || PlayerControl.LocalPlayer.Data.IsDead)
                     {
                         var RoleTextData = Utils.GetRoleText(__instance);
-                        //if (Options.CurrentGameMode == CustomGameMode.HideAndSeek)
-                        //{
-                        //    var hasRole = main.AllPlayerCustomRoles.TryGetValue(__instance.PlayerId, out var role);
-                        //    if (hasRole) RoleTextData = Utils.GetRoleTextHideAndSeek(__instance.Data.Role.Role, role);
-                        //}
                         RoleText.text = RoleTextData.Item1;
                         RoleText.color = RoleTextData.Item2;
-                        if (__instance.AmOwner) RoleText.enabled = true; //自分ならロールを表示
-                        else if (Main.VisibleTasksCount && !PlayerControl.LocalPlayer.Data.IsDead && Options.GhostCanSeeOtherRoles.GetBool() && !__instance.Data.IsDead) RoleText.enabled = false; //他プレイヤーでVisibleTasksCountが有効なおかつ自分が死んでいるならロールを表示
-                        else if (Main.VisibleTasksCount && PlayerControl.LocalPlayer.Data.IsDead && Options.GhostCanSeeOtherRoles.GetBool()) RoleText.enabled = true; //他プレイヤーでVisibleTasksCountが有効なおかつ自分が死んでいるならロールを表示
-                        else RoleText.enabled = false; //そうでなければロールを非表示
+                        if (__instance.AmOwner) RoleText.enabled = true;
+                        // else if (Main.VisibleTasksCount && !PlayerControl.LocalPlayer.Data.IsDead && Options.GhostCanSeeOtherRoles.GetBool() && !__instance.Data.IsDead) RoleText.enabled = false;
+                        //  else if (Main.VisibleTasksCount && PlayerControl.LocalPlayer.Data.IsDead && Options.GhostCanSeeOtherRoles.GetBool()) RoleText.enabled = true;
+                        else RoleText.enabled = false;
                         if (!AmongUsClient.Instance.IsGameStarted && AmongUsClient.Instance.GameMode != GameModes.FreePlay)
                         {
-                            RoleText.enabled = false; //ゲームが始まっておらずフリープレイでなければロールを非表示
+                            RoleText.enabled = false;
                             if (!__instance.AmOwner) __instance.cosmetics.nameText.text = __instance?.Data?.PlayerName;
                         }
-                        if (Main.VisibleTasksCount) //他プレイヤーでVisibleTasksCountは有効なら
-                            RoleText.text += $" {Utils.GetProgressText(__instance)}"; //ロールの横にタスクなど進行状況表示
+                        if (Main.VisibleTasksCount)
+                            RoleText.text += $" {Utils.GetProgressText(__instance)}";
                     }
 
 

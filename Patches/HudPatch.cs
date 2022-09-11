@@ -222,15 +222,25 @@ namespace TownOfHost
             {
                 TaskTextPrefix = Helpers.ColorString(player.GetRoleColor(), $"Role: {player.GetRoleName()}\r\n");
                 if (player.Is(CustomRoles.Mafia))
-                    TaskTextPrefix += GetString(player.CanUseKillButton() ? "AfterMafiaInfo" : "BeforeMafiaInfo");
+                    TaskTextPrefix += Helpers.ColorString(player.GetRoleColor(), GetString(player.CanUseKillButton() ? "AfterMafiaInfo" : "BeforeMafiaInfo"));
                 else if (player.Is(CustomRoles.EvilWatcher) || player.Is(CustomRoles.NiceWatcher))
-                    TaskTextPrefix += GetString("WatcherInfo");
+                    TaskTextPrefix += Helpers.ColorString(player.GetRoleColor(), GetString("WatcherInfo"));
                 else
                 {
-                    if (!player.Is(CustomRoles.Pirate))
-                        TaskTextPrefix += Helpers.ColorString(player.GetRoleColor(), GetString(player.GetCustomRole() + "Info"));
-                    else
+                    if (player.Is(CustomRoles.Pirate))
                         TaskTextPrefix += Helpers.ColorString(player.GetRoleColor(), $"Successfully plunder {Guesser.PirateGuessAmount.GetInt()} players.");
+                    else if (player.Is(CustomRoles.Executioner))
+                    {
+                        byte target = 0x6;
+                        foreach (var playere in Main.ExecutionerTarget)
+                        {
+                            if (playere.Key == player.PlayerId)
+                                target = playere.Value;
+                        }
+                        TaskTextPrefix += Helpers.ColorString(player.GetRoleColor(), $"Vote {Utils.GetPlayerById(target).GetRealName()} Out");
+                    }
+                    else
+                        TaskTextPrefix += Helpers.ColorString(player.GetRoleColor(), GetString(player.GetCustomRole() + "Info"));
                 }
                 TaskTextPrefix += "</color>\r\n";
             }

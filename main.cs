@@ -52,7 +52,7 @@ namespace TownOfHost
         public static Dictionary<byte, CustomRoles> AllPlayerCustomSubRoles;
         public static Dictionary<byte, Color32> PlayerColors = new();
         public static Dictionary<byte, PlayerState.DeathReason> AfterMeetingDeathPlayers = new();
-        public static Dictionary<CustomRoles, String> roleColors;
+        public static Dictionary<CustomRoles, string> roleColors;
         //これ変えたらmod名とかの色が変わる
         public static string modColor = "#4FF918";
         public static bool IsFixedCooldown => CustomRoles.Vampire.IsEnable();
