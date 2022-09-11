@@ -277,32 +277,33 @@ namespace TownOfHost
                             if (RoleGoingInList(CustomRoles.CrewPostor))
                                 rolesChosen.Add(CustomRoles.CrewPostor);
 
-                            for (var i = 0; i < numofNks; i++)
-                            {
-                                var rando = new System.Random();
-                                var random = new System.Random();
-                                var role = rolesChosen[rando.Next(0, rolesChosen.Count)];
-                                var player = AllNKPlayers[random.Next(0, AllNKPlayers.Count)];
-                                rolesChosen.Remove(role);
-                                AllNKPlayers.Remove(player);
-                                List<PlayerControl> urself = new();
-                                urself.Add(player);
-                                urself.Add(player);
-                                if (role.IsShapeShifter())
+                            if (rolesChosen.Count != 0)
+                                for (var i = 0; i < numofNks; i++)
                                 {
-                                    if (role != CustomRoles.Egoist)
+                                    var rando = new System.Random();
+                                    var random = new System.Random();
+                                    var role = rolesChosen[rando.Next(0, rolesChosen.Count)];
+                                    var player = AllNKPlayers[random.Next(0, AllNKPlayers.Count)];
+                                    rolesChosen.Remove(role);
+                                    AllNKPlayers.Remove(player);
+                                    List<PlayerControl> urself = new();
+                                    urself.Add(player);
+                                    urself.Add(player);
+                                    if (role.IsShapeShifter())
                                     {
-                                        AssignDesyncRole(role, urself, sender, BaseRole: RoleTypes.Shapeshifter);
-                                        Main.chosenShifterRoles.Add(role);
+                                        if (role != CustomRoles.Egoist)
+                                        {
+                                            AssignDesyncRole(role, urself, sender, BaseRole: RoleTypes.Shapeshifter);
+                                            Main.chosenShifterRoles.Add(role);
+                                        }
+                                        else
+                                        {
+                                            Main.chosenShifterRoles.Add(role);
+                                        }
                                     }
                                     else
-                                    {
-                                        Main.chosenShifterRoles.Add(role);
-                                    }
+                                        AssignDesyncRole(role, urself, sender, BaseRole: RoleTypes.Impostor);
                                 }
-                                else
-                                    AssignDesyncRole(role, urself, sender, BaseRole: RoleTypes.Impostor);
-                            }
                         }
 
                         // ASSIGN NON-NK ROLES //
@@ -333,24 +334,25 @@ namespace TownOfHost
                             if (RoleGoingInList(CustomRoles.Vulture))
                                 rolesChosenNon.Add(CustomRoles.Vulture);
 
-                            for (var i = 0; i < numofNonNks; i++)
-                            {
-                                var rando = new System.Random();
-                                var random = new System.Random();
-                                var role = rolesChosenNon[rando.Next(0, rolesChosenNon.Count)];
-                                var player = AllnonNKPlayers[random.Next(0, AllnonNKPlayers.Count)];
-                                rolesChosenNon.Remove(role);
-                                AllnonNKPlayers.Remove(player);
-                                List<PlayerControl> urself = new();
-                                urself.Add(player);
-                                urself.Add(player);
-                                if (role.IsEngineer())
+                            if (rolesChosenNon.Count != 0)
+                                for (var i = 0; i < numofNonNks; i++)
                                 {
-                                    Main.chosenEngiRoles.Add(role);
+                                    var rando = new System.Random();
+                                    var random = new System.Random();
+                                    var role = rolesChosenNon[rando.Next(0, rolesChosenNon.Count)];
+                                    var player = AllnonNKPlayers[random.Next(0, AllnonNKPlayers.Count)];
+                                    rolesChosenNon.Remove(role);
+                                    AllnonNKPlayers.Remove(player);
+                                    List<PlayerControl> urself = new();
+                                    urself.Add(player);
+                                    urself.Add(player);
+                                    if (role.IsEngineer())
+                                    {
+                                        Main.chosenEngiRoles.Add(role);
+                                    }
+                                    else
+                                        Main.chosenNonNK.Add(role);
                                 }
-                                else
-                                    Main.chosenNonNK.Add(role);
-                            }
                         }
 
                         List<CustomRoles> rolesChosenImp = new();
