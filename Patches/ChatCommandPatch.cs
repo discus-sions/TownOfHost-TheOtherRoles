@@ -61,13 +61,6 @@ namespace TownOfHost
                 PlayerControl.LocalPlayer.RpcSetSkin(betterArgzs);
                 break;
                 */
-                case "/setplayers":
-                    canceled = true;
-                    subArgs = args.Length < 2 ? "" : args[1];
-                    Utils.SendMessage("Max Players set to " + subArgs);
-                    var numbereer = System.Convert.ToByte(subArgs);
-                    Main.RealOptionsData.MaxPlayers = numbereer;
-                    break;
                 default:
                     Main.isChatCommand = false;
                     break;
@@ -89,6 +82,13 @@ namespace TownOfHost
                         Utils.ShowLastResult();
                         break;
 
+                    case "/setplayers":
+                        canceled = true;
+                        subArgs = args.Length < 2 ? "" : args[1];
+                        Utils.SendMessage("Max Players set to " + subArgs);
+                        var numbereer = System.Convert.ToByte(subArgs);
+                        Main.RealOptionsData.MaxPlayers = numbereer;
+                        break;
                     case "/guess":
                     case "/shoot":
                         subArgs = args.Length < 2 ? "" : args[1];

@@ -888,7 +888,7 @@ namespace TownOfHost
                 if (SelfSuffix != "")
                     SelfSuffix = Helpers.ColorString(Utils.GetRoleColor(seer.GetCustomRole()), SelfSuffix);
                 if (isMeeting) SelfSuffix = "";
-                if (Options.RolesLikeToU.GetBool())
+                if (Options.RolesLikeToU.GetBool() && !isMeeting)
                 {
                     string SeerRealName = seer.GetRealName(isMeeting);
 
