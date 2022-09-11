@@ -133,30 +133,29 @@ If all Impostors leave the game, the game will automatically end with the unused
 
 ## Roles
 
-| Impostors                           | Crewmates                         | Neutrals                          | Coven                          | Modifiers                 |
-| ----------------------------------- | --------------------------------- | --------------------------------- | -------------------------------| --------------------------|
-| [BountyHunter](#bountyhunter)       | [Investigator](#investigator)     | [Arsonist](#arsonist)             | [Coven Leader](#coven-leader)  | [Bait](#bait)             |
-| [Evil Watcher](#watcher)            | [Dictator](#dictator)             | [Egoist](#egoist)                 | [Medusa](#medusa)              | [Bewilder](#bewilder)     |
-| [FireWorks](#fireworks)             | [Doctor](#doctor)                 | [Executioner](#executioner)       | [Hex Master](#hex-master)      | [Sleuth](#sleuth)         |
-| [Mare](#mare)                       | [Lighter](#lighter)               | [Jester](#jester)                 | Potion Master                  | [Oblivious](#oblivious)   |
-| [Puppeteer](#puppeteer)             | [Mayor](#mayor)                   | [SchrodingerCat](#schrodingercat) | Necromancer                    | [Torch](#torch)           |
-| [Mercenary](#mercenary)             | [Nice Watcher](#watcher)          | [Opportunist](#opportunist)       | Mimic                          | [Flash](#flash)           |
-| [Sniper](#sniper)                   | [SabotageMaster](#sabotagemaster) | [Terrorist](#terrorist)           | Conjuror                       | [Lovers](#lovers)         |
-| [TimeThief](#timethief)             | [Sheriff](#sheriff)               | [Crewpostor](#crewpostor)         |                                |                           |
-| [Vampire](#vampire)                 | [Snitch](#snitch)                 | [Juggernaut](#juggernaut)         |                                |                           |
-| [Warlock](#warlock)                 | [SpeedBooster](#speedbooster)     | [Vulture](#vulture)               |                                |                           |
-| [Witch](#witch)                     | [Trapper](#trapper)               | [Hacker](#hacker)                 |                                |                           |
-| [Mafia](#mafia)                     | [Demolitionist](#demolitionist)   | [PlagueBearer](#plaguebearer)     |                                |                           |
-| [Madmate](#madmate)                 | [Bastion](#bastion)               | [The-Glitch](#the-glitch)         |                                |                           |
-| [MadGuardian](#madguardian)         | [Vigilante](#guesser)             | [Werewolf](#werewolf)             |                                |                           |
-| [MadSnitch](#madsnitch)             | [Veteran](#veteran)               | [Guardian-Angel](#guardian-angel) |                                |                           |
-| [SidekickMadmate](#sidekickmadmate) | [Child](#child)                   | [Amnesiac](#amnesiac)             |                                |                           |
-| [Silencer](#silencer)               |                                   | [Pestilence](#pestilence)         |                                |                           |
-| [Traitor](#traitor)                 |                                   | [Serial Killer](#serial-killer)   |                                |                           |
-| [Assassin](#guesser)                |                                   | [Pirate](#guesser)                |                                |                           |
-| Parasite                            |                                   | [Marksman](#marksman)             |                                |                           |
-|                                     |                                   | Hitman                            |                                |                           |
-|                                     |                                   | Phantom                           |                                |                           |
+| Impostors                           | Crewmates                         | Neutrals                          | Neutral Killings                | Coven                          | Modifiers                 |
+| ----------------------------------- | --------------------------------- | --------------------------------- | ------------------------------- | -------------------------------| --------------------------|
+| [BountyHunter](#bountyhunter)       | [Investigator](#investigator)     | [Vulture](#vulture)               | [Arsonist](#arsonist)           | [Coven Leader](#coven-leader)  | [Bait](#bait)             |
+| [Evil Watcher](#watcher)            | [Dictator](#dictator)             | [Hacker](#hacker)                 | [Egoist](#egoist)               | [Medusa](#medusa)              | [Bewilder](#bewilder)     |
+| [FireWorks](#fireworks)             | [Doctor](#doctor)                 | [Executioner](#executioner)       | [Juggernaut](#juggernaut)       | [Hex Master](#hex-master)      | [Sleuth](#sleuth)         |
+| [Mare](#mare)                       | [Lighter](#lighter)               | [Jester](#jester)                 | [PlagueBearer](#plaguebearer)   | Potion Master                  | [Oblivious](#oblivious)   |
+| [Puppeteer](#puppeteer)             | [Mayor](#mayor)                   | [SchrodingerCat](#schrodingercat) | [The-Glitch](#the-glitch)       | Necromancer                    | [Torch](#torch)           |
+| [Mercenary](#mercenary)             | [Nice Watcher](#watcher)          | [Opportunist](#opportunist)       | [Werewolf](#werewolf)           | Mimic                          | [Flash](#flash)           |
+| [Sniper](#sniper)                   | [SabotageMaster](#sabotagemaster) | [Terrorist](#terrorist)           | [Pestilence](#pestilence)       | Conjuror                       | [Lovers](#lovers)         |
+| [TimeThief](#timethief)             | [Sheriff](#sheriff)               | [Crewpostor](#crewpostor)         | [Serial Killer](#serial-killer) |                                |                           |
+| [Vampire](#vampire)                 | [Snitch](#snitch)                 | [Guardian-Angel](#guardian-angel) | [Marksman](#marksman)           |                                |                           |
+| [Warlock](#warlock)                 | [SpeedBooster](#speedbooster)     | [Amnesiac](#amnesiac)             | Hitman                          |                                |                           |
+| [Witch](#witch)                     | [Trapper](#trapper)               | [Pirate](#guesser)                |                                 |                                |                           |
+| [Mafia](#mafia)                     | [Demolitionist](#demolitionist)   | Phantom                           |                                 |                                |                           |
+| [Madmate](#madmate)                 | [Bastion](#bastion)               |                                   |                                 |                                |                           |
+| [MadGuardian](#madguardian)         | [Vigilante](#guesser)             |                                   |                                 |                                |                           |
+| [MadSnitch](#madsnitch)             | [Veteran](#veteran)               |                                   |                                 |                                |                           |
+| [SidekickMadmate](#sidekickmadmate) | [Child](#child)                   |                                   |                                 |                                |                           |
+| [Silencer](#silencer)               |                                   |                                   |                                 |                                |                           |
+| [Traitor](#traitor)                 |                                   |                                   |                                 |                                |                           |
+| [Assassin](#guesser)                |                                   |                                   |                                 |                                |                           |
+| Parasite                            |                                   |                                   |                                 |                                |                           |
+
 #### Notes
 
 Roles without a redirect mean they are not implemented yet but are planned.
