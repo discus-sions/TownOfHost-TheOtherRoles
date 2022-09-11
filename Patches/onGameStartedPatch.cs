@@ -453,6 +453,9 @@ namespace TownOfHost
                         int AdditionalShapeshifterNum = Main.chosenShifterRoles.Count;
                         roleOpt.SetRoleRate(RoleTypes.Shapeshifter, ShapeshifterNum + AdditionalShapeshifterNum, AdditionalShapeshifterNum > 0 ? 100 : roleOpt.GetChancePerGame(RoleTypes.Shapeshifter));
 
+                        if (Main.chosenNK.Contains(CustomRoles.Jackal))
+                            if (Options.JackalHasSidekick.GetBool())
+                                AssignDesyncRole(CustomRoles.Sidekick, AllPlayers, sender, BaseRole: RoleTypes.Impostor);
                         if (haveSheriff)
                             AssignDesyncRole(CustomRoles.Sheriff, AllPlayers, sender, BaseRole: RoleTypes.Impostor);
                         if (haveInvest)
