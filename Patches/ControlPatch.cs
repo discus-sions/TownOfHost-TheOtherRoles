@@ -51,7 +51,7 @@ namespace TownOfHost
             }
             if (Input.GetKeyDown(KeyCode.Return) && Input.GetKey(KeyCode.C) && Input.GetKey(KeyCode.LeftShift) && GameStates.IsInGame)
             {
-                HudManager.Instance.Chat.CoOpen();
+                HudManager.Instance.Chat.SetVisible(true);
             }
             //即スタート
             if (Input.GetKeyDown(KeyCode.LeftShift) && GameStates.IsCountDown)
