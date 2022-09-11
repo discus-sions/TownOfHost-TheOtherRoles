@@ -383,6 +383,16 @@ namespace TownOfHost
                                         }
                                     }
                                 }
+                                else if (role.IsMadmate() && role.IsEnable())
+                                {
+                                    for (var i = 0; i < role.GetCount(); i++)
+                                    {
+                                        if (RoleGoingInList(role))
+                                        {
+                                            chosenCrew.Add(role);
+                                        }
+                                    }
+                                }
                             }
                         }
 

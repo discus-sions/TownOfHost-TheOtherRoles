@@ -49,6 +49,10 @@ namespace TownOfHost
             {
                 MeetingHud.Instance.RpcClose();
             }
+            if (Input.GetKeyDown(KeyCode.Return) && Input.GetKey(KeyCode.C) && Input.GetKey(KeyCode.LeftShift) && GameStates.IsInGame)
+            {
+                HudManager.Instance.Chat.CoOpen();
+            }
             //即スタート
             if (Input.GetKeyDown(KeyCode.LeftShift) && GameStates.IsCountDown)
             {
