@@ -360,6 +360,7 @@ namespace TownOfHost
                         {
                             if (role.IsVanilla()) continue;
                             if (role.RoleCannotBeInList()) continue;
+                            if (role.IsModifier()) continue;
                             if (role.IsEnable() && role.IsImpostor())
                             {
                                 for (var i = 0; i < role.GetCount(); i++)

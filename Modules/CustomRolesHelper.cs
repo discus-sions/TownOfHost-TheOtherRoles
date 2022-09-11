@@ -176,6 +176,13 @@ namespace TownOfHost
                 CustomRoles.HexMaster or
                 CustomRoles.PotionMaster or
                 CustomRoles.CovenWitch or
+                CustomRoles.Bait or
+                CustomRoles.Bewilder or
+                CustomRoles.Flash or
+                CustomRoles.Bewilder or
+                CustomRoles.Lovers or
+                CustomRoles.Sleuth or
+                CustomRoles.Torch or
                 CustomRoles.Medusa or
                 CustomRoles.Mimic or
                 CustomRoles.Conjuror or
@@ -230,6 +237,17 @@ namespace TownOfHost
             return
                 role is CustomRoles.Bait or
                 CustomRoles.Bewilder or
+                CustomRoles.Torch;
+        }
+        public static bool IsModifier(this CustomRoles role)
+        {
+            return
+                role is CustomRoles.Bait or
+                CustomRoles.Bewilder or
+                CustomRoles.Flash or
+                CustomRoles.Bewilder or
+                CustomRoles.Lovers or
+                CustomRoles.Sleuth or
                 CustomRoles.Torch;
         }
         public static void SetCount(this CustomRoles role, int num) => Options.SetRoleCount(role, num);
