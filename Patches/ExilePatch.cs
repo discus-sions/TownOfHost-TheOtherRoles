@@ -213,6 +213,7 @@ namespace TownOfHost
                         player?.ResetVotingTime();
                 }
                 Main.AfterMeetingDeathPlayers.Clear();
+                Main.MercCanSuicide = true;
                 if (Sheriff.SheriffCorrupted.GetBool())
                 {
                     int IsAlive = 0;

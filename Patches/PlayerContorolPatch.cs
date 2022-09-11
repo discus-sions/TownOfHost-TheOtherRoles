@@ -1652,6 +1652,7 @@ namespace TownOfHost
             Main.PuppeteerList.Clear();
             Main.DeadPlayersThisRound.Clear();
             Main.WitchedList.Clear();
+            Main.MercCanSuicide = false;
             Sniper.OnStartMeeting();
             Main.VetIsAlerted = false;
             Main.IsRampaged = false;
@@ -2252,9 +2253,10 @@ namespace TownOfHost
                         if (Options.ChildKnown.GetBool())
                             Mark += Helpers.ColorString(Utils.GetRoleColor(CustomRoles.Jackal), " (C)");
                     }
-                    if (seer.Is(CustomRoles.Doctor) && target.Data.IsDead)
+                    if (seer.Is(CustomRoles.Doctor) && target.Data.IsDead && !seer.Data.IsDead)
                     {
-                        Mark += $"({Helpers.ColorString(Utils.GetRoleColor(CustomRoles.Doctor), Utils.GetVitalText(target.PlayerId))})";
+                        if (!target.Data.Disconnected)
+                            Mark += $"({Helpers.ColorString(Utils.GetRoleColor(CustomRoles.Doctor), Utils.GetVitalText(target.PlayerId))})";
                     }
                     if (seer.Is(CustomRoles.PlagueBearer) || seer.Data.IsDead)
                     {

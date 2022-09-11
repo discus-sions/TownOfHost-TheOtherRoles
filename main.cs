@@ -68,6 +68,7 @@ namespace TownOfHost
         public static List<PlayerControl> LoversPlayers = new();
         public static bool isLoversDead = true;
         public static bool ExeCanChangeRoles = true;
+        public static bool MercCanSuicide = true;
 
         public static Dictionary<CustomRoles, byte> HasModifier = new();
         public static List<CustomRoles> modifiersList = new();
@@ -254,6 +255,7 @@ namespace TownOfHost
             //firstKill = new Dictionary<byte, (PlayerControl, float)>();
             winnerList = new();
             VisibleTasksCount = false;
+            MercCanSuicide = true;
             ExeCanChangeRoles = true;
             MessagesToSend = new List<(string, byte)>();
             currentDousingTarget = 255;

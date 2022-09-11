@@ -51,6 +51,7 @@ namespace TownOfHost
             Main.dousedIDs = new List<byte>();
             Main.isSilenced = false;
             Main.ExeCanChangeRoles = true;
+            Main.MercCanSuicide = true;
             Main.SilencedPlayer = new List<PlayerControl>();
             Main.DeadPlayersThisRound = new List<byte>();
             Main.CheckShapeshift = new Dictionary<byte, bool>();
