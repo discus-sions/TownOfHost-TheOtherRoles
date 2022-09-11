@@ -1128,7 +1128,8 @@ namespace TownOfHost
                             if (seer.Is(CustomRoles.CorruptedSheriff))
                             {
                                 var foundCheck = target.GetCustomRole().IsImpostor();
-                                TargetPlayerName = Helpers.ColorString(target.GetRoleColor(), TargetPlayerName);
+                                if (foundCheck)
+                                    TargetPlayerName = Helpers.ColorString(target.GetRoleColor(), TargetPlayerName);
                             }
                             else
                             {
