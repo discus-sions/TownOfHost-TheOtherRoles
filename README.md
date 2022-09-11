@@ -62,6 +62,7 @@ Note that if a player other than the host plays with this mod installed, the fol
 | ------------------- | ------------------------------ | --------------- |
 | `Shift`+`L`+`Enter` | Force End Game                 | In Game         |
 | `Shift`+`M`+`Enter` | Skip meeting to end            | In Game         |
+| `Shift`+`C`+`Enter` | Force chat to be visible       | In Game         |
 | `Ctrl`+`N`          | Show active role descriptions  | Lobby&In Game   |
 | `C`                 | Cancel game start              | In Countdown    |
 | `Shift`             | Start the game immediately     | In Countdown    |
@@ -97,6 +98,7 @@ You can execute chat commands by typing in chat.
 | /help modes <mode><br>/help m <mode>                  | Show mode description                             |
 | /help now<br>/help n                                  | Show active setting descriptions                  |
 | /changerole role(crewmate, impostor, engineer...).    | Change your In-Game Role (dont get buttons)       |
+| /level <0-2147483647>                                 | Change your Among Us level                        |
 
 #### MOD Client Only
 | Command        | Function                    |
@@ -131,27 +133,33 @@ If all Impostors leave the game, the game will automatically end with the unused
 
 ## Roles
 
-| Impostors                           | Crewmates                         | Neutrals                          |
-| ----------------------------------- | --------------------------------- | --------------------------------- |
-| [BountyHunter](#bountyhunter)       | [Bait](#bait)                     | [Arsonist](#arsonist)             |
-| [Evil Watcher](#watcher)            | [Dictator](#dictator)             | [Egoist](#egoist)                 |
-| [FireWorks](#fireworks)             | [Doctor](#doctor)                 | [Executioner](#executioner)       |
-| [Mare](#mare)                       | [Lighter](#lighter)               | [Jester](#jester)                 |
-| [Puppeteer](#puppeteer)             | [Mayor](#mayor)                   | [Lovers](#lovers)                 |
-| [Mercenary](#mercenary)             | [Nice Watcher](#watcher)          | [Opportunist](#opportunist)       |
-| [Sniper](#sniper)                   | [SabotageMaster](#sabotagemaster) | [Terrorist](#terrorist)           |
-| [TimeThief](#timethief)             | [Sheriff](#sheriff)               | [SchrodingerCat](#schrodingercat) |
-| [Vampire](#vampire)                 | [Snitch](#snitch)                 | [Juggernaut](#juggernaut)         |
-| [Warlock](#warlock)                 | [SpeedBooster](#speedbooster)     | [Vulture](#vulture)               |
-| [Witch](#witch)                     | [Trapper](#trapper)               | [Hacker](#hacker)                 |
-| [Mafia](#mafia)                     | [Demolitionist](#demolitionist)   | [PlagueBearer](#plaguebearer)     |
-| [Madmate](#madmate)                 | [Bastion](#bastion)               | [The-Glitch](#the-glitch)         |
-| [MadGuardian](#madguardian)         | [Bewilder](#bewilder)             | [Werewolf](#werewolf)             |
-| [MadSnitch](#madsnitch)             | [Veteran](#veteran)               | [Guardian-Angel](#guardian-angel) |
-| [SidekickMadmate](#sidekickmadmate) | [Child](#child)                   | [Amnesiac](#amnesiac)             |
-| [Silencer](#silencer)               | [Sleuth](#sleuth)                 | [Pestilence](#pestilence)         |
-| [CorruptedSheriff](#c-sheriff)      | [Investigator](#investigator)     | [Serial Killer](#serial-killer)   |
-| [Assassin](#guesser)                | [Vigilante](#guesser)             | [Pirate](#guesser)                |
+| Impostors                           | Crewmates                         | Neutrals                          | Coven                          | Modifiers                 |
+| ----------------------------------- | --------------------------------- | --------------------------------- | -------------------------------| --------------------------|
+| [BountyHunter](#bountyhunter)       | [Investigator](#investigator)     | [Arsonist](#arsonist)             | [Coven Leader](#coven-leader)  | [Bait](#bait)             |
+| [Evil Watcher](#watcher)            | [Dictator](#dictator)             | [Egoist](#egoist)                 | [Medusa](#medusa)              | [Bewilder](#bewilder)     |
+| [FireWorks](#fireworks)             | [Doctor](#doctor)                 | [Executioner](#executioner)       | [Hex Master](#hex-master)      | [Sleuth](#sleuth)         |
+| [Mare](#mare)                       | [Lighter](#lighter)               | [Jester](#jester)                 | Potion Master                  | [Oblivious](#oblivious)   |
+| [Puppeteer](#puppeteer)             | [Mayor](#mayor)                   | [SchrodingerCat](#schrodingercat) | Necromancer                    | [Torch](#torch)           |
+| [Mercenary](#mercenary)             | [Nice Watcher](#watcher)          | [Opportunist](#opportunist)       | Mimic                          | [Flash](#flash)           |
+| [Sniper](#sniper)                   | [SabotageMaster](#sabotagemaster) | [Terrorist](#terrorist)           | Conjuror                       | [Lovers](#lovers)         |
+| [TimeThief](#timethief)             | [Sheriff](#sheriff)               | [Crewpostor](#crewpostor)         |                                |                           |
+| [Vampire](#vampire)                 | [Snitch](#snitch)                 | [Juggernaut](#juggernaut)         |                                |                           |
+| [Warlock](#warlock)                 | [SpeedBooster](#speedbooster)     | [Vulture](#vulture)               |                                |                           |
+| [Witch](#witch)                     | [Trapper](#trapper)               | [Hacker](#hacker)                 |                                |                           |
+| [Mafia](#mafia)                     | [Demolitionist](#demolitionist)   | [PlagueBearer](#plaguebearer)     |                                |                           |
+| [Madmate](#madmate)                 | [Bastion](#bastion)               | [The-Glitch](#the-glitch)         |                                |                           |
+| [MadGuardian](#madguardian)         | [Vigilante](#guesser)             | [Werewolf](#werewolf)             |                                |                           |
+| [MadSnitch](#madsnitch)             | [Veteran](#veteran)               | [Guardian-Angel](#guardian-angel) |                                |                           |
+| [SidekickMadmate](#sidekickmadmate) | [Child](#child)                   | [Amnesiac](#amnesiac)             |                                |                           |
+| [Silencer](#silencer)               |                                   | [Pestilence](#pestilence)         |                                |                           |
+| [Traitor](#traitor)                 |                                   | [Serial Killer](#serial-killer)   |                                |                           |
+| [Assassin](#guesser)                |                                   | [Pirate](#guesser)                |                                |                           |
+| Parasite                            |                                   | [Marksman](#marksman)             |                                |                           |
+|                                     |                                   | Hitman                            |                                |                           |
+|                                     |                                   | Phantom                           |                                |                           |
+#### Notes
+
+Roles without a redirect mean they are not implemented yet but are planned.
 
 ### GM
 
@@ -352,14 +360,14 @@ Basis : Impostor<br>
 The Silencer's first kill attempt will silence the crewmate inside the next meeting.<br>
 After the Silence, the Silencer is a regular Impostor.<br>
   
-### C-Sheriff
+### Traitor
 
 Team : Impostors<br>
 Basis : Impostor<br>
 
-Corrupted Sheriff spawns when all Impostors die by kill or vote.<br>
-As soon as all Impostors die, Corrupted Sheriff spawns.<br>
-Corrupted Sheriff is a regular impostor with nothing new.<br>
+Traitor spawns when all Impostors die by kill or vote.<br>
+As soon as all Impostors die, the [Sheriff](#sheriff) or [Investigator](#investigator) turns into the Traitor.<br>
+Traitor is a regular impostor with nothing new.<br>
 
 ## Madmate
 
@@ -470,14 +478,6 @@ There is also a neutral Guesser called Pirate. Their goal is guess a number of p
 
 ## Crewmate
 
-### Bait
-
-Team : Crewmates<br>
-Basis : Crewmate<br>
-
-When Bait is killed, the imposter will automatically self report.<br>
-This also applies to delayed kills- Once the kill button is pressed, the report will be immediate.<br>
-
 ### Dictator
 
 Create and idea by そうくん<br>
@@ -570,13 +570,13 @@ Killing Crewmates will result in suicide. <br>
 
 | Name                                                              |
 | ----------------------------------------------------------------- |
-| Sheriff Can Kill [Arsonist](#Arsonist)                            |
-| Sheriff Can Kill [Jester](#Jester)                                |
-| Sheriff Can Kill [Terrorist](#Terrorist)                          |
-| Sheriff Can Kill [Opportunist](#Opportunist)                      |
+| Sheriff Can Kill [Arsonist](#arsonist)                            |
+| Sheriff Can Kill [Jester](#jester)                                |
+| Sheriff Can Kill [Terrorist](#terrorist)                          |
+| Sheriff Can Kill [Opportunist](#opportunist)                      |
 | Sheriff Can Kill Madmates                                         |
-| Sheriff Can Kill [Egoist](#Egoist)                                |
-| Sheriff Can Kill [SchrodingerCat](#SchrodingerCat) In Team Egoist |
+| Sheriff Can Kill [Egoist](#egoist)                                |
+| Sheriff Can Kill [SchrodingerCat](#schrodingercat) In Team Egoist |
 | Sheriff Can Kill Crewmates As It                                  |
 | Sheriff Shot Limit                                                |
 
@@ -631,18 +631,6 @@ The time held in place on the body is decided by host in settings.<br>
 | --------------- |
 | Freeze Duration |
 
-### Sleuth
-
-Created by Discussions<br>
-Original Idea by TOuR<br>
-
-Team : Crewmates<br>
-Basis : Crewmate<br>
-
-The Sleuth can report a body to know its role.<br>
-The Sleuth has to report to know the role.<br>
-The Sleuth has no settings.<br>
-
 ### Child
 
 Created by Discussions<br>
@@ -657,18 +645,6 @@ When the Child dies by any matter, the Child Wins.<br>
 | Name           |
 | -------------- |
 | Child Is Known |
-
-### Bewilder
-
-Created by Discussions<br>
-Original Idea by Mek<br>
-
-Team : Crewmates<br>
-Basis : Crewmate<br>
-
-The Bewilder is similar to bait, meaning that something happens when you kill it.<br>
-As Bewilder, when a killer kills you they gain your small vision. Making them have small vision for the rest of the game.<br>
-You can customize the vision using Settings.
 
 ### Bastion
 
@@ -785,7 +761,7 @@ To win as PlagueBearer, you must be the last one alive with a crewmember.<br>
 To infect, you just have to press the kill button. No infecting timer. <br>
 After infecting everyone, you turn into Pestilence.
 
-* As a measure against blackout, after death, the Arsonist can only see the motion of committing suicide at each meeting. There is no corpse. <br>
+* As a measure against blackout, after death, the Plaguebearer can only see the motion of committing suicide at each meeting. There is no corpse. <br>
 
 #### Game Options
 
@@ -821,7 +797,7 @@ PlagueBearer becomes Pestilence when they finish infecting.<br>
 Pestilence is an unkillable force. When someone tries to kill Pestilence, the pestilence will kill with a lunge. Pestilence can only be voted.<br>
 However, if Pestilence is killed by an un-direct source, such as Warlock and Puppeteer, the Pestilence WILL die.<br>
 
-* As a measure against blackout, after death, the PlagueBearer/Pestilence can only see the motion of committing suicide at each meeting. There is no corpse. <br>
+* As a measure against blackout, after death, the Pestilence can only see the motion of committing suicide at each meeting. There is no corpse. <br>
 
 #### Game Options
 
@@ -970,7 +946,7 @@ Team : Neutral<br>
 Basis : Crewmate<br>
 Victory Conditions : Remain alive until the game end<br>
 
-Regardless of the games outcome, Opportunist wins an additional victory if they survive to the end of the match.<br>
+Regardless of the game outcome, Opportunist wins an additional victory if they survive to the end of the match.<br>
 
 ### SchrodingerCat
 
@@ -1001,7 +977,7 @@ Team : Neutral<br>
 Basis : Engineer<br>
 Victory Conditions : Finish All Tasks, Then Die<br>
 
-The Terrorists are the Neutral Role where they win the game alone if they die with all their tasks completed.<br>
+The Terrorist are the Neutral Role where they win the game alone if they die with all their tasks completed.<br>
 Any cause of death is acceptable.<br>
 If they die before completing their tasks, or if they survive at the game end, they lose.<br>
 
@@ -1039,28 +1015,133 @@ Reach the required amount of points to win.<br>
 | -------------------- |
 | Points Amount        |
 
-## Attribute
+### Marksman
 
-### LastImpostor
+Create and idea by WaW<br>
 
-Create and idea by そうくん<br>
+Team : Neutral<br>
+Basis : Impostor<br>
 
-An Attribute given to the last Impostor.<br>
-kill cooldown gets shorter than usual.<br>
-Not assigned to [BountyHunter](#bountyhunter), [SerialKiller](#serialkiller), or [Vampire](#vampire).<br>
+The Marksman gets a longer kill distance for each kill they make.<br>
 
 #### Game Options
 
 | Name                       |
 | -------------------------- |
-| LastImpostor Kill Cooldown |
+| Marksman Kill Cooldown     |
+
+### Crewpostor
+
+Create and idea by Crewpostor<br>
+
+Team : Neutral<br>
+Basis: Crewmate<br>
+
+The Crewpostor is a neutral who wins with the Impostors. The Crewpostor does tasks to kill.<br>
+When they complete a task, they kill the nearest player, which can be their fellow Impostors.<br>
+
+## Coven
+
+### Coven Leader
+
+Team : Coven<br>
+Basis : Impostor<br>
+
+The Coven Leader is essentially [Puppeteer](#puppeteer) until the possession of the Necronomicon, where they kill normally afterwards.<br>
+
+| Name                       |
+| -------------------------- |
+| CL Taglock Cooldown        |
+
+### Medusa
+
+Team : Coven<br>
+Basis : Impostor<br>
+
+The Medusa is essentially an evil [Veteran](#veteran).<br>
+Bodies will become unreportable after a certain amount of time.<br>
+
+| Name                       |
+| -------------------------- |
+| Stone Gaze Cooldown        |
+
+### Hex Master
+
+Team : Coven<br>
+Basis : Impostor<br>
+
+The Hex Master hexes players. They switch between killing and hexing.<br>
+Once all living non-Coven players are hexed, they must eject the Hex Master or the Coven wins.<br>
+With the Necronomicon, the Hex Master can kill normally every time.<br>
+
+| Name                       |
+| -------------------------- |
+| HM Hex Cooldown            |
+
+## Modifiers
+
+### Bait
+
+Assigned To : Crewmates Only<br>
+
+When Bait is killed, the impostor will automatically self report.<br>
+This also applies to delayed kills- Once the kill button is pressed, the report will be immediate.<br>
+
+### Sleuth
+
+Created by Discussions<br>
+Original Idea by ToUR<br>
+
+Assigned To : All<br>
+
+The Sleuth can report a body to know its role.<br>
+The Sleuth has to report to know the role.<br>
+The Sleuth has no settings.<br>
+
+### Bewilder
+
+Created by Discussions<br>
+Original Idea by Mek<br>
+
+Assigned To : Crewmates Only<br>
+
+The Bewilder is similar to bait, meaning that something happens when you kill it.<br>
+As Bewilder, when a killer kills you they gain your small vision. Making them have small vision for the rest of the game.<br>
+You can customize the vision using Settings.
+
+### Oblivious
+
+Created by Discussions<br>
+Original Idea by ???<br>
+
+Assigned To : All<br>
+
+The Oblivious cannot report bodies.<br>
+
+### Torch
+
+Created by Discussions<br>
+Original Idea by ToUR<br>
+
+Assigned To : Crewmates Only<br>
+
+The Torch is unaffected by the lights sabotage.<br>
+
+### Flash
+
+Created by Discussions<br>
+Original Idea by ToUR<br>
+
+Assigned To : All<br>
+
+The Flash makes the player move faster.<br>
+Due to technical limitations, Flash moves at normal speed for other players and Flash sees other players moving at the speed of Flash.<br>
 
 ### Lovers
 
 Create and idea by ゆりの<br>
 
-Team : Neutral<br>
-Basis : -<br>
+Assigned To : All<br>
 Victory Conditions : Alive at the end of the game. (other than task completion)<br>
 
 Randomly assigned to two players (regardless of camp).<br>
@@ -1070,6 +1151,22 @@ If your lover dies, you die.<br>
 If the crewmates win by tasks, the lovers lose.<br>
 The lovers can also win if both are still alive at the end of the game and the crewmates don't win by tasks.<br>
 If the lovers win, everyone else loses.<br>
+
+## Attribute
+
+### LastImpostor
+
+Create and idea by そうくん<br>
+
+An Attribute given to the last Impostor.<br>
+kill cooldown gets shorter than usual.<br>
+Not assigned to [BountyHunter](#bountyhunter), [Mercenary](#mercenary), or [Vampire](#vampire).<br>
+
+#### Game Options
+
+| Name                       |
+| -------------------------- |
+| LastImpostor Kill Cooldown |
 
 ## DisableDevice
 
