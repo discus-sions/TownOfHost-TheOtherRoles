@@ -340,42 +340,13 @@ namespace TownOfHost
             var ie = 1;
             var iee = 1;
             var c = 1;
-            /* foreach (var pc in PlayerControl.AllPlayerControls)//とりあえずアサインされた役職をすべて取りだす
-             {
-                 var role = pc.GetCustomRole();
-                 if (!assassinList.Contains(pc.GetCustomRole()) && !role.IsImpostorTeam() && role != CustomRoles.Egoist) assassinList.Add(pc.GetCustomRole());
-                 if (!pirateList.Contains(pc.GetCustomRole()) && role != CustomRoles.Pirate) pirateList.Add(pc.GetCustomRole());
-                 if (!vigiList.Contains(pc.GetCustomRole()) && !role.IsCrewmate()) vigiList.Add(pc.GetCustomRole());
-                 if (!covenList.Contains(pc.GetCustomRole()) && !role.IsCoven()) covenList.Add(pc.GetCustomRole());
-             }*/
             foreach (CustomRoles role in Enum.GetValues(typeof(CustomRoles)))
             {
-                if (!assassinList.Contains(role) && !role.IsImpostorTeam() && role != CustomRoles.Egoist) assassinList.Add(role);
-                if (!pirateList.Contains(role) && role != CustomRoles.Pirate) pirateList.Add(role);
-                if (!vigiList.Contains(role) && !role.IsCrewmate()) vigiList.Add(role);
-                if (!covenList.Contains(role) && !role.IsCoven()) covenList.Add(role);
+                if (!role.IsImpostorTeam() && role != CustomRoles.Egoist) assassinList.Add(role);
+                if (role != CustomRoles.Pirate) pirateList.Add(role);
+                if (!role.IsCrewmate()) vigiList.Add(role);
+                if (!role.IsCoven()) covenList.Add(role);
             }
-            /* if (Options.CanMakeMadmateCount.GetInt() != 0) covenList.Add(CustomRoles.SKMadmate);
-             if (Options.CanMakeMadmateCount.GetInt() != 0) vigiList.Add(CustomRoles.SKMadmate);//SKMadmateがいる際にはサイドキック前から候補に入れておく。
-             if (Options.CanMakeMadmateCount.GetInt() != 0) pirateList.Add(CustomRoles.SKMadmate);//SKMadmateがいる際にはサイドキック前から候補に入れておく。
-             if (CustomRoles.SchrodingerCat.IsEnable())//シュレネコがいる場合も役職変化前から候補に入れておく。
-             {
-                 vigiList.Add(CustomRoles.MSchrodingerCat);
-                 pirateList.Add(CustomRoles.MSchrodingerCat);
-                 assassinList.Add(CustomRoles.MSchrodingerCat);
-                 covenList.Add(CustomRoles.MSchrodingerCat);
-                 if (Sheriff.IsEnable) assassinList.Add(CustomRoles.CSchrodingerCat);
-                 if (Sheriff.IsEnable) covenList.Add(CustomRoles.CSchrodingerCat);
-                 if (Sheriff.IsEnable) pirateList.Add(CustomRoles.CSchrodingerCat);
-                 if (CustomRoles.Egoist.IsEnable()) vigiList.Add(CustomRoles.EgoSchrodingerCat);
-                 if (CustomRoles.Jackal.IsEnable()) vigiList.Add(CustomRoles.JSchrodingerCat);
-                 if (CustomRoles.Egoist.IsEnable()) covenList.Add(CustomRoles.EgoSchrodingerCat);
-                 if (CustomRoles.Jackal.IsEnable()) covenList.Add(CustomRoles.JSchrodingerCat);
-                 if (CustomRoles.Egoist.IsEnable()) pirateList.Add(CustomRoles.EgoSchrodingerCat);
-                 if (CustomRoles.Jackal.IsEnable()) pirateList.Add(CustomRoles.JSchrodingerCat);
-                 //if (CustomRoles.Egoist.IsEnable()) roles.Add(CustomRoles.EgoSchrodingerCat);
-                 if (CustomRoles.Jackal.IsEnable()) assassinList.Add(CustomRoles.JSchrodingerCat);
-             }*/
             vigiList = vigiList.OrderBy(a => Guid.NewGuid()).ToList();//会議画面で見たときに役職と順番が一緒で、役バレしたのでシャッフル
             assassinList = assassinList.OrderBy(a => Guid.NewGuid()).ToList();//会議画面で見たときに役職と順番が一緒で、役バレしたのでシャッフル
             pirateList = pirateList.OrderBy(a => Guid.NewGuid()).ToList();//会議画面で見たときに役職と順番が一緒で、役バレしたのでシャッフル

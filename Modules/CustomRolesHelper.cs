@@ -250,6 +250,31 @@ namespace TownOfHost
                 CustomRoles.Sleuth or
                 CustomRoles.Torch;
         }
+        public static bool IsDesyncRole(this CustomRoles role)
+        {
+            return
+                role is CustomRoles.Poisoner or
+                CustomRoles.HexMaster or
+                CustomRoles.PotionMaster or
+                CustomRoles.CovenWitch or
+                CustomRoles.Coven or
+                CustomRoles.Medusa or
+                CustomRoles.Mimic or
+                CustomRoles.Conjuror or
+                CustomRoles.Necromancer or
+                CustomRoles.Pestilence or
+                CustomRoles.CorruptedSheriff or
+                CustomRoles.Sidekick or
+                CustomRoles.Painter or
+                CustomRoles.Janitor or
+                CustomRoles.Painter or
+                CustomRoles.Miner or
+                CustomRoles.Amnesiac or
+                CustomRoles.Sheriff or
+                CustomRoles.Investigator or
+                CustomRoles.Jackal or
+                CustomRoles.Sidekick;
+        }
         public static void SetCount(this CustomRoles role, int num) => Options.SetRoleCount(role, num);
         public static int GetCount(this CustomRoles role)
         {

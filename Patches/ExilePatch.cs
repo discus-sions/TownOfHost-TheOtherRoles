@@ -171,16 +171,6 @@ namespace TownOfHost
                 if (player.Is(CustomRoles.TimeThief) && x.Value == PlayerState.DeathReason.LoversSuicide)
                     player?.ResetVotingTime();
             });*/
-            foreach (var x in Main.AfterMeetingDeathPlayers)
-            {
-                var player = Utils.GetPlayerById(x.Key);
-                Logger.Info($"{player.GetNameWithRole()}を{x.Value}で死亡させました", "AfterMeetingDeath");
-                PlayerState.SetDeathReason(x.Key, x.Value);
-                PlayerState.SetDead(x.Key);
-                player?.RpcExileV2();
-                if (player.Is(CustomRoles.TimeThief) && x.Value == PlayerState.DeathReason.LoversSuicide)
-                    player?.ResetVotingTime();
-            }
             Main.AfterMeetingDeathPlayers.Clear();
             Main.IsRampaged = false;
             Main.RampageReady = false;
@@ -212,6 +202,16 @@ namespace TownOfHost
                     }
                 }, 0.5f, "Restore IsDead Task");
                 //Guesser.OpenGuesserMeeting();
+                foreach (var x in Main.AfterMeetingDeathPlayers)
+                {
+                    var player = Utils.GetPlayerById(x.Key);
+                    Logger.Info($"{player.GetNameWithRole()}を{x.Value}", "AfterMeetingDeath");
+                    PlayerState.SetDeathReason(x.Key, x.Value);
+                    PlayerState.SetDead(x.Key);
+                    player?.RpcExileV2();
+                    if (player.Is(CustomRoles.TimeThief) && x.Value == PlayerState.DeathReason.LoversSuicide)
+                        player?.ResetVotingTime();
+                }
                 if (Sheriff.SheriffCorrupted.GetBool())
                 {
                     int IsAlive = 0;
