@@ -1055,7 +1055,7 @@ namespace TownOfHost
                 killer.TrapperKilled(target);
             if (target.Is(CustomRoles.Demolitionist) && !killer.Is(CustomRoles.Demolitionist))
                 killer.DemoKilled(target);
-            if (Main.ExecutionerTarget.ContainsValue(target.PlayerId))
+            if (Main.ExecutionerTarget.ContainsValue(target.PlayerId) && Main.ExeCanChangeRoles)
             {
                 List<byte> RemoveExecutionerKey = new();
                 foreach (var ExecutionerTarget in Main.ExecutionerTarget)
@@ -2251,6 +2251,10 @@ namespace TownOfHost
                     {
                         if (Options.ChildKnown.GetBool())
                             Mark += Helpers.ColorString(Utils.GetRoleColor(CustomRoles.Jackal), " (C)");
+                    }
+                    if (seer.Is(CustomRoles.Doctor) && target.Data.IsDead)
+                    {
+                        Mark += $"({Helpers.ColorString(Utils.GetRoleColor(CustomRoles.Doctor), Utils.GetVitalText(target.PlayerId))})";
                     }
                     if (seer.Is(CustomRoles.PlagueBearer) || seer.Data.IsDead)
                     {

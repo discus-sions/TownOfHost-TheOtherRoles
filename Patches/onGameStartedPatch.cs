@@ -50,6 +50,7 @@ namespace TownOfHost
             Main.unreportableBodies = new List<byte>();
             Main.dousedIDs = new List<byte>();
             Main.isSilenced = false;
+            Main.ExeCanChangeRoles = true;
             Main.SilencedPlayer = new List<PlayerControl>();
             Main.DeadPlayersThisRound = new List<byte>();
             Main.CheckShapeshift = new Dictionary<byte, bool>();

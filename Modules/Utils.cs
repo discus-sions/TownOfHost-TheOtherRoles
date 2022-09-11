@@ -991,7 +991,7 @@ namespace TownOfHost
                         }
                         string TeamText = "";
 
-                        if (seer.GetCustomRole().IsImpostor())
+                        if (seer.GetCustomRole().IsImpostor() && !isMeeting)
                         {
                             if (Options.ImpostorKnowsRolesOfTeam.GetBool())
                             {
@@ -1031,7 +1031,7 @@ namespace TownOfHost
                             }
 
                         }
-                        if (seer.GetCustomRole().IsCoven())
+                        if (seer.GetCustomRole().IsCoven() && !isMeeting)
                         {
                             if (Options.CovenKnowsRolesOfTeam.GetBool())
                             {
@@ -1143,8 +1143,9 @@ namespace TownOfHost
                         {
                             var isCoven = seer.GetCustomRole().IsCoven();
                             var foundCheck = target.GetCustomRole().IsCoven();
-                            if (foundCheck)
-                                TargetPlayerName = Helpers.ColorString(target.GetRoleColor(), TargetPlayerName);
+                            if (isCoven)
+                                if (foundCheck)
+                                    TargetPlayerName = Helpers.ColorString(target.GetRoleColor(), TargetPlayerName);
                         }
                         else if (seer.GetCustomRole().IsImpostor() && target.Is(CustomRoles.Egoist) && Egoist.ImpostorsKnowEgo.GetBool())
                             TargetPlayerName = Helpers.ColorString(GetRoleColor(CustomRoles.Egoist), TargetPlayerName);

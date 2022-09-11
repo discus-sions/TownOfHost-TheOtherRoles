@@ -190,7 +190,7 @@ namespace TownOfHost
                     {
                         if (!Main.AfterMeetingDeathPlayers.ContainsKey(p.PlayerId))
                             Main.AfterMeetingDeathPlayers.Add(p.PlayerId, PlayerState.DeathReason.Spell);
-                        if (Main.ExecutionerTarget.ContainsValue(p.PlayerId) && exileId != p.PlayerId)
+                        if (Main.ExecutionerTarget.ContainsValue(p.PlayerId) && exileId != p.PlayerId && Main.ExeCanChangeRoles)
                         {
                             byte Executioner = 0x73;
                             Main.ExecutionerTarget.Do(x =>

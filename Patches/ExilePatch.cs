@@ -124,6 +124,7 @@ namespace TownOfHost
                 if (kvp.Value == exiled.PlayerId && AmongUsClient.Instance.AmHost && !DecidedWinner)
                 {
                     //RPC送信開始
+                    Main.ExeCanChangeRoles = false;
                     MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.EndGame, Hazel.SendOption.Reliable, -1);
                     writer.Write((byte)CustomWinner.Executioner);
                     writer.Write(kvp.Key);

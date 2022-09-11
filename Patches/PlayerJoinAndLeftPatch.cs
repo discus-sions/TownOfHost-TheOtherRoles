@@ -65,7 +65,7 @@ namespace TownOfHost
                         Main.LoversPlayers.Remove(lovers);
                         Main.AllPlayerCustomSubRoles[lovers.PlayerId] = CustomRoles.NoSubRoleAssigned;
                     }
-                if (data.Character.Is(CustomRoles.Executioner) && Main.ExecutionerTarget.ContainsKey(data.Character.PlayerId))
+                if (data.Character.Is(CustomRoles.Executioner) && Main.ExecutionerTarget.ContainsKey(data.Character.PlayerId) && Main.ExeCanChangeRoles)
                 {
                     data.Character.RpcSetCustomRole(Options.CRoleExecutionerChangeRoles[Options.ExecutionerChangeRolesAfterTargetKilled.GetSelection()]);
                     Main.ExecutionerTarget.Remove(data.Character.PlayerId);
@@ -95,7 +95,7 @@ namespace TownOfHost
                     ShipStatus.Instance.enabled = false;
                     ShipStatus.RpcEndGame(GameOverReason.ImpostorDisconnect, false);
                 }
-                if (Main.ExecutionerTarget.ContainsValue(data.Character.PlayerId))
+                if (Main.ExecutionerTarget.ContainsValue(data.Character.PlayerId) && Main.ExeCanChangeRoles)
                 {
                     byte Executioner = 0x73;
                     Main.ExecutionerTarget.Do(x =>

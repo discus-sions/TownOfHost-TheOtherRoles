@@ -433,6 +433,13 @@ namespace TownOfHost
             // /Main.WonArsonistID = arsonistID;
             Main.currentWinner = CustomWinner.Arsonist;
             CustomWinTrigger(0);
+            if (ShipStatus.Instance == null) return;
+            if (AmongUsClient.Instance.AmHost)
+            {
+                ShipStatus.Instance.enabled = false;
+                Main.currentWinner = CustomWinner.Arsonist;
+                ShipStatus.RpcEndGame(GameOverReason.ImpostorByKill, false);
+            }
         }
         public static void JackalWin()
         {

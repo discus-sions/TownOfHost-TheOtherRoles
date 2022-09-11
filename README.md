@@ -819,6 +819,7 @@ Victory Condition : Kill all Living Player<br>
 
 PlagueBearer becomes Pestilence when they finish infecting.<br>
 Pestilence is an unkillable force. When someone tries to kill Pestilence, the pestilence will kill with a lunge. Pestilence can only be voted.<br>
+However, if Pestilence is killed by an un-direct source, such as Warlock and Puppeteer, the Pestilence WILL die.<br>
 
 * As a measure against blackout, after death, the PlagueBearer/Pestilence can only see the motion of committing suicide at each meeting. There is no corpse. <br>
 

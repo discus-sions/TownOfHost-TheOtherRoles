@@ -1079,37 +1079,14 @@ namespace TownOfHost
         }
         public static void RpcMurderPlayerV2(this PlayerControl killer, PlayerControl target)
         {
-            bool sendRpc = true;
             if (target == null) target = killer;
             if (AmongUsClient.Instance.AmClient)
             {
-                if (!target.Is(CustomRoles.Pestilence))
-                    killer.MurderPlayer(target);
-                else if (target.Is(CustomRoles.Pestilence)) //PESTILENCE WILL NOT SUICIDE
-                { sendRpc = false; }
-                else if (target.Is(CustomRoles.Survivor))
-                {
-                    foreach (var ar in Main.SurvivorStuff)
-                    {
-                        if (ar.Key != target.PlayerId) break;
-                        var stuff = Main.SurvivorStuff[target.PlayerId];
-                        if (stuff.Item2)
-                        {
-                            //killer.RpcGuardAndKill(killer);
-                            killer.RpcGuardAndKill(target);
-                            sendRpc = false;
-                        }
-                    }
-                }
-                else
-                    target.MurderPlayer(killer);
+                killer.MurderPlayer(target);
             }
-            if (sendRpc)
-            {
-                MessageWriter messageWriter = AmongUsClient.Instance.StartRpcImmediately(killer.NetId, (byte)RpcCalls.MurderPlayer, SendOption.None, -1);
-                messageWriter.WriteNetObject(target);
-                AmongUsClient.Instance.FinishRpcImmediately(messageWriter);
-            }
+            MessageWriter messageWriter = AmongUsClient.Instance.StartRpcImmediately(killer.NetId, (byte)RpcCalls.MurderPlayer, SendOption.None, -1);
+            messageWriter.WriteNetObject(target);
+            AmongUsClient.Instance.FinishRpcImmediately(messageWriter);
             Utils.NotifyRoles();
         }
         public static void NoCheckStartMeeting(this PlayerControl reporter, GameData.PlayerInfo target)
