@@ -426,6 +426,10 @@ namespace TownOfHost
                             else
                                 opt.RoleOptions.EngineerCooldown = Options.VestCD.GetFloat() + Options.VestDuration.GetFloat();
                         }
+                        else
+                        {
+                            opt.RoleOptions.EngineerCooldown = 999;
+                        }
                     }
                     break;
                 case CustomRoles.Opportunist:
@@ -936,14 +940,16 @@ namespace TownOfHost
             if (survivor.Is(CustomRoles.Survivor))
             {
                 var stuff = Main.SurvivorStuff[survivor.PlayerId];
-                if (stuff.Item1 != Options.NumOfVests.GetInt())
+                if (Main.SurvivorStuff[survivor.PlayerId].Item1 != Options.NumOfVests.GetInt())
                 {
                     stuff.Item1++;
                     stuff.Item2 = true;
                     stuff.Item4 = true;
+                    Main.SurvivorStuff[survivor.PlayerId] = stuff;
                     new LateTask(() =>
                     {
                         stuff.Item2 = false;
+                        Main.SurvivorStuff[survivor.PlayerId] = stuff;
                     }, Options.VestDuration.GetFloat(), "Survivor Vesting Duration");
                 }
             }

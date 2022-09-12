@@ -198,9 +198,8 @@ namespace TownOfHost
                 Main.RampageReady = false;
                 new LateTask(() =>
                 {
-                    //pc?.MyPhysics?.RpcBootFromVent(__instance.Id);
                     Main.RampageReady = true;
-                }, Options.RampageCD.GetFloat(), "Werewolf Rampage Cooldown");
+                }, Options.RampageCD.GetFloat(), "Werewolf Rampage Cooldown (After Meeting)");
                 //Guesser.OpenGuesserMeeting();
                 foreach (var x in Main.AfterMeetingDeathPlayers)
                 {
