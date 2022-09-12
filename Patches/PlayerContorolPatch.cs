@@ -1403,11 +1403,12 @@ namespace TownOfHost
             {
                 if (__instance.Is(CustomRoles.Amnesiac))
                 {
+                    var reported = Utils.GetPlayerById(target.PlayerId);
                     Utils.SendMessage("You stole that person's role! They were " + Utils.GetRoleName(target.GetCustomRole()) + ".", __instance.PlayerId);
-                    Utils.SendMessage("The Amnesiac stole your role! Because of this, your role has been reset to the default one.", target.PlayerId);
+                    Utils.SendMessage("The Amnesiac stole your role! Because of this, your role has been reset to the default one.", reported.PlayerId);
                     __instance.RpcSetCustomRole(target.GetCustomRole());
                     //__instance.RpcSetRole(target.Role.Role);
-                    RoleManager.Instance.SetRole(__instance, target.Role.Role);
+                    RoleManager.Instance.SetRole(__instance, reported.Data.Role.Role);
 
                     switch (target.GetCustomRole())
                     {
