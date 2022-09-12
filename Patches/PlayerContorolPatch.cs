@@ -945,6 +945,7 @@ namespace TownOfHost
             if (!target.Data.IsDead || !AmongUsClient.Instance.AmHost) return;
 
             PlayerControl killer = __instance; //読み替え変数
+            Main.DeadPlayersThisRound.Add(target.PlayerId);
             if (PlayerState.GetDeathReason(target.PlayerId) == PlayerState.DeathReason.Sniped)
             {
                 killer = Utils.GetPlayerById(Sniper.GetSniper(target.PlayerId));
@@ -1114,7 +1115,6 @@ namespace TownOfHost
                     Main.AllPlayerKillCooldown[pc.PlayerId] = Options.LastImpostorKillCooldown.GetFloat();
             }
             FixedUpdatePatch.LoversSuicide(target.PlayerId);
-            Main.DeadPlayersThisRound.Add(target.PlayerId);
 
             PlayerState.SetDead(target.PlayerId);
             Utils.CountAliveImpostors();
@@ -1222,7 +1222,7 @@ namespace TownOfHost
                 target = shapeshifter;
                 Camouflager.ShapeShiftState(shapeshifter, shapeshifting);
             }
-            if (shapeshifter.Is(CustomRoles.SerialKiller) && !shapeshifter.Data.IsDead)
+            if (shapeshifter.Is(CustomRoles.SerialKiller) && !shapeshifter.Data.IsDead && Main.MercCanSuicide)
                 shapeshifter.RpcMurderPlayer(shapeshifter);
 
             //変身解除のタイミングがずれて名前が直せなかった時のために強制書き換
