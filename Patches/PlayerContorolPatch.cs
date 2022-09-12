@@ -2021,7 +2021,7 @@ namespace TownOfHost
                         RoleText.color = RoleTextData.Item2;
                         if (__instance.AmOwner) RoleText.enabled = true;
                         // else if (Main.VisibleTasksCount && !PlayerControl.LocalPlayer.Data.IsDead && Options.GhostCanSeeOtherRoles.GetBool() && !__instance.Data.IsDead) RoleText.enabled = false;
-                        //  else if (Main.VisibleTasksCount && PlayerControl.LocalPlayer.Data.IsDead && Options.GhostCanSeeOtherRoles.GetBool()) RoleText.enabled = true;
+                        else if (Main.VisibleTasksCount && PlayerControl.LocalPlayer.Data.IsDead && Options.GhostCanSeeOtherRoles.GetBool()) RoleText.enabled = true;
                         else RoleText.enabled = false;
                         if (!AmongUsClient.Instance.IsGameStarted && AmongUsClient.Instance.GameMode != GameModes.FreePlay)
                         {
