@@ -49,6 +49,8 @@ namespace TownOfHost
                 roletypes.Add(RoleTypes.Shapeshifter);
                 roletypes.Add(RoleTypes.GuardianAngel);
                 role++;
+                if (role == roletypes.Count)
+                    role = 0;
                 RoleManager.Instance.SetRole(localPlayer, roletypes[role]);
             }
             //廃村

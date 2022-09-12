@@ -761,6 +761,7 @@ namespace TownOfHost
                         case CustomRoles.Witch:
                             Main.KillOrSpell.Add(pc.PlayerId, false);
                             break;
+                        case CustomRoles.TheGlitch:
                         case CustomRoles.Warlock:
                             Main.CursedPlayers.Add(pc.PlayerId, null);
                             Main.isCurseAndKill.Add(pc.PlayerId, false);

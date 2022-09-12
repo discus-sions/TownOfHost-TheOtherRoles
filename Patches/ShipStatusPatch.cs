@@ -109,19 +109,20 @@ namespace TownOfHost
             {
                 if (CustomRoles.TheGlitch.IsEnable())
                 {
-                    List<PlayerControl> hackedPlayers = new();
+                    List<byte> hackedPlayers = new();
                     PlayerControl glitch;
                     foreach (var cp in Main.CursedPlayers)
                     {
                         if (Utils.GetPlayerById(cp.Key).Is(CustomRoles.TheGlitch))
                         {
-                            hackedPlayers.Add(cp.Value);
+                            hackedPlayers.Add(cp.Value.PlayerId);
                             glitch = Utils.GetPlayerById(cp.Key);
                         }
                     }
-
-                    if (hackedPlayers.Contains(player))
+                    if (hackedPlayers.Contains(player.PlayerId))
+                    {
                         return false;
+                    }
                 }
             }
             return true;

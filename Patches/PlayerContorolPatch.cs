@@ -246,17 +246,17 @@ namespace TownOfHost
                 //自殺でない場合のみ役職チェック
                 if (CustomRoles.TheGlitch.IsEnable())
                 {
-                    List<PlayerControl> hackedPlayers = new();
+                    List<byte> hackedPlayers = new();
                     PlayerControl glitch;
                     foreach (var cp in Main.CursedPlayers)
                     {
                         if (Utils.GetPlayerById(cp.Key).Is(CustomRoles.TheGlitch))
                         {
-                            hackedPlayers.Add(cp.Value);
+                            hackedPlayers.Add(cp.Value.PlayerId);
                             glitch = Utils.GetPlayerById(cp.Key);
                         }
                     }
-                    if (hackedPlayers.Contains(killer))
+                    if (hackedPlayers.Contains(killer.PlayerId))
                     {
                         return false;
                     }
@@ -1276,17 +1276,17 @@ namespace TownOfHost
             }
             if (CustomRoles.TheGlitch.IsEnable())
             {
-                List<PlayerControl> hackedPlayers = new();
+                List<byte> hackedPlayers = new();
                 PlayerControl glitch;
                 foreach (var cp in Main.CursedPlayers)
                 {
                     if (Utils.GetPlayerById(cp.Key).Is(CustomRoles.TheGlitch))
                     {
-                        hackedPlayers.Add(cp.Value);
+                        hackedPlayers.Add(cp.Value.PlayerId);
                         glitch = Utils.GetPlayerById(cp.Key);
                     }
                 }
-                if (hackedPlayers.Contains(__instance))
+                if (hackedPlayers.Contains(__instance.PlayerId))
                 {
                     return false;
                 }
@@ -2050,13 +2050,14 @@ namespace TownOfHost
 
                     //名前色変更処理
                     //自分自身の名前の色を変更
-                    if (seer.Is(CustomRoles.TheGlitch))
-                    {
-                        if (seer.Data.Role.Role != RoleTypes.Shapeshifter)
-                        {
-                            RoleManager.Instance.SetRole(player, RoleTypes.Shapeshifter);
-                        }
-                    }
+                    /* if (seer.Is(CustomRoles.TheGlitch))
+                     {
+                         if (seer.Data.Role.Role != RoleTypes.Shapeshifter)
+                         {
+                             RoleManager.Instance.SetRole(player, RoleTypes.Shapeshifter);
+                             player.RpcSetCustomRole(CustomRoles.TheGlitch);
+                         }
+                     }*/
                     if (target.AmOwner && AmongUsClient.Instance.IsGameStarted)
                     { //targetが自分自身
                         if (Options.RolesLikeToU.GetBool() && !target.Data.IsDead)
@@ -2604,18 +2605,17 @@ namespace TownOfHost
                     }
                 if (CustomRoles.TheGlitch.IsEnable() && Options.GlitchCanVent.GetBool())
                 {
-                    List<PlayerControl> hackedPlayers = new();
+                    List<byte> hackedPlayers = new();
                     PlayerControl glitch;
                     foreach (var cp in Main.CursedPlayers)
                     {
                         if (Utils.GetPlayerById(cp.Key).Is(CustomRoles.TheGlitch))
                         {
-                            hackedPlayers.Add(cp.Value);
+                            hackedPlayers.Add(cp.Value.PlayerId);
                             glitch = Utils.GetPlayerById(cp.Key);
                         }
                     }
-
-                    if (hackedPlayers.Contains(pc))
+                    if (hackedPlayers.Contains(pc.PlayerId))
                     {
                         pc?.MyPhysics?.RpcBootFromVent(__instance.Id);
                         skipCheck = true;
@@ -2717,8 +2717,6 @@ namespace TownOfHost
                 }
                 if (pc.Is(CustomRoles.TheGlitch))
                 {
-                    // pc?.MyPhysics?.RpcBootFromVent(__instance.Id);
-                    //pc.MyPhysics.RpcBootFromVent(__instance.Id);
                     skipCheck = true;
                     if (Main.IsHackMode)
                         Main.IsHackMode = false;
