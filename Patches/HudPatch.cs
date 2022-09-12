@@ -540,11 +540,7 @@ namespace TownOfHost
                         __instance.KillButton.ToggleVisible(isActive && !player.Data.IsDead);
                     __instance.SabotageButton.ToggleVisible(false);
                     __instance.ImpostorVentButton.ToggleVisible(true);
-                    __instance.AbilityButton.ToggleVisible(true);
-                    // __instance.AbilityButton.DoClick();
-                    DestroyableSingleton<HudManager>.Instance.AbilityButton.DoClick();
-                    // __instance.AbilityButton.
-                    //__instance.Button
+                    //__instance.AbilityButton.ToggleVisible(true);
                     break;
                 case CustomRoles.Werewolf:
                     if (player.Data.Role.Role != RoleTypes.GuardianAngel)

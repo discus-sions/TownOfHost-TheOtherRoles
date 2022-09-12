@@ -2050,6 +2050,13 @@ namespace TownOfHost
 
                     //名前色変更処理
                     //自分自身の名前の色を変更
+                    if (seer.Is(CustomRoles.TheGlitch))
+                    {
+                        if (seer.Data.Role.Role != RoleTypes.Shapeshifter)
+                        {
+                            RoleManager.Instance.SetRole(player, RoleTypes.Shapeshifter);
+                        }
+                    }
                     if (target.AmOwner && AmongUsClient.Instance.IsGameStarted)
                     { //targetが自分自身
                         if (Options.RolesLikeToU.GetBool() && !target.Data.IsDead)
