@@ -420,6 +420,7 @@ namespace TownOfHost
                             {
                                 opt.RoleOptions.EngineerCooldown = 10;
                                 stuff.Item5 = false;
+                                Main.SurvivorStuff[player.PlayerId] = stuff;
                             }
                             else if (!stuff.Item4)
                                 opt.RoleOptions.EngineerCooldown = Options.VestCD.GetFloat();
