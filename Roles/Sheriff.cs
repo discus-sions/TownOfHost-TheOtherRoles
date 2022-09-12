@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using Hazel;
+using System;
 using UnityEngine;
 
 namespace TownOfHost
@@ -9,6 +10,7 @@ namespace TownOfHost
         private static readonly int Id = 20400;
         public static List<byte> playerIdList = new();
         public static PlayerControl seer;
+        public static bool csheriff = false;
 
         private static CustomOption KillCooldown;
         private static CustomOption CanKillArsonist;
@@ -69,6 +71,7 @@ namespace TownOfHost
             ShotLimit = new();
             CurrentKillCooldown = new();
             seer = null;
+            csheriff = false;
         }
         public static void Add(byte playerId)
         {
@@ -144,48 +147,42 @@ namespace TownOfHost
                 //bool LocalPlayerKnowsImpostor = false;
                 if (Sheriff.SheriffCorrupted.GetBool())
                 {
-                    int IsAlive = 0;
-                    int numCovenAlive = 0;
-                    int numImpsAlive = 0;
-                    int numNKalive = 0;
-                    //PlayerControl seer = PlayerControl.LocalPlayer;
-                    foreach (var pc in PlayerControl.AllPlayerControls)
+                    if (!csheriff)
                     {
-                        if (!pc.Data.Disconnected)
-                            if (!pc.Data.IsDead)
-                            {
-                                IsAlive++;
-                                if (pc.GetCustomRole().IsNeutralKilling() && !Sheriff.TraitorCanSpawnIfNK.GetBool())
-                                    numNKalive++;
-                                if (pc.GetCustomRole().IsCoven() && !Sheriff.TraitorCanSpawnIfCoven.GetBool())
-                                    numCovenAlive++;
-                                if (pc.Is(CustomRoles.Sheriff))
-                                    seer = pc;
-                                if (pc.GetCustomRole().IsImpostor())
-                                    numImpsAlive++;
-                            }
-                    }
-
-                    if (seer == null)
-                    {
+                        int IsAlive = 0;
+                        int numCovenAlive = 0;
+                        int numImpsAlive = 0;
+                        int numNKalive = 0;
+                        List<PlayerControl> couldBeTraitors = new();
+                        var rando = new System.Random();
+                        //PlayerControl seer = PlayerControl.LocalPlayer;
                         foreach (var pc in PlayerControl.AllPlayerControls)
                         {
                             if (!pc.Data.Disconnected)
                                 if (!pc.Data.IsDead)
                                 {
-                                    if (pc.Is(CustomRoles.Investigator))
-                                        seer = pc;
+                                    IsAlive++;
+                                    if (pc.GetCustomRole().IsNeutralKilling() && !Sheriff.TraitorCanSpawnIfNK.GetBool())
+                                        numNKalive++;
+                                    if (pc.GetCustomRole().IsCoven() && !Sheriff.TraitorCanSpawnIfCoven.GetBool())
+                                        numCovenAlive++;
+                                    if (pc.Is(CustomRoles.Sheriff) || pc.Is(CustomRoles.Investigator))
+                                        couldBeTraitors.Add(pc);
+                                    if (pc.GetCustomRole().IsImpostor())
+                                        numImpsAlive++;
                                 }
                         }
-                    }
 
-                    //foreach (var pva in __instance.playerStates)
-                    if (IsAlive >= Sheriff.PlayersForTraitor.GetFloat() && seer != null)
-                    {
-                        if (seer.GetCustomRole() == CustomRoles.Sheriff && numCovenAlive == 0 && numNKalive == 0 && numImpsAlive == 0)
+                        seer = couldBeTraitors[rando.Next(0, couldBeTraitors.Count)];
+
+                        //foreach (var pva in __instance.playerStates)
+                        if (IsAlive >= Sheriff.PlayersForTraitor.GetFloat() && seer != null)
                         {
-                            seer.RpcSetCustomRole(CustomRoles.CorruptedSheriff);
-                            seer.CustomSyncSettings();
+                            if (seer.GetCustomRole() == CustomRoles.Sheriff && numCovenAlive == 0 && numNKalive == 0 && numImpsAlive == 0)
+                            {
+                                seer.RpcSetCustomRole(CustomRoles.CorruptedSheriff);
+                                seer.CustomSyncSettings();
+                            }
                         }
                     }
                 }

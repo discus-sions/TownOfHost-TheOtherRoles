@@ -225,8 +225,8 @@ namespace TownOfHost
                         }
                         // GIVE PLAYERS ROLE //
 
-                        int numofNks = UnityEngine.Random.Range(Options.MinNK.GetInt(), Options.MaxNK.GetInt());
-                        int numofNonNks = UnityEngine.Random.Range(Options.MinNonNK.GetInt(), Options.MaxNonNK.GetInt());
+                        int numofNks = UnityEngine.Random.RandomRangeInt(Options.MinNK.GetInt(), Options.MaxNK.GetInt());
+                        int numofNonNks = UnityEngine.Random.RandomRangeInt(Options.MinNonNK.GetInt(), Options.MaxNonNK.GetInt());
 
                         if (Options.MaxNK.GetInt() != 0)
                             for (var i = 0; i < numofNks; i++)

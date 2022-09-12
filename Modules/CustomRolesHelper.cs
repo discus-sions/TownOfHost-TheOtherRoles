@@ -325,7 +325,7 @@ namespace TownOfHost
             if (Options.MadSnitchCanVent.GetBool() && role == CustomRoles.MadSnitch) return true;
             if (Options.MayorHasPortableButton.GetBool() && role == CustomRoles.Mayor) return true;
             return
-                role is CustomRoles.Survivor or
+                role is CustomRoles.Veteran or
                 CustomRoles.Engineer or
                 CustomRoles.Survivor or
                 CustomRoles.Madmate or

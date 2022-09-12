@@ -925,6 +925,11 @@ namespace TownOfHost
                     seer.RpcSetNamePrivate(SelfName, true, force: NoCache);
                 }
 
+                if (seer.Is(CustomRoles.Survivor) && !Main.SurvivorStuff.ContainsKey(seer.PlayerId))
+                {
+                    Main.SurvivorStuff.Add(seer.PlayerId, (0, false, false, false, false));
+                }
+
                 //seerが死んでいる場合など、必要なときのみ第二ループを実行する
                 if (seer.Data.IsDead //seerが死んでいる
                     || SeerKnowsImpostors //seerがインポスターを知っている状態

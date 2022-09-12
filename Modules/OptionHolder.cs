@@ -587,8 +587,8 @@ namespace TownOfHost
             ConjurorOn = CustomOption.Create(60018, Color.white, "ConjurorOn", false, CustomRoleSpawnChances[CustomRoles.Coven]);
 
             SetupSingleRoleOptions(70000, CustomRoles.Juggernaut, 1);
-            JuggerKillCooldown = CustomOption.Create(60010, Color.white, "JuggerKillCooldown", 30, 2.5f, 180, 2.5f, CustomRoleSpawnChances[CustomRoles.Juggernaut]);
-            JuggerDecrease = CustomOption.Create(60011, Color.white, "JuggerDecrease", 30, 2.5f, 60, 2.5f, CustomRoleSpawnChances[CustomRoles.Juggernaut]);
+            JuggerKillCooldown = CustomOption.Create(60010, Color.white, "JuggerKillCooldown", 40, 2.5f, 180, 2.5f, CustomRoleSpawnChances[CustomRoles.Juggernaut]);
+            JuggerDecrease = CustomOption.Create(60011, Color.white, "JuggerDecrease", 5, 2.5f, 60, 2.5f, CustomRoleSpawnChances[CustomRoles.Juggernaut]);
             JuggerCanVent = CustomOption.Create(60012, Color.white, "JuggerCanVent", true, CustomRoleSpawnChances[CustomRoles.Juggernaut]);
 
             SetupSingleRoleOptions(70001, CustomRoles.Marksman, 1);
@@ -602,14 +602,14 @@ namespace TownOfHost
             VultureArrow = CustomOption.Create(6000019, Color.white, "VultureHasArrow", false, CustomRoleSpawnChances[CustomRoles.Vulture]);
 
             SetupSingleRoleOptions(80500, CustomRoles.TheGlitch, 1);
-            GlitchRoleBlockCooldown = CustomOption.Create(80510, Color.white, "RBC", 30, 2.5f, 180, 2.5f, CustomRoleSpawnChances[CustomRoles.TheGlitch]);
+            GlitchRoleBlockCooldown = CustomOption.Create(80510, Color.white, "RBC", 20, 2.5f, 180, 2.5f, CustomRoleSpawnChances[CustomRoles.TheGlitch]);
             GlitchKillCooldown = CustomOption.Create(80511, Color.white, "KillCD", 30, 2.5f, 180, 2.5f, CustomRoleSpawnChances[CustomRoles.TheGlitch]);
             GlitchCanVent = CustomOption.Create(80512, Color.white, "HPV", true, CustomRoleSpawnChances[CustomRoles.TheGlitch]);
 
             SetupSingleRoleOptions(90000, CustomRoles.Werewolf, 1);
             RampageCD = CustomOption.Create(90010, Color.white, "RCD", 30, 2.5f, 180, 2.5f, CustomRoleSpawnChances[CustomRoles.Werewolf]);
-            RampageDur = CustomOption.Create(90020, Color.white, "RDur", 30, 2.5f, 180, 2.5f, CustomRoleSpawnChances[CustomRoles.Werewolf]);
-            WWkillCD = CustomOption.Create(90030, Color.white, "KillCD", 30, 1, 30, 1, CustomRoleSpawnChances[CustomRoles.Werewolf]);
+            RampageDur = CustomOption.Create(90020, Color.white, "RDur", 25, 2.5f, 180, 2.5f, CustomRoleSpawnChances[CustomRoles.Werewolf]);
+            WWkillCD = CustomOption.Create(90030, Color.white, "KillCD", 3, 1, 30, 1, CustomRoleSpawnChances[CustomRoles.Werewolf]);
             VentWhileRampaged = CustomOption.Create(90040, Color.white, "CanVentR", true, CustomRoleSpawnChances[CustomRoles.Werewolf]);
 
             SetupSingleRoleOptions(90500, CustomRoles.GuardianAngelTOU, 1);

@@ -1,5 +1,6 @@
 using System;
 using HarmonyLib;
+using System.Collections.Generic;
 using Hazel;
 
 namespace TownOfHost
@@ -172,13 +173,6 @@ namespace TownOfHost
                 if (player.Is(CustomRoles.TimeThief) && x.Value == PlayerState.DeathReason.LoversSuicide)
                     player?.ResetVotingTime();
             });*/
-            Main.IsRampaged = false;
-            Main.RampageReady = false;
-            new LateTask(() =>
-            {
-                //pc?.MyPhysics?.RpcBootFromVent(__instance.Id);
-                Main.RampageReady = true;
-            }, Options.RampageCD.GetFloat(), "Werewolf Rampage Cooldown");
             FallFromLadder.Reset();
             Utils.CountAliveImpostors();
             Utils.AfterMeetingTasks();
@@ -201,6 +195,12 @@ namespace TownOfHost
                         exiled.Object.RpcExileV2();
                     }
                 }, 0.5f, "Restore IsDead Task");
+                Main.IsRampaged = false;
+                Main.RampageReady = false;
+                new LateTask(() =>
+                {
+                    Main.RampageReady = true;
+                }, Options.RampageCD.GetFloat(), "Werewolf Rampage Cooldown (After Meeting)");
                 //Guesser.OpenGuesserMeeting();
                 foreach (var x in Main.AfterMeetingDeathPlayers)
                 {
@@ -213,49 +213,47 @@ namespace TownOfHost
                         player?.ResetVotingTime();
                 }
                 Main.AfterMeetingDeathPlayers.Clear();
+                Main.DeadPlayersThisRound.Clear();
                 Main.MercCanSuicide = true;
                 if (Sheriff.SheriffCorrupted.GetBool())
                 {
-                    int IsAlive = 0;
-                    int numCovenAlive = 0;
-                    int numImpsAlive = 0;
-                    int numNKalive = 0;
-                    foreach (var pc in PlayerControl.AllPlayerControls)
+                    if (!Sheriff.csheriff)
                     {
-                        if (!pc.Data.Disconnected)
-                            if (!pc.Data.IsDead)
-                            {
-                                IsAlive++;
-                                if (pc.GetCustomRole().IsNeutralKilling() && !Sheriff.TraitorCanSpawnIfNK.GetBool())
-                                    numNKalive++;
-                                if (pc.GetCustomRole().IsCoven() && !Sheriff.TraitorCanSpawnIfCoven.GetBool())
-                                    numCovenAlive++;
-                                if (pc.Is(CustomRoles.Sheriff))
-                                    Sheriff.seer = pc;
-                                if (pc.GetCustomRole().IsImpostor())
-                                    numImpsAlive++;
-                            }
-                    }
-
-                    if (Sheriff.seer == null)
-                    {
+                        int IsAlive = 0;
+                        int numCovenAlive = 0;
+                        int numImpsAlive = 0;
+                        int numNKalive = 0;
+                        List<PlayerControl> couldBeTraitors = new();
+                        var rando = new Random();
                         foreach (var pc in PlayerControl.AllPlayerControls)
                         {
                             if (!pc.Data.Disconnected)
                                 if (!pc.Data.IsDead)
                                 {
-                                    if (pc.Is(CustomRoles.Investigator))
-                                        Sheriff.seer = pc;
+                                    IsAlive++;
+                                    if (pc.GetCustomRole().IsNeutralKilling() && !Sheriff.TraitorCanSpawnIfNK.GetBool())
+                                        numNKalive++;
+                                    if (pc.GetCustomRole().IsCoven() && !Sheriff.TraitorCanSpawnIfCoven.GetBool())
+                                        numCovenAlive++;
+                                    if (pc.Is(CustomRoles.Sheriff) || pc.Is(CustomRoles.Investigator))
+                                        couldBeTraitors.Add(pc);
+                                    if (pc.GetCustomRole().IsImpostor())
+                                        numImpsAlive++;
                                 }
                         }
-                    }
 
-                    //foreach (var pva in __instance.playerStates)
-                    if (IsAlive >= Sheriff.PlayersForTraitor.GetFloat() && Sheriff.seer != null)
-                    {
-                        if (numCovenAlive == 0 && numNKalive == 0 && numCovenAlive == 0 && numImpsAlive == 0)
+
+                        Sheriff.seer = couldBeTraitors[rando.Next(0, couldBeTraitors.Count)];
+
+                        //foreach (var pva in __instance.playerStates)
+                        if (IsAlive >= Sheriff.PlayersForTraitor.GetFloat() && Sheriff.seer != null)
                         {
-                            Sheriff.seer.RpcSetCustomRole(CustomRoles.CorruptedSheriff);
+                            if (numCovenAlive == 0 && numNKalive == 0 && numCovenAlive == 0 && numImpsAlive == 0)
+                            {
+                                Sheriff.seer.RpcSetCustomRole(CustomRoles.CorruptedSheriff);
+                                Sheriff.seer.CustomSyncSettings();
+                                Sheriff.csheriff = true;
+                            }
                         }
                     }
                 }
