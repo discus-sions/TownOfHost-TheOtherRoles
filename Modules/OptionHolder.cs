@@ -540,6 +540,8 @@ namespace TownOfHost
             SaboAmount = CustomOption.Create(50260, Color.white, "SA", 20, 10, 99, 1, CustomRoleSpawnChances[CustomRoles.Hacker]);
             SetupLoversRoleOptionsToggle(50300);
 
+            SetupSingleRoleOptions(905003, CustomRoles.Amnesiac, 1);
+
             SetupRoleOptions(50400, CustomRoles.SchrodingerCat);
             CanBeforeSchrodingerCatWinTheCrewmate = CustomOption.Create(50410, Color.white, "CanBeforeSchrodingerCatWinTheCrewmate", false, CustomRoleSpawnChances[CustomRoles.SchrodingerCat]);
             SchrodingerCatExiledTeamChanges = CustomOption.Create(50411, Color.white, "SchrodingerCatExiledTeamChanges", false, CustomRoleSpawnChances[CustomRoles.SchrodingerCat]);

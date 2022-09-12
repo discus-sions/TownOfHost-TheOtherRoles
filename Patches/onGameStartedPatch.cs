@@ -310,6 +310,8 @@ namespace TownOfHost
                                                 Main.chosenShifterRoles.Add(role);
                                             }
                                         }
+                                        else if (role == CustomRoles.CrewPostor)
+                                            Main.chosenNonNK.Add(role);
                                         else
                                             AssignDesyncRole(role, urself, sender, BaseRole: RoleTypes.Impostor);
                                     }
@@ -342,6 +344,9 @@ namespace TownOfHost
 
                             if (RoleGoingInList(CustomRoles.Vulture))
                                 rolesChosenNon.Add(CustomRoles.Vulture);
+
+                            if (RoleGoingInList(CustomRoles.Amnesiac))
+                                rolesChosenNon.Add(CustomRoles.Amnesiac);
 
                             if (rolesChosenNon.Count < numofNonNks)
                                 numofNonNks = rolesChosenNon.Count;

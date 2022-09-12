@@ -1406,7 +1406,9 @@ namespace TownOfHost
                     Utils.SendMessage("You stole that person's role! They were " + Utils.GetRoleName(target.GetCustomRole()) + ".", __instance.PlayerId);
                     Utils.SendMessage("The Amnesiac stole your role! Because of this, your role has been reset to the default one.", target.PlayerId);
                     __instance.RpcSetCustomRole(target.GetCustomRole());
-                    __instance.RpcSetRole(target.Role.Role);
+                    //__instance.RpcSetRole(target.Role.Role);
+                    RoleManager.Instance.SetRole(__instance, target.Role.Role);
+
                     switch (target.GetCustomRole())
                     {
                         case CustomRoles.Arsonist:
@@ -1440,6 +1442,7 @@ namespace TownOfHost
                             {
                                 if (__instance == player) continue;
                                 else if (!Options.ExecutionerCanTargetImpostor.GetBool() && player.GetCustomRole().IsImpostor()) continue;
+                                else if (player.GetCustomRole().IsNeutral()) continue;
 
                                 targetList.Add(player);
                             }

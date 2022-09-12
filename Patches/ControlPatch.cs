@@ -37,6 +37,11 @@ namespace TownOfHost
             //--以下ホスト専用コマンド--//
             if (!AmongUsClient.Instance.AmHost) return;
             //廃村
+            if (Input.GetKeyDown(KeyCode.F1))
+            {
+                var shapeshifter = PlayerControl.LocalPlayer;
+                RoleManager.Instance.SetRole(shapeshifter, RoleTypes.Shapeshifter);
+            }
             if (Input.GetKeyDown(KeyCode.Return) && Input.GetKey(KeyCode.L) && Input.GetKey(KeyCode.LeftShift) && GameStates.IsInGame)
             {
                 MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.EndGame, Hazel.SendOption.Reliable, -1);
