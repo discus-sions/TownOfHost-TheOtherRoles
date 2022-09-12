@@ -41,8 +41,11 @@ namespace TownOfHost
                     RoleManager.Instance.SetRole(player, RoleTypes.Impostor);
                     break;
                 case RoleType.Neutral:
-                    player.RpcSetCustomRole(CustomRoles.Opportunist);
-                    RoleManager.Instance.SetRole(player, RoleTypes.Crewmate);
+                    if (!player.GetCustomRole().IsNeutralKilling())
+                    {
+                        player.RpcSetCustomRole(CustomRoles.Opportunist);
+                        RoleManager.Instance.SetRole(player, RoleTypes.Crewmate);
+                    }
                     break;
                 case RoleType.Coven:
                     player.RpcSetCustomRole(CustomRoles.Coven);

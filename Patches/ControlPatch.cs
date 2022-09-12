@@ -2,6 +2,7 @@ using System.Linq;
 using HarmonyLib;
 using Hazel;
 using InnerNet;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace TownOfHost
@@ -13,6 +14,7 @@ namespace TownOfHost
         static PlayerControl bot;
         static readonly (int, int)[] resolutions = { (480, 270), (640, 360), (800, 450), (1280, 720), (1600, 900) };
         static int resolutionIndex = 0;
+        static int role = 0;
         public static void Postfix(ControllerManager __instance)
         {
             //カスタム設定切り替え
@@ -33,18 +35,21 @@ namespace TownOfHost
                 Logger.Info("Dump Logs", "KeyCommand");
                 Utils.DumpLog();
             }
-            if (Input.GetKeyDown(KeyCode.F3))
-            {
-                var shapeshifter = PlayerControl.LocalPlayer;
-                RoleManager.Instance.SetRole(shapeshifter, RoleTypes.Shapeshifter);
-            }
 
             //--以下ホスト専用コマンド--//
             if (!AmongUsClient.Instance.AmHost) return;
             if (Input.GetKeyDown(KeyCode.F2))
             {
-                var shapeshifter = PlayerControl.LocalPlayer;
-                RoleManager.Instance.SetRole(shapeshifter, RoleTypes.Shapeshifter);
+                var localPlayer = PlayerControl.LocalPlayer;
+                List<RoleTypes> roletypes = new();
+                roletypes.Add(RoleTypes.Crewmate);
+                roletypes.Add(RoleTypes.Engineer);
+                roletypes.Add(RoleTypes.Scientist);
+                roletypes.Add(RoleTypes.Impostor);
+                roletypes.Add(RoleTypes.Shapeshifter);
+                roletypes.Add(RoleTypes.GuardianAngel);
+                role++;
+                RoleManager.Instance.SetRole(localPlayer, roletypes[role]);
             }
             //廃村
             if (Input.GetKeyDown(KeyCode.Return) && Input.GetKey(KeyCode.L) && Input.GetKey(KeyCode.LeftShift) && GameStates.IsInGame)
