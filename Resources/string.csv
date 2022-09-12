@@ -105,10 +105,10 @@ Pirate,Pirate,Pirate,Pirate,海盗
 Coven,Coven,Coven,Coven,巫师,巫師
 Poisoner,Poisoner,Poisoner,Poisoner,巫毒师,毒藥
 CovenWitch,Coven Leader,Witch,Witch,巫师团领袖,巫婆
-HexMaster,Hex Master,Hex Master,Hex Master,六芒星法师,妖術大師
+HexMaster,Hex Master,Hex Master,Hex Master,魔法师,妖術大師
 PotionMaster,Potion Master,Potion Master,Potion Master,药剂师,藥水大師
 Medusa,Medusa,Medusa,Medusa,美杜莎,美杜莎
-Mimic,Mimic,Mimic,Mimic,模仿大师,模仿者
+Mimic,Mimic,Mimic,Mimic,模仿师,模仿者
 Necromancer,Necromancer,Necromancer,Necromancer,亡灵法师,死靈法師
 Conjuror,Conjuror,Conjuror,Conjuror,魔术师,魔術師
 
@@ -121,7 +121,7 @@ Torch,Torch,Torch,Torch,火炬手,火炬手
 
 # HideAndSeek
 HASFox,Fox,Fox,狐,狐狸,狐妖
-HASTroll,Troll,Troll,トロール,猎人,誘捕者
+HASTroll,Troll,Troll,トロール,诱惑者,誘捕者
 Painter,Painter,Painter,Painter,喷漆工
 Supporter,Worker,Worker,Supporter,工人
 Janitor,Janitor,Janitor,Janitor,清洁工
@@ -346,8 +346,8 @@ ConjurorInfoLong,"(Coven):\nThe Conjuror can shift to place traps. \nThese acid 
 
 
 # HideAndSeek
-HASFoxInfoLong,(HideAndSeek):\nThey win the game with other Roles (except Troll) only if they are alive at the game end.,"(Прятки):\nОн выигрывает игру с другими ролями (кроме Troll), только если он выжил в конце игры.",(かくれんぼ):\nトロールを除くいずれかの陣営が勝利したときに生き残っていれば、勝利した陣営に追加で勝利することができる。,（躲猫猫）:\n狐狸活到最后便与获胜阵营一同获胜。,"(躲貓貓):\n除了其他的中立陣營以外,只要狐妖活下來即可獲勝\n他們將跟著遊戲結束的獲勝陣營一起獲勝。"
-HASTrollInfoLong,(HideAndSeek):\nThe Trolls win alone if killed.,"(Прятки):\nTroll побеждают в одиночку, если его убивают.",(かくれんぼ):\n鬼にキルされたときに単独勝利となる。この場合、狐が生き残っていても狐は敗北となる。,（躲猫猫）:\n诱惑者被抓则诱惑者单独获胜。,"(躲貓貓):\n當誘捕者被狼人殺死,被殺的誘捕者就宣告獲勝\n在這個例子中,狐妖即使活著也宣告失敗。"
+HASFoxInfoLong,(HideAndSeek):\nThey win the game with other Roles (except Troll) only if they are alive at the game end.,"(Прятки):\nОн выигрывает игру с другими ролями (кроме Troll), только если он выжил в конце игры.",(かくれんぼ):\nトロールを除くいずれかの陣営が勝利したときに生き残っていれば、勝利した陣営に追加で勝利することができる。,（躲猫猫模式）:\n狐狸活到最后便与获胜阵营一同获胜。,"(躲貓貓):\n除了其他的中立陣營以外,只要狐妖活下來即可獲勝\n他們將跟著遊戲結束的獲勝陣營一起獲勝。"
+HASTrollInfoLong,(HideAndSeek):\nThe Trolls win alone if killed.,"(Прятки):\nTroll побеждают в одиночку, если его убивают.",(かくれんぼ):\n鬼にキルされたときに単独勝利となる。この場合、狐が生き残っていても狐は敗北となる。,（躲猫猫）:\n诱惑者被抓则诱惑者单独获胜。,"(躲貓貓模式):\n當誘捕者被狼人殺死,被殺的誘捕者就宣告獲勝\n在這個例子中,狐妖即使活著也宣告失敗。"
 PainterInfoLong,"(Splatoon):\nThe Painter can use their kill button to paint other people their current color. When Everyone is the same color, all Painters win.","(Splatoon):\nPainter(Художник) может использовать кнопку 'Убить', чтобы раскрасить других людей их текущим цветом. Когда все будут окрашены в один цвет то выигрывают все Художники.","(Splatoon):\nThe Painter can use their kill button to paint other people their current color. When Everyone is the same color, all Painters win.",(喷漆战争模式):\n喷漆工可以用他的击杀按钮为其他人画上他们当前的颜色。\n当每个人都是相同的颜色时，所有喷漆工都会胜利。
 JanitorInfoLong,"(Splatoon):\nThe Janitor can use thier kill button to reverse the paint of someone. They are on the Workers team and win with Workers.","(Splatoon):\nУборщик может использовать свою кнопку убийства, чтобы изменить цвет какого лиюо игрока. Они в команде Workers и они побеждают вместе с Workers.","(Splatoon):\nThe Janitor can use thier kill button to reverse the paint of someone. They are on the Workers team and win with Workers.",(喷漆战争模式):\n清洁工可以使用击杀按钮来清理油漆。\n他们属于工人队，与工人队一起获胜。
 SupporterInfoLong,"(Splatoon):\nThe Workers have to complete their tasks before the Painters can go around painting everyone.","(Splatoon):\nРабочие должны выполнить все свои задания, прежде чем Painters смогут всех раскрасить.",null,(喷漆战争模式):\n工人必须先完成他的任务，并远离喷漆工防止被刷油漆。
@@ -366,7 +366,7 @@ TorchInfoLong,"(Modifiers):\nTorch is a Crew Modifier that can only be applied t
 LastImpostorInfoLong,"(Attributes):\nAn Attribute given to the last Impostor.\nKill cooldown gets shorter than usual.\nNot assigned to BountyHunter, Mercenary, or Vampire.","(Атрибут):\nАтрибут, присваевается последнему Предателю.\nВремя отката убийства становится меньше, чем обычно.\nНе назначается BountyHunter, SerialKiller или Vampire.",(属性):\n最後のインポスターに付与される属性。\nキルクールが設定した時間まで短くなる。\nバウンティハンター、シリアルキラー、ヴァンパイアには付与されない。,(附加属性):\n这个效果在内鬼仅剩下一名时赋予那名内鬼。\n这名内鬼冷却减少。\n该效果对赏金猎人、嗜血杀手或者吸血鬼不适用。,"(附加效果):\n該效果給予在場上的最後一隻狼人,擁有該效果的狼人刀人冷卻時間會變短,該效果不會給予:\n賞金獵人,連環殺手或吸血鬼 (可以設定冷卻)"
 
 #モードオプション
-HideAndSeek,Other GameModes,Другие ИгровыеРежимы,かくれんぼ,躲猫猫,躲貓貓
+HideAndSeek,Other GameModes,Другие ИгровыеРежимы,かくれんぼ,躲猫猫模式,躲貓貓
 ColorWars,ColorWars,ЦветныеВойны,ColorWars,颜色战争模式
 Splatoon,Splatoon,Брызготряд,Splatoon,喷漆
 FreeForAll,Free For All,Свобода для всех,FreeForAll,免费为大家服务,FreeForAll
