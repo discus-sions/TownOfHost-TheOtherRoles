@@ -34,18 +34,23 @@ namespace TownOfHost
             {
                 case RoleType.Crewmate:
                     player.RpcSetCustomRole(CustomRoles.Crewmate);
+                    RoleManager.Instance.SetRole(player, RoleTypes.Crewmate);
                     break;
                 case RoleType.Impostor:
                     player.RpcSetCustomRole(CustomRoles.Impostor);
+                    RoleManager.Instance.SetRole(player, RoleTypes.Impostor);
                     break;
                 case RoleType.Neutral:
                     player.RpcSetCustomRole(CustomRoles.Opportunist);
+                    RoleManager.Instance.SetRole(player, RoleTypes.Crewmate);
                     break;
                 case RoleType.Coven:
                     player.RpcSetCustomRole(CustomRoles.Coven);
+                    // RoleManager.Instance.SetRole(player, RoleTypes.Impostor);
                     break;
                 case RoleType.Madmate:
                     player.RpcSetCustomRole(CustomRoles.Madmate);
+                    RoleManager.Instance.SetRole(player, RoleTypes.Engineer);
                     break;
             }
         }
