@@ -172,13 +172,6 @@ namespace TownOfHost
                 if (player.Is(CustomRoles.TimeThief) && x.Value == PlayerState.DeathReason.LoversSuicide)
                     player?.ResetVotingTime();
             });*/
-            Main.IsRampaged = false;
-            Main.RampageReady = false;
-            new LateTask(() =>
-            {
-                //pc?.MyPhysics?.RpcBootFromVent(__instance.Id);
-                Main.RampageReady = true;
-            }, Options.RampageCD.GetFloat(), "Werewolf Rampage Cooldown");
             FallFromLadder.Reset();
             Utils.CountAliveImpostors();
             Utils.AfterMeetingTasks();
@@ -201,6 +194,13 @@ namespace TownOfHost
                         exiled.Object.RpcExileV2();
                     }
                 }, 0.5f, "Restore IsDead Task");
+                Main.IsRampaged = false;
+                Main.RampageReady = false;
+                new LateTask(() =>
+                {
+                    //pc?.MyPhysics?.RpcBootFromVent(__instance.Id);
+                    Main.RampageReady = true;
+                }, Options.RampageCD.GetFloat(), "Werewolf Rampage Cooldown");
                 //Guesser.OpenGuesserMeeting();
                 foreach (var x in Main.AfterMeetingDeathPlayers)
                 {
