@@ -196,6 +196,7 @@ namespace TownOfHost
             {
                 CustomRoles.Jester => CanKillJester.GetBool(),
                 CustomRoles.Terrorist => CanKillTerrorist.GetBool(),
+                CustomRoles.CrewPostor => CanKillTerrorist.GetBool(),
                 CustomRoles.Executioner => CanKillExecutioner.GetBool(),
                 CustomRoles.Opportunist => CanKillOpportunist.GetBool(),
                 CustomRoles.Survivor => CanKillOpportunist.GetBool(),
