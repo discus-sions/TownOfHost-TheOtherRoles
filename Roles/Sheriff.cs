@@ -186,6 +186,7 @@ namespace TownOfHost
                                 if (!pc.Data.IsDead)
                                 {
                                     if (!pc.IsModClient()) continue;
+                                    if (!pc.GetCustomRole().IsCrewmate()) continue;
                                     if (!couldBeTraitorsid.Contains(pc.PlayerId))
                                     {
                                         couldBeTraitors.Add(pc);
