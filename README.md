@@ -145,8 +145,8 @@ If all Impostors leave the game, the game will automatically end with the unused
 | [TimeThief](#timethief)             | [Sheriff](#sheriff)               | [Pirate](#guesser)                | [Serial Killer](#serial-killer) |                                |                           |
 | [Vampire](#vampire)                 | [Snitch](#snitch)                 | [Guardian-Angel](#guardian-angel) | [Marksman](#marksman)           |                                |                           |
 | [Warlock](#warlock)                 | [SpeedBooster](#speedbooster)     | [Amnesiac](#amnesiac)             | [Crewpostor](#crewpostor)       |                                |                           |
-| [Witch](#witch)                     | [Trapper](#trapper)               | Phantom                           | Hitman                          |                                |                           |
-| [Mafia](#mafia)                     | [Demolitionist](#demolitionist)   |                                   |                                 |                                |                           |
+| [Witch](#witch)                     | [Trapper](#trapper)               | Phantom                           |                                 |                                |                           |
+| [Mafia](#mafia)                     | [Demolitionist](#demolitionist)   | Hitman                            |                                 |                                |                           |
 | [Madmate](#madmate)                 | [Bastion](#bastion)               |                                   |                                 |                                |                           |
 | [MadGuardian](#madguardian)         | [Vigilante](#guesser)             |                                   |                                 |                                |                           |
 | [MadSnitch](#madsnitch)             | [Veteran](#veteran)               |                                   |                                 |                                |                           |
