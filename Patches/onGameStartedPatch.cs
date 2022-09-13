@@ -679,6 +679,9 @@ namespace TownOfHost
                             AssignCustomRolesFromList(role, Shapeshifters);
                 }
 
+                if (RoleGoingInList(CustomRoles.LoversRecode))
+                    AssignLoversRolesFromList();
+
                 if (RoleGoingInList(CustomRoles.Oblivious))
                     GiveModifier(CustomRoles.Oblivious);
                 if (RoleGoingInList(CustomRoles.Flash))
@@ -1116,7 +1119,7 @@ namespace TownOfHost
 
         private static void AssignLoversRolesFromList()
         {
-            if (CustomRoles.Lovers.IsEnable())
+            if (CustomRoles.LoversRecode.IsEnable())
             {
                 //Loversを初期化
                 Main.LoversPlayers.Clear();
@@ -1131,9 +1134,10 @@ namespace TownOfHost
             foreach (var player in PlayerControl.AllPlayerControls)
             {
                 if (player.Is(CustomRoles.GM)) continue;
+                if (Main.HasModifier.ContainsValue(player.PlayerId)) continue;
                 allPlayers.Add(player);
             }
-            var loversRole = CustomRoles.Lovers;
+            var loversRole = CustomRoles.LoversRecode;
             var rand = new System.Random();
             var count = Math.Clamp(RawCount, 0, allPlayers.Count);
             if (RawCount == -1) count = Math.Clamp(loversRole.GetCount(), 0, allPlayers.Count);

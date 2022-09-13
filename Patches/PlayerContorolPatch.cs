@@ -1114,7 +1114,16 @@ namespace TownOfHost
                     if (ga == null) continue;
                     if (target.PlayerId == gaTarget.Value && !ga.Data.IsDead)
                     {
-                        ga.RpcSetCustomRole(Options.CRoleGuardianAngelChangeRoles[Options.WhenGaTargetDies.GetSelection()]); //対象がキルされたらオプションで設定した役職にする
+                        // CRoleGuardianAngelChangeRoles
+                        if (ga.IsModClient())
+                            ga.RpcSetCustomRole(Options.CRoleGuardianAngelChangeRoles[Options.WhenGaTargetDies.GetSelection()]); //対象がキルされたらオプションで設定した役職にする
+                        else
+                        {
+                            if (Options.CRoleGuardianAngelChangeRoles[Options.WhenGaTargetDies.GetSelection()] != CustomRoles.Amnesiac)
+                                ga.RpcSetCustomRole(Options.CRoleGuardianAngelChangeRoles[Options.WhenGaTargetDies.GetSelection()]); //対象がキルされたらオプションで設定した役職にする
+                            else
+                                ga.RpcSetCustomRole(Options.CRoleGuardianAngelChangeRoles[2]);
+                        }
                         RemoveGAKey.Add(gaTarget.Key);
                     }
                 }
@@ -1432,49 +1441,146 @@ namespace TownOfHost
                     Utils.SendMessage("The Amnesiac stole your role! Because of this, your role has been reset to the default one.", reported.PlayerId);
                     __instance.RpcSetCustomRole(target.GetCustomRole());
                     //__instance.RpcSetRole(target.Role.Role);
-                    RoleManager.Instance.SetRole(__instance, reported.Data.Role.Role);
+                    if (!reported.GetCustomRole().IsNeutralKilling())
+                        RoleManager.Instance.SetRole(__instance, reported.Data.Role.Role);
+                    else
+                        RoleManager.Instance.SetRole(__instance, RoleTypes.Crewmate);
+
+                    __instance.ResetKillCooldown();
+                    PlayerControl pc = __instance;
+                    if (__instance.Data.Role.Role == RoleTypes.Shapeshifter) Main.CheckShapeshift.Add(pc.PlayerId, false);
+                    var rand = new System.Random();
 
                     switch (target.GetCustomRole())
                     {
+                        case CustomRoles.BountyHunter:
+                            BountyHunter.Add(pc);
+                            break;
+                        case CustomRoles.SerialKiller:
+                            SerialKiller.Add(pc.PlayerId);
+                            break;
+                        case CustomRoles.Witch:
+                            Main.KillOrSpell.Add(pc.PlayerId, false);
+                            break;
+                        case CustomRoles.TheGlitch:
+                        case CustomRoles.Warlock:
+                            Main.CursedPlayers.Add(pc.PlayerId, null);
+                            Main.isCurseAndKill.Add(pc.PlayerId, false);
+                            break;
+                        case CustomRoles.Veteran:
+                            Main.VetAlerts = 0;
+                            break;
+                        case CustomRoles.FireWorks:
+                            FireWorks.Add(pc.PlayerId);
+                            break;
+                        case CustomRoles.Silencer:
+                            Main.KillOrSilence.Add(pc.PlayerId, false);
+                            break;
+                        case CustomRoles.TimeThief:
+                            TimeThief.Add(pc, pc.PlayerId);
+                            break;
+                        case CustomRoles.Sniper:
+                            Sniper.Add(pc.PlayerId);
+                            break;
+                        case CustomRoles.Mare:
+                            Mare.Add(pc.PlayerId);
+                            break;
+                        case CustomRoles.Ninja:
+                            Ninja.Add(pc.PlayerId);
+                            break;
+                        case CustomRoles.Necromancer:
+                            Necromancer.Add(pc.PlayerId);
+                            break;
                         case CustomRoles.Arsonist:
                             foreach (var ar in PlayerControl.AllPlayerControls)
-                                Main.isDoused.Add((__instance.PlayerId, ar.PlayerId), false);
-                            break;
-                        case CustomRoles.GuardianAngelTOU:
-                            var rand = new System.Random();
-                            List<PlayerControl> protectList = new();
-                            rand = new System.Random();
-                            foreach (var player in PlayerControl.AllPlayerControls)
-                            {
-                                if (__instance == player) continue;
-
-                                protectList.Add(player);
-                            }
-                            var Person = protectList[rand.Next(protectList.Count)];
-                            Main.GuardianAngelTarget.Add(__instance.PlayerId, Person.PlayerId);
-                            RPC.SendGATarget(__instance.PlayerId, Person.PlayerId);
-                            Logger.Info($"{__instance.GetNameWithRole()}:{Person.GetNameWithRole()}", "Guardian Angel");
+                                Main.isDoused.Add((pc.PlayerId, ar.PlayerId), false);
                             break;
                         case CustomRoles.PlagueBearer:
                             foreach (var ar in PlayerControl.AllPlayerControls)
-                                Main.isInfected.Add((__instance.PlayerId, ar.PlayerId), false);
+                                Main.isInfected.Add((pc.PlayerId, ar.PlayerId), false);
+                            break;
+                        case CustomRoles.Survivor:
+                            Main.SurvivorStuff.Add(pc.PlayerId, (0, false, false, false, true));
                             break;
                         case CustomRoles.Executioner:
                             List<PlayerControl> targetList = new();
-                            var randd = new System.Random();
-                            randd = new System.Random();
-                            foreach (var player in PlayerControl.AllPlayerControls)
+                            rand = new System.Random();
+                            foreach (var targete in PlayerControl.AllPlayerControls)
                             {
-                                if (__instance == player) continue;
-                                else if (!Options.ExecutionerCanTargetImpostor.GetBool() && player.GetCustomRole().IsImpostor()) continue;
-                                else if (player.GetCustomRole().IsNeutral()) continue;
+                                if (pc == targete) continue;
+                                else if (!Options.ExecutionerCanTargetImpostor.GetBool() && targete.GetCustomRole().IsImpostor()) continue;
+                                else if (targete.GetCustomRole().IsNeutral()) continue;
+                                else if (targete.Is(CustomRoles.GM)) continue;
 
-                                targetList.Add(player);
+                                targetList.Add(targete);
                             }
-                            var Target = targetList[randd.Next(targetList.Count)];
-                            Main.ExecutionerTarget.Add(__instance.PlayerId, Target.PlayerId);
-                            RPC.SendExecutionerTarget(__instance.PlayerId, Target.PlayerId);
-                            Logger.Info($"{__instance.GetNameWithRole()}:{Target.GetNameWithRole()}", "Executioner");
+                            var Target = targetList[rand.Next(targetList.Count)];
+                            Main.ExecutionerTarget.Add(pc.PlayerId, Target.PlayerId);
+                            RPC.SendExecutionerTarget(pc.PlayerId, Target.PlayerId);
+                            Logger.Info($"{pc.GetNameWithRole()}:{Target.GetNameWithRole()}", "Executioner");
+                            break;
+                        case CustomRoles.GuardianAngelTOU:
+                            List<PlayerControl> protectList = new();
+                            rand = new System.Random();
+                            foreach (var targete in PlayerControl.AllPlayerControls)
+                            {
+                                if (pc == targete) continue;
+                                else if (targete.Is(CustomRoles.GM)) continue;
+
+                                protectList.Add(targete);
+                            }
+                            var Person = protectList[rand.Next(protectList.Count)];
+                            Main.GuardianAngelTarget.Add(pc.PlayerId, Person.PlayerId);
+                            RPC.SendGATarget(pc.PlayerId, Person.PlayerId);
+                            Logger.Info($"{pc.GetNameWithRole()}:{Person.GetNameWithRole()}", "Guardian Angel");
+                            break;
+                        case CustomRoles.Egoist:
+                            Egoist.Add(pc.PlayerId);
+                            break;
+
+                        case CustomRoles.Sheriff:
+                            Sheriff.Add(pc.PlayerId);
+                            break;
+                        case CustomRoles.Mayor:
+                            Main.MayorUsedButtonCount[pc.PlayerId] = 0;
+                            break;
+                        case CustomRoles.Hacker:
+                            Main.HackerFixedSaboCount[pc.PlayerId] = 0;
+                            break;
+                        case CustomRoles.CrewPostor:
+                            Main.lastAmountOfTasks.Add(pc.PlayerId, 0);
+                            break;
+                        case CustomRoles.SabotageMaster:
+                            SabotageMaster.Add(pc.PlayerId);
+                            break;
+                        case CustomRoles.HexMaster:
+                            foreach (var ar in PlayerControl.AllPlayerControls)
+                            {
+                                if (!ar.GetCustomRole().IsCoven())
+                                    Main.isHexed.Add((pc.PlayerId, ar.PlayerId), false);
+                            }
+                            break;
+                        case CustomRoles.Investigator:
+                            Investigator.Add(pc.PlayerId);
+                            Investigator.hasSeered.Clear();
+                            foreach (var ar in PlayerControl.AllPlayerControls)
+                            {
+                                Investigator.hasSeered.Add(ar.PlayerId, false);
+                            }
+                            break;
+                        /*case CustomRoles.Sleuth:
+                            foreach (var ar in PlayerControl.AllPlayerControls)
+                            {
+                                Main.SleuthReported.Add(pc.PlayerId, (ar.PlayerId, false));
+                            }
+                            break;*/
+                        case CustomRoles.EvilGuesser:
+                        case CustomRoles.NiceGuesser:
+                            Guesser.Add(pc.PlayerId);
+                            break;
+                        case CustomRoles.Pirate:
+                            Guesser.Add(pc.PlayerId);
+                            Guesser.PirateGuess.Add(pc.PlayerId, 0);
                             break;
                     }
                     Utils.GetPlayerById(target.PlayerId).SetDefaultRole();

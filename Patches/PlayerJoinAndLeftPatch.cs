@@ -58,7 +58,7 @@ namespace TownOfHost
                 Utils.CountAliveImpostors();
                 if (data.Character.Is(CustomRoles.TimeThief))
                     data.Character.ResetVotingTime();
-                if (data.Character.Is(CustomRoles.Lovers) && !data.Character.Data.IsDead && !data.Character.Is(CustomRoles.Pestilence))
+                if (data.Character.Is(CustomRoles.Lovers) && !data.Character.Data.IsDead)
                     foreach (var lovers in Main.LoversPlayers.ToArray())
                     {
                         Main.isLoversDead = true;
@@ -74,6 +74,15 @@ namespace TownOfHost
                 if (data.Character.Is(CustomRoles.GuardianAngelTOU) && Main.GuardianAngelTarget.ContainsKey(data.Character.PlayerId))
                 {
                     data.Character.RpcSetCustomRole(Options.CRoleGuardianAngelChangeRoles[Options.WhenGaTargetDies.GetSelection()]);
+                    if (data.Character.IsModClient())
+                        data.Character.RpcSetCustomRole(Options.CRoleGuardianAngelChangeRoles[Options.WhenGaTargetDies.GetSelection()]); //対象がキルされたらオプションで設定した役職にする
+                    else
+                    {
+                        if (Options.CRoleGuardianAngelChangeRoles[Options.WhenGaTargetDies.GetSelection()] != CustomRoles.Amnesiac)
+                            data.Character.RpcSetCustomRole(Options.CRoleGuardianAngelChangeRoles[Options.WhenGaTargetDies.GetSelection()]); //対象がキルされたらオプションで設定した役職にする
+                        else
+                            data.Character.RpcSetCustomRole(Options.CRoleGuardianAngelChangeRoles[2]);
+                    }
                     Main.GuardianAngelTarget.Remove(data.Character.PlayerId);
                     RPC.RemoveGAKey(data.Character.PlayerId);
                 }
@@ -116,7 +125,16 @@ namespace TownOfHost
                         if (x.Value == data.Character.PlayerId)
                             GA = x.Key;
                     });
-                    Utils.GetPlayerById(GA).RpcSetCustomRole(Options.CRoleGuardianAngelChangeRoles[Options.WhenGaTargetDies.GetSelection()]);
+                    // Utils.GetPlayerById(GA).RpcSetCustomRole(Options.CRoleGuardianAngelChangeRoles[Options.WhenGaTargetDies.GetSelection()]);
+                    if (Utils.GetPlayerById(GA).IsModClient())
+                        Utils.GetPlayerById(GA).RpcSetCustomRole(Options.CRoleGuardianAngelChangeRoles[Options.WhenGaTargetDies.GetSelection()]); //対象がキルされたらオプションで設定した役職にする
+                    else
+                    {
+                        if (Options.CRoleGuardianAngelChangeRoles[Options.WhenGaTargetDies.GetSelection()] != CustomRoles.Amnesiac)
+                            Utils.GetPlayerById(GA).RpcSetCustomRole(Options.CRoleGuardianAngelChangeRoles[Options.WhenGaTargetDies.GetSelection()]); //対象がキルされたらオプションで設定した役職にする
+                        else
+                            Utils.GetPlayerById(GA).RpcSetCustomRole(Options.CRoleGuardianAngelChangeRoles[2]);
+                    }
                     Main.GuardianAngelTarget.Remove(GA);
                     RPC.RemoveGAKey(GA);
                     Utils.NotifyRoles();

@@ -387,6 +387,7 @@ namespace TownOfHost
                     //サブ役職
                     { CustomRoles.NoSubRoleAssigned, "#ffffff"},
                     { CustomRoles.Lovers, "#FF66CC"},
+                    { CustomRoles.LoversRecode, "#FF66CC"},
                     { CustomRoles.Flash, "#FF8080"},
                     { CustomRoles.Oblivious, "#808080"},
                     { CustomRoles.Torch, "#FFFF99"},
@@ -603,6 +604,7 @@ namespace TownOfHost
 
         // GLOBAL MODIFIERS //
         Lovers,
+        LoversRecode,
         Flash, // DONE
         TieBreaker,
         Oblivious, // DONE

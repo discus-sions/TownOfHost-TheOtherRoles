@@ -75,20 +75,20 @@ namespace TownOfHost
         };
         public static readonly string[] ExecutionerChangeRoles =
         {
-            CustomRoles.Crewmate.ToString(), CustomRoles.Jester.ToString(), CustomRoles.Opportunist.ToString(),
+            CustomRoles.Crewmate.ToString(), CustomRoles.Jester.ToString(), CustomRoles.Opportunist.ToString(), CustomRoles.SchrodingerCat.ToString(),
         };
         public static readonly CustomRoles[] CRoleExecutionerChangeRoles =
         {
-            CustomRoles.Crewmate, CustomRoles.Jester, CustomRoles.Opportunist,
+            CustomRoles.Crewmate, CustomRoles.Jester, CustomRoles.Opportunist, CustomRoles.SchrodingerCat,
         };
 
         public static readonly string[] GAChangeRoles =
         {
-            CustomRoles.Crewmate.ToString(), CustomRoles.Engineer.ToString(), CustomRoles.Survivor.ToString(),
+            CustomRoles.Crewmate.ToString(), CustomRoles.Engineer.ToString(), CustomRoles.Survivor.ToString(), CustomRoles.Amnesiac.ToString()
         };
         public static readonly CustomRoles[] CRoleGuardianAngelChangeRoles =
         {
-            CustomRoles.Crewmate, CustomRoles.Engineer, CustomRoles.Survivor,
+            CustomRoles.Crewmate, CustomRoles.Engineer, CustomRoles.Survivor, CustomRoles.Amnesiac,
         };
 
         public static readonly string[] PestiAttacksVetString =
@@ -264,6 +264,9 @@ namespace TownOfHost
 
         public static CustomOption BewilderVision;
         public static CustomOption FlashSpeed;
+
+        public static CustomOption LoversDieTogether;
+        public static CustomOption LoversKnowRoleOfOtherLover;
 
         //coven
         //coven main info
@@ -550,7 +553,9 @@ namespace TownOfHost
             TerroristTasks = OverrideTasksData.Create(50220, CustomRoles.Terrorist);
             SetupRoleOptions(50250, CustomRoles.Hacker);
             SaboAmount = CustomOption.Create(50260, Color.white, "SA", 20, 10, 99, 1, CustomRoleSpawnChances[CustomRoles.Hacker]);
-            SetupLoversRoleOptionsToggle(50300);
+            SetupSingleRoleOptions(50300, CustomRoles.LoversRecode, 2);
+            LoversDieTogether = CustomOption.Create(503005, Color.white, "LoversDieTogether", false, CustomRoleSpawnChances[CustomRoles.LoversRecode]);
+            LoversKnowRoleOfOtherLover = CustomOption.Create(503005, Color.white, "LoversKnowRoleOfOtherLover", true, CustomRoleSpawnChances[CustomRoles.LoversRecode]);
 
             SetupSingleRoleOptions(905003, CustomRoles.Amnesiac, 1);
 
@@ -832,7 +837,8 @@ namespace TownOfHost
         }
         private static void SetupLoversRoleOptionsToggle(int id, CustomGameMode customGameMode = CustomGameMode.Standard)
         {
-            var role = CustomRoles.Lovers;
+            var role = CustomRoles.LoversRecode
+            ;
             var spawnOption = CustomOption.Create(id, Utils.GetRoleColor(role), role.ToString(), rates, rates[0], null, true)
                 .HiddenOnDisplay(true)
                 .SetGameMode(customGameMode);
