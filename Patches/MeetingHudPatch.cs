@@ -439,7 +439,7 @@ namespace TownOfHost
                         pc.PlayerId == seer.PlayerId
                     ) continue; //塗れない人は除外 (死んでたり切断済みだったり あとアーソニスト自身も)
 
-                    if (Main.isDoused.TryGetValue((seer.PlayerId, pc.PlayerId), out var isDoused) && isDoused)
+                    if (Main.isHexed.TryGetValue((seer.PlayerId, pc.PlayerId), out var isHexed) && isHexed)
                         Utils.SendMessage("You have been hexed by the Hex Master!", pc.PlayerId);
                 }
 
