@@ -183,6 +183,7 @@ namespace TownOfHost
         }
         private static void SaveSkin()
         {
+            if (!AmongUsClient.Instance.AmHost) return;
             foreach (var player in PlayerControl.AllPlayerControls)
             {
                 var color = player.CurrentOutfit.ColorId;
@@ -302,12 +303,13 @@ namespace TownOfHost
                                         {
                                             if (role != CustomRoles.Egoist)
                                             {
-                                                AssignDesyncRole(role, urself, sender, BaseRole: RoleTypes.Shapeshifter);
+                                                //AssignDesyncRole(role, urself, sender, BaseRole: RoleTypes.Shapeshifter);
                                                 Main.chosenShifterRoles.Add(role);
                                             }
                                             else
                                             {
-                                                Main.chosenShifterRoles.Add(role);
+                                                // Main.chosenShifterRoles.Add(role);
+                                                AssignDesyncRole(role, urself, sender, BaseRole: RoleTypes.Shapeshifter);
                                             }
                                         }
                                         else if (role == CustomRoles.CrewPostor)

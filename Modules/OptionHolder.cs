@@ -444,7 +444,7 @@ namespace TownOfHost
             TimeThief.SetupCustomOption();
             //Camouflager.SetupCustomOption();
             Ninja.SetupCustomOption();
-            SetupRoleOptions(22434, CustomRoles.CorruptedSheriff);
+            SetupSingleRoleOptions(22434, CustomRoles.CorruptedSheriff, 1);
             PlayersForTraitor = CustomOption.Create(2040030, Color.white, "TraitorSpawn", 1, 0, 15, 1, CustomRoleSpawnChances[CustomRoles.CorruptedSheriff]);
             TraitorCanSpawnIfNK = CustomOption.Create(2040031, Color.white, "TraitorCanSpawnIfNK", true, CustomRoleSpawnChances[CustomRoles.CorruptedSheriff]);
             TraitorCanSpawnIfCoven = CustomOption.Create(2040032, Color.white, "TraitorCanSpawnIfCoven", true, CustomRoleSpawnChances[CustomRoles.CorruptedSheriff]);
