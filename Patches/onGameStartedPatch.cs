@@ -1092,7 +1092,7 @@ namespace TownOfHost
         private static bool RoleGoingInList(CustomRoles role)
         {
             if (!role.IsEnable()) return false;
-            var number = System.Convert.ToUInt32(PercentageChecker.CheckPercentage(role.ToString()));
+            var number = System.Convert.ToUInt32(PercentageChecker.CheckPercentage(role.ToString(), role: role));
             bool isRole = UnityEngine.Random.Range(1, 100) <= number;
             return isRole;
         }

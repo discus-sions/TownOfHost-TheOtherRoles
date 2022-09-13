@@ -998,37 +998,60 @@ namespace TownOfHost
             else if (target.CurrentlyLastImpostor())
             {
                 //bool LocalPlayerKnowsImpostor = false;
-                if (Sheriff.SheriffCorrupted.GetBool())
+                if (Options.SheriffCorrupted.GetBool())
                 {
-                    int IsAlive = 0;
-                    int numCovenAlive = 0;
-                    int numNKalive = 0;
-                    PlayerControl seer = PlayerControl.LocalPlayer;
-                    foreach (var pc in PlayerControl.AllPlayerControls)
+                    if (!Sheriff.csheriff)
                     {
-                        if (!pc.Data.IsDead)
+                        int IsAlive = 0;
+                        int numCovenAlive = 0;
+                        int numImpsAlive = 0;
+                        int numNKalive = 0;
+                        List<PlayerControl> couldBeTraitors = new();
+                        List<byte> couldBeTraitorsid = new();
+                        var rando = new System.Random();
+                        foreach (var pc in PlayerControl.AllPlayerControls)
                         {
-                            IsAlive++;
-                            if (pc.GetCustomRole().IsNeutralKilling() && Sheriff.TraitorCanSpawnIfNK.GetBool())
-                                numNKalive++;
-                            if (pc.GetCustomRole().IsCoven() && Sheriff.TraitorCanSpawnIfCoven.GetBool())
-                                numCovenAlive++;
-                            if (pc.Is(CustomRoles.Sheriff))
-                                seer = pc;
+                            if (!pc.Data.Disconnected)
+                                if (!pc.Data.IsDead)
+                                {
+                                    IsAlive++;
+                                    if (pc.GetCustomRole().IsNeutralKilling() && !Options.TraitorCanSpawnIfNK.GetBool())
+                                        numNKalive++;
+                                    if (pc.GetCustomRole().IsCoven() && !Options.TraitorCanSpawnIfCoven.GetBool())
+                                        numCovenAlive++;
+                                    if (pc.Is(CustomRoles.Sheriff) || pc.Is(CustomRoles.Investigator))
+                                        couldBeTraitors.Add(pc);
+                                    if (pc.GetCustomRole().IsImpostor())
+                                        numImpsAlive++;
+                                }
                         }
-                    }
 
-                    //foreach (var pva in __instance.playerStates)
-                    if (IsAlive >= Sheriff.PlayersForTraitor.GetFloat())
-                    {
-                        foreach (var ar in PlayerControl.AllPlayerControls)
+                        foreach (var pc in PlayerControl.AllPlayerControls)
                         {
-                            //PlayerControl target = Utils.GetPlayerById(ar.playerId);
+                            if (!pc.Data.Disconnected)
+                                if (!pc.Data.IsDead)
+                                {
+                                    if (!pc.IsModClient()) continue;
+                                    if (!couldBeTraitorsid.Contains(pc.PlayerId))
+                                    {
+                                        couldBeTraitors.Add(pc);
+                                        couldBeTraitorsid.Add(pc.PlayerId);
+                                    }
+                                }
+                        }
 
-                            if (seer.GetCustomRole() == CustomRoles.Sheriff && numCovenAlive == 0 && numNKalive == 0)
+                        Sheriff.seer = couldBeTraitors[rando.Next(0, couldBeTraitors.Count)];
+
+                        //foreach (var pva in __instance.playerStates)
+                        if (IsAlive >= Options.PlayersForTraitor.GetFloat() && Sheriff.seer != null)
+                        {
+                            if (numCovenAlive == 0 && numNKalive == 0 && numCovenAlive == 0 && numImpsAlive == 0)
                             {
-                                seer.RpcSetCustomRole(CustomRoles.CorruptedSheriff);
-                                seer.CustomSyncSettings();
+                                Sheriff.seer.RpcSetCustomRole(CustomRoles.CorruptedSheriff);
+                                Sheriff.seer.CustomSyncSettings();
+                                Sheriff.csheriff = true;
+                                if (Sheriff.seer.IsModClient())
+                                    RoleManager.Instance.SetRole(Sheriff.seer, RoleTypes.Impostor);
                             }
                         }
                     }

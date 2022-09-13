@@ -470,6 +470,7 @@ SabotageMasterFixesElectrical,SabotageMaster Can Fix Lights Out All At Once,Sabo
 SheriffKillCooldown,Sheriff Kill Cooldown,Откат Убийства Sheriff,シェリフのキルクール,警长执法冷却,警長執法冷卻
 SheriffCanKillArsonist,Sheriff Can kill Arsonist,Sheriff Может Убить Arsonist,シェリフがアーソニストをキルできる,警长可以执法纵火犯,警長可以槍死縱火犯
 SA,Hacker Sabotage Amount,Сумма Очков Саботажей,,Hacker Sabotage Amount,黑客需要修复破坏获得积分
+LaptopPercentages,Use Laptop Percentages Instead Of File,LaptopPercentages,LaptopPercentages,LaptopPercentages
 SheriffCanKillJester,Sheriff Can Kill Jester,Sheriff Может Убить Jester,シェリフがジェスターをキルできる,警长可以执法小丑,警長可以槍死小丑
 SheriffCanKillTerrorist,Sheriff Can Kill Terrorist/CrewPostor,Sheriff Может Убить Terrorist,シェリフがテロリストをキルできる,警长可以执法恐怖分子,警長可以槍死恐怖分子
 SheriffCanKillExecutioner,Sheriff Can Kill Executioner,Sheriff Может Убить Executioner,シェリフがエクスキューショナーをキルできる,警长可以执法处刑人,警長可以槍死劊子手

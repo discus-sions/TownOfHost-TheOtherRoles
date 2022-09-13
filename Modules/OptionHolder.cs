@@ -338,6 +338,13 @@ namespace TownOfHost
         // GAMEMODE //
         public static CustomOption SplatoonOn;
         public static CustomOption ColorWarsOn;
+
+        // TRAITOR //
+        public static CustomOption PlayersForTraitor;
+        public static CustomOption SheriffCorrupted;
+        public static CustomOption TraitorCanSpawnIfNK;
+        public static CustomOption TraitorCanSpawnIfCoven;
+        public static CustomOption LaptopPercentages;
         public static readonly string[] suffixModes =
         {
             "SuffixMode.None",
@@ -417,6 +424,8 @@ namespace TownOfHost
             // GM
             //EnableGM = CustomOption.Create(100, Utils.GetRoleColor(CustomRoles.GM), "GM", false, null, true)
             //     .SetGameMode(CustomGameMode.Standard);
+            LaptopPercentages = CustomOption.Create(100, Color.white, "LaptopPercentages", false, null, true);
+
             // Impostor
             BountyHunter.SetupCustomOption();
             SerialKiller.SetupCustomOption();
@@ -435,7 +444,10 @@ namespace TownOfHost
             TimeThief.SetupCustomOption();
             //Camouflager.SetupCustomOption();
             Ninja.SetupCustomOption();
-            //SetupRoleOptions(22434, CustomRoles.Miner);
+            SetupRoleOptions(22434, CustomRoles.CorruptedSheriff);
+            PlayersForTraitor = CustomOption.Create(2040030, Color.white, "TraitorSpawn", 1, 0, 15, 1, CustomRoleSpawnChances[CustomRoles.CorruptedSheriff]);
+            TraitorCanSpawnIfNK = CustomOption.Create(2040031, Color.white, "TraitorCanSpawnIfNK", true, CustomRoleSpawnChances[CustomRoles.CorruptedSheriff]);
+            TraitorCanSpawnIfCoven = CustomOption.Create(2040032, Color.white, "TraitorCanSpawnIfCoven", true, CustomRoleSpawnChances[CustomRoles.CorruptedSheriff]);
             //SetupSingleRoleOptions(2600, CustomRoles.Silencer, 1);
             //SilenceCooldown = CustomOption.Create(2610, Color.white, "SilenceDelay", 30, 2.5f, 180, 2.5f, CustomRoleSpawnChances[CustomRoles.Silencer]);
             //SetupSingleRoleOptions(2700, CustomRoles.CorruptedSheriff, 1);

@@ -522,7 +522,7 @@ namespace TownOfHost
             foreach (CustomRoles role in Enum.GetValues(typeof(CustomRoles)))
             {
                 if (role.RoleCannotBeInList()) continue;
-                if (role.IsEnable()) text += string.Format("\n{0}:{1}x{2}", GetRoleName(role), $"{PercentageChecker.CheckPercentage(role.ToString(), PlayerId)}%", role.GetCount());
+                if (role.IsEnable()) text += string.Format("\n{0}:{1}x{2}", GetRoleName(role), $"{PercentageChecker.CheckPercentage(role.ToString(), PlayerId, role: role)}%", role.GetCount());
             }
             SendMessage(text, PlayerId);
         }

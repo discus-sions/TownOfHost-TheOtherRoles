@@ -215,7 +215,7 @@ namespace TownOfHost
                 Main.AfterMeetingDeathPlayers.Clear();
                 Main.DeadPlayersThisRound.Clear();
                 Main.MercCanSuicide = true;
-                if (Sheriff.SheriffCorrupted.GetBool())
+                if (Options.SheriffCorrupted.GetBool())
                 {
                     if (!Sheriff.csheriff)
                     {
@@ -224,6 +224,7 @@ namespace TownOfHost
                         int numImpsAlive = 0;
                         int numNKalive = 0;
                         List<PlayerControl> couldBeTraitors = new();
+                        List<byte> couldBeTraitorsid = new();
                         var rando = new Random();
                         foreach (var pc in PlayerControl.AllPlayerControls)
                         {
@@ -231,9 +232,9 @@ namespace TownOfHost
                                 if (!pc.Data.IsDead)
                                 {
                                     IsAlive++;
-                                    if (pc.GetCustomRole().IsNeutralKilling() && !Sheriff.TraitorCanSpawnIfNK.GetBool())
+                                    if (pc.GetCustomRole().IsNeutralKilling() && !Options.TraitorCanSpawnIfNK.GetBool())
                                         numNKalive++;
-                                    if (pc.GetCustomRole().IsCoven() && !Sheriff.TraitorCanSpawnIfCoven.GetBool())
+                                    if (pc.GetCustomRole().IsCoven() && !Options.TraitorCanSpawnIfCoven.GetBool())
                                         numCovenAlive++;
                                     if (pc.Is(CustomRoles.Sheriff) || pc.Is(CustomRoles.Investigator))
                                         couldBeTraitors.Add(pc);
@@ -242,17 +243,32 @@ namespace TownOfHost
                                 }
                         }
 
+                        foreach (var pc in PlayerControl.AllPlayerControls)
+                        {
+                            if (!pc.Data.Disconnected)
+                                if (!pc.Data.IsDead)
+                                {
+                                    if (!pc.IsModClient()) continue;
+                                    if (!couldBeTraitorsid.Contains(pc.PlayerId))
+                                    {
+                                        couldBeTraitors.Add(pc);
+                                        couldBeTraitorsid.Add(pc.PlayerId);
+                                    }
+                                }
+                        }
 
                         Sheriff.seer = couldBeTraitors[rando.Next(0, couldBeTraitors.Count)];
 
                         //foreach (var pva in __instance.playerStates)
-                        if (IsAlive >= Sheriff.PlayersForTraitor.GetFloat() && Sheriff.seer != null)
+                        if (IsAlive >= Options.PlayersForTraitor.GetFloat() && Sheriff.seer != null)
                         {
                             if (numCovenAlive == 0 && numNKalive == 0 && numCovenAlive == 0 && numImpsAlive == 0)
                             {
                                 Sheriff.seer.RpcSetCustomRole(CustomRoles.CorruptedSheriff);
                                 Sheriff.seer.CustomSyncSettings();
                                 Sheriff.csheriff = true;
+                                if (Sheriff.seer.IsModClient())
+                                    RoleManager.Instance.SetRole(Sheriff.seer, RoleTypes.Impostor);
                             }
                         }
                     }
