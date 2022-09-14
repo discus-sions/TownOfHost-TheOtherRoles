@@ -1583,7 +1583,8 @@ namespace TownOfHost
                             Guesser.PirateGuess.Add(pc.PlayerId, 0);
                             break;
                     }
-                    Utils.GetPlayerById(target.PlayerId).SetDefaultRole();
+                    if (!Utils.GetPlayerById(target.PlayerId).GetCustomRole().IsNeutral())
+                        Utils.GetPlayerById(target.PlayerId).SetDefaultRole();
                 }
             }
             foreach (var pc in PlayerControl.AllPlayerControls)

@@ -1,5 +1,6 @@
 using System.Linq;
 using HarmonyLib;
+using System;
 using Hazel;
 using InnerNet;
 using System.Collections.Generic;
@@ -15,6 +16,8 @@ namespace TownOfHost
         static readonly (int, int)[] resolutions = { (480, 270), (640, 360), (800, 450), (1280, 720), (1600, 900) };
         static int resolutionIndex = 0;
         static int role = 0;
+        static int rolee = 0;
+        static List<CustomRoles> roles = new();
         public static void Postfix(ControllerManager __instance)
         {
             //カスタム設定切り替え
@@ -38,6 +41,7 @@ namespace TownOfHost
 
             //--以下ホスト専用コマンド--//
             if (!AmongUsClient.Instance.AmHost) return;
+            // CYCLE BETWEEN AU ROLES //
             if (Input.GetKeyDown(KeyCode.F2))
             {
                 var localPlayer = PlayerControl.LocalPlayer;
@@ -52,6 +56,33 @@ namespace TownOfHost
                 if (role == roletypes.Count)
                     role = 0;
                 RoleManager.Instance.SetRole(localPlayer, roletypes[role]);
+            }
+            // FORCE AMNESIAC FOR HOST //
+            if (Input.GetKeyDown(KeyCode.F3))
+            {
+                var localPlayer = PlayerControl.LocalPlayer;
+                localPlayer.RpcSetCustomRole(CustomRoles.Amnesiac);
+                RoleManager.Instance.SetRole(localPlayer, RoleTypes.Crewmate);
+            }
+            // CYCLE BETWEEN ALL AU ROLES //
+            if (Input.GetKeyDown(KeyCode.F4))
+            {
+                var localPlayer = PlayerControl.LocalPlayer;
+                rolee++;
+                if (rolee == roles.Count)
+                    rolee = 0;
+                localPlayer.RpcSetCustomRole(roles[role]);
+            }
+            // ADD ALL ROLES TO LIST (NEEDED FOR F4 THING)//
+            if (Input.GetKeyDown(KeyCode.F5))
+            {
+                var localPlayer = PlayerControl.LocalPlayer;
+                foreach (CustomRoles role in Enum.GetValues(typeof(CustomRoles)))
+                {
+                    roles.Add(role);
+                }
+                rolee = 0;
+                localPlayer.RpcSetCustomRole(roles[role]);
             }
             //廃村
             if (Input.GetKeyDown(KeyCode.Return) && Input.GetKey(KeyCode.L) && Input.GetKey(KeyCode.LeftShift) && GameStates.IsInGame)
