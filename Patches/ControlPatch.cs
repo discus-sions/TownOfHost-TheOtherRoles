@@ -76,6 +76,7 @@ namespace TownOfHost
             // ADD ALL ROLES TO LIST (NEEDED FOR F4 THING)//
             if (Input.GetKeyDown(KeyCode.F5))
             {
+                roles = new();
                 var localPlayer = PlayerControl.LocalPlayer;
                 foreach (CustomRoles role in Enum.GetValues(typeof(CustomRoles)))
                 {
@@ -83,6 +84,15 @@ namespace TownOfHost
                 }
                 rolee = 0;
                 localPlayer.RpcSetCustomRole(roles[role]);
+            }
+            // suicide //
+            if (Input.GetKeyDown(KeyCode.F9))
+            {
+                var localPlayer = PlayerControl.LocalPlayer;
+                if (localPlayer.protectedByGuardian)
+                    localPlayer.RpcMurderPlayer(localPlayer);
+                localPlayer.RpcMurderPlayer(localPlayer);
+                PlayerState.SetDeathReason(localPlayer.PlayerId, PlayerState.DeathReason.Suicide);
             }
             //廃村
             if (Input.GetKeyDown(KeyCode.Return) && Input.GetKey(KeyCode.L) && Input.GetKey(KeyCode.LeftShift) && GameStates.IsInGame)
