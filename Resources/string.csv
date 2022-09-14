@@ -210,7 +210,7 @@ TerroristInfo,Die after finishing your tasks,Умрите после выпол�
 ExecutionerInfo,Get your target voted out,Дайте заголосовать свою цель,ターゲットを追放させよう,不惜一切代价把你的目标票出去！,"想出一切辦法來投出你的目標"
 EgoistInfo,Replace the Impostor win,Замените победу Предателей,インポスター勝利を独占しよう,我们要把属于内鬼的胜利给夺走！,讓我們來奪取狼人的勝利
 LoversInfo,Survive with your lover,Выживите со своим Любовником,恋人と生きて幸せを掴もう,你坠入了爱河，成为了一对恋人，一起活到最后吧！,你墜入了愛河(心理)
-LoversRecodeInfo,Survive with your lover,Выживите со своим Любовником,恋人と生きて幸せを掴もう,你坠入了爱河，成为了一对恋人，一起活到最后吧！,你墜入了愛河(心理) 
+LoversRecodeInfo,Survive with your lover,Выживите со своим Любовником,恋人と生きて幸せを掴もう,你坠入了爱河，成为了一对恋人，一起活到最后吧！,你墜入了愛河(心理)
 JackalInfo,Kill Everyone and Last Alone,Убейте Всех чтобы остаться одним,すべてを殺せ,快去杀光所有人，一只苍蝇都不要剩下！,殺光所有人不留活口
 SidekickInfo,Support the Serial Killer,Помогите Jackal,SidekickInfo,帮助豺狼干掉所有人,SidekickInfo
 PlagueBearerInfo,Infect Everyone and Become Pestilence,Заразите всех и станьте Pestilence,Infect Everyone and Become Pestilence,请把所有人都感染了，引起大型瘟疫,快去把所有人都感染
@@ -788,3 +788,4 @@ DefaultShapeshiftText,SHIFT,Превращение,変身,变身,變身
 All,All,Все,すべて,全部,全部
 Archive,Archive,Архив,アーカイブ,文件,檔案
 DisabledBySettings,Disabled by setting,Отключено настройкой,設定で無効化されています,已在设置被中禁用,在設定中被禁用
+
