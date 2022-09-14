@@ -144,7 +144,7 @@ CovenIntroInfo,COVEN - A team of Witches on their own.,КОВЕН - Команд
 # 特殊インポスター役職
 BountyHunterInfo,Hunt your bounty down,Охотьтесь за своей целью,標的を確実に仕留めよう,猎杀你的赏金目标,將你的目標拿下
 MareInfo,Kill in the dark,Убивайте в темноте,闇の世界で暗殺せよ,在黑暗中作案,在黑暗中獵殺
-MinerInfo,"From the Top, Make it Drop, that's a Vent","Сверху сделай падение этой вентиляции",Miner,Miner,Miner
+MinerInfo,"From the Top, Make it Drop, that's a Vent","Телепортируйтесь к последеней вентиляции",Miner,Miner,Miner
 FireWorksInfo,Bloom at the last,Расцветите в последний раз,最後に一華咲かせよう,一起来看最后的烟花吧,在最後時刻來看煙火秀吧
 SerialKillerInfo,You crave blood,Вы жаждете крови,殺人衝動が抑えられない,你渴望鲜血，抑制不住你的冲动,你無法抑制你的殺人衝動
 ShapeMasterInfo,Shapeshift and confuse the Crewmates,Изменяйте форму чтобы запутать всех Членов экипажа,変身して敵を混乱させよう,变幻成其他人来迷惑敌人,變換外表來迷惑他人
@@ -161,9 +161,9 @@ SilencerInfo,Silence Crewmates in Meetings,Заткните Члена Экип�
 LastImpostorInfo,You are the last one,Ты остался последний,残ったのはあなただけ,你是最后的希望…,你是狼村最後的希望...
 CorruptedSheriffInfo,You betrayed the Crewmates,Ты предал Членов Экипажа,You betrayed the Crewmates,你成为了一个叛徒,你成為了一位叛徒
 SwooperInfo,Turn invisible temporarily,Вы временно становитесь невидимым,Swooper,利用隐身偷袭其他人
-CamouflagerInfo,Confuse the Crewmates of who's who,Запутать Членов экипажа кто есть кто,Camouflager,让船员们分不清楚谁是谁
+CamouflagerInfo,Confuse the Crewmates of who's who,Запутайте Членов экипажа кто есть кто,Camouflager,让船员们分不清楚谁是谁
 NinjaInfo,Assasinate your Target,Убейте помеченую цель,NinjaInfo,利用忍术暗杀你的目标
-EvilGuesserInfo,Guess and shoot Crew mid-meeting,Угадай и стреляй в Членов экипажа посреди встречи,推測して打ち抜け,让我猜猜你的身份,猜測和射擊
+EvilGuesserInfo,Guess and shoot Crew mid-meeting,Угадай роли Членов экипажа посреди встречи,推測して打ち抜け,让我猜猜你的身份,猜測和射擊
 
 # マッドメイト系役職
 MadmateInfo,Help the Impostors,Помогите Предателям,インポスターの援助をしよう,帮助内鬼,幫助狼人
@@ -273,7 +273,7 @@ SilencerInfoLong,"(Impostors):\nThe first killing attempt will silence the crewm
 CorruptedSheriffInfoLong,"(Impostors):\nA Corrupted Sheriff, or Traitor, spawns when the last Impostor is voted off inside a meeting or killed.\nNo Traitor will spawn if the Impostor died by other means.\nThe Traitor will replace the Sheriff role always when Corrupted Sheriff is not at 0%.\nYou can also make it so there is a minimum number of players for Traitor to spawn.\nOtherwise, it is just a regular Impostor with nothing different.","(Предатель):\nОскверненный шериф или предатель появляется, когда последний Предатель изгнан на собрании или убит.\nПредатель не появится если самозванец умер по другой причине.\nПредатель всегда будет заменять роль шерифа когда оскверненый шериф уровень которого не равен 0%.\nВы также можете сделать в настройках чтобы оскверненый шериф появлялся при минимальном количестве игроков.\nВ противном случае это просто обычный Самозванец без каких-либо отличий.","(Impostors):\nA Corrupted Sheriff, or Traitor, spawns when the last Impostor is voted off inside a meeting.\nNo Traitor will spawn if the Impostor died by other means.\nThe Traitor will replace the Sheriff role always when Corrupted Sheriff is not at 0%.\nYou can also make it so there is a minimum number of players for Traitor to spawn.","(内鬼阵营）：当最后一个内鬼在会议中被投票淘汰时，就会产生一个背叛的警长，或叛徒。\n如果内鬼以其他方式死亡，则不会产生叛徒。\n当背叛的警长没有达到0%时，叛徒将永远取代警长的角色。\n你也可以设置最低叛徒数量。"
 SwooperInfoLong,"(Impostors):\nThe Swooper can vent to temporarily turn invisible. \nThis means if the Swooper kills demolitionist, it is over for the Swooper. \nThe Swooper can never vent.","(Предатель):\nSwooper может временно стать невидимым. \nЭто означает что если Swooper убьет подрывника то для Swooper все кончено. Swooper никогда не сможет вентоваться.","(Impostors):\nThe Swooper can vent to temporarily turn invisible. \nThis means if the Swooper kills demolitionist, it is over for the Swooper. \nThe Swooper can never vent.","(内鬼阵营):\n隐身人可以通过使用通风管道键在一段时间隐身，这意味着当隐身人杀死同命爆手后，他的隐身效果就结束了。\n隐身人永远不能长时间使用通风管道。
 CamouflagerInfoLong,"(Impostors):\nThe Camouflager can shift to temporarily make everyone gray. After shifting, everyone has no name and no cosmetics. When a body is called or after the duration is up, they turn back to their regular player.","(Предатель):\nCamouflager может Морфануться чтобы временно сделать всех серыми. После Морфа у всех игроков нет ни имени, ни косметики. При репорте трупа или по истечении времени действия все возвращаются к своему обычному облику.","(Impostors):\nThe Camouflager can vent to temporarily make themselves gray. While gray, they have no name and no cosmetics. When a body is called or after the duration is up, they turn back to their regular player.","(内鬼阵营):\n伪装师可以伪装，使每个人暂时变成灰色。伪装后，每个人都没有名字，也没有宠物。当伪装师被招募或持续时间结束后，所有人会变回原来的样子。"
-NinjaInfoLong,"(Impostors):\nThe Ninja is an Impostor that can kill players from anywhere.\nIf a kill is made during a shape-shift, the kill is guarded. When the transformation is released, the player teleports to the player they used their button on and does the kill.\nWhen not shape-shifting, it is possible to make normal kills./nThere is no transformation cooldown, and the transformation can be performed indefinitely.","(Предатель):\nNinja — это Предатель который может убивать игроков где бы они не находились.\nЕсли вы Морфанетесь и попытаетесь нажать на Kill то вы пометите свою цель. Когда он возвращается в свой облик Ninja телепортируется к помеченному игроку на котором он использовал свою кнопку Kill и он совершает убийство.\nЕсли он не Морфиться он может совершать обычные убийства./nВремя восстановления трансформации отсутствует и трансформацию можно выполнить бессрочно.","(インポスター陣営):\nどこからでもプレイヤーをキルすることができるインポスター。\nシェイプシフト中にキルを行うとキルがガードされ、変身を解除するとキルボタンを押したプレイヤーにテレポートし、キルをする。\nシェイプシフトしていないときは普通のキルをすることが可能で、変身クールダウンがなく、無限に変身できる。","(内鬼阵营):忍者是一个内鬼，可以从任何地方杀死其他人。\n如果在变身过程中进行击杀，击杀会受到保护。\n当变身释放时，忍者会传送到他们使用按钮的船员身边并进行击杀。\n当不进行变身时，可以进行正常击杀。\n没有变身的冷却时间，变身可以无限期地进行。"
+NinjaInfoLong,"(Impostors):\nThe Ninja is an Impostor that can kill players from anywhere.\nIf a kill is made during a shape-shift, the kill is guarded. When the transformation is released, the player teleports to the player they used their button on and does the kill.\nWhen not shape-shifting, it is possible to make normal kills./nThere is no transformation cooldown, and the transformation can be performed indefinitely.","(Предатель):\nNinja — это Предатель который может убивать игроков где бы они не находились.\nЕсли вы Морфанетесь и попытаетесь нажать на Kill то вы пометите свою цель. Когда он возвращается в свой облик Ninja телепортируется к помеченному игроку на котором он использовал свою кнопку Kill и он совершает убийство.\nЕсли он не Морфиться он может совершать обычные убийства./nВремя отката морфлинга отсутствует и морфануться можно в любое время.","(インポスター陣営):\nどこからでもプレイヤーをキルすることができるインポスター。\nシェイプシフト中にキルを行うとキルがガードされ、変身を解除するとキルボタンを押したプレイヤーにテレポートし、キルをする。\nシェイプシフトしていないときは普通のキルをすることが可能で、変身クールダウンがなく、無限に変身できる。","(内鬼阵营):忍者是一个内鬼，可以从任何地方杀死其他人。\n如果在变身过程中进行击杀，击杀会受到保护。\n当变身释放时，忍者会传送到他们使用按钮的船员身边并进行击杀。\n当不进行变身时，可以进行正常击杀。\n没有变身的冷却时间，变身可以无限期地进行。"
 MinerInfoLong,"(Impostors):\nThe Miner can shapeshift to enter the vent they last went in.","(Предатель):\nMiner может Морфануться чтобы запрыгнуть в Вентиляцию в которое он запрыгивал в последний раз.","(Impostors):\nThe Miner can shapeshift to enter the vent they last went in.","(Impostors):\nThe Miner can shapeshift to enter the vent they last went in.","(Impostors):\nThe Miner can shapeshift to enter the vent they last went in."
 
 # マッドメイト系役職
@@ -300,7 +300,7 @@ SheriffInfoLong,"(Crewmates):\nThe Sheriffs can kill Impostors.\nIf trying to ki
 InvestigatorInfoLong,"(Crewmates):\nThe Investigator can investigate people to find out if their role is bad or not. \nUse the kill button to investigate. \nThe Veteran can kill you if the option is turned on.","(Член Экипажа):\nInvestigator может проверять людей чтобы выяснить, плоха ли их роль или нет. \nИспользуйте кнопку Убитьдля расследования. \nВетеран также может убить вас при взаимодействии с ним, если эта опция включена.","(Crewmates):\nThe Investigator can investigate people to find out if their role is bad or not. \nUse the kill button to investigate. \nThe Veteran can kill you if the option is turned on.","(船员阵营):\n调查员可以调查其他人，找出他们的职业是否是坏的。\n使用击杀按钮进行调查。\n如果去调查老兵，老兵可以杀死你。"
 SnitchInfoLong,"(Crewmates):\nWhen finishing all the tasks, the Snitches can see Impostors with their red player name.\nWhen the Snitches have one task left, they will be revealed to the Impostors","(Член Экипажа):\nПосле выполнения всех заданий Snitch может видеть Предателей с их красным никнеймом.\nКогда у Snitch останется одно задание, он будет виден Предателям","(クルーメイト陣営):\nタスク完了と同時にインポスターの名前の色が\n赤く表示され逆に自身のタスクが少なくなると\n名前の横に★が表示されｲﾝﾎﾟｽﾀｰに暴かれる。","(船员阵营):\n告密者完成所有任务后，所有内鬼的昵称在告密者来看将变为红色显示。\n当告密者剩余任务到达一定数量时，内鬼会收到提示。\n（注:恋人告密者的技能失效）","(船員):\n當告密者做完所有任務,狼人的名字將會變成紅色(僅告密者可見),\n但是當他剩下最後一個任務時,\n狼人會看見告密者頭上會有個星號標記。(中立或船員不可見)\n(P.S:戀人告密者技能失效)"
 LoversInfoLong,"(Modifiers),\nThe Lovers are additionally assigned to two of all players.\nWin if the game ends with both lovers alive(except Crewmates task completion).\nIf one lover dies, the other lover suisides.","(Модификатор),\nLovers дополнительно с какой либо ролью назначается двум случайным игрокам.\nLovers выиграют когда оба Lovers останутся живых (Победа по выполненым всех заданий не засчитыватся).\nЕсли один из любовников умрет, то другой любовник моментально умрет вместе с ним.","(第三陣営):\n全プレイヤーの中からランダムで2人に他の役職と重複して配役される第三陣営。\n恋人が2人とも生き残っている状態で試合終了すれば勝利。\n恋人の片方が死んだときにもう片方も死ぬ。クルーメイトのタスクが完了すると敗北。,恋人为两名玩家的组合。\n恋人存活到游戏结束则恋人独自获胜。\n船员阵营的恋人玩家没有任务。\n从恋人阵营玩家可以看到两名恋人玩家昵称旁有心形标志。\n恋人一同赴死。\n恋人中的一方在会议中被放逐时，另一方将死亡并变为不可以被报告的尸体。","(中立),\n遊戲開始系統會隨機抽取兩人當戀人,該職業可以和其他職業屬於同一個玩家身上\n戀人將獲勝在遊戲結束時如果兩個戀人都活著.\n但是當一個戀人死去,另一個戀人也會跟著死去\n如果船員完成所有任務,戀人即宣告失敗。"
-SpeedBoosterInfoLong,"(Crewmates):\nFinishing all the tasks boosts the player speed of someone alive.","(Член Экипажа):При выполнении всех заданий у живого случайного игрока увеличивается скорость.","(クルーメイト陣営):\nタスクを終わらせると、ランダムな生存者のスピードを上げる事ができる。","(船员阵营):\n增速者完成所有任务后，场上任意一名存活玩家的速度将被加快。","(船員):加速器做完任務時可以讓隨機的活著玩家速度加快"
+SpeedBoosterInfoLong,"(Crewmates):\nFinishing all the tasks boosts the player speed of someone alive.","(Член Экипажа):\nПри выполнении всех заданий у живого случайного игрока увеличивается скорость.","(クルーメイト陣営):\nタスクを終わらせると、ランダムな生存者のスピードを上げる事ができる。","(船员阵营):\n增速者完成所有任务后，场上任意一名存活玩家的速度将被加快。","(船員):加速器做完任務時可以讓隨機的活著玩家速度加快"
 DoctorInfoLong,"(Crewmates):\nThe Doctors have a portable vitals panel just like the vanilla Role Scientists.\nIn addtion, the Doctors can see all causes of death in meetings.","(Член Экипажа):\nУ Doctor есть портативные пульсы, точно так же как и роли ученого.\nКроме того, Doctor может видеть причину смерти каждого мертвого игрока на голосовании.","(クルーメイト陣営):\nプレイヤーの死因を知ることができる。\nまた、充電がある限りどこでもバイタルを確認できる。","(船员阵营):\n医生可以确认所有死亡玩家的死因。\n医生可以远程观看生命监测装置，观看持续时间与设备充能挂钩。","(船員):\n醫生可以知道每個玩家的死因\n還有醫生有一個跟科學家一樣的心電圖,它也需要充電。"
 TrapperInfoLong,(Crewmates):\nThe Trappers forbid the killer to move in the least for a configurable seconds.","(Член Экипажа):\nTrapper запрещает убийце двигаться, длительность запрета зависит от настроек.","(クルーメイト陣営):\nキルされると、キルした人を数秒間移動不可にすることができる。(設定有)","(船员阵营):\n陷阱师被击杀时，凶手一段时间内将不能移动。","(船員):\n如果設限者被殺,殺他的兇手將會被困在原地幾秒(可以設定)"
 DictatorInfoLong,"(Crewmates):\nWhen you vote for someone in a meeting, they forcibly break that meeting and exile the player they vote for.\nAfter exercising the force, the Dictators die just after meeting.","(Член Экипажа):\nКогда вы голосуете за кого-то на собрании, он сразу же завершает собрание и изгоняет игрока за которого он проголосвал.\nПосле его голоса, Dictator умирает сразу же после изгнания его выбранного игрока.","(クルーメイト陣営):\n会議中に誰かに投票をすると、会議を強制終了させて投票先を吊る事ができる。\n投票したタイミングでディクテーターは死ぬ。","(船员阵营):\n会议阶段独裁者投票后，可以选择强制结束会议并放逐其投票对象。\n这技能发动后独裁者将会死亡。","(船員):\n如果獨裁主義者在會議上投票給某位玩家,\n獨裁主義者將強制結束會議並無視場上票數將獨裁主義者投的那個人投出\n但是獨裁主義者將死於他投票的瞬間。"
@@ -319,9 +319,9 @@ ExecutionerInfoLong,"(Neutrals):\nThe Executioners are assigned their target wit
 SchrodingerCatInfoLong,"(Neutrals):\nWhen killed, they prevents the kill and belongs to the killer's team.","(Нейтрал):\nКогда его пытаются убить, он предотвращают убийство и переходит к команде убийцы.","(第三陣営):\nキルされると、キルを防いでキルをしてきた陣営に所属する。","(中立阵营):游戏开始时薛定谔的猫没有胜利条件。\n薛定谔的猫被击杀后，其会复活且加入凶手阵营，获得与凶手所在阵营相同的胜利条件。\n 注:1.被放逐的薛定谔的猫死亡并不再变更胜利条件。\n2.被术士击杀的薛定谔的猫死亡并不再变更胜利条件。\n3.除吸血鬼的击杀外，一切显示为玩家自杀的情况内薛定谔的猫死亡并不再变更胜利条件。","(中立):\n當薛定諤的貓第一次被殺時,他將轉入殺他的那個陣營。\n(P.S:1.薛定諤的貓如果被丟出則陣營不更改\n2.薛定諤的貓如果被術士下咒對象咒死時則陣營不更改\n3.如果薛定諤的貓有戀人且戀人死亡受到戀人共死影響自殺則陣營不更改)"
 OpportunistInfoLong,"(Neutrals):\nThey win the game with any other Roles only if they are just alive at the game end.","(Нейтрал):\nОн выигрывает игру с любыми другими ролями, но с условием что он выжил.","(第三陣営):\n試合終了時に生存していれば追加勝利となる。","(中立阵营):\n若投机者在游戏结束时存活，则投机者跟随获胜玩家一同获得胜利。","(中立):\n如果投機主義者活到最後,他將跟著遊戲結束獲勝的陣營一起獲勝。"
 EgoistInfoLong,"(Neutrals):\nAfter all the Impostors has gone, the Egoists Replace Impostor win.\nThe Impostors and Egoists can see each other.","(Нейтрал):\nПосле того, как все Предатели умрут победит Egoist, заменяющий победу Предателя.\nПредатели и Egoist могут видеть друг друга.","(第三陣営):\n味方がすべて死んだ状態でインポスターが勝つと単独勝利する。\nインポスターは誰がエゴイストか分かる。エゴイストも、誰がインポスターか分かる。","(中立阵营):\n规则上野心家属于内鬼阵营。野心家与内鬼阵营玩家互认且不可以击杀对方。\n内鬼阵营玩家全部死亡后，若野心家存活且内鬼阵营达成胜利条件，则野心家单独获得胜利。","(中立):\n如果所有的狼人都死光了且利己主義者活著,利己主義者將獨自獲勝。\n(狼人和利己主義者互相知道對方但是不可以互刀對方)"
-JackalInfoLong,"(Neutrals):\nSerial Killer can kill anyone, even Crewmates and Impostors.\nSerial Killer can win when living players are only 1 serial killer and 1 crew. Serial Killer can also be given a Sidekick.","(Нейтрал):\nSerial Killer может убить всех Членов Экипажа и Предателей тоже.\nSerial Killer может победить, когда в живых остался только 1 шакал и 1 член экипажа.","(第三陣営):\nジャッカルはすべてのプレイヤーを殺すことができる。\n生き残っているプレイヤーがジャッカル1人とクルー1人の時、ジャッカルが勝利する。","(中立阵营):\n豺狼需要击杀所有人。\n存活的玩家只剩豺狼和一名其他船员时，豺狼获得胜利。","(中立):\n豺狼需要殺死所有人來獲得勝利,\n如果場上存活的玩家只剩下豺狼和另一名不帶刀職業時,豺狼將獲勝。"
-SidekickInfoLong,"(Neutrals):\nThe Hunter is the Serial Killer's pal and helps them win. If Serial Killer and Hunter are among 2 crew, they auto-win.","(Нейтрал):\nSidekick - приятель Serial Killer он помогает ему победить. Если Serial Killer и Sidekick остались среди двух Членов Экипажа, то они автоматически побеждают.","(Neutrals):\nThe Hunter is the Serial Killer's pal and helps them win. If Serial Killer and Hunter are among 2 crew, they auto-win.","(中立阵营):\n跟班是豺狼招募后的产物，帮助豺狼获胜。如果场上只剩下跟班与豺狼，他们会一起胜利。"
-PlagueBearerInfoLong,"(Neutrals):\nYour kill button is an Infect button. Infect everyone until you become Pestilence.","(Нейтрал):\nВаша кнопка Kill – это кнопка Заразить. Заразите всех, пока не станете Pestilence.","(Neutrals):\nYour kill button is an Infect button. Infect everyone until you become Pestilence.","(中立阵营):\n你的击杀按钮变成了感染，你需要将所有人感染造成瘟疫."
+JackalInfoLong,"(Neutrals):\nSerial Killer can kill anyone, even Crewmates and Impostors.\nSerial Killer can win when living players are only 1 serial killer and 1 crew. Serial Killer can also be given a Sidekick.","(Нейтрал):\nSerial Killer может убить всех Членов Экипажа и Предателей тоже.\nSerial Killer может победить, когда в живых остался только 1 Serial Killer и 1 Член Экипажа.","(第三陣営):\nジャッカルはすべてのプレイヤーを殺すことができる。\n生き残っているプレイヤーがジャッカル1人とクルー1人の時、ジャッカルが勝利する。","(中立阵营):\n豺狼需要击杀所有人。\n存活的玩家只剩豺狼和一名其他船员时，豺狼获得胜利。","(中立):\n豺狼需要殺死所有人來獲得勝利,\n如果場上存活的玩家只剩下豺狼和另一名不帶刀職業時,豺狼將獲勝。"
+SidekickInfoLong,"(Neutrals):\nThe Hunter is the Serial Killer's pal and helps them win. If Serial Killer and Hunter are among 2 crew, they auto-win.","(Нейтрал):\nHunter - приятель Serial Killer он помогает ему победить. Если Serial Killer и Hunter остались среди двух Членов Экипажа, то они автоматически побеждают.","(Neutrals):\nThe Hunter is the Serial Killer's pal and helps them win. If Serial Killer and Hunter are among 2 crew, they auto-win.","(中立阵营):\n跟班是豺狼招募后的产物，帮助豺狼获胜。如果场上只剩下跟班与豺狼，他们会一起胜利。"
+PlagueBearerInfoLong,"(Neutrals):\nYour kill button is an Infect button. Infect everyone until you become Pestilence.","(Нейтрал):\nВаша кнопка Kill – это кнопка Заразить. Заразите всех, пока не станете Pestilence.","(Neutrals):\nYour kill button is an Infect button. Infect everyone until you become Pestilence.","(中立阵营):\n你的击杀按钮变成了感染，你需要将所有人感染造成瘟疫."
 PestilenceInfoLong,"(Neutrals):\nPestilence cannot die and can only be voted. \nWhen someone tries to kill Pestilence, they die instead. \nEven their Lover dying won't bring the Pestilence down.\nHowever, if Pestilence is killed by an un-direct source, such as Warlock and Puppeteer, the Pestilence WILL die.","(Нейтрал):\nPestilence не может умереть, за него можно только проголосовать. \nКогда кто-то пытается убить его Любовника, вместо этого умирает не Любовники, а тот кто пытался убить его Любовника. \nДаже смерть его Любовника не уничтожит Pestilence.","(Neutrals):\nPestilence cannot die and can only be voted. \nWhen someone tries to kill Pestilence, they die instead.","(中立阵营):\n当疫医将所有玩家感染后会成为传染者且不能被杀死。\n当有人试图击杀他是他会受到反伤而死."
 JuggernautInfoLong,"(Neutrals):\nThe Juggernaut's kill cooldown decreases with each kill.","(Нейтрал):\nВремя отката убийства Джаггернаута уменьшается с каждым его убийством.","(Neutrals):\nThe Juggernaut's kill cooldown decreases with each kill.","(中立阵营):\n欲望杀手的击杀冷却时间随着每次击杀而减少。"
 MarksmanInfoLong,"(Neutrals):\nThe Marksman's kill distance increases with each kill.","(Нейтрал):\nВремя отката убийства Джаггернаута уменьшается с каждым его убийством.","(Neutrals):\nThe Marksman's kill distance increases with each kill.","(中立阵营):\n欲望杀手的击杀冷却时间随着每次击杀而减少。"
@@ -338,7 +338,7 @@ SurvivorInfoLong,"(Neutrals):\nThe Survivor is Opportunist with a buff. The Surv
 CovenInfoLong,"(Coven):\nNothing special about regular Coven. \nThey just help support the Leader.","(Ковен):\nВ обычном Ковене нет ничего особенного. \nОни просто помогают поддержать Лидера.","(Coven):\nNothing special about regular Coven. \nThey just help support the Leader.","(巫师):\n普通的法师没什么特别之处他们只会支援领袖."
 PoisonerInfoLong,"(Coven):\nThe Poisoner works exactly like the Vampire. \nSame cooldown and everything. \nThis will remove Vamp from Impostor Team and join Coven.","(Ковен):\nОтравитель работает точно так же, как Вампир. \nТот же откат и все такое. \nЭто удалит Вампира из Команды Предателей и присоединит к Ковену.","(Coven):\nInfo unfinished.","(巫师):\n巫毒师的技能与吸血鬼完全一样。\n同样的冷却时间和一切。\n这将把吸血鬼从内鬼阵营中移除，并加入巫师团。"
 CovenWitchInfoLong,"(Coven):\nThe Witch is similar to Puppeteer, allowing you to taglock players to kill others.","(Ковен):\nВедьма похожа на Puppeteer, позволяя вам заклинать игроков, чтобы убивать других.","(Coven):\nInfo unfinished.","(巫师):\n女巫与傀儡师类似，允许你用操控玩家来杀死其他人。"
-HexMasterInfoLong,"(Coven):\nThe Hex Master can hex people like an Arsonist. \nAfter hexing everyone, if they survive the next meeting, they hex bomb everyone and win.","(Ковен):\nH\Мастер проклятий может накладывать порчу на людей, как Arsonist. \nПосле наложения порчи на всех, если они выживают на следующей встрече, они бомбят всех и побеждают.","(Coven):\nInfo unfinished.","(巫师):\n六芒星法师的技能与纵火犯完全一样。\n为活下来的人使用魔法，直到所有人都被六芒星法师标记就可以胜利。"
+HexMasterInfoLong,"(Coven):\nThe Hex Master can hex people like an Arsonist. \nAfter hexing everyone, if they survive the next meeting, they hex bomb everyone and win.","(Ковен):\nМастер проклятий может накладывать порчу на людей, как Arsonist. \nПосле наложения порчи на всех, если они выживают на следующей встрече, они бомбят всех и побеждают.","(Coven):\nInfo unfinished.","(巫师):\n六芒星法师的技能与纵火犯完全一样。\n为活下来的人使用魔法，直到所有人都被六芒星法师标记就可以胜利。"
 PotionMasterInfoLong,"(Coven):\nThe Potion Master can use potions to reveal something about their target. \nThey have 3 potions. \nKill, Curse, and Reveal. \nKill is just kill. \nRevealing allows you to reveal someone's role to all coven members. \nAnd cursing is like Warlock after revealing.","(Ковен):\nМастер зелий может использовать зелья, чтобы раскрыть что-то о своей цели.\nУ них есть 3 зелья.\nУбийство, Проклятие и Раскрытие.\nУбийство - это просто убийство.\nРаскрытие позволяет раскрыть чью-то роль всему клану Ковенов. \nИ Раскрытие - это как Warlock после раскрытия.","(Coven):\nInfo unfinished.","(巫师):\n药剂师可以用药水来揭示目标的一些情况。\n他有3种药水。\n杀戮、诅咒和揭发。\n杀戮就是杀戮。\n揭发可以让你向所有巫师团成员揭发某人的职业。\n而诅咒就跟术士一样。"
 MedusaInfoLong,"(Coven):\nMedusa can Stone Gaze just like the Veteran to counterattack any attacks. \nHowever, if a body killed by Medusa isn't reported in a set amount of time, the body turns to stone and is unreportable.","(Ковен):\nМедуза может использовать Каменный Взгляд, как и Ветеран, чтобы предотвращать любые атаки. \nОднако, если в течение установленного периода времени не зарепортят труп убитом Медузой, труп превращается в камень и его нельзя будет зарепортить.","(Coven):\nInfo unfinished.","(巫师):\n美杜莎可以像老兵一样来反击任何攻击。\n如果被美杜莎击杀的玩家的尸体在规定的时间内没有被报告，尸体就会变成石头，无法报告。"
 MimicInfoLong,"(Coven):\nThe Mimic can mimic an Impostor role that currently isnt being used. \nThe Mimic cannot spawn in a game with the Necromancer.","(Ковен):\nМимик может имитировать роль Предателя, которая в данный момент не используется. \nМимик не может появиться в игре с Некромантом.","(Coven):\nInfo unfinished.","(巫师):\n模仿大师可以模仿一个没有被使用的内鬼职业。\n模仿大师不会与亡灵法师一起出现。"
@@ -358,9 +358,9 @@ GMInfoLong,"(None):/nThe GM (Game Master) is an observer role.\nTheir presence h
 
 # Modifiers
 FlashInfoLong,"(Modifiers):\nFlash is a Global Modifier that can be applied to anyone. \nThe Flash has a boost of speed that makes them faster than others.","(Модификатор):\nFlash — Это общий модификатор, который присваевается к любому игроку. \nFlash имеет прирост скорости, что делает его быстрее других игроков.","(附加职业):\n闪电侠是一个全局附加职业，可以应用于任何人。\n闪电侠有一个速度的提升，使他们比其他人更快。
-TieBreakerInfoLong,"(Modifiers):\nTieBreaker is a Global Modifier that can be applied to anyone. \nWhenever there is a tie, and the TieBreaker is on one of the sides that tied, their vote gets priority.","(Модификатор):\nTieBreaker – Это общий модификатор, который присваевается к любому игроку. \nВсякий раз когда на голосвании возникает ничья, и если его решающий голос находится на одной из этих сторон, то его голос имеет главный приоритет (Можно сазать невидимый голос).","(附加职业):\n破局者是一个全局附加职业，可以应用于任何人。\n每当出现平局时，如果破局者是在平局的一方，他的投票就会得到优先权。"
+TieBreakerInfoLong,"(Modifiers):\nTieBreaker is a Global Modifier that can be applied to anyone. \nWhenever there is a tie, and the TieBreaker is on one of the sides that tied, their vote gets priority.","(Модификатор):\nTieBreaker – Это общий модификатор, который присваевается к любому игроку. \nВсякий раз когда на голосвании возникает ничья, и если его решающий голос находится на одной из этих сторон, то его голос имеет главный приоритет (Можно сазать невидимый голос).","(附加职业):\n破局者是一个全局附加职业，可以应用于任何人。\n每当出现平局时，如果破局者是在平局的一方，他的投票就会得到优先权。"
 ObliviousInfoLong,"(Modifiers):\nOblivious is a Global Modifier that can be applied to anyone. \nAs Oblivious, you cannot report dead bodies.","(Модификатор):\nOblivious — Это общий модификатор, который присваевается к любому игроку. \nИмея модификатор Oblivious, вы не сможете зарепортить труп.","(Modifiers):\n",(附加职业):\n胆小鬼是一个全局附加职业，可以适用于任何人。\n作为胆小鬼，你不能报告死尸。
-BewilderInfoLong,"(Modifiers):\nBewilder is a Crew Modifier that can only be applied to crewmates. \nAs Bewilder, when you get killed, the killer will steal your vision.","(Модификатор):\nBewilder – Этот Модификатор может иметь только Член Экипажа. \nИграя за Bewilder, когда вас убивают, то убийца украдет вашу Дальность обзора.","(Modifiers):\n",(附加职业):\n患者是一个船员附加职业，只能适用于船员。\n作为患者，当你被杀时，凶手的视野会因为感染而降低视野。
+BewilderInfoLong,"(Modifiers):\nBewilder is a Crew Modifier that can only be applied to crewmates. \nAs Bewilder, when you get killed, the killer will steal your vision.","(Модификатор):\nBewilder – Этот Модификатор может иметь только Член Экипажа. \nИграя за Bewilder, когда вас убивают, то убийца украдет вашу Дальность обзора.","(Modifiers):\n",(附加职业):\n患者是一个船员附加职业，只能适用于船员。\n作为患者，当你被杀时，凶手的视野会因为感染而降低视野。
 TorchInfoLong,"(Modifiers):\nTorch is a Crew Modifier that can only be applied to crewmates. \nAs Torch, you still have full vision even when lights are turned off.","(Модификатор):\nTorch — Этот Модификатор может иметь только Член Экипажа. \nКак Torch, вы имеете обычную дальность обзора, но когда включается саботаж света, вы все равно сохраните свой преждний обзор.","(附加职业):\n火炬手是一个船员附加职业，只能适用于船员。\n作为火炬手，即使在熄灯的情况下，你仍然有完整的视野。
 
 # 属性
@@ -472,9 +472,9 @@ SabotageMasterFixesElectrical,SabotageMaster Can Fix Lights Out All At Once,Sabo
 SheriffKillCooldown,Sheriff Kill Cooldown,Откат Убийства Sheriff,シェリフのキルクール,警长执法冷却,警長執法冷卻
 SheriffCanKillArsonist,Sheriff Can kill Arsonist,Sheriff Может Убить Arsonist,シェリフがアーソニストをキルできる,警长可以执法纵火犯,警長可以槍死縱火犯
 SA,Hacker Sabotage Amount,Сумма Очков Саботажей,,Hacker Sabotage Amount,黑客需要修复破坏获得积分
-LaptopPercentages,Use Laptop Percentages Instead Of File,LaptopPercentages,LaptopPercentages,LaptopPercentages
+LaptopPercentages,Use Laptop Percentages Instead Of File,Используйте проценты ноутбука вместо файла,LaptopPercentages,LaptopPercentages
 SheriffCanKillJester,Sheriff Can Kill Jester,Sheriff Может Убить Jester,シェリフがジェスターをキルできる,警长可以执法小丑,警長可以槍死小丑
-SheriffCanKillTerrorist,Sheriff Can Kill Terrorist/CrewPostor,Sheriff Может Убить Terrorist,シェリフがテロリストをキルできる,警长可以执法恐怖分子,警長可以槍死恐怖分子
+SheriffCanKillTerrorist,Sheriff Can Kill Terrorist/CrewPostor,Sheriff Может Убить Terrorist/CrewPostor,シェリフがテロリストをキルできる,警长可以执法恐怖分子,警長可以槍死恐怖分子
 SheriffCanKillExecutioner,Sheriff Can Kill Executioner,Sheriff Может Убить Executioner,シェリフがエクスキューショナーをキルできる,警长可以执法处刑人,警長可以槍死劊子手
 SheriffCanKillOpportunist,Sheriff Can Kill Opportunist/Survivor,Sheriff Может Убить Opportunist/Survivor,シェリフがオポチュニストをキルできる,警长可以执法投机者和求生者,警長可以槍死投機主義者
 SheriffCanKillMadmate,Sheriff Can Kill Madmates,Sheriff Может Убить Madmates,シェリフがマッドメイトをキルできる,警长可以执法叛徒,警長可以槍死叛徒
@@ -484,8 +484,8 @@ SheriffCanKillVulture,Sheriff Can Kill Vulture,Sheriff Может Убить Vul
 SheriffCanKillCoven,Sheriff Can Kill Coven,Sheriff Может Убить Coven,SheriffCanKillCoven,警长可以执法巫师
 SleuthReport,Sleuth Has to Report,Sleuth Должен Зарепортить,Sleuth Has to Report,侦探必须报告
 SkipInfect,Skip PlagueBearer Infection,Пропустить Инфекцию у PlagueBearer ,Skip PlagueBearer Infection,跳过传染者进行感染
-Bodies,Bodies Needed To Be Eaten,Тела Которые Нужно Съесть,Bodies Needed To Be Eaten,需要吃的尸体数量
-ImpostorsKnowEgo,Impostors Know Egoist,ImpostorsKnowEgo,ImpostorsKnowEgo
+Bodies,Bodies Needed To Be Eaten,Колличество Трупов Которые Нужно Съесть,Bodies Needed To Be Eaten,需要吃的尸体数量
+ImpostorsKnowEgo,Impostors Know Egoist,Предатели Знают Кто Egoist,ImpostorsKnowEgo,ImpostorsKnowEgo
 SheriffCanKillEgoShrodingerCat,Sheriff Can Kill EgoistSide ShrodingerCat,Sheriff Может Убить EgoistСторону ShrodingerCat,シェリフがエゴイスト陣営のシュレディンガーの猫をキルできる,警长可以执法自私阵营的薛定谔的猫,警長可以槍死利己主義者方的薛定諤的貓
 SheriffCanKillJackal,Sheriff Can Kill Serial Killer,Sheriff Может Убить Jackal,シェリフがジャッカルをキルできる,警长可以执法豺狼,警長可以槍死豺狼
 SheriffCanKillJShrodingerCat,Sheriff Can Kill Serial KillerSide ShrodingerCat,Sheriff Может Убить JackalСторону ShrodingerCat,シェリフがジャッカル陣営のシュレディンガーの猫をキルできる,警长可以执法豺狼阵营的薛定谔的猫,警長可以槍死豺狼方的薛定諤的貓
@@ -497,7 +497,7 @@ SnitchEnableTargetArrow,Snitch Can See Target Arrow,Snitch Может Видет
 SnitchCanGetArrowColor,Snitch Can See Colored Arrow,Snitch Может Видеть Цвета Стрелок,矢印の色で陣営がわかる,告密者对不同阵营的目标使用不同颜色的箭头确认,對不同陣營的目標使用不同顏色的箭頭標示
 SnitchCanFindNeutralKiller,Snitch Can Find Neutral Killer,Snitch Может Видеть Нейтральных Убийц,第三陣営のキル可能役職を見つけることが出来る,告密者也可以和拥有击杀能力的中立阵营玩家互相发现,告密者也可以和中立陣營帶刀職業互認
 SnitchCanFindCoven,Snitch Can Find Coven,Snitch Может Видеть Ковенов,第三陣営のキル可能役職を見つけることが出来る,告密者也可以和拥有击杀能力的中立阵营玩家互相发现,告密者也可以和中立陣營帶刀職業互認
-MayorAdditionalVote,Mayor Additional Votes Count,Дополнительные голоса Mayor,メイヤーの追加投票の個数,市长投票时多出来的票数,市長附加票數
+MayorAdditionalVote,Mayor Additional Votes Count,Дополнительные голоса у Mayor,メイヤーの追加投票の個数,市长投票时多出来的票数,市長附加票數
 MayorHasPortableButton,Mayor Has Mobile Emergency Button,У Mayor Есть Портативная Кнопка,メイヤーがポータブルボタンを持っている,市长可以选择是否进行投票,市長可以隨時拍桌
 MayorNumOfUseButton,Number Of Mobile Emergency Button,Количество Портативных Кнопок,メイヤーが使えるボタンの回数,市长选择进行投票的最大次数,市長隨時拍桌最大次數
 CanBeforeSchrodingerCatWinTheCrewmate,SchrodingerCat In No Team Can Win With Crewmates,SchrodingerCat Ни Одна Команда Не Может Победить С Членом Экипажа,役職変化前であれば、クルー陣営と勝利できる,薛定谔的猫未加入其他阵营前可以跟随船员阵营获胜,薛定諤的貓的陣營轉變前可以和船員一起贏
@@ -520,12 +520,12 @@ CrewKillingRed,Crewmate Killing are Red,Убивающие Члены Экипа
 CovenIsPurple,Coven appears Purple,Coven Подсвечивается Фиолетовым,CovenIsPurple,巫师名字显示为紫色
 ChildIsRed,Child is Red,Child Подсвечивается Красным,ChildIsRed,小孩名字显示为红色
 TerroIsRed,Terrorist appears Red,Terrorist Подсвечивается Красным,TerroIsRed,恐怖分子名字显示为红色
-CSheriffSwitches,Corrupted Sheriff switches Color,Corrupted Sheriff Переключает Цвет,CSheriffSwitches,背叛的警长切换颜色
+CSheriffSwitches,Corrupted Sheriff switches Color,У CorruptedSheriff Сменивается Цвет,CSheriffSwitches,背叛的警长切换颜色
 MadMateIsRed,Madmate is Red,Madmate Подсвечивается Красным,MadMateIsRed,叛徒名字显示为红色
 
 PestiKillCooldown,Pestilence Kill Cooldown,Pestilence Откат Убийства,アーソニストのクールダウン,传染者击杀冷却时间
 PestiCanVent,Pestilence Can Vent,Pestilence Может Вентоваться,アーソニストのクールダウン,传染者可以使用通风管道
-DemoSuicideTime,Time To Vent Till Suicide,Время Вентиляции До Самоубийства,DemoSuicideTime,自杀倒计时
+DemoSuicideTime,Time To Vent Till Suicide,Время До Самоубийства,DemoSuicideTime,自杀倒计时
 StoneCD,Stone Cooldown,Stone Откат,Stone Cooldown,石化冷却时间
 StoneDur,Stone Duration,Stone Длительность,Stone Duration,石化持续时间
 StoneTime,Time Until Body is Stoned,Время Пока Труп Не Забросают Камнями,Time Until Body is Stoned,尸体腐烂消失的时间
@@ -539,33 +539,33 @@ SwoopDur,Swoop Duration,Swoop Длительность,Swoop Duration,隐身持�
 CamoCD,Camouflage Cooldown,Camouflage Откат,Swoop Cooldown,伪装冷却时间
 CamoDur,Camouflage Duration,Camouflage Длительность,Swoop Duration,伪装持续时间
 
-MaxNK,Max Neutral Killing,Max Neutral Killing,Translation Unavailble,中立阵营最大击杀数
-MinNK,Min Neutral Killing,Min Neutral Killing,Translation Unavailble,中立阵营最小击杀数
-MaxNonNK,Max Non-Killing Neutrals,Max Non-Killing Neutrals,Translation Unavailble,非中立阵营最大击杀数
-MinNonNK,Min Non-Killing Neutrals,Min Non-Killing Neutrals,Translation Unavailble,非中立阵营最小击杀数
+MaxNK,Max Neutral Killing,Максимум Нейтральных Убийц,Translation Unavailble,中立阵营最大击杀数
+MinNK,Min Neutral Killing,Минимум Нейтральных Убийц,Translation Unavailble,中立阵营最小击杀数
+MaxNonNK,Max Non-Killing Neutrals,Максимум Нейтралов Не Убийц,Translation Unavailble,非中立阵营最大击杀数
+MinNonNK,Min Non-Killing Neutrals,Минимум Нейтралов Не Убийц,Translation Unavailble,非中立阵营最小击杀数
 
-CanTerroristSuicideWin,Can Terrorist Suicide Win,Может Ли Terrorist Совершить Самоубийство Чтобы Победить,テロリストの自殺勝ち,恐怖分子可以通过自杀获胜,恐怖分子可以自殺來獲勝
+CanTerroristSuicideWin,Can Terrorist Suicide Win,Terrorist Может Совершить Самоубийство Чтобы Победить,テロリストの自殺勝ち,恐怖分子可以通过自杀获胜,恐怖分子可以自殺來獲勝
 ShapeMasterShapeshiftDuration,Shapeshift Duration,Продолжительность Смены Формы,シェイプマスターの変身持続時間,千面鬼化形持续时间,變形大師變形持續時間
 SilenceDelay,Silence Cooldown,Silence Откат,アーソニストのクールダウン,沉默者技能冷却时间
 FireWorksMaxCount,FireWorks Max Count,FireWorks Максимальное Количество,花火の所持数,烟花商人可放置烟花的最大数量,煙火工匠可設定煙火最大數量
 FireWorksRadius,FireWorks Radius,FireWorks Радиус,花火の爆発半径,烟花商人烟花爆炸半径,煙火工匠的煙火爆炸半徑
 SniperBulletCount,Sniper Bullet Count,Колличество Пуль Sniper,スナイパーの所持弾数,狙击手最大狙击次数,狙擊手子彈最大數量
-SniperPrecisionShooting,Sniper Precise Shooting,Точный Выстрел Sniper,スナイパー精密射撃モード,狙击手拥有瞄准辅助,狙擊手精準射擊模式
+SniperPrecisionShooting,Sniper Precise Shooting,У Sniper Точный Выстрел,スナイパー精密射撃モード,狙击手拥有瞄准辅助,狙擊手精準射擊模式
 NumberOfLovers,Number Of Lovers(x2members),Количество Lovers (x2участника),ラバーズの組数(x2人数),恋人对数,"戀人最大數量(2位玩家)"
-LoversDieTogether,Lovers Die Together,LoversDieTogether,LoversDieTogether,LoversDieTogether
-LoversKnowRoleOfOtherLover.Lovers Know the Role of the Other Lover,LoversKnowRoleOfOtherLover,LoversKnowRoleOfOtherLover,LoversKnowRoleOfOtherLover
+LoversDieTogether,Lovers Die Together,Любовники умирают вместе,LoversDieTogether,LoversDieTogether
+LoversKnowRoleOfOtherLover.Lovers Know the Role of the Other Lover,Любовники Знают Роль Другого Любовника,LoversKnowRoleOfOtherLover,LoversKnowRoleOfOtherLover,LoversKnowRoleOfOtherLover
 TimeThiefKillCooldown,TimeThief Kill Cooldown,Откат Убийства TimeThief,タイムシーフのキルクール,蚀时者击杀冷却,時間小偷殺人冷卻時間
 TimeThiefDecreaseMeetingTime,TimeThief Decrease Time Length(s),TimeThief Уменьшить Длительность Обсуждения,減少する会議時間,蚀时者每次击杀缩短的会议时间,時間小偷每次殺人減少的會議時間
 TimeThiefLowerLimitVotingTime,Lower Limit For Voting Time(s),TimeThief Уменьшить Длительность Голосования,投票時間の下限,蚀时者存在时会议时间下限,時間小偷在場時會議時間最低下限
 TimeThiefReturnStolenTimeUponDeath,Return Stolen Time After Death,Вернуть Украденное Время После его Смерти,死亡後に盗んだ時間を返す,蚀时者死亡后会议时间重置,時間小偷死亡後將會議時間重設
-JackalKillCooldown,Serial Killer Kill Cooldown,Jackal Откат Убийства,ジャッカルのキルクール,豺狼击杀冷却,豺狼殺人冷卻
-JackalCanVent,Serial Killer Can Use Vents,Jackal Может Использовать Вентиляцию,ジャッカルがベントを使用できる,豺狼可以使用管道,豺狼可以跳管道
-JackalCanUseSabotage,Serial Killer Can Use Sabotage,Jackal Может Использовать Саботаж,ジャッカルがサボタージュを使用できる,豺狼可以破坏,豺狼可以破壞
-JackalHasImpostorVision,Serial Killer Has Impostor Vision,Jackal Имеет Дальность Обзора Предателя,ジャッカルがインポスターと同じ視界を持つ,豺狼拥有内鬼视野,豺狼擁有狼人的視野
-SidekickCanKill,Sidekick can Kill,Sidekick может Убивать,SidekickCanKill,跟班可以击杀
-JackalHasSidekick,Serial Killer Has Sidekick,У Jackal Есть Sidekick,JackalHasSidekick,豺狼可以招募跟班
-SidekickGetsPromoted,Sidekick Gets Promoted to Serial Killer on Serial Killer Death,Sidekick становится Jackal После Смерти Jackal,SidekickGetsPromoted,跟班可以晋级成为豺狼
-VultureVent,Vulture can Vent,Vulture может Вентоваться,VultureVent,秃鹫可以使用通风管道
+JackalKillCooldown,Serial Killer Kill Cooldown,Serial Killer Откат Убийства,ジャッカルのキルクール,豺狼击杀冷却,豺狼殺人冷卻
+JackalCanVent,Serial Killer Can Use Vents,Serial Killer Может Использовать Вентиляцию,ジャッカルがベントを使用できる,豺狼可以使用管道,豺狼可以跳管道
+JackalCanUseSabotage,Serial Killer Can Use Sabotage,Serial Killer Может Использовать Саботаж,ジャッカルがサボタージュを使用できる,豺狼可以破坏,豺狼可以破壞
+JackalHasImpostorVision,Serial Killer Has Impostor Vision,Serial Killer Имеет Дальность Обзора Предателя,ジャッカルがインポスターと同じ視界を持つ,豺狼拥有内鬼视野,豺狼擁有狼人的視野
+SidekickCanKill,Sidekick can Kill,Hunter Может Убивать,SidekickCanKill,跟班可以击杀
+JackalHasSidekick,Serial Killer Has Sidekick,У Serial Killer Есть Hunter,JackalHasSidekick,豺狼可以招募跟班
+SidekickGetsPromoted,Sidekick Gets Promoted to Serial Killer on Serial Killer Death,Hunter становится Serial Killer После Смерти Serial Killer,SidekickGetsPromoted,跟班可以晋级成为豺狼
+VultureVent,Vulture can Vent,Vulture Может Вентоваться,VultureVent,秃鹫可以使用通风管道
 VultureHasImpostorVision,Vulture Has Impostor Vision,Vulture Имеет Дальность Обзора Предателя,VultureHasImpostorVision,秃鹫可以拥有内鬼视野
 VultureHasArrow,Vulture has Arrow Leading to Bodies,У Vulture Есть Стрела Ведущая к трупу,VultureHasArrow,秃鹫有指向尸体的箭头
 TraitorSpawn,Min Number of Players Needed for CorruptedSheriff,Минимальное количество игроков для появления CorruptedSheriff,Number of Players Needed for Traitor,背叛的警长所需的最小玩家数量
@@ -574,18 +574,18 @@ EgoistKillCooldown,Egoist KillCooldown,Egoist Откат Убийства,エゴ
 JuggerKillCooldown,Juggernaut Kill Cooldown,Juggernaut Откат Убийства,ジャッカルのキルクール,欲望杀人魔击杀冷却,豺狼殺人冷卻
 JuggerDecrease,Juggernaut Cooldown Decrease,Juggernaut Уменьшение Перезарядки,ジャッカルのキルクール,欲望杀人魔技能冷却,豺狼殺人冷卻
 JuggerCanVent,Juggernaut Can Use Vents,Juggernaut Может Использовать Вентиляцию,ジャッカルがベントを使用できる,欲望杀人魔可以使用管道
-MarksmanKillCooldown,Marksman Kill Cooldown,MarksmanKillCooldown,MarksmanKillCooldown,弓箭手击杀冷却时间
-MarksmanCanVent,Marksman Can Vent,MarksmanCanVent,MarksmanCanVent,神射手能跳管道
+MarksmanKillCooldown,Marksman Kill Cooldown,Marksman Откат Убийства,MarksmanKillCooldown,MarksmanKillCooldown,弓箭手击杀冷却时间
+MarksmanCanVent,Marksman Can Vent,Marksman Может Вентоваться,MarksmanCanVent,MarksmanCanVent,神射手能跳管道
 VampBuff,Vampire Buff,Vampire Buff,Vampire Buff,血猩红热特性
 TraitorCanSpawnIfNK,Traitor can Spawn If an NK is Alive,Предатель Может Появиться Если НейтралУбийца Жив,Traitor can Spawn If an NK is Alive,有中立阵营的情况下可以产生叛徒
 TraitorCanSpawnIfCoven,Traitor can Spawn If a Coven Member is Alive,Предатель Может Появиться Если Ковен Жив,Traitor can Spawn If an NK is Alive,如果 NK 还活着，叛徒可以生成
 
-VetCD,Alert Cooldown,Alert Пререзарядка,Alert Cooldown,警惕冷却时间,警報冷卻
-VetDur,Alert Duration,Alert Продолжительность,Alert Duration,警惕持续时间,警報持續時間
+VetCD,Alert Cooldown,Откат Защиты,Alert Cooldown,警惕冷却时间,警報冷卻
+VetDur,Alert Duration,Продолжительность Защиты,Alert Duration,警惕持续时间,警報持續時間
 CRGV,Crew Roles get Vetted,Роли Членов Экипажа проходят Проверку,Crew Roles get Vetted,船员职业不会被反伤,船員角色得到審查
 PestiAttacks,If Pestilence Attacks Veteran,Если Pestilence Атакует Veteran,If Pestilence Attacks Veteran,如果瘟疫击退了老兵,如果瘟疫襲擊退伍軍人
 NVet,Number of Alerts,Колличество Защит,Number of Alerts,警惕最大次数,警報數量
-Trade,Trade,Trade,Trade,相互,貿易
+Trade,Trade,Сделка,Trade,相互,貿易
 PestiKillsVet,Pestilence Kills Veteran,Pestilence Убивает Veteran,PestiKillsVet,传染者杀死了老兵,瘟疫殺死退伍軍人
 VetKillsPesti,Veteran Kills Pestilence,Veteran Убивает Pestilence,VetKillsPesti,老兵杀死了传染者,退伍軍人殺死瘟疫
 BKdur,Protection Duration,Продолжительность Защиты,BKdur,保护持续时间
@@ -620,14 +620,14 @@ TKGA,Target knows GA Exists,Его Цель знает что у него ест
 WhenGAdies,When Target dies GA Becomes,Когда его Цель умирает GA становится,Translation Unavailble,当保护对象死亡守护天使的职业变成
 
 CanVentR,Can Vent while Rampaged,Может Вентоваться Во Время Ярости,Translation Unavailble,可以在横冲直撞的情况下使用管道键
-HPV,Hack Preventing Vent,Предотвращение Взлома Вентиляции,HPV,防止黑客模式使用管道按键
+HPV,Hack Preventing Vent,Режим Блокировки При Запрыгивании в Вентиляцию,HPV,防止黑客模式使用管道按键
 RCD,Rampage Cooldown,Откат Ярости,Translation Unavailble,横冲直撞的冷却时间
 RDur,Rampage Duration,Продолжительность Ярости,Translation Unavailble,横冲直撞的持续时间
 SCKWW,Sheriff Can Kill Werewolf,Sheriff Может Убить Werewolf,Translation Unavailble,警长可以执法狼人
 SCKTG,Sheriff Can Kill The Glitch,Sheriff Может Убить The Glitch,Translation Unavailble,警长可以执法混沌
 
 ## Global
-RBC,Role Block Cooldown,Роль Блокирования Откат,Translation Unavailble,职业切换冷却时间
+RBC,Role Block Cooldown,Откат Блокировки Игрока,Translation Unavailble,职业切换冷却时间
 CanVent,Can Vent,Может Вентоваться,Translation Unavailble,可以使用通风管道
 KillCD,Kill Cooldown,Откат Убийства,Translation Unavailble,击杀冷却时间
 KillCDT,Paint Cooldown,Paint Откат,Translation Unavailble,击杀冷却时间
@@ -734,13 +734,13 @@ On,ON,ВКЛ,オン,开启,開啟
 Off,OFF,ВЫКЛ,オフ,关闭,關閉
 ColoredOn,<color=#00fefe>ON</color>,<color=#00fefe>ON</color>,<color=#00fefe>オン</color>,<color=#00fefe>开启</color>,<color=#00fefe>開啟</color>
 ColoredOff,<color=#ff4c6f>OFF</color>,<color=#ff4c6f>OFF</color>,<color=#ff4c6f>オフ</color>,<color=#ff4c6f>关闭</color>,<color=#ff4c6f>關閉</color>
-CurrentActiveSettingsHelp,Current active settings help,Справка По текущим активным настройкам,現在有効な設定の説明,当前启用设置及帮助,現在設定的模式和職業說明
+CurrentActiveSettingsHelp,Current active settings help,Справка по текущим активным настройкам,現在有効な設定の説明,当前启用设置及帮助,現在設定的模式和職業說明
 WitchCurrentMode,Current Mode,Текущий Режим,現在のモード,当前游戏模式,現在模式
 WitchModeKill,Kill,Убить,キル,击杀,殺人
 WitchModeSpell,Spell,Заклинать,スペル,下咒,下咒
 BountyCurrentTarget,Current Target,Текущая Цель,現在のターゲット,当前目标,目標
 Roles,Roles,Роли,役職,职业,職業
-Percentages,Percentages,Роли,役職,职业,職業
+Percentages,Percentages,Проценты,役職,职业,職業
 Settings,Settings,Настройки,設定,设定,設定
 Attributes,Attributes,Атрибуты,属性,属性,屬性
 RoleAssignment,Role Assignment,Назначение Ролей,ロール割り当て,职业分配,職業分配
@@ -757,17 +757,17 @@ Rate70,70%,70%,70%,70%,70%
 Rate80,80%,80%,80%,80%,80%
 Rate90,90%,90%,90%,90%,90%
 Rate100,100%,100%,100%,100%,100%
-Preset,Preset,Preset,プリセット,预设,設定檔
-Preset_1,Preset 1,Preset 1,プリセット1,预设1,設定檔 1
-Preset_2,Preset 2,Preset 2,プリセット2,预设2,設定檔 2
-Preset_3,Preset 3,Preset 3,プリセット3,预设3,設定檔 3
-Preset_4,Preset 4,Preset 4,プリセット4,预设4,設定檔 4
-Preset_5,Preset 5,Preset 5,プリセット5,预设5,設定檔 5
-Standard,Standard,Стандарт,スタンダード,标准,普通
+Preset,Preset,Сохранения,プリセット,预设,設定檔
+Preset_1,Preset 1,Сохранение 1,プリセット1,预设1,設定檔 1
+Preset_2,Preset 2,Сохранение 2,プリセット2,预设2,設定檔 2
+Preset_3,Preset 3,Сохранение 3,プリセット3,预设3,設定檔 3
+Preset_4,Preset 4,Сохранение 4,プリセット4,预设4,設定檔 4
+Preset_5,Preset 5,Сохранение 5,プリセット5,预设5,設定檔 5
+Standard,Standard,Стандартный,スタンダード,标准,普通
 GameMode,GameMode,ИгровойРежим,ゲームモード,游戏模式,遊戲模式
 PressTabToNextPage,Press Tab To Next Page...,Нажмите Tab чтобы перейти на следующую страницу...,Tabキーを押して次のページへ...,按tab键查看更多...,按下Tab以顯示下一頁...
 RoleSummaryText,Players and roles at the end of the game:,Игроки и роли в конце игры:,ゲーム終了時の役職一覧:,游戏结束时玩家职业:,遊戲結束時玩家的職業:
-doOverride,Override %role%'s Tasks,Изменить у %role% Задания,%role%のタスクを上書きする,特别设置%role%的任务数,特別設定%role%的任務
+doOverride,Override %role%'s Tasks,Изменить Задания У %role%,%role%のタスクを上書きする,特别设置%role%的任务数,特別設定%role%的任務
 assignCommonTasks,%role% has Common Tasks,%role% Имеет Общие Задания,%role%に通常タスクを割り当てる,%role%的普通任务数,%role%有普通任務
 roleLongTasksNum,%role% Long Tasks,%role% Долгие Задания,%role%のロングタスクの数,%role%的长任务数,%role%的長任務數量
 roleShortTasksNum,%role% Short Tasks,%role% Короткие Задания,%role%のショートタスクの数,%role%的短任务数,%role%的短任務數量
