@@ -932,7 +932,7 @@ namespace TownOfHost
                 AllPlayers.Remove(player);
                 Main.AllPlayerCustomRoles[player.PlayerId] = role;
                 //ここからDesyncが始まる
-                if (player.PlayerId != 0)
+                if (!player.IsModClient())
                 {
                     int playerCID = player.GetClientId();
                     sender.RpcSetRole(player, BaseRole, playerCID);
@@ -974,7 +974,7 @@ namespace TownOfHost
                 Main.AllPlayerCustomRoles[player.PlayerId] = role;
                 if (!skip)
                 {
-                    if (player.PlayerId != 0)
+                    if (!player.IsModClient())
                     {
                         int playerCID = player.GetClientId();
                         sender.RpcSetRole(player, BaseRole, playerCID);
