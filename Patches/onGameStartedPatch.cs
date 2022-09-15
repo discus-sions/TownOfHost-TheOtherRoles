@@ -301,7 +301,7 @@ namespace TownOfHost
                                         urself.Add(player);
                                         if (role.IsShapeShifter())
                                         {
-                                            if (role != CustomRoles.Egoist)
+                                            if (role == CustomRoles.Egoist)
                                             {
                                                 //AssignDesyncRole(role, urself, sender, BaseRole: RoleTypes.Shapeshifter);
                                                 Main.chosenShifterRoles.Add(role);
@@ -309,7 +309,7 @@ namespace TownOfHost
                                             else
                                             {
                                                 // Main.chosenShifterRoles.Add(role);
-                                                AssignDesyncRole(role, urself, sender, BaseRole: RoleTypes.Shapeshifter);
+                                                AssignDesyncRole(role, urself, sender, BaseRole: RoleTypes.Shapeshifter, hostBaseRole: RoleTypes.Shapeshifter);
                                             }
                                         }
                                         else if (role == CustomRoles.CrewPostor)
@@ -421,18 +421,7 @@ namespace TownOfHost
                             }
                         }
 
-                        bool haveSheriff = RoleGoingInList(CustomRoles.Sheriff);
-                        bool haveInvest = RoleGoingInList(CustomRoles.Investigator);
-                        bool haveCoven = RoleGoingInList(CustomRoles.Coven);
-
                         var impnum = Main.RealOptionsData.NumImpostors;
-                        var crewnum = AllPlayers.Count - impnum;
-                        if (haveSheriff)
-                            crewnum -= CustomRoles.Sheriff.GetCount();
-                        if (haveInvest)
-                            crewnum -= CustomRoles.Investigator.GetCount();
-                        if (haveCoven)
-                            crewnum -= CustomRoles.Coven.GetCount();
                         if (rolesChosenImp.Count != 0)
                         {
                             for (var i = 0; i < impnum; i++)
@@ -450,7 +439,7 @@ namespace TownOfHost
                         // NOW WE CHOOSE CREW ROLES //
                         if (chosenCrew.Count != 0)
                         {
-                            for (var i = 0; i < crewnum; i++)
+                            for (var i = 0; i < AllPlayers.Count; i++)
                             {
                                 var rando = new System.Random();
                                 var role = chosenCrew[rando.Next(0, chosenCrew.Count)];
@@ -479,23 +468,14 @@ namespace TownOfHost
 
                         if (Main.chosenNK.Contains(CustomRoles.Jackal))
                             if (Options.JackalHasSidekick.GetBool())
-                                AssignDesyncRole(CustomRoles.Sidekick, AllPlayers, sender, BaseRole: RoleTypes.Impostor);
-                        if (haveSheriff)
+                                AssignDesyncRole(CustomRoles.Sidekick, AllPlayers, sender, Count: 1, BaseRole: RoleTypes.Impostor);
+                        if (RoleGoingInList(CustomRoles.Sheriff))
                             AssignDesyncRole(CustomRoles.Sheriff, AllPlayers, sender, BaseRole: RoleTypes.Impostor);
-                        if (haveInvest)
+                        if (RoleGoingInList(CustomRoles.Investigator))
                             AssignDesyncRole(CustomRoles.Investigator, AllPlayers, sender, BaseRole: RoleTypes.Impostor);
-                        if (haveCoven)
-                            AssignDesyncRole(CustomRoles.Coven, AllPlayers, sender, BaseRole: RoleTypes.Impostor);
+                        if (RoleGoingInList(CustomRoles.Coven))
+                            AssignDesyncRole(CustomRoles.Coven, AllPlayers, sender, Count: 3, BaseRole: RoleTypes.Impostor);
                     }
-                }
-                else
-                {
-                    List<PlayerControl> AllPlayers = new();
-                    foreach (var pc in PlayerControl.AllPlayerControls)
-                    {
-                        AllPlayers.Add(pc);
-                    }
-                    AssignDesyncRole(CustomRoles.Jackal, AllPlayers, sender, BaseRole: RoleTypes.Impostor);
                 }
             }
             else if (Options.SplatoonOn.GetBool())
@@ -508,6 +488,15 @@ namespace TownOfHost
                 //AssignDesyncRole(CustomRoles.Supporter, AllPlayers, sender, BaseRole: RoleTypes.Crewmate);
                 AssignDesyncRole(CustomRoles.Janitor, AllPlayers, sender, BaseRole: RoleTypes.Impostor);
                 AssignPainters(CustomRoles.Painter, AllPlayers, sender, BaseRole: RoleTypes.Impostor);
+            }
+            else if (Options.FreeForAllOn.GetBool())
+            {
+                List<PlayerControl> AllPlayers = new();
+                foreach (var pc in PlayerControl.AllPlayerControls)
+                {
+                    AllPlayers.Add(pc);
+                }
+                AssignDesyncRole(CustomRoles.Jackal, AllPlayers, sender, Count: AllPlayers.Count, BaseRole: RoleTypes.Impostor);
             }
             if (sender.CurrentState == CustomRpcSender.State.InRootMessage) sender.EndMessage();
             //以下、バニラ側の役職割り当てが入る
@@ -568,31 +557,47 @@ namespace TownOfHost
 
             if (Options.CurrentGameMode() == CustomGameMode.HideAndSeek)
             {
-                if (!Options.SplatoonOn.GetBool())
+                if (!Options.FreeForAllOn.GetBool())
                 {
-                    SetColorPatch.IsAntiGlitchDisabled = true;
-                    foreach (var pc in PlayerControl.AllPlayerControls)
+                    if (!Options.SplatoonOn.GetBool())
                     {
-                        if (pc.Is(RoleType.Impostor))
-                            pc.RpcSetColor(0);
-                        else if (pc.Is(RoleType.Crewmate))
-                            pc.RpcSetColor(1);
-                    }
+                        SetColorPatch.IsAntiGlitchDisabled = true;
+                        foreach (var pc in PlayerControl.AllPlayerControls)
+                        {
+                            if (pc.Is(RoleType.Impostor))
+                                pc.RpcSetColor(0);
+                            else if (pc.Is(RoleType.Crewmate))
+                                pc.RpcSetColor(1);
+                        }
 
-                    //役職設定処理
-                    AssignCustomRolesFromList(CustomRoles.HASFox, Crewmates);
-                    AssignCustomRolesFromList(CustomRoles.HASTroll, Crewmates);
-                    foreach (var pair in Main.AllPlayerCustomRoles)
-                    {
-                        //RPCによる同期
-                        ExtendedPlayerControl.RpcSetCustomRole(pair.Key, pair.Value);
+                        //役職設定処理
+                        AssignCustomRolesFromList(CustomRoles.HASFox, Crewmates);
+                        AssignCustomRolesFromList(CustomRoles.HASTroll, Crewmates);
+                        foreach (var pair in Main.AllPlayerCustomRoles)
+                        {
+                            //RPCによる同期
+                            ExtendedPlayerControl.RpcSetCustomRole(pair.Key, pair.Value);
+                        }
+                        //色設定処理
+                        SetColorPatch.IsAntiGlitchDisabled = true;
                     }
-                    //色設定処理
-                    SetColorPatch.IsAntiGlitchDisabled = true;
+                    else
+                    {
+                        AssignCustomRolesFromList(CustomRoles.Supporter, Crewmates);
+                        foreach (var pair in Main.AllPlayerCustomRoles)
+                        {
+                            //RPCによる同期
+                            ExtendedPlayerControl.RpcSetCustomRole(pair.Key, pair.Value);
+                        }
+                        foreach (var pc in PlayerControl.AllPlayerControls)
+                        {
+                            if (pc.Is(RoleType.Impostor))
+                                Main.AllPlayerCustomRoles[pc.PlayerId] = CustomRoles.Painter;
+                        }
+                    }
                 }
                 else
                 {
-                    AssignCustomRolesFromList(CustomRoles.Supporter, Crewmates);
                     foreach (var pair in Main.AllPlayerCustomRoles)
                     {
                         //RPCによる同期
@@ -601,7 +606,7 @@ namespace TownOfHost
                     foreach (var pc in PlayerControl.AllPlayerControls)
                     {
                         if (pc.Is(RoleType.Impostor))
-                            Main.AllPlayerCustomRoles[pc.PlayerId] = CustomRoles.Painter;
+                            Main.AllPlayerCustomRoles[pc.PlayerId] = CustomRoles.Jackal;
                     }
                 }
             }
@@ -927,6 +932,10 @@ namespace TownOfHost
             for (var i = 0; i < count; i++)
             {
                 if (AllPlayers.Count <= 0) break;
+                if (Count == -1)
+                {
+                    if (!RoleGoingInList(role)) break;
+                }
                 var rand = new System.Random();
                 var player = AllPlayers[rand.Next(0, AllPlayers.Count)];
                 AllPlayers.Remove(player);
@@ -1013,7 +1022,7 @@ namespace TownOfHost
                 Main.AllPlayerCustomRoles[player.PlayerId] = role;
                 if (!skip)
                 {
-                    if (player.PlayerId != 0)
+                    if (!player.IsModClient())
                     {
                         int playerCID = player.GetClientId();
                         sender.RpcSetRole(player, BaseRole, playerCID);
@@ -1097,7 +1106,7 @@ namespace TownOfHost
         private static bool RoleGoingInList(CustomRoles role)
         {
             if (!role.IsEnable()) return false;
-            var number = System.Convert.ToUInt32(PercentageChecker.CheckPercentage(role.ToString(), role: role));
+            var number = Convert.ToUInt32(PercentageChecker.CheckPercentage(role.ToString(), role: role));
             bool isRole = UnityEngine.Random.Range(1, 100) <= number;
             return isRole;
         }

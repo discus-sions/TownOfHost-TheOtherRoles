@@ -124,6 +124,7 @@ namespace TownOfHost
         public static byte WonHackerID;
         public static byte WonArsonistID;
         public static byte WonChildID;
+        public static byte WonFFAid;
         public static bool CustomWinTrigger;
         public static bool VisibleTasksCount;
         public static string nickName = "";

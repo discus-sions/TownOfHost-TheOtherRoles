@@ -236,6 +236,10 @@ namespace TownOfHost
             bool checkTasks = false;
             switch (role)
             {
+                case CustomRoles.Jackal:
+                case CustomRoles.Amnesiac:
+                    ProgressText = "";
+                    break;
                 case CustomRoles.Arsonist:
                     var doused = GetDousedPlayerCount(playerId);
                     ProgressText = Helpers.ColorString(GetRoleColor(CustomRoles.Arsonist), $"({doused.Item1}/{doused.Item2})");

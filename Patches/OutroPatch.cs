@@ -46,13 +46,28 @@ namespace TownOfHost
                 }
                 Egoist.OverrideCustomWinner();
             }
-            if (Main.currentWinner == CustomWinner.Jackal)
+            if (Options.CurrentGameMode() != CustomGameMode.HideAndSeek)
             {
-                winner.Clear();
-                foreach (var p in PlayerControl.AllPlayerControls)
+                if (Main.currentWinner == CustomWinner.Jackal)
                 {
-                    if (p.GetCustomRole().IsJackalTeam()) winner.Add(p);
+                    winner.Clear();
+                    foreach (var p in PlayerControl.AllPlayerControls)
+                    {
+                        if (p.GetCustomRole().IsJackalTeam()) winner.Add(p);
+                    }
                 }
+            }
+            else
+            {
+                if (Options.FreeForAllOn.GetBool())
+                    if (Main.currentWinner == CustomWinner.Jackal)
+                    {
+                        winner.Clear();
+                        foreach (var p in PlayerControl.AllPlayerControls)
+                        {
+                            if (p.PlayerId == Main.WonFFAid) winner.Add(p);
+                        }
+                    }
             }
             if (Main.currentWinner == CustomWinner.Werewolf)
             {
@@ -303,7 +318,7 @@ namespace TownOfHost
 
             //HideAndSeek専用
             if (Options.CurrentGameMode() == CustomGameMode.HideAndSeek &&
-                Main.currentWinner != CustomWinner.Draw && Main.currentWinner != CustomWinner.None)
+                Main.currentWinner != CustomWinner.Draw && Main.currentWinner != CustomWinner.None && Main.currentWinner != CustomWinner.Jackal)
             {
                 winner = new();
                 foreach (var pc in PlayerControl.AllPlayerControls)

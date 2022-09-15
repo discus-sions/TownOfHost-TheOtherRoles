@@ -193,7 +193,7 @@ namespace TownOfHost
                     //__instance.ImpostorText.gameObject.SetActive(true);
                     //__instance.ImpostorText.text = GetString("NeutralInfo");
                     __instance.BackgroundBar.material.color = Utils.GetRoleColor(role);
-                    StartFadeIntro(__instance, Color.black, Color.black);
+                    //StartFadeIntro(__instance, Color.black, Color.black);
                     PlayerControl.LocalPlayer.Data.Role.IntroSound = GetIntroSound(RoleTypes.Impostor);
                     break;
                 case CustomRoles.Painter:
@@ -222,6 +222,17 @@ namespace TownOfHost
                     __instance.BackgroundBar.material.color = Utils.GetRoleColor(role);
                     StartFadeIntro(__instance, Color.white, Color.black);
                     PlayerControl.LocalPlayer.Data.Role.IntroSound = ShipStatus.Instance.SabotageSound;
+                    break;
+                case CustomRoles.Jackal:
+                    if (Options.FreeForAllOn.GetBool())
+                    {
+                        __instance.TeamTitle.text = "FREE FOR ALL";
+                        __instance.TeamTitle.color = Utils.GetRoleColor(CustomRoles.Child);
+                        __instance.ImpostorText.gameObject.SetActive(true);
+                        __instance.ImpostorText.text = "Be the last killer standing.";
+                        __instance.BackgroundBar.material.color = Utils.GetRoleColor(role);
+                    }
+                    PlayerControl.LocalPlayer.Data.Role.IntroSound = GetIntroSound(RoleTypes.Impostor);
                     break;
                 case CustomRoles.Terrorist:
                     var sound = ShipStatus.Instance.CommonTasks.Where(task => task.TaskType == TaskTypes.FixWiring).FirstOrDefault()
@@ -267,7 +278,6 @@ namespace TownOfHost
                 case CustomRoles.Miner:
                 case CustomRoles.TheGlitch:
                 case CustomRoles.Camouflager:
-                case CustomRoles.Jackal:
                 case CustomRoles.Pestilence:
                 case CustomRoles.Sidekick:
                 case CustomRoles.Juggernaut:

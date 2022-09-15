@@ -317,6 +317,11 @@ namespace TownOfHost
             __instance.RoleOptions.EngineerInVentMaxTime = 15f;
             if (Options.CurrentGameMode() == CustomGameMode.HideAndSeek) //HideAndSeek
             {
+                if (Options.FreeForAllOn.GetBool())
+                {
+                    __instance.NumImpostors = 1;
+                    __instance.numImpostors = 1;
+                }
                 __instance.PlayerSpeedMod = 1.75f;
                 __instance.CrewLightMod = 5f;
                 __instance.ImpostorLightMod = 0.25f;

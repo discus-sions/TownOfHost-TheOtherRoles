@@ -266,12 +266,13 @@ namespace TownOfHost
                     //they are both coven
                     return false;
                 }
-                if (killer.GetRoleType() == target.GetRoleType() && killer.GetCustomRole().IsJackalTeam())
-                {
-                    //they are both Jackal.
-                    return false;
-                }
-                if (killer.GetCustomRole().IsImpostor() && target.GetCustomRole().IsImpostor())
+                if (Options.CurrentGameMode() == CustomGameMode.Standard)
+                    if (killer.GetRoleType() == target.GetRoleType() && killer.GetCustomRole().IsJackalTeam())
+                    {
+                        //they are both Jackal.
+                        return false;
+                    }
+                if (killer.GetRoleType() == target.GetRoleType() && killer.GetCustomRole().IsImpostor())
                 {
                     // cannot kill traitor. //
                     return false;
@@ -2234,7 +2235,8 @@ namespace TownOfHost
                         RealName = Helpers.ColorString(Utils.GetRoleColor(CustomRoles.Egoist), RealName); //targetの名前をエゴイスト色で表示
 
                     else if ((seer.Is(CustomRoles.EgoSchrodingerCat) && target.Is(CustomRoles.Egoist)) || //エゴ猫 --> エゴイスト
-                             (seer.GetCustomRole().IsJackalTeam() && target.GetCustomRole().IsJackalTeam()) //J猫 --> ジャッカル
+                             (seer.GetCustomRole().IsJackalTeam() && target.GetCustomRole().IsJackalTeam()) ||
+                             (seer.GetCustomRole().IsImpostor() && target.GetCustomRole().IsImpostor())  //J猫 --> ジャッカル
                     )
                         RealName = Helpers.ColorString(target.GetRoleColor(), RealName); //targetの名前をtargetの役職の色で表示
                     else if (target.Is(CustomRoles.Mare) && Utils.IsActive(SystemTypes.Electrical))

@@ -107,7 +107,7 @@ namespace TownOfHost
             {
                 MeetingHud.Instance.RpcClose();
             }
-            if (Input.GetKeyDown(KeyCode.Return) && Input.GetKey(KeyCode.C) && Input.GetKey(KeyCode.LeftShift) && GameStates.IsInGame)
+            if (Input.GetKeyDown(KeyCode.Return) && Input.GetKey(KeyCode.C) && Input.GetKey(KeyCode.LeftShift) && GameStates.IsMeeting)
             {
                 HudManager.Instance.Chat.SetVisible(true);
             }

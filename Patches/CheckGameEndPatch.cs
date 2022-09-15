@@ -23,7 +23,11 @@ namespace TownOfHost
             {
                 if (Options.CurrentGameMode() == CustomGameMode.HideAndSeek)
                 {
-                    if (!Options.SplatoonOn.GetBool())
+                    if (Options.FreeForAllOn.GetBool())
+                    {
+                        if (CheckAndEndGameForFFAWin(__instance, statistics)) return false;
+                    }
+                    else if (!Options.SplatoonOn.GetBool())
                     {
                         if (CheckAndEndGameForHideAndSeek(__instance, statistics)) return false;
                         if (CheckAndEndGameForTroll(__instance)) return false;
@@ -353,6 +357,46 @@ namespace TownOfHost
             return false;
         }
 
+        private static bool CheckAndEndGameForFFAWin(ShipStatus __instance, PlayerStatistics statistics)
+        {
+            if (statistics.TotalAlive <= 1)
+            {
+                __instance.enabled = false;
+                var endReason = TempData.LastDeathReason switch
+                {
+                    DeathReason.Exile => GameOverReason.ImpostorByVote,
+                    DeathReason.Kill => GameOverReason.ImpostorByKill,
+                    _ => GameOverReason.ImpostorByVote,
+                };
+
+                byte liveId = 0xff;
+                int allPlayers = 0;
+                List<byte> deadPlayers = new();
+                foreach (var pc in PlayerControl.AllPlayerControls)
+                {
+                    if (pc.Data.Disconnected) continue;
+                    allPlayers++;
+                    if (pc.Data.IsDead) deadPlayers.Add(pc.PlayerId);
+                }
+                foreach (var pc in PlayerControl.AllPlayerControls)
+                {
+                    if (!deadPlayers.Contains(pc.PlayerId))
+                        liveId = pc.PlayerId;
+                }
+
+
+                MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.EndGame, Hazel.SendOption.Reliable, -1);
+                writer.Write((byte)CustomWinner.Juggernaut);
+                AmongUsClient.Instance.FinishRpcImmediately(writer);
+                RPC.FFAwin(liveId);
+
+                ResetRoleAndEndGameFFA(endReason, false, liveId);
+                return true;
+            }
+            return false;
+        }
+
+
         private static bool CheckAndEndGameForCovenWin(ShipStatus __instance, PlayerStatistics statistics)
         {
             if (statistics.TeamCovenAlive >= statistics.TotalAlive - statistics.TeamCovenAlive &&
@@ -603,6 +647,20 @@ namespace TownOfHost
                 ShipStatus.RpcEndGame(reason, showAd);
             }, 0.5f, "EndGameTask");
         }
+        private static void ResetRoleAndEndGameFFA(GameOverReason reason, bool showAd, byte id)
+        {
+            foreach (var pc in PlayerControl.AllPlayerControls)
+            {
+                if (pc.PlayerId != id)
+                {
+                    pc.RpcSetRole(RoleTypes.GuardianAngel);
+                }
+            }
+            new LateTask(() =>
+            {
+                ShipStatus.RpcEndGame(reason, showAd);
+            }, 0.5f, "EndGameTask");
+        }
         //プレイヤー統計
         internal class PlayerStatistics
         {
@@ -652,6 +710,8 @@ namespace TownOfHost
                             {
                                 numTotalAlive++;//HideAndSeek以外
                             }
+                            else if (Options.FreeForAllOn.GetBool())
+                                numTotalAlive++;
                             else
                             {
                                 //HideAndSeek中
@@ -677,7 +737,7 @@ namespace TownOfHost
                             }
                             else if (playerInfo.GetCustomRole() == CustomRoles.CorruptedSheriff) numImpostorsAlive++;
                             //else if (playerInfo.GetCustomRole() == CustomRoles.Arsonist) arsonists++;
-                            else if (playerInfo.GetCustomRole() == CustomRoles.Jackal) numJackalsAlive++;
+                            else if (playerInfo.GetCustomRole() == CustomRoles.Jackal && Options.CurrentGameMode() != CustomGameMode.HideAndSeek) numJackalsAlive++;
                             else if (playerInfo.GetCustomRole() == CustomRoles.Sidekick) numJackalsAlive++;
                             else if (playerInfo.GetCustomRole() == CustomRoles.PlagueBearer) numPestiAlive++;
                             else if (playerInfo.GetCustomRole() == CustomRoles.Pestilence) numPestiAlive++;

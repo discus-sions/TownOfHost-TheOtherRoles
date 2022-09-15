@@ -422,6 +422,18 @@ namespace TownOfHost
             Main.currentWinner = CustomWinner.Hacker;
             CustomWinTrigger(hackerID);
         }
+        public static void FFAwin(byte ffaID)
+        {
+            Main.WonFFAid = ffaID;
+            Main.currentWinner = CustomWinner.Jackal;
+            CustomWinTrigger(ffaID);
+            if (AmongUsClient.Instance.AmHost)
+            {
+                ShipStatus.Instance.enabled = false;
+                Main.currentWinner = CustomWinner.Jackal;
+                ShipStatus.RpcEndGame(GameOverReason.ImpostorByKill, false);
+            }
+        }
         public static void ArsonistWin(byte arsonistID)
         {
             Main.WonArsonistID = arsonistID;

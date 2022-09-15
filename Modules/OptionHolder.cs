@@ -341,6 +341,7 @@ namespace TownOfHost
         // GAMEMODE //
         public static CustomOption SplatoonOn;
         public static CustomOption ColorWarsOn;
+        public static CustomOption FreeForAllOn;
 
         // TRAITOR //
         public static CustomOption PlayersForTraitor;
@@ -673,6 +674,9 @@ namespace TownOfHost
             //IgnoreCosmetics = CustomOption.Create(101002, Color.white, "IgnoreCosmetics", false)
             //    .SetGameMode(CustomGameMode.HideAndSeek);
             IgnoreVent = CustomOption.Create(101003, Color.white, "IgnoreVent", false)
+                .SetGameMode(CustomGameMode.HideAndSeek);
+
+            FreeForAllOn = CustomOption.Create(1001009, Color.white, "FreeForAllOn", false)
                 .SetGameMode(CustomGameMode.HideAndSeek);
 
             SplatoonOn = CustomOption.Create(1001008, Color.white, "Splatoon", false)
