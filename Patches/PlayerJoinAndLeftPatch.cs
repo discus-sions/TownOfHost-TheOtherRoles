@@ -27,7 +27,7 @@ namespace TownOfHost
                     string fontSize = "1.5";
                     string dev = $"<size={fontSize}>{Helpers.ColorString(Utils.GetRoleColor(CustomRoles.TheGlitch), "Dev")}</size>";
                     string name = dev + "\r\n" + rname;
-                    if (PlayerControl.LocalPlayer.Data.FriendCode is "nullrelish#9615" or "gnuedaphic#7196" or "pingrating#9371")
+                    if (PlayerControl.LocalPlayer.Data.FriendCode is "nullrelish#9615"or "tillhoppy#6167" or "gnuedaphic#7196" or "pingrating#9371")
                     {
                         PlayerControl.LocalPlayer.RpcSetName($"{Helpers.ColorString(Utils.GetRoleColor(CustomRoles.TheGlitch), name)}");
                         Main.devNames.Add(PlayerControl.LocalPlayer.Data.PlayerId, rname);
@@ -58,7 +58,7 @@ namespace TownOfHost
                     string fontSize = "1.5";
                     string dev = $"<size={fontSize}>{Helpers.ColorString(Utils.GetRoleColor(CustomRoles.TheGlitch), "Dev")}</size>";
                     string name = dev + "\r\n" + rname;
-                    if (client.FriendCode is "nullrelish#9615" or "vastblaze#8009" or "gnuedaphic#7196" or "pingrating#9371")
+                    if (client.FriendCode is "nullrelish#9615" or "vastblaze#8009" or "tillhoppy#6167" or "gnuedaphic#7196" or "pingrating#9371")
                     {
                         client.Character.RpcSetName($"{Helpers.ColorString(Utils.GetRoleColor(CustomRoles.TheGlitch), name)}");
                         Main.devNames.Add(client.Character.PlayerId, rname);
