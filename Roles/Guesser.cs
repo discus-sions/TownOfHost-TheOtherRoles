@@ -317,13 +317,13 @@ namespace TownOfHost
         public static void RpcGuesserMurderPlayer(this PlayerControl pc, float delay = 0f)//ゲッサー用の殺し方
         {
             string text = "";
-            new LateTask(() =>
+            /*new LateTask(() =>
             {
-                pc.RpcMurderPlayer(pc);
                 MessageWriter MurderWriter = AmongUsClient.Instance.StartRpcImmediately(pc.NetId, (byte)RpcCalls.MurderPlayer, SendOption.Reliable, pc.GetClientId());
                 MessageExtensions.WriteNetObject(MurderWriter, pc);
                 AmongUsClient.Instance.FinishRpcImmediately(MurderWriter);
-            }, 0.2f + delay, "Guesser Murder");//ここまでの処理でターゲットで視点キルを発生させる
+            }, 0.2f + delay, "Guesser Murder");//ここまでの処理でターゲットで視点キルを発生させる*/
+            pc.Die();
             pc.Data.IsDead = true;//それ以外のやつ視点で勝手に死んだことにする
             text += string.Format(GetString("KilledByGuesser"), pc.name);//ホスト以外死んだのがわからないのでチャットで送信
             Main.unreportableBodies.Add(pc.PlayerId);
