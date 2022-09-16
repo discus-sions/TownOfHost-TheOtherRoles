@@ -275,16 +275,28 @@ namespace TownOfHost
                 }
                 TaskTextPrefix += "</color>\r\n";
             }
-            if (Main.HasModifier.ContainsValue(player.PlayerId))
+            var cSubRoleFound = Main.AllPlayerCustomSubRoles.TryGetValue(player.PlayerId, out var cSubRole);
+            if (cSubRoleFound)
             {
-                CustomRoles role = CustomRoles.Amnesiac;
+                /*CustomRoles role = CustomRoles.Amnesiac;
                 foreach (var modifier in Main.HasModifier)
                 {
                     if (modifier.Value == player.PlayerId)
                         role = modifier.Key;
-                }
+                }*/
                 TaskTextPrefix += Helpers.ColorString(Utils.GetRoleColor(player.GetCustomSubRole()), $"Modifier: {player.GetSubRoleName()}\r\n");
-                TaskTextPrefix += Helpers.ColorString(Utils.GetRoleColor(player.GetCustomSubRole()), $"{GetString(player.GetSubRoleName() + "Info")}\r\n");
+                if (player.GetCustomSubRole() != CustomRoles.LoversRecode)
+                    TaskTextPrefix += Helpers.ColorString(Utils.GetRoleColor(player.GetCustomSubRole()), $"{GetString(player.GetSubRoleName() + "Info")}\r\n");
+                else
+                {
+                    string name = "";
+                    foreach (var lp in Main.LoversPlayers)
+                    {
+                        if (lp.PlayerId == player.PlayerId) continue;
+                        name = lp.GetRealName(true);
+                    }
+                    TaskTextPrefix += Helpers.ColorString(Utils.GetRoleColor(player.GetCustomSubRole()), $"You are in love with {name}.\r\n");
+                }
             }
             if (!Utils.HasTasks(player.Data, false) && !player.GetCustomRole().IsImpostor())
                 TaskTextPrefix += FakeTasksText;
@@ -491,6 +503,22 @@ namespace TownOfHost
     [HarmonyPatch(typeof(HudManager), nameof(HudManager.SetHudActive))]
     class SetHudActivePatch
     {
+        private static Sprite Alert => Main.AlertSprite;
+        private static Sprite Douse => Main.DouseSprite;
+        private static Sprite Hack => Main.HackSprite;
+        private static Sprite Ignite => Main.IgniteSprite;
+        private static Sprite Infect => Main.InfectSprite;
+        private static Sprite Mimic => Main.MimicSprite;
+        private static Sprite Poison => Main.PoisonSprite;
+        private static Sprite Protect => Main.ProtectSprite;
+        private static Sprite Rampage => Main.RampageSprite;
+        private static Sprite Remember => Main.RememberSprite;
+        private static Sprite Seer => Main.SeerSprite;
+        private static Sprite Sheriff => Main.SheriffSprite;
+        private static Sprite Vest => Main.VestSprite;
+        private static Sprite Kill;
+        private static Sprite Vent;
+        private static Sprite Report;
         public static void Postfix(HudManager __instance, [HarmonyArgument(0)] bool isActive)
         {
             var player = PlayerControl.LocalPlayer;
@@ -606,6 +634,90 @@ namespace TownOfHost
                     __instance.AbilityButton.ToggleVisible(false);
                     break;
             }
+            if (__instance.KillButton == null) return;
+            if (!Kill) Kill = __instance.KillButton.graphic.sprite;
+            if (!Vent) Vent = __instance.ImpostorVentButton.graphic.sprite;
+            if (!Report) Report = __instance.ReportButton.graphic.sprite;
+            if (!Main.ButtonImages.Value)
+            {
+                __instance.KillButton.transform.Find("Text_TMP").gameObject.SetActive(true);
+                __instance.KillButton.graphic.sprite = Kill;
+                __instance.ImpostorVentButton.transform.Find("Text_TMP").gameObject.SetActive(true);
+                __instance.ImpostorVentButton.graphic.sprite = Vent;
+                __instance.ReportButton.transform.Find("Text_TMP").gameObject.SetActive(true);
+                __instance.ReportButton.graphic.sprite = Report;
+                return;
+            }
+
+            switch (player.GetCustomRole())
+            {
+                case CustomRoles.Arsonist:
+                    __instance.KillButton.transform.Find("Text_TMP").gameObject.SetActive(false);
+                    __instance.ImpostorVentButton.transform.Find("Text_TMP").gameObject.SetActive(false);
+                    __instance.KillButton.graphic.sprite = Douse;
+                    __instance.ImpostorVentButton.graphic.sprite = Ignite;
+                    break;
+                case CustomRoles.Sheriff:
+                    __instance.KillButton.transform.Find("Text_TMP").gameObject.SetActive(false);
+                    __instance.KillButton.graphic.sprite = Sheriff;
+                    break;
+                case CustomRoles.PlagueBearer:
+                    __instance.KillButton.transform.Find("Text_TMP").gameObject.SetActive(false);
+                    __instance.KillButton.graphic.sprite = Infect;
+                    break;
+                case CustomRoles.Vampire:
+                case CustomRoles.Poisoner:
+                    __instance.KillButton.transform.Find("Text_TMP").gameObject.SetActive(false);
+                    __instance.KillButton.graphic.sprite = Poison;
+                    break;
+                case CustomRoles.Pestilence:
+                    __instance.KillButton.transform.Find("Text_TMP").gameObject.SetActive(true);
+                    __instance.KillButton.graphic.sprite = Kill;
+                    break;
+                case CustomRoles.TheGlitch:
+                    __instance.AbilityButton.transform.Find("Text_TMP").gameObject.SetActive(false);
+                    __instance.AbilityButton.graphic.sprite = Mimic;
+                    break;
+                case CustomRoles.Werewolf:
+                    __instance.ImpostorVentButton.transform.Find("Text_TMP").gameObject.SetActive(false);
+                    if (!Main.IsRampaged)
+                        __instance.ImpostorVentButton.graphic.sprite = Rampage;
+                    else
+                    {
+                        __instance.ImpostorVentButton.transform.Find("Text_TMP").gameObject.SetActive(true);
+                        __instance.ImpostorVentButton.graphic.sprite = Vent;
+                    }
+                    break;
+                case CustomRoles.GuardianAngelTOU:
+                    __instance.AbilityButton.transform.Find("Text_TMP").gameObject.SetActive(false);
+                    __instance.AbilityButton.graphic.sprite = Protect;
+                    break;
+                case CustomRoles.Investigator:
+                    __instance.KillButton.transform.Find("Text_TMP").gameObject.SetActive(false);
+                    __instance.KillButton.graphic.sprite = Seer;
+                    break;
+                case CustomRoles.Amnesiac:
+                    __instance.ReportButton.transform.Find("Text_TMP").gameObject.SetActive(false);
+                    __instance.ReportButton.graphic.sprite = Remember;
+                    break;
+                case CustomRoles.Survivor:
+                    __instance.AbilityButton.transform.Find("Text_TMP").gameObject.SetActive(false);
+                    __instance.AbilityButton.graphic.sprite = Vest;
+                    break;
+                case CustomRoles.Veteran:
+                    __instance.AbilityButton.transform.Find("Text_TMP").gameObject.SetActive(false);
+                    __instance.AbilityButton.graphic.sprite = Alert;
+                    break;
+            }
+        }
+    }
+    [HarmonyPatch(typeof(KillButton), nameof(KillButton.Start))]
+    public static class KillButtonAwake
+    {
+        public static void Prefix(KillButton __instance)
+        {
+            //if (Main.ButtonImages.Value)
+            //    __instance.transform.Find("Text_TMP").gameObject.SetActive(false);
         }
     }
     [HarmonyPatch(typeof(MapBehaviour), nameof(MapBehaviour.ShowNormalMap))]

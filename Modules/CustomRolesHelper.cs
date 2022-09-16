@@ -22,6 +22,7 @@ namespace TownOfHost
                 CustomRoles.Sniper or
                 CustomRoles.Swooper or
                 CustomRoles.Camouflager or
+                CustomRoles.YingYanger or
                 CustomRoles.Miner or
                 CustomRoles.Ninja or
                 CustomRoles.CorruptedSheriff or
@@ -181,6 +182,7 @@ namespace TownOfHost
                 CustomRoles.Flash or
                 CustomRoles.Bewilder or
                 CustomRoles.Lovers or
+                CustomRoles.LoversRecode or
                 CustomRoles.Sleuth or
                 CustomRoles.Torch or
                 CustomRoles.Medusa or
@@ -248,6 +250,7 @@ namespace TownOfHost
                 CustomRoles.Bewilder or
                 CustomRoles.Oblivious or
                 CustomRoles.Lovers or
+                CustomRoles.LoversRecode or
                 CustomRoles.Sleuth or
                 CustomRoles.Torch;
         }

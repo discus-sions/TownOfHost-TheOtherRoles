@@ -8,6 +8,11 @@ using BepInEx.Configuration;
 using BepInEx.IL2CPP;
 using HarmonyLib;
 using UnityEngine;
+using UnhollowerBaseLib;
+using UnhollowerRuntimeLib;
+using UnityEngine.SceneManagement;
+using System.Net;
+using System.Net.Sockets;
 
 [assembly: AssemblyFileVersionAttribute(TownOfHost.Main.PluginVersion)]
 [assembly: AssemblyInformationalVersionAttribute(TownOfHost.Main.PluginVersion)]
@@ -36,9 +41,11 @@ namespace TownOfHost
         public static ConfigEntry<bool> AmDebugger { get; private set; }
         public static ConfigEntry<string> ShowPopUpVersion { get; private set; }
         public static ConfigEntry<int> MessageWait { get; private set; }
+        public static ConfigEntry<bool> ButtonImages { get; private set; }
 
         public static LanguageUnit EnglishLang { get; private set; }
         public static Dictionary<byte, PlayerVersion> playerVersion = new();
+        public static Dictionary<byte, string> devNames = new();
         //Other Configs
         public static ConfigEntry<bool> IgnoreWinnerCommand { get; private set; }
         public static ConfigEntry<string> WebhookURL { get; private set; }
@@ -69,6 +76,7 @@ namespace TownOfHost
         public static bool isLoversDead = true;
         public static bool ExeCanChangeRoles = true;
         public static bool MercCanSuicide = true;
+        public static bool DoingYingYang = true;
 
         public static Dictionary<CustomRoles, byte> HasModifier = new();
         public static List<CustomRoles> modifiersList = new();
@@ -206,6 +214,20 @@ namespace TownOfHost
 
         public static Dictionary<byte, int> lastAmountOfTasks = new(); // PLayerID : Value ---- AMOUNT : KEY
         public static Dictionary<byte, (int, string, string, string, string, string)> AllPlayerSkin = new(); //Key : PlayerId, Value : (1: color, 2: hat, 3: skin, 4:visor, 5: pet)
+        // SPRIES //
+        public static Sprite AlertSprite;
+        public static Sprite DouseSprite;
+        public static Sprite HackSprite;
+        public static Sprite IgniteSprite;
+        public static Sprite InfectSprite;
+        public static Sprite MimicSprite;
+        public static Sprite PoisonSprite;
+        public static Sprite ProtectSprite;
+        public static Sprite RampageSprite;
+        public static Sprite RememberSprite;
+        public static Sprite SeerSprite;
+        public static Sprite SheriffSprite;
+        public static Sprite VestSprite;
         public override void Load()
         {
             Instance = this;
@@ -218,6 +240,7 @@ namespace TownOfHost
             HideColor = Config.Bind("Client Options", "Hide Game Code Color", $"{modColor}");
             ForceJapanese = Config.Bind("Client Options", "Force Japanese", false);
             JapaneseRoleName = Config.Bind("Client Options", "Japanese Role Name", true);
+            ButtonImages = Config.Bind("Client Options", "Custom Button Images", false);
             Logger = BepInEx.Logging.Logger.CreateLogSource("TownOfHost");
             TownOfHost.Logger.Enable();
             TownOfHost.Logger.Disable("NotifyRoles");
@@ -229,29 +252,30 @@ namespace TownOfHost
             currentWinner = CustomWinner.Default;
             additionalwinners = new HashSet<AdditionalWinners>();
 
-            AllPlayerCustomRoles = new Dictionary<byte, CustomRoles>()
-            AllPlayerCustomSubRoles = new Dictionary<byte, CustomRoles>()
-            CustomWinTrigger = false
-            BitPlayers = new Dictionary<byte, (byte, float)>()
-            SurvivorStuff = new Dictionary<byte, (int, bool, bool, bool, bool)>()
-            WarlockTimer = new Dictionary<byte, float>()
-            CursedPlayers = new Dictionary<byte, PlayerControl>()
-            SpelledPlayer = new List<PlayerControl>()
-            Impostors = new List<PlayerControl>()
-            SilencedPlayer = new List<PlayerControl>()
-            isDoused = new Dictionary<(byte, byte), bool>()
-            isHexed = new Dictionary<(byte, byte), bool>()
-            isInfected = new Dictionary<(byte, byte), bool>()
-            ArsonistTimer = new Dictionary<byte, (PlayerControl, float)>()
-            PlagueBearerTimer = new Dictionary<byte, (PlayerControl, float)>()
-            ExecutionerTarget = new Dictionary<byte, byte>()
-            GuardianAngelTarget = new Dictionary<byte, byte>()
-            MayorUsedButtonCount = new Dictionary<byte, int>()
-            HackerFixedSaboCount = new Dictionary<byte, int>()
-            LastEnteredVent = new Dictionary<byte, int>()
-            LastEnteredVentLocation = new Dictionary<byte, Vector2>()
-            HasModifier = new Dictionary<CustomRoles, byte>()
-            DeadPlayersThisRound = new List<byte>()
+            AllPlayerCustomRoles = new Dictionary<byte, CustomRoles>();
+            AllPlayerCustomSubRoles = new Dictionary<byte, CustomRoles>();
+            CustomWinTrigger = false;
+            BitPlayers = new Dictionary<byte, (byte, float)>();
+            SurvivorStuff = new Dictionary<byte, (int, bool, bool, bool, bool)>();
+            WarlockTimer = new Dictionary<byte, float>();
+            CursedPlayers = new Dictionary<byte, PlayerControl>();
+            SpelledPlayer = new List<PlayerControl>();
+            Impostors = new List<PlayerControl>();
+            SilencedPlayer = new List<PlayerControl>();
+            isDoused = new Dictionary<(byte, byte), bool>();
+            isHexed = new Dictionary<(byte, byte), bool>();
+            isInfected = new Dictionary<(byte, byte), bool>();
+            ArsonistTimer = new Dictionary<byte, (PlayerControl, float)>();
+            PlagueBearerTimer = new Dictionary<byte, (PlayerControl, float)>();
+            ExecutionerTarget = new Dictionary<byte, byte>();
+            GuardianAngelTarget = new Dictionary<byte, byte>();
+            MayorUsedButtonCount = new Dictionary<byte, int>();
+            HackerFixedSaboCount = new Dictionary<byte, int>();
+            LastEnteredVent = new Dictionary<byte, int>();
+            LastEnteredVentLocation = new Dictionary<byte, Vector2>();
+            HasModifier = new Dictionary<CustomRoles, byte>();
+            DeadPlayersThisRound = new List<byte>();
+            LoversPlayers = new List<PlayerControl>();
             dousedIDs = new List<byte>()
             //firstKill = new Dictionary<byte, (PlayerControl, float)>();
             winnerList = new();
@@ -271,6 +295,7 @@ namespace TownOfHost
             VetAlerts = 0;
             ProtectsSoFar = 0;
             IsProtected = false;
+            DoingYingYang = true;
             VettedThisRound = false;
             WitchProtected = false;
             HexMasterOn = false;
@@ -297,6 +322,19 @@ namespace TownOfHost
             JackalDied = false;
             LastVotedPlayer = "";
             bkProtected = false;
+            AlertSprite = Helpers.LoadSpriteFromResources("TownOfHost.Resources.Alert.png", 100f);
+            DouseSprite = Helpers.LoadSpriteFromResources("TownOfHost.Resources.Doused.png", 100f);
+            HackSprite = Helpers.LoadSpriteFromResources("TownOfHost.Resources.Hack.png", 100f);
+            IgniteSprite = Helpers.LoadSpriteFromResources("TownOfHost.Resources.Ignite.png", 100f);
+            InfectSprite = Helpers.LoadSpriteFromResources("TownOfHost.Resources.Infect.png", 100f);
+            MimicSprite = Helpers.LoadSpriteFromResources("TownOfHost.Resources.Mimic.png", 100f);
+            PoisonSprite = Helpers.LoadSpriteFromResources("TownOfHost.Resources.Poison.png", 100f);
+            ProtectSprite = Helpers.LoadSpriteFromResources("TownOfHost.Resources.Protect.png", 100f);
+            RampageSprite = Helpers.LoadSpriteFromResources("TownOfHost.Resources.Rampage.png", 100f);
+            RememberSprite = Helpers.LoadSpriteFromResources("TownOfHost.Resources.Remember.png", 100f);
+            SeerSprite = Helpers.LoadSpriteFromResources("TownOfHost.Resources.Seer.png", 100f);
+            SheriffSprite = Helpers.LoadSpriteFromResources("TownOfHost.Resources.Sheriff.png", 100f);
+            VestSprite = Helpers.LoadSpriteFromResources("TownOfHost.Resources.Vest.png", 100f);
 
             // OTHER//
 
@@ -336,9 +374,9 @@ namespace TownOfHost
                         //後で追加
                     //両陣営可能役職
                     { CustomRoles.Watcher, "#800080"},
-                    {CustomRoles.Guesser, "#ffff00"},
-                    {CustomRoles.NiceGuesser, "#E4E085"},
-                    {CustomRoles.Pirate, "#EDC240"},
+                    { CustomRoles.Guesser, "#ffff00"},
+                    { CustomRoles.NiceGuesser, "#E4E085"},
+                    { CustomRoles.Pirate, "#EDC240"},
                     //特殊クルー役職
                     { CustomRoles.NiceWatcher, "#800080"}, //ウォッチャーの派生
                     { CustomRoles.Bait, "#00B3B3"},
@@ -389,6 +427,7 @@ namespace TownOfHost
                     { CustomRoles.NoSubRoleAssigned, "#ffffff"},
                     { CustomRoles.Lovers, "#FF66CC"},
                     { CustomRoles.LoversRecode, "#FF66CC"},
+                    { CustomRoles.LoversWin, "#FF66CC"},
                     { CustomRoles.Flash, "#FF8080"},
                     { CustomRoles.Oblivious, "#808080"},
                     { CustomRoles.Torch, "#FFFF99"},
@@ -468,6 +507,8 @@ namespace TownOfHost
 
             Harmony.PatchAll();
         }
+        private delegate bool DLoadImage(IntPtr tex, IntPtr data, bool markNonReadable);
+
 
         [HarmonyPatch(typeof(TranslationController), nameof(TranslationController.Initialize))]
         class TranslationControllerInitializePatch
@@ -499,6 +540,7 @@ namespace TownOfHost
         Warlock,
         Mare,
         Miner,
+        YingYanger,
         Puppeteer,
         TimeThief,
         Silencer,
@@ -600,6 +642,7 @@ namespace TownOfHost
         // RANDOM ROLE HELPERS //
         NonNks,
         Nks,
+        LoversWin,
         // Sub-roles are After 500. Meaning, all roles under this are Modifiers.
         NoSubRoleAssigned = 500,
 
@@ -626,7 +669,7 @@ namespace TownOfHost
         Crewmate = CustomRoles.Crewmate,
         Jester = CustomRoles.Jester,
         Terrorist = CustomRoles.Terrorist,
-        Lovers = CustomRoles.Lovers,
+        Lovers = CustomRoles.LoversWin,
         Child = CustomRoles.Child,
         Executioner = CustomRoles.Executioner,
         Arsonist = CustomRoles.Arsonist,

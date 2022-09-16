@@ -209,6 +209,7 @@ namespace TownOfHost
                     PlayerState.SetDeathReason(x.Key, x.Value);
                     PlayerState.SetDead(x.Key);
                     player?.RpcExileV2();
+
                     if (player.Is(CustomRoles.TimeThief) && x.Value == PlayerState.DeathReason.LoversSuicide)
                         player?.ResetVotingTime();
                 }

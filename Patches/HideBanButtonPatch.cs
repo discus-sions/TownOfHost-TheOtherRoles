@@ -10,7 +10,7 @@ namespace TownOfHost
             if (__instance.IsOpen && !__instance.animating) // (IsOpen==true) == 今から閉じないといけない
             {
                 // BanButtonを非表示にする
-                __instance.BanButton.SetVisible(false);
+                __instance.BanButton.SetVisible(true);
             }
         }
     }

@@ -12,6 +12,7 @@ namespace TownOfHost
         {
             Logger.Info($"{__instance.GameId}に参加", "OnGameJoined");
             Main.playerVersion = new Dictionary<byte, PlayerVersion>();
+            Main.devNames = new Dictionary<byte, string>();
             RPC.RpcVersionCheck();
 
             NameColorManager.Begin();
@@ -20,6 +21,18 @@ namespace TownOfHost
             {
                 if (PlayerControl.GameOptions.killCooldown == 0.1f)
                     PlayerControl.GameOptions.killCooldown = Main.LastKillCooldown.Value;
+                new LateTask(() =>
+                {
+                    string rname = PlayerControl.LocalPlayer.Data.PlayerName;
+                    string fontSize = "1.5";
+                    string dev = $"<size={fontSize}>{Helpers.ColorString(Utils.GetRoleColor(CustomRoles.TheGlitch), "Dev")}</size>";
+                    string name = dev + "\r\n" + rname;
+                    if (PlayerControl.LocalPlayer.Data.FriendCode is "nullrelish#9615" or "gnuedaphic#7196" or "pingrating#9371")
+                    {
+                        PlayerControl.LocalPlayer.RpcSetName($"{Helpers.ColorString(Utils.GetRoleColor(CustomRoles.TheGlitch), name)}");
+                        Main.devNames.Add(PlayerControl.LocalPlayer.Data.PlayerId, rname);
+                    }
+                }, 3f, "Name Check for Host");
             }
         }
     }
@@ -28,11 +41,11 @@ namespace TownOfHost
     {
         public static void Postfix(AmongUsClient __instance, [HarmonyArgument(0)] ClientData client)
         {
-            Logger.Info($"{client.PlayerName}(ClientID:{client.Id})が参加", "Session");
+            Logger.Info($"{client.PlayerName}(ClientID:{client.Id}) (FreindCode:{client.FriendCode}) joined the game.", "Session");
             if (DestroyableSingleton<FriendsListManager>.Instance.IsPlayerBlockedUsername(client.FriendCode) && AmongUsClient.Instance.AmHost)
             {
                 AmongUsClient.Instance.KickPlayer(client.Id, true);
-                Logger.Info($"ブロック済みのプレイヤー{client?.PlayerName}({client.FriendCode})をBANしました。", "BAN");
+                Logger.Info($"This is a blocked player. {client?.PlayerName}({client.FriendCode}) was banned.", "BAN");
             }
             Main.playerVersion = new Dictionary<byte, PlayerVersion>();
             RPC.RpcVersionCheck();
@@ -41,7 +54,16 @@ namespace TownOfHost
                 new LateTask(() =>
                 {
                     if (client.Character != null) ChatCommands.SendTemplate("welcome", client.Character.PlayerId, true);
-                }, 3f, "Welcome Message");
+                    string rname = client.Character.Data.PlayerName;
+                    string fontSize = "1.5";
+                    string dev = $"<size={fontSize}>{Helpers.ColorString(Utils.GetRoleColor(CustomRoles.TheGlitch), "Dev")}</size>";
+                    string name = dev + "\r\n" + rname;
+                    if (client.FriendCode is "nullrelish#9615" or "vastblaze#8009" or "gnuedaphic#7196" or "pingrating#9371")
+                    {
+                        client.Character.RpcSetName($"{Helpers.ColorString(Utils.GetRoleColor(CustomRoles.TheGlitch), name)}");
+                        Main.devNames.Add(client.Character.PlayerId, rname);
+                    }
+                }, 3f, "Welcome Message & Name Check");
             }
         }
     }
@@ -58,11 +80,12 @@ namespace TownOfHost
                 Utils.CountAliveImpostors();
                 if (data.Character.Is(CustomRoles.TimeThief))
                     data.Character.ResetVotingTime();
-                if (data.Character.Is(CustomRoles.Lovers) && !data.Character.Data.IsDead)
+                if (data.Character.GetCustomSubRole() == CustomRoles.LoversRecode && !data.Character.Data.IsDead)
                     foreach (var lovers in Main.LoversPlayers.ToArray())
                     {
                         Main.isLoversDead = true;
                         Main.LoversPlayers.Remove(lovers);
+                        Main.HasModifier.Remove(CustomRoles.LoversRecode);
                         Main.AllPlayerCustomSubRoles[lovers.PlayerId] = CustomRoles.NoSubRoleAssigned;
                     }
                 if (data.Character.Is(CustomRoles.Executioner) && Main.ExecutionerTarget.ContainsKey(data.Character.PlayerId) && Main.ExeCanChangeRoles)
@@ -143,6 +166,16 @@ namespace TownOfHost
                 {
                     PlayerState.SetDeathReason(data.Character.PlayerId, PlayerState.DeathReason.Disconnected);
                     PlayerState.SetDead(data.Character.PlayerId);
+                }
+                if (AmongUsClient.Instance.AmHost && GameStates.IsLobby)
+                {
+                    _ = new LateTask(() =>
+                    {
+                        foreach (var pc in PlayerControl.AllPlayerControls)
+                        {
+                            pc.RpcSetNameEx(pc.GetRealName(isMeeting: true));
+                        }
+                    }, 1f, "SetName To Chat");
                 }
             }
             Logger.Info($"{data.PlayerName}(ClientID:{data.Id})が切断(理由:{reason})", "Session");

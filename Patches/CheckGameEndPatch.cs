@@ -55,6 +55,7 @@ namespace TownOfHost
                     //if (CheckAndEndGameForPirateWin(__instance, statistics)) return false;
                     if (!Options.NoGameEnd.GetBool())
                         if (CheckAndEndGameForTaskWin(__instance)) return false;
+                    if (CheckAndEndGameForLoversWin(__instance, statistics)) return false;
                     if (CheckAndEndGameForSabotageWin(__instance)) return false;
                     if (CheckAndEndGameForEveryoneDied(__instance, statistics)) return false;
                     if (CheckAndEndGameForImpostorWin(__instance, statistics)) return false;
@@ -210,6 +211,29 @@ namespace TownOfHost
                 writer.Write((byte)CustomWinner.Jackal);
                 AmongUsClient.Instance.FinishRpcImmediately(writer);
                 RPC.JackalWin();
+
+                ResetRoleAndEndGame(endReason, false);
+                return true;
+            }
+            return false;
+        }
+        private static bool CheckAndEndGameForLoversWin(ShipStatus __instance, PlayerStatistics statistics)
+        {
+            if (1 >= statistics.TotalAlive - statistics.NumberOfLovers)
+            {
+                if (statistics.TotalAlive - statistics.NumberOfLovers <= 1) return false;
+                __instance.enabled = false;
+                var endReason = TempData.LastDeathReason switch
+                {
+                    DeathReason.Exile => GameOverReason.ImpostorByVote,
+                    DeathReason.Kill => GameOverReason.ImpostorByKill,
+                    _ => GameOverReason.ImpostorByVote,
+                };
+
+                MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.EndGame, Hazel.SendOption.Reliable, -1);
+                writer.Write((byte)CustomWinner.Lovers);
+                AmongUsClient.Instance.FinishRpcImmediately(writer);
+                RPC.LoversWin();
 
                 ResetRoleAndEndGame(endReason, false);
                 return true;
@@ -386,7 +410,7 @@ namespace TownOfHost
 
 
                 MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.EndGame, Hazel.SendOption.Reliable, -1);
-                writer.Write((byte)CustomWinner.Juggernaut);
+                writer.Write((byte)CustomWinner.Jackal);
                 AmongUsClient.Instance.FinishRpcImmediately(writer);
                 RPC.FFAwin(liveId);
 
@@ -675,6 +699,7 @@ namespace TownOfHost
             public int TeamKnightAlive { get; set; }
             public int TeamArsoAlive { get; set; }
             public int TeamMarksAlive { get; set; }
+            public int NumberOfLovers { get; set; }
             //public Dictionary<byte, byte> TeamArsoAlive = new();
             //public int TeamJuggernautAlive { get; set; }
 
@@ -696,6 +721,7 @@ namespace TownOfHost
                 int bkAlive = 0;
                 int arsonists = 0;
                 int marksman = 0;
+                int lovers = 0;
                 //int numArsonistsAlive = 0;
 
                 for (int i = 0; i < GameData.Instance.PlayerCount; i++)
@@ -747,9 +773,12 @@ namespace TownOfHost
                             else if (playerInfo.GetCustomRole() == CustomRoles.BloodKnight) bkAlive++;
                             else if (playerInfo.GetCustomRole() == CustomRoles.Arsonist) arsonists++;
                             else if (playerInfo.GetCustomRole() == CustomRoles.Marksman) marksman++;
+
+                            if (playerInfo.Object.GetCustomSubRole() == CustomRoles.LoversRecode) lovers++;
                         }
                     }
                 }
+                if (Main.isLoversDead) lovers = 0;
 
                 TeamImpostorsAlive = numImpostorsAlive;
                 TotalAlive = numTotalAlive;
@@ -762,6 +791,7 @@ namespace TownOfHost
                 TeamKnightAlive = bkAlive;
                 TeamArsoAlive = arsonists;
                 TeamMarksAlive = marksman;
+                NumberOfLovers = lovers;
             }
         }
     }

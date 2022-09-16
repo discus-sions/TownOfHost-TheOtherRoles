@@ -118,6 +118,7 @@ namespace TownOfHost
                     //nameAndValue(Options.IgnoreCosmetics);
                     nameAndValue(Options.IgnoreVent);
                     nameAndValue(Options.MaxNK);
+                    nameAndValue(Options.FreeForAllOn);
                     nameAndValue(Options.SplatoonOn);
                     nameAndValue(Options.STCD);
                     nameAndValue(Options.STIgnoreVent);

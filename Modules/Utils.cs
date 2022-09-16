@@ -199,14 +199,7 @@ namespace TownOfHost
                 var cSubRoleFound = Main.AllPlayerCustomSubRoles.TryGetValue(p.PlayerId, out var cSubRole);
                 if (cSubRoleFound)
                 {
-                    if (cSubRole == CustomRoles.Lovers)
-                    {
-                        //ラバーズがクルー陣営の場合タスクを付与しない
-                        if (cRole.GetRoleType() == RoleType.Crewmate)
-                        {
-                            // hasTasks = false;
-                        }
-                    }
+
                 }
             }
             return hasTasks;
@@ -773,7 +766,7 @@ namespace TownOfHost
                 }
 
                 //ハートマークを付ける(自分に)
-                if (seer.Is(CustomRoles.Lovers)) SelfMark += $"<color={GetRoleColorCode(CustomRoles.Lovers)}>♡</color>";
+                if (seer.Is(CustomRoles.LoversRecode)) SelfMark += $"<color={GetRoleColorCode(CustomRoles.LoversRecode)}>♡</color>";
 
                 //呪われている場合
                 if (Main.SpelledPlayer.Find(x => x.PlayerId == seer.PlayerId) != null && isMeeting)
@@ -944,7 +937,7 @@ namespace TownOfHost
                     || seer.GetCustomRole().IsJackalTeam()
                     || NameColorManager.Instance.GetDataBySeer(seer.PlayerId).Count > 0 //seer視点用の名前色データが一つ以上ある
                     || seer.Is(CustomRoles.Arsonist)
-                    || seer.Is(CustomRoles.Lovers)
+                    || seer.Is(CustomRoles.LoversRecode)
                     || Main.SpelledPlayer.Count > 0
                     || Main.SilencedPlayer.Count > 0
                     || seer.Is(CustomRoles.GuardianAngelTOU)
@@ -1058,17 +1051,17 @@ namespace TownOfHost
                             }
                         }
                         //ハートマークを付ける(相手に)
-                        if (seer.Is(CustomRoles.Lovers) && target.Is(CustomRoles.Lovers))
+                        if (seer.Is(CustomRoles.LoversRecode) && target.Is(CustomRoles.LoversRecode))
                         {
-                            TargetMark += $"<color={GetRoleColorCode(CustomRoles.Lovers)}>♡</color>";
+                            TargetMark += $"<color={GetRoleColorCode(CustomRoles.LoversRecode)}>♡</color>";
                         }
                         //霊界からラバーズ視認
-                        else if (seer.Data.IsDead && !seer.Is(CustomRoles.Lovers) && target.Is(CustomRoles.Lovers))
+                        else if (seer.Data.IsDead && !seer.Is(CustomRoles.LoversRecode) && target.Is(CustomRoles.LoversRecode))
                         {
-                            TargetMark += $"<color={GetRoleColorCode(CustomRoles.Lovers)}>♡</color>";
+                            TargetMark += $"<color={GetRoleColorCode(CustomRoles.LoversRecode)}>♡</color>";
                         }
 
-                        /*if (!seer.Is(CustomRoles.Lovers) && seer.GetCustomSubRole().GetModifierType() != ModifierType.None)
+                        /*if (!seer.Is(CustomRoles.LoversRecode) && seer.GetCustomSubRole().GetModifierType() != ModifierType.None)
                         {
                             TargetMark += $"<color={GetRoleColorCode(CustomRoles.Yellow)}> " + seer.GetSubRoleName() + "</color>";
                         }*/

@@ -29,7 +29,7 @@ namespace TownOfHost
                 }
                 foreach (var p in PlayerControl.AllPlayerControls)
                 {
-                    if (p.GetCustomSubRole() == CustomRoles.Lovers) continue;
+                    if (p.GetCustomSubRole() == CustomRoles.LoversRecode) continue;
                     bool canWin = p.Is(RoleType.Crewmate);
                     if (canWin) winner.Add(p);
                 }
@@ -40,7 +40,7 @@ namespace TownOfHost
                     Main.currentWinner = CustomWinner.Impostor;
                 foreach (var p in PlayerControl.AllPlayerControls)
                 {
-                    if (p.GetCustomSubRole() == CustomRoles.Lovers) continue;
+                    if (p.GetCustomSubRole() == CustomRoles.LoversRecode) continue;
                     bool canWin = p.Is(RoleType.Impostor) || p.Is(RoleType.Madmate) || p.Is(CustomRoles.CrewPostor) || p.Is(CustomRoles.CorruptedSheriff);
                     if (canWin) winner.Add(p);
                 }
@@ -185,10 +185,19 @@ namespace TownOfHost
                     }
                 }
             }
-            if (CustomRoles.Lovers.IsEnable() && Options.CurrentGameMode() == CustomGameMode.Standard && Main.LoversPlayers.Count > 0 && Main.LoversPlayers.ToArray().All(p => !p.Data.IsDead) //ラバーズが生きていて
-            && (Main.currentWinner == CustomWinner.Impostor || Main.currentWinner == CustomWinner.Jackal || Main.currentWinner == CustomWinner.Vulture
-            || (Main.currentWinner == CustomWinner.Crewmate && !endGameResult.GameOverReason.Equals(GameOverReason.HumansByTask))))   //クルー勝利でタスク勝ちじゃなければ
-            { //Loversの単独勝利
+            /* if (CustomRoles.LoversRecode.IsEnable() && Options.CurrentGameMode() == CustomGameMode.Standard && Main.LoversPlayers.Count > 0 && Main.LoversPlayers.ToArray().All(p => !p.Data.IsDead) //ラバーズが生きていて
+             && (Main.currentWinner == CustomWinner.Impostor || Main.currentWinner == CustomWinner.Jackal || Main.currentWinner == CustomWinner.Vulture
+             || (Main.currentWinner == CustomWinner.Crewmate && !endGameResult.GameOverReason.Equals(GameOverReason.HumansByTask))))   //クルー勝利でタスク勝ちじゃなければ
+             { //Loversの単独勝利
+                 winner = new();
+                 Main.currentWinner = CustomWinner.Lovers;
+                 foreach (var lp in Main.LoversPlayers)
+                 {
+                     winner.Add(lp);
+                 }
+             }*/
+            if (CustomRoles.LoversRecode.IsEnable() && Main.currentWinner == CustomWinner.Lovers)
+            {
                 winner = new();
                 Main.currentWinner = CustomWinner.Lovers;
                 foreach (var lp in Main.LoversPlayers)

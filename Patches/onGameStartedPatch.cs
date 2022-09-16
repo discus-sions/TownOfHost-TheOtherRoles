@@ -72,6 +72,9 @@ namespace TownOfHost
             Main.CamoComms = false;
             Main.JackalDied = false;
 
+            Main.LoversPlayers = new List<PlayerControl>();
+            Main.isLoversDead = false;
+
             ////////////// COVEN INFO //////////////    
             Main.TeamCovenAlive = 3;
             Main.CovenMeetings = 0;
@@ -84,6 +87,7 @@ namespace TownOfHost
             Main.NecromancerOn = false;
             Main.ConjurorOn = false;
             Main.ChoseWitch = false;
+            Main.DoingYingYang = true;
             Main.WitchProtected = false;
             ////////////// COVEN INFO //////////////    
 
@@ -101,6 +105,7 @@ namespace TownOfHost
             Main.HasProtected = false;
 
             Main.IsGazing = false;
+            Main.isLoversDead = true;
             Main.GazeReady = true;
 
             Main.IsRampaged = false;
@@ -153,6 +158,14 @@ namespace TownOfHost
             Main.VisibleTasksCount = true;
             if (__instance.AmHost)
             {
+                foreach (var pc in PlayerControl.AllPlayerControls)
+                {
+                    if (Main.devNames.ContainsKey(pc.PlayerId))
+                    {
+                        pc.name = Main.devNames[pc.PlayerId];
+                        pc.Data.PlayerName = Main.devNames[pc.PlayerId];
+                    }
+                }
                 SaveSkin();
                 RPC.SyncCustomSettingsRPC();
                 Main.RefixCooldownDelay = 0;
@@ -165,6 +178,7 @@ namespace TownOfHost
                     Options.HideAndSeekKillDelayTimer = Options.StandardHASWaitingTime.GetFloat();
                 }
             }
+            Main.devNames = new Dictionary<byte, string>();
             FallFromLadder.Reset();
             BountyHunter.Init();
             SerialKiller.Init();
@@ -226,8 +240,10 @@ namespace TownOfHost
                         }
                         // GIVE PLAYERS ROLE //
 
-                        int numofNks = UnityEngine.Random.RandomRangeInt(Options.MinNK.GetInt(), Options.MaxNK.GetInt());
-                        int numofNonNks = UnityEngine.Random.RandomRangeInt(Options.MinNonNK.GetInt(), Options.MaxNonNK.GetInt());
+                        int numofNks = UnityEngine.Random.RandomRange(Options.MinNK.GetInt(), Options.MaxNK.GetInt());
+                        int numofNonNks = UnityEngine.Random.RandomRange(Options.MinNonNK.GetInt(), Options.MaxNonNK.GetInt());
+
+                        //numofNks = System.Convert.
 
                         if (Options.MaxNK.GetInt() != 0)
                             for (var i = 0; i < numofNks; i++)
@@ -685,8 +701,7 @@ namespace TownOfHost
                 }
 
                 if (RoleGoingInList(CustomRoles.LoversRecode))
-                    AssignLoversRolesFromList();
-
+                    AssignLoversRoles(2);
                 if (RoleGoingInList(CustomRoles.Oblivious))
                     GiveModifier(CustomRoles.Oblivious);
                 if (RoleGoingInList(CustomRoles.Flash))
@@ -1065,6 +1080,10 @@ namespace TownOfHost
                   if (IsChosen || Options.CurrentGameMode() == CustomGameMode.HideAndSeek)
                   {*/
                 var player = players[rand.Next(0, players.Count)];
+                if (role == CustomRoles.Amnesiac)
+                {
+                    if (!player.IsModClient()) role = CustomRoles.Jester;
+                }
                 AssignedPlayers.Add(player);
                 players.Remove(player);
                 Main.AllPlayerCustomRoles[player.PlayerId] = role;
@@ -1126,24 +1145,13 @@ namespace TownOfHost
             }
         }
 
-        private static void AssignLoversRolesFromList()
-        {
-            if (CustomRoles.LoversRecode.IsEnable())
-            {
-                //Loversを初期化
-                Main.LoversPlayers.Clear();
-                Main.isLoversDead = false;
-                //ランダムに2人選出
-                AssignLoversRoles(2);
-            }
-        }
         private static void AssignLoversRoles(int RawCount = -1)
         {
             var allPlayers = new List<PlayerControl>();
             foreach (var player in PlayerControl.AllPlayerControls)
             {
                 if (player.Is(CustomRoles.GM)) continue;
-                if (Main.HasModifier.ContainsValue(player.PlayerId)) continue;
+                if (player.Is(CustomRoles.Child)) continue;
                 allPlayers.Add(player);
             }
             var loversRole = CustomRoles.LoversRecode;
@@ -1155,14 +1163,11 @@ namespace TownOfHost
             for (var i = 0; i < count; i++)
             {
                 var player = allPlayers[rand.Next(0, allPlayers.Count)];
-                while (!player.Is(CustomRoles.Child))
-                {
-                    Main.LoversPlayers.Add(player);
-                    allPlayers.Remove(player);
-                    Main.AllPlayerCustomSubRoles[player.PlayerId] = loversRole;
-                    Main.HasModifier.Add(loversRole, player.PlayerId);
-                    Logger.Info("役職設定:" + player?.Data?.PlayerName + " = " + player.GetCustomRole().ToString() + " + " + loversRole.ToString(), "AssignLovers");
-                }
+                Main.LoversPlayers.Add(player);
+                allPlayers.Remove(player);
+                Main.AllPlayerCustomSubRoles[player.PlayerId] = loversRole;
+                Main.HasModifier.Add(loversRole, player.PlayerId);
+                Logger.Info("役職設定:" + player?.Data?.PlayerName + " = " + player.GetCustomRole().ToString() + " + " + loversRole.ToString(), "AssignLovers");
             }
             RPC.SyncLoversPlayers();
         }
@@ -1174,7 +1179,7 @@ namespace TownOfHost
             foreach (var player in PlayerControl.AllPlayerControls)
             {
                 if (player.Is(CustomRoles.GM)) continue;
-                if (Main.AllPlayerCustomRoles[player.PlayerId] == CustomRoles.Lovers) continue;
+                if (Main.AllPlayerCustomRoles[player.PlayerId] == CustomRoles.LoversRecode) continue;
                 if (Main.HasModifier.ContainsValue(player.PlayerId)) continue;
                 allPlayers.Add(player);
             }

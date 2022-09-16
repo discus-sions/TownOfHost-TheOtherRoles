@@ -10,7 +10,7 @@ namespace TownOfHost
     {
         public static bool Prefix(GameStartManager __instance)
         {
-            bool NameIncludeTOH = SaveManager.PlayerName.ToUpper().Contains("TOH");
+            bool NameIncludeTOH = SaveManager.PlayerName.ToUpper().Contains("TOR");
             if (ModUpdater.isBroken || ModUpdater.hasUpdate || !NameIncludeTOH)
             {
                 var message = GetString("NameIncludeTOH");

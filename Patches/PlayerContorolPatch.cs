@@ -2471,13 +2471,13 @@ namespace TownOfHost
                         }
                     }
                     //ハートマークを付ける(会議中MOD視点)
-                    if (__instance.Is(CustomRoles.Lovers) && PlayerControl.LocalPlayer.Is(CustomRoles.Lovers))
+                    if (__instance.GetCustomSubRole() == CustomRoles.LoversRecode && PlayerControl.LocalPlayer.GetCustomSubRole() == CustomRoles.LoversRecode)
                     {
-                        Mark += $"<color={Utils.GetRoleColorCode(CustomRoles.Lovers)}>♡</color>";
+                        Mark += $"<color={Utils.GetRoleColorCode(CustomRoles.LoversRecode)}>♡</color>";
                     }
-                    else if (__instance.Is(CustomRoles.Lovers) && PlayerControl.LocalPlayer.Data.IsDead)
+                    else if (__instance.GetCustomSubRole() == CustomRoles.LoversRecode && PlayerControl.LocalPlayer.Data.IsDead)
                     {
-                        Mark += $"<color={Utils.GetRoleColorCode(CustomRoles.Lovers)}>♡</color>";
+                        Mark += $"<color={Utils.GetRoleColorCode(CustomRoles.LoversRecode)}>♡</color>";
                     }
 
                     //矢印オプションありならタスクが終わったスニッチはインポスター/キル可能な第三陣営の方角がわかる
@@ -2570,14 +2570,16 @@ namespace TownOfHost
         //FIXME: 役職クラス化のタイミングで、このメソッドは移動予定
         public static void LoversSuicide(byte deathId = 0x7f, bool isExiled = false)
         {
-            if (CustomRoles.Lovers.IsEnable() && Main.isLoversDead == false)
+            if (CustomRoles.LoversRecode.IsEnable() && Main.isLoversDead == false)
             {
                 foreach (var loversPlayer in Main.LoversPlayers)
                 {
                     //生きていて死ぬ予定でなければスキップ
+                    // .GetCustomSubRole() == CustomRoles.LoversRecode
                     if (!loversPlayer.Data.IsDead && loversPlayer.PlayerId != deathId) continue;
 
                     Main.isLoversDead = true;
+                    if (!Options.LoversDieTogether.GetBool()) continue;
                     foreach (var partnerPlayer in Main.LoversPlayers)
                     {
                         //本人ならスキップ

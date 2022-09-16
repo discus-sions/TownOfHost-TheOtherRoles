@@ -244,6 +244,7 @@ namespace TownOfHost
                 }
                 foreach (var pc in PlayerControl.AllPlayerControls)
                 {
+                    if (!AmongUsClient.Instance.AmHost) continue;
                     if (pc.Data.Disconnected) continue;
                     if (!pc.Is(CustomRoles.Survivor)) continue;
                     var stuff = Main.SurvivorStuff[pc.PlayerId];
@@ -261,9 +262,10 @@ namespace TownOfHost
                 Main.IsRampaged = false;
                 Main.RampageReady = false;
 
-                if (CustomRoles.Lovers.IsEnable() && Main.isLoversDead == false && Main.LoversPlayers.Find(lp => lp.PlayerId == exileId) != null)
+                if (CustomRoles.LoversRecode.IsEnable() && Main.isLoversDead == false && Main.LoversPlayers.Find(lp => lp.PlayerId == exileId) != null)
                 {
-                    FixedUpdatePatch.LoversSuicide(exiledPlayer.PlayerId, true);
+                    if (Options.LoversDieTogether.GetBool())
+                        FixedUpdatePatch.LoversSuicide(exiledPlayer.PlayerId, true);
                 }
 
                 //霊界用暗転バグ対処
@@ -412,6 +414,7 @@ namespace TownOfHost
 
             foreach (var protect in Main.GuardianAngelTarget)
             {
+                if (!AmongUsClient.Instance.AmHost) continue;
                 PlayerControl ga = Utils.GetPlayerById(protect.Key);
                 PlayerControl protecting = Utils.GetPlayerById(protect.Value);
                 if (!ga.Data.IsDead)
@@ -422,10 +425,29 @@ namespace TownOfHost
                 if (Options.TargetKnowsGA.GetBool() && !protecting.Data.IsDead)
                     Utils.SendMessage("You have a Guardian Angel. Find out who they are and keep them to protect you.", protecting.PlayerId);
             }
+            List<CustomRoles> loversRoles = new();
+            // GetString(lp.GetSubRoleName() + "Info")
+            foreach (var lp in Main.LoversPlayers)
+            {
+                if (!AmongUsClient.Instance.AmHost) continue;
+                if (!Options.LoversKnowRoleOfOtherLover.GetBool()) continue;
+                loversRoles.Add(lp.GetCustomRole());
+            }
+            foreach (var lp in Main.LoversPlayers)
+            {
+                if (!AmongUsClient.Instance.AmHost) continue;
+                if (!Options.LoversKnowRoleOfOtherLover.GetBool()) continue;
+                foreach (var role in loversRoles)
+                {
+                    if (lp.GetCustomRole() == role) continue;
+                    Utils.SendMessage($"Your lover has direct messaged you their role! Their role is {GetString(role.ToString())}.", lp.PlayerId);
+                }
+            }
 
-            foreach (var ar in PlayerControl.AllPlayerControls)
-                if (ar.IsHexedDone())
-                    Utils.SendMessage("The Hex Master is done hexing people. If they survive the current meeting, they will kill everyone with a hex bomb!");
+            if (AmongUsClient.Instance.AmHost)
+                foreach (var ar in PlayerControl.AllPlayerControls)
+                    if (ar.IsHexedDone())
+                        Utils.SendMessage("The Hex Master is done hexing people. If they survive the current meeting, they will kill everyone with a hex bomb!");
 
 
             foreach (var pva in __instance.playerStates)
@@ -442,6 +464,7 @@ namespace TownOfHost
 
                 foreach (var pc in PlayerControl.AllPlayerControls)
                 {
+                    if (!AmongUsClient.Instance.AmHost) continue;
                     if (pc == null ||
                         pc.Data.IsDead ||
                         pc.Data.Disconnected ||
@@ -551,6 +574,14 @@ namespace TownOfHost
                         break;
                 }
 
+                switch (target.GetCustomSubRole())
+                {
+                    case CustomRoles.LoversRecode:
+                        if (seer.Is(CustomRoles.LoversRecode) || seer.Data.IsDead)
+                            pva.NameText.text += Helpers.ColorString(Utils.GetRoleColor(CustomRoles.LoversRecode), "♡");
+                        break;
+                }
+
                 switch (target.GetCustomRole())
                 {
                     case CustomRoles.Egoist:
@@ -561,10 +592,6 @@ namespace TownOfHost
                     case CustomRoles.Jackal:
                         if (seer.GetCustomRole().IsJackalTeam())
                             pva.NameText.color = Utils.GetRoleColor(CustomRoles.Jackal);//変更対象の名前をジャッカル色にする
-                        break;
-                    case CustomRoles.Lovers:
-                        if (seer.Is(CustomRoles.Lovers) || seer.Data.IsDead)
-                            pva.NameText.text += Helpers.ColorString(Utils.GetRoleColor(CustomRoles.Lovers), "♡");
                         break;
                     case CustomRoles.Child:
                         if (Options.ChildKnown.GetBool() == true)

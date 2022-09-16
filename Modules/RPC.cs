@@ -337,6 +337,9 @@ namespace TownOfHost
                     case CustomWinner.Jackal:
                         JackalWin();
                         break;
+                    case CustomWinner.Lovers:
+                        LoversWin();
+                        break;
                     case CustomWinner.Marksman:
                         MarksmanWin();
                         break;
@@ -456,6 +459,11 @@ namespace TownOfHost
         public static void JackalWin()
         {
             Main.currentWinner = CustomWinner.Jackal;
+            CustomWinTrigger(0);
+        }
+        public static void LoversWin()
+        {
+            Main.currentWinner = CustomWinner.Lovers;
             CustomWinTrigger(0);
         }
         public static void GlitchWin()

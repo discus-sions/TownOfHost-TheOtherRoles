@@ -137,6 +137,11 @@ namespace TownOfHost
             return cRole;
         }
 
+        public static CustomRoles GetCustomSubRole(this GameData.PlayerInfo player)
+        {
+            return player == null || player.Object == null ? CustomRoles.Crewmate : player.Object.GetCustomSubRole();
+        }
+
         public static CustomRoles GetCustomSubRole(this PlayerControl player)
         {
             if (player == null)
