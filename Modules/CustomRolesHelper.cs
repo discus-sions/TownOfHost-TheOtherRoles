@@ -249,7 +249,8 @@ namespace TownOfHost
                 CustomRoles.Oblivious or
                 CustomRoles.Lovers or
                 CustomRoles.Sleuth or
-                CustomRoles.Torch;
+                CustomRoles.Torch or
+                CustomRoles.TieBreaker;
         }
         public static bool IsDesyncRole(this CustomRoles role)
         {
