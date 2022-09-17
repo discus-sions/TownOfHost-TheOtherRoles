@@ -36,6 +36,7 @@ namespace TownOfHost
                 CustomRoles.SKMadmate or
                 CustomRoles.MadGuardian or
                 CustomRoles.MadSnitch or
+                CustomRoles.Parasite or
                 CustomRoles.MSchrodingerCat;
         }
         public static bool IsImpostorTeam(this CustomRoles role) => role.IsImpostor() || role.IsMadmate();

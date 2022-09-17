@@ -1597,13 +1597,13 @@ namespace TownOfHost
                     Utils.SendMessage($"You have betrayed the Crewmates and joined the Impostors team.\nThe names in red are your fellow Impostors. \nKill and sabotage with your new team.", pc.PlayerId);
                 }
                 if (pc.IsModClient()) continue;
-                if (Main.HasModifier.ContainsValue(pc.PlayerId))
+                if (Main.HasModifier.ContainsKey(pc.PlayerId))
                 {
                     CustomRoles role = CustomRoles.Amnesiac;
                     foreach (var modifier in Main.HasModifier)
                     {
-                        if (modifier.Value == pc.PlayerId)
-                            role = modifier.Key;
+                        if (modifier.Key == pc.PlayerId)
+                            role = modifier.Value;
                     }
                     if (role != CustomRoles.Amnesiac)
                     {
