@@ -471,6 +471,7 @@ namespace TownOfHost
             MadSnitchCanVent = CustomOption.Create(10210, Color.white, "MadSnitchCanVent", false, CustomRoleSpawnChances[CustomRoles.MadSnitch]);
             //ID10220~10223を使用
             MadSnitchTasks = OverrideTasksData.Create(10220, CustomRoles.MadSnitch);
+            SetupSingleRoleOptions(10333, CustomRoles.Parasite, 1);
             // Madmate Common Options
             MadmateCanFixLightsOut = CustomOption.Create(15010, Color.white, "MadmateCanFixLightsOut", false, null, true, false);
             MadmateCanFixComms = CustomOption.Create(15011, Color.white, "MadmateCanFixComms", false);
@@ -641,15 +642,16 @@ namespace TownOfHost
             WhenGaTargetDies = CustomOption.Create(90515, Color.white, "WhenGAdies", GAChangeRoles, GAChangeRoles[2], CustomRoleSpawnChances[CustomRoles.GuardianAngelTOU]);
             //NumOfCoven = CustomOption.Create(60010, Color.white, "ArsonistDouseTime", 3, 1, 3, 1, CustomRoleSpawnChances[CustomRoles.Coven]);
 
-            SetupSingleRoleOptions(200025, CustomRoles.Oblivious, 1);
-            SetupSingleRoleOptions(200035, CustomRoles.Flash, 1);
-            FlashSpeed = CustomOption.Create(200305, Color.white, "SpeedBoosterUpSpeed", 2f, 0.25f, 3f, 0.25f, CustomRoleSpawnChances[CustomRoles.Flash]);
-            SetupSingleRoleOptions(30100, CustomRoles.Sleuth, 1);
-
             SetupSingleRoleOptions(200045, CustomRoles.Torch, 1);
             SetupSingleRoleOptions(20000, CustomRoles.Bait, 1);
             SetupSingleRoleOptions(20005, CustomRoles.Bewilder, 1);
             BewilderVision = CustomOption.Create(20020, Color.white, "BewilderVision", 0.5f, 0f, 5f, 0.25f, CustomRoleSpawnChances[CustomRoles.Bewilder]);
+
+            SetupSingleRoleOptions(200025, CustomRoles.Oblivious, 1);
+            SetupSingleRoleOptions(200035, CustomRoles.Flash, 1);
+            FlashSpeed = CustomOption.Create(200305, Color.white, "SpeedBoosterUpSpeed", 2f, 0.25f, 3f, 0.25f, CustomRoleSpawnChances[CustomRoles.Flash]);
+            SetupSingleRoleOptions(30100, CustomRoles.Sleuth, 1);
+            SetupSingleRoleOptions(301859, CustomRoles.TieBreaker, 1);
 
             // Attribute
             ImpostorKnowsRolesOfTeam = CustomOption.Create(102000, Color.white, "ImpostorKnowsRolesOfTeam", true, null, true)

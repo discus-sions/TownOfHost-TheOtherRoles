@@ -60,7 +60,7 @@ namespace TownOfHost
             Main.HackerFixedSaboCount = new Dictionary<byte, int>();
             Main.LastEnteredVent = new Dictionary<byte, int>();
             Main.LastEnteredVentLocation = new Dictionary<byte, Vector2>();
-            Main.HasModifier = new Dictionary<CustomRoles, byte>();
+            Main.HasModifier = new Dictionary<byte, CustomRoles>();
             Main.KilledBewilder = new();
             Main.AllPlayerSkin = new();
             Main.KilledDemo = new();
@@ -485,6 +485,8 @@ namespace TownOfHost
                         if (Main.chosenNK.Contains(CustomRoles.Jackal))
                             if (Options.JackalHasSidekick.GetBool())
                                 AssignDesyncRole(CustomRoles.Sidekick, AllPlayers, sender, Count: 1, BaseRole: RoleTypes.Impostor);
+                        if (RoleGoingInList(CustomRoles.Parasite))
+                            AssignDesyncRole(CustomRoles.Parasite, AllPlayers, sender, BaseRole: RoleTypes.Shapeshifter, hostBaseRole: RoleTypes.Shapeshifter);
                         if (RoleGoingInList(CustomRoles.Sheriff))
                             AssignDesyncRole(CustomRoles.Sheriff, AllPlayers, sender, BaseRole: RoleTypes.Impostor);
                         if (RoleGoingInList(CustomRoles.Investigator))
@@ -712,6 +714,8 @@ namespace TownOfHost
                     GiveModifier(CustomRoles.Bait);
                 if (RoleGoingInList(CustomRoles.Sleuth))
                     GiveModifier(CustomRoles.Sleuth);
+                if (RoleGoingInList(CustomRoles.TieBreaker))
+                    GiveModifier(CustomRoles.TieBreaker);
                 if (RoleGoingInList(CustomRoles.Bewilder))
                     GiveModifier(CustomRoles.Bewilder);
 
@@ -956,7 +960,7 @@ namespace TownOfHost
                 AllPlayers.Remove(player);
                 Main.AllPlayerCustomRoles[player.PlayerId] = role;
                 //ここからDesyncが始まる
-                if (!player.IsModClient())
+                if (!player.IsModClient() || hostBaseRole == RoleTypes.Shapeshifter)
                 {
                     int playerCID = player.GetClientId();
                     sender.RpcSetRole(player, BaseRole, playerCID);
@@ -1150,7 +1154,6 @@ namespace TownOfHost
             var allPlayers = new List<PlayerControl>();
             foreach (var player in PlayerControl.AllPlayerControls)
             {
-                if (player.Is(CustomRoles.GM)) continue;
                 if (player.Is(CustomRoles.Child)) continue;
                 allPlayers.Add(player);
             }
@@ -1166,7 +1169,7 @@ namespace TownOfHost
                 Main.LoversPlayers.Add(player);
                 allPlayers.Remove(player);
                 Main.AllPlayerCustomSubRoles[player.PlayerId] = loversRole;
-                Main.HasModifier.Add(loversRole, player.PlayerId);
+                Main.HasModifier.Add(player.PlayerId, loversRole);
                 Logger.Info("役職設定:" + player?.Data?.PlayerName + " = " + player.GetCustomRole().ToString() + " + " + loversRole.ToString(), "AssignLovers");
             }
             RPC.SyncLoversPlayers();
@@ -1178,9 +1181,8 @@ namespace TownOfHost
             var allPlayers = new List<PlayerControl>();
             foreach (var player in PlayerControl.AllPlayerControls)
             {
-                if (player.Is(CustomRoles.GM)) continue;
                 if (Main.AllPlayerCustomRoles[player.PlayerId] == CustomRoles.LoversRecode) continue;
-                if (Main.HasModifier.ContainsValue(player.PlayerId)) continue;
+                if (Main.HasModifier.ContainsKey(player.PlayerId)) continue;
                 allPlayers.Add(player);
             }
             var loversRole = role;
@@ -1195,14 +1197,14 @@ namespace TownOfHost
                 if (role.IsCrewModifier())
                 {
                     if (!player.GetCustomRole().CanGetCrewModifier()) continue;
-                    Main.HasModifier.Add(role, player.PlayerId);
+                    Main.HasModifier.Add(player.PlayerId, role);
                     allPlayers.Remove(player);
                     Main.AllPlayerCustomSubRoles[player.PlayerId] = loversRole;
                     Logger.Info("役職設定:" + player?.Data?.PlayerName + " = " + player.GetCustomRole().ToString() + " + " + loversRole.ToString(), "AssignCrewModifier");
                 }
                 else
                 {
-                    Main.HasModifier.Add(role, player.PlayerId);
+                    Main.HasModifier.Add(player.PlayerId, role);
                     allPlayers.Remove(player);
                     Main.AllPlayerCustomSubRoles[player.PlayerId] = loversRole;
                     Logger.Info("役職設定:" + player?.Data?.PlayerName + " = " + player.GetCustomRole().ToString() + " + " + loversRole.ToString(), "AssignGlobalModifier");

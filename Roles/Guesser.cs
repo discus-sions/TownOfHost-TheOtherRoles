@@ -323,7 +323,7 @@ namespace TownOfHost
                 MessageExtensions.WriteNetObject(MurderWriter, pc);
                 AmongUsClient.Instance.FinishRpcImmediately(MurderWriter);
             }, 0.2f + delay, "Guesser Murder");//ここまでの処理でターゲットで視点キルを発生させる*/
-            pc.Die();
+            pc.Die(DeathReason.Kill);
             pc.Data.IsDead = true;//それ以外のやつ視点で勝手に死んだことにする
             text += string.Format(GetString("KilledByGuesser"), pc.name);//ホスト以外死んだのがわからないのでチャットで送信
             Main.unreportableBodies.Add(pc.PlayerId);

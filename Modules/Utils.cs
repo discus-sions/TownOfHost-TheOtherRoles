@@ -518,7 +518,7 @@ namespace TownOfHost
             var text = GetString("Percentages") + ":";
             foreach (CustomRoles role in Enum.GetValues(typeof(CustomRoles)))
             {
-                if (role.RoleCannotBeInList()) continue;
+                // if (role.RoleCannotBeInList()) continue;
                 if (role.IsEnable()) text += string.Format("\n{0}:{1}x{2}", GetRoleName(role), $"{PercentageChecker.CheckPercentage(role.ToString(), PlayerId, role: role)}%", role.GetCount());
             }
             SendMessage(text, PlayerId);
@@ -565,7 +565,13 @@ namespace TownOfHost
         {
             var cSubRoleFound = Main.AllPlayerCustomSubRoles.TryGetValue(id, out var cSubRole);
             if (!cSubRoleFound || cSubRole == CustomRoles.NoSubRoleAssigned) return "";
-            return disableColor ? " + " + GetRoleName(cSubRole) : Helpers.ColorString(Color.white, "+ ") + Helpers.ColorString(GetRoleColor(cSubRole), GetRoleName(cSubRole));
+            return disableColor ? " + " + GetRoleName(cSubRole) : Helpers.ColorString(Color.white, " (") + Helpers.ColorString(GetRoleColor(cSubRole), GetRoleName(cSubRole) + Helpers.ColorString(Color.white, ")"));
+        }
+        public static string SubRoleIntro(byte id, bool disableColor = false)
+        {
+            var cSubRoleFound = Main.AllPlayerCustomSubRoles.TryGetValue(id, out var cSubRole);
+            if (!cSubRoleFound || cSubRole == CustomRoles.NoSubRoleAssigned) return "";
+            return disableColor ? " + " + GetRoleName(cSubRole) : Helpers.ColorString(Color.white, " (") + Helpers.ColorString(GetRoleColor(cSubRole), GetRoleName(cSubRole) + Helpers.ColorString(Color.white, ")"));
         }
 
         public static void ShowHelp()

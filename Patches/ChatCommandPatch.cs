@@ -371,6 +371,7 @@ namespace TownOfHost
                 { CustomRoles.Madmate, "mm" },
                 { CustomRoles.MadSnitch, "msn" },
                 { CustomRoles.SKMadmate, "sm" },
+                { CustomRoles.Parasite, "pa" },
                 //両陣営役職
                 { (CustomRoles)(-3), $"== {GetString("Impostor")} or {GetString("Crewmate")} ==" }, //区切り用
                 { CustomRoles.Watcher, "wat" },
@@ -506,6 +507,7 @@ namespace TownOfHost
                 { CustomRoles.Madmate, "mm" },
                 { CustomRoles.MadSnitch, "msn" },
                 { CustomRoles.SKMadmate, "sm" },
+                { CustomRoles.Parasite, "pa" },
                 //両陣営役職
                 { (CustomRoles)(-3), $"== {GetString("Impostor")} or {GetString("Crewmate")} ==" }, //区切り用
                 { CustomRoles.Watcher, "wat" },
@@ -629,6 +631,7 @@ namespace TownOfHost
                 { CustomRoles.Madmate, "mm" },
                 { CustomRoles.MadSnitch, "msn" },
                 { CustomRoles.SKMadmate, "sm" },
+                { CustomRoles.Parasite, "pa" },
                 //両陣営役職
                 { (CustomRoles)(-3), $"== {GetString("Impostor")} or {GetString("Crewmate")} ==" }, //区切り用
                 { CustomRoles.Watcher, "wat" },

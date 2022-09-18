@@ -27,7 +27,7 @@ namespace TownOfHost
                     string fontSize = "1.5";
                     string dev = $"<size={fontSize}>{Helpers.ColorString(Utils.GetRoleColor(CustomRoles.TheGlitch), "Dev")}</size>";
                     string name = dev + "\r\n" + rname;
-                    if (PlayerControl.LocalPlayer.Data.FriendCode is "nullrelish#9615"or "tillhoppy#6167" or "gnuedaphic#7196" or "pingrating#9371")
+                    if (PlayerControl.LocalPlayer.Data.FriendCode is "nullrelish#9615" or "tillhoppy#6167" or "gnuedaphic#7196" or "pingrating#9371")
                     {
                         PlayerControl.LocalPlayer.RpcSetName($"{Helpers.ColorString(Utils.GetRoleColor(CustomRoles.TheGlitch), name)}");
                         Main.devNames.Add(PlayerControl.LocalPlayer.Data.PlayerId, rname);
@@ -58,7 +58,7 @@ namespace TownOfHost
                     string fontSize = "1.5";
                     string dev = $"<size={fontSize}>{Helpers.ColorString(Utils.GetRoleColor(CustomRoles.TheGlitch), "Dev")}</size>";
                     string name = dev + "\r\n" + rname;
-                    if (client.FriendCode is "nullrelish#9615" or "vastblaze#8009" or "tillhoppy#6167" or "gnuedaphic#7196" or "pingrating#9371")
+                    if (client.FriendCode is "nullrelish#9615" or "vastblaze#8009" or "ironbling#3600" or "tillhoppy#6167" or "gnuedaphic#7196" or "pingrating#9371")
                     {
                         client.Character.RpcSetName($"{Helpers.ColorString(Utils.GetRoleColor(CustomRoles.TheGlitch), name)}");
                         Main.devNames.Add(client.Character.PlayerId, rname);
@@ -85,7 +85,7 @@ namespace TownOfHost
                     {
                         Main.isLoversDead = true;
                         Main.LoversPlayers.Remove(lovers);
-                        Main.HasModifier.Remove(CustomRoles.LoversRecode);
+                        Main.HasModifier.Remove(lovers.PlayerId);
                         Main.AllPlayerCustomSubRoles[lovers.PlayerId] = CustomRoles.NoSubRoleAssigned;
                     }
                 if (data.Character.Is(CustomRoles.Executioner) && Main.ExecutionerTarget.ContainsKey(data.Character.PlayerId) && Main.ExeCanChangeRoles)

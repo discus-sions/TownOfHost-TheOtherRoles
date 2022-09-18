@@ -143,6 +143,7 @@ namespace TownOfHost
             //チーム表示変更
             var rand = new System.Random();
             CustomRoles role = PlayerControl.LocalPlayer.GetCustomRole();
+            CustomRoles modifier = PlayerControl.LocalPlayer.GetCustomSubRole();
             RoleType roleType = role.GetRoleType();
 
             switch (roleType)
@@ -169,6 +170,7 @@ namespace TownOfHost
                 case RoleType.Madmate:
                     __instance.TeamTitle.text = GetString("Madmate");
                     __instance.TeamTitle.color = Utils.GetRoleColor(CustomRoles.Madmate);
+                    __instance.ImpostorText.gameObject.SetActive(true);
                     __instance.ImpostorText.text = GetString("TeamImpostor");
                     StartFadeIntro(__instance, Palette.CrewmateBlue, Palette.ImpostorRed);
                     PlayerControl.LocalPlayer.Data.Role.IntroSound = GetIntroSound(RoleTypes.Impostor);
@@ -183,6 +185,12 @@ namespace TownOfHost
                     __instance.ImpostorText.gameObject.SetActive(true);
                     __instance.ImpostorText.text = GetString("CovenIntroInfo");
                     __instance.BackgroundBar.material.color = Utils.GetRoleColor(CustomRoles.Coven);
+                    break;
+            }
+            switch (modifier)
+            {
+                default:
+                    if (modifier == CustomRoles.NoSubRoleAssigned) break;
                     break;
             }
             switch (role)

@@ -78,7 +78,7 @@ namespace TownOfHost
         public static bool MercCanSuicide = true;
         public static bool DoingYingYang = true;
 
-        public static Dictionary<CustomRoles, byte> HasModifier = new();
+        public static Dictionary<byte, CustomRoles> HasModifier = new();
         public static List<CustomRoles> modifiersList = new();
         public static Dictionary<byte, float> AllPlayerKillCooldown = new();
         public static Dictionary<byte, float> AllPlayerSpeed = new();
@@ -273,10 +273,10 @@ namespace TownOfHost
             HackerFixedSaboCount = new Dictionary<byte, int>();
             LastEnteredVent = new Dictionary<byte, int>();
             LastEnteredVentLocation = new Dictionary<byte, Vector2>();
-            HasModifier = new Dictionary<CustomRoles, byte>();
+            HasModifier = new Dictionary<byte, CustomRoles>();
             DeadPlayersThisRound = new List<byte>();
             LoversPlayers = new List<PlayerControl>();
-            dousedIDs = new List<byte>()
+            dousedIDs = new List<byte>();
             //firstKill = new Dictionary<byte, (PlayerControl, float)>();
             winnerList = new();
             VisibleTasksCount = false;
@@ -541,6 +541,7 @@ namespace TownOfHost
         Mare,
         Miner,
         YingYanger,
+        Grenadier,
         Puppeteer,
         TimeThief,
         Silencer,
@@ -556,6 +557,7 @@ namespace TownOfHost
         CrewPostor,
         CorruptedSheriff,
         SKMadmate,
+        Parasite,
         MSchrodingerCat,//インポスター陣営のシュレディンガーの猫
                         //両陣営
         Guesser,

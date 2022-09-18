@@ -312,6 +312,26 @@ namespace TownOfHost
                     dic[ps.VotedFor] = !dic.TryGetValue(ps.VotedFor, out int num) ? VoteNum : num + VoteNum;
                 }
             }
+            foreach (var player in __instance.playerStates)
+            {
+                if (!AmongUsClient.Instance.AmHost) continue;
+                if (!player.DidVote
+                    || player.AmDead
+                    || player.VotedFor == PlayerVoteArea.MissedVote
+                    || player.VotedFor == PlayerVoteArea.DeadVote) continue;
+
+                var modifier = Utils.GetPlayerById(player.TargetPlayerId).GetCustomSubRole();
+                if (modifier == CustomRoles.NoSubRoleAssigned) continue;
+                if (modifier == CustomRoles.TieBreaker)
+                {
+                    if (dic.TryGetValue(player.VotedFor, out var num))
+                    {
+                        dic[player.VotedFor] = num + 1;
+                    }
+                    else
+                        dic[player.VotedFor] = 1;
+                }
+            }
             return dic;
         }
 
