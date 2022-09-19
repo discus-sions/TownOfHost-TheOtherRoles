@@ -451,7 +451,7 @@ Basis : Shapeshifter
 
 The Parasite is the only Madmate role with the ability to kill.<br>
 Impostors do not know the Parasite.<br>
-Parasites can shapeshift, kill, vent, and sabotage.<br>
+Parasites can shapeshift, kill, and vent.<br>
 Due to limitations, whether Parasite knows the Impostors varies.<br>
 The intended design was that they didn't know.<br>
 
