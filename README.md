@@ -131,6 +131,11 @@ For example: `welcome:This room is using the mod Town Of Host: The Other Roles.`
 ### Impostor Disconnect Detection
 If all Impostors leave the game, the game will automatically end with the unused Impostor Disconnected screen. This was done as all impostors leaving the game would black screen all players who do not use desynced Impostor roles.
 
+### Developer Tag
+Developers get a tag while in the lobby to indicate that they're a mod dev.
+Below is an example:
+![Dev tag in use](https://cdn.discordapp.com/attachments/771109338521141298/1021443349821001818/unknown.png)
+
 ## Roles
 
 | Impostors                           | Crewmates                         | Neutrals                          | Neutral Killings                | Coven                          | Modifiers                 |
@@ -151,11 +156,12 @@ If all Impostors leave the game, the game will automatically end with the unused
 | [MadGuardian](#madguardian)         | [Vigilante](#guesser)             |                                   |                                 |                                |                           |
 | [MadSnitch](#madsnitch)             | [Veteran](#veteran)               |                                   |                                 |                                |                           |
 | [SidekickMadmate](#sidekickmadmate) | [Child](#child)                   |                                   |                                 |                                |                           |
-| [Silencer](#silencer)               |                                   |                                   |                                 |                                |                           |
+| [Silencer](#silencer)               | [Psychic](#psychic)               |                                   |                                 |                                |                           |
 | [Traitor](#traitor)                 |                                   |                                   |                                 |                                |                           |
 | [Assassin](#guesser)                |                                   |                                   |                                 |                                |                           |
-| Parasite                            |                                   |                                   |                                 |                                |                           |
-
+| [Parasite](#parasite)               |                                   |                                   |                                 |                                |                           |
+| [Miner](#miner)                     |                                   |                                   |                                 |                                | 
+| [Grenadier](#grenadier)             |                                   |                                   |                                 |                                |
 #### Notes
 
 Roles without a redirect mean they are not implemented yet but are planned.
@@ -368,6 +374,20 @@ Traitor spawns when all Impostors die by kill or vote.<br>
 As soon as all Impostors die, the [Sheriff](#sheriff) or [Investigator](#investigator) turns into the Traitor.<br>
 Traitor is a regular impostor with nothing new.<br>
 
+### Miner
+
+Team : Impostors<br>
+Basis : Shapeshifter<br>
+
+The Miner is an Impostor who can shapeshift to warp to the last vent they were in.<br>
+
+### Grenadier
+
+Team : Impostors<br>
+Basis : Shapeshifter<br>
+
+The Grenadier is an Impostor who can shapeshift to blind nearby crewmates. During this time, you may kill undetected.<br>
+
 ## Madmate
 
 There are common options for Madmates.
@@ -424,6 +444,17 @@ Depending on option, they can use vents.<br>
 | MadSnitch Can Use Vent |
 | MadSnitch Tasks        |
 
+### Parasite
+
+Team : Impostors<br>
+Basis : Shapeshifter
+
+The Parasite is the only Madmate role with the ability to kill.<br>
+Impostors do not know the Parasite.<br>
+Parasites can shapeshift, kill, vent, and sabotage.<br>
+Due to limitations, whether Parasite knows the Impostors varies.<br>
+The intended design was that they didn't know.<br>
+
 ### SidekickMadmate
 
 Create and idea by たんぽぽ<br>
@@ -457,7 +488,7 @@ The watcher can see who each player has voted during every meeting. <br>
 
 Create by たんぽぽ<br>
 
-Team : Impostors or Crewmates<br>
+Team : Impostors, Crewmates, or Neutral<br>
 Basis : Impostor or Crewmates<br>
 
 If you can guess target's role during meeting, you can kill the target.<br>
@@ -473,6 +504,13 @@ There is also a neutral Guesser called Pirate. Their goal is guess a number of p
 |    Arrow to shoot as Normal Crewmate   |
 |           Guesser shoot limit          |
 | Can kill multiple times during meeting |
+
+#### Guesser Commands
+
+| Command                      | Function                         |
+| ---------------------------- | -------------------------------- |
+| /shoot show                  | Show role IDs and player IDs     |
+| /shoot playerID roleID       | Shoot a player ID with a role ID |
 
 
 ## Crewmate
@@ -721,6 +759,25 @@ While Veteran is on alert, any killing role that tries to use their kill button 
 | Number of Alerts                       |
 | Vet Crew Roles                         |
 | What Happens if Pestilence Attacks Vet |
+
+### Psychic
+
+Team : Crewmates<br>
+Basis : Crewmate<br>
+
+The Psychic is a crewmate with the ability to see potential evils during a meeting.<br>
+Three players are chosen to be highlighted in red, at least one of them are evil.<br>
+
+#### Game Options
+
+| Name                          |
+| ----------------------------- |
+| Crew Killing are Red          |
+| Neutral Benign are Red        |
+| Neutral Evil are Red          |
+| Madmate is Red                |
+| GA Depends On Target Role     |
+| Exe Target Shows Evil         |
 
 ## Neutral
 
