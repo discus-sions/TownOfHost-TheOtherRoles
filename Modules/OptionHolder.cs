@@ -352,6 +352,14 @@ namespace TownOfHost
         public static CustomOption TraitorCanSpawnIfNK;
         public static CustomOption TraitorCanSpawnIfCoven;
         public static CustomOption LaptopPercentages;
+
+        // PSYCHIC //
+        public static CustomOption CkshowEvil;
+        public static CustomOption NBshowEvil;
+        public static CustomOption NEshowEvil;
+        public static CustomOption MadmatesAreEvil;
+        public static CustomOption GAdependsOnTaregtRole;
+        public static CustomOption ExeTargetShowsEvil;
         public static readonly string[] suffixModes =
         {
             "SuffixMode.None",
@@ -447,6 +455,7 @@ namespace TownOfHost
             FireWorks.SetupCustomOption();
             Sniper.SetupCustomOption();
             SetupRoleOptions(2000, CustomRoles.Puppeteer);
+            SetupRoleOptions(200099, CustomRoles.Miner);
             SetupSingleRoleOptions(9999, CustomRoles.Grenadier, 1);
             FlashCooldown = CustomOption.Create(200129, Color.white, "FlashCD", 30, 2.5f, 180, 2.5f, CustomRoleSpawnChances[CustomRoles.Grenadier]);
             FlashDuration = CustomOption.Create(2001299, Color.white, "FlashDur", 15, 2.5f, 180, 2.5f, CustomRoleSpawnChances[CustomRoles.Grenadier]);
@@ -501,6 +510,13 @@ namespace TownOfHost
             FlashSpeed = CustomOption.Create(20030, Color.white, "SpeedBoosterUpSpeed", 2f, 0.25f, 3f, 0.25f, CustomRoleSpawnChances[CustomRoles.Flash]); */
             SetupRoleOptions(20850, CustomRoles.Bastion);
             //SetupRoleOptions(700850, CustomRoles.Alturist);
+            SetupRoleOptions(700850, CustomRoles.Psychic);
+            CkshowEvil = CustomOption.Create(1318, Color.white, "CrewKillingRed", true, CustomRoleSpawnChances[CustomRoles.Psychic]);
+            NBshowEvil = CustomOption.Create(1313, Color.white, "NBareRed", true, CustomRoleSpawnChances[CustomRoles.Psychic]);
+            NEshowEvil = CustomOption.Create(1314, Color.white, "NEareRed", true, CustomRoleSpawnChances[CustomRoles.Psychic]);
+            MadmatesAreEvil = CustomOption.Create(1315, Color.white, "MadMateIsRed", true, CustomRoleSpawnChances[CustomRoles.Psychic]);
+            GAdependsOnTaregtRole = CustomOption.Create(1316, Color.white, "GAdependsOnTaregtRole", true, CustomRoleSpawnChances[CustomRoles.Psychic]);
+            ExeTargetShowsEvil = CustomOption.Create(1317, Color.white, "ExeTargetShowsEvil", true, CustomRoleSpawnChances[CustomRoles.Psychic]);
             SetupSingleRoleOptions(20010, CustomRoles.Veteran, 1);
             NumOfVets = CustomOption.Create(20011, Color.white, "NVet", 10, 1, 15, 1, CustomRoleSpawnChances[CustomRoles.Veteran]);
             VetCD = CustomOption.Create(20012, Color.white, "VetCD", 30, 2.5f, 180, 2.5f, CustomRoleSpawnChances[CustomRoles.Veteran]);

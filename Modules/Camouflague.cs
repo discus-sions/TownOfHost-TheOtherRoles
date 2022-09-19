@@ -33,7 +33,11 @@ namespace TownOfHost
                     Main.ResetVision = false;
                     Main.Grenaiding = true;
                     Utils.CustomSyncAllSettings();
-                    Utils.NotifyRoles();
+                    new LateTask(() =>
+                    {
+                        Utils.NotifyRoles(NoCache: true);
+                    },
+                    1.2f, "ShapeShiftNotify");
                     break;
             }
         }

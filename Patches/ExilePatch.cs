@@ -197,10 +197,19 @@ namespace TownOfHost
                 }, 0.5f, "Restore IsDead Task");
                 Main.IsRampaged = false;
                 Main.RampageReady = false;
+                Main.IsRoundOne = false;
+                Main.IsRoundOneGA = false;
+                Main.IsGazing = false;
+                Main.GazeReady = false;
+                Main.bkProtected = false;
                 new LateTask(() =>
                 {
                     Main.RampageReady = true;
                 }, Options.RampageCD.GetFloat(), "Werewolf Rampage Cooldown (After Meeting)");
+                new LateTask(() =>
+                    {
+                        Main.GazeReady = true;
+                    }, Options.StoneCD.GetFloat(), "Gaze Cooldown");
                 //Guesser.OpenGuesserMeeting();
                 foreach (var x in Main.AfterMeetingDeathPlayers)
                 {

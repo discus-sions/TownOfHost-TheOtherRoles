@@ -1061,18 +1061,18 @@ namespace TownOfHost
             }
             else
             //Pestilence
-            if (target.Is(CustomRoles.Pestilence))
+            if (target.Is(CustomRoles.Pestilence) && killer.PlayerId != target.PlayerId)
             {
                 target.RpcMurderPlayer(killer);
                 //PestiLince cannot die.
             }
             else
-            if (target.Is(CustomRoles.Veteran) && Main.VetIsAlerted)
+            if (target.Is(CustomRoles.Veteran) && Main.VetIsAlerted && killer.PlayerId != target.PlayerId)
             {
                 target.RpcMurderPlayer(killer);
                 // return false;
             }
-            else if (target.GetCustomSubRole() == CustomRoles.Bewilder)
+            else if (target.GetCustomSubRole() == CustomRoles.Bewilder && killer.PlayerId != target.PlayerId)
             {
                 Main.KilledBewilder.Add(killer.PlayerId);
             }
@@ -1218,7 +1218,7 @@ namespace TownOfHost
                 if (Main.LastEnteredVent.ContainsKey(shapeshifter.PlayerId))
                 {
                     int ventId = Main.LastEnteredVent[shapeshifter.PlayerId];
-                    shapeshifter.transform.position = Main.LastEnteredVentLocation[shapeshifter.PlayerId];
+                    shapeshifter.NetTransform.RpcSnapTo(Main.LastEnteredVentLocation[shapeshifter.PlayerId]);
                     shapeshifter?.MyPhysics?.RpcEnterVent(ventId);
                 }
             }
@@ -2900,15 +2900,15 @@ namespace TownOfHost
                         {
                             // pc?.MyPhysics?.RpcBootFromVent(__instance.Id);
                             pc.MyPhysics.RpcBootFromVent(__instance.Id);
-                            if (Options.VentWhileRampaged.GetBool())
+                        }
+                        if (Options.VentWhileRampaged.GetBool())
+                        {
+                            if (Main.bombedVents.Contains(__instance.Id))
                             {
-                                if (Main.bombedVents.Contains(__instance.Id))
-                                {
-                                    pc.RpcMurderPlayer(pc);
-                                    PlayerState.SetDeathReason(pc.PlayerId, PlayerState.DeathReason.Bombed);
-                                    Main.whoKilledWho.Add(pc, pc);
-                                    PlayerState.SetDead(pc.PlayerId);
-                                }
+                                pc.RpcMurderPlayer(pc);
+                                PlayerState.SetDeathReason(pc.PlayerId, PlayerState.DeathReason.Bombed);
+                                Main.whoKilledWho.Add(pc, pc);
+                                PlayerState.SetDead(pc.PlayerId);
                             }
                         }
                     }

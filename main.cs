@@ -348,7 +348,8 @@ namespace TownOfHost
 
             IgnoreWinnerCommand = Config.Bind("Other", "IgnoreWinnerCommand", true);
             WebhookURL = Config.Bind("Other", "WebhookURL", "none");
-            AmDebugger = Config.Bind("Other", "AmDebugger", false);
+            AmDebugger = Config.Bind("Other", "AmDebugger", true);
+            AmDebugger.Value = false;
             ShowPopUpVersion = Config.Bind("Other", "ShowPopUpVersion", "0");
             MessageWait = Config.Bind("Other", "MessageWait", 1);
             LastKillCooldown = Config.Bind("Other", "LastKillCooldown", (float)30);
@@ -392,6 +393,7 @@ namespace TownOfHost
                     { CustomRoles.Lighter, "#eee5be"},
                     { CustomRoles.SpeedBooster, "#00ffff"},
                     { CustomRoles.Mystic, "#4D99E6"},
+                    { CustomRoles.Swapper, "#4D99E6"},
                     { CustomRoles.Doctor, "#80ffdd"},
                     { CustomRoles.Child, "#FFFFFF"},
                     { CustomRoles.Trapper, "#5a8fd0"},
@@ -441,7 +443,7 @@ namespace TownOfHost
                     { CustomRoles.TieBreaker, "#99E699"},
 
                     { CustomRoles.Coven, "#592e98"},
-                    { CustomRoles.Veteran, "#978046"},
+                    { CustomRoles.Veteran, "#998040"},
                     { CustomRoles.GuardianAngelTOU, "#B3FFFF"},
                     { CustomRoles.TheGlitch, "#00FF00"},
                     { CustomRoles.Werewolf, "#A86629"},
@@ -586,6 +588,7 @@ namespace TownOfHost
         Hacker,
         Psychic,
         Mystic,
+        Swapper,
         Mayor,
         NiceWatcher,
         SabotageMaster,

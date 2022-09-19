@@ -205,7 +205,7 @@ namespace TownOfHost
                 CustomRoles.Janitor or
                 CustomRoles.Painter or
                 CustomRoles.Alturist or
-                CustomRoles.Miner or
+                //CustomRoles.Miner or
                 CustomRoles.Amnesiac or
                 CustomRoles.CSchrodingerCat or
                 CustomRoles.MSchrodingerCat;

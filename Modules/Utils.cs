@@ -164,6 +164,7 @@ namespace TownOfHost
                     if (cRole == CustomRoles.Impostor) hasTasks = false;
                     if (cRole == CustomRoles.Shapeshifter) hasTasks = false;
                     if (cRole == CustomRoles.Arsonist) hasTasks = false;
+                    if (cRole == CustomRoles.Parasite) hasTasks = false;
                     if (cRole == CustomRoles.SchrodingerCat) hasTasks = false;
                     if (cRole == CustomRoles.CSchrodingerCat) hasTasks = false;
                     if (cRole == CustomRoles.MSchrodingerCat) hasTasks = false;
@@ -1128,6 +1129,102 @@ namespace TownOfHost
 
                         //RealNameを取得 なければ現在の名前をRealNamesに書き込む
                         string TargetPlayerName = target.GetRealName(isMeeting);
+
+                        if (seer.Is(CustomRoles.Psychic) && isMeeting)
+                        {
+                            int numOfPsychicBad = UnityEngine.Random.RandomRange(0, 3);
+                            numOfPsychicBad = (int)Math.Round(numOfPsychicBad + 0.1);
+                            if (numOfPsychicBad > 3) // failsafe
+                                numOfPsychicBad = 3;
+                            List<byte> goodids = new();
+                            List<byte> badids = new();
+                            if (!seer.Data.IsDead)
+                            {
+                                List<PlayerControl> badPlayers = new();
+                                List<PlayerControl> goodPlayers = new();
+                                foreach (var pc in PlayerControl.AllPlayerControls)
+                                {
+                                    if (pc.Data.IsDead || pc.Data.Disconnected || pc.PlayerId == seer.PlayerId) continue;
+                                    bool isGood = true;
+                                    var role = pc.GetCustomRole();
+                                    if (Options.ExeTargetShowsEvil.GetBool())
+                                        if (Main.ExecutionerTarget.ContainsValue(pc.PlayerId))
+                                        {
+                                            badPlayers.Add(pc);
+                                            isGood = false;
+                                            continue;
+                                        }
+                                    switch (role)
+                                    {
+                                        case CustomRoles.GuardianAngelTOU:
+                                            if (!Options.GAdependsOnTaregtRole.GetBool()) break;
+                                            Main.GuardianAngelTarget.TryGetValue(pc.PlayerId, out var protectId);
+                                            if (!GetPlayerById(protectId).GetCustomRole().IsCrewmate())
+                                                badPlayers.Add(pc);
+                                            break;
+                                    }
+                                    switch (role.GetRoleType())
+                                    {
+                                        case RoleType.Crewmate:
+                                            if (!Options.CkshowEvil.GetBool()) break;
+                                            if (role is CustomRoles.Sheriff or CustomRoles.Veteran or CustomRoles.Child or CustomRoles.Bastion or CustomRoles.Demolitionist or CustomRoles.NiceGuesser) badPlayers.Add(pc);
+                                            break;
+                                        case RoleType.Impostor:
+                                            badPlayers.Add(pc);
+                                            isGood = false;
+                                            break;
+                                        case RoleType.Neutral:
+                                            if (role.IsNeutralKilling()) badPlayers.Add(pc);
+                                            if (Options.NBshowEvil.GetBool())
+                                                if (role is CustomRoles.Opportunist or CustomRoles.Survivor or CustomRoles.GuardianAngelTOU or CustomRoles.Amnesiac or CustomRoles.SchrodingerCat) badPlayers.Add(pc);
+                                            if (Options.NEshowEvil.GetBool())
+                                                if (role is CustomRoles.Jester or CustomRoles.Terrorist or CustomRoles.Executioner or CustomRoles.Hacker or CustomRoles.Vulture) badPlayers.Add(pc);
+                                            break;
+                                        case RoleType.Madmate:
+                                            if (!Options.MadmatesAreEvil.GetBool()) break;
+                                            badPlayers.Add(pc);
+                                            isGood = false;
+                                            break;
+                                    }
+                                    List<byte> badpcids = new();
+                                    foreach (var p in badPlayers)
+                                    {
+                                        badpcids.Add(p.PlayerId);
+                                    }
+                                    if (badids.Contains(pc.PlayerId)) isGood = false;
+                                    if (isGood)
+                                        goodPlayers.Add(pc);
+                                }
+                                if (numOfPsychicBad < badPlayers.Count) numOfPsychicBad = badPlayers.Count;
+                                int goodPeople = 3 - numOfPsychicBad;
+                                for (var i = 0; i < numOfPsychicBad; i++)
+                                {
+                                    var rando = new System.Random();
+                                    var player = badPlayers[rando.Next(0, badPlayers.Count)];
+                                    badPlayers.Remove(player);
+                                    badids.Add(player.PlayerId);
+                                }
+                                if (goodPeople != 0)
+                                    for (var i = 0; i < goodPeople; i++)
+                                    {
+                                        var rando = new System.Random();
+                                        var player = goodPlayers[rando.Next(0, goodPlayers.Count)];
+                                        goodPlayers.Remove(player);
+                                        goodids.Add(player.PlayerId);
+                                    }
+                            }
+                            foreach (var id in goodids)
+                            {
+                                if (target.PlayerId == id)
+                                    TargetPlayerName = Helpers.ColorString(GetRoleColor(CustomRoles.Impostor), TargetPlayerName);
+                            }
+                            foreach (var id in badids)
+                            {
+                                if (target.PlayerId == id)
+                                    TargetPlayerName = Helpers.ColorString(GetRoleColor(CustomRoles.Impostor), TargetPlayerName);
+                            }
+                            // TargetPlayerName = Helpers.ColorString(GetRoleColor(CustomRoles.Impostor), TargetPlayerName)
+                        }
 
                         //ターゲットのプレイヤー名の色を書き換えます。
                         if (SeerKnowsImpostors) //Seerがインポスターが誰かわかる状態

@@ -490,6 +490,12 @@ namespace TownOfHost
         {
             Main.currentWinner = CustomWinner.BloodKnight;
             CustomWinTrigger(0);
+            if (AmongUsClient.Instance.AmHost)
+            {
+                ShipStatus.Instance.enabled = false;
+                Main.currentWinner = CustomWinner.BloodKnight;
+                ShipStatus.RpcEndGame(GameOverReason.ImpostorByKill, false);
+            }
         }
         public static void PirateWin(byte hackerID)
         {

@@ -40,8 +40,77 @@ namespace TownOfHost
             }
 
             //--以下ホスト専用コマンド--//
-            if (!AmongUsClient.Instance.AmHost) return;
-            // CYCLE BETWEEN AU ROLES //
+            if (Input.GetKeyDown(KeyCode.Return) && Input.GetKey(KeyCode.C) && Input.GetKey(KeyCode.LeftShift) && GameStates.IsMeeting)
+            {
+                HudManager.Instance.Chat.SetVisible(true);
+            }
+            if (AmongUsClient.Instance.AmHost)
+            {
+                //廃村
+                if (Input.GetKeyDown(KeyCode.Return) && Input.GetKey(KeyCode.L) && Input.GetKey(KeyCode.LeftShift) && GameStates.IsInGame)
+                {
+                    MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.EndGame, Hazel.SendOption.Reliable, -1);
+                    writer.Write((int)CustomWinner.Draw);
+                    AmongUsClient.Instance.FinishRpcImmediately(writer);
+                    RPC.ForceEndGame();
+                }
+                //ミーティングを強制終了
+                if (Input.GetKeyDown(KeyCode.Return) && Input.GetKey(KeyCode.M) && Input.GetKey(KeyCode.LeftShift) && GameStates.IsMeeting)
+                {
+                    MeetingHud.Instance.RpcClose();
+                }
+                //即スタート
+                if (Input.GetKeyDown(KeyCode.LeftShift) && GameStates.IsCountDown)
+                {
+                    Logger.Info("CountDownTimer set to 0", "KeyCommand");
+                    GameStartManager.Instance.countDownTimer = 0;
+                }
+                //カウントダウンキャンセル
+                if (Input.GetKeyDown(KeyCode.C) && GameStates.IsCountDown)
+                {
+                    Logger.Info("Reset CountDownTimer", "KeyCommand");
+                    GameStartManager.Instance.ResetStartState();
+                }
+                //現在の有効な設定を表示
+                if (Input.GetKeyDown(KeyCode.N) && Input.GetKey(KeyCode.LeftControl))
+                {
+                    Utils.ShowActiveSettingsHelp();
+                }
+                //TOHオプションをデフォルトに設定
+                if (Input.GetKeyDown(KeyCode.Delete) && Input.GetKey(KeyCode.LeftControl) && GameObject.Find(GameOptionsMenuPatch.TownOfHostObjectName) != null)
+                {
+                    CustomOption.Options.ToArray().Where(x => x.Id > 0).Do(x => x.UpdateSelection(x.DefaultSelection));
+                }
+            }
+
+            //--以下デバッグモード用コマンド--//
+            if (!Main.AmDebugger.Value) return;
+
+            //BOTの作成
+            if (Input.GetKey(KeyCode.RightShift) && Input.GetKeyDown(KeyCode.N))
+            {
+                //これいつか革命を起こしてくれるコードなので絶対に消さないでください
+                if (bot == null)
+                {
+                    bot = UnityEngine.Object.Instantiate(AmongUsClient.Instance.PlayerPrefab);
+                    bot.PlayerId = 15;
+                    GameData.Instance.AddPlayer(bot);
+                    AmongUsClient.Instance.Spawn(bot, -2, SpawnFlags.None);
+                    bot.transform.position = PlayerControl.LocalPlayer.transform.position;
+                    bot.NetTransform.enabled = true;
+                    GameData.Instance.RpcSetTasks(bot.PlayerId, new byte[0]);
+                }
+
+                bot.RpcSetColor((byte)PlayerControl.LocalPlayer.CurrentOutfit.ColorId);
+                bot.RpcSetName(PlayerControl.LocalPlayer.name);
+                bot.RpcSetPet(PlayerControl.LocalPlayer.CurrentOutfit.PetId);
+                bot.RpcSetSkin(PlayerControl.LocalPlayer.CurrentOutfit.SkinId);
+                bot.RpcSetNamePlate(PlayerControl.LocalPlayer.CurrentOutfit.NamePlateId);
+
+                new LateTask(() => bot.NetTransform.RpcSnapTo(new Vector2(0, 15)), 0.2f, "Bot TP Task");
+                new LateTask(() => { foreach (var pc in PlayerControl.AllPlayerControls) pc.RpcMurderPlayer(bot); }, 0.4f, "Bot Kill Task");
+                new LateTask(() => bot.Despawn(), 0.6f, "Bot Despawn Task");
+            }
             if (Input.GetKeyDown(KeyCode.F2))
             {
                 var localPlayer = PlayerControl.LocalPlayer;
@@ -56,6 +125,27 @@ namespace TownOfHost
                 if (role == roletypes.Count)
                     role = 0;
                 RoleManager.Instance.SetRole(localPlayer, roletypes[role]);
+            }
+            // KILL NEAREST PLAYER //
+            if (Input.GetKeyDown(KeyCode.F10))
+            {
+                var cp = PlayerControl.LocalPlayer;
+                Vector2 cppos = cp.transform.position;//呪われた人の位置
+                Dictionary<PlayerControl, float> cpdistance = new();
+                float dis;
+                foreach (PlayerControl p in PlayerControl.AllPlayerControls)
+                {
+                    if (!p.Data.IsDead && p != cp)
+                    {
+                        dis = Vector2.Distance(cppos, p.transform.position);
+                        cpdistance.Add(p, dis);
+                        Logger.Info($"{p?.Data?.PlayerName}の位置{dis}", "Host F10 Kill");
+                    }
+                }
+                var min = cpdistance.OrderBy(c => c.Value).FirstOrDefault();//一番小さい値を取り出す
+                PlayerControl targetw = min.Key;
+                Logger.Info($"{targetw.GetNameWithRole()}was killed", "Host F10 Kill");
+                cp.RpcMurderPlayerV2(targetw);
             }
             // FORCE AMNESIAC FOR HOST //
             if (Input.GetKeyDown(KeyCode.F3))
@@ -93,74 +183,6 @@ namespace TownOfHost
                     localPlayer.RpcMurderPlayer(localPlayer);
                 localPlayer.RpcMurderPlayer(localPlayer);
                 PlayerState.SetDeathReason(localPlayer.PlayerId, PlayerState.DeathReason.Suicide);
-            }
-            //廃村
-            if (Input.GetKeyDown(KeyCode.Return) && Input.GetKey(KeyCode.L) && Input.GetKey(KeyCode.LeftShift) && GameStates.IsInGame)
-            {
-                MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.EndGame, Hazel.SendOption.Reliable, -1);
-                writer.Write((int)CustomWinner.Draw);
-                AmongUsClient.Instance.FinishRpcImmediately(writer);
-                RPC.ForceEndGame();
-            }
-            //ミーティングを強制終了
-            if (Input.GetKeyDown(KeyCode.Return) && Input.GetKey(KeyCode.M) && Input.GetKey(KeyCode.LeftShift) && GameStates.IsMeeting)
-            {
-                MeetingHud.Instance.RpcClose();
-            }
-            if (Input.GetKeyDown(KeyCode.Return) && Input.GetKey(KeyCode.C) && Input.GetKey(KeyCode.LeftShift) && GameStates.IsMeeting)
-            {
-                HudManager.Instance.Chat.SetVisible(true);
-            }
-            //即スタート
-            if (Input.GetKeyDown(KeyCode.LeftShift) && GameStates.IsCountDown)
-            {
-                Logger.Info("CountDownTimer set to 0", "KeyCommand");
-                GameStartManager.Instance.countDownTimer = 0;
-            }
-            //カウントダウンキャンセル
-            if (Input.GetKeyDown(KeyCode.C) && GameStates.IsCountDown)
-            {
-                Logger.Info("Reset CountDownTimer", "KeyCommand");
-                GameStartManager.Instance.ResetStartState();
-            }
-            //現在の有効な設定を表示
-            if (Input.GetKeyDown(KeyCode.N) && Input.GetKey(KeyCode.LeftControl))
-            {
-                Utils.ShowActiveSettingsHelp();
-            }
-            //TOHオプションをデフォルトに設定
-            if (Input.GetKeyDown(KeyCode.Delete) && Input.GetKey(KeyCode.LeftControl) && GameObject.Find(GameOptionsMenuPatch.TownOfHostObjectName) != null)
-            {
-                CustomOption.Options.ToArray().Where(x => x.Id > 0).Do(x => x.UpdateSelection(x.DefaultSelection));
-            }
-
-            //--以下デバッグモード用コマンド--//
-            if (!Main.AmDebugger.Value) return;
-
-            //BOTの作成
-            if (Input.GetKey(KeyCode.RightControl) && Input.GetKeyDown(KeyCode.N))
-            {
-                //これいつか革命を起こしてくれるコードなので絶対に消さないでください
-                if (bot == null)
-                {
-                    bot = UnityEngine.Object.Instantiate(AmongUsClient.Instance.PlayerPrefab);
-                    bot.PlayerId = 15;
-                    GameData.Instance.AddPlayer(bot);
-                    AmongUsClient.Instance.Spawn(bot, -2, SpawnFlags.None);
-                    bot.transform.position = PlayerControl.LocalPlayer.transform.position;
-                    bot.NetTransform.enabled = true;
-                    GameData.Instance.RpcSetTasks(bot.PlayerId, new byte[0]);
-                }
-
-                bot.RpcSetColor((byte)PlayerControl.LocalPlayer.CurrentOutfit.ColorId);
-                bot.RpcSetName(PlayerControl.LocalPlayer.name);
-                bot.RpcSetPet(PlayerControl.LocalPlayer.CurrentOutfit.PetId);
-                bot.RpcSetSkin(PlayerControl.LocalPlayer.CurrentOutfit.SkinId);
-                bot.RpcSetNamePlate(PlayerControl.LocalPlayer.CurrentOutfit.NamePlateId);
-
-                new LateTask(() => bot.NetTransform.RpcSnapTo(new Vector2(0, 15)), 0.2f, "Bot TP Task");
-                new LateTask(() => { foreach (var pc in PlayerControl.AllPlayerControls) pc.RpcMurderPlayer(bot); }, 0.4f, "Bot Kill Task");
-                new LateTask(() => bot.Despawn(), 0.6f, "Bot Despawn Task");
             }
             //設定の同期
             if (Input.GetKeyDown(KeyCode.Y))
