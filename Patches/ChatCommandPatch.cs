@@ -363,6 +363,7 @@ namespace TownOfHost
                 { CustomRoles.Ninja,"ni"},
                 { CustomRoles.Miner,"mi"},
                 { CustomRoles.Camouflager,"cf"},
+                { CustomRoles.Grenadier,"gr"},
                 { CustomRoles.CorruptedSheriff, "csh" },
                 {CustomRoles.EvilGuesser, "eg"},
                 //Madmate役職
@@ -390,6 +391,7 @@ namespace TownOfHost
                 {CustomRoles.NiceGuesser, "ng"},
                 { CustomRoles.Sheriff, "sh" },
                 { CustomRoles.Investigator, "inve" },
+                { CustomRoles.Mystic,"my"},
                 { CustomRoles.Snitch, "sn" },
                 { CustomRoles.SpeedBooster, "sb" },
                 { CustomRoles.Trapper, "tra" },
@@ -498,6 +500,7 @@ namespace TownOfHost
                 { CustomRoles.Silencer, "si" },
                 { CustomRoles.Camouflager,"cf"},
                 { CustomRoles.Ninja,"ni"},
+                { CustomRoles.Grenadier,"gr"},
                 { CustomRoles.Miner,"mi"},
                 { CustomRoles.CorruptedSheriff, "csh" },
                 {CustomRoles.EvilGuesser, "eg"},
@@ -526,6 +529,7 @@ namespace TownOfHost
                 { CustomRoles.Sheriff, "sh" },
                 {CustomRoles.NiceGuesser, "ng"},
                 { CustomRoles.Investigator, "inve" },
+                { CustomRoles.Mystic,"my"},
                // { CustomRoles.CorruptedSheriff, "csh" },
                 { CustomRoles.Snitch, "sn" },
                 { CustomRoles.SpeedBooster, "sb" },
@@ -625,6 +629,7 @@ namespace TownOfHost
                 { CustomRoles.Miner,"mi"},
                 { CustomRoles.Camouflager,"cf"},
                 { CustomRoles.CorruptedSheriff, "csh" },
+                { CustomRoles.Grenadier,"gr"},
                 //Madmate役職
                 { (CustomRoles)(-2), $"== {GetString("Madmate")} ==" }, //区切り用
                 { CustomRoles.MadGuardian, "mg" },
@@ -652,6 +657,7 @@ namespace TownOfHost
                 { CustomRoles.SabotageMaster, "sa" },
                 { CustomRoles.Sheriff, "sh" },
                 { CustomRoles.Investigator, "inve" },
+                { CustomRoles.Mystic,"my"},
                 { CustomRoles.Snitch, "sn" },
                 { CustomRoles.SpeedBooster, "sb" },
                 { CustomRoles.Trapper, "tra" },

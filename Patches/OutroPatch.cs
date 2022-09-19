@@ -29,7 +29,7 @@ namespace TownOfHost
                 }
                 foreach (var p in PlayerControl.AllPlayerControls)
                 {
-                    if (p.GetCustomSubRole() == CustomRoles.LoversRecode) continue;
+                    //if (p.GetCustomSubRole() == CustomRoles.LoversRecode) continue;
                     bool canWin = p.Is(RoleType.Crewmate);
                     if (canWin) winner.Add(p);
                 }
@@ -40,7 +40,7 @@ namespace TownOfHost
                     Main.currentWinner = CustomWinner.Impostor;
                 foreach (var p in PlayerControl.AllPlayerControls)
                 {
-                    if (p.GetCustomSubRole() == CustomRoles.LoversRecode) continue;
+                    //if (p.GetCustomSubRole() == CustomRoles.LoversRecode) continue;
                     bool canWin = p.Is(RoleType.Impostor) || p.Is(RoleType.Madmate) || p.Is(CustomRoles.CrewPostor) || p.Is(CustomRoles.CorruptedSheriff);
                     if (canWin) winner.Add(p);
                 }

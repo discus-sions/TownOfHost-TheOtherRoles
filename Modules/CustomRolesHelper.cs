@@ -23,6 +23,7 @@ namespace TownOfHost
                 CustomRoles.Swooper or
                 CustomRoles.Camouflager or
                 CustomRoles.YingYanger or
+                CustomRoles.Grenadier or
                 CustomRoles.Miner or
                 CustomRoles.Ninja or
                 CustomRoles.CorruptedSheriff or
@@ -39,7 +40,7 @@ namespace TownOfHost
                 CustomRoles.Parasite or
                 CustomRoles.MSchrodingerCat;
         }
-        public static bool IsImpostorTeam(this CustomRoles role) => role.IsImpostor() || role.IsMadmate();
+        public static bool IsImpostorTeam(this CustomRoles role) => role.IsImpostor() || role.IsMadmate() || role == CustomRoles.CrewPostor;
         public static bool IsNeutral(this CustomRoles role)
         {
             return
@@ -222,9 +223,9 @@ namespace TownOfHost
         {
             RoleTeam type = RoleTeam.None;
             if (role.IsImpostor()) type = RoleTeam.Evil;
-            if (role.IsNeutral()) type = RoleTeam.Killing;
+            if (role.IsNeutralKilling()) type = RoleTeam.Killing;
             if (role.IsMadmate()) type = RoleTeam.Benign;
-            if (role.IsCoven()) type = RoleTeam.Support;
+            if (role.IsCoven()) type = RoleTeam.Killing;
             return type;
         }
         public static ModifierType GetModifierType(this CustomRoles role)
@@ -317,8 +318,10 @@ namespace TownOfHost
                 CustomRoles.SerialKiller or
                 CustomRoles.FireWorks or
                 CustomRoles.Sniper or
+                CustomRoles.Parasite or
                 CustomRoles.Egoist or
                 CustomRoles.Camouflager or
+                CustomRoles.Grenadier or
                 CustomRoles.Miner or
                 CustomRoles.Ninja or
                 CustomRoles.TheGlitch;

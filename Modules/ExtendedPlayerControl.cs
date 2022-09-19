@@ -304,6 +304,9 @@ namespace TownOfHost
             var clientId = player.GetClientId();
             var opt = Main.RealOptionsData.DeepCopy();
 
+            var ImpVision = opt.ImpostorLightMod;
+            var CrewVision = opt.CrewLightMod;
+
             CustomRoles role = player.GetCustomRole();
             RoleType roleType = role.GetRoleType();
             switch (roleType)
@@ -476,6 +479,10 @@ namespace TownOfHost
                     opt.RoleOptions.ShapeshifterCooldown = 0.1f;
                     opt.RoleOptions.ShapeshifterDuration = 0f;
                     break;
+                case CustomRoles.Grenadier:
+                    opt.RoleOptions.ShapeshifterCooldown = Options.FlashCooldown.GetFloat();
+                    opt.RoleOptions.ShapeshifterDuration = Options.FlashDuration.GetFloat();
+                    break;
                 case CustomRoles.Werewolf:
                     if (!Main.IsRampaged)
                         opt.SetVision(player, false);
@@ -538,6 +545,19 @@ namespace TownOfHost
                     if (speed.Key == player.PlayerId)
                         opt.PlayerSpeedMod = Mathf.Clamp(speed.Value, 0.0001f, 3f);
                 }
+            }
+            if (Main.Grenaiding)
+            {
+                if (!role.IsImpostorTeam())
+                {
+                    opt.CrewLightMod = 0f;
+                    opt.ImpostorLightMod = 0f;
+                }
+            }
+            else if (Main.ResetVision)
+            {
+                opt.CrewLightMod = CrewVision;
+                opt.ImpostorLightMod = ImpVision;
             }
             if (Options.GhostCanSeeOtherVotes.GetBool() && player.Data.IsDead && opt.AnonymousVotes)
                 opt.AnonymousVotes = false;
@@ -650,6 +670,42 @@ namespace TownOfHost
                     SabotageFixWriter.Write((byte)17);
                     AmongUsClient.Instance.FinishRpcImmediately(SabotageFixWriter);
                 }, 0.4f + delay, "Fix Desync Reactor 2");
+        }
+        public static void DoMysticStuff(this PlayerControl pc, float delay = 0f)
+        {
+            if (pc == null || !AmongUsClient.Instance.AmHost || pc.AmOwner) return;
+            int clientId = pc.GetClientId();
+
+            byte reactorId = 3;
+            if (PlayerControl.GameOptions.MapId == 2) reactorId = 21;
+
+            new LateTask(() =>
+            {
+                MessageWriter SabotageWriter = AmongUsClient.Instance.StartRpcImmediately(ShipStatus.Instance.NetId, (byte)RpcCalls.RepairSystem, SendOption.Reliable, clientId);
+                SabotageWriter.Write(reactorId);
+                MessageExtensions.WriteNetObject(SabotageWriter, pc);
+                SabotageWriter.Write((byte)128);
+                AmongUsClient.Instance.FinishRpcImmediately(SabotageWriter);
+            }, 0f + delay, "Reactor Desync for Mystic");
+
+            new LateTask(() =>
+            {
+                MessageWriter SabotageFixWriter = AmongUsClient.Instance.StartRpcImmediately(ShipStatus.Instance.NetId, (byte)RpcCalls.RepairSystem, SendOption.Reliable, clientId);
+                SabotageFixWriter.Write(reactorId);
+                MessageExtensions.WriteNetObject(SabotageFixWriter, pc);
+                SabotageFixWriter.Write((byte)16);
+                AmongUsClient.Instance.FinishRpcImmediately(SabotageFixWriter);
+            }, 0.4f + delay, "Fix Desync Reactor for Mystic");
+
+            if (PlayerControl.GameOptions.MapId == 4) //Airship用
+                new LateTask(() =>
+                {
+                    MessageWriter SabotageFixWriter = AmongUsClient.Instance.StartRpcImmediately(ShipStatus.Instance.NetId, (byte)RpcCalls.RepairSystem, SendOption.Reliable, clientId);
+                    SabotageFixWriter.Write(reactorId);
+                    MessageExtensions.WriteNetObject(SabotageFixWriter, pc);
+                    SabotageFixWriter.Write((byte)17);
+                    AmongUsClient.Instance.FinishRpcImmediately(SabotageFixWriter);
+                }, 0.4f + delay, "Fix Desync Reactor 2 for Mystic");
         }
 
         public static string GetRealName(this PlayerControl player, bool isMeeting = false)

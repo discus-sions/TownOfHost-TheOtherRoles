@@ -1142,11 +1142,16 @@ namespace TownOfHost
             if (target.Is(CustomRoles.TimeThief))
                 target.ResetVotingTime();
 
-
             foreach (var pc in PlayerControl.AllPlayerControls)
             {
+                if (pc.Data.Disconnected) continue;
                 if (pc.IsLastImpostor())
                     Main.AllPlayerKillCooldown[pc.PlayerId] = Options.LastImpostorKillCooldown.GetFloat();
+                if (pc.Data.IsDead) continue;
+                if (pc.Is(CustomRoles.Mystic))
+                {
+                    pc.DoMysticStuff(0.1f);
+                }
             }
             FixedUpdatePatch.LoversSuicide(target.PlayerId);
 
@@ -1246,6 +1251,7 @@ namespace TownOfHost
                     Utils.NotifyRoles();
                 }
             }
+            if (shapeshifter.Is(CustomRoles.Grenadier)) Camouflague.Grenade(shapeshifting);
             if (shapeshifter.Is(CustomRoles.FireWorks)) FireWorks.ShapeShiftState(shapeshifter, shapeshifting);
             if (shapeshifter.Is(CustomRoles.Sniper)) Sniper.ShapeShiftCheck(shapeshifter, shapeshifting);
             if (shapeshifter.Is(CustomRoles.Ninja)) Ninja.ShapeShiftCheck(shapeshifter, shapeshifting);
@@ -2754,6 +2760,14 @@ namespace TownOfHost
                     {
                         pc?.MyPhysics?.RpcBootFromVent(__instance.Id);
                         skipCheck = true;
+                    }
+                }
+                if (pc.Is(CustomRoles.Grenadier))
+                {
+                    if (!Options.GrenadierCanVent.GetBool())
+                    {
+                        skipCheck = true;
+                        pc.MyPhysics.RpcBootFromVent(__instance.Id);
                     }
                 }
                 if (Options.CurrentGameMode() == CustomGameMode.HideAndSeek && Options.IgnoreVent.GetBool() && !Options.SplatoonOn.GetBool())

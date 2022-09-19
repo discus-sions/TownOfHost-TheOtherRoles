@@ -177,6 +177,9 @@ namespace TownOfHost
         public static CustomOption KillDelay;
         public static CustomOption IgnoreCosmetics;
         public static CustomOption IgnoreVent;
+        public static CustomOption FlashDuration;
+        public static CustomOption FlashCooldown;
+        public static CustomOption GrenadierCanVent;
         public static float HideAndSeekKillDelayTimer = 0f;
 
         // COLOR WARS //
@@ -444,6 +447,10 @@ namespace TownOfHost
             FireWorks.SetupCustomOption();
             Sniper.SetupCustomOption();
             SetupRoleOptions(2000, CustomRoles.Puppeteer);
+            SetupSingleRoleOptions(9999, CustomRoles.Grenadier, 1);
+            FlashCooldown = CustomOption.Create(200129, Color.white, "FlashCD", 30, 2.5f, 180, 2.5f, CustomRoleSpawnChances[CustomRoles.Grenadier]);
+            FlashDuration = CustomOption.Create(2001299, Color.white, "FlashDur", 15, 2.5f, 180, 2.5f, CustomRoleSpawnChances[CustomRoles.Grenadier]);
+            GrenadierCanVent = CustomOption.Create(1312, Color.white, "GrenadierCanVent", true, CustomRoleSpawnChances[CustomRoles.Grenadier]);
             Mare.SetupCustomOption();
             TimeThief.SetupCustomOption();
             //Camouflager.SetupCustomOption();
@@ -525,6 +532,8 @@ namespace TownOfHost
             SetupRoleOptions(20800, CustomRoles.Trapper);
             TrapperBlockMoveTime = CustomOption.Create(20810, Color.white, "TrapperBlockMoveTime", 5f, 1f, 180, 1, CustomRoleSpawnChances[CustomRoles.Trapper]);
             SetupRoleOptions(20900, CustomRoles.Dictator);
+
+            SetupRoleOptions(30009, CustomRoles.Mystic);
 
             SetupRoleOptions(30000, CustomRoles.Child);
             ChildKnown = CustomOption.Create(30010, Color.white, "ChildKnown", false, CustomRoleSpawnChances[CustomRoles.Child]);

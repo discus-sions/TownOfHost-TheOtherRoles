@@ -91,6 +91,11 @@ namespace TownOfHost
                 case CustomRoles.Camouflager:
                     __instance.AbilityButton.OverrideText("CAMOUFLAGE");
                     break;
+                case CustomRoles.Grenadier:
+                    if (!Utils.IsActive(SystemTypes.Electrical) && !Utils.IsActive(SystemTypes.Comms) &&
+                            !Utils.IsActive(SystemTypes.LifeSupp) && !Utils.IsActive(SystemTypes.Reactor))
+                        __instance.AbilityButton.OverrideText("FLASH");
+                    break;
                 case CustomRoles.SerialKiller:
                     SerialKiller.GetAbilityButtonText(__instance);
                     break;
@@ -503,22 +508,6 @@ namespace TownOfHost
     [HarmonyPatch(typeof(HudManager), nameof(HudManager.SetHudActive))]
     class SetHudActivePatch
     {
-        private static Sprite Alert => Main.AlertSprite;
-        private static Sprite Douse => Main.DouseSprite;
-        private static Sprite Hack => Main.HackSprite;
-        private static Sprite Ignite => Main.IgniteSprite;
-        private static Sprite Infect => Main.InfectSprite;
-        private static Sprite Mimic => Main.MimicSprite;
-        private static Sprite Poison => Main.PoisonSprite;
-        private static Sprite Protect => Main.ProtectSprite;
-        private static Sprite Rampage => Main.RampageSprite;
-        private static Sprite Remember => Main.RememberSprite;
-        private static Sprite Seer => Main.SeerSprite;
-        private static Sprite Sheriff => Main.SheriffSprite;
-        private static Sprite Vest => Main.VestSprite;
-        private static Sprite Kill;
-        private static Sprite Vent;
-        private static Sprite Report;
         public static void Postfix(HudManager __instance, [HarmonyArgument(0)] bool isActive)
         {
             var player = PlayerControl.LocalPlayer;
@@ -640,7 +629,61 @@ namespace TownOfHost
                     __instance.ImpostorVentButton.ToggleVisible(isActive);
                     __instance.AbilityButton.ToggleVisible(isActive);
                     break;
+                case CustomRoles.Grenadier:
+                    if (!Options.GrenadierCanVent.GetBool())
+                        __instance.ImpostorVentButton.ToggleVisible(false);
+                    break;
             }
+            if (__instance.KillButton == null) return;
+        }
+    }
+    [HarmonyPatch(typeof(KillButton), nameof(KillButton.Start))]
+    public static class KillButtonAwake
+    {
+        public static void Prefix(KillButton __instance)
+        {
+            //if (Main.ButtonImages.Value)
+            //    __instance.transform.Find("Text_TMP").gameObject.SetActive(false);
+        }
+    }
+    [HarmonyPatch(typeof(HudManager), nameof(HudManager.Update))]
+    public class HudManagerUpdate
+    {
+        public static void Postfix(HudManager __instance)
+        {
+            if (PlayerControl.LocalPlayer.GetCustomSubRole() is CustomRoles.Oblivious)
+            {
+                try
+                {
+                    DestroyableSingleton<HudManager>.Instance.ReportButton.SetActive(false);
+                }
+                catch
+                {
+
+                }
+            }
+        }
+    }
+    public class KillButtonSprite
+    {
+        private static Sprite Alert => Main.AlertSprite;
+        private static Sprite Douse => Main.DouseSprite;
+        private static Sprite Hack => Main.HackSprite;
+        private static Sprite Ignite => Main.IgniteSprite;
+        private static Sprite Infect => Main.InfectSprite;
+        private static Sprite Mimic => Main.MimicSprite;
+        private static Sprite Poison => Main.PoisonSprite;
+        private static Sprite Protect => Main.ProtectSprite;
+        private static Sprite Rampage => Main.RampageSprite;
+        private static Sprite Remember => Main.RememberSprite;
+        private static Sprite Seer => Main.SeerSprite;
+        private static Sprite Sheriff => Main.SheriffSprite;
+        private static Sprite Vest => Main.VestSprite;
+        private static Sprite Kill;
+        private static Sprite Vent;
+        private static Sprite Report;
+        public static void Postfix(HudManager __instance)
+        {
             if (__instance.KillButton == null) return;
             if (!Kill) Kill = __instance.KillButton.graphic.sprite;
             if (!Vent) Vent = __instance.ImpostorVentButton.graphic.sprite;
@@ -656,7 +699,7 @@ namespace TownOfHost
                 return;
             }
 
-            switch (player.GetCustomRole())
+            switch (PlayerControl.LocalPlayer.GetCustomRole())
             {
                 case CustomRoles.Arsonist:
                     __instance.KillButton.transform.Find("Text_TMP").gameObject.SetActive(false);
@@ -684,6 +727,16 @@ namespace TownOfHost
                 case CustomRoles.TheGlitch:
                     __instance.AbilityButton.transform.Find("Text_TMP").gameObject.SetActive(false);
                     __instance.AbilityButton.graphic.sprite = Mimic;
+                    if (!Main.IsHackMode)
+                    {
+                        __instance.KillButton.transform.Find("Text_TMP").gameObject.SetActive(false);
+                        __instance.KillButton.graphic.sprite = Hack;
+                    }
+                    else
+                    {
+                        __instance.KillButton.transform.Find("Text_TMP").gameObject.SetActive(true);
+                        __instance.KillButton.graphic.sprite = Kill;
+                    }
                     break;
                 case CustomRoles.Werewolf:
                     __instance.ImpostorVentButton.transform.Find("Text_TMP").gameObject.SetActive(false);
@@ -716,15 +769,6 @@ namespace TownOfHost
                     __instance.AbilityButton.graphic.sprite = Alert;
                     break;
             }
-        }
-    }
-    [HarmonyPatch(typeof(KillButton), nameof(KillButton.Start))]
-    public static class KillButtonAwake
-    {
-        public static void Prefix(KillButton __instance)
-        {
-            //if (Main.ButtonImages.Value)
-            //    __instance.transform.Find("Text_TMP").gameObject.SetActive(false);
         }
     }
     [HarmonyPatch(typeof(MapBehaviour), nameof(MapBehaviour.ShowNormalMap))]

@@ -69,6 +69,8 @@ namespace TownOfHost
             Main.AteBodies = 0;
             Main.TeamJuggernautAlive = false;
             Main.TeamPestiAlive = false;
+            Main.Grenaiding = false;
+            Main.ResetVision = false;
             Main.CamoComms = false;
             Main.JackalDied = false;
 
@@ -240,9 +242,16 @@ namespace TownOfHost
                         }
                         // GIVE PLAYERS ROLE //
 
-                        int numofNks = UnityEngine.Random.RandomRange(Options.MinNK.GetInt(), Options.MaxNK.GetInt());
-                        int numofNonNks = UnityEngine.Random.RandomRange(Options.MinNonNK.GetInt(), Options.MaxNonNK.GetInt());
+                        int numofNks = 0;
+                        int numofNonNks = 0;
 
+                        if (Options.MaxNK.GetInt() != 0)
+                            numofNks = UnityEngine.Random.RandomRange(Options.MinNK.GetInt(), Options.MaxNK.GetInt());
+                        if (Options.MaxNonNK.GetInt() != 0)
+                            numofNonNks = UnityEngine.Random.RandomRange(Options.MinNonNK.GetInt(), Options.MaxNonNK.GetInt());
+
+                        numofNks = (int)Math.Round(numofNks + 0.1);
+                        numofNonNks = (int)Math.Round(numofNonNks + 0.1);
                         //numofNks = System.Convert.
 
                         if (Options.MaxNK.GetInt() != 0)
@@ -328,7 +337,7 @@ namespace TownOfHost
                                                 AssignDesyncRole(role, urself, sender, BaseRole: RoleTypes.Shapeshifter, hostBaseRole: RoleTypes.Shapeshifter);
                                             }
                                         }
-                                        else if (role == CustomRoles.CrewPostor)
+                                        else if (role is CustomRoles.CrewPostor or CustomRoles.Pirate)
                                             Main.chosenNonNK.Add(role);
                                         else
                                             AssignDesyncRole(role, urself, sender, BaseRole: RoleTypes.Impostor);
@@ -440,33 +449,38 @@ namespace TownOfHost
                         var impnum = Main.RealOptionsData.NumImpostors;
                         if (rolesChosenImp.Count != 0)
                         {
-                            for (var i = 0; i < impnum; i++)
-                            {
-                                var rando = new System.Random();
-                                var role = rolesChosenImp[rando.Next(0, rolesChosenImp.Count)];
-                                rolesChosenImp.Remove(role);
-                                if (role.IsShapeShifter())
-                                    Main.chosenShifterRoles.Add(role);
-                                else
-                                    Main.chosenImpRoles.Add(role);
+                            if (impnum > rolesChosenImp.Count) impnum = rolesChosenImp.Count;
+                            if (impnum > 0)
+                                for (var i = 0; i < impnum; i++)
+                                {
+                                    var rando = new System.Random();
+                                    var role = rolesChosenImp[rando.Next(0, rolesChosenImp.Count)];
+                                    rolesChosenImp.Remove(role);
+                                    if (role.IsShapeShifter())
+                                        Main.chosenShifterRoles.Add(role);
+                                    else
+                                        Main.chosenImpRoles.Add(role);
 
-                            }
+                                }
                         }
                         // NOW WE CHOOSE CREW ROLES //
                         if (chosenCrew.Count != 0)
                         {
-                            for (var i = 0; i < AllPlayers.Count; i++)
-                            {
-                                var rando = new System.Random();
-                                var role = chosenCrew[rando.Next(0, chosenCrew.Count)];
-                                chosenCrew.Remove(role);
-                                if (role.IsEngineer())
-                                    Main.chosenEngiRoles.Add(role);
-                                else if (role == CustomRoles.Doctor)
-                                    Main.chosenScientistRoles.Add(role);
-                                else
-                                    Main.chosenRoles.Add(role);
-                            }
+                            var crewnum = AllPlayers.Count;
+                            if (crewnum > chosenCrew.Count) crewnum = chosenCrew.Count;
+                            if (crewnum > 0)
+                                for (var i = 0; i < crewnum; i++)
+                                {
+                                    var rando = new System.Random();
+                                    var role = chosenCrew[rando.Next(0, chosenCrew.Count)];
+                                    chosenCrew.Remove(role);
+                                    if (role.IsEngineer())
+                                        Main.chosenEngiRoles.Add(role);
+                                    else if (role == CustomRoles.Doctor)
+                                        Main.chosenScientistRoles.Add(role);
+                                    else
+                                        Main.chosenRoles.Add(role);
+                                }
                         }
 
                         RoleOptionsData roleOpt = PlayerControl.GameOptions.RoleOptions;
@@ -482,6 +496,8 @@ namespace TownOfHost
                         int AdditionalShapeshifterNum = Main.chosenShifterRoles.Count;
                         roleOpt.SetRoleRate(RoleTypes.Shapeshifter, ShapeshifterNum + AdditionalShapeshifterNum, AdditionalShapeshifterNum > 0 ? 100 : roleOpt.GetChancePerGame(RoleTypes.Shapeshifter));
 
+                        if (RoleGoingInList(CustomRoles.Coven))
+                            ForceAssignRole(CustomRoles.Coven, AllPlayers, sender, Count: 3, BaseRole: RoleTypes.Impostor);
                         if (Main.chosenNK.Contains(CustomRoles.Jackal))
                             if (Options.JackalHasSidekick.GetBool())
                                 AssignDesyncRole(CustomRoles.Sidekick, AllPlayers, sender, Count: 1, BaseRole: RoleTypes.Impostor);
@@ -491,8 +507,6 @@ namespace TownOfHost
                             AssignDesyncRole(CustomRoles.Sheriff, AllPlayers, sender, BaseRole: RoleTypes.Impostor);
                         if (RoleGoingInList(CustomRoles.Investigator))
                             AssignDesyncRole(CustomRoles.Investigator, AllPlayers, sender, BaseRole: RoleTypes.Impostor);
-                        if (RoleGoingInList(CustomRoles.Coven))
-                            AssignDesyncRole(CustomRoles.Coven, AllPlayers, sender, Count: 3, BaseRole: RoleTypes.Impostor);
                     }
                 }
             }
@@ -514,7 +528,7 @@ namespace TownOfHost
                 {
                     AllPlayers.Add(pc);
                 }
-                AssignDesyncRole(CustomRoles.Jackal, AllPlayers, sender, Count: AllPlayers.Count, BaseRole: RoleTypes.Impostor);
+                ForceAssignRole(CustomRoles.Jackal, AllPlayers, sender, Count: AllPlayers.Count, BaseRole: RoleTypes.Impostor);
             }
             if (sender.CurrentState == CustomRpcSender.State.InRootMessage) sender.EndMessage();
             //以下、バニラ側の役職割り当てが入る

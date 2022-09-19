@@ -7,6 +7,36 @@ namespace TownOfHost
         public static bool IsActive = false;
         public static bool InMeeting = false;
         public static bool did = false;
+        public static void Grenade(bool shapeshifting)
+        {
+            switch (shapeshifting)
+            {
+                case false:
+                    if (Utils.IsActive(SystemTypes.Electrical) || Utils.IsActive(SystemTypes.Comms) ||
+                    Utils.IsActive(SystemTypes.LifeSupp) || Utils.IsActive(SystemTypes.Reactor)) break;
+                    Main.Grenaiding = false;
+                    new LateTask(() =>
+                    {
+                        Main.ResetVision = true;
+                        Utils.CustomSyncAllSettings();
+                        new LateTask(() =>
+                        {
+                            Main.ResetVision = false;
+                            Utils.CustomSyncAllSettings();
+                        }, 1, "Reset Vision 2");
+                    }, 5, "Reset Vision");
+                    Utils.NotifyRoles();
+                    break;
+                case true:
+                    if (Utils.IsActive(SystemTypes.Electrical) || Utils.IsActive(SystemTypes.Comms) ||
+                        Utils.IsActive(SystemTypes.LifeSupp) || Utils.IsActive(SystemTypes.Reactor)) break;
+                    Main.ResetVision = false;
+                    Main.Grenaiding = true;
+                    Utils.CustomSyncAllSettings();
+                    Utils.NotifyRoles();
+                    break;
+            }
+        }
         public static void Cause()
         {
             foreach (var player in PlayerControl.AllPlayerControls)

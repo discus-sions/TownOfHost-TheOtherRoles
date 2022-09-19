@@ -90,11 +90,13 @@ namespace TownOfHost
         {
             //デフォルトでクルーなので、クルー判定役職は書かなくてOK
             // Since it is crew by default, it is OK not to write the crew judgment position
+            // Better Translation: Since Every role is thought to be crew by defualt, it is alright not to put "RoleTypes.Crewmate"
             { CustomRoles.GM, RoleTypes.GuardianAngel },
             { CustomRoles.Engineer, RoleTypes.Engineer },
             { CustomRoles.Scientist, RoleTypes.Scientist },
             { CustomRoles.Shapeshifter, RoleTypes.Shapeshifter },
             { CustomRoles.Miner, RoleTypes.Shapeshifter },
+            { CustomRoles.Grenadier, RoleTypes.Shapeshifter },
             { CustomRoles.Impostor, RoleTypes.Impostor },
             { CustomRoles.GuardianAngel, RoleTypes.GuardianAngel },
             { CustomRoles.Mafia, RoleTypes.Impostor },

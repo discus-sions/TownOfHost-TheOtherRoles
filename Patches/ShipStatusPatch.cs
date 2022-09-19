@@ -101,7 +101,7 @@ namespace TownOfHost
                 foreach (PlayerControl target in PlayerControl.AllPlayerControls)
                     target.RpcRevertShapeshift(true);
             }
-            if (player.Is(CustomRoles.Sheriff) || player.Is(CustomRoles.Investigator) || player.Is(CustomRoles.Parasite) || player.Is(CustomRoles.Marksman) || player.Is(CustomRoles.BloodKnight) || player.Is(CustomRoles.Arsonist) || player.Is(CustomRoles.Werewolf) || player.Is(CustomRoles.TheGlitch) || player.GetRoleType() == RoleType.Coven || player.Is(CustomRoles.PlagueBearer) || player.Is(CustomRoles.Pestilence) || player.Is(CustomRoles.Juggernaut) || ((player.Is(CustomRoles.Jackal) || player.Is(CustomRoles.Sidekick)) && !Options.JackalCanUseSabotage.GetBool()))
+            if (player.Is(CustomRoles.Sheriff) || player.Is(CustomRoles.Investigator) || player.Is(CustomRoles.Parasite) || player.Is(CustomRoles.Marksman) || player.Is(CustomRoles.BloodKnight) || player.Is(CustomRoles.Arsonist) || player.Is(CustomRoles.Werewolf) || player.Is(CustomRoles.TheGlitch) || player.GetRoleType() == RoleType.Coven || player.Is(CustomRoles.PlagueBearer) || player.Is(CustomRoles.Pestilence) || player.Is(CustomRoles.Juggernaut) || ((player.Is(CustomRoles.Jackal) || player.Is(CustomRoles.Sidekick)) && !Options.JackalCanUseSabotage.GetBool()) || Main.Grenaiding)
             {
                 if (systemType == SystemTypes.Sabotage && AmongUsClient.Instance.GameMode != GameModes.FreePlay) return false; //シェリフにサボタージュをさせない ただしフリープレイは例外
             }

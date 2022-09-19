@@ -77,6 +77,8 @@ namespace TownOfHost
         public static bool ExeCanChangeRoles = true;
         public static bool MercCanSuicide = true;
         public static bool DoingYingYang = true;
+        public static bool Grenaiding = false;
+        public static bool ResetVision = false;
 
         public static Dictionary<byte, CustomRoles> HasModifier = new();
         public static List<CustomRoles> modifiersList = new();
@@ -295,6 +297,8 @@ namespace TownOfHost
             VetAlerts = 0;
             ProtectsSoFar = 0;
             IsProtected = false;
+            ResetVision = false;
+            Grenaiding = false;
             DoingYingYang = true;
             VettedThisRound = false;
             WitchProtected = false;
@@ -387,17 +391,18 @@ namespace TownOfHost
                     { CustomRoles.Investigator, "#ffca81"},
                     { CustomRoles.Lighter, "#eee5be"},
                     { CustomRoles.SpeedBooster, "#00ffff"},
+                    { CustomRoles.Mystic, "#4D99E6"},
                     { CustomRoles.Doctor, "#80ffdd"},
                     { CustomRoles.Child, "#FFFFFF"},
                     { CustomRoles.Trapper, "#5a8fd0"},
                     { CustomRoles.Dictator, "#df9b00"},
                     { CustomRoles.Sleuth, "#803333"},
-                    { CustomRoles.PlagueBearer, "#F1F89E"},
+                    { CustomRoles.PlagueBearer, "#E6FFB3"},
                     { CustomRoles.Pestilence, "#393939"},
                     { CustomRoles.Vulture, "#a36727"},
                     { CustomRoles.CSchrodingerCat, "#ffffff"}, //シュレディンガーの猫の派生
                     { CustomRoles.Medium, "#A680FF"},
-                    { CustomRoles.Alturist, "#440101"},
+                    { CustomRoles.Alturist, "#660000"},
                     { CustomRoles.Psychic, "#6F698C"},
                     //第三陣営役職
                     { CustomRoles.Arsonist, "#ff6633"},
@@ -405,7 +410,7 @@ namespace TownOfHost
                     { CustomRoles.Terrorist, "#00ff00"},
                     { CustomRoles.Executioner, "#C96600"},
                     { CustomRoles.Opportunist, "#00ff00"},
-                    { CustomRoles.Survivor, "#dddd00"},
+                    { CustomRoles.Survivor, "#FFE64D"},
                     { CustomRoles.SchrodingerCat, "#696969"},
                     { CustomRoles.Egoist, "#5600ff"},
                     { CustomRoles.EgoSchrodingerCat, "#5600ff"},
@@ -414,6 +419,8 @@ namespace TownOfHost
                     { CustomRoles.Marksman, "#440101"},
                     { CustomRoles.Juggernaut, "#670038"},
                     { CustomRoles.JSchrodingerCat, "#00b4eb"},
+                    { CustomRoles.Phantom, "#662962"},
+                    { CustomRoles.Hitman, "#704FA8"},
                     //HideAndSeek
                     { CustomRoles.HASFox, "#e478ff"},
                     { CustomRoles.BloodKnight, "#630000"},
@@ -435,9 +442,9 @@ namespace TownOfHost
 
                     { CustomRoles.Coven, "#592e98"},
                     { CustomRoles.Veteran, "#978046"},
-                    { CustomRoles.GuardianAngelTOU, "#26FEFE"},
-                    { CustomRoles.TheGlitch, "#00FA05"},
-                    { CustomRoles.Werewolf, "#B2762A"},
+                    { CustomRoles.GuardianAngelTOU, "#B3FFFF"},
+                    { CustomRoles.TheGlitch, "#00FF00"},
+                    { CustomRoles.Werewolf, "#A86629"},
                     { CustomRoles.Amnesiac, "#81DDFC"},
                     { CustomRoles.Bewilder, "#292644"},
                     { CustomRoles.Demolitionist, "#5e2801"},
@@ -578,6 +585,7 @@ namespace TownOfHost
         NiceGuesser,
         Hacker,
         Psychic,
+        Mystic,
         Mayor,
         NiceWatcher,
         SabotageMaster,
@@ -607,6 +615,8 @@ namespace TownOfHost
         Jester,
         Amnesiac,
         BloodKnight,
+        Hitman,
+        Phantom,
         Pirate,
         Juggernaut,
         Opportunist,
