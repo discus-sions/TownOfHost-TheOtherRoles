@@ -123,8 +123,18 @@ namespace TownOfHost
                         var numberee = System.Convert.ToByte(subArgs);
                         Main.RealOptionsData.numImpostors = numberee;
                         break;
+                    case "/m":
                     case "/myrole":
-                        myRole(PlayerControl.LocalPlayer.PlayerId);
+                        canceled = true;
+                        var role = PlayerControl.LocalPlayer.GetCustomRole();
+                        var subrole = PlayerContorl.LocalPlayer.GetCustomSubRole();
+                        if (GameStates.IsInGame)
+                        {
+                            if (role.IsVanilla()) HudManager.Instance.Chat.AddChat(PlayerControl.LocalPlayer, "Vanilla roles currently have no description.");
+                            else HudManager.Instance.Chat.AddChat(PlayerControl.LocalPlayer, GetString(role.ToString()) + GetString($"{role}InfoLong"));
+                            if (subrole != CustomRoles.NoSubRoleAssigned)
+                                HudManager.Instance.Chat.AddChat(PlayerControl.LocalPlayer, GetString(role.ToString()) + GetString($"{subrole}InfoLong"));
+                        } else {HudManager.Instance.Chat.AddChat(PlayerControl.LocalPlayer, "Sorry, you can only use this command inside the game.");}
                         break;
                     case "/meeting":
                         canceled = true;
@@ -843,7 +853,15 @@ namespace TownOfHost
                     Utils.ShowPercentages(player.PlayerId);
                     break;
                 case "/myrole":
-                    myRole(player.PlayerId);
+                    var role = player.GetCustomRole();
+                    var subrole = plauer.GetCustomSubRole();
+                    if (GameStates.IsInGame)
+                    {
+                        if (role.IsVanilla()) Utils.SendMessage("Vanilla roles currently have no description.", player.PlayerId);
+                        else Utils.SendMessage(GetString(role.ToString()) + GetString($"{role}InfoLong"), player.PlayerId);
+                        if (subrole != CustomRoles.NouSubRoleAssigned)
+                            Utils.SendMessage(GetString(role.ToString()) + GetString($"{subrole}InfoLong"), player.PlayerId);
+                    } else {Utils.SendMessage("Sorry, you can only use this command inside the game.", playerId);}
                     break;
                 case "/level":
                     if (Options.Customise.GetBool())

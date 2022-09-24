@@ -21,17 +21,13 @@ Old Versions: [Here](https://github.com/music-discussion/TownOfHost-TheOtherRole
 
 KNOWN BUGS:
 
-- Lovers causes Severe Issues with the Game
-- Silenced People can Still Talk.
-- Games might bug out when new roles kill Cat. (Haven't made it so new roles make Cat Join them.)
-- If GA’s target leaves mid-meeting, their role doesn’t change.
-- Coven doesn't change from regular Coven 
+- Lovers causes Severe Issues with the Game (fixed in update 0.8.4)
+- Cat does just not work at all.
 - Poisoner doesn't replace a Coven
 - Some Roles have double their Cooldown or half their cooldown sometimes.
-- Sheriff doesn't turn Corrupted
-- Black screens on consoles when dead as a role that uses a desynced Impostor role (Lag spikes triggered by name changes cause this)
+- Black screens on consoles when dead affter next meeting when impostors die. Desynced impostor roles can bypass this until they die. (Lag spikes triggered by name changes cause this)
 - Sometimes players will see some or all players using desynced Impostor roles (known as Impostor Desync)
-- Chat sometimes disappears for the host when a player leaves the game (this prevents commands from working until the host dies)
+- Chat sometimes disappears for the host when a player leaves the game (this prevents commands from working until the host dies. Use SHIFT C ENTER or smth to force chat)
 - Some or all roles disappear for ghosts in meetings, this does not apply to players with the mod
 - If GA turns into a SidekickMadmate then the GA target dies, the GA turned SidekickMadmate will still turn into the role set in the settings for GA
 
@@ -48,10 +44,10 @@ However, please note that the following restrictions apply.<br>
 
 Note that if a player other than the host plays with this mod installed, the following changes will be made.<br>
 
-- Display of the special role's own start screen.
-- Display of the normal victory screen for the special role.
-- Add additional settings.
-- More Better UI
+- Custom Role Reveals
+- Custom End Screens
+- Additional settings
+- Better UI
 - etc.
 
 ## Features
@@ -97,7 +93,7 @@ You can execute chat commands by typing in chat.
 | /help attributes <attribute><br>/help att <attribute> | Show attribute description                        |
 | /help modes <mode><br>/help m <mode>                  | Show mode description                             |
 | /help now<br>/help n                                  | Show active setting descriptions                  |
-| /changerole role(crewmate, impostor, engineer...).    | Change your In-Game Role (dont get buttons)       |
+| /changerole <crewmate, impostor, engineer...>         | Change your In-Game Role                          |
 | /level <0-2147483647>                                 | Change your Among Us level                        |
 
 #### MOD Client Only
@@ -129,7 +125,7 @@ If the tag is set to "welcome" in the template function, it will be sent automat
 For example: `welcome:This room is using the mod Town Of Host: The Other Roles.`
 
 ### Impostor Disconnect Detection
-If all Impostors leave the game, the game will automatically end with the unused Impostor Disconnected screen. This was done as all impostors leaving the game would black screen all players who do not use desynced Impostor roles.
+If all Impostors leave the game, the game will automatically end with the unused Impostor Disconnected screen. This was done as all impostors leaving the game would black screen all players who do not use desynced Impostor roles after the next meeting.
 
 ### Developer Tag
 Developers get a tag while in the lobby to indicate that they're a mod dev.
