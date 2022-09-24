@@ -714,7 +714,14 @@ namespace TownOfHost
         {
             if (!AmongUsClient.Instance.AmHost) return;
             string name = SaveManager.PlayerName;
-            if (Main.nickName != "") name = Main.nickName;
+            string rname = PlayerControl.LocalPlayer.Data.PlayerName;
+            string fontSize = "1";
+            string disc = $"<size={fontSize}>{Helpers.ColorString(Utils.GetRoleColor(CustomRoles.thirdcolor), "/t discord")}</size>";
+            string host = $"<size={fontSize}>{Helpers.ColorString(Utils.GetRoleColor(CustomRoles.tancolor), "Best Host")}</size>";
+            string test1 = $"<size={fontSize}>{Helpers.ColorString(Utils.GetRoleColor(CustomRoles.fourthcolor), "Testing ToH:ToR")}</size>";
+            string dname = disc + "\r\n" + name;
+            string hname = host + "\r\n" + name;
+            string tname = test1 + "\r\n" + name;
             if (AmongUsClient.Instance.IsGameStarted)
             {
                 if (Options.ColorNameMode.GetBool() && Main.nickName == "") name = Palette.GetColorName(PlayerControl.LocalPlayer.Data.DefaultOutfit.ColorId);
@@ -728,11 +735,14 @@ namespace TownOfHost
                     case SuffixModes.TOH:
                         name += "\r\n<color=" + Main.modColor + ">TOH: TORv" + Main.PluginVersion + "</color>";
                         break;
-                    case SuffixModes.Streaming:
-                        name += $"\r\n{GetString("SuffixMode.Streaming")}";
+                    case SuffixModes.Discord:
+                        name = ($"{Helpers.ColorString(Utils.GetRoleColor(CustomRoles.thirdcolor), dname)}");
                         break;
-                    case SuffixModes.Recording:
-                        name += $"\r\n{GetString("SuffixMode.Recording")}";
+                    case SuffixModes.Hosting:
+                        name = ($"{Helpers.ColorString(Utils.GetRoleColor(CustomRoles.thirdcolor), hname)}");
+                        break;
+                    case SuffixModes.Testing:
+                        name = ($"{Helpers.ColorString(Utils.GetRoleColor(CustomRoles.tancolor2), tname)}");
                         break;
                 }
             }

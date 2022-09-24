@@ -1,4 +1,4 @@
-﻿using BepInEx;
+using BepInEx;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -462,7 +462,14 @@ namespace TownOfHost
                     { CustomRoles.Demolitionist, "#5e2801"},
                     { CustomRoles.Bastion, "#524f4d"},
                     { CustomRoles.Hacker, "#358013"},
-                    { CustomRoles.CrewPostor, "#DC6601"}
+                    { CustomRoles.CrewPostor, "#DC6601"},
+                    //TEXT COLORS KRAMPUS
+                    { CustomRoles.tancolor, "#9e9888"},
+                    { CustomRoles.tancolor2, "#63554f"},
+                    { CustomRoles.rosecolor, "#FFD6EC"},
+                    { CustomRoles.pinkcolor, "#ff35c6"},
+                    { CustomRoles.thirdcolor, "#86A873"},
+                    { CustomRoles.fourthcolor, "#C1CC99"}
                 };
                 foreach (var role in Enum.GetValues(typeof(CustomRoles)).Cast<CustomRoles>())
                 {
@@ -685,6 +692,13 @@ namespace TownOfHost
         Bait, // DONE
         Torch, // DONE
         Diseased,
+        // CUSTOM COLORS//
+        tancolor,
+        tancolor2,
+        rosecolor,
+        pinkcolor,
+        fourthcolor,
+        thirdcolor
     }
     //WinData
     public enum CustomWinner
@@ -736,8 +750,9 @@ namespace TownOfHost
     {
         None = 0,
         TOH,
-        Streaming,
-        Recording
+        Discord,
+        Hosting,
+        Testing
     }
     public enum VersionTypes
     {

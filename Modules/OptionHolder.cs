@@ -372,8 +372,9 @@ namespace TownOfHost
         {
             "SuffixMode.None",
             "SuffixMode.Version",
-            "SuffixMode.Streaming",
-            "SuffixMode.Recording"
+            "SuffixMode.Discord",
+            "SuffixMode.Hosting",
+            "SuffixMode.Testing"
         };
         public static SuffixModes GetSuffixMode()
         {

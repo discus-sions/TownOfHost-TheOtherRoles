@@ -415,11 +415,12 @@ DisableUnlockSafeTask,Disable UnlockSafe Tasks,Отключить Задание
 DisableUploadDataTask,Disable UploadData Tasks,Отключить Задание ЗагрузкаДанных,ダウンロードタスクを無効化する,禁用上传数据任务,禁用上傳任務
 DisableStartReactorTask,Disable StartReactor Tasks,Отключить Задание СаймонГоворит,原子炉起動タスクを無効化する,禁用启动反应堆任务,禁用啟動反應堆任務
 DisableResetBreakerTask,Disable ResetBreaker Tasks,Отключить Задание Рычаги,ブレーカーリセットタスクを無効化する,禁用重置反应堆任务,禁用重置斷路器任務
-SuffixMode,Suffix,Суффикс,名前の二行目,名字后缀,名字標籤
+SuffixMode,Suffix,Суффикс,名前の二行目,直播模式,名字標籤
 SuffixMode.None,None,Ничего,なし,无,無
 SuffixMode.Version,Version,Версия,バージョン,版本,版本
-SuffixMode.Streaming,Streaming,Стримит,配信中,直播中,直播中
-SuffixMode.Recording,Recording,Записывает,録画中,录制中,錄影中
+SuffixMode.Discord,Discord,Стримит,配信中,直播中,直播中
+SuffixMode.Hosting,Hosting,Записывает,録画中,录制中,錄影中
+SuffixMode.Testing,Testing,Тестирование,テスト,测试,測試
 ColorNameMode,Color Name Mode,Цветной Режим,色名前モード,显示颜色名称,名字將被顏色名稱替換
 GhostCanSeeOtherRoles,Ghost Can See Other Roles,Призраки Могут Видеть Все Роли,幽霊が他人の役職を見ることができる,幽灵可见他人职业,幽靈可以看見所有玩家職業
 GhostCanSeeOtherVotes,Ghost Can See Other Votes,Призраки Могут Видеть Цвета Голосов,幽霊が他人の投票先を見ることができる,幽灵可见投票情况,幽靈可以看見所有玩家的投票
