@@ -415,6 +415,7 @@ DisableUnlockSafeTask,Disable UnlockSafe Tasks,Отключить Задание
 DisableUploadDataTask,Disable UploadData Tasks,Отключить Задание ЗагрузкаДанных,ダウンロードタスクを無効化する,禁用上传数据任务,禁用上傳任務
 DisableStartReactorTask,Disable StartReactor Tasks,Отключить Задание СаймонГоворит,原子炉起動タスクを無効化する,禁用启动反应堆任务,禁用啟動反應堆任務
 DisableResetBreakerTask,Disable ResetBreaker Tasks,Отключить Задание Рычаги,ブレーカーリセットタスクを無効化する,禁用重置反应堆任务,禁用重置斷路器任務
+DisableFixWiring,Disable Fix Wiring Tasks,Отключить Задание Рычаги,ブレーカーリセットタスクを無効化する,禁用重置反应堆任务,禁用重置斷路器任務
 SuffixMode,Suffix,Суффикс,名前の二行目,直播模式,名字標籤
 SuffixMode.None,None,Ничего,なし,无,無
 SuffixMode.Version,Version,Версия,バージョン,版本,版本

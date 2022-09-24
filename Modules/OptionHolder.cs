@@ -211,6 +211,7 @@ namespace TownOfHost
         public static CustomOption DisableUploadData;
         public static CustomOption DisableStartReactor;
         public static CustomOption DisableResetBreaker;
+        public static CustomOption DisableFixWiring;
 
         // ランダムマップ
         public static CustomOption RandomMapsMode;
@@ -808,6 +809,8 @@ namespace TownOfHost
             DisableStartReactor = CustomOption.Create(100305, Color.white, "DisableStartReactorTask", false, DisableTasks)
                 .SetGameMode(CustomGameMode.All);
             DisableResetBreaker = CustomOption.Create(100306, Color.white, "DisableResetBreakerTask", false, DisableTasks)
+                .SetGameMode(CustomGameMode.All);
+            DisableFixWiring = CustomOption.Create(100307, Color.white, "DisableFixWiringTask", false, DisableTasks)
                 .SetGameMode(CustomGameMode.All);
 
             // ランダムマップ
