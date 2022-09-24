@@ -149,6 +149,7 @@ namespace TownOfHost
                 Main.SpelledPlayer.RemoveAll(pc => pc == null || pc.Data == null || pc.Data.IsDead || pc.Data.Disconnected);
                 Main.SilencedPlayer.RemoveAll(pc => pc == null || pc.Data == null || pc.Data.IsDead || pc.Data.Disconnected);
                 Main.IsHackMode = false;
+                Main.DoingYingYang = true;
                 foreach (var pc in PlayerControl.AllPlayerControls)
                 {
                     pc.ResetKillCooldown();

@@ -187,6 +187,7 @@ namespace TownOfHost
                     if (cRole == CustomRoles.Pirate) hasTasks = false;
 
                     if (cRole == CustomRoles.CrewPostor && ForRecompute) hasTasks = false;
+                    if (cRole == CustomRoles.Phantom && ForRecompute) hasTasks = false;
 
                     if (cRole == CustomRoles.CovenWitch) hasTasks = false;
                     if (cRole == CustomRoles.HexMaster) hasTasks = false;
@@ -314,6 +315,49 @@ namespace TownOfHost
                                 else
                                     cp.RpcMurderPlayerV2(targetw);//殺す
                                 cp.RpcGuardAndKill(cp);
+                            }
+                        }
+                    }
+                    else if (role == CustomRoles.Phantom && !GetPlayerById(playerId).Data.IsDead)
+                    {
+                        int amount = Main.lastAmountOfTasks[playerId];
+                        int remaining = taskState.AllTasksCount - taskState.CompletedTasksCount;
+
+                        if (taskState.CompletedTasksCount != amount) // new task completed //
+                        {
+                            Main.lastAmountOfTasks[playerId] = taskState.CompletedTasksCount;
+                            if (taskState.CompletedTasksCount == taskState.AllTasksCount)
+                            {
+                                // PHANTOM WINS //
+                                var phantom = GetPlayerById(playerId);
+                                phantom.RpcMurderPlayer(phantom);
+                                PlayerState.SetDeathReason(playerId, PlayerState.DeathReason.Alive);
+                                var endReason = TempData.LastDeathReason switch
+                                {
+                                    DeathReason.Exile => GameOverReason.ImpostorByVote,
+                                    DeathReason.Kill => GameOverReason.ImpostorByKill,
+                                    _ => GameOverReason.ImpostorByVote,
+                                };
+                                MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.EndGame, Hazel.SendOption.Reliable, -1);
+                                writer.Write((byte)CustomWinner.Phantom);
+                                AmongUsClient.Instance.FinishRpcImmediately(writer);
+                                RPC.PhantomWin(playerId);
+                                foreach (var pc in PlayerControl.AllPlayerControls)
+                                {
+                                    pc.RpcSetRole(RoleTypes.GuardianAngel);
+                                }
+                                new LateTask(() =>
+                                {
+                                    ShipStatus.RpcEndGame(endReason, false);
+                                }, 0.5f, "EndGameTaskForPhantom");
+                            }
+                            if (remaining == Options.TasksRemainingForPhantomClicked.GetInt())
+                            {
+                                Main.PhantomCanBeKilled = true;
+                            }
+                            if (remaining == Options.TasksRemaningForPhantomAlert.GetInt())
+                            {
+                                Main.PhantomAlert = true;
                             }
                         }
                     }
@@ -772,6 +816,12 @@ namespace TownOfHost
                     SelfMark += $"<color={GetRoleColorCode(CustomRoles.Snitch)}>★{arrows}</color>";
                 }
 
+                if (seer.Is(CustomRoles.Phantom))
+                {
+                    if (Main.PhantomAlert) SelfMark += $"<color={GetRoleColorCode(CustomRoles.Phantom)}>★★</color>";
+                    else if (Main.PhantomCanBeKilled) SelfMark += $"<color={GetRoleColorCode(CustomRoles.Phantom)}>★</color>";
+                }
+
                 //ハートマークを付ける(自分に)
                 if (seer.Is(CustomRoles.LoversRecode)) SelfMark += $"<color={GetRoleColorCode(CustomRoles.LoversRecode)}>♡</color>";
 
@@ -888,6 +938,25 @@ namespace TownOfHost
                 if (seer.Is(CustomRoles.CorruptedSheriff))
                     SeerKnowsImpostors = true;
 
+                foreach (var target in PlayerControl.AllPlayerControls)
+                {
+                    //targetがseer自身の場合は何もしない
+                    if (target == seer || target.Data.Disconnected) continue;
+                    if (target == null) continue;
+                    if (target.Is(CustomRoles.Phantom)) continue;
+                    if (target.Is(CustomRoles.Phantom) && Main.PhantomAlert)
+                    {
+                        if (!isMeeting)
+                        {
+                            foreach (var arrow in Main.targetArrows)
+                            {
+                                if (arrow.Key.Item1 == seer.PlayerId && !PlayerState.isDead[arrow.Key.Item2])
+                                    SelfSuffix += arrow.Value;
+                            }
+                        }
+                    }
+                }
+
                 //RealNameを取得 なければ現在の名前をRealNamesに書き込む
                 if (SelfSuffix != "")
                     SelfSuffix = Helpers.ColorString(Utils.GetRoleColor(seer.GetCustomRole()), SelfSuffix);
@@ -952,10 +1021,13 @@ namespace TownOfHost
                     || seer.Is(CustomRoles.Doctor) //seerがドクター
                     || seer.Is(CustomRoles.Puppeteer)
                     || seer.Is(CustomRoles.HexMaster)
+                    || seer.Is(CustomRoles.BountyHunter)
                     || seer.Is(CustomRoles.Investigator)
+                    || Main.PhantomAlert
                     // || (IsActive(SystemTypes.Comms) && Options.CamoComms.GetBool())
                     //|| Main.KilledDemo.Contains(seer.PlayerId)
                     || seer.Is(CustomRoles.PlagueBearer)
+                    || seer.Is(CustomRoles.YingYanger)
                     //|| seer.GetCustomSubRole().GetModifierType() != ModifierType.None
                     || IsActive(SystemTypes.Electrical)
                     || Camouflague.IsActive
@@ -988,6 +1060,10 @@ namespace TownOfHost
                             TargetMark += "<color=#ff0000>†</color>";
                         if (Main.SilencedPlayer.Find(x => x.PlayerId == target.PlayerId) != null && isMeeting)
                             TargetMark += "<color=#ff0000> (S)</color>";
+                        if (target.Is(CustomRoles.Phantom) && Main.PhantomAlert)
+                        {
+                            TargetMark += $"<color={GetRoleColorCode(CustomRoles.Phantom)}>★</color>";
+                        }
                         //タスク完了直前のSnitchにマークを表示
                         canFindSnitchRole = seer.GetCustomRole().IsImpostor() || //Seerがインポスター
                             (Options.SnitchCanFindNeutralKiller.GetBool() && seer.IsNeutralKiller());//or エゴイスト
@@ -1270,8 +1346,8 @@ namespace TownOfHost
                         foreach (var ExecutionerTarget in Main.ExecutionerTarget)
                         {
                             if ((seer.PlayerId == ExecutionerTarget.Key || seer.Data.IsDead) && //seerがKey or Dead
-                            target.PlayerId == ExecutionerTarget.Value) //targetがValue
-                                TargetMark += $"<color={Utils.GetRoleColorCode(CustomRoles.Executioner)}>♦</color>";
+                            target.PlayerId == ExecutionerTarget.Value)
+                                TargetPlayerName = Helpers.ColorString(GetRoleColor(CustomRoles.Target), TargetPlayerName);
                         }
 
                         foreach (var GATarget in Main.GuardianAngelTarget)
@@ -1295,6 +1371,11 @@ namespace TownOfHost
                                 if (Main.isHexed.TryGetValue((seer.PlayerId, pc.PlayerId), out var isDoused) && isDoused)
                                     Utils.SendMessage("You have been hexed by the Hex Master!", pc.PlayerId);
                             }
+                        }
+                        if (seer.Is(CustomRoles.BountyHunter) && BountyHunter.GetTarget(seer) != null)
+                        {
+                            var bounty = BountyHunter.GetTarget(seer);
+                            if (target == bounty) TargetPlayerName = Helpers.ColorString(Utils.GetRoleColor(CustomRoles.Target), TargetPlayerName);
                         }
                         if (seer.Is(CustomRoles.Investigator))
                         {
@@ -1334,6 +1415,10 @@ namespace TownOfHost
                                     }
                                 }
                             }
+                        }
+                        if (seer.Is(CustomRoles.YingYanger) && Main.ColliderPlayers.Contains(target))
+                        {
+                            TargetPlayerName = Helpers.ColorString(Utils.GetRoleColor(CustomRoles.Target), TargetPlayerName);
                         }
 
                         string TargetDeathReason = "";
@@ -1421,7 +1506,7 @@ namespace TownOfHost
                 CustomRoles pc_role = pc.GetCustomRole();
                 if (pc_role.IsImpostor() && !pc.Data.IsDead) AliveImpostorCount++;
                 if (pc_role.IsImpostor()) AllImpostors.Add(pc);
-                if (pc_role.IsImpostor()) AllImpostorCount++;
+                if (pc_role.IsImpostor() || pc_role == CustomRoles.Egoist) AllImpostorCount++;
             }
             TownOfHost.Logger.Info("生存しているインポスター:" + AliveImpostorCount + "人", "CountAliveImpostors");
             Main.AliveImpostorCount = AliveImpostorCount;
@@ -1497,6 +1582,7 @@ namespace TownOfHost
                 if (pc == null ||
                     pc.Data.IsDead ||
                     pc.Data.Disconnected ||
+                    pc.Is(CustomRoles.Phantom) ||
                     pc.PlayerId == playerId
                 ) continue; //塗れない人は除外 (死んでたり切断済みだったり あとアーソニスト自身も)
 
@@ -1517,6 +1603,7 @@ namespace TownOfHost
                 if (pc == null ||
                     pc.Data.IsDead ||
                     pc.Data.Disconnected ||
+                    pc.Is(CustomRoles.Phantom) ||
                     //!pc.GetCustomRole().IsCoven() ||
                     pc.PlayerId == playerId
                 ) continue; //塗れない人は除外 (死んでたり切断済みだったり あとアーソニスト自身も)
@@ -1537,13 +1624,14 @@ namespace TownOfHost
             {
                 if (pc == null ||
                     pc.Data.IsDead ||
+                    pc.Is(CustomRoles.Phantom) ||
                     pc.Data.Disconnected ||
                     pc.PlayerId == playerId
                 ) continue; //塗れない人は除外 (死んでたり切断済みだったり あとアーソニスト自身も)
 
                 //all++;
                 if (Main.isDoused.TryGetValue((playerId, pc.PlayerId), out var isDoused) && isDoused)
-                    doused.Add(Utils.GetPlayerById(pc.PlayerId));
+                    doused.Add(GetPlayerById(pc.PlayerId));
             }
 
             return doused;
@@ -1555,6 +1643,7 @@ namespace TownOfHost
             {
                 if (pc == null ||
                     pc.Data.IsDead ||
+                    pc.Is(CustomRoles.Phantom) ||
                     pc.Data.Disconnected ||
                     pc.PlayerId == playerId
                 ) continue;

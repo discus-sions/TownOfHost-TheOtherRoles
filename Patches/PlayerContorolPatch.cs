@@ -57,7 +57,6 @@ namespace TownOfHost
                 return false;
             }
 
-            //不正キル防止処理
             if (target.Data == null || //PlayerDataがnullじゃないか確認
                 target.inVent || target.inMovingPlat //targetの状態をチェック
             )
@@ -71,9 +70,7 @@ namespace TownOfHost
                 return false;
             }
 
-            float minTime = Mathf.Max(0.02f, AmongUsClient.Instance.Ping / 1000f * 6f); //※AmongUsClient.Instance.Pingの値はミリ秒(ms)なので÷1000
-            //TimeSinceLastKillに値が保存されていない || 保存されている時間がminTime以上 => キルを許可
-            //↓許可されない場合
+            float minTime = Mathf.Max(0.02f, AmongUsClient.Instance.Ping / 1000f * 6f);
             if (TimeSinceLastKill.TryGetValue(killer.PlayerId, out var time) && time < minTime)
             {
                 Logger.Info("前回のキルからの時間が早すぎるため、キルをブロックしました。", "CheckMurder");
@@ -83,8 +80,6 @@ namespace TownOfHost
 
             killer.ResetKillCooldown();
 
-            //キルボタンを使えない場合の判定
-            //if (!Options.SplatoonOn.GetBool())
             if ((Options.CurrentGameMode() == CustomGameMode.HideAndSeek || Options.IsStandardHAS) && Options.HideAndSeekKillDelayTimer > 0)
             {
                 Logger.Info("HideAndSeekの待機時間中だったため、キルをキャンセルしました。", "CheckMurder");
@@ -94,7 +89,6 @@ namespace TownOfHost
             //キル可能判定
             if (killer.PlayerId != target.PlayerId)
             {
-                //自殺でない場合のみ役職チェック
                 switch (killer.GetCustomRole())
                 {
                     //==========インポスター役職==========//
@@ -126,14 +120,9 @@ namespace TownOfHost
                             return false;
                         break;
 
-                    //==========マッドメイト系役職==========//
                     case CustomRoles.SKMadmate:
-                        //キル可能職がサイドキックされた場合
                         return false;
 
-                    //==========第三陣営役職==========//
-
-                    //==========クルー役職==========//
                     case CustomRoles.Sidekick:
                         if (!Main.JackalDied)
                         {
@@ -160,12 +149,13 @@ namespace TownOfHost
             switch (target.GetCustomRole())
             {
                 case CustomRoles.SchrodingerCat:
-                    //シュレディンガーの猫が切られた場合の役職変化スタート
-                    //直接キル出来る役職チェック
-                    // Sniperなど自殺扱いのものもあるので追加するときは注意
                     var canDirectKill = !killer.Is(CustomRoles.Arsonist) && !killer.Is(CustomRoles.PlagueBearer) && !killer.Is(CustomRoles.HexMaster) && !killer.IsHexMode() && !killer.Is(CustomRoles.Investigator);
                     if (canDirectKill)
                     {
+                        if (killer.Is(CustomRoles.Arsonist)) break;
+                        if (killer.Is(CustomRoles.PlagueBearer)) break;
+                        if (killer.Is(CustomRoles.Investigator)) break;
+                        if (killer.Is(CustomRoles.HexMaster) && !killer.IsHexMode()) break;
                         killer.RpcGuardAndKill(target);
                         if (PlayerState.GetDeathReason(target.PlayerId) == PlayerState.DeathReason.Sniped)
                         {
@@ -175,7 +165,7 @@ namespace TownOfHost
                             NameColorManager.Instance.RpcAdd(sniperId, target.PlayerId, $"{Utils.GetRoleColorCode(CustomRoles.SchrodingerCat)}");
                         }
                         else if (BountyHunter.GetTarget(killer) == target)
-                            BountyHunter.ResetTarget(killer);//ターゲットの選びなおし
+                            BountyHunter.ResetTarget(killer);
                         else
                         {
                             SerialKiller.OnCheckMurder(killer, isKilledSchrodingerCat: true);
@@ -197,21 +187,18 @@ namespace TownOfHost
                         Utils.NotifyRoles();
                         Utils.CustomSyncAllSettings();
                         return false;
-                        //シュレディンガーの猫の役職変化処理終了
-                        //第三陣営キル能力持ちが追加されたら、その陣営を味方するシュレディンガーの猫の役職を作って上と同じ書き方で書いてください
                     }
                     break;
 
                 //==========マッドメイト系役職==========//
                 case CustomRoles.MadGuardian:
-                    //killerがキルできないインポスター判定役職の場合はスキップ
-                    if (killer.Is(CustomRoles.Arsonist) //アーソニスト
+                    if (killer.Is(CustomRoles.Arsonist)
                     ) break;
-                    if (killer.Is(CustomRoles.PlagueBearer) //アーソニスト
+                    if (killer.Is(CustomRoles.PlagueBearer)
                     ) break;
-                    if (killer.Is(CustomRoles.Investigator) //アーソニスト
+                    if (killer.Is(CustomRoles.Investigator)
                     ) break;
-                    if (killer.Is(CustomRoles.HexMaster) && !killer.IsHexMode()//アーソニスト
+                    if (killer.Is(CustomRoles.HexMaster) && !killer.IsHexMode()
                     ) break;
 
                     //MadGuardianを切れるかの判定処理
@@ -236,9 +223,44 @@ namespace TownOfHost
                         return false;
                     }
                     break;
+                case CustomRoles.Phantom:
+                    if (!Main.PhantomCanBeKilled)
+                    {
+                        var pc = target;
+                        pc.SetName("");
+                        var sender = CustomRpcSender.Create(name: "RpcChoosePhantom");
+                        int colorId = pc.CurrentOutfit.ColorId;
+                        pc.SetColor(colorId);
+                        sender.AutoStartRpc(pc.NetId, (byte)RpcCalls.SetColor)
+                            .Write(15)
+                            .EndRpc();
+
+                        pc.SetHat("", colorId);
+                        sender.AutoStartRpc(pc.NetId, (byte)RpcCalls.SetHatStr)
+                            .Write("")
+                            .EndRpc();
+
+                        pc.SetSkin("", colorId);
+                        sender.AutoStartRpc(pc.NetId, (byte)RpcCalls.SetSkinStr)
+                            .Write("")
+                            .EndRpc();
+
+                        pc.SetVisor("", colorId);
+                        sender.AutoStartRpc(pc.NetId, (byte)RpcCalls.SetVisorStr)
+                            .Write("")
+                            .EndRpc();
+
+                        pc.SetPet("", colorId);
+                        sender.AutoStartRpc(pc.NetId, (byte)RpcCalls.SetPetStr)
+                            .Write("")
+                            .EndRpc();
+                        pc.RpcShapeshift(pc, true);
+                        return false;
+                    }
+                    break;
             }
 
-            Main.whoKilledWho.Add(killer, target);
+            //Main.whoKilledWho.Add(target, killer);
 
             //キル時の特殊判定
             if (killer.PlayerId != target.PlayerId)
@@ -247,13 +269,11 @@ namespace TownOfHost
                 if (CustomRoles.TheGlitch.IsEnable())
                 {
                     List<byte> hackedPlayers = new();
-                    PlayerControl glitch;
                     foreach (var cp in Main.CursedPlayers)
                     {
                         if (Utils.GetPlayerById(cp.Key).Is(CustomRoles.TheGlitch))
                         {
                             hackedPlayers.Add(cp.Value.PlayerId);
-                            glitch = Utils.GetPlayerById(cp.Key);
                         }
                     }
                     if (hackedPlayers.Contains(killer.PlayerId))
@@ -267,12 +287,12 @@ namespace TownOfHost
                     return false;
                 }
                 if (Options.CurrentGameMode() == CustomGameMode.Standard)
-                    if (killer.GetRoleType() == target.GetRoleType() && killer.GetCustomRole().IsJackalTeam())
+                    if (target.GetCustomRole().IsJackalTeam() && killer.GetCustomRole().IsJackalTeam())
                     {
                         //they are both Jackal.
                         return false;
                     }
-                if (killer.GetRoleType() == target.GetRoleType() && killer.GetCustomRole().IsImpostor())
+                if (killer.GetCustomRole().IsImpostor() && target.GetCustomRole().IsImpostor())
                 {
                     // cannot kill traitor. //
                     return false;
@@ -294,7 +314,7 @@ namespace TownOfHost
                 }
                 if (target.Is(CustomRoles.BloodKnight))
                 {
-                    if (!killer.Is(CustomRoles.Arsonist) && !killer.Is(CustomRoles.PlagueBearer) && Main.bkProtected) return false;
+                    if (!killer.Is(CustomRoles.Arsonist) && !killer.Is(CustomRoles.PlagueBearer) && !killer.Is(CustomRoles.Investigator) && Main.bkProtected) return false;
                 }
                 if (target.Is(CustomRoles.CovenWitch) && !Main.WitchProtected)
                 {
@@ -388,6 +408,8 @@ namespace TownOfHost
                             }, Options.StoneReport.GetFloat(), "Medusa Stone Gazing");
                             return false;
                         }
+                        if (Options.FreeForAllOn.GetBool() && Options.CurrentGameMode() == CustomGameMode.HideAndSeek)
+                            if (target.CurrentOutfit.ColorId == killer.CurrentOutfit.ColorId) return false;
                         break;
                     case CustomRoles.TheGlitch:
                         if (target.Is(CustomRoles.Veteran) && Main.VetIsAlerted && !Main.IsHackMode)
@@ -742,6 +764,35 @@ namespace TownOfHost
                         }
                         TimeThief.OnCheckMurder(killer);
                         break;
+                    case CustomRoles.YingYanger:
+                        if (target.Is(CustomRoles.Veteran) && Main.VetIsAlerted)
+                        {
+                            target.RpcMurderPlayer(killer);
+                            return false;
+                        }
+                        if (target.Is(CustomRoles.Medusa) && Main.IsGazing)
+                        {
+                            target.RpcMurderPlayer(killer);
+                            new LateTask(() =>
+                            {
+                                Main.unreportableBodies.Add(killer.PlayerId);
+                            }, Options.StoneReport.GetFloat(), "Medusa Stone Gazing");
+                            return false;
+                        }
+                        if (Main.DoingYingYang)
+                        {
+                            if (Main.ColliderPlayers.Count != 2)
+                            {
+                                Main.ColliderPlayers.Add(target);
+                                killer.RpcGuardAndKill(target);
+                            }
+                            else
+                            {
+                                Main.DoingYingYang = false;
+                                killer.ResetKillCooldown();
+                            }
+                        }
+                        break;
 
                     //==========マッドメイト系役職==========//
 
@@ -1076,6 +1127,10 @@ namespace TownOfHost
             {
                 Main.KilledBewilder.Add(killer.PlayerId);
             }
+            else if (target.GetCustomSubRole() == CustomRoles.Diseased && killer.PlayerId != target.PlayerId)
+            {
+                Main.KilledDiseased.Add(killer.PlayerId);
+            }
 
             if (target.Is(CustomRoles.Trapper) && !killer.Is(CustomRoles.Trapper))
                 killer.TrapperKilled(target);
@@ -1142,6 +1197,13 @@ namespace TownOfHost
             if (target.Is(CustomRoles.TimeThief))
                 target.ResetVotingTime();
 
+            if (Main.ColliderPlayers.Contains(target) && CustomRoles.YingYanger.IsEnable() && Options.ResetToYinYang.GetBool())
+            {
+                Main.DoingYingYang = false;
+            }
+            if (Main.ColliderPlayers.Contains(target))
+                Main.ColliderPlayers.Remove(target);
+
             foreach (var pc in PlayerControl.AllPlayerControls)
             {
                 if (pc.Data.Disconnected) continue;
@@ -1159,7 +1221,7 @@ namespace TownOfHost
             Utils.CountAliveImpostors();
             Utils.CustomSyncAllSettings();
             Utils.NotifyRoles();
-            Main.whoKilledWho.Add(killer, target);
+            Main.whoKilledWho.Add(target, killer);
         }
     }
     [HarmonyPatch(typeof(PlayerControl), nameof(PlayerControl.Shapeshift))]
@@ -1219,7 +1281,8 @@ namespace TownOfHost
                 {
                     int ventId = Main.LastEnteredVent[shapeshifter.PlayerId];
                     shapeshifter.NetTransform.RpcSnapTo(Main.LastEnteredVentLocation[shapeshifter.PlayerId]);
-                    shapeshifter?.MyPhysics?.RpcEnterVent(ventId);
+                    //shapeshifter?.MyPhysics?.RpcEnterVent(ventId);
+                    //shapeshifter.MyPhysics.
                 }
             }
             if (shapeshifter.CanMakeMadmate() && shapeshifting)
@@ -1263,11 +1326,10 @@ namespace TownOfHost
                 Camouflager.ShapeShiftState(shapeshifter, shapeshifting);
             }
             if (shapeshifter.Is(CustomRoles.SerialKiller) && !shapeshifter.Data.IsDead && Main.MercCanSuicide)
-                shapeshifter.RpcMurderPlayer(shapeshifter);
+            { shapeshifter.RpcMurderPlayer(shapeshifter); Sheriff.SwitchToCorrupt(shapeshifter, shapeshifter); }
 
             //変身解除のタイミングがずれて名前が直せなかった時のために強制書き換
 
-            Sheriff.SwitchToCorrupt(shapeshifter, shapeshifter);
             if (!shapeshifting)
             {
                 new LateTask(() =>
@@ -1284,6 +1346,7 @@ namespace TownOfHost
         public static bool Prefix(PlayerControl __instance, [HarmonyArgument(0)] GameData.PlayerInfo target)
         {
             if (GameStates.IsMeeting) return false;
+
             //if (Main.KilledDemo.Contains(__instance.PlayerId)) return false;
             Logger.Info($"{__instance.GetNameWithRole()} => {target?.GetNameWithRole() ?? "null"}", "ReportDeadBody");
             if (target != null)
@@ -1392,18 +1455,13 @@ namespace TownOfHost
                     var didKill = false;
                     foreach (var killed in Main.whoKilledWho)
                     {
-                        if (killed.Value == target.Object)
+                        if (killed.Key == target.Object)
                             didKill = true;
                     }
                     if (didKill)
                     {
                         var reason = PlayerState.GetDeathReason(target.PlayerId).ToString();
-                        var killer = PlayerControl.LocalPlayer;
-                        foreach (var killed in Main.whoKilledWho)
-                        {
-                            if (killed.Value == target.Object)
-                                killer = killed.Key;
-                        }
+                        var killer = Main.whoKilledWho[target.Object];
                         if (killer != target.Object)
                             Utils.SendMessage("The killer left a clue on their identity. The killer's role was " + Utils.GetRoleName(killer.GetCustomRole()) + ".", __instance.PlayerId);
                         else
@@ -1411,7 +1469,7 @@ namespace TownOfHost
                             if (PlayerState.GetDeathReason(target.PlayerId) == PlayerState.DeathReason.Bombed)
                                 Utils.SendMessage("The body was bombed by a Bastion.", __instance.PlayerId);
                             else if (PlayerState.GetDeathReason(target.PlayerId) == PlayerState.DeathReason.Torched)
-                                Utils.SendMessage("The body was ignited by Arsonist.", __instance.PlayerId);
+                                Utils.SendMessage("The body was incinerated by Arsonist.", __instance.PlayerId);
                             else if (PlayerState.GetDeathReason(target.PlayerId) == PlayerState.DeathReason.Misfire)
                                 Utils.SendMessage("The body was a misfire from Sheriff.", __instance.PlayerId);
                             else if (PlayerState.GetDeathReason(target.PlayerId) == PlayerState.DeathReason.Sniped)
@@ -1500,11 +1558,13 @@ namespace TownOfHost
                             break;
                         case CustomRoles.Arsonist:
                             foreach (var ar in PlayerControl.AllPlayerControls)
-                                Main.isDoused.Add((pc.PlayerId, ar.PlayerId), false);
+                                if (!ar.Is(CustomRoles.Phantom))
+                                    Main.isDoused.Add((pc.PlayerId, ar.PlayerId), false);
                             break;
                         case CustomRoles.PlagueBearer:
                             foreach (var ar in PlayerControl.AllPlayerControls)
-                                Main.isInfected.Add((pc.PlayerId, ar.PlayerId), false);
+                                if (!ar.Is(CustomRoles.Phantom))
+                                    Main.isInfected.Add((pc.PlayerId, ar.PlayerId), false);
                             break;
                         case CustomRoles.Survivor:
                             Main.SurvivorStuff.Add(pc.PlayerId, (0, false, false, false, true));
@@ -1518,6 +1578,7 @@ namespace TownOfHost
                                 else if (!Options.ExecutionerCanTargetImpostor.GetBool() && targete.GetCustomRole().IsImpostor()) continue;
                                 else if (targete.GetCustomRole().IsNeutral()) continue;
                                 else if (targete.Is(CustomRoles.GM)) continue;
+                                else if (pc.Is(CustomRoles.Phantom)) continue;
 
                                 targetList.Add(targete);
                             }
@@ -1533,6 +1594,7 @@ namespace TownOfHost
                             {
                                 if (pc == targete) continue;
                                 else if (targete.Is(CustomRoles.GM)) continue;
+                                else if (pc.Is(CustomRoles.Phantom)) continue;
 
                                 protectList.Add(targete);
                             }
@@ -1622,8 +1684,8 @@ namespace TownOfHost
                 Main.CovenMeetings++;
             if (Camouflague.IsActive && Options.CamoComms.GetBool())
             {
-                Camouflague.InMeeting = true;
-                Camouflague.MeetingRevert();
+                // Camouflague.InMeeting = true;
+                //Camouflague.MeetingRevert();
             }
             Guesser.canGuess = true;
             if (Main.CovenMeetings == Options.CovenMeetings.GetFloat() && !Main.HasNecronomicon && CustomRoles.Coven.IsEnable())
@@ -1721,6 +1783,8 @@ namespace TownOfHost
                             Main.KilledDemo.Add(vampireID);
                         if (bitten.GetCustomSubRole() == CustomRoles.Bewilder)
                             Main.KilledBewilder.Add(vampireID);
+                        if (bitten.GetCustomSubRole() == CustomRoles.Diseased)
+                            Main.KilledDiseased.Add(vampireID);
                         Logger.Info("Vampireに噛まれている" + bitten?.Data?.PlayerName + "を自爆させました。", "ReportDeadBody");
                     }
                     else
@@ -1790,6 +1854,7 @@ namespace TownOfHost
                 }
             }
             Main.BitPlayers = new Dictionary<byte, (byte, float)>();
+            Main.ColliderPlayers = new List<PlayerControl>();
             Main.KilledDemo.Clear();
             Main.PuppeteerList.Clear();
             Main.DeadPlayersThisRound.Clear();
@@ -1898,6 +1963,8 @@ namespace TownOfHost
                                         Main.KilledDemo.Add(vampireID);
                                     if (bitten.GetCustomSubRole() == CustomRoles.Bewilder)
                                         Main.KilledBewilder.Add(vampireID);
+                                    if (bitten.GetCustomSubRole() == CustomRoles.Diseased)
+                                        Main.KilledDiseased.Add(vampireID);
                                 }
                             }
                             else
@@ -2072,6 +2139,51 @@ namespace TownOfHost
                                 Utils.CustomSyncAllSettings();
                                 Main.PuppeteerList.Remove(player.PlayerId);
                                 Utils.NotifyRoles();
+                            }
+                        }
+                    }
+                }
+                if (GameStates.IsInTask && Main.ColliderPlayers.Contains(player) && !GameStates.IsMeeting)
+                {
+                    if (!player.IsAlive())
+                    {
+                        Main.ColliderPlayers.Remove(player);
+                    }
+                    else
+                    {
+                        Vector2 puppeteerPos = player.transform.position;
+                        Dictionary<byte, float> targetDistance = new();
+                        float dis;
+                        foreach (var target in Main.ColliderPlayers)
+                        {
+                            if (!target.IsAlive()) continue;
+                            if (target == player) continue;
+                            if (target.PlayerId != player.PlayerId && !target.GetCustomRole().IsImpostor())
+                            {
+                                dis = Vector2.Distance(puppeteerPos, target.transform.position);
+                                targetDistance.Add(target.PlayerId, dis);
+                            }
+                        }
+                        if (targetDistance.Count() != 0)
+                        {
+                            var min = targetDistance.OrderBy(c => c.Value).FirstOrDefault();//一番値が小さい
+                            PlayerControl target = Utils.GetPlayerById(min.Key);
+                            var KillRange = GameOptionsData.KillDistances[Mathf.Clamp(PlayerControl.GameOptions.KillDistance, 0, 2)];
+                            if (min.Value <= KillRange && player.CanMove && target.CanMove)
+                            {
+                                //RPC.PlaySoundRPC(Main.PuppeteerList[player.PlayerId], Sounds.KillSound);
+                                if (target.Is(CustomRoles.Pestilence))
+                                    target.RpcMurderPlayer(player);
+                                else if (player.Is(CustomRoles.Survivor)) { Utils.CheckSurvivorVest(target, player, false); }
+                                else
+                                {
+                                    player.RpcMurderPlayer(target);
+                                    target.RpcMurderPlayer(player);
+                                }
+                                Utils.CustomSyncAllSettings();
+                                //Main.ColliderPlayers.Remove(player.PlayerId);
+                                Utils.NotifyRoles();
+                                if (Options.ResetToYinYang.GetBool()) Main.DoingYingYang = true;
                             }
                         }
                     }
@@ -2318,6 +2430,10 @@ namespace TownOfHost
                     {
 
                     }
+                    if (target.Is(CustomRoles.Phantom) && Main.PhantomAlert)
+                    {
+                        RealName = Helpers.ColorString(target.GetRoleColor(), RealName);
+                    }
                     if (seer.Is(CustomRoles.Survivor) && !Main.SurvivorStuff.ContainsKey(seer.PlayerId))
                     {
                         Main.SurvivorStuff.Add(seer.PlayerId, (0, false, false, false, false));
@@ -2350,6 +2466,10 @@ namespace TownOfHost
                         {
                             Mark += $"<color={Utils.GetRoleColorCode(CustomRoles.Arsonist)}>△</color>";
                         }
+                    }
+                    if (seer.Is(CustomRoles.YingYanger) && Main.ColliderPlayers.Contains(target))
+                    {
+                        RealName = Helpers.ColorString(Utils.GetRoleColor(CustomRoles.Target), RealName);
                     }
                     if (seer.Is(CustomRoles.Investigator))
                     {
@@ -2427,7 +2547,12 @@ namespace TownOfHost
                     {
                         if ((seer.PlayerId == ExecutionerTarget.Key) && //seerがKey or Dead
                         target.PlayerId == ExecutionerTarget.Value) //targetがValue
-                            Mark += $"<color={Utils.GetRoleColorCode(CustomRoles.Executioner)}>♦</color>";
+                            RealName = Helpers.ColorString(Utils.GetRoleColor(CustomRoles.Target), RealName);
+                    }
+                    if (seer.Is(CustomRoles.BountyHunter) && BountyHunter.GetTarget(seer) != null)
+                    {
+                        var bounty = BountyHunter.GetTarget(seer);
+                        if (target == bounty) RealName = Helpers.ColorString(Utils.GetRoleColor(CustomRoles.Target), RealName);
                     }
                     if (seer.Is(CustomRoles.Puppeteer))
                     {
@@ -2450,6 +2575,25 @@ namespace TownOfHost
 
                     }
                     //タスクが終わりそうなSnitchがいるとき、インポスター/キル可能な第三陣営に警告が表示される
+                    if (target.Is(CustomRoles.Phantom) && Main.PhantomAlert && !GameStates.IsMeeting)
+                    {
+                        var found = false;
+                        var update = false;
+                        var arrows = "";
+                        foreach (var pc in PlayerControl.AllPlayerControls)
+                        { //全員分ループ
+                            if (pc.Is(CustomRoles.Phantom) || pc.Data.IsDead || pc.Data.Disconnected) continue;
+                            found = true;
+                            update = CheckArrowUpdate(target, pc, update, false);
+                            var key = (pc.PlayerId, target.PlayerId);
+                            arrows += Main.targetArrows[key];
+                        }
+                        if (found && target.AmOwner) Mark += $"<color={Utils.GetRoleColorCode(CustomRoles.Phantom)}>★{arrows}</color>";
+                        if (AmongUsClient.Instance.AmHost && seer.PlayerId != target.PlayerId && update)
+                        {
+                            Utils.NotifyRoles(SpecifySeer: seer);
+                        }
+                    }
                     if ((!GameStates.IsMeeting && target.GetCustomRole().IsImpostor())
                         || (Options.SnitchCanFindNeutralKiller.GetBool() && target.IsNeutralKiller()))
                     { //targetがインポスターかつ自分自身
@@ -2984,12 +3128,6 @@ namespace TownOfHost
                                 RPC.PlaySoundRPC(pc.PlayerId, Sounds.KillSound);
                         }
                     }
-                    MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.EndGame, Hazel.SendOption.Reliable, -1);
-                    writer.Write((byte)CustomWinner.Arsonist);
-                    writer.Write(__instance.myPlayer.PlayerId);
-                    AmongUsClient.Instance.FinishRpcImmediately(writer);
-                    // /RPC.ArsonistWin(__instance.myPlayer.PlayerId);
-                    RPC.SingleArsonistWin();
                     return true;
                 }
                 if (__instance.myPlayer.Is(CustomRoles.Sheriff) ||

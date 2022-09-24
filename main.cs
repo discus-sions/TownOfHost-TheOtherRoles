@@ -118,7 +118,9 @@ namespace TownOfHost
         public static Dictionary<byte, (int, bool, bool, bool, bool)> SurvivorStuff = new(); // KEY - player ID, Item1 - NumberOfVests, Item2 - IsVesting, Item3 - HasVested, Item4 - VestedThisRound, Item5 - RoundOneVest
         public static List<byte> unreportableBodies = new();
         public static List<PlayerControl> SilencedPlayer = new();
+        public static List<PlayerControl> ColliderPlayers = new();
         public static List<byte> KilledBewilder = new();
+        public static List<byte> KilledDiseased = new();
         public static List<byte> KilledDemo = new();
         public static bool isSilenced;
         public static bool isShipStart;
@@ -126,6 +128,7 @@ namespace TownOfHost
         public static Dictionary<(byte, byte), string> targetArrows = new();
         public static List<PlayerControl> AllCovenPlayers = new();
         public static Dictionary<PlayerControl, PlayerControl> whoKilledWho = new();
+        public static int WonFFATeam;
         public static byte WonTrollID;
         public static byte ExiledJesterID;
         public static byte WonTerroristID;
@@ -198,6 +201,8 @@ namespace TownOfHost
         public static bool IsRampaged;
         public static bool RampageReady;
         public static bool IsHackMode;
+        public static bool PhantomCanBeKilled;
+        public static bool PhantomAlert;
 
         // TRULY RANDOM ROLES TEST //
         public static List<CustomRoles> chosenRoles = new();
@@ -264,6 +269,7 @@ namespace TownOfHost
             SpelledPlayer = new List<PlayerControl>();
             Impostors = new List<PlayerControl>();
             SilencedPlayer = new List<PlayerControl>();
+            ColliderPlayers = new List<PlayerControl>();
             isDoused = new Dictionary<(byte, byte), bool>();
             isHexed = new Dictionary<(byte, byte), bool>();
             isInfected = new Dictionary<(byte, byte), bool>();
@@ -276,7 +282,7 @@ namespace TownOfHost
             LastEnteredVent = new Dictionary<byte, int>();
             LastEnteredVentLocation = new Dictionary<byte, Vector2>();
             HasModifier = new Dictionary<byte, CustomRoles>();
-            DeadPlayersThisRound = new List<byte>();
+            // /DeadPlayersThisRound = new List<byte>();
             LoversPlayers = new List<PlayerControl>();
             dousedIDs = new List<byte>();
             //firstKill = new Dictionary<byte, (PlayerControl, float)>();
@@ -345,11 +351,13 @@ namespace TownOfHost
             TeamJuggernautAlive = false;
             TeamPestiAlive = false;
             TeamCovenAlive = 3;
+            PhantomAlert = false;
+            PhantomCanBeKilled = false;
 
             IgnoreWinnerCommand = Config.Bind("Other", "IgnoreWinnerCommand", true);
             WebhookURL = Config.Bind("Other", "WebhookURL", "none");
             AmDebugger = Config.Bind("Other", "AmDebugger", true);
-            AmDebugger.Value = false;
+            AmDebugger.Value = true;
             ShowPopUpVersion = Config.Bind("Other", "ShowPopUpVersion", "0");
             MessageWait = Config.Bind("Other", "MessageWait", 1);
             LastKillCooldown = Config.Bind("Other", "LastKillCooldown", (float)30);
@@ -372,6 +380,7 @@ namespace TownOfHost
                     {CustomRoles.Engineer, "#b6f0ff"},
                     { CustomRoles.Scientist, "#b6f0ff"},
                     { CustomRoles.GuardianAngel, "#ffffff"},
+                    {CustomRoles.Target, "#000000"},
                     { CustomRoles.CorruptedSheriff, "#ff0000"},
                     //インポスター、シェイプシフター
                     //特殊インポスター役職
@@ -440,6 +449,7 @@ namespace TownOfHost
                     { CustomRoles.Flash, "#FF8080"},
                     { CustomRoles.Oblivious, "#808080"},
                     { CustomRoles.Torch, "#FFFF99"},
+                    { CustomRoles.Diseased, "#AAAAAA"},
                     { CustomRoles.TieBreaker, "#99E699"},
 
                     { CustomRoles.Coven, "#592e98"},
@@ -536,6 +546,7 @@ namespace TownOfHost
         //Impostor(Vanilla)
         Impostor,
         Shapeshifter,
+        Target,
         //Impostor
         BountyHunter,
         EvilWatcher,
@@ -665,7 +676,7 @@ namespace TownOfHost
         Lovers,
         LoversRecode,
         Flash, // DONE
-        TieBreaker,
+        TieBreaker, // DONE
         Oblivious, // DONE
         Sleuth, // DONE
 
@@ -673,6 +684,7 @@ namespace TownOfHost
         Bewilder, // DONE
         Bait, // DONE
         Torch, // DONE
+        Diseased,
     }
     //WinData
     public enum CustomWinner
@@ -694,6 +706,7 @@ namespace TownOfHost
         Jackal = CustomRoles.Jackal,
         Juggernaut = CustomRoles.Juggernaut,
         HASTroll = CustomRoles.HASTroll,
+        Phantom = CustomRoles.Phantom,
         Coven = CustomRoles.Coven,
         TheGlitch = CustomRoles.TheGlitch,
         Werewolf = CustomRoles.Werewolf,

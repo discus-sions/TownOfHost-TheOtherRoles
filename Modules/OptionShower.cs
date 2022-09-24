@@ -111,6 +111,7 @@ namespace TownOfHost
                     nameAndValue(Options.MaxNonNK);
                     nameAndValue(Options.ImpostorKnowsRolesOfTeam);
                     nameAndValue(Options.CovenKnowsRolesOfTeam);
+                    nameAndValue(Options.ModifierRestrict);
                 }
                 else if (Options.CurrentGameMode() == CustomGameMode.HideAndSeek)
                 {

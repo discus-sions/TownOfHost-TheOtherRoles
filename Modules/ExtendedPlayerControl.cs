@@ -304,9 +304,6 @@ namespace TownOfHost
             var clientId = player.GetClientId();
             var opt = Main.RealOptionsData.DeepCopy();
 
-            var ImpVision = opt.ImpostorLightMod;
-            var CrewVision = opt.CrewLightMod;
-
             CustomRoles role = player.GetCustomRole();
             RoleType roleType = role.GetRoleType();
             switch (roleType)
@@ -546,19 +543,6 @@ namespace TownOfHost
                         opt.PlayerSpeedMod = Mathf.Clamp(speed.Value, 0.0001f, 3f);
                 }
             }
-            if (Main.Grenaiding)
-            {
-                if (!role.IsImpostorTeam())
-                {
-                    opt.CrewLightMod = 0f;
-                    opt.ImpostorLightMod = 0f;
-                }
-            }
-            else if (Main.ResetVision)
-            {
-                opt.CrewLightMod = CrewVision;
-                opt.ImpostorLightMod = ImpVision;
-            }
             if (Options.GhostCanSeeOtherVotes.GetBool() && player.Data.IsDead && opt.AnonymousVotes)
                 opt.AnonymousVotes = false;
             if (Options.SyncButtonMode.GetBool() && Options.SyncedButtonCount.GetSelection() <= Options.UsedButtonCount)
@@ -583,6 +567,22 @@ namespace TownOfHost
                 opt.SetVision(player, true);
                 opt.RoleOptions.EngineerCooldown = 0;
                 opt.RoleOptions.EngineerInVentMaxTime = 0;
+            }
+            if (Main.Grenaiding)
+            {
+                if (!player.GetCustomRole().IsImpostorTeam())
+                {
+                    opt.CrewLightMod = 0f;
+                    opt.ImpostorLightMod = 0f;
+                }
+            }
+            else if (Main.ResetVision)
+            {
+                if (!player.GetCustomRole().IsImpostorTeam())
+                {
+                    opt.CrewLightMod = Main.RealOptionsData.CrewLightMod;
+                    opt.ImpostorLightMod = Main.RealOptionsData.ImpostorLightMod;
+                }
             }
 
             if (player.AmOwner) PlayerControl.GameOptions = opt;
@@ -879,6 +879,10 @@ namespace TownOfHost
                     else
                         Main.AllPlayerKillCooldown[player.PlayerId] = Options.GlitchKillCooldown.GetFloat();
                     break;
+                case CustomRoles.YingYanger:
+                    if (Main.DoingYingYang)
+                        Main.AllPlayerKillCooldown[player.PlayerId] = Options.YinYangCooldown.GetFloat();
+                    break;
                 case CustomRoles.SerialKiller:
                     SerialKiller.ApplyKillCooldown(player.PlayerId); //シリアルキラーはシリアルキラーのキルクールに。
                     break;
@@ -946,6 +950,8 @@ namespace TownOfHost
             }
             if (player.IsLastImpostor())
                 Main.AllPlayerKillCooldown[player.PlayerId] = Options.LastImpostorKillCooldown.GetFloat();
+            if (Main.KilledDiseased.Contains(player.PlayerId))
+                Main.AllPlayerKillCooldown[player.PlayerId] *= Options.DiseasedMultiplier.GetFloat();
         }
         public static void TrapperKilled(this PlayerControl killer, PlayerControl target)
         {

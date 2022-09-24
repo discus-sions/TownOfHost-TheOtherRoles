@@ -100,7 +100,7 @@ namespace TownOfHost
                     SerialKiller.GetAbilityButtonText(__instance);
                     break;
                 case CustomRoles.Warlock:
-                    if (!Main.CheckShapeshift[player.PlayerId] && !Main.isCurseAndKill[player.PlayerId])
+                    if (!Main.CheckShapeshift[player.PlayerId])
                     {
                         __instance.KillButton.OverrideText($"{GetString("WarlockCurseButtonText")}");
                     }
@@ -137,6 +137,12 @@ namespace TownOfHost
                     break;
                 case CustomRoles.Puppeteer:
                     __instance.KillButton.OverrideText($"{GetString("PuppeteerOperateButtonText")}");
+                    break;
+                case CustomRoles.YingYanger:
+                    if (Main.DoingYingYang)
+                        __instance.KillButton.OverrideText($"{GetString("PuppeteerOperateButtonText")}");
+                    else
+                        __instance.KillButton.OverrideText($"{GetString("KillButtonText")}");
                     break;
                 case CustomRoles.PlagueBearer:
                     __instance.KillButton.OverrideText($"{GetString("InfectButtonText")}");
@@ -242,7 +248,7 @@ namespace TownOfHost
                             if (playere.Key == player.PlayerId)
                                 target = playere.Value;
                         }
-                        TaskTextPrefix += Helpers.ColorString(player.GetRoleColor(), $"Vote {Utils.GetPlayerById(target).GetRealName()} Out");
+                        TaskTextPrefix += Helpers.ColorString(player.GetRoleColor(), $"Vote {Utils.GetPlayerById(target).GetRealName(isMeeting: true)} Out");
                     }
                     else
                         TaskTextPrefix += Helpers.ColorString(player.GetRoleColor(), GetString(player.GetCustomRole() + "Info"));

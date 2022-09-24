@@ -280,6 +280,11 @@ namespace TownOfHost
                 throw;
             }
         }
+        public static bool IsPhantom(byte id)
+        {
+            var player = PlayerControl.AllPlayerControls.ToArray().Where(pc => pc.PlayerId == id).FirstOrDefault();
+            return player != null && player.Is(CustomRoles.Phantom);
+        }
         public static bool IsMayor(byte id)
         {
             var player = PlayerControl.AllPlayerControls.ToArray().Where(pc => pc.PlayerId == id).FirstOrDefault();
@@ -307,6 +312,8 @@ namespace TownOfHost
                 {
                     int VoteNum = 1;
                     if (CheckForEndVotingPatch.IsMayor(ps.TargetPlayerId)) VoteNum += Options.MayorAdditionalVote.GetInt();
+                    if (CheckForEndVotingPatch.IsPhantom(ps.VotedFor)) VoteNum = -1;
+                    if (CheckForEndVotingPatch.IsPhantom(ps.TargetPlayerId) && !CheckForEndVotingPatch.IsPhantom(ps.VotedFor)) VoteNum = -1;
                     // if (VoteNum != 1) Utils.GetPlayerById(ps.TargetPlayerId).SetColor(1);
                     //投票を1追加 キーが定義されていない場合は1で上書きして定義
                     dic[ps.VotedFor] = !dic.TryGetValue(ps.VotedFor, out int num) ? VoteNum : num + VoteNum;
@@ -492,6 +499,7 @@ namespace TownOfHost
                             goodPlayers.Remove(player);
                             goodids.Add(player.PlayerId);
                         }
+                    HudManager.Instance.Chat.AddChat(PlayerControl.LocalPlayer, "Your list of names are:");
                 }
             }
             if (Options.SyncButtonMode.GetBool())
@@ -628,7 +636,6 @@ namespace TownOfHost
                             pva.NameText.text += Helpers.ColorString(Utils.GetRoleColor(CustomRoles.Pestilence), "▲");
                         break;
                     case CustomRoles.Psychic:
-                        HudManager.Instance.Chat.AddChat(PlayerControl.LocalPlayer, "Your list of names are:");
                         foreach (var id in goodids)
                         {
                             if (target.PlayerId == id)
@@ -648,7 +655,7 @@ namespace TownOfHost
                         break;
                     case CustomRoles.Executioner:
                         if (Main.ExecutionerTarget.TryGetValue(seer.PlayerId, out var targetId) && target.PlayerId == targetId) //targetがValue
-                            pva.NameText.text += Helpers.ColorString(Utils.GetRoleColor(CustomRoles.Executioner), "♦");
+                            pva.NameText.text = Helpers.ColorString(Utils.GetRoleColor(CustomRoles.Target), pva.NameText.text);
                         break;
                     case CustomRoles.GuardianAngelTOU:
                         if (Main.GuardianAngelTarget.TryGetValue(seer.PlayerId, out var protectId) && target.PlayerId == protectId) //targetがValue

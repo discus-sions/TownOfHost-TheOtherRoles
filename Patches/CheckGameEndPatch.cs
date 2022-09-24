@@ -417,6 +417,46 @@ namespace TownOfHost
                 ResetRoleAndEndGameFFA(endReason, false, liveId);
                 return true;
             }
+            else
+            {
+                int AllJackals = 0;
+                int AllAlive = 0;
+                Dictionary<int, int> allColors = new();
+                foreach (var pc in PlayerControl.AllPlayerControls)
+                {
+                    if (!pc.Data.Disconnected)
+                    {
+                        AllAlive++;
+                        if (pc.Is(CustomRoles.Jackal)) AllJackals++;
+                        if (!allColors.ContainsKey(pc.CurrentOutfit.ColorId))
+                            allColors.Add(pc.CurrentOutfit.ColorId, 1);
+                        else
+                            allColors[pc.CurrentOutfit.ColorId]++;
+                    }
+                }
+                foreach (var color in allColors)
+                {
+                    if (color.Value == AllAlive)
+                    {
+                        __instance.enabled = false;
+                        var endReason = TempData.LastDeathReason switch
+                        {
+                            DeathReason.Exile => GameOverReason.ImpostorByVote,
+                            DeathReason.Kill => GameOverReason.ImpostorByKill,
+                            _ => GameOverReason.ImpostorByVote,
+                        };
+
+
+                        MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.EndGame, Hazel.SendOption.Reliable, -1);
+                        writer.Write((byte)CustomWinner.Jackal);
+                        AmongUsClient.Instance.FinishRpcImmediately(writer);
+                        RPC.TeamFFAwin(color.Key);
+
+                        ResetRoleAndEndGameTeamFFA(endReason, false, color.Key);
+                        return true;
+                    }
+                }
+            }
             return false;
         }
 
@@ -676,6 +716,20 @@ namespace TownOfHost
             foreach (var pc in PlayerControl.AllPlayerControls)
             {
                 if (pc.PlayerId != id)
+                {
+                    pc.RpcSetRole(RoleTypes.GuardianAngel);
+                }
+            }
+            new LateTask(() =>
+            {
+                ShipStatus.RpcEndGame(reason, showAd);
+            }, 0.5f, "EndGameTask");
+        }
+        private static void ResetRoleAndEndGameTeamFFA(GameOverReason reason, bool showAd, int colorid)
+        {
+            foreach (var pc in PlayerControl.AllPlayerControls)
+            {
+                if (pc.CurrentOutfit.ColorId != colorid)
                 {
                     pc.RpcSetRole(RoleTypes.GuardianAngel);
                 }

@@ -68,6 +68,7 @@ namespace TownOfHost
                 CustomRoles.Sidekick or
                 CustomRoles.JSchrodingerCat or
                 CustomRoles.Hacker or
+                CustomRoles.Phantom or
                 CustomRoles.BloodKnight or
                 CustomRoles.HASTroll or
                 CustomRoles.Painter or
@@ -76,14 +77,14 @@ namespace TownOfHost
         public static bool IsNeutralBad(this CustomRoles role)
         {
             return
-                role is CustomRoles.Jester or
-                CustomRoles.Vulture or
+                role is CustomRoles.Vulture or
                 CustomRoles.Terrorist or
-                CustomRoles.Executioner or
+                //CustomRoles.Executioner or
                 CustomRoles.Arsonist or
                 CustomRoles.Egoist or
                 CustomRoles.EgoSchrodingerCat or
                 CustomRoles.CrewPostor or
+                CustomRoles.Phantom or
                 CustomRoles.Marksman or
                 CustomRoles.Pirate or
                 CustomRoles.Jackal or
@@ -182,7 +183,7 @@ namespace TownOfHost
                 CustomRoles.Bait or
                 CustomRoles.Bewilder or
                 CustomRoles.Flash or
-                CustomRoles.Bewilder or
+                CustomRoles.Target or
                 CustomRoles.Lovers or
                 CustomRoles.LoversRecode or
                 CustomRoles.Sleuth or
@@ -193,6 +194,7 @@ namespace TownOfHost
                 CustomRoles.Necromancer or
                 CustomRoles.EgoSchrodingerCat or
                 CustomRoles.Impostor or
+                CustomRoles.Phantom or
                 CustomRoles.Crewmate or
                 CustomRoles.Engineer or
                 CustomRoles.GuardianAngel or
@@ -241,6 +243,7 @@ namespace TownOfHost
             return
                 role is CustomRoles.Bait or
                 CustomRoles.Bewilder or
+                CustomRoles.Diseased or
                 CustomRoles.Torch;
         }
         public static bool IsModifier(this CustomRoles role)
@@ -249,10 +252,10 @@ namespace TownOfHost
                 role is CustomRoles.Bait or
                 CustomRoles.Bewilder or
                 CustomRoles.Flash or
-                CustomRoles.Bewilder or
                 CustomRoles.Oblivious or
                 CustomRoles.Lovers or
                 CustomRoles.LoversRecode or
+                CustomRoles.Diseased or
                 CustomRoles.Sleuth or
                 CustomRoles.Torch or
                 CustomRoles.TieBreaker;

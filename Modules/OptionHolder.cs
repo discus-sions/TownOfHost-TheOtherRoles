@@ -264,9 +264,11 @@ namespace TownOfHost
         public static CustomOption GhostCanSeeOtherVotes;
         public static CustomOption HideGameSettings;
         public static CustomOption BodiesAmount;
+        public static CustomOption ModifierRestrict;
 
         public static CustomOption BewilderVision;
         public static CustomOption FlashSpeed;
+        public static CustomOption DiseasedMultiplier;
 
         public static CustomOption LoversDieTogether;
         public static CustomOption LoversKnowRoleOfOtherLover;
@@ -360,6 +362,12 @@ namespace TownOfHost
         public static CustomOption MadmatesAreEvil;
         public static CustomOption GAdependsOnTaregtRole;
         public static CustomOption ExeTargetShowsEvil;
+        // PHANTOM //
+        public static CustomOption TasksRemainingForPhantomClicked;
+        public static CustomOption TasksRemaningForPhantomAlert;
+        // YIN YANGER or COLLIDER //
+        public static CustomOption YinYangCooldown;
+        public static CustomOption ResetToYinYang;
         public static readonly string[] suffixModes =
         {
             "SuffixMode.None",
@@ -455,7 +463,9 @@ namespace TownOfHost
             FireWorks.SetupCustomOption();
             Sniper.SetupCustomOption();
             SetupRoleOptions(2000, CustomRoles.Puppeteer);
-            SetupRoleOptions(200099, CustomRoles.Miner);
+            SetupSingleRoleOptions(200099, CustomRoles.YingYanger, 1);
+            YinYangCooldown = CustomOption.Create(1213, Color.white, "YinYangCooldown", 15, 2.5f, 180, 2.5f, CustomRoleSpawnChances[CustomRoles.YingYanger]);
+            ResetToYinYang = CustomOption.Create(1314, Color.white, "ResetToYinYang", true, CustomRoleSpawnChances[CustomRoles.YingYanger]);
             SetupSingleRoleOptions(9999, CustomRoles.Grenadier, 1);
             FlashCooldown = CustomOption.Create(200129, Color.white, "FlashCD", 30, 2.5f, 180, 2.5f, CustomRoleSpawnChances[CustomRoles.Grenadier]);
             FlashDuration = CustomOption.Create(2001299, Color.white, "FlashDur", 15, 2.5f, 180, 2.5f, CustomRoleSpawnChances[CustomRoles.Grenadier]);
@@ -551,8 +561,8 @@ namespace TownOfHost
 
             SetupRoleOptions(30009, CustomRoles.Mystic);
 
-            SetupRoleOptions(30000, CustomRoles.Child);
-            ChildKnown = CustomOption.Create(30010, Color.white, "ChildKnown", false, CustomRoleSpawnChances[CustomRoles.Child]);
+            SetupRoleOptions(30008, CustomRoles.Child);
+            ChildKnown = CustomOption.Create(30011, Color.white, "ChildKnown", false, CustomRoleSpawnChances[CustomRoles.Child]);
             //SetupRoleOptions(30100, CustomRoles.Sleuth);
             //SleuthReport = CustomOption.Create(30110, Color.white, "SleuthReport", false, CustomRoleSpawnChances[CustomRoles.Sleuth]);
             // Neutral
@@ -585,6 +595,9 @@ namespace TownOfHost
             LoversKnowRoleOfOtherLover = CustomOption.Create(503005, Color.white, "LoversKnowRoleOfOtherLover", true, CustomRoleSpawnChances[CustomRoles.LoversRecode]);
 
             SetupSingleRoleOptions(905003, CustomRoles.Amnesiac, 1);
+            SetupSingleRoleOptions(905004, CustomRoles.Phantom, 1);
+            TasksRemainingForPhantomClicked = CustomOption.Create(50515, Color.white, "TasksRemainingForPhantomClicked", 3, 1, 10, 1, CustomRoleSpawnChances[CustomRoles.Phantom]);
+            TasksRemaningForPhantomAlert = CustomOption.Create(50516, Color.white, "TasksRemaningForPhantomAlert", 1, 1, 5, 1, CustomRoleSpawnChances[CustomRoles.Phantom]);
 
             SetupRoleOptions(50400, CustomRoles.SchrodingerCat);
             CanBeforeSchrodingerCatWinTheCrewmate = CustomOption.Create(50410, Color.white, "CanBeforeSchrodingerCatWinTheCrewmate", false, CustomRoleSpawnChances[CustomRoles.SchrodingerCat]);
@@ -619,7 +632,7 @@ namespace TownOfHost
             PKTAH = CustomOption.Create(60029, Color.white, "PKTAH", true, HexMasterOn);
             MaxHexesPerRound = CustomOption.Create(60030, Color.white, "MHPR", 3, 1, 15, 1, HexMasterOn);
 
-            PotionMasterOn = CustomOption.Create(60013, Color.white, "PotionMasterOn", false, CustomRoleSpawnChances[CustomRoles.Coven]);
+            //PotionMasterOn = CustomOption.Create(60013, Color.white, "PotionMasterOn", false, CustomRoleSpawnChances[CustomRoles.Coven]);
             VampireDitchesOn = CustomOption.Create(60014, Color.white, "VampireDitchesOn", false, CustomRoleSpawnChances[CustomRoles.Coven]);
 
             MedusaOn = CustomOption.Create(60015, Color.white, "MedusaOn", false, CustomRoleSpawnChances[CustomRoles.Coven]);
@@ -628,9 +641,9 @@ namespace TownOfHost
             StoneReport = CustomOption.Create(60027, Color.white, "StoneTime", 35, 2.5f, 180, 2.5f, MedusaOn);
 
             //MimicOn = CustomOption.Create(60016, Color.white, "MimicOn", false, CustomRoleSpawnChances[CustomRoles.Coven]);
-            NecromancerOn = CustomOption.Create(60017, Color.white, "NecromancerOn", false, CustomRoleSpawnChances[CustomRoles.Coven]);
-            NecroCanUseSheriff = CustomOption.Create(60019, Color.white, "NecroCanUseSheriff", false, NecromancerOn);
-            ConjurorOn = CustomOption.Create(60018, Color.white, "ConjurorOn", false, CustomRoleSpawnChances[CustomRoles.Coven]);
+            //NecromancerOn = CustomOption.Create(60017, Color.white, "NecromancerOn", false, CustomRoleSpawnChances[CustomRoles.Coven]);
+            // NecroCanUseSheriff = CustomOption.Create(60019, Color.white, "NecroCanUseSheriff", false, NecromancerOn);
+            //ConjurorOn = CustomOption.Create(60018, Color.white, "ConjurorOn", false, CustomRoleSpawnChances[CustomRoles.Coven]);
 
             SetupSingleRoleOptions(70000, CustomRoles.Juggernaut, 1);
             JuggerKillCooldown = CustomOption.Create(60010, Color.white, "JuggerKillCooldown", 40, 2.5f, 180, 2.5f, CustomRoleSpawnChances[CustomRoles.Juggernaut]);
@@ -671,6 +684,8 @@ namespace TownOfHost
             SetupSingleRoleOptions(20000, CustomRoles.Bait, 1);
             SetupSingleRoleOptions(20005, CustomRoles.Bewilder, 1);
             BewilderVision = CustomOption.Create(20020, Color.white, "BewilderVision", 0.5f, 0f, 5f, 0.25f, CustomRoleSpawnChances[CustomRoles.Bewilder]);
+            SetupSingleRoleOptions(200025, CustomRoles.Diseased, 1);
+            DiseasedMultiplier = CustomOption.Create(20021, Color.white, "DiseasedMultiplier", 2f, 1.5f, 5f, 0.25f, CustomRoleSpawnChances[CustomRoles.Diseased]);
 
             SetupSingleRoleOptions(200025, CustomRoles.Oblivious, 1);
             SetupSingleRoleOptions(200035, CustomRoles.Flash, 1);
@@ -679,6 +694,8 @@ namespace TownOfHost
             SetupSingleRoleOptions(301859, CustomRoles.TieBreaker, 1);
 
             // Attribute
+            ModifierRestrict = CustomOption.Create(1314, Color.white, "ModifierRestrict", true, null, true)
+                .SetGameMode(CustomGameMode.Standard);
             ImpostorKnowsRolesOfTeam = CustomOption.Create(102000, Color.white, "ImpostorKnowsRolesOfTeam", true, null, true)
                 .SetGameMode(CustomGameMode.Standard);
             CovenKnowsRolesOfTeam = CustomOption.Create(102300, Color.white, "CovenKnowsRolesOfTeam", true, null, true)

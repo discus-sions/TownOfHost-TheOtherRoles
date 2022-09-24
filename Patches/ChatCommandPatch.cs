@@ -362,6 +362,7 @@ namespace TownOfHost
                 { CustomRoles.Silencer, "si" },
                 { CustomRoles.Ninja,"ni"},
                 { CustomRoles.Miner,"mi"},
+                { CustomRoles.YingYanger,"yy"},
                 { CustomRoles.Camouflager,"cf"},
                 { CustomRoles.Grenadier,"gr"},
                 { CustomRoles.CorruptedSheriff, "csh" },
@@ -405,6 +406,7 @@ namespace TownOfHost
                 { CustomRoles.Egoist, "eg" },
                 { CustomRoles.Executioner, "exe" },
                 { CustomRoles.Jester, "je" },
+                { CustomRoles.Phantom, "ph" },
                 { CustomRoles.Opportunist, "op" },
                 { CustomRoles.Survivor, "sur" },
                 { CustomRoles.SchrodingerCat, "sc" },
@@ -437,6 +439,8 @@ namespace TownOfHost
                 { CustomRoles.Torch, "to" },
                 { CustomRoles.Flash, "fl" },
                 { CustomRoles.Bewilder, "be" },
+                { CustomRoles.TieBreaker, "tb" },
+                { CustomRoles.Diseased, "di" },
                 //HAS
                 { (CustomRoles)(-7), $"== {GetString("HideAndSeek")} ==" }, //区切り用
                 { CustomRoles.HASFox, "hfo" },
@@ -503,6 +507,7 @@ namespace TownOfHost
                 { CustomRoles.Ninja,"ni"},
                 { CustomRoles.Grenadier,"gr"},
                 { CustomRoles.Miner,"mi"},
+                { CustomRoles.YingYanger,"yy"},
                 { CustomRoles.CorruptedSheriff, "csh" },
                 {CustomRoles.EvilGuesser, "eg"},
                 //Madmate役職
@@ -545,6 +550,7 @@ namespace TownOfHost
                 { CustomRoles.Egoist, "eg" },
                 { CustomRoles.Executioner, "exe" },
                 { CustomRoles.Jester, "je" },
+                { CustomRoles.Phantom, "ph" },
                 { CustomRoles.Opportunist, "op" },
                 { CustomRoles.Survivor, "sur" },
                 { CustomRoles.SchrodingerCat, "sc" },
@@ -577,6 +583,8 @@ namespace TownOfHost
                 { CustomRoles.Torch, "to" },
                 { CustomRoles.Flash, "fl" },
                 { CustomRoles.Bewilder, "be" },
+                { CustomRoles.TieBreaker, "tb" },
+                { CustomRoles.Diseased, "di" },
                 //HAS
                 { (CustomRoles)(-7), $"== {GetString("HideAndSeek")} ==" }, //区切り用
                 { CustomRoles.HASFox, "hfo" },
@@ -629,6 +637,7 @@ namespace TownOfHost
                 { CustomRoles.Silencer, "si" },
                 { CustomRoles.Ninja,"ni"},
                 { CustomRoles.Miner,"mi"},
+                { CustomRoles.YingYanger,"yy"},
                 { CustomRoles.Camouflager,"cf"},
                 { CustomRoles.CorruptedSheriff, "csh" },
                 { CustomRoles.Grenadier,"gr"},
@@ -673,6 +682,7 @@ namespace TownOfHost
                 { CustomRoles.Egoist, "eg" },
                 { CustomRoles.Executioner, "exe" },
                 { CustomRoles.Jester, "je" },
+                { CustomRoles.Phantom, "ph" },
                 { CustomRoles.Opportunist, "op" },
                 { CustomRoles.Survivor, "sur" },
                 { CustomRoles.SchrodingerCat, "sc" },
@@ -698,13 +708,14 @@ namespace TownOfHost
                 //Sub役職
                 { (CustomRoles)(-6), $"== {GetString("SubRole")} ==" }, //区切り用
                 { CustomRoles.Lovers, "lo" },
-
                 { CustomRoles.Sleuth, "sl" },
                 { CustomRoles.Bait, "ba" },
                 { CustomRoles.Oblivious, "obl" },
                 { CustomRoles.Torch, "to" },
                 { CustomRoles.Flash, "fl" },
                 { CustomRoles.Bewilder, "be" },
+                { CustomRoles.TieBreaker, "tb" },
+                { CustomRoles.Diseased, "di" },
                 //HAS
                 { (CustomRoles)(-7), $"== {GetString("HideAndSeek")} ==" }, //区切り用
                 { CustomRoles.HASFox, "hfo" },

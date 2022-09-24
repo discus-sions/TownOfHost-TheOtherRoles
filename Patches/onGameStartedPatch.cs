@@ -61,10 +61,11 @@ namespace TownOfHost
             Main.LastEnteredVent = new Dictionary<byte, int>();
             Main.LastEnteredVentLocation = new Dictionary<byte, Vector2>();
             Main.HasModifier = new Dictionary<byte, CustomRoles>();
-            Main.KilledBewilder = new();
+            Main.KilledBewilder = new List<byte>();
             Main.AllPlayerSkin = new();
-            Main.KilledDemo = new();
+            Main.KilledDemo = new List<byte>();
             Main.targetArrows = new();
+            Main.KilledDiseased = new List<byte>();
             Main.JugKillAmounts = 0;
             Main.AteBodies = 0;
             Main.TeamJuggernautAlive = false;
@@ -73,8 +74,11 @@ namespace TownOfHost
             Main.ResetVision = false;
             Main.CamoComms = false;
             Main.JackalDied = false;
+            Main.PhantomAlert = false;
+            Main.PhantomCanBeKilled = false;
 
             Main.LoversPlayers = new List<PlayerControl>();
+            Main.ColliderPlayers = new List<PlayerControl>();
             Main.isLoversDead = false;
 
             ////////////// COVEN INFO //////////////    
@@ -119,6 +123,7 @@ namespace TownOfHost
             Main.bkProtected = false;
             Main.bombedVents = new List<int>();
 
+            Main.WonFFATeam = 255;
             Main.DiscussionTime = Main.RealOptionsData.DiscussionTime;
             Main.VotingTime = Main.RealOptionsData.VotingTime;
 
@@ -323,7 +328,6 @@ namespace TownOfHost
                                         AllNKPlayers.Remove(player);
                                         List<PlayerControl> urself = new();
                                         urself.Add(player);
-                                        urself.Add(player);
                                         if (role.IsShapeShifter())
                                         {
                                             if (role == CustomRoles.Egoist)
@@ -375,6 +379,9 @@ namespace TownOfHost
                             if (RoleGoingInList(CustomRoles.Amnesiac))
                                 rolesChosenNon.Add(CustomRoles.Amnesiac);
 
+                            if (RoleGoingInList(CustomRoles.Phantom))
+                                rolesChosenNon.Add(CustomRoles.Phantom);
+
                             if (rolesChosenNon.Count < numofNonNks)
                                 numofNonNks = rolesChosenNon.Count;
 
@@ -388,9 +395,7 @@ namespace TownOfHost
                                         var player = AllnonNKPlayers[random.Next(0, AllnonNKPlayers.Count)];
                                         rolesChosenNon.Remove(role);
                                         AllnonNKPlayers.Remove(player);
-                                        List<PlayerControl> urself = new();
-                                        urself.Add(player);
-                                        urself.Add(player);
+                                        Main.chosenNK.Add(role);
                                         if (role.IsEngineer())
                                         {
                                             Main.chosenEngiRoles.Add(role);
@@ -766,16 +771,16 @@ namespace TownOfHost
                     ForceAssignRole(CustomRoles.CovenWitch, AllCovenPlayers, sender, BaseRole: RoleTypes.Impostor, skip: false);
                     if (Options.HexMasterOn.GetBool())
                         ForceAssignRole(CustomRoles.HexMaster, AllCovenPlayers, sender, BaseRole: RoleTypes.Impostor, skip: false);
-                    if (Options.PotionMasterOn.GetBool())
-                        ForceAssignRole(CustomRoles.PotionMaster, AllCovenPlayers, sender, BaseRole: RoleTypes.Impostor, skip: false);
+                    //  if (Options.PotionMasterOn.GetBool())
+                    //      ForceAssignRole(CustomRoles.PotionMaster, AllCovenPlayers, sender, BaseRole: RoleTypes.Impostor, skip: false);
                     if (Options.VampireDitchesOn.GetBool())
                         ForceAssignRole(CustomRoles.Poisoner, AllCovenPlayers, sender, BaseRole: RoleTypes.Impostor, skip: false);
                     if (Options.MedusaOn.GetBool())
                         ForceAssignRole(CustomRoles.Medusa, AllCovenPlayers, sender, BaseRole: RoleTypes.Impostor, skip: false);
-                    if (Options.MimicOn.GetBool())
-                        ForceAssignRole(CustomRoles.Mimic, AllCovenPlayers, sender, BaseRole: RoleTypes.Impostor, skip: false);
-                    if (Options.NecromancerOn.GetBool())
-                        ForceAssignRole(CustomRoles.Necromancer, AllCovenPlayers, sender, BaseRole: RoleTypes.Impostor, skip: false);
+                    // if (Options.MimicOn.GetBool())
+                    //    ForceAssignRole(CustomRoles.Mimic, AllCovenPlayers, sender, BaseRole: RoleTypes.Impostor, skip: false);
+                    // if (Options.NecromancerOn.GetBool())
+                    //   ForceAssignRole(CustomRoles.Necromancer, AllCovenPlayers, sender, BaseRole: RoleTypes.Impostor, skip: false);
                 }
                 foreach (var pair in Main.AllPlayerCustomRoles)
                 {
@@ -842,11 +847,13 @@ namespace TownOfHost
                             break;
                         case CustomRoles.Arsonist:
                             foreach (var ar in PlayerControl.AllPlayerControls)
-                                Main.isDoused.Add((pc.PlayerId, ar.PlayerId), false);
+                                if (!ar.Is(CustomRoles.Phantom))
+                                    Main.isDoused.Add((pc.PlayerId, ar.PlayerId), false);
                             break;
                         case CustomRoles.PlagueBearer:
                             foreach (var ar in PlayerControl.AllPlayerControls)
-                                Main.isInfected.Add((pc.PlayerId, ar.PlayerId), false);
+                                if (!ar.Is(CustomRoles.Phantom))
+                                    Main.isInfected.Add((pc.PlayerId, ar.PlayerId), false);
                             break;
                         case CustomRoles.Survivor:
                             Main.SurvivorStuff.Add(pc.PlayerId, (0, false, false, false, true));
@@ -859,6 +866,7 @@ namespace TownOfHost
                                 if (pc == target) continue;
                                 else if (!Options.ExecutionerCanTargetImpostor.GetBool() && target.GetCustomRole().IsImpostor()) continue;
                                 else if (target.GetCustomRole().IsNeutral()) continue;
+                                else if (pc.Is(CustomRoles.Phantom)) continue;
 
                                 targetList.Add(target);
                             }
@@ -873,6 +881,7 @@ namespace TownOfHost
                             foreach (var target in PlayerControl.AllPlayerControls)
                             {
                                 if (pc == target) continue;
+                                if (pc.Is(CustomRoles.Phantom)) continue;
 
                                 protectList.Add(target);
                             }
@@ -904,7 +913,8 @@ namespace TownOfHost
                             foreach (var ar in PlayerControl.AllPlayerControls)
                             {
                                 if (!ar.GetCustomRole().IsCoven())
-                                    Main.isHexed.Add((pc.PlayerId, ar.PlayerId), false);
+                                    if (!ar.Is(CustomRoles.Phantom))
+                                        Main.isHexed.Add((pc.PlayerId, ar.PlayerId), false);
                             }
                             break;
                         case CustomRoles.Investigator:
@@ -927,6 +937,9 @@ namespace TownOfHost
                         case CustomRoles.Pirate:
                             Guesser.Add(pc.PlayerId);
                             Guesser.PirateGuess.Add(pc.PlayerId, 0);
+                            break;
+                        case CustomRoles.Phantom:
+                            Main.lastAmountOfTasks.Add(pc.PlayerId, 0);
                             break;
                     }
                     pc.ResetKillCooldown();
@@ -1144,7 +1157,7 @@ namespace TownOfHost
         {
             if (!role.IsEnable()) return false;
             var number = Convert.ToUInt32(PercentageChecker.CheckPercentage(role.ToString(), role: role));
-            bool isRole = UnityEngine.Random.Range(1, 100) <= number;
+            bool isRole = UnityEngine.Random.RandomRange(1, 100) <= number;
             return isRole;
         }
 
@@ -1169,6 +1182,7 @@ namespace TownOfHost
             foreach (var player in PlayerControl.AllPlayerControls)
             {
                 if (player.Is(CustomRoles.Child)) continue;
+                if (player.Is(CustomRoles.Phantom)) continue;
                 allPlayers.Add(player);
             }
             var loversRole = CustomRoles.LoversRecode;
@@ -1197,6 +1211,32 @@ namespace TownOfHost
             {
                 if (Main.AllPlayerCustomRoles[player.PlayerId] == CustomRoles.LoversRecode) continue;
                 if (Main.HasModifier.ContainsKey(player.PlayerId)) continue;
+                if (player.Is(CustomRoles.Phantom)) continue;
+                if (Options.ModifierRestrict.GetBool())
+                {
+                    switch (role)
+                    {
+                        case CustomRoles.Sleuth:
+                        case CustomRoles.TieBreaker:
+                            break;
+                        case CustomRoles.Oblivious:
+                            if (player.GetCustomRole() is CustomRoles.Medium or CustomRoles.Amnesiac or CustomRoles.Vulture) continue;
+                            break;
+                        case CustomRoles.Flash:
+                            if (player.Is(CustomRoles.SpeedBooster)) continue;
+                            break;
+                        case CustomRoles.Bait:
+                        case CustomRoles.Bewilder:
+                            break;
+                        case CustomRoles.Torch:
+                            if (player.Is(CustomRoles.Lighter)) continue;
+                            break;
+                    }
+                    if (role.IsCrewModifier())
+                    {
+                        if (!player.GetCustomRole().CanGetCrewModifier()) continue;
+                    }
+                }
                 allPlayers.Add(player);
             }
             var loversRole = role;
@@ -1208,21 +1248,10 @@ namespace TownOfHost
             for (var i = 0; i < count; i++)
             {
                 var player = allPlayers[rand.Next(0, allPlayers.Count)];
-                if (role.IsCrewModifier())
-                {
-                    if (!player.GetCustomRole().CanGetCrewModifier()) continue;
-                    Main.HasModifier.Add(player.PlayerId, role);
-                    allPlayers.Remove(player);
-                    Main.AllPlayerCustomSubRoles[player.PlayerId] = loversRole;
-                    Logger.Info("役職設定:" + player?.Data?.PlayerName + " = " + player.GetCustomRole().ToString() + " + " + loversRole.ToString(), "AssignCrewModifier");
-                }
-                else
-                {
-                    Main.HasModifier.Add(player.PlayerId, role);
-                    allPlayers.Remove(player);
-                    Main.AllPlayerCustomSubRoles[player.PlayerId] = loversRole;
-                    Logger.Info("役職設定:" + player?.Data?.PlayerName + " = " + player.GetCustomRole().ToString() + " + " + loversRole.ToString(), "AssignGlobalModifier");
-                }
+                Main.HasModifier.Add(player.PlayerId, role);
+                allPlayers.Remove(player);
+                Main.AllPlayerCustomSubRoles[player.PlayerId] = loversRole;
+                Logger.Info("役職設定:" + player?.Data?.PlayerName + " = " + player.GetCustomRole().ToString() + " + " + loversRole.ToString(), "AssignCrewModifier");
             }
         }
 

@@ -181,6 +181,7 @@ namespace TownOfHost
         }
         public static void GuesserShootByID(PlayerControl killer, string playerId, string targetrolenum)//ゲッサーが撃てるかどうかのチェック
         {
+            if (GameStates.IsLobby) return;
             if ((!killer.Is(CustomRoles.NiceGuesser) && !killer.Is(CustomRoles.EvilGuesser) && !killer.Is(CustomRoles.Pirate)) || killer.Data.IsDead || !AmongUsClient.Instance.IsGameStarted) if (killer.GetCustomRole().IsCoven() && !Main.HasNecronomicon && !killer.Is(CustomRoles.Mimic)) return;
             if (killer.Is(CustomRoles.Pirate) && !canGuess) return;
             if (killer.Data.IsDead) return;
@@ -317,18 +318,45 @@ namespace TownOfHost
         public static void RpcGuesserMurderPlayer(this PlayerControl pc, float delay = 0f)//ゲッサー用の殺し方
         {
             string text = "";
-            /*new LateTask(() =>
-            {
-                MessageWriter MurderWriter = AmongUsClient.Instance.StartRpcImmediately(pc.NetId, (byte)RpcCalls.MurderPlayer, SendOption.Reliable, pc.GetClientId());
-                MessageExtensions.WriteNetObject(MurderWriter, pc);
-                AmongUsClient.Instance.FinishRpcImmediately(MurderWriter);
-            }, 0.2f + delay, "Guesser Murder");//ここまでの処理でターゲットで視点キルを発生させる*/
-            pc.Die(DeathReason.Kill);
-            pc.Data.IsDead = true;//それ以外のやつ視点で勝手に死んだことにする
-            text += string.Format(GetString("KilledByGuesser"), pc.name);//ホスト以外死んだのがわからないのでチャットで送信
+            text += string.Format(GetString("KilledByGuesser"), pc.name);
             Main.unreportableBodies.Add(pc.PlayerId);
             Utils.SendMessage(text, byte.MaxValue);
-
+            // DEATH STUFF //
+            var amOwner = pc.AmOwner;
+            pc.Data.IsDead = true;
+            PlayerState.SetDead(pc.PlayerId);
+            var meetingHud = MeetingHud.Instance;
+            var hudManager = DestroyableSingleton<HudManager>.Instance;
+            SoundManager.Instance.PlaySound(pc.KillSfx, false, 0.8f);
+            hudManager.KillOverlay.ShowKillAnimation(pc.Data, pc.Data);
+            if (amOwner)
+            {
+                hudManager.ShadowQuad.gameObject.SetActive(false);
+                //pc.nameText().GetComponent<MeshRenderer>().material.SetInt("_Mask", 0);
+                pc.RpcSetScanner(false);
+                ImportantTextTask importantTextTask = new GameObject("_Player").AddComponent<ImportantTextTask>();
+                importantTextTask.transform.SetParent(AmongUsClient.Instance.transform, false);
+                meetingHud.SetForegroundForDead();
+            }
+            PlayerVoteArea voteArea = MeetingHud.Instance.playerStates.First(
+                x => x.TargetPlayerId == pc.PlayerId
+            );
+            pc.Die(DeathReason.Kill);
+            if (voteArea == null) return;
+            if (voteArea.DidVote) voteArea.UnsetVote();
+            voteArea.AmDead = true;
+            voteArea.Overlay.gameObject.SetActive(true);
+            voteArea.Overlay.color = Color.white;
+            voteArea.XMark.gameObject.SetActive(true);
+            voteArea.XMark.transform.localScale = Vector3.one;
+            foreach (var playerVoteArea in meetingHud.playerStates)
+            {
+                if (playerVoteArea.VotedFor != pc.PlayerId) continue;
+                playerVoteArea.UnsetVote();
+                var voteAreaPlayer = Utils.GetPlayerById(playerVoteArea.TargetPlayerId);
+                if (!voteAreaPlayer.AmOwner) continue;
+                meetingHud.ClearVote();
+            }
         }
         public static void SetRoleAndNumber()//役職を番号で管理
         {
@@ -342,6 +370,7 @@ namespace TownOfHost
             var c = 1;
             foreach (CustomRoles role in Enum.GetValues(typeof(CustomRoles)))
             {
+                if (!role.IsEnable()) continue;
                 if (!role.IsImpostorTeam() && role != CustomRoles.Egoist) assassinList.Add(role);
                 if (role != CustomRoles.Pirate) pirateList.Add(role);
                 if (!role.IsCrewmate()) vigiList.Add(role);

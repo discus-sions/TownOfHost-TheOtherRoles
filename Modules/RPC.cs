@@ -331,6 +331,9 @@ namespace TownOfHost
                     case CustomWinner.Arsonist:
                         SingleArsonistWin();
                         break;
+                    case CustomWinner.Phantom:
+                        PhantomWin(winner[0]);
+                        break;
                     case CustomWinner.HASTroll:
                         TrollWin(winner[0]);
                         break;
@@ -437,6 +440,19 @@ namespace TownOfHost
                 ShipStatus.RpcEndGame(GameOverReason.ImpostorByKill, false);
             }
         }
+        public static void TeamFFAwin(int colorid)
+        {
+            Main.WonFFATeam = colorid;
+            Main.WonFFAid = 254;
+            Main.currentWinner = CustomWinner.Jackal;
+            CustomWinTrigger(0);
+            if (AmongUsClient.Instance.AmHost)
+            {
+                ShipStatus.Instance.enabled = false;
+                Main.currentWinner = CustomWinner.Jackal;
+                ShipStatus.RpcEndGame(GameOverReason.ImpostorByKill, false);
+            }
+        }
         public static void ArsonistWin(byte arsonistID)
         {
             Main.WonArsonistID = arsonistID;
@@ -479,6 +495,12 @@ namespace TownOfHost
         public static void MarksmanWin()
         {
             Main.currentWinner = CustomWinner.Marksman;
+            CustomWinTrigger(0);
+        }
+        public static void PhantomWin(byte phantomID)
+        {
+            Main.WonTrollID = phantomID;
+            Main.currentWinner = CustomWinner.Phantom;
             CustomWinTrigger(0);
         }
         public static void WolfWin()

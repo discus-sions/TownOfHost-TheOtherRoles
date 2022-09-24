@@ -65,24 +65,21 @@ namespace TownOfHost
             //SabotageMaster
             if (player.Is(CustomRoles.SabotageMaster))
                 SabotageMaster.RepairSystem(__instance, systemType, amount);
-            if (player.Is(CustomRoles.Hacker))
+            if (player.Is(CustomRoles.Hacker) && systemType is SystemTypes.Electrical or SystemTypes.Comms or SystemTypes.LifeSupp or SystemTypes.Reactor)
             {
-                if (systemType != SystemTypes.Doors)
+                if (!player.Data.IsDead)
                 {
-                    if (!player.Data.IsDead)
+                    SabotageMaster.HackerRepairSystem(__instance, systemType, amount);
+                    Main.HackerFixedSaboCount[player.PlayerId]++;
+                    if (Main.HackerFixedSaboCount[player.PlayerId] >= Options.SaboAmount.GetFloat())
                     {
-                        SabotageMaster.HackerRepairSystem(__instance, systemType, amount);
-                        Main.HackerFixedSaboCount[player.PlayerId]++;
                         if (Main.HackerFixedSaboCount[player.PlayerId] >= Options.SaboAmount.GetFloat())
-                        {
-                            if (Main.HackerFixedSaboCount[player.PlayerId] >= Options.SaboAmount.GetFloat())
-                                Main.HackerFixedSaboCount[player.PlayerId] = Options.SaboAmount.GetInt();
-                            MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.EndGame, Hazel.SendOption.Reliable, -1);
-                            writer.Write((byte)CustomWinner.Hacker);
-                            writer.Write(player.PlayerId);
-                            AmongUsClient.Instance.FinishRpcImmediately(writer);
-                            RPC.HackerWin(player.PlayerId);
-                        }
+                            Main.HackerFixedSaboCount[player.PlayerId] = Options.SaboAmount.GetInt();
+                        MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.EndGame, Hazel.SendOption.Reliable, -1);
+                        writer.Write((byte)CustomWinner.Hacker);
+                        writer.Write(player.PlayerId);
+                        AmongUsClient.Instance.FinishRpcImmediately(writer);
+                        RPC.HackerWin(player.PlayerId);
                     }
                 }
             }
@@ -96,11 +93,11 @@ namespace TownOfHost
                 systemType == SystemTypes.Comms && //システムタイプが通信室
                 (player.Is(CustomRoles.Madmate) || player.Is(CustomRoles.MadGuardian))) //実行者がMadmateかMadGuardian)
                 return false;
-            if (systemType == SystemTypes.Comms && Options.CamoComms.GetBool())
+            /*if (systemType == SystemTypes.Comms && Options.CamoComms.GetBool())
             {
                 foreach (PlayerControl target in PlayerControl.AllPlayerControls)
                     target.RpcRevertShapeshift(true);
-            }
+            }*/
             if (player.Is(CustomRoles.Sheriff) || player.Is(CustomRoles.Investigator) || player.Is(CustomRoles.Parasite) || player.Is(CustomRoles.Marksman) || player.Is(CustomRoles.BloodKnight) || player.Is(CustomRoles.Arsonist) || player.Is(CustomRoles.Werewolf) || player.Is(CustomRoles.TheGlitch) || player.GetRoleType() == RoleType.Coven || player.Is(CustomRoles.PlagueBearer) || player.Is(CustomRoles.Pestilence) || player.Is(CustomRoles.Juggernaut) || ((player.Is(CustomRoles.Jackal) || player.Is(CustomRoles.Sidekick)) && !Options.JackalCanUseSabotage.GetBool()) || Main.Grenaiding)
             {
                 if (systemType == SystemTypes.Sabotage && AmongUsClient.Instance.GameMode != GameModes.FreePlay) return false; //シェリフにサボタージュをさせない ただしフリープレイは例外
@@ -110,13 +107,11 @@ namespace TownOfHost
                 if (CustomRoles.TheGlitch.IsEnable())
                 {
                     List<byte> hackedPlayers = new();
-                    PlayerControl glitch;
                     foreach (var cp in Main.CursedPlayers)
                     {
                         if (Utils.GetPlayerById(cp.Key).Is(CustomRoles.TheGlitch))
                         {
                             hackedPlayers.Add(cp.Value.PlayerId);
-                            glitch = Utils.GetPlayerById(cp.Key);
                         }
                     }
                     if (hackedPlayers.Contains(player.PlayerId))
@@ -131,7 +126,7 @@ namespace TownOfHost
         {
             if (Options.CamoComms.GetBool())
             {
-                switch (systemType)
+                /*switch (systemType)
                 {
                     case SystemTypes.Comms:
                         if (!WasCaused)
@@ -148,7 +143,7 @@ namespace TownOfHost
                             Camouflague.IsActive = true;
                         }
                         break;
-                }
+                }*/
             }
             Utils.CustomSyncAllSettings();
             new LateTask(

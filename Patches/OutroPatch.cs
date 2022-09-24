@@ -60,14 +60,16 @@ namespace TownOfHost
             else
             {
                 if (Options.FreeForAllOn.GetBool())
+                {
                     if (Main.currentWinner == CustomWinner.Jackal)
                     {
                         winner.Clear();
                         foreach (var p in PlayerControl.AllPlayerControls)
                         {
-                            if (p.PlayerId == Main.WonFFAid) winner.Add(p);
+                            if (p.PlayerId == Main.WonFFAid || p.CurrentOutfit.ColorId == Main.WonFFATeam) winner.Add(p);
                         }
                     }
+                }
             }
             if (Main.currentWinner == CustomWinner.Werewolf)
             {
@@ -83,6 +85,14 @@ namespace TownOfHost
                 foreach (var p in PlayerControl.AllPlayerControls)
                 {
                     if (p.Is(CustomRoles.Marksman)) winner.Add(p);
+                }
+            }
+            if (Main.currentWinner == CustomWinner.Phantom)
+            {
+                winner.Clear();
+                foreach (var p in PlayerControl.AllPlayerControls)
+                {
+                    if (p.PlayerId == Main.WonTrollID) winner.Add(p);
                 }
             }
             if (Main.currentWinner == CustomWinner.TheGlitch)
@@ -238,18 +248,7 @@ namespace TownOfHost
                     }
                 }
             }
-            if (Main.currentWinner == CustomWinner.Arsonist && CustomRoles.Arsonist.IsEnable() && !Options.TOuRArso.GetBool())
-            {
-                winner = new();
-                foreach (var p in PlayerControl.AllPlayerControls)
-                {
-                    if (p.PlayerId == Main.WonArsonistID)
-                    {
-                        winner.Add(p);
-                    }
-                }
-            }
-            if (Main.currentWinner == CustomWinner.Arsonist && CustomRoles.Arsonist.IsEnable() && Options.TOuRArso.GetBool())
+            if (Main.currentWinner == CustomWinner.Arsonist && CustomRoles.Arsonist.IsEnable())
             {
                 winner = new();
                 foreach (var p in PlayerControl.AllPlayerControls)

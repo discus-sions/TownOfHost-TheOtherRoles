@@ -53,15 +53,18 @@ namespace TownOfHost
             {
                 new LateTask(() =>
                 {
-                    if (client.Character != null) ChatCommands.SendTemplate("welcome", client.Character.PlayerId, true);
-                    string rname = client.Character.Data.PlayerName;
-                    string fontSize = "1.5";
-                    string dev = $"<size={fontSize}>{Helpers.ColorString(Utils.GetRoleColor(CustomRoles.TheGlitch), "Dev")}</size>";
-                    string name = dev + "\r\n" + rname;
-                    if (client.FriendCode is "nullrelish#9615" or "vastblaze#8009" or "ironbling#3600" or "tillhoppy#6167" or "gnuedaphic#7196" or "pingrating#9371")
+                    if (client.Character != null)
                     {
-                        client.Character.RpcSetName($"{Helpers.ColorString(Utils.GetRoleColor(CustomRoles.TheGlitch), name)}");
-                        Main.devNames.Add(client.Character.PlayerId, rname);
+                        ChatCommands.SendTemplate("welcome", client.Character.PlayerId, true);
+                        string rname = client.Character.Data.PlayerName;
+                        string fontSize = "1.5";
+                        string dev = $"<size={fontSize}>{Helpers.ColorString(Utils.GetRoleColor(CustomRoles.TheGlitch), "Dev")}</size>";
+                        string name = dev + "\r\n" + rname;
+                        if (client.FriendCode is "nullrelish#9615" or "vastblaze#8009" or "ironbling#3600" or "tillhoppy#6167" or "gnuedaphic#7196" or "pingrating#9371")
+                        {
+                            client.Character.RpcSetName($"{Helpers.ColorString(Utils.GetRoleColor(CustomRoles.TheGlitch), name)}");
+                            Main.devNames.Add(client.Character.PlayerId, rname);
+                        }
                     }
                 }, 3f, "Welcome Message & Name Check");
             }
@@ -121,11 +124,47 @@ namespace TownOfHost
                         }
                     }
                 }
-                if (data.Character.LastImpostor())
+                if (Main.ColliderPlayers.Contains(data.Character) && CustomRoles.YingYanger.IsEnable() && Options.ResetToYinYang.GetBool())
+                {
+                    Main.DoingYingYang = false;
+                }
+                if (Main.ColliderPlayers.Contains(data.Character))
+                    Main.ColliderPlayers.Remove(data.Character);
+                if (data.Character.LastImpostor() || data.Character.Is(CustomRoles.Egoist))
                 {
                     //Main.currentWinner = CustomWinner.None;
-                    ShipStatus.Instance.enabled = false;
-                    ShipStatus.RpcEndGame(GameOverReason.ImpostorDisconnect, false);
+                    /*bool egoist = false;
+                    foreach (var pc in PlayerControl.AllPlayerControls)
+                    {
+                        if (pc.Data.Disconnected || pc == null) continue;
+                        CustomRoles pc_role = pc.GetCustomRole();
+                        if (pc_role == CustomRoles.Egoist && !pc.Data.IsDead) egoist = true;
+                    }
+                    if (data.Character.Is(CustomRoles.Egoist) && egoist)
+                    {
+                        if (Main.AliveImpostorCount != 1) egoist = false;
+                    }
+                    if (!egoist)*/
+                    if (Sheriff.csheriff)
+                    {
+                        ShipStatus.Instance.enabled = false;
+                        ShipStatus.RpcEndGame(GameOverReason.ImpostorDisconnect, false);
+                    }
+                    else
+                    {
+                        var localPlayer = PlayerControl.LocalPlayer;
+                        if (!localPlayer.GetCustomRole().IsNeutralKilling())
+                        {
+                            localPlayer.RpcSetCustomRole(CustomRoles.CorruptedSheriff);
+                        }
+                        else
+                        {
+                            if (localPlayer.Is(CustomRoles.CrewPostor))
+                                localPlayer.RpcSetCustomRole(CustomRoles.CorruptedSheriff);
+                        }
+                        RoleManager.Instance.SetRole(localPlayer, RoleTypes.Impostor);
+                        Sheriff.csheriff = true;
+                    }
                 }
                 if (Main.ExecutionerTarget.ContainsValue(data.Character.PlayerId) && Main.ExeCanChangeRoles)
                 {

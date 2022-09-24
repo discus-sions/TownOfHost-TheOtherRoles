@@ -28,6 +28,33 @@ namespace TownOfHost
                     /*__instance.RoleBlurbText.text = PlayerControl.LocalPlayer.Is(CustomRoles.EvilGuesser) || PlayerControl.LocalPlayer.Is(CustomRoles.NiceGuesser)
                         ? GetString("GuesserInfo")
                         : GetString(role.ToString() + "Info");*/
+                    if (PlayerControl.LocalPlayer.Is(CustomRoles.Executioner))
+                    {
+                        byte target = 0x6;
+                        foreach (var player in Main.ExecutionerTarget)
+                        {
+                            if (player.Key == PlayerControl.LocalPlayer.PlayerId)
+                                target = player.Value;
+                        }
+                        if (PlayerControl.LocalPlayer.Is(CustomRoles.Executioner))
+                            __instance.RoleBlurbText.text = "Vote " + Utils.GetPlayerById(target).GetRealName(isMeeting: true) + " Out";
+                    }
+                }
+                else
+                {
+                    switch (role)
+                    {
+                        case CustomRoles.Crewmate:
+                            break;
+                        case CustomRoles.Engineer:
+                            break;
+                        case CustomRoles.Scientist:
+                            break;
+                        case CustomRoles.Impostor:
+                            break;
+                        case CustomRoles.Shapeshifter:
+                            break;
+                    }
                 }
 
                 __instance.RoleText.text += Utils.GetShowLastSubRolesText(PlayerControl.LocalPlayer.PlayerId);
@@ -163,7 +190,7 @@ namespace TownOfHost
                                 target = player.Value;
                         }
                         if (PlayerControl.LocalPlayer.Is(CustomRoles.Executioner))
-                            __instance.ImpostorText.text += "\nVote " + Utils.GetPlayerById(target).GetRealName() + " Out";
+                            __instance.ImpostorText.text += "\nVote " + Utils.GetPlayerById(target).GetRealName(isMeeting: true) + " Out";
                     }
                     __instance.BackgroundBar.material.color = Utils.GetRoleColor(role);
                     break;

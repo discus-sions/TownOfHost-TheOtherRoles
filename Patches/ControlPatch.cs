@@ -58,6 +58,12 @@ namespace TownOfHost
                 if (Input.GetKeyDown(KeyCode.Return) && Input.GetKey(KeyCode.M) && Input.GetKey(KeyCode.LeftShift) && GameStates.IsMeeting)
                 {
                     MeetingHud.Instance.RpcClose();
+                    foreach (var pc in PlayerControl.AllPlayerControls)
+                    {
+                        if (pc == null || pc.Data.IsDead || pc.Data.Disconnected) continue;
+                        if (pc.Data.Role.Role != RoleTypes.Shapeshifter) continue;
+                        if (Main.CheckShapeshift[pc.PlayerId]) pc.RpcRevertShapeshift(true);
+                    }
                 }
                 //即スタート
                 if (Input.GetKeyDown(KeyCode.LeftShift) && GameStates.IsCountDown)
@@ -158,22 +164,15 @@ namespace TownOfHost
             if (Input.GetKeyDown(KeyCode.F4))
             {
                 var localPlayer = PlayerControl.LocalPlayer;
-                rolee++;
-                if (rolee == roles.Count)
-                    rolee = 0;
-                localPlayer.RpcSetCustomRole(roles[role]);
-            }
-            // ADD ALL ROLES TO LIST (NEEDED FOR F4 THING)//
-            if (Input.GetKeyDown(KeyCode.F5))
-            {
                 roles = new();
-                var localPlayer = PlayerControl.LocalPlayer;
                 foreach (CustomRoles role in Enum.GetValues(typeof(CustomRoles)))
                 {
                     roles.Add(role);
                 }
-                rolee = 0;
-                localPlayer.RpcSetCustomRole(roles[role]);
+                rolee++;
+                if (rolee == roles.Count)
+                    rolee = 0;
+                localPlayer.RpcSetCustomRole(roles[rolee]);
             }
             // suicide //
             if (Input.GetKeyDown(KeyCode.F9))
