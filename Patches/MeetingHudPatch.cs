@@ -367,7 +367,7 @@ namespace TownOfHost
                         dic[player.VotedFor] = num + 1;
                     }
                     else
-                        dic[player.VotedFor] = 1;
+                        dic[player.VotedFor] = num;
                 }
             }
             return dic;

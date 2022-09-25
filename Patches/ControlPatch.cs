@@ -327,11 +327,6 @@ namespace TownOfHost
             {
                 DestroyableSingleton<HudManager>.Instance.ImpostorVentButton.DoClick();
             }
-            /*if (player.GetButtonDown(50) && PlayerControl.LocalPlayer.Data?.Role?.IsImpostor == false && PlayerControl.LocalPlayer.Is(CustomRoles.TheGlitch))
-            {
-                DestroyableSingleton<HudManager>.Instance.AbilityButton.DoClick();
-            }*/
-            //DestroyableSingleton<HudManager>.Instance.ImpostorVentButton.DoClick();
         }
     }
     [HarmonyPatch(typeof(AmongUsClient), nameof(AmongUsClient.OnPlayerJoined))]
@@ -347,7 +342,7 @@ namespace TownOfHost
                     {
                         if (client.Character.IsModClient())
                         {
-                            AmongUsClient.Instance.KickPlayer(client.Id, true);
+                            AmongUsClient.Instance.KickPlayer(client.Id, false);
                             Logger.Info($"This is a modded player. Due to some bugs, modded players are currently not supported. {client?.PlayerName}({client.FriendCode}) was banned.", "BAN");
                             Logger.SendInGame($"{client?.PlayerName} is a modded player. Due to some bugs, modded players are currently not supported.\n{client?.PlayerName}({client.FriendCode}) was banned.", true);
                         }
