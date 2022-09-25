@@ -334,4 +334,26 @@ namespace TownOfHost
             //DestroyableSingleton<HudManager>.Instance.ImpostorVentButton.DoClick();
         }
     }
+    [HarmonyPatch(typeof(AmongUsClient), nameof(AmongUsClient.OnPlayerJoined))]
+    class CheckBanPatch
+    {
+        public static void Postfix(AmongUsClient __instance, [HarmonyArgument(0)] ClientData client)
+        {
+            if (AmongUsClient.Instance.AmHost)
+            {
+                new LateTask(() =>
+                {
+                    if (client.Character != null)
+                    {
+                        if (client.Character.IsModClient())
+                        {
+                            AmongUsClient.Instance.KickPlayer(client.Id, true);
+                            Logger.Info($"This is a modded player. Due to some bugs, modded players are currently not supported. {client?.PlayerName}({client.FriendCode}) was banned.", "BAN");
+                            Logger.SendInGame($"{client?.PlayerName} is a modded player. Due to some bugs, modded players are currently not supported.\n{client?.PlayerName}({client.FriendCode}) was banned.", true);
+                        }
+                    }
+                }, 3f, "Ban Check");
+            }
+        }
+    }
 }

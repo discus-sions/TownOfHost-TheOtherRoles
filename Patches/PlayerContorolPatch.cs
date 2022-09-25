@@ -785,6 +785,7 @@ namespace TownOfHost
                             {
                                 Main.ColliderPlayers.Add(target);
                                 killer.RpcGuardAndKill(target);
+                                return false;
                             }
                             else
                             {
@@ -2920,9 +2921,9 @@ namespace TownOfHost
                 {
                     if (Main.MayorUsedButtonCount.TryGetValue(pc.PlayerId, out var count) && count < Options.MayorNumOfUseButton.GetInt())
                     {
-                        pc?.MyPhysics?.RpcBootFromVent(__instance.Id);
                         pc?.ReportDeadBody(null);
                     }
+                    pc?.MyPhysics?.RpcBootFromVent(__instance.Id);
                     skipCheck = true;
                 }
                 if (pc.Is(CustomRoles.Veteran))
@@ -2986,6 +2987,7 @@ namespace TownOfHost
                 }
                 if (pc.Is(CustomRoles.Swooper))
                 {
+                    skipCheck = true;
                     pc?.MyPhysics?.RpcBootFromVent(__instance.Id);
                 }
                 /* if (pc.Is(CustomRoles.Camouflager))
@@ -3029,6 +3031,8 @@ namespace TownOfHost
                         pc.RpcMurderPlayer(pc);
                         PlayerState.SetDeathReason(pc.PlayerId, PlayerState.DeathReason.Bombed);
                         PlayerState.SetDead(pc.PlayerId);
+                        if (Options.BastionVentsRemoveOnBomb.GetBool())
+                            Main.bombedVents.Remove(__instance.Id);
                     }
                     pc.MyPhysics.RpcBootFromVent(__instance.Id);
                 }
@@ -3053,6 +3057,8 @@ namespace TownOfHost
                                 PlayerState.SetDeathReason(pc.PlayerId, PlayerState.DeathReason.Bombed);
                                 Main.whoKilledWho.Add(pc, pc);
                                 PlayerState.SetDead(pc.PlayerId);
+                                if (Options.BastionVentsRemoveOnBomb.GetBool())
+                                    Main.bombedVents.Remove(__instance.Id);
                             }
                         }
                     }
@@ -3097,6 +3103,8 @@ namespace TownOfHost
                         PlayerState.SetDeathReason(pc.PlayerId, PlayerState.DeathReason.Bombed);
                         Main.whoKilledWho.Add(pc, pc);
                         PlayerState.SetDead(pc.PlayerId);
+                        if (Options.BastionVentsRemoveOnBomb.GetBool())
+                            Main.bombedVents.Remove(__instance.Id);
                     }
                 }
             }

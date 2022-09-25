@@ -98,6 +98,8 @@ namespace TownOfHost
             ////////////// COVEN INFO //////////////    
 
             Options.UsedButtonCount = 0;
+            Main.showEjections = PlayerControl.GameOptions.ConfirmImpostor;
+            PlayerControl.GameOptions.ConfirmImpostor = false;
             Main.RealOptionsData = PlayerControl.GameOptions.DeepCopy();
 
             Main.introDestroyed = false;
@@ -326,6 +328,7 @@ namespace TownOfHost
                                         var player = AllNKPlayers[random.Next(0, AllNKPlayers.Count)];
                                         rolesChosen.Remove(role);
                                         AllNKPlayers.Remove(player);
+                                        Main.chosenNK.Add(role);
                                         List<PlayerControl> urself = new();
                                         urself.Add(player);
                                         if (role.IsShapeShifter())
@@ -393,9 +396,9 @@ namespace TownOfHost
                                         var random = new System.Random();
                                         var role = rolesChosenNon[rando.Next(0, rolesChosenNon.Count)];
                                         var player = AllnonNKPlayers[random.Next(0, AllnonNKPlayers.Count)];
+                                        if (Main.chosenNonNK.Contains(role) || Main.chosenEngiRoles.Contains(role)) continue;
                                         rolesChosenNon.Remove(role);
                                         AllnonNKPlayers.Remove(player);
-                                        Main.chosenNK.Add(role);
                                         if (role.IsEngineer())
                                         {
                                             Main.chosenEngiRoles.Add(role);
@@ -505,7 +508,7 @@ namespace TownOfHost
                             ForceAssignRole(CustomRoles.Coven, AllPlayers, sender, Count: 3, BaseRole: RoleTypes.Impostor);
                         if (Main.chosenNK.Contains(CustomRoles.Jackal))
                             if (Options.JackalHasSidekick.GetBool())
-                                AssignDesyncRole(CustomRoles.Sidekick, AllPlayers, sender, Count: 1, BaseRole: RoleTypes.Impostor);
+                                ForceAssignRole(CustomRoles.Sidekick, AllPlayers, sender, Count: 1, BaseRole: RoleTypes.Impostor);
                         if (RoleGoingInList(CustomRoles.Parasite))
                             AssignDesyncRole(CustomRoles.Parasite, AllPlayers, sender, BaseRole: RoleTypes.Shapeshifter, hostBaseRole: RoleTypes.Shapeshifter);
                         if (RoleGoingInList(CustomRoles.Sheriff))
