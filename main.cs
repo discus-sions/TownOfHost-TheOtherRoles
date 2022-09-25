@@ -469,7 +469,14 @@ namespace TownOfHost
                     { CustomRoles.rosecolor, "#FFD6EC"},
                     { CustomRoles.pinkcolor, "#ff35c6"},
                     { CustomRoles.thirdcolor, "#86A873"},
-                    { CustomRoles.fourthcolor, "#C1CC99"}
+                    { CustomRoles.fourthcolor, "#C1CC99"},
+                    { CustomRoles.aug1, "#FF00A6"},
+                    { CustomRoles.aug2, "#FF33B8"},
+                    { CustomRoles.aug3, "#FF5CC6"},
+                    { CustomRoles.aug4, "#FF85D4"},
+                    { CustomRoles.aug5, "#FFADE2"},
+                    { CustomRoles.aug6, "#FFD6F1"},
+                    { CustomRoles.aug7, "#FFEBF8"}
                 };
                 foreach (var role in Enum.GetValues(typeof(CustomRoles)).Cast<CustomRoles>())
                 {
@@ -698,7 +705,14 @@ namespace TownOfHost
         rosecolor,
         pinkcolor,
         fourthcolor,
-        thirdcolor
+        thirdcolor,
+        aug1,
+        aug2,
+        aug3,
+        aug4,
+        aug5,
+        aug6,
+        aug7
     }
     //WinData
     public enum CustomWinner

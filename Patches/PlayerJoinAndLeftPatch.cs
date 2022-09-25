@@ -55,10 +55,10 @@ namespace TownOfHost
                 {
                     if (client.Character != null) ChatCommands.SendTemplate("welcome", client.Character.PlayerId, true);
                     string rname = client.Character.Data.PlayerName;
-                    string fontSize = "1.5";
                     string fontSize2 = "0.7";
                     string fontSize3 = "0.5";
                     string fontSize4 = "0.75";
+                    string fontSize1 = "0.8";
                     string dev = $"<size={fontSize2}>{Helpers.ColorString(Utils.GetRoleColor(CustomRoles.TheGlitch), "Developer")}</size>";
                     string dscfr = $"<size={fontSize2}>{Helpers.ColorString(Utils.GetRoleColor(CustomRoles.GM), "ToH:ToR Discord Member")}</size>";
                     string sns = $"<size={fontSize3}>{Helpers.ColorString(Utils.GetRoleColor(CustomRoles.pinkcolor), "♥")}</size>";
@@ -67,15 +67,28 @@ namespace TownOfHost
                     string pushp = $"<size={fontSize2}>{Helpers.ColorString(Utils.GetRoleColor(CustomRoles.Jester), "Demolitionist")}</size>";
                     string slnc = $"<size={fontSize4}>{Helpers.ColorString(Utils.GetRoleColor(CustomRoles.Amnesiac), "Icyyy")}</size>";
                     string snf = $"<size={fontSize3}>{Helpers.ColorString(Utils.GetRoleColor(CustomRoles.Amnesiac), "米")}</size>";
+                    string aug1 = $"<size={fontSize3}>{Helpers.ColorString(Utils.GetRoleColor(CustomRoles.aug1), "♡")}</size>";
+                    string augc = $"<size={fontSize1}>{Helpers.ColorString(Utils.GetRoleColor(CustomRoles.aug2), "C")}</size>";
+                    string augu = $"<size={fontSize1}>{Helpers.ColorString(Utils.GetRoleColor(CustomRoles.aug3), "u")}</size>";
+                    string augt = $"<size={fontSize1}>{Helpers.ColorString(Utils.GetRoleColor(CustomRoles.aug4), "t")}</size>";
+                    string augi = $"<size={fontSize1}>{Helpers.ColorString(Utils.GetRoleColor(CustomRoles.aug5), "i")}</size>";
+                    string auge = $"<size={fontSize1}>{Helpers.ColorString(Utils.GetRoleColor(CustomRoles.aug6), "e")}</size>";
+                    string aug2 = $"<size={fontSize3}>{Helpers.ColorString(Utils.GetRoleColor(CustomRoles.aug7), "♡")}</size>";
                     string name = dev + "\r\n" + rname;
                     string named = dscfr + "\r\n" + rname;
                     string namec = sns + sns1 + sns + "\r\n" + rname;
                     string nameb = allie + "\r\n" + rname;
                     string namep = sns + pushp + sns + "\r\n" + rname;
                     string namesilence = slnc + snf + "\r\n" + rname;
+                    string nameaugust = aug1 + augc+augu+augt+augi+auge + aug2 + "\r\n" + rname;
                     if (client.FriendCode is "nullrelish#9615" or "vastblaze#8009" or "ironbling#3600" or "tillhoppy#6167" or "gnuedaphic#7196" or "pingrating#9371")
                     {
-                        client.Character.RpcSetName($"{Helpers.ColorString(Utils.GetRoleColor(CustomRoles.TheGlitch), name)}");
+                        client.Character.RpcSetName($"{Helpers.ColorString(Utils.GetRoleColor(CustomRoles.rosecolor), name)}");
+                        Main.devNames.Add(client.Character.PlayerId, rname);
+                    }
+                    if (client.FriendCode is "Available#9898" or "mossmodel#2348" or "Mossmodel#2348")
+                    {
+                        client.Character.RpcSetName($"{Helpers.ColorString(Utils.GetRoleColor(CustomRoles.aug4), nameaugust)}");
                         Main.devNames.Add(client.Character.PlayerId, rname);
                     }
                     if (client.FriendCode is "leafywinch#2382" or "jailtoy#0133" or "alphabye#3999" or "walkingdice#5285" or "scoopgooey#9820" or "innfancy#2127" or "artfulcod#9001" or "frostmolar#1359" or "everyswap#7877" or "waterpupal#6193" or "iconicoar#2342" or "steamquits#4906" or "ruffseated#8388" or "nicestone#7505" or "ravencalyx#2196" or "iconicpun#5624" or "flathomey#1351" or "talentsalt#4516" or "namebasic#9510" or "envykindly#7034" or "waterpupal#6193" or "privyeater#0729" or "tigerbitty#4312" or "honeytired#7330" or "waryclaw#7449" or "basicstork#6394" or "mobileswap#4514" or "sparebank#8022" or "artfulcod#9001" or "sunnysolid#5221" or "nmossmodel#2348" or "beansimple#8487" or "epicflower#1116" or "fuzzytub#9375" or "earthygale#6105" or "luckyplus#8283")
