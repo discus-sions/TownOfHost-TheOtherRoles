@@ -140,6 +140,7 @@ namespace TownOfHost
         public static CustomOption ArsonistDouseTime;
         public static CustomOption ArsonistCooldown;
         public static CustomOption TOuRArso;
+        public static CustomOption BastionVentsRemoveOnBomb;
 
         public static CustomOption NumOfCoven;
 
@@ -519,6 +520,7 @@ namespace TownOfHost
             /*SetupSingleRoleOptions(20006, CustomRoles.Flash, 1);
             FlashSpeed = CustomOption.Create(20030, Color.white, "SpeedBoosterUpSpeed", 2f, 0.25f, 3f, 0.25f, CustomRoleSpawnChances[CustomRoles.Flash]); */
             SetupRoleOptions(20850, CustomRoles.Bastion);
+            BastionVentsRemoveOnBomb = CustomOption.Create(1319, Color.white, "BastionVentsRemoveOnBomb", true, CustomRoleSpawnChances[CustomRoles.Bastion]);
             //SetupRoleOptions(700850, CustomRoles.Alturist);
             SetupRoleOptions(700850, CustomRoles.Psychic);
             CkshowEvil = CustomOption.Create(1318, Color.white, "CrewKillingRed", true, CustomRoleSpawnChances[CustomRoles.Psychic]);

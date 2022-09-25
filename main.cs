@@ -124,6 +124,7 @@ namespace TownOfHost
         public static List<byte> KilledDemo = new();
         public static bool isSilenced;
         public static bool isShipStart;
+        public static bool showEjections;
         public static Dictionary<byte, bool> CheckShapeshift = new();
         public static Dictionary<(byte, byte), string> targetArrows = new();
         public static List<PlayerControl> AllCovenPlayers = new();
@@ -320,6 +321,7 @@ namespace TownOfHost
             VetIsAlerted = false;
             IsRoundOne = false;
             IsRoundOneGA = false;
+            showEjections = false;
 
             IsRampaged = false;
             RampageReady = false;

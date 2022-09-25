@@ -1476,7 +1476,10 @@ namespace TownOfHost
             SerialKiller.AfterMeetingTasks();
             foreach (var pc in PlayerControl.AllPlayerControls)
             {
-                pc.RpcGuardAndKill(pc);
+                var role = pc.GetCustomRole();
+                if (!pc.Data.IsDead)
+                    if (role.IsImpostor() || role.IsCoven() || role.IsNeutralKilling() || role == CustomRoles.Investigator)
+                        pc.RpcGuardAndKill(pc);
                 if (PlayerControl.GameOptions.MapId != 4) // other than Airship
                     if (pc.Is(CustomRoles.Camouflager))
                     {

@@ -54,9 +54,10 @@ namespace TownOfHost
             {
                 exiled.IsDead = true;
                 PlayerState.SetDeathReason(exiled.PlayerId, PlayerState.DeathReason.Vote);
-                if (Main.RealOptionsData.ConfirmImpostor)
+                if (Main.showEjections)
                 {
                     exiled.Object.Data.PlayerName = Main.LastVotedPlayer;
+                    exiled.Object.name = Main.LastVotedPlayer;
                 }
                 var role = exiled.GetCustomRole();
                 Main.DeadPlayersThisRound.Add(exiled.PlayerId);
