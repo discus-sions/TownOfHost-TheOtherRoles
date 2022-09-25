@@ -718,13 +718,26 @@ namespace TownOfHost
             string fontSize = "1";
             string fontSize1 = "0.8";
             string fontSize2 = "1.5";
-            string fontSize3 = "0.5";
-            string disc = $"<size={fontSize}>{Helpers.ColorString(Utils.GetRoleColor(CustomRoles.PlagueBearer), "/t discord")}</size>";
+            string fontSize3 = "2";
+            string none1 = $"<size={fontSize3}>{Helpers.ColorString(Utils.GetRoleColor(CustomRoles.Amnesiac), "Krampus")}</size>";
+            string none2 = $"<size={fontSize3}>{Helpers.ColorString(Utils.GetRoleColor(CustomRoles.Jackal), "TOR")}</size>";
+            string disc = $"<size={fontSize1}>{Helpers.ColorString(Utils.GetRoleColor(CustomRoles.PlagueBearer), "/t discord")}</size>";
+            string disc1 = $"<size={fontSize2}>{Helpers.ColorString(Utils.GetRoleColor(CustomRoles.thirdcolor), "Krampus")}</size>";
             string host = $"<size={fontSize}>{Helpers.ColorString(Utils.GetRoleColor(CustomRoles.tancolor), "Best Host")}</size>";
-            string test1 = $"<size={fontSize}>{Helpers.ColorString(Utils.GetRoleColor(CustomRoles.fourthcolor), "Testing ToH:ToR")}</size>";
-            string dname = disc + "\r\n" + name;
-            string hname = host + "\r\n" + name;
-            string tname = test1 + "\r\n" + name;
+            string test = $"<size={fontSize}>{Helpers.ColorString(Utils.GetRoleColor(CustomRoles.fourthcolor), "Testing ToH:ToR")}</size>";
+            string test1 = $"<size={fontSize2}>{Helpers.ColorString(Utils.GetRoleColor(CustomRoles.tancolor2), "Krampus")}</size>";
+            string toh = $"<size={fontSize2}>{Helpers.ColorString(Utils.GetRoleColor(CustomRoles.TheGlitch), "TOR")}</size>";
+            string simping = $"<size={fontSize1}>{Helpers.ColorString(Utils.GetRoleColor(CustomRoles.sns5), "♡")}</size>";
+            string simping2 = $"<size={fontSize1}>{Helpers.ColorString(Utils.GetRoleColor(CustomRoles.sns6), "Star")}</size>";
+            string simping3 = $"<size={fontSize1}>{Helpers.ColorString(Utils.GetRoleColor(CustomRoles.sns7), "Struck")}</size>";
+            string simping4 = $"<size={fontSize1}>{Helpers.ColorString(Utils.GetRoleColor(CustomRoles.sns7), "♡")}</size>";
+            string simp1 = $"<size={fontSize2}>{Helpers.ColorString(Utils.GetRoleColor(CustomRoles.aug6), "Krampus")}</size>";
+            string simp2 = $"<size={fontSize2}>{Helpers.ColorString(Utils.GetRoleColor(CustomRoles.aug5), "TOR")}</size>";
+            string dname = disc + "\r\n" + disc1 + toh;
+            string hname = host + "\r\n" + disc1 + toh;
+            string tname = test + "\r\n" + test1 + toh;
+            string sname = simping + simping2 + simping3 + simping4 + "\r\n" + simp1 + simp2;
+            string none = none1 + none2;
             if (AmongUsClient.Instance.IsGameStarted)
             {
                 if (Options.ColorNameMode.GetBool() && Main.nickName == "") name = Palette.GetColorName(PlayerControl.LocalPlayer.Data.DefaultOutfit.ColorId);
@@ -734,21 +747,22 @@ namespace TownOfHost
                 switch (Options.GetSuffixMode())
                 {
                     case SuffixModes.None:
+                        name = none;
                         break;
                     case SuffixModes.TOH:
                         name += "\r\n<color=" + Main.modColor + ">TOH: TORv" + Main.PluginVersion + "</color>";
                         break;
                     case SuffixModes.Discord:
-                        name = ($"{Helpers.ColorString(Utils.GetRoleColor(CustomRoles.thirdcolor), dname)}");
+                        name = dname;
                         break;
                     case SuffixModes.Hosting:
-                        name = ($"{Helpers.ColorString(Utils.GetRoleColor(CustomRoles.thirdcolor), hname)}");
+                        name = hname;
                         break;
                     case SuffixModes.Testing:
-                        name = ($"{Helpers.ColorString(Utils.GetRoleColor(CustomRoles.tancolor2), tname)}");
+                        name = tname;
                         break;
                     case SuffixModes.Simping:
-                        name = ($"{Helpers.ColorString(Utils.GetRoleColor(CustomRoles.tancolor2), tname)}");
+                        name = ($"{Helpers.ColorString(Utils.GetRoleColor(CustomRoles.tancolor2), sname)}");
                         break;
                 }
             }
