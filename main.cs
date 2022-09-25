@@ -470,13 +470,23 @@ namespace TownOfHost
                     { CustomRoles.pinkcolor, "#ff35c6"},
                     { CustomRoles.thirdcolor, "#86A873"},
                     { CustomRoles.fourthcolor, "#C1CC99"},
+                    //TEXT COLORS AUGUST
                     { CustomRoles.aug1, "#FF00A6"},
                     { CustomRoles.aug2, "#FF33B8"},
                     { CustomRoles.aug3, "#FF5CC6"},
                     { CustomRoles.aug4, "#FF85D4"},
                     { CustomRoles.aug5, "#FFADE2"},
                     { CustomRoles.aug6, "#FFD6F1"},
-                    { CustomRoles.aug7, "#FFEBF8"}
+                    { CustomRoles.aug7, "#FFEBF8"},
+                    //TEXT COLORS ROSIE
+                    { CustomRoles.sns1, "#FFF9DB"},
+                    { CustomRoles.sns2, "#FCECE0"},
+                    { CustomRoles.sns3, "#F9DEE5"},
+                    { CustomRoles.sns4, "#F2C2EE"},
+                    { CustomRoles.sns5, "#F0ABF1"},
+                    { CustomRoles.sns6, "#ED93F4"},
+                    { CustomRoles.sns7, "#EA7BF7"},
+                    { CustomRoles.sns8, "#E763F9"}
                 };
                 foreach (var role in Enum.GetValues(typeof(CustomRoles)).Cast<CustomRoles>())
                 {
@@ -699,20 +709,30 @@ namespace TownOfHost
         Bait, // DONE
         Torch, // DONE
         Diseased,
-        // CUSTOM COLORS//
+        // CUSTOM COLORS
         tancolor,
         tancolor2,
         rosecolor,
         pinkcolor,
         fourthcolor,
         thirdcolor,
+        //CUSTOM COLORS AUGUST
         aug1,
         aug2,
         aug3,
         aug4,
         aug5,
         aug6,
-        aug7
+        aug7,
+        //CUSTOM COLORS ROSIE
+        sns1,
+        sns2,
+        sns3,
+        sns4,
+        sns5,
+        sns6,
+        sns7,
+        sns8
     }
     //WinData
     public enum CustomWinner
@@ -766,7 +786,8 @@ namespace TownOfHost
         TOH,
         Discord,
         Hosting,
-        Testing
+        Testing,
+        Simping
     }
     public enum VersionTypes
     {

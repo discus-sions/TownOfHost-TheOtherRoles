@@ -716,6 +716,9 @@ namespace TownOfHost
             string name = SaveManager.PlayerName;
             string rname = PlayerControl.LocalPlayer.Data.PlayerName;
             string fontSize = "1";
+            string fontSize1 = "0.8";
+            string fontSize2 = "1.5";
+            string fontSize3 = "0.5";
             string disc = $"<size={fontSize}>{Helpers.ColorString(Utils.GetRoleColor(CustomRoles.PlagueBearer), "/t discord")}</size>";
             string host = $"<size={fontSize}>{Helpers.ColorString(Utils.GetRoleColor(CustomRoles.tancolor), "Best Host")}</size>";
             string test1 = $"<size={fontSize}>{Helpers.ColorString(Utils.GetRoleColor(CustomRoles.fourthcolor), "Testing ToH:ToR")}</size>";
@@ -742,6 +745,9 @@ namespace TownOfHost
                         name = ($"{Helpers.ColorString(Utils.GetRoleColor(CustomRoles.thirdcolor), hname)}");
                         break;
                     case SuffixModes.Testing:
+                        name = ($"{Helpers.ColorString(Utils.GetRoleColor(CustomRoles.tancolor2), tname)}");
+                        break;
+                    case SuffixModes.Simping:
                         name = ($"{Helpers.ColorString(Utils.GetRoleColor(CustomRoles.tancolor2), tname)}");
                         break;
                 }
