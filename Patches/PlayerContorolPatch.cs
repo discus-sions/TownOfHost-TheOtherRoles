@@ -271,6 +271,7 @@ namespace TownOfHost
                     List<byte> hackedPlayers = new();
                     foreach (var cp in Main.CursedPlayers)
                     {
+                        if (cp.Value == null) continue;
                         if (Utils.GetPlayerById(cp.Key).Is(CustomRoles.TheGlitch))
                         {
                             hackedPlayers.Add(cp.Value.PlayerId);
