@@ -229,16 +229,47 @@ namespace TownOfHost
                 }
                 var realName = exiledPlayer.Object.GetRealName(isMeeting: true);
                 Main.LastVotedPlayer = realName;
-                if (Main.RealOptionsData.ConfirmImpostor)
+                if (Main.showEjections)
                 {
                     if (exiledPlayer.PlayerId == exileId)
                     {
                         var player = Utils.GetPlayerById(exiledPlayer.PlayerId);
                         var role = GetString(exiledPlayer.GetCustomRole().ToString());
+                        var crole = exiledPlayer.GetCustomRole();
                         var coloredRole = Helpers.ColorString(Utils.GetRoleColor(exiledPlayer.GetCustomRole()), $"{role}");
                         var name = "";
                         //player?.Data?.PlayerName = $"{realName} was The {coloredRole}.<size=0>";
-                        name = realName + " was The " + coloredRole + ".<size=0>";
+                        int impnum = 0;
+                        int covennum = 0;
+                        int neutralnum = 0;
+                        foreach (var pc in PlayerControl.AllPlayerControls)
+                        {
+                            if (pc == null || pc.Data.IsDead || pc.Data.Disconnected) continue;
+                            var pc_role = pc.GetCustomRole();
+                            if (pc_role.IsImpostor() && pc != exiledPlayer.Object)
+                                impnum++;
+                            else if (pc_role.IsNeutralKilling() && pc != exiledPlayer.Object)
+                                neutralnum++;
+                            else if (pc_role.IsCoven() && pc != exiledPlayer.Object)
+                                covennum++;
+                        }
+                        name = $"{realName} was The {coloredRole}.";
+                        if (crole == CustomRoles.Jester)
+                            name = $"You feel a sense of dread while voting out {realName}.\nThey turn out to be the {coloredRole}.<size=0>";
+                        if (crole != CustomRoles.Jester)
+                        {
+                            name += "\n";
+                            string icomma = covennum + neutralnum != 0 ? "," : "";
+                            string ncomma = covennum + impnum != 0 ? "," : "";
+                            string ccomma = impnum + neutralnum != 0 ? "," : "";
+                            //if (impnum != 0)
+                            name += $"{impnum} Impostor(s) remain{icomma}";
+                            if (neutralnum != 0)
+                                name += $"{neutralnum} Neutral(s) remain{neutralnum}";
+                            if (CustomRoles.Coven.IsEnable())
+                                name += $"{covennum} Coven remain{ccomma}";
+                            name += ".<size=0>";
+                        }
                         player.Data.PlayerName = name;
                     }
                 }
@@ -336,7 +367,7 @@ namespace TownOfHost
                         dic[player.VotedFor] = num + 1;
                     }
                     else
-                        dic[player.VotedFor] = 1;
+                        dic[player.VotedFor] = num;
                 }
             }
             return dic;
@@ -519,7 +550,9 @@ namespace TownOfHost
                 {
                     foreach (var pc in PlayerControl.AllPlayerControls)
                     {
+                        if (pc == null || pc.Data.Disconnected) continue;
                         pc.RpcSetNameEx(pc.GetRealName(isMeeting: true));
+                        pc.RpcSetNamePrivate(Helpers.ColorString(Utils.GetRoleColor(pc.GetCustomRole()), pc.GetRealName(isMeeting: true)));
                     }
                 }, 3f, "SetName To Chat");
             }
