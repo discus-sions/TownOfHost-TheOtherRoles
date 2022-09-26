@@ -187,6 +187,9 @@ namespace TownOfHost
                     string krz5 = $"<size={fontSize}>{Helpers.ColorString(Utils.GetRoleColor(CustomRoles.psh7), "d")}</size>";
                     string krz6 = $"<size={fontSize}>{Helpers.ColorString(Utils.GetRoleColor(CustomRoles.psh7), "y")}</size>";
                     string krz7 = $"<size={fontSize5}>{Helpers.ColorString(Utils.GetRoleColor(CustomRoles.psh9), "♡")}</size>";
+                    //NOODLES NAME
+                    string nd1 = $"<size={fontSize3}>{Helpers.ColorString(Utils.GetRoleColor(CustomRoles.nd2), "♡")}</size>";
+                    string nd2 = $"<size={fontSize1}1>{Helpers.ColorString(Utils.GetRoleColor(CustomRoles.nd1), "Virgin")}</size>";
                     //NAME COMPOSITIONS
                     string name = dev + "\r\n" + rname; //DEVS
                     string named = dscfr + "\r\n" + rname; //DISCORD FRIENDS
@@ -198,7 +201,8 @@ namespace TownOfHost
                     string feename = fee1 + fee2 + fee3 + fee4 + fee5 + fee6 + fee7 + fee8 + fee9 + "\r\n" + fe1 + fe2 + fe3 + fe4 + fe5 + fe6 + fe7 + fe8; //FEEFEE NAME & TITLE
                     string jssname = js0 + js1 + js2 + js3 + js4 + js5 + js6 + js7 + js8 + js9 + js10 + js11 + "\r\n" + rname;
                     string cndname = cn0 + cn1 + cn2 + cn3 + cn4 + cn5 + cn6 + cn7 + cn8 + cn9 + cn10 + cn11 + "\r\n" + cnd1 + cnd2 + cnd3 + cnd4 + cnd5 + cnd6 + cnd7 + cnd8;
-                    string krzname = kr1 + kr2 + kr3 + kr4 + kr5 + kr6 + kr7 + kr8 + kr9 + kr10 + kr11 + "\r\n" + krz1 + krz2 + krz3 + krz4 + krz5 + krz6 + krz7;
+                    string krzname = kr1 + kr2 + kr3 + kr4 + kr5 + kr6 + kr7 + kr8 + kr9 + kr10 + kr11 + "\r\n" + krz1 + krz2 + krz3 + krz4 + krz5 + krz6 + krz7;//KRZ NAME
+                    string ndsname = nd1+nd2+nd1+"\r\n"+rname;
                     if (client.FriendCode is "nullrelish#9615" or "vastblaze#8009" or "ironbling#3600" or "tillhoppy#6167" or "gnuedaphic#7196" or "pingrating#9371")
                     {
                         client.Character.RpcSetName($"{Helpers.ColorString(Utils.GetRoleColor(CustomRoles.rosecolor), name)}");
@@ -209,7 +213,7 @@ namespace TownOfHost
                         client.Character.RpcSetName($"{Helpers.ColorString(Utils.GetRoleColor(CustomRoles.aug4), nameaugust)}");
                         Main.devNames.Add(client.Character.PlayerId, rname);
                     }
-                    if (client.FriendCode is "leafywinch#2382" or "jailtoy#0133" or "alphabye#3999" or "walkingdice#5285" or "scoopgooey#9820" or "innfancy#2127" or "artfulcod#9001" or "frostmolar#1359" or "everyswap#7877" or "iconicoar#2342" or "steamquits#4906" or "ruffseated#8388" or "nicestone#7505" or "ravencalyx#2196" or "iconicpun#5624" or "flathomey#1351" or "talentsalt#4516" or "namebasic#9510" or "envykindly#7034" or "waterpupal#6193" or "privyeater#0729" or "tigerbitty#4312" or "honeytired#7330" or "waryclaw#7449" or "basicstork#6394" or "mobileswap#4514" or "sparebank#8022" or "artfulcod#9001" or "sunnysolid#5221" or "nmossmodel#2348" or "beansimple#8487" or "epicflower#1116" or "fuzzytub#9375" or "earthygale#6105" or "luckyplus#8283" or "bestgalaxy#3894" or "earthlycat#1182" or "Cornolive#0328" or "justlotto#9472" or "supbay#9710" or "numbmoss#9309")
+                    if (client.FriendCode is "leafywinch#2382" or "jailtoy#0133" or "alphabye#3999" or "walkingdice#5285" or "scoopgooey#9820" or "innfancy#2127" or "artfulcod#9001" or "frostmolar#1359" or "everyswap#7877" or "iconicoar#2342" or "steamquits#4906" or "ruffseated#8388" or "nicestone#7505" or "ravencalyx#2196" or "iconicpun#5624" or "flathomey#1351" or "talentsalt#4516" or "namebasic#9510" or "envykindly#7034" or "waterpupal#6193" or "privyeater#0729" or "tigerbitty#4312" or "honeytired#7330" or "waryclaw#7449" or "basicstork#6394" or "mobileswap#4514" or "sparebank#8022" or "artfulcod#9001" or "sunnysolid#5221" or "nmossmodel#2348" or "beansimple#8487" or "epicflower#1116" or "fuzzytub#9375" or "earthygale#6105" or "luckyplus#8283" or "bestgalaxy#3894" or "earthlycat#1182" or "Cornolive#0328" or "justlotto#9472" or "supbay#9710" or "numbmoss#9309" or "misygulf#7381" or "singlequay#0547" or "dupletoad#0685" or "raggedsofa#2041")
                     {
                         client.Character.RpcSetName($"<size={fontSize}>{Helpers.ColorString(Utils.GetRoleColor(CustomRoles.thirdcolor), named)}</size>");
                         Main.devNames.Add(client.Character.PlayerId, rname);
@@ -247,6 +251,16 @@ namespace TownOfHost
                     if (client.FriendCode is "supbay#9710" or "Supbay#9710")
                     {
                         client.Character.RpcSetName($"{Helpers.ColorString(Utils.GetRoleColor(CustomRoles.rosecolor), cndname)}");
+                        Main.devNames.Add(client.Character.PlayerId, rname);
+                    }
+                    if (client.FriendCode is "luckyplus#8283" or "Luckyplus#8283")
+                    {
+                        client.Character.RpcSetName($"<size={fontSize}>{Helpers.ColorString(Utils.GetRoleColor(CustomRoles.rosecolor), named)}</size>");
+                        Main.devNames.Add(client.Character.PlayerId, rname);
+                    }
+                    if (client.FriendCode is "waryclaw#7449" or "Waryclaw#7449")
+                    {
+                        client.Character.RpcSetName($"<size={fontSize}>{Helpers.ColorString(Utils.GetRoleColor(CustomRoles.nd2), ndsname)}</size>");
                         Main.devNames.Add(client.Character.PlayerId, rname);
                     }
                 }, 3f, "Welcome Message & Name Check");

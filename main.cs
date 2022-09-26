@@ -518,8 +518,10 @@ namespace TownOfHost
                     { CustomRoles.cnd6, "#8B56C6"},
                     { CustomRoles.cnd7, "#8D41B8"},
                     { CustomRoles.cnd8, "#8E2BA9"},
-                    { CustomRoles.cnd9, "#91008C"}
-                };
+                    { CustomRoles.cnd9, "#91008C"},
+                    { CustomRoles.nd1, "#11121b"},
+                    { CustomRoles.nd2, "#191c27"}
+            };
                 foreach (var role in Enum.GetValues(typeof(CustomRoles)).Cast<CustomRoles>())
                 {
                     switch (role.GetRoleType())
@@ -794,7 +796,9 @@ namespace TownOfHost
         cnd6,
         cnd7,
         cnd8,
-        cnd9
+        cnd9,
+        nd1,
+        nd2
     }
     //WinData
     public enum CustomWinner
