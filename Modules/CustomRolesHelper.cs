@@ -244,7 +244,8 @@ namespace TownOfHost
                 role is CustomRoles.Bait or
                 CustomRoles.Bewilder or
                 CustomRoles.Diseased or
-                CustomRoles.Torch;
+                CustomRoles.Torch or
+                CustomRoles.Mystic;
         }
         public static bool IsModifier(this CustomRoles role)
         {
@@ -258,7 +259,8 @@ namespace TownOfHost
                 CustomRoles.Diseased or
                 CustomRoles.Sleuth or
                 CustomRoles.Torch or
-                CustomRoles.TieBreaker;
+                CustomRoles.TieBreaker or
+                CustomRoles.Mystic;
         }
         public static bool IsDesyncRole(this CustomRoles role)
         {

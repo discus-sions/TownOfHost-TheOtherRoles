@@ -64,7 +64,6 @@ Mayor,Mayor,Mayor,メイヤー,市长,市長
 SabotageMaster,SabotageMaster,SabotageMaster,サボタージュマスター,修理大师,破壞大師
 Sheriff,Sheriff,Sheriff,シェリフ,警长,警長
 Investigator,Investigator,Investigator,Investigator,调查员
-Mystic,Mystic,Mystic,Nystic,灵媒
 Arsonist,Arsonist,Arsonist,アーソニスト,纵火犯,縱火犯
 Snitch,Snitch,Snitch,スニッチ,告密者,告密者
 SpeedBooster,SpeedBooster,SpeedBooster,スピードブースター,增速者,加速器
@@ -124,6 +123,7 @@ Conjuror,Conjuror,Conjuror,Conjuror,魔术师,魔術師
 Flash,Flash,Flash,Flash,闪电侠,閃電俠
 TieBreaker,TieBreaker,TieBreaker,TieBreaker,破局者,殘局終結者
 Diseased,Diseased,Diseased,Diseased,Diseased,Diseased
+Mystic,Mystic,Mystic,Nystic,灵媒
 Oblivious,Oblivious,Oblivious,Oblivious,胆小鬼,膽小鬼
 Bewilder,Bewilder,Bewilder,Bewilder,患者,致幻師
 Torch,Torch,Torch,Torch,火炬手,火炬手
@@ -425,6 +425,7 @@ SuffixMode.Discord,Discord,Стримит,配信中,直播中,直播中
 SuffixMode.Hosting,Hosting,Записывает,録画中,录制中,錄影中
 SuffixMode.Testing,Testing,Тестирование,テスト,测试,測試
 SuffixMode.Simping,Simping,Тестирование,テスト,测试,測試
+SuffixMode.Trolling,Trolling,Trolling,Trolling,Trolling,trolling
 ColorNameMode,Color Name Mode,Цветной Режим,色名前モード,显示颜色名称,名字將被顏色名稱替換
 GhostCanSeeOtherRoles,Ghost Can See Other Roles,Призраки Могут Видеть Все Роли,幽霊が他人の役職を見ることができる,幽灵可见他人职业,幽靈可以看見所有玩家職業
 GhostCanSeeOtherVotes,Ghost Can See Other Votes,Призраки Могут Видеть Цвета Голосов,幽霊が他人の投票先を見ることができる,幽灵可见投票情况,幽靈可以看見所有玩家的投票
@@ -692,7 +693,7 @@ DeathReason.Bombed,Bombed,Взорван,爆死,炸死,炸死
 DeathReason.Misfire,Misfire,Убился,誤爆,走火,走火
 DeathReason.Torched,Torched,Сожжен,焼殺,烧死,燒死
 DeathReason.Sniped,Sniped,Застрелен,狙撃,狙杀,被狙
-DeathReason.Execution,Executed,Казнен,処刑,处刑,處刑
+DeathReason.Execution,Roleclaim,Казнен,処刑,处刑,處刑
 DeathReason.Disconnected,Disconnected,Отсоеденился,回線切断,断连,斷線
 DeathReason.Fell,Fall,Упал,転落,摔死,摔死
 DeathReason.Alive,Alive,Жив,Alive,存活,Alive

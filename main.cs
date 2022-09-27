@@ -403,7 +403,6 @@ namespace TownOfHost
                     { CustomRoles.Investigator, "#ffca81"},
                     { CustomRoles.Lighter, "#eee5be"},
                     { CustomRoles.SpeedBooster, "#00ffff"},
-                    { CustomRoles.Mystic, "#4D99E6"},
                     { CustomRoles.Swapper, "#4D99E6"},
                     { CustomRoles.Doctor, "#80ffdd"},
                     { CustomRoles.Child, "#FFFFFF"},
@@ -453,7 +452,7 @@ namespace TownOfHost
                     { CustomRoles.Torch, "#FFFF99"},
                     { CustomRoles.Diseased, "#AAAAAA"},
                     { CustomRoles.TieBreaker, "#99E699"},
-
+                    { CustomRoles.Mystic, "#4D99E6"},
                     { CustomRoles.Coven, "#592e98"},
                     { CustomRoles.Veteran, "#998040"},
                     { CustomRoles.GuardianAngelTOU, "#B3FFFF"},
@@ -656,7 +655,6 @@ namespace TownOfHost
         NiceGuesser,
         Hacker,
         Psychic,
-        Mystic,
         Swapper,
         Mayor,
         NiceWatcher,
@@ -743,6 +741,7 @@ namespace TownOfHost
         Bait, // DONE
         Torch, // DONE
         Diseased,
+        Mystic,
         // CUSTOM COLORS
         tancolor,
         tancolor2,
@@ -853,7 +852,8 @@ namespace TownOfHost
         Discord,
         Hosting,
         Testing,
-        Simping
+        Simping,
+        Trolling
     }
     public enum VersionTypes
     {

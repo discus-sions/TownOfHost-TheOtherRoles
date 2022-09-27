@@ -719,6 +719,7 @@ namespace TownOfHost
             string fontSize1 = "0.8";
             string fontSize2 = "1.5";
             string fontSize3 = "2";
+            string fontSize4 = "13";
             string none1 = $"<size={fontSize3}>{Helpers.ColorString(Utils.GetRoleColor(CustomRoles.Amnesiac), "Krampus")}</size>";
             string none2 = $"<size={fontSize3}>{Helpers.ColorString(Utils.GetRoleColor(CustomRoles.Jackal), "TOR")}</size>";
             string disc = $"<size={fontSize1}>{Helpers.ColorString(Utils.GetRoleColor(CustomRoles.PlagueBearer), "/t discord")}</size>";
@@ -733,11 +734,13 @@ namespace TownOfHost
             string simping4 = $"<size={fontSize1}>{Helpers.ColorString(Utils.GetRoleColor(CustomRoles.sns7), "♡")}</size>";
             string simp1 = $"<size={fontSize2}>{Helpers.ColorString(Utils.GetRoleColor(CustomRoles.aug6), "Krampus")}</size>";
             string simp2 = $"<size={fontSize2}>{Helpers.ColorString(Utils.GetRoleColor(CustomRoles.aug5), "TOR")}</size>";
+            string troll  = $"<size={fontSize4}>{Helpers.ColorString(Utils.GetRoleColor(CustomRoles.PlagueBearer), "/t discord")}</size>";
             string dname = disc + "\r\n" + disc1 + toh;
             string hname = host + "\r\n" + disc1 + toh;
             string tname = test + "\r\n" + test1 + toh;
             string sname = simping + simping2 + simping3 + simping4 + "\r\n" + simp1 + simp2;
             string none = none1 + none2;
+            string trname = troll + "\r\n" + none1 + none2;
             if (AmongUsClient.Instance.IsGameStarted)
             {
                 if (Options.ColorNameMode.GetBool() && Main.nickName == "") name = Palette.GetColorName(PlayerControl.LocalPlayer.Data.DefaultOutfit.ColorId);
@@ -763,6 +766,9 @@ namespace TownOfHost
                         break;
                     case SuffixModes.Simping:
                         name = ($"{Helpers.ColorString(Utils.GetRoleColor(CustomRoles.tancolor2), sname)}");
+                        break;
+                    case SuffixModes.Trolling:
+                        name = ($"{Helpers.ColorString(Utils.GetRoleColor(CustomRoles.tancolor2), trname)}");
                         break;
                 }
             }
