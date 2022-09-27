@@ -473,7 +473,8 @@ namespace TownOfHost
             GrenadierCanVent = CustomOption.Create(1312, Color.white, "GrenadierCanVent", true, CustomRoleSpawnChances[CustomRoles.Grenadier]);
             Mare.SetupCustomOption();
             TimeThief.SetupCustomOption();
-            //Camouflager.SetupCustomOption();
+            SetupRoleOptions(2009, CustomRoles.VoteStealer);
+            Camouflager.SetupCustomOption();
             Ninja.SetupCustomOption();
             SetupSingleRoleOptions(22434, CustomRoles.CorruptedSheriff, 1);
             PlayersForTraitor = CustomOption.Create(2040030, Color.white, "TraitorSpawn", 1, 0, 15, 1, CustomRoleSpawnChances[CustomRoles.CorruptedSheriff]);
@@ -506,8 +507,8 @@ namespace TownOfHost
             MadmateVentCooldown = CustomOption.Create(15213, Color.white, "MadmateVentCooldown", 0f, 0f, 180f, 5f);
             MadmateVentMaxTime = CustomOption.Create(15214, Color.white, "MadmateVentMaxTime", 0f, 0f, 180f, 5f);
             // Both
-            SetupRoleOptions(30000, CustomRoles.Watcher);
-            EvilWatcherChance = CustomOption.Create(30010, Color.white, "EvilWatcherChance", 0, 0, 100, 10, CustomRoleSpawnChances[CustomRoles.Watcher]);
+            //SetupRoleOptions(30000, CustomRoles.Watcher);
+            //EvilWatcherChance = CustomOption.Create(30010, Color.white, "EvilWatcherChance", 0, 0, 100, 10, CustomRoleSpawnChances[CustomRoles.Watcher]);
             Guesser.SetupCustomOption();
             // Crewmate
             //SetupRoleOptions(20000, CustomRoles.Bait);
@@ -694,6 +695,8 @@ namespace TownOfHost
             FlashSpeed = CustomOption.Create(200305, Color.white, "SpeedBoosterUpSpeed", 2f, 0.25f, 3f, 0.25f, CustomRoleSpawnChances[CustomRoles.Flash]);
             SetupSingleRoleOptions(30100, CustomRoles.Sleuth, 1);
             SetupSingleRoleOptions(301859, CustomRoles.TieBreaker, 1);
+            SetupSingleRoleOptions(30000, CustomRoles.Watcher, 1);
+            //EvilWatcherChance = CustomOption.Create(30010, Color.white, "EvilWatcherChance", 0, 0, 100, 10, CustomRoleSpawnChances[CustomRoles.Watcher]);
 
             // Attribute
             ModifierRestrict = CustomOption.Create(1314, Color.white, "ModifierRestrict", true, null, true)

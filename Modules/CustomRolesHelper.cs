@@ -22,6 +22,7 @@ namespace TownOfHost
                 CustomRoles.Sniper or
                 CustomRoles.Swooper or
                 CustomRoles.Camouflager or
+                CustomRoles.VoteStealer or
                 CustomRoles.YingYanger or
                 CustomRoles.Grenadier or
                 CustomRoles.Miner or
@@ -234,6 +235,7 @@ namespace TownOfHost
         {
             if (role < CustomRoles.NoSubRoleAssigned) return ModifierType.None;
             if (role == CustomRoles.NoSubRoleAssigned) return ModifierType.None;
+            if (!role.IsModifier()) return ModifierType.None;
             ModifierType type = ModifierType.Global;
             if (role.IsCrewModifier()) type = ModifierType.Crew;
             return type;
@@ -256,6 +258,7 @@ namespace TownOfHost
                 CustomRoles.Lovers or
                 CustomRoles.LoversRecode or
                 CustomRoles.Diseased or
+                CustomRoles.Watcher or
                 CustomRoles.Sleuth or
                 CustomRoles.Torch or
                 CustomRoles.TieBreaker;

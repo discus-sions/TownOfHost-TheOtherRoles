@@ -71,6 +71,10 @@ namespace TownOfHost
                 {
                     SabotageMaster.HackerRepairSystem(__instance, systemType, amount);
                     Main.HackerFixedSaboCount[player.PlayerId]++;
+                    MessageWriter writer1 = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.SetHackerProgress, Hazel.SendOption.Reliable, -1);
+                    writer1.Write(player.PlayerId);
+                    writer1.Write(Main.HackerFixedSaboCount[player.PlayerId]);
+                    AmongUsClient.Instance.FinishRpcImmediately(writer1);
                     if (Main.HackerFixedSaboCount[player.PlayerId] >= Options.SaboAmount.GetFloat())
                     {
                         if (Main.HackerFixedSaboCount[player.PlayerId] >= Options.SaboAmount.GetFloat())
@@ -109,6 +113,7 @@ namespace TownOfHost
                     List<byte> hackedPlayers = new();
                     foreach (var cp in Main.CursedPlayers)
                     {
+                        if (cp.Value == null) continue;
                         if (Utils.GetPlayerById(cp.Key).Is(CustomRoles.TheGlitch))
                         {
                             hackedPlayers.Add(cp.Value.PlayerId);

@@ -114,6 +114,7 @@ namespace TownOfHost
             { CustomRoles.Janitor, RoleTypes.Impostor },
             { CustomRoles.Doctor, RoleTypes.Scientist },
             { CustomRoles.TimeThief, RoleTypes.Impostor },
+             { CustomRoles.VoteStealer, RoleTypes.Impostor },
             { CustomRoles.Silencer, RoleTypes.Impostor },
             { CustomRoles.Veteran, RoleTypes.Engineer },
             { CustomRoles.TheGlitch, RoleTypes.Shapeshifter },

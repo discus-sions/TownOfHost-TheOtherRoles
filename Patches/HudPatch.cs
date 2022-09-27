@@ -639,6 +639,10 @@ namespace TownOfHost
                     if (!Options.GrenadierCanVent.GetBool())
                         __instance.ImpostorVentButton.ToggleVisible(false);
                     break;
+                case CustomRoles.Camouflager:
+                    if (!Camouflager.CanVent())
+                        __instance.ImpostorVentButton.ToggleVisible(false);
+                    break;
             }
             if (__instance.KillButton == null) return;
         }

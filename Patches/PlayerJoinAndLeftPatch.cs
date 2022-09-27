@@ -145,26 +145,8 @@ namespace TownOfHost
                         if (Main.AliveImpostorCount != 1) egoist = false;
                     }
                     if (!egoist)*/
-                    if (Sheriff.csheriff)
-                    {
-                        ShipStatus.Instance.enabled = false;
-                        ShipStatus.RpcEndGame(GameOverReason.ImpostorDisconnect, false);
-                    }
-                    else
-                    {
-                        var localPlayer = PlayerControl.LocalPlayer;
-                        if (!localPlayer.GetCustomRole().IsNeutralKilling())
-                        {
-                            localPlayer.RpcSetCustomRole(CustomRoles.CorruptedSheriff);
-                        }
-                        else
-                        {
-                            if (localPlayer.Is(CustomRoles.CrewPostor))
-                                localPlayer.RpcSetCustomRole(CustomRoles.CorruptedSheriff);
-                        }
-                        RoleManager.Instance.SetRole(localPlayer, RoleTypes.Impostor);
-                        Sheriff.csheriff = true;
-                    }
+                    ShipStatus.Instance.enabled = false;
+                    ShipStatus.RpcEndGame(GameOverReason.ImpostorDisconnect, false);
                 }
                 if (Main.ExecutionerTarget.ContainsValue(data.Character.PlayerId) && Main.ExeCanChangeRoles)
                 {
@@ -217,6 +199,8 @@ namespace TownOfHost
                     }, 1f, "SetName To Chat");
                 }
             }
+            if (Main.devNames.ContainsKey(data.Character.PlayerId))
+                Main.devNames.Remove(data.Character.PlayerId);
             Logger.Info($"{data.PlayerName}(ClientID:{data.Id})が切断(理由:{reason})", "Session");
         }
     }

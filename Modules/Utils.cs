@@ -742,6 +742,14 @@ namespace TownOfHost
         {
             return PlayerControl.AllPlayerControls.ToArray().Where(pc => pc.PlayerId == PlayerId).FirstOrDefault();
         }
+        public static DeadBody GetDeadBodyById(int PlayerId)
+        {
+            var deadBodies = UnityEngine.Object.FindObjectsOfType<DeadBody>();
+            foreach (var body in deadBodies)
+                if (body.ParentId == PlayerId)
+                    return body;
+            return null;
+        }
         public static void NotifyRoles(bool isMeeting = false, PlayerControl SpecifySeer = null, bool NoCache = false, bool ForceLoop = false)
         {
             if (!AmongUsClient.Instance.AmHost) return;
