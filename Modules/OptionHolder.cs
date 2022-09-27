@@ -565,8 +565,6 @@ namespace TownOfHost
             TrapperBlockMoveTime = CustomOption.Create(20810, Color.white, "TrapperBlockMoveTime", 5f, 1f, 180, 1, CustomRoleSpawnChances[CustomRoles.Trapper]);
             SetupRoleOptions(20900, CustomRoles.Dictator);
 
-            SetupRoleOptions(30009, CustomRoles.Mystic);
-
             SetupRoleOptions(30008, CustomRoles.Child);
             ChildKnown = CustomOption.Create(30011, Color.white, "ChildKnown", false, CustomRoleSpawnChances[CustomRoles.Child]);
             //SetupRoleOptions(30100, CustomRoles.Sleuth);
@@ -698,6 +696,7 @@ namespace TownOfHost
             FlashSpeed = CustomOption.Create(200305, Color.white, "SpeedBoosterUpSpeed", 2f, 0.25f, 3f, 0.25f, CustomRoleSpawnChances[CustomRoles.Flash]);
             SetupSingleRoleOptions(30100, CustomRoles.Sleuth, 1);
             SetupSingleRoleOptions(301859, CustomRoles.TieBreaker, 1);
+            SetupSingleRoleOptions(30009, CustomRoles.Mystic, 1);
 
             // Attribute
             ModifierRestrict = CustomOption.Create(1314, Color.white, "ModifierRestrict", true, null, true)
