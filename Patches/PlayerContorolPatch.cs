@@ -6,6 +6,7 @@ using HarmonyLib;
 using Hazel;
 using UnityEngine;
 using static TownOfHost.Translator;
+using Object = UnityEngine.Object;
 
 namespace TownOfHost
 {
@@ -719,6 +720,8 @@ namespace TownOfHost
                             Main.HexesThisRound++;
                             Utils.NotifyRoles(SpecifySeer: __instance);
                             Main.isHexed[(killer.PlayerId, target.PlayerId)] = true;//塗り完了
+                            killer.RpcSetHexedPlayer(target, true);
+                            //RPC.SetCurrentDousingTarget(killer.PlayerId, target.PlayerId);
                         }
                         if (Main.HexesThisRound != Options.MaxHexesPerRound.GetFloat())
                             Main.KillOrSpell[killer.PlayerId] = !killer.IsHexMode();
@@ -764,6 +767,23 @@ namespace TownOfHost
                             return false;
                         }
                         TimeThief.OnCheckMurder(killer);
+                        break;
+                    case CustomRoles.VoteStealer:
+                        if (target.Is(CustomRoles.Veteran) && Main.VetIsAlerted)
+                        {
+                            target.RpcMurderPlayer(killer);
+                            return false;
+                        }
+                        if (target.Is(CustomRoles.Medusa) && Main.IsGazing)
+                        {
+                            target.RpcMurderPlayer(killer);
+                            new LateTask(() =>
+                            {
+                                Main.unreportableBodies.Add(killer.PlayerId);
+                            }, Options.StoneReport.GetFloat(), "Medusa Stone Gazing");
+                            return false;
+                        }
+                        Main.MayorUsedButtonCount[killer.PlayerId]++;
                         break;
                     case CustomRoles.YingYanger:
                         if (target.Is(CustomRoles.Veteran) && Main.VetIsAlerted)
@@ -895,6 +915,9 @@ namespace TownOfHost
                         killer.RpcGuardAndKill(target);
                         Utils.CustomSyncAllSettings();
                         Utils.NotifyRoles();
+                        MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.SeeredPlayer, Hazel.SendOption.Reliable, -1);
+                        writer.Write(target.PlayerId);
+                        AmongUsClient.Instance.FinishRpcImmediately(writer);
                         return false;
                     case CustomRoles.BloodKnight:
 
@@ -1325,7 +1348,7 @@ namespace TownOfHost
             if (shapeshifter.Is(CustomRoles.Camouflager))
             {
                 target = shapeshifter;
-                Camouflager.ShapeShiftState(shapeshifter, shapeshifting);
+                Camouflager.ShapeShiftState(shapeshifter, shapeshifting, target);
             }
             if (shapeshifter.Is(CustomRoles.SerialKiller) && !shapeshifter.Data.IsDead && Main.MercCanSuicide)
             { shapeshifter.RpcMurderPlayer(shapeshifter); Sheriff.SwitchToCorrupt(shapeshifter, shapeshifter); }
@@ -1361,6 +1384,13 @@ namespace TownOfHost
                 {
                     Main.unreportableBodies.Add(target.PlayerId);
                     Main.AteBodies++;
+                    MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.SetVultureAmount, Hazel.SendOption.Reliable, -1);
+                    writer.Write(Main.AteBodies);
+                    AmongUsClient.Instance.FinishRpcImmediately(writer);
+                    foreach (DeadBody deadBody in GameObject.FindObjectsOfType<DeadBody>())
+                    {
+                        if (deadBody.ParentId == target.Object.PlayerId) Object.Destroy(deadBody.gameObject);
+                    }
                     if (Main.AteBodies == Options.BodiesAmount.GetFloat())
                     {
                         //Vulture wins.
@@ -1382,13 +1412,12 @@ namespace TownOfHost
             if (CustomRoles.TheGlitch.IsEnable())
             {
                 List<byte> hackedPlayers = new();
-                PlayerControl glitch;
                 foreach (var cp in Main.CursedPlayers)
                 {
+                    if (cp.Value == null) continue;
                     if (Utils.GetPlayerById(cp.Key).Is(CustomRoles.TheGlitch))
                     {
                         hackedPlayers.Add(cp.Value.PlayerId);
-                        glitch = Utils.GetPlayerById(cp.Key);
                     }
                 }
                 if (hackedPlayers.Contains(__instance.PlayerId))
@@ -1854,6 +1883,11 @@ namespace TownOfHost
                         PlayerState.SetDead(killer);
                     }
                 }
+                Main.KilledDemo.Remove(killer);
+                MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.NotifyDemoKill, Hazel.SendOption.Reliable, -1);
+                writer.Write(true);
+                writer.Write(killer);
+                AmongUsClient.Instance.FinishRpcImmediately(writer);
             }
             Main.BitPlayers = new Dictionary<byte, (byte, float)>();
             Main.ColliderPlayers = new List<PlayerControl>();
@@ -2097,7 +2131,7 @@ namespace TownOfHost
                             player.RpcGuardAndKill(ar_target);
                             Main.PlagueBearerTimer.Remove(player.PlayerId);
                             Main.isInfected[(player.PlayerId, ar_target.PlayerId)] = true;
-                            player.RpcSetDousedPlayer(ar_target, true);
+                            player.RpcSetInfectedPlayer(ar_target, true);
                             Utils.NotifyRoles();//名前変更
                             RPC.ResetCurrentInfectingTarget(player.PlayerId);
                         }
@@ -2517,7 +2551,6 @@ namespace TownOfHost
                     }
                     if (seer.Is(CustomRoles.HexMaster))
                     {
-                        //†
                         if (seer.IsHexedPlayer(target))
                             Mark += $"<color={Utils.GetRoleColorCode(CustomRoles.Coven)}>†</color>";
                     }
@@ -2893,13 +2926,12 @@ namespace TownOfHost
                 if (CustomRoles.TheGlitch.IsEnable() && Options.GlitchCanVent.GetBool())
                 {
                     List<byte> hackedPlayers = new();
-                    PlayerControl glitch;
                     foreach (var cp in Main.CursedPlayers)
                     {
+                        if (cp.Value == null) continue;
                         if (Utils.GetPlayerById(cp.Key).Is(CustomRoles.TheGlitch))
                         {
                             hackedPlayers.Add(cp.Value.PlayerId);
-                            glitch = Utils.GetPlayerById(cp.Key);
                         }
                     }
                     if (hackedPlayers.Contains(pc.PlayerId))
@@ -2911,6 +2943,14 @@ namespace TownOfHost
                 if (pc.Is(CustomRoles.Grenadier))
                 {
                     if (!Options.GrenadierCanVent.GetBool())
+                    {
+                        skipCheck = true;
+                        pc.MyPhysics.RpcBootFromVent(__instance.Id);
+                    }
+                }
+                if (pc.Is(CustomRoles.Camouflager))
+                {
+                    if (!Camouflager.CanVent())
                     {
                         skipCheck = true;
                         pc.MyPhysics.RpcBootFromVent(__instance.Id);

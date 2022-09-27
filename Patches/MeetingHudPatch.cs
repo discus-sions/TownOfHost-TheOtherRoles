@@ -112,6 +112,17 @@ namespace TownOfHost
                             });
                         }
                     }
+                    if (IsEvilMayor(ps.VotedFor))//Mayorの投票数
+                    {
+                        for (var i2 = 0; i2 < Main.MayorUsedButtonCount[ps.TargetPlayerId]; i2++)
+                        {
+                            statesList.Add(new MeetingHud.VoterState()
+                            {
+                                VoterId = ps.TargetPlayerId,
+                                VotedForId = ps.VotedFor
+                            });
+                        }
+                    }
                 }
                 states = statesList.ToArray();
 
@@ -270,7 +281,7 @@ namespace TownOfHost
                                 name += $"{covennum} Coven remain{ccomma}";
                             name += ".<size=0>";
                         }
-                        player.Data.PlayerName = name;
+                        player.RpcSetName(name);
                     }
                 }
                 foreach (var pc in PlayerControl.AllPlayerControls)
@@ -321,6 +332,11 @@ namespace TownOfHost
             var player = PlayerControl.AllPlayerControls.ToArray().Where(pc => pc.PlayerId == id).FirstOrDefault();
             return player != null && player.Is(CustomRoles.Mayor);
         }
+        public static bool IsEvilMayor(byte id)
+        {
+            var player = PlayerControl.AllPlayerControls.ToArray().Where(pc => pc.PlayerId == id).FirstOrDefault();
+            return player != null && player.Is(CustomRoles.VoteStealer);
+        }
         public static bool IsTieBreaker(byte id)
         {
             var player = PlayerControl.AllPlayerControls.ToArray().Where(pc => pc.PlayerId == id).FirstOrDefault();
@@ -343,6 +359,7 @@ namespace TownOfHost
                 {
                     int VoteNum = 1;
                     if (CheckForEndVotingPatch.IsMayor(ps.TargetPlayerId)) VoteNum += Options.MayorAdditionalVote.GetInt();
+                    if (CheckForEndVotingPatch.IsEvilMayor(ps.TargetPlayerId)) VoteNum += Main.MayorUsedButtonCount[ps.TargetPlayerId];
                     if (CheckForEndVotingPatch.IsPhantom(ps.VotedFor)) VoteNum = -1;
                     if (CheckForEndVotingPatch.IsPhantom(ps.TargetPlayerId) && !CheckForEndVotingPatch.IsPhantom(ps.VotedFor)) VoteNum = -1;
                     // if (VoteNum != 1) Utils.GetPlayerById(ps.TargetPlayerId).SetColor(1);
@@ -557,19 +574,20 @@ namespace TownOfHost
                 }, 3f, "SetName To Chat");
             }
 
-            foreach (var protect in Main.GuardianAngelTarget)
-            {
-                if (!AmongUsClient.Instance.AmHost) continue;
-                PlayerControl ga = Utils.GetPlayerById(protect.Key);
-                PlayerControl protecting = Utils.GetPlayerById(protect.Value);
-                if (!ga.Data.IsDead)
+            if (AmongUsClient.Instance.AmHost)
+                foreach (var protect in Main.GuardianAngelTarget)
                 {
-                    if (Options.GAknowsRole.GetBool())
-                        Utils.SendMessage("You are a Guardian Angel. Your Job is to protect your target from Death. Your target's role is: " + Utils.GetRoleName(protecting.GetCustomRole()), ga.PlayerId);
+                    if (!AmongUsClient.Instance.AmHost) continue;
+                    PlayerControl ga = Utils.GetPlayerById(protect.Key);
+                    PlayerControl protecting = Utils.GetPlayerById(protect.Value);
+                    if (!ga.Data.IsDead)
+                    {
+                        if (Options.GAknowsRole.GetBool())
+                            Utils.SendMessage("You are a Guardian Angel. Your Job is to protect your target from Death. Your target's role is: " + Utils.GetRoleName(protecting.GetCustomRole()), ga.PlayerId);
+                    }
+                    if (Options.TargetKnowsGA.GetBool() && !protecting.Data.IsDead)
+                        Utils.SendMessage("You have a Guardian Angel. Find out who they are and keep them to protect you.", protecting.PlayerId);
                 }
-                if (Options.TargetKnowsGA.GetBool() && !protecting.Data.IsDead)
-                    Utils.SendMessage("You have a Guardian Angel. Find out who they are and keep them to protect you.", protecting.PlayerId);
-            }
             List<CustomRoles> loversRoles = new();
             // GetString(lp.GetSubRoleName() + "Info")
             foreach (var lp in Main.LoversPlayers)
@@ -607,18 +625,16 @@ namespace TownOfHost
                 if (target != null && target.AmOwner && AmongUsClient.Instance.IsGameStarted) //変更先が自分自身
                     pva.NameText.color = seer.GetRoleColor();//名前の色を変更
 
-                foreach (var pc in PlayerControl.AllPlayerControls)
-                {
-                    if (!AmongUsClient.Instance.AmHost) continue;
-                    if (pc == null ||
-                        pc.Data.IsDead ||
-                        pc.Data.Disconnected ||
-                        pc.PlayerId == seer.PlayerId
+                if (target == null ||
+                        target.Data.IsDead ||
+                        target.Data.Disconnected ||
+                        target.PlayerId == seer.PlayerId ||
+                        target.GetCustomRole().IsCoven() ||
+                        !AmongUsClient.Instance.AmHost
                     ) continue; //塗れない人は除外 (死んでたり切断済みだったり あとアーソニスト自身も)
 
-                    if (Main.isHexed.TryGetValue((seer.PlayerId, pc.PlayerId), out var isHexed) && isHexed)
-                        Utils.SendMessage("You have been hexed by the Hex Master!", pc.PlayerId);
-                }
+                if (Main.isHexed.TryGetValue((seer.PlayerId, target.PlayerId), out var isHexed) && isHexed)
+                    Utils.SendMessage("You have been hexed by the Hex Master!", target.PlayerId);
 
                 //とりあえずSnitchは会議中にもインポスターを確認することができる仕様にしていますが、変更する可能性があります。
 

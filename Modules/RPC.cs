@@ -36,7 +36,22 @@ namespace TownOfHost
         SendFireWorksState,
         SetCurrentDousingTarget,
         SetCurrentInfectingTarget,
-        ToggleCamouflagueActive
+        SetCurrentHexingTarget,
+        ToggleCamouflagueActive,
+        // FIX SOME CLIENT ISSUES //
+        SendBadId,
+        SendGoodId,
+        SetVeteranAlert,
+        SetMedusaInfo,
+        SetHackerProgress,
+        SetPirateProgress,
+        SeeredPlayer,
+        SetVultureAmount,
+        UpdateGA,
+        NotifyDemoKill,
+        SendSurvivorInfo,
+        SetInfectedPlayer,
+        SetHexedPlayer,
     }
     public enum Sounds
     {
@@ -171,6 +186,18 @@ namespace TownOfHost
                     bool doused = reader.ReadBoolean();
                     Main.isDoused[(ArsonistId, DousedId)] = doused;
                     break;
+                case CustomRPC.SetInfectedPlayer:
+                    byte PbId = reader.ReadByte();
+                    byte InfectId = reader.ReadByte();
+                    bool infected = reader.ReadBoolean();
+                    Main.isInfected[(PbId, InfectId)] = infected;
+                    break;
+                case CustomRPC.SetHexedPlayer:
+                    byte hmId = reader.ReadByte();
+                    byte hexId = reader.ReadByte();
+                    bool hexed = reader.ReadBoolean();
+                    Main.isHexed[(hmId, hexId)] = hexed;
+                    break;
                 case CustomRPC.AddNameColorData:
                     byte addSeerId = reader.ReadByte();
                     byte addTargetId = reader.ReadByte();
@@ -231,10 +258,51 @@ namespace TownOfHost
                     byte pbId = reader.ReadByte();
                     byte infectingTargetId = reader.ReadByte();
                     if (PlayerControl.LocalPlayer.PlayerId == pbId)
-                        Main.currentDousingTarget = infectingTargetId;
+                        Main.currentInfectingTarget = infectingTargetId;
+                    break;
+                case CustomRPC.SetCurrentHexingTarget:
                     break;
                 case CustomRPC.ToggleCamouflagueActive:
                     Camouflague.IsActive = reader.ReadBoolean();
+                    break;
+                case CustomRPC.SetVeteranAlert: // DONE
+                    int vet = reader.ReadInt32();
+                    Main.VetAlerts = vet;
+                    break;
+                case CustomRPC.SetPirateProgress: // DONE
+                    Guesser.PirateGuess[reader.ReadByte()] = reader.ReadInt32();
+                    break;
+                case CustomRPC.SetMedusaInfo: // DONE
+                    Main.IsGazing = reader.ReadBoolean();
+                    Main.GazeReady = reader.ReadBoolean();
+                    break;
+                case CustomRPC.SetHackerProgress: // DONE
+                    byte hackerid = reader.ReadByte();
+                    int hcount = reader.ReadInt32();
+                    Main.HackerFixedSaboCount[hackerid] = hcount;
+                    break;
+                case CustomRPC.SeeredPlayer: // DONE
+                    byte targetid = reader.ReadByte();
+                    Investigator.hasSeered[targetid] = true;
+                    break;
+                case CustomRPC.SetVultureAmount: // DONE
+                    Main.AteBodies = reader.ReadInt32();
+                    break;
+                case CustomRPC.UpdateGA: // DONE
+                    Main.ProtectsSoFar = reader.ReadInt32();
+                    break;
+                case CustomRPC.NotifyDemoKill: // DONE
+                    var remove = reader.ReadBoolean();
+                    if (!remove)
+                        Main.KilledDemo.Add(reader.ReadByte());
+                    else
+                        Main.KilledDemo.Remove(reader.ReadByte());
+                    break;
+                case CustomRPC.SendSurvivorInfo: // done
+                    var survivor = reader.ReadByte();
+                    var stuff = Main.SurvivorStuff[survivor];
+                    stuff.Item1++;
+                    Main.SurvivorStuff[survivor] = stuff;
                     break;
             }
         }

@@ -203,7 +203,13 @@ namespace TownOfHost
                     if (target.GetCustomRole() == r)//当たっていた場合
                     {
                         if (killer.Is(CustomRoles.Pirate))
+                        {
                             PirateGuess[killer.PlayerId]++;
+                            MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.SetPirateProgress, Hazel.SendOption.Reliable, -1);
+                            writer.Write(killer.PlayerId);
+                            writer.Write(PirateGuess[killer.PlayerId]);
+                            AmongUsClient.Instance.FinishRpcImmediately(writer);
+                        }
                         if (!killer.Is(CustomRoles.Pirate))
                             if ((target.GetCustomRole() == CustomRoles.Crewmate && !CanShootAsNormalCrewmate.GetBool()) || (target.GetCustomRole() == CustomRoles.Egoist && killer.Is(CustomRoles.EvilGuesser))) return;
                         //クルー打ちが許可されていない場合とイビルゲッサーがエゴイストを打とうとしている場合はここで帰る
@@ -371,6 +377,10 @@ namespace TownOfHost
             foreach (CustomRoles role in Enum.GetValues(typeof(CustomRoles)))
             {
                 if (!role.IsEnable()) continue;
+                if (role.IsModifier())
+                {
+                    if (!role.IsCrewModifier() && role != CustomRoles.LoversRecode) continue;
+                }
                 if (!role.IsImpostorTeam() && role != CustomRoles.Egoist) assassinList.Add(role);
                 if (role != CustomRoles.Pirate) pirateList.Add(role);
                 if (!role.IsCrewmate()) vigiList.Add(role);

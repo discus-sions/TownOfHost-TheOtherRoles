@@ -525,6 +525,12 @@ namespace TownOfHost
                     }
                     else opt.CrewLightMod = Options.BewilderVision.GetFloat();
                     break;
+                case CustomRoles.Watcher:
+                case CustomRoles.EvilWatcher:
+                case CustomRoles.NiceWatcher:
+                    if (opt.AnonymousVotes)
+                        opt.AnonymousVotes = false;
+                    break;
             }
             if (Main.AllPlayerKillCooldown.ContainsKey(player.PlayerId))
             {
@@ -839,6 +845,23 @@ namespace TownOfHost
             writer.Write(isDoused);
             AmongUsClient.Instance.FinishRpcImmediately(writer);
         }
+
+        public static void RpcSetInfectedPlayer(this PlayerControl player, PlayerControl target, bool isDoused)
+        {
+            MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.SetInfectedPlayer, SendOption.Reliable, -1);//RPCによる同期
+            writer.Write(player.PlayerId);
+            writer.Write(target.PlayerId);
+            writer.Write(isDoused);
+            AmongUsClient.Instance.FinishRpcImmediately(writer);
+        }
+        public static void RpcSetHexedPlayer(this PlayerControl player, PlayerControl target, bool isDoused)
+        {
+            MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.SetHexedPlayer, SendOption.Reliable, -1);//RPCによる同期
+            writer.Write(player.PlayerId);
+            writer.Write(target.PlayerId);
+            writer.Write(isDoused);
+            AmongUsClient.Instance.FinishRpcImmediately(writer);
+        }
         public static void ExiledSchrodingerCatTeamChange(this PlayerControl player)
         {
             var rand = new System.Random();
@@ -972,12 +995,20 @@ namespace TownOfHost
             //killer.Data.PlayerName += $"<color={Utils.GetRoleColorCode(CustomRoles.Demolitionist)}>▲</color>";
             Main.KilledDemo.Add(killer.PlayerId);
             killer.CustomSyncSettings();
+            MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.NotifyDemoKill, Hazel.SendOption.Reliable, -1);
+            writer.Write(false);
+            writer.Write(killer.PlayerId);
+            AmongUsClient.Instance.FinishRpcImmediately(writer);
             new LateTask(() =>
             {
                 // killer.Data.PlayerName = killer.GetRealName();
                 if (!GameStates.IsMeeting)
                 {
                     Main.KilledDemo.Remove(killer.PlayerId);
+                    MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.NotifyDemoKill, Hazel.SendOption.Reliable, -1);
+                    writer.Write(true);
+                    writer.Write(killer.PlayerId);
+                    AmongUsClient.Instance.FinishRpcImmediately(writer);
                     if (!killer.inVent && !killer.Data.IsDead)
                     {
                         if (!killer.Is(CustomRoles.Pestilence))
@@ -1006,6 +1037,9 @@ namespace TownOfHost
                 Main.VetAlerts++;
                 Main.VettedThisRound = true;
                 Main.VetIsAlerted = true;
+                MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.SetVeteranAlert, Hazel.SendOption.Reliable, -1);
+                writer.Write(Main.VetAlerts);
+                AmongUsClient.Instance.FinishRpcImmediately(writer);
                 new LateTask(() =>
                 {
                     Main.VetIsAlerted = false;
@@ -1023,6 +1057,10 @@ namespace TownOfHost
                     stuff.Item2 = true;
                     stuff.Item4 = true;
                     Main.SurvivorStuff[survivor.PlayerId] = stuff;
+                    MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.SendSurvivorInfo, Hazel.SendOption.Reliable, -1);
+                    writer.Write(survivor.PlayerId);
+                    writer.Write(stuff.Item1);
+                    AmongUsClient.Instance.FinishRpcImmediately(writer);
                     new LateTask(() =>
                     {
                         stuff.Item2 = false;
@@ -1038,6 +1076,9 @@ namespace TownOfHost
                 Main.ProtectsSoFar++;
                 Main.ProtectedThisRound = true;
                 Main.IsProtected = true;
+                MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.UpdateGA, Hazel.SendOption.Reliable, -1);
+                writer.Write(Main.ProtectsSoFar);
+                AmongUsClient.Instance.FinishRpcImmediately(writer);
                 new LateTask(() =>
                 {
                     Main.IsProtected = false;
@@ -1050,12 +1091,24 @@ namespace TownOfHost
             {
                 Main.IsGazing = true;
                 Main.GazeReady = false;
+                MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.SetPirateProgress, Hazel.SendOption.Reliable, -1);
+                writer.Write(Main.IsGazing);
+                writer.Write(Main.GazeReady);
+                AmongUsClient.Instance.FinishRpcImmediately(writer);
                 new LateTask(() =>
                 {
                     Main.IsGazing = false;
+                    MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.SetPirateProgress, Hazel.SendOption.Reliable, -1);
+                    writer.Write(Main.IsGazing);
+                    writer.Write(Main.GazeReady);
+                    AmongUsClient.Instance.FinishRpcImmediately(writer);
                     new LateTask(() =>
                     {
                         Main.GazeReady = true;
+                        MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.SetPirateProgress, Hazel.SendOption.Reliable, -1);
+                        writer.Write(Main.IsGazing);
+                        writer.Write(Main.GazeReady);
+                        AmongUsClient.Instance.FinishRpcImmediately(writer);
                     }, Options.StoneCD.GetFloat(), "Gaze Cooldown");
                 }, Options.StoneDuration.GetFloat(), "Gaze Duration");
             }
@@ -1214,7 +1267,7 @@ namespace TownOfHost
                 CustomRoles.PlagueBearer or
                 CustomRoles.Juggernaut or
                 CustomRoles.Pestilence or
-                CustomRoles.PlagueBearer or
+                CustomRoles.BloodKnight or
                 CustomRoles.CorruptedSheriff or
                 CustomRoles.TheGlitch or
                 CustomRoles.Werewolf;
