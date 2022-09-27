@@ -1252,6 +1252,7 @@ It is possible to not assign certain tasks.<br>
 | Disable SwipeCard Tasks    |
 | Disable UnlockSafe Tasks   |
 | Disable UploadData Tasks   |
+| Disable Fix Wiring Tasks   |
 
 ### Fall from ladders
 

@@ -212,6 +212,7 @@ namespace TownOfHost
         public static CustomOption DisableUploadData;
         public static CustomOption DisableStartReactor;
         public static CustomOption DisableResetBreaker;
+        public static CustomOption DisableFixWiring;
 
         // ランダムマップ
         public static CustomOption RandomMapsMode;
@@ -373,8 +374,11 @@ namespace TownOfHost
         {
             "SuffixMode.None",
             "SuffixMode.Version",
-            "SuffixMode.Streaming",
-            "SuffixMode.Recording"
+            "SuffixMode.Discord",
+            "SuffixMode.Hosting",
+            "SuffixMode.Testing",
+            "SuffixMode.Simping",
+            "SuffixMode.Trolling"
         };
         public static SuffixModes GetSuffixMode()
         {
@@ -562,8 +566,6 @@ namespace TownOfHost
             TrapperBlockMoveTime = CustomOption.Create(20810, Color.white, "TrapperBlockMoveTime", 5f, 1f, 180, 1, CustomRoleSpawnChances[CustomRoles.Trapper]);
             SetupRoleOptions(20900, CustomRoles.Dictator);
 
-            SetupRoleOptions(30009, CustomRoles.Mystic);
-
             SetupRoleOptions(30008, CustomRoles.Child);
             ChildKnown = CustomOption.Create(30011, Color.white, "ChildKnown", false, CustomRoleSpawnChances[CustomRoles.Child]);
             //SetupRoleOptions(30100, CustomRoles.Sleuth);
@@ -697,6 +699,7 @@ namespace TownOfHost
             SetupSingleRoleOptions(301859, CustomRoles.TieBreaker, 1);
             SetupSingleRoleOptions(30000, CustomRoles.Watcher, 1);
             //EvilWatcherChance = CustomOption.Create(30010, Color.white, "EvilWatcherChance", 0, 0, 100, 10, CustomRoleSpawnChances[CustomRoles.Watcher]);
+            SetupSingleRoleOptions(30009, CustomRoles.Mystic, 1);
 
             // Attribute
             ModifierRestrict = CustomOption.Create(1314, Color.white, "ModifierRestrict", true, null, true)
@@ -812,6 +815,8 @@ namespace TownOfHost
             DisableStartReactor = CustomOption.Create(100305, Color.white, "DisableStartReactorTask", false, DisableTasks)
                 .SetGameMode(CustomGameMode.All);
             DisableResetBreaker = CustomOption.Create(100306, Color.white, "DisableResetBreakerTask", false, DisableTasks)
+                .SetGameMode(CustomGameMode.All);
+            DisableFixWiring = CustomOption.Create(100307, Color.white, "DisableFixWiringTask", false, DisableTasks)
                 .SetGameMode(CustomGameMode.All);
 
             // ランダムマップ

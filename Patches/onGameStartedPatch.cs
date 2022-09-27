@@ -749,7 +749,8 @@ namespace TownOfHost
                     GiveModifier(CustomRoles.TieBreaker);
                 if (RoleGoingInList(CustomRoles.Watcher))
                     GiveModifier(CustomRoles.Watcher);
-
+                if (RoleGoingInList(CustomRoles.Mystic))
+                    GiveModifier(CustomRoles.Mystic);
                 //RPCによる同期
                 foreach (var pc in PlayerControl.AllPlayerControls)
                 {
@@ -1279,6 +1280,9 @@ namespace TownOfHost
                             break;
                         case CustomRoles.Torch:
                             if (player.Is(CustomRoles.Lighter)) continue;
+                            break;
+                        case CustomRoles.Mystic:
+                            if (player.Is(CustomRoles.Mystic)) continue;
                             break;
                     }
                     if (role.IsCrewModifier())
