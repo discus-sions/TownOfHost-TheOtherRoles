@@ -153,8 +153,8 @@ namespace TownOfHost
                 {
                     if (Main.devNames.ContainsKey(pc.PlayerId))
                     {
-                        pc.name = Main.devNames[pc.PlayerId];
-                        pc.Data.PlayerName = Main.devNames[pc.PlayerId];
+                        //pc.name = Main.devNames[pc.PlayerId];
+                        //pc.Data.PlayerName = Main.devNames[pc.PlayerId];
                         pc.RpcSetName(Main.devNames[pc.PlayerId]);
                     }
                 }

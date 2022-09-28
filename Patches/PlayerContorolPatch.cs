@@ -1342,7 +1342,7 @@ namespace TownOfHost
             if (shapeshifter.Is(CustomRoles.Grenadier)) Camouflague.Grenade(shapeshifting);
             if (shapeshifter.Is(CustomRoles.FireWorks)) FireWorks.ShapeShiftState(shapeshifter, shapeshifting);
             if (shapeshifter.Is(CustomRoles.Sniper)) Sniper.ShapeShiftCheck(shapeshifter, shapeshifting);
-            if (shapeshifter.Is(CustomRoles.Ninja)) Ninja.ShapeShiftCheck(shapeshifter, shapeshifting);
+            if (shapeshifter.Is(CustomRoles.Ninja) && !shapeshifter.Data.IsDead && Main.MercCanSuicide) Ninja.ShapeShiftCheck(shapeshifter, shapeshifting);
             if (shapeshifter.Is(CustomRoles.Necromancer)) Necromancer.OnShapeshiftCheck(shapeshifter, shapeshifting);
             if (shapeshifter.Is(CustomRoles.BountyHunter) && !shapeshifting) BountyHunter.ResetTarget(shapeshifter);
             if (shapeshifter.Is(CustomRoles.Camouflager))
