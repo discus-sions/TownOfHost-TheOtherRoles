@@ -419,6 +419,7 @@ LadderDeathChance,Fall To Death Chance,Шанс Разбиться Насмер�
 DisableTasks,Disable Tasks,Отключить Задания,タスクを無効化する,禁用某些任务,禁用某些特定的任務
 DisableSwipeCardTask,Disable SwipeCard Tasks,Отключить Задание ПровестиКарту,カードタスクを無効化する,禁用刷卡任务,禁用刷卡任務
 DisableSubmitScanTask,Disable SubmitScan Tasks,Отключить Задание Сканирование,医務室のスキャンタスクを無効化する,禁用扫描任务,禁用掃描任務
+DisableFixWiring,Disable Fix Wires Task,DisableFixWiring,DisableFixWiring,DisableFixWiring,DisableFixWiring
 DisableUnlockSafeTask,Disable UnlockSafe Tasks,Отключить Задание ОткрытиеСейфа,金庫タスクを無効化する,禁用解除歧管任务,禁用保險櫃任務
 DisableUploadDataTask,Disable UploadData Tasks,Отключить Задание ЗагрузкаДанных,ダウンロードタスクを無効化する,禁用上传数据任务,禁用上傳任務
 DisableStartReactorTask,Disable StartReactor Tasks,Отключить Задание СаймонГоворит,原子炉起動タスクを無効化する,禁用启动反应堆任务,禁用啟動反應堆任務
@@ -480,7 +481,7 @@ MadSnitchTasks,MadSnitch Tasks,Задания MadSnitch,マッドスニッチの
 MadGuardianCanSeeWhoTriedToKill,MadGuardian Can See Who Tried To Kill,MadGuardian Видит Кто Пытался Его Убить,マッドガーディアンが自身の殺害未遂者を知ることができる,背叛的守卫可以得知谁试图伤害自己,背叛天使可以看到是誰嘗試殺害自己
 ChildKnown,Child is Known to Everyone,Все игроки знают кто Child,Child is Known to Everyone,所有人都知道谁是小孩
 JesterVent,Jester Can Vent,Jester Может Вентоваться,Jester Can Vent,小丑可以使用管道
-CamouflagerCanVent,Camouflager Can Vent,CamouflagerCanVent,CamouflagerCanVent,CamouflagerCanVent,CamouflagerCanVent,CamouflagerCanVent
+CamouflagerCanVent,Camouflager Can Vent,CamouflagerCanVent,CamouflagerCanVent,CamouflagerCanVent,CamouflagerCanVent
 JesterHasImpostorVision,Jester Has Impostor Vision,Jester Имеет Дальность Обзора Предателя,JesterHasImpostorVision,小丑拥有内鬼视野
 MadmateCanFixLightsOut,Madmates Can Fix Lights Out,Madmates Может Чинить Свет,マッドメイト系役職が停電を直すことができる,叛徒职业可以修理配电,叛徒職業的玩家可以修理電燈
 MadmateCanFixComms,Madmates Can Fix Comms,Madmates Может Чинить Связь,マッドメイト系役職が通信障害を直すことができる,叛徒职业可以修理通讯,叛徒職業的玩家可以修理通訊
