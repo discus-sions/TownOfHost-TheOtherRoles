@@ -66,6 +66,7 @@ namespace TownOfHost
                             Main.devNames.Add(client.Character.PlayerId, rname);
                         }
                     }
+                    //nice
                 }, 3f, "Welcome Message & Name Check");
             }
         }
