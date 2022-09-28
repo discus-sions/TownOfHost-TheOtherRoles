@@ -87,16 +87,12 @@ namespace TownOfHost
                 {
                     CustomOption.Options.ToArray().Where(x => x.Id > 0).Do(x => x.UpdateSelection(x.DefaultSelection));
                 }
-                if (Input.GetKeyDown(KeyCode.Return) && Input.GetKey(KeyCode.C) && Input.GetKey(KeyCode.LeftShift) && GameStates.IsInGame)
-                {
-                    HudManager.Instance.Chat.SetVisible(true);
-                }
             }
 
             //--以下デバッグモード用コマンド--//
             if (!Main.AmDebugger.Value) return;
 
- /*           //BOTの作成
+            //BOTの作成
             if (Input.GetKey(KeyCode.RightShift) && Input.GetKeyDown(KeyCode.N))
             {
                 //これいつか革命を起こしてくれるコードなので絶対に消さないでください
@@ -120,7 +116,7 @@ namespace TownOfHost
                 new LateTask(() => bot.NetTransform.RpcSnapTo(new Vector2(0, 15)), 0.2f, "Bot TP Task");
                 new LateTask(() => { foreach (var pc in PlayerControl.AllPlayerControls) pc.RpcMurderPlayer(bot); }, 0.4f, "Bot Kill Task");
                 new LateTask(() => bot.Despawn(), 0.6f, "Bot Despawn Task");
-            }*/
+            }
             if (Input.GetKeyDown(KeyCode.F2))
             {
                 var localPlayer = PlayerControl.LocalPlayer;

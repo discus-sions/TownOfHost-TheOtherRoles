@@ -405,6 +405,7 @@ namespace TownOfHost
                 {CustomRoles.NiceGuesser, "ng"},
                 { CustomRoles.Sheriff, "sh" },
                 { CustomRoles.Investigator, "inve" },
+                { CustomRoles.Mystic,"my"},
                 { CustomRoles.Snitch, "sn" },
                 { CustomRoles.SpeedBooster, "sb" },
                 { CustomRoles.Trapper, "tra" },
@@ -443,7 +444,7 @@ namespace TownOfHost
                 { CustomRoles.Hacker, "hac" },
                 //Sub役職
                 { (CustomRoles)(-6), $"== {GetString("SubRole")} ==" }, //区切り用
-                { CustomRoles.Lovers, "lo" },
+                {CustomRoles.Lovers, "lo" },
                 { CustomRoles.Sleuth, "sl" },
                 { CustomRoles.Bait, "ba" },
                 { CustomRoles.Oblivious, "obl" },
@@ -451,7 +452,6 @@ namespace TownOfHost
                 { CustomRoles.Flash, "fl" },
                 { CustomRoles.Bewilder, "be" },
                 { CustomRoles.TieBreaker, "tb" },
-                { CustomRoles.Mystic,"my"},
                 { CustomRoles.Diseased, "di" },
                 //HAS
                 { (CustomRoles)(-7), $"== {GetString("HideAndSeek")} ==" }, //区切り用
@@ -549,6 +549,7 @@ namespace TownOfHost
                 { CustomRoles.Sheriff, "sh" },
                 {CustomRoles.NiceGuesser, "ng"},
                 { CustomRoles.Investigator, "inve" },
+                { CustomRoles.Mystic,"my"},
                // { CustomRoles.CorruptedSheriff, "csh" },
                 { CustomRoles.Snitch, "sn" },
                 { CustomRoles.SpeedBooster, "sb" },
@@ -596,7 +597,6 @@ namespace TownOfHost
                 { CustomRoles.Flash, "fl" },
                 { CustomRoles.Bewilder, "be" },
                 { CustomRoles.TieBreaker, "tb" },
-                { CustomRoles.Mystic,"my"},
                 { CustomRoles.Diseased, "di" },
                 //HAS
                 { (CustomRoles)(-7), $"== {GetString("HideAndSeek")} ==" }, //区切り用
@@ -683,6 +683,7 @@ namespace TownOfHost
                 { CustomRoles.SabotageMaster, "sa" },
                 { CustomRoles.Sheriff, "sh" },
                 { CustomRoles.Investigator, "inve" },
+                { CustomRoles.Mystic,"my"},
                 { CustomRoles.Snitch, "sn" },
                 { CustomRoles.SpeedBooster, "sb" },
                 { CustomRoles.Trapper, "tra" },
@@ -728,7 +729,6 @@ namespace TownOfHost
                 { CustomRoles.Flash, "fl" },
                 { CustomRoles.Bewilder, "be" },
                 { CustomRoles.TieBreaker, "tb" },
-                { CustomRoles.Mystic,"my"},
                 { CustomRoles.Diseased, "di" },
                 //HAS
                 { (CustomRoles)(-7), $"== {GetString("HideAndSeek")} ==" }, //区切り用
