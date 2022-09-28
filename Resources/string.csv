@@ -536,6 +536,7 @@ SnitchCanGetArrowColor,Snitch Can See Colored Arrow,Snitch Может Видет
 SnitchCanFindNeutralKiller,Snitch Can Find Neutral Killer,Snitch Может Видеть Нейтральных Убийц,第三陣営のキル可能役職を見つけることが出来る,告密者可以与带刀中立互相发现,告密者也可以和中立陣營帶刀職業互認
 SnitchCanFindCoven,Snitch Can Find Coven,Snitch Может Видеть Ковенов,第三陣営のキル可能役職を見つけることが出来る,告密者可以发现巫师团,告密者也可以和中立陣營帶刀職業互認
 MayorAdditionalVote,Mayor Additional Votes Count,Дополнительные голоса у Mayor,メイヤーの追加投票の個数,市长额外票数,市長附加票數
+BastionVentsRemoveOnBomb,Bombed Vents Do Not persist after 1 Bomb,Заминированные вентиляции не сохраняются после 1 бомбы,BastionVentsRemoveOnBomb,BastionVentsRemoveOnBomb,BastionVentsRemoveOnBombs
 MayorHasPortableButton,Mayor Has Mobile Emergency Button,У Mayor Есть Портативная Кнопка,メイヤーがポータブルボタンを持っている,市长可以随时拍灯,市長可以隨時拍桌
 MayorNumOfUseButton,Number Of Mobile Emergency Button,Количество Портативных Кнопок,メイヤーが使えるボタンの回数,市长随时拍灯最大次数,市長隨時拍桌最大次數
 CanBeforeSchrodingerCatWinTheCrewmate,SchrodingerCat In No Team Can Win With Crewmates,SchrodingerCat Ни Одна Команда Не Может Победить С Членом Экипажа,役職変化前であれば、クルー陣営と勝利できる,薛定谔的猫加入其他阵营前可以跟随船员阵营获胜,薛定諤的貓的陣營轉變前可以和船員一起贏
@@ -774,9 +775,9 @@ StandardHASWaitingTime,Waiting Time,Время Ожидания,待機時間,躲
 commandError,Error:%1$,Ошибка:%1$,エラー:%1$,错误:%1$,錯誤:%1$
 InvalidArgs,Invalid Args,Недопустимые Аргументы,無効な引数,无效参数,無效的參數
 On,ON,ВКЛ,オン,开启,開啟
-Off,OFF,ВЫКЛ,オフ,关闭,關閉
-ResetToYinYang,Reset to Ying Yang on Target Death,Сбросить Ying Yang при смерти его целей,ResetToYinYang,ResetToYinYang,ResetToYinYang,ResetToYinYang
+ResetToYinYang,Reset to Ying Yang on Target Death,Сбросить Ying Yang при смерти его цели,ResetToYinYang,ResetToYinYang,ResetToYinYang
 YinYangCooldown,Yin Yang Cooldown,Yin Yang Откат,YinYangCooldown,YinYangCooldown,YinYangCooldown
+Off,OFF,ВЫКЛ,オフ,关闭,關閉
 ColoredOn,<color=#00fefe>ON</color>,<color=#00fefe>ВКЛ</color>,<color=#00fefe>オン</color>,<color=#00fefe>开启</color>,<color=#00fefe>開啟</color>
 ColoredOff,<color=#ff4c6f>OFF</color>,<color=#ff4c6f>ВЫКЛ</color>,<color=#ff4c6f>オフ</color>,<color=#ff4c6f>关闭</color>,<color=#ff4c6f>關閉</color>
 CurrentActiveSettingsHelp,Current active settings help,Справка по текущим активным настройкам,現在有効な設定の説明,当前启用设置及帮助,現在設定的模式和職業說明
