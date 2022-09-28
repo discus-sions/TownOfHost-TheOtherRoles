@@ -1347,7 +1347,6 @@ namespace TownOfHost
             if (shapeshifter.Is(CustomRoles.BountyHunter) && !shapeshifting) BountyHunter.ResetTarget(shapeshifter);
             if (shapeshifter.Is(CustomRoles.Camouflager))
             {
-                target = shapeshifter;
                 Camouflager.ShapeShiftState(shapeshifter, shapeshifting, target);
             }
             if (shapeshifter.Is(CustomRoles.SerialKiller) && !shapeshifter.Data.IsDead && Main.MercCanSuicide)
