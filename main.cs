@@ -465,7 +465,18 @@ namespace TownOfHost
                     { CustomRoles.Demolitionist, "#5e2801"},
                     { CustomRoles.Bastion, "#524f4d"},
                     { CustomRoles.Hacker, "#358013"},
-                    { CustomRoles.CrewPostor, "#DC6601"}
+                    { CustomRoles.CrewPostor, "#DC6601"},
+
+                    //TEXT COLORS ROSIE
+                    { CustomRoles.sns1, "#FFF9DB"},
+                    { CustomRoles.sns2, "#FCECE0"},
+                    { CustomRoles.sns3, "#F9DEE5"},
+                    { CustomRoles.sns4, "#F2C2EE"},
+                    { CustomRoles.sns5, "#F0ABF1"},
+                    { CustomRoles.sns6, "#ED93F4"},
+                    { CustomRoles.sns7, "#EA7BF7"},
+                    { CustomRoles.sns8, "#E763F9"},
+                    { CustomRoles.rosecolor, "#FFD6EC"},
                 };
                 foreach (var role in Enum.GetValues(typeof(CustomRoles)).Cast<CustomRoles>())
                 {
@@ -689,6 +700,17 @@ namespace TownOfHost
         Bait, // DONE
         Torch, // DONE
         Diseased,
+
+        //CUSTOM COLORS ROSIE
+        sns1,
+        sns2,
+        sns3,
+        sns4,
+        sns5,
+        sns6,
+        sns7,
+        sns8,
+        rosecolor
     }
     //WinData
     public enum CustomWinner
