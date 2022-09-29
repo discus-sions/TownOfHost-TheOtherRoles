@@ -217,10 +217,12 @@ namespace TownOfHost
                         if (x.Value == data.Character.PlayerId)
                             Executioner = x.Key;
                     });
+                    if (!Utils.GetPlayerById(Executioner).Is(CustomRoles.Swapper) {
                     Utils.GetPlayerById(Executioner).RpcSetCustomRole(Options.CRoleExecutionerChangeRoles[Options.ExecutionerChangeRolesAfterTargetKilled.GetSelection()]);
                     Main.ExecutionerTarget.Remove(Executioner);
                     RPC.RemoveExecutionerKey(Executioner);
                     Utils.NotifyRoles();
+                    }
                 }
 
                 if (data.Character.Is(CustomRoles.Camouflager) && Main.CheckShapeshift[data.Character.PlayerId])
