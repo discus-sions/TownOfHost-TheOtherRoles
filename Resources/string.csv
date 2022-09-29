@@ -156,7 +156,7 @@ CovenIntroInfo,COVEN - A team of Witches on their own.,КОВЕН - Команд
 BountyHunterInfo,Hunt your bounty down,Охотьтесь за своей целью,標的を確実に仕留めよう,猎杀你的赏金目标,將你的目標拿下
 MareInfo,Kill in the dark,Убивайте в темноте,闇の世界で暗殺せよ,在黑暗中作案,在黑暗中獵殺
 MinerInfo,"From the Top, Make it Drop, that's a Vent","Телепортируйтесь к последней вентиляции",Miner,让我挖出一个通道吧！,Miner
-YingYangerInfo,Force Crewmates to kill one another,Заставить Членов Экипажа убивать друг друга,YingYangerInfo,阴阳有序，二者相望
+YingYangerInfo,Force Crewmates to kill one another,Заставьте Членов Экипажа убить друг друга,YingYangerInfo,阴阳有序，二者相望
 FireWorksInfo,Bloom at the last,Расцветите в последний раз,最後に一華咲かせよう,一起来看最后的烟花吧,在最後時刻來看煙火秀吧
 SerialKillerInfo,You crave blood,Вы жаждете крови,殺人衝動が抑えられない,你渴望鲜血，抑制不住你的冲动,你無法抑制你的殺人衝動
 ShapeMasterInfo,Shapeshift and confuse the Crewmates,Изменяйте форму чтобы запутать всех Членов экипажа,変身して敵を混乱させよう,变幻成其他人来迷惑敌人,變換外表來迷惑他人
@@ -176,7 +176,7 @@ CorruptedSheriffInfo,You betrayed the Crewmates,Ты предал Членов �
 SwooperInfo,Turn invisible temporarily,Вы временно становитесь невидимым,Swooper,利用隐身偷袭其他人
 CamouflagerInfo,Confuse the Crewmates of who's who,Запутайте Членов экипажа кто есть кто,Camouflager,让船员们分不清楚谁是谁
 NinjaInfo,Assasinate your Target,Убейте помеченную цель,NinjaInfo,利用忍术暗杀你的目标
-GrenadierInfo,"Hinder the Crewmate's vision",Уменьшите обзор Члена Экипажа до нуля,Grenadier,阻碍船员的视线
+GrenadierInfo,"Hinder the Crewmate's vision",Уменьшите обзор Членов Экипажа До Нуля,Grenadier,阻碍船员的视线
 EvilGuesserInfo,Guess and shoot Crew mid-meeting,Угадай роли Членов экипажа посреди встречи,推測して打ち抜け,让我猜猜你的身份,猜測和射擊
 
 # マッドメイト系役職
@@ -226,7 +226,7 @@ EgoSchrodingerCatInfo,You are now on Team Egoists,Вы теперь в кома�
 JSchrodingerCatInfo,I sided with Serial Killer as Sidekick,Я стал союзником Jackal как Sidekick,ジャッカルの味方になった,你是豺狼的跟班，努力帮助他,"你是豺狼的跟班,盡量幫助他"
 TerroristInfo,Die after finishing your tasks,Умрите после выполнения своих заданий,タスクを済ませ、自爆しよう,都别想活着，和我一起同归于尽！,"一個一個來,都別想給我活!"
 ExecutionerInfo,Get your target voted out,Дайте заголосовать свою цель,ターゲットを追放させよう,不惜一切代价把你的目标票出去！,"想出一切辦法來投出你的目標"
-SwapperInfo,Vote out your random target each meeting,Заголосуйте за случайную цель на каждой встрече,SwapperInfo,在每次会议中投票你需要票出的随机目标
+SwapperInfo,Vote out your random target each meeting,Заголосуйте случайную цель на каждой встрече,SwapperInfo,在每次会议中投票你需要票出的随机目标
 EgoistInfo,Replace the Impostor win,Замените победу Предателей,インポスター勝利を独占しよう,我们要把属于内鬼的胜利给夺走！,讓我們來奪取狼人的勝利
 LoversInfo,Survive with your lover,Выживите со своим Любовником,恋人と生きて幸せを掴もう,你坠入了爱河，成为了一对恋人，一起活到最后吧！,你墜入了愛河(心理)
 LoversRecodeInfo,Survive with your lover,Выживите со своим Любовником,恋人と生きて幸せを掴もう,你坠入了爱河，成为了一对恋人，一起活到最后吧！,你墜入了愛河(心理)
