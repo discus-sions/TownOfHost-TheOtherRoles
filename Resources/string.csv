@@ -404,7 +404,7 @@ LastImpostorInfoLong,"(Attributes):\nAn Attribute given to the last Impostor.\nK
 HideAndSeek,Other GameModes,Другие ИгровыеРежимы,かくれんぼ,躲猫猫模式,躲貓貓
 ColorWars,ColorWars,ЦветныеВойны,ColorWars,彩色战争模式
 Splatoon,Splatoon,Брызготряд,Splatoon,涂漆模式
-FreeForAllOn,Free For All/ColorWars,Сам За Себя/ВойнаЦветов,FreeForAll,允许帮助别人做任务/彩色战争模式
+FreeForAllOn,Free For All/ColorWars,Сами За Себя/ВойнаЦветов,FreeForAll,允许帮助别人做任务/彩色战争模式
 FreeForAll,Free For All/ColorWars,Сами За Себя/ВойнаЦветов,FreeForAll,允许帮助别人做任务/彩色战争模式,FreeForAll
 NoGameEnd,NoGameEnd,ИграНеЗаканчится,ゲームを終了しない,测试模式,遊戲不會結束模式
 CamoComms,Camo Comms (Disabled),СаботажСвязи Маскировка (Не Работает),Camo Comms,破坏通讯干扰信息
@@ -708,7 +708,7 @@ DeathReason.EarDamage,Ear Damage,Ear Damage,Ear Damage,耳鸣,耳朵損傷
 DeathReason.Screamed,Screamed,Кричал,Screamed,惊吓,尖叫
 DeathReason.etc,Unknown,Неизвестный,その他,其他,其他
 Alive,Alive,Выжил,生存,存活,存活
-Win," Wins","Победил",勝利,胜利,勝利
+Win," Wins"," Победили",勝利,胜利,勝利
 Last,Last,Последний,ラスト,独活,獨活
 
 ## リアクターの時間制御
