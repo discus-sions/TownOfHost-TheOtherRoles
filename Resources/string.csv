@@ -422,7 +422,7 @@ LadderDeathChance,Fall To Death Chance,Шанс Разбиться Насмер�
 DisableTasks,Disable Tasks,Отключить Задания,タスクを無効化する,禁用某些任务,禁用某些特定的任務
 DisableSwipeCardTask,Disable SwipeCard Tasks,Отключить Задание ''Провести Карту'',カードタスクを無効化する,禁用刷卡任务,禁用刷卡任務
 DisableSubmitScanTask,Disable SubmitScan Tasks,Отключить Задание ''Сканирование'',医務室のスキャンタスクを無効化する,禁用扫描任务,禁用掃描任務
-DisableFixWiring,Disable Fix Wires Task,Отключить Задание ''Провода'',禁用接电线任务,DisableFixWiring
+DisableFixWiring,Disable Fix Wires Task,Отключить Задание ''Провода'',DisableFixWiring,禁用接电线任务,DisableFixWiring
 DisableUnlockSafeTask,Disable UnlockSafe Tasks,Отключить Задание ''Открытие Сейфа'',金庫タスクを無効化する,禁用解除歧管任务,禁用保險櫃任務
 DisableUploadDataTask,Disable UploadData Tasks,Отключить Задание ''Загрузка Данных'',ダウンロードタスクを無効化する,禁用上传数据任务,禁用上傳任務
 DisableStartReactorTask,Disable StartReactor Tasks,Отключить Задание ''Запуск Реактора'',原子炉起動タスクを無効化する,禁用启动反应堆任务,禁用啟動反應堆任務
