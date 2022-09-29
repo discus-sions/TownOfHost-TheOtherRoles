@@ -182,6 +182,7 @@ namespace TownOfHost
                     if (cRole == CustomRoles.Werewolf) hasTasks = false;
                     if (cRole == CustomRoles.TheGlitch) hasTasks = false;
                     if (cRole == CustomRoles.Hacker) hasTasks = false;
+                    if (cRole == CustomRoles.Swapper) hasTasks = false;
                     if (cRole == CustomRoles.BloodKnight) hasTasks = false;
                     if (cRole == CustomRoles.Marksman) hasTasks = false;
                     if (cRole == CustomRoles.Pirate) hasTasks = false;

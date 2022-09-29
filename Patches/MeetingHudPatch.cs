@@ -296,20 +296,8 @@ namespace TownOfHost
                     Main.SurvivorStuff[pc.PlayerId] = stuff;
                 }
 
-                foreach (var camo in PlayerControl.AllPlayerControls)
-                {
-                    if (!AmongUsClient.Instance.AmHost || camo.Data.Disconnected || camo == null || camo.Data.IsDead || !camo.Is(CustomRoles.Camouflager)) continue;
-                    if (Camouflager.DidCamo)
-                    {
-                        Logger.Info($"Camouflager Revert ShapeShift", "Camouflager");
-                        foreach (PlayerControl revert in PlayerControl.AllPlayerControls)
-                        {
-                            if (revert.Is(CustomRoles.Phantom) || revert == null || revert.Data.IsDead || revert.Data.Disconnected || revert == camo) continue;
-                            revert.RpcRevertShapeshift(true);
-                        }
-                        Camouflager.DidCamo = false;
-                    }
-                }
+                if (Camouflager.DidCamo)
+                    Camouflager.ShapeShiftState(null, false, null, true);
                 Main.SpelledPlayer.Clear();
                 Main.SilencedPlayer.Clear();
                 Main.firstKill.Clear();
