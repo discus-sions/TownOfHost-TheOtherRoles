@@ -1339,10 +1339,6 @@ namespace TownOfHost
                     var position = Main.LastEnteredVentLocation[shapeshifter.PlayerId];
                     Logger.Info($"{shapeshifter.Data.PlayerName}:{position}", "MinerTeleport");
                     Utils.TP(shapeshifter.NetTransform, new Vector2(position.x, position.y + 0.3636f));
-                    new LateTask(() =>
-                    {
-                        shapeshifter.MyPhysics.RpcEnterVent(ventId);
-                    }, 3f, "Miner Vent");
                 }
             }
             if (shapeshifter.CanMakeMadmate() && shapeshifting)
