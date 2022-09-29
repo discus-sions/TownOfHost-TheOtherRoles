@@ -40,6 +40,7 @@ namespace TownOfHost
                     if (revert.Is(CustomRoles.Phantom) || revert == null || revert.Data.IsDead || revert.Data.Disconnected) continue;
                     revert.RpcRevertShapeshift(true);
                 }
+                if (!GameStates.IsMeeting)
                 DidCamo = false;
             }
             else if (shapeshifting)
