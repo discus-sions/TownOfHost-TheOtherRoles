@@ -224,6 +224,7 @@ namespace TownOfHost
                 CustomRoles.Terrorist => CanKillTerrorist.GetBool(),
                 CustomRoles.CrewPostor => CanKillTerrorist.GetBool(),
                 CustomRoles.Executioner => CanKillExecutioner.GetBool(),
+                CustomRoles.Swapper => CanKillExecutioner.GetBool(),
                 CustomRoles.Opportunist => CanKillOpportunist.GetBool(),
                 CustomRoles.Survivor => CanKillOpportunist.GetBool(),
                 CustomRoles.Arsonist => CanKillArsonist.GetBool(),

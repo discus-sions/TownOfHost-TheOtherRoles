@@ -222,6 +222,7 @@ namespace TownOfHost
             if (1 >= statistics.TotalAlive - statistics.NumberOfLovers)
             {
                 if (statistics.TotalAlive - statistics.NumberOfLovers <= 1) return false;
+                if (Main.LoversPlayers.Count != 2) return false;
                 __instance.enabled = false;
                 var endReason = TempData.LastDeathReason switch
                 {

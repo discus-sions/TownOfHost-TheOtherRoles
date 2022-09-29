@@ -166,6 +166,42 @@ namespace TownOfHost
                     }
                 }
             }
+
+            if (!DecidedWinner)
+            {
+                PlayerControl swapper = null;
+                foreach (var pc in PlayerControl.AllPlayerControls)
+                {
+                    if (pc.Is(CustomRoles.Swapper)) swapper = pc;
+                }
+                if (swapper != null)
+                {
+                    List<PlayerControl> targetList = new();
+                    var rand = new System.Random();
+                    foreach (var target in PlayerControl.AllPlayerControls)
+                    {
+                        if (swapper == target) continue;
+                        if (!Options.ExecutionerCanTargetImpostor.GetBool() && target.GetCustomRole().IsImpostor() | target.GetCustomRole().IsMadmate()) continue;
+                        if (target.GetCustomRole().IsNeutral()) continue;
+                        if (target.GetCustomRole().IsCoven()) continue;
+                        if (target.Is(CustomRoles.Phantom)) continue;
+                        if (Main.ExecutionerTarget.ContainsValue(target.PlayerId)) continue;
+                        if (target.Is(CustomRoles.GM) || target == null || target.Data.IsDead || target.Data.Disconnected) continue;
+
+                        targetList.Add(target);
+                    }
+
+                    var Target = targetList[rand.Next(targetList.Count)];
+                    if (Main.ExecutionerTarget.ContainsKey(swapper.PlayerId))
+                    {
+                        Main.ExecutionerTarget.Remove(swapper.PlayerId);
+                        RPC.RemoveExecutionerKey(swapper.PlayerId);
+                    }
+                    Main.ExecutionerTarget.Add(swapper.PlayerId, Target.PlayerId);
+                    RPC.SendExecutionerTarget(swapper.PlayerId, Target.PlayerId);
+                    Logger.Info($"{swapper.GetNameWithRole()}:{Target.GetNameWithRole()}", "Swapper");
+                }
+            }
             /*Main.AfterMeetingDeathPlayers.Do(x =>
             {
                 var player = Utils.GetPlayerById(x.Key);

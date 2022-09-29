@@ -58,7 +58,7 @@ namespace TownOfHost
             Main.SpeedBoostTarget = new Dictionary<byte, byte>();
             Main.MayorUsedButtonCount = new Dictionary<byte, int>();
             Main.HackerFixedSaboCount = new Dictionary<byte, int>();
-            Main.LastEnteredVent = new Dictionary<byte, int>();
+            Main.LastEnteredVent = new Dictionary<byte, Vent>();
             Main.LastEnteredVentLocation = new Dictionary<byte, Vector2>();
             Main.HasModifier = new Dictionary<byte, CustomRoles>();
             Main.KilledBewilder = new List<byte>();
@@ -262,9 +262,8 @@ namespace TownOfHost
                         if (Options.MaxNonNK.GetInt() != 0)
                             numofNonNks = UnityEngine.Random.RandomRange(Options.MinNonNK.GetInt(), Options.MaxNonNK.GetInt());
 
-                        numofNks = (int)Math.Round(numofNks + 0.1);
-                        numofNonNks = (int)Math.Round(numofNonNks + 0.1);
-                        //numofNks = System.Convert.
+                        numofNks = Mathf.RoundToInt(numofNks);
+                        numofNonNks = Mathf.RoundToInt(numofNonNks);
 
                         if (Options.MaxNK.GetInt() != 0)
                             for (var i = 0; i < numofNks; i++)
@@ -331,6 +330,7 @@ namespace TownOfHost
                                         var random = new System.Random();
                                         var role = rolesChosen[rando.Next(0, rolesChosen.Count)];
                                         var player = AllNKPlayers[random.Next(0, AllNKPlayers.Count)];
+                                        if (Main.chosenNK.Contains(role)) continue;
                                         rolesChosen.Remove(role);
                                         AllNKPlayers.Remove(player);
                                         Main.chosenNK.Add(role);
@@ -339,14 +339,9 @@ namespace TownOfHost
                                         if (role.IsShapeShifter())
                                         {
                                             if (role == CustomRoles.Egoist)
-                                            {
                                                 Main.chosenShifterRoles.Add(role);
-                                            }
                                             else
-                                            {
-                                                // Main.chosenShifterRoles.Add(role);
-                                                AssignDesyncShiftingRole(role, urself, sender);
-                                            }
+                                                AssignDesyncRole(role, urself, sender, BaseRole: RoleTypes.Shapeshifter);
                                         }
                                         else if (role is CustomRoles.CrewPostor or CustomRoles.Pirate)
                                             Main.chosenNonNK.Add(role);
@@ -373,6 +368,9 @@ namespace TownOfHost
 
                             if (RoleGoingInList(CustomRoles.Executioner))
                                 rolesChosenNon.Add(CustomRoles.Executioner);
+
+                            if (RoleGoingInList(CustomRoles.Swapper))
+                                rolesChosenNon.Add(CustomRoles.Swapper);
 
                             if (RoleGoingInList(CustomRoles.GuardianAngelTOU))
                                 rolesChosenNon.Add(CustomRoles.GuardianAngelTOU);
@@ -404,9 +402,7 @@ namespace TownOfHost
                                         rolesChosenNon.Remove(role);
                                         AllnonNKPlayers.Remove(player);
                                         if (role.IsEngineer())
-                                        {
                                             Main.chosenEngiRoles.Add(role);
-                                        }
                                         else
                                             Main.chosenNonNK.Add(role);
                                     }
@@ -870,15 +866,19 @@ namespace TownOfHost
                         case CustomRoles.Survivor:
                             Main.SurvivorStuff.Add(pc.PlayerId, (0, false, false, false, true));
                             break;
+                        case CustomRoles.Swapper:
                         case CustomRoles.Executioner:
                             List<PlayerControl> targetList = new();
                             rand = new System.Random();
                             foreach (var target in PlayerControl.AllPlayerControls)
                             {
                                 if (pc == target) continue;
-                                else if (!Options.ExecutionerCanTargetImpostor.GetBool() && target.GetCustomRole().IsImpostor()) continue;
-                                else if (target.GetCustomRole().IsNeutral()) continue;
-                                else if (pc.Is(CustomRoles.Phantom)) continue;
+                                if (!Options.ExecutionerCanTargetImpostor.GetBool() && target.GetCustomRole().IsImpostor() | target.GetCustomRole().IsMadmate()) continue;
+                                if (target.GetCustomRole().IsNeutral()) continue;
+                                if (target.GetCustomRole().IsCoven()) continue;
+                                if (target.Is(CustomRoles.Phantom)) continue;
+                                if (Main.ExecutionerTarget.ContainsValue(target.PlayerId)) continue;
+                                if (target.Is(CustomRoles.GM) || target == null || target.Data.IsDead || target.Data.Disconnected) continue;
 
                                 targetList.Add(target);
                             }

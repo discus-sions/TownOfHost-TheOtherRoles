@@ -92,6 +92,7 @@ namespace TownOfHost
                 CustomRoles.Jester => NEareRed.GetBool(),
                 CustomRoles.Terrorist => TerroIsRed.GetBool(),
                 CustomRoles.Executioner => NEareRed.GetBool(),
+                CustomRoles.Swapper => NEareRed.GetBool(),
                 CustomRoles.Opportunist => NBareRed.GetBool(),
                 CustomRoles.Survivor => NBareRed.GetBool(),
                 CustomRoles.Arsonist => NKareRed.GetBool(),

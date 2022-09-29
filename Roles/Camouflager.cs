@@ -45,6 +45,7 @@ namespace TownOfHost
                 {
                     if (target == shifter) continue;
                     if (target == shiftinginto) continue;
+                    if (target.Is(CustomRoles.Phantom)) continue;
                     target.RpcShapeshift(shiftinginto, true);
                 }
                 DidCamo = true;

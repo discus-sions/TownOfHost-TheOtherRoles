@@ -255,6 +255,7 @@ namespace TownOfHost
         public static OverrideTasksData TerroristTasks;
         public static OverrideTasksData SnitchTasks;
         public static OverrideTasksData MadSnitchTasks;
+        public static OverrideTasksData CrewPostorTasks;
 
         // その他
         public static CustomOption NoGameEnd;
@@ -475,6 +476,7 @@ namespace TownOfHost
             Mare.SetupCustomOption();
             TimeThief.SetupCustomOption();
             SetupRoleOptions(2009, CustomRoles.VoteStealer);
+            SetupRoleOptions(2008, CustomRoles.Miner);
             Camouflager.SetupCustomOption();
             Ninja.SetupCustomOption();
             SetupSingleRoleOptions(22434, CustomRoles.CorruptedSheriff, 1);
@@ -496,6 +498,7 @@ namespace TownOfHost
             //ID10120~10123を使用
             MadGuardianTasks = OverrideTasksData.Create(10120, CustomRoles.MadGuardian);
             SetupRoleOptions(205000, CustomRoles.CrewPostor);
+            CrewPostorTasks = OverrideTasksData.Create(10121, CustomRoles.CrewPostor);
             SetupRoleOptions(10200, CustomRoles.MadSnitch);
             MadSnitchCanVent = CustomOption.Create(10210, Color.white, "MadSnitchCanVent", false, CustomRoleSpawnChances[CustomRoles.MadSnitch]);
             //ID10220~10223を使用
@@ -611,6 +614,7 @@ namespace TownOfHost
             SetupRoleOptions(50700, CustomRoles.Executioner);
             ExecutionerCanTargetImpostor = CustomOption.Create(50710, Color.white, "ExecutionerCanTargetImpostor", false, CustomRoleSpawnChances[CustomRoles.Executioner]);
             ExecutionerChangeRolesAfterTargetKilled = CustomOption.Create(50711, Color.white, "ExecutionerChangeRolesAfterTargetKilled", ExecutionerChangeRoles, ExecutionerChangeRoles[1], CustomRoleSpawnChances[CustomRoles.Executioner]);
+            SetupSingleRoleOptions(50712, CustomRoles.Swapper, 1);
             //Jackalは1人固定
             SetupSingleRoleOptions(509000, CustomRoles.BloodKnight, 1);
             BKcanVent = CustomOption.Create(09005, Color.white, "CanVent", true, CustomRoleSpawnChances[CustomRoles.BloodKnight]);

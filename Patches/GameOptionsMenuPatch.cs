@@ -50,7 +50,7 @@ namespace TownOfHost
                     .FindChild("GameGroup")
                     .FindChild("Text")
                     .GetComponent<TMPro.TextMeshPro>()
-                    .SetText("TownOfHost Settings");
+                    .SetText("TownOfHost TheOtherRoles Settings");
 
                 return;
             }

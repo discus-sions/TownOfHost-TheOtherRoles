@@ -417,6 +417,7 @@ namespace TownOfHost
                 { CustomRoles.BloodKnight,"bk"},
                 { CustomRoles.Egoist, "eg" },
                 { CustomRoles.Executioner, "exe" },
+                { CustomRoles.Swapper, "sw" },
                 { CustomRoles.Jester, "je" },
                 { CustomRoles.Phantom, "ph" },
                 { CustomRoles.Opportunist, "op" },
@@ -562,6 +563,7 @@ namespace TownOfHost
                 { CustomRoles.BloodKnight,"bk"},
                 { CustomRoles.Egoist, "eg" },
                 { CustomRoles.Executioner, "exe" },
+                { CustomRoles.Swapper, "sw" },
                 { CustomRoles.Jester, "je" },
                 { CustomRoles.Phantom, "ph" },
                 { CustomRoles.Opportunist, "op" },
@@ -622,141 +624,6 @@ namespace TownOfHost
 
                 //Utils.SendMessage("Sorry, the current role you tried to search up was not inside our databse. Either you misspelled it, or its not there.", playerId);
             }
-            //msg += rolemsg;
-            //Utils.SendMessage(msg);
-        }
-        public static void myRole(byte playerId = 0xff)
-        {
-            if (GameStates.IsInGame || GameStates.IsMeeting)
-            {
-                var roleList = new Dictionary<CustomRoles, string>
-            {
-                //GM
-                { CustomRoles.GM, "gm" },
-                //Impostor役職
-                { (CustomRoles)(-1), $"== {GetString("Impostor")} ==" }, //区切り用
-                { CustomRoles.BountyHunter, "bo" },
-                { CustomRoles.FireWorks, "fw" },
-                { CustomRoles.Mare, "ma" },
-                { CustomRoles.Mafia, "mf" },
-                { CustomRoles.SerialKiller, "sk" },
-                //{ CustomRoles.ShapeMaster, "sha" },
-                { CustomRoles.TimeThief, "tt"},
-                { CustomRoles.VoteStealer, "vs"},
-                { CustomRoles.Sniper, "snp" },
-                { CustomRoles.Puppeteer, "pup" },
-                { CustomRoles.Vampire, "va" },
-                { CustomRoles.Warlock, "wa" },
-                { CustomRoles.Witch, "wi" },
-                { CustomRoles.Silencer, "si" },
-                { CustomRoles.Ninja,"ni"},
-                { CustomRoles.Miner,"mi"},
-                { CustomRoles.YingYanger,"yy"},
-                { CustomRoles.Camouflager,"cf"},
-                { CustomRoles.CorruptedSheriff, "csh" },
-                { CustomRoles.Grenadier,"gr"},
-                //Madmate役職
-                { (CustomRoles)(-2), $"== {GetString("Madmate")} ==" }, //区切り用
-                { CustomRoles.MadGuardian, "mg" },
-                { CustomRoles.Madmate, "mm" },
-                { CustomRoles.MadSnitch, "msn" },
-                { CustomRoles.SKMadmate, "sm" },
-                { CustomRoles.Parasite, "pa" },
-                //両陣営役職
-                { (CustomRoles)(-3), $"== {GetString("Impostor")} or {GetString("Crewmate")} ==" }, //区切り用
-                { CustomRoles.Watcher, "wat" },
-                {CustomRoles.Guesser, "gue"},
-                { CustomRoles.CrewPostor, "cp" },
-                {CustomRoles.NiceGuesser, "ng"},
-                {CustomRoles.EvilGuesser, "eg"},
-                {CustomRoles.Pirate, "pi"},
-                //Crewmate役職
-                { (CustomRoles)(-4), $"== {GetString("Crewmate")} ==" }, //区切り用
-                { CustomRoles.Dictator, "dic" },
-                { CustomRoles.Child, "cd" },
-                { CustomRoles.Medium, "med" },
-                { CustomRoles.Psychic, "psy" },
-                { CustomRoles.Doctor, "doc" },
-                { CustomRoles.Lighter, "li" },
-                { CustomRoles.Mayor, "my" },
-                { CustomRoles.Veteran, "vet" },
-                { CustomRoles.SabotageMaster, "sa" },
-                { CustomRoles.Sheriff, "sh" },
-                { CustomRoles.Investigator, "inve" },
-                { CustomRoles.Mystic,"my"},
-                { CustomRoles.Snitch, "sn" },
-                { CustomRoles.SpeedBooster, "sb" },
-                { CustomRoles.Trapper, "tra" },
-                { CustomRoles.Bastion, "bas"},
-                { CustomRoles.Demolitionist, "demo"},
-                //Neutral役職
-                { (CustomRoles)(-5), $"== {GetString("Neutral")} ==" }, //区切り用
-                { CustomRoles.Arsonist, "ar" },
-                { CustomRoles.BloodKnight,"bk"},
-                { CustomRoles.Egoist, "eg" },
-                { CustomRoles.Executioner, "exe" },
-                { CustomRoles.Jester, "je" },
-                { CustomRoles.Phantom, "ph" },
-                { CustomRoles.Opportunist, "op" },
-                { CustomRoles.Survivor, "sur" },
-                { CustomRoles.SchrodingerCat, "sc" },
-                { CustomRoles.Terrorist, "te" },
-                { CustomRoles.Jackal, "jac" },
-                { CustomRoles.Marksman, "mar" },
-                { CustomRoles.Sidekick, "jacsk" },
-                //{ CustomRoles.Juggernaut, "jn"},
-                { CustomRoles.PlagueBearer, "pb" },
-                { CustomRoles.Pestilence, "pesti" },
-                { CustomRoles.Juggernaut, "jug"},
-                { CustomRoles.Vulture, "vu"},
-                { CustomRoles.Coven, "co" },
-                { CustomRoles.CovenWitch, "cw" },
-                { CustomRoles.Poisoner, "poison" },
-                { CustomRoles.HexMaster, "hm" },
-                { CustomRoles.Medusa, "med" },
-                { CustomRoles.TheGlitch, "gl" },
-                { CustomRoles.Werewolf, "ww" },
-                { CustomRoles.Amnesiac, "amne" },
-                { CustomRoles.GuardianAngelTOU, "ga" },
-                { CustomRoles.Hacker, "hac" },
-                //Sub役職
-                { (CustomRoles)(-6), $"== {GetString("SubRole")} ==" }, //区切り用
-                { CustomRoles.Lovers, "lo" },
-                { CustomRoles.Sleuth, "sl" },
-                { CustomRoles.Bait, "ba" },
-                { CustomRoles.Oblivious, "obl" },
-                { CustomRoles.Torch, "to" },
-                { CustomRoles.Flash, "fl" },
-                { CustomRoles.Bewilder, "be" },
-                { CustomRoles.TieBreaker, "tb" },
-                { CustomRoles.Diseased, "di" },
-                //HAS
-                { (CustomRoles)(-7), $"== {GetString("HideAndSeek")} ==" }, //区切り用
-                { CustomRoles.HASFox, "hfo" },
-                { CustomRoles.HASTroll, "htr" },
-                { CustomRoles.Supporter, "wor" },
-                { CustomRoles.Janitor, "jan" },
-                { CustomRoles.Painter, "pan" },
-
-            };
-                var msg = "";
-                var rolemsg = $"{GetString("Command.h_args")}";
-                var role = Utils.GetPlayerById(playerId).GetCustomRole().ToString();
-                foreach (var r in roleList)
-                {
-                    var roleName = r.Key.ToString();
-                    var roleShort = r.Value;
-
-                    if (String.Compare(role, roleName, true) == 0 || String.Compare(role, roleShort, true) == 0)
-                    {
-                        Utils.SendMessage(GetString(roleName) + GetString($"{roleName}InfoLong"), playerId);
-                        return;
-                    }
-
-                    // Utils.SendMessage("Sorry, your role was not inside our database currently.", playerId);
-                }
-            }
-            else Utils.SendMessage("Sorry, you can only use this command inside the game.", playerId);
             //msg += rolemsg;
             //Utils.SendMessage(msg);
         }

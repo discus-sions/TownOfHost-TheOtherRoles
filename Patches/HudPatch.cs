@@ -674,6 +674,7 @@ namespace TownOfHost
             }
         }
     }
+    [HarmonyPatch(typeof(HudManager), nameof(HudManager.Update))]
     public class KillButtonSprite
     {
         private static Sprite Alert => Main.AlertSprite;

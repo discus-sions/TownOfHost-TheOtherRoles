@@ -1229,6 +1229,16 @@ namespace TownOfHost
             if (Main.ColliderPlayers.Contains(target))
                 Main.ColliderPlayers.Remove(target);
 
+            if (target.Is(CustomRoles.Camouflager) && Main.CheckShapeshift[target.PlayerId])
+            {
+                Logger.Info($"Camouflager Revert ShapeShift", "Camouflager");
+                foreach (PlayerControl revert in PlayerControl.AllPlayerControls)
+                {
+                    if (revert.Is(CustomRoles.Phantom) || revert == null || revert.Data.IsDead || revert.Data.Disconnected || revert == target) continue;
+                    revert.RpcRevertShapeshift(true);
+                }
+                Camouflager.DidCamo = false;
+            }
             foreach (var pc in PlayerControl.AllPlayerControls)
             {
                 if (pc.Data.Disconnected) continue;
@@ -1241,6 +1251,24 @@ namespace TownOfHost
                 }
             }
             FixedUpdatePatch.LoversSuicide(target.PlayerId);
+            if (Main.LoversPlayers.Contains(target))
+            {
+                Main.LoversPlayers.Remove(target);
+                Main.isLoversDead = true;
+                if (Options.LoversDieTogether.GetBool())
+                {
+                    foreach (var lp in Main.LoversPlayers)
+                    {
+                        if (!lp.Is(CustomRoles.Pestilence))
+                        {
+                            lp.RpcMurderPlayer(lp);
+                            PlayerState.SetDeathReason(lp.PlayerId, PlayerState.DeathReason.LoversSuicide);
+                        }
+                        Main.LoversPlayers.Remove(lp);
+                    }
+                }
+            }
+
 
             PlayerState.SetDead(target.PlayerId);
             Utils.CountAliveImpostors();
@@ -1283,7 +1311,9 @@ namespace TownOfHost
                         var min = cpdistance.OrderBy(c => c.Value).FirstOrDefault();//一番小さい値を取り出す
                         PlayerControl targetw = min.Key;
                         Logger.Info($"{targetw.GetNameWithRole()}was killed", "Warlock");
-                        if (target.Is(CustomRoles.Pestilence))
+                        if (targetw.Is(CustomRoles.Warlock) && Main.VetIsAlerted)
+                            targetw.RpcMurderPlayer(shapeshifter);
+                        else if (target.Is(CustomRoles.Pestilence))
                             targetw.RpcMurderPlayerV2(cp);
                         else
                         {
@@ -1304,10 +1334,15 @@ namespace TownOfHost
             {
                 if (Main.LastEnteredVent.ContainsKey(shapeshifter.PlayerId))
                 {
-                    int ventId = Main.LastEnteredVent[shapeshifter.PlayerId];
-                    shapeshifter.NetTransform.RpcSnapTo(Main.LastEnteredVentLocation[shapeshifter.PlayerId]);
-                    //shapeshifter?.MyPhysics?.RpcEnterVent(ventId);
-                    //shapeshifter.MyPhysics.
+                    int ventId = Main.LastEnteredVent[shapeshifter.PlayerId].Id;
+                    var vent = Main.LastEnteredVent[shapeshifter.PlayerId];
+                    var position = Main.LastEnteredVentLocation[shapeshifter.PlayerId];
+                    Logger.Info($"{shapeshifter.Data.PlayerName}:{position}", "MinerTeleport");
+                    Utils.TP(shapeshifter.NetTransform, new Vector2(position.x, position.y + 0.3636f));
+                    new LateTask(() =>
+                    {
+                        shapeshifter.MyPhysics.RpcEnterVent(ventId);
+                    }, 3f, "Miner Vent");
                 }
             }
             if (shapeshifter.CanMakeMadmate() && shapeshifting)
@@ -1331,6 +1366,8 @@ namespace TownOfHost
                         targetm.RpcSetCustomRole(CustomRoles.CorruptedSheriff);
                     else if (targetm.Is(CustomRoles.Investigator))
                         targetm.RpcSetCustomRole(CustomRoles.CorruptedSheriff);
+                    else if (targetm.Is(CustomRoles.Veteran) && Main.VetIsAlerted)
+                        targetm.RpcMurderPlayer(shapeshifter);
                     else
                         targetm.RpcSetCustomRole(CustomRoles.SKMadmate);
                     Logger.Info($"Make SKMadmate:{targetm.name}", "Shapeshift");
@@ -2057,7 +2094,7 @@ namespace TownOfHost
                     }
                 }*/
 
-                if (GameStates.IsInGame) LoversSuicide();
+                //if (GameStates.IsInGame) LoversSuicide();
 
                 if (GameStates.IsInTask && Main.ArsonistTimer.ContainsKey(player.PlayerId))//アーソニストが誰かを塗っているとき
                 {
@@ -2910,10 +2947,10 @@ namespace TownOfHost
                 bool skipCheck = false;
                 if (Main.LastEnteredVent.ContainsKey(pc.PlayerId))
                     Main.LastEnteredVent.Remove(pc.PlayerId);
-                Main.LastEnteredVent.Add(pc.PlayerId, __instance.Id);
+                Main.LastEnteredVent.Add(pc.PlayerId, __instance);
                 if (Main.LastEnteredVentLocation.ContainsKey(pc.PlayerId))
                     Main.LastEnteredVentLocation.Remove(pc.PlayerId);
-                Main.LastEnteredVentLocation.Add(pc.PlayerId, pc.transform.position);
+                Main.LastEnteredVentLocation.Add(pc.PlayerId, pc.GetTruePosition());
                 if (Options.CurrentGameMode() == CustomGameMode.HideAndSeek)
                     if (Options.SplatoonOn.GetBool())
                     {

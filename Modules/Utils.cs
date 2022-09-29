@@ -750,6 +750,15 @@ namespace TownOfHost
                     return body;
             return null;
         }
+
+        public static void TP(CustomNetworkTransform nt, Vector2 location)
+        {
+            if (AmongUsClient.Instance.AmHost) nt.SnapTo(location);
+            MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(nt.NetId, (byte)RpcCalls.SnapTo, SendOption.None);
+            nt.WriteVector2(location, writer);
+            writer.Write(nt.lastSequenceId);
+            AmongUsClient.Instance.FinishRpcImmediately(writer);
+        }
         public static void NotifyRoles(bool isMeeting = false, PlayerControl SpecifySeer = null, bool NoCache = false, bool ForceLoop = false)
         {
             if (!AmongUsClient.Instance.AmHost) return;

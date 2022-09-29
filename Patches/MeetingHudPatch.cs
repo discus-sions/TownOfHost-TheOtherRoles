@@ -112,7 +112,7 @@ namespace TownOfHost
                             });
                         }
                     }
-                    if (IsEvilMayor(ps.VotedFor))//Mayorの投票数
+                    if (IsEvilMayor(ps.TargetPlayerId))//Mayorの投票数
                     {
                         for (var i2 = 0; i2 < Main.MayorUsedButtonCount[ps.TargetPlayerId]; i2++)
                         {
@@ -287,14 +287,28 @@ namespace TownOfHost
                 foreach (var pc in PlayerControl.AllPlayerControls)
                 {
                     if (!AmongUsClient.Instance.AmHost) continue;
-                    if (pc.Data.Disconnected) continue;
-                    if (!pc.Is(CustomRoles.Survivor)) continue;
+                    if (pc.Data.Disconnected || pc == null || pc.Data.IsDead || !pc.Is(CustomRoles.Survivor)) continue;
                     var stuff = Main.SurvivorStuff[pc.PlayerId];
                     stuff.Item2 = false;
                     stuff.Item3 = false;
                     stuff.Item4 = false;
                     stuff.Item5 = false;
                     Main.SurvivorStuff[pc.PlayerId] = stuff;
+                }
+
+                foreach (var camo in PlayerControl.AllPlayerControls)
+                {
+                    if (!AmongUsClient.Instance.AmHost || camo.Data.Disconnected || camo == null || camo.Data.IsDead || !camo.Is(CustomRoles.Camouflager)) continue;
+                    if (Camouflager.DidCamo)
+                    {
+                        Logger.Info($"Camouflager Revert ShapeShift", "Camouflager");
+                        foreach (PlayerControl revert in PlayerControl.AllPlayerControls)
+                        {
+                            if (revert.Is(CustomRoles.Phantom) || revert == null || revert.Data.IsDead || revert.Data.Disconnected || revert == camo) continue;
+                            revert.RpcRevertShapeshift(true);
+                        }
+                        Camouflager.DidCamo = false;
+                    }
                 }
                 Main.SpelledPlayer.Clear();
                 Main.SilencedPlayer.Clear();
@@ -306,8 +320,17 @@ namespace TownOfHost
 
                 if (CustomRoles.LoversRecode.IsEnable() && Main.isLoversDead == false && Main.LoversPlayers.Find(lp => lp.PlayerId == exileId) != null)
                 {
+                    Main.LoversPlayers.Remove(exiledPlayer.Object);
+                    Main.isLoversDead = true;
                     if (Options.LoversDieTogether.GetBool())
-                        FixedUpdatePatch.LoversSuicide(exiledPlayer.PlayerId, true);
+                    {
+                        foreach (var lp in Main.LoversPlayers)
+                        {
+                            if (!Main.AfterMeetingDeathPlayers.ContainsKey(lp.PlayerId))
+                                Main.AfterMeetingDeathPlayers.Add(lp.PlayerId, PlayerState.DeathReason.LoversSuicide);
+                            Main.LoversPlayers.Remove(lp);
+                        }
+                    }
                 }
 
                 //霊界用暗転バグ対処

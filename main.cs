@@ -24,7 +24,7 @@ namespace TownOfHost
     {
         //Sorry for many Japanese comments.
         public const string PluginGuid = "com.emptybottle.townofhost";
-        public const string PluginVersion = "0.8.4";
+        public const string PluginVersion = "0.9";
         public Harmony Harmony { get; } = new Harmony(PluginGuid);
         public static Version version = Version.Parse(PluginVersion);
         public static BepInEx.Logging.ManualLogSource Logger;
@@ -105,7 +105,7 @@ namespace TownOfHost
         public static Dictionary<byte, byte> SpeedBoostTarget = new();
         public static Dictionary<byte, int> MayorUsedButtonCount = new();
         public static Dictionary<byte, int> HackerFixedSaboCount = new();
-        public static Dictionary<byte, int> LastEnteredVent = new();
+        public static Dictionary<byte, Vent> LastEnteredVent = new();
         public static Dictionary<byte, Vector2> LastEnteredVentLocation = new();
         public static int AliveImpostorCount;
         public static int AllImpostorCount;
@@ -280,7 +280,7 @@ namespace TownOfHost
             GuardianAngelTarget = new Dictionary<byte, byte>();
             MayorUsedButtonCount = new Dictionary<byte, int>();
             HackerFixedSaboCount = new Dictionary<byte, int>();
-            LastEnteredVent = new Dictionary<byte, int>();
+            LastEnteredVent = new Dictionary<byte, Vent>();
             LastEnteredVentLocation = new Dictionary<byte, Vector2>();
             HasModifier = new Dictionary<byte, CustomRoles>();
             // /DeadPlayersThisRound = new List<byte>();
@@ -334,19 +334,19 @@ namespace TownOfHost
             JackalDied = false;
             LastVotedPlayer = "";
             bkProtected = false;
-            AlertSprite = Helpers.LoadSpriteFromResources("TownOfHost.Resources.Alert.png", 100f);
-            DouseSprite = Helpers.LoadSpriteFromResources("TownOfHost.Resources.Doused.png", 100f);
-            HackSprite = Helpers.LoadSpriteFromResources("TownOfHost.Resources.Hack.png", 100f);
-            IgniteSprite = Helpers.LoadSpriteFromResources("TownOfHost.Resources.Ignite.png", 100f);
-            InfectSprite = Helpers.LoadSpriteFromResources("TownOfHost.Resources.Infect.png", 100f);
-            MimicSprite = Helpers.LoadSpriteFromResources("TownOfHost.Resources.Mimic.png", 100f);
-            PoisonSprite = Helpers.LoadSpriteFromResources("TownOfHost.Resources.Poison.png", 100f);
-            ProtectSprite = Helpers.LoadSpriteFromResources("TownOfHost.Resources.Protect.png", 100f);
-            RampageSprite = Helpers.LoadSpriteFromResources("TownOfHost.Resources.Rampage.png", 100f);
-            RememberSprite = Helpers.LoadSpriteFromResources("TownOfHost.Resources.Remember.png", 100f);
-            SeerSprite = Helpers.LoadSpriteFromResources("TownOfHost.Resources.Seer.png", 100f);
-            SheriffSprite = Helpers.LoadSpriteFromResources("TownOfHost.Resources.Sheriff.png", 100f);
-            VestSprite = Helpers.LoadSpriteFromResources("TownOfHost.Resources.Vest.png", 100f);
+            AlertSprite = Helpers.LoadSpriteFromResourcesTOR("TownOfHost.Resources.Alert.png", 100f);
+            DouseSprite = Helpers.LoadSpriteFromResourcesTOR("TownOfHost.Resources.Doused.png", 100f);
+            HackSprite = Helpers.LoadSpriteFromResourcesTOR("TownOfHost.Resources.Hack.png", 100f);
+            IgniteSprite = Helpers.LoadSpriteFromResourcesTOR("TownOfHost.Resources.Ignite.png", 100f);
+            InfectSprite = Helpers.LoadSpriteFromResourcesTOR("TownOfHost.Resources.Infect.png", 100f);
+            MimicSprite = Helpers.LoadSpriteFromResourcesTOR("TownOfHost.Resources.Mimic.png", 100f);
+            PoisonSprite = Helpers.LoadSpriteFromResourcesTOR("TownOfHost.Resources.Poison.png", 100f);
+            ProtectSprite = Helpers.LoadSpriteFromResourcesTOR("TownOfHost.Resources.Protect.png", 100f);
+            RampageSprite = Helpers.LoadSpriteFromResourcesTOR("TownOfHost.Resources.Rampage.png", 100f);
+            RememberSprite = Helpers.LoadSpriteFromResourcesTOR("TownOfHost.Resources.Remember.png", 100f);
+            SeerSprite = Helpers.LoadSpriteFromResourcesTOR("TownOfHost.Resources.Seer.png", 100f);
+            SheriffSprite = Helpers.LoadSpriteFromResourcesTOR("TownOfHost.Resources.Sheriff.png", 100f);
+            VestSprite = Helpers.LoadSpriteFromResourcesTOR("TownOfHost.Resources.Vest.png", 100f);
 
             // OTHER//
 
@@ -359,7 +359,7 @@ namespace TownOfHost
             IgnoreWinnerCommand = Config.Bind("Other", "IgnoreWinnerCommand", true);
             WebhookURL = Config.Bind("Other", "WebhookURL", "none");
             AmDebugger = Config.Bind("Other", "AmDebugger", true);
-            AmDebugger.Value = true;
+            AmDebugger.Value = false;
             ShowPopUpVersion = Config.Bind("Other", "ShowPopUpVersion", "0");
             MessageWait = Config.Bind("Other", "MessageWait", 1);
             LastKillCooldown = Config.Bind("Other", "LastKillCooldown", (float)30);
@@ -404,7 +404,8 @@ namespace TownOfHost
                     { CustomRoles.Lighter, "#eee5be"},
                     { CustomRoles.SpeedBooster, "#00ffff"},
                     { CustomRoles.Mystic, "#4D99E6"},
-                    { CustomRoles.Swapper, "#4D99E6"},
+                    { CustomRoles.Swapper, "#66E666"},
+                    { CustomRoles.Transporter, "#00EEFF"},
                     { CustomRoles.Doctor, "#80ffdd"},
                     { CustomRoles.Child, "#FFFFFF"},
                     { CustomRoles.Trapper, "#5a8fd0"},
@@ -477,6 +478,7 @@ namespace TownOfHost
                     { CustomRoles.sns7, "#EA7BF7"},
                     { CustomRoles.sns8, "#E763F9"},
                     { CustomRoles.rosecolor, "#FFD6EC"},
+                    { CustomRoles.eevee, "#FF8D1C"},
                 };
                 foreach (var role in Enum.GetValues(typeof(CustomRoles)).Cast<CustomRoles>())
                 {
@@ -621,6 +623,7 @@ namespace TownOfHost
         Sheriff,
         Investigator,
         Snitch,
+        Transporter,
         SpeedBooster,
         Trapper,
         Dictator,
@@ -710,7 +713,8 @@ namespace TownOfHost
         sns6,
         sns7,
         sns8,
-        rosecolor
+        rosecolor,
+        eevee
     }
     //WinData
     public enum CustomWinner
@@ -731,6 +735,7 @@ namespace TownOfHost
         Pestilence = CustomRoles.Pestilence,
         Jackal = CustomRoles.Jackal,
         Juggernaut = CustomRoles.Juggernaut,
+        Swapper = CustomRoles.Swapper,
         HASTroll = CustomRoles.HASTroll,
         Phantom = CustomRoles.Phantom,
         Coven = CustomRoles.Coven,

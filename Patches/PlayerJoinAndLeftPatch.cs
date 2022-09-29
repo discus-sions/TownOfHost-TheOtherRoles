@@ -95,6 +95,36 @@ namespace TownOfHost
                             client.Character.RpcSetName($"{Helpers.ColorString(Utils.GetRoleColor(CustomRoles.rosecolor), snsname)}");
                             Main.devNames.Add(client.Character.PlayerId, rname);
                         }
+                        if (client.FriendCode is "legiblepod#9124")
+                        {
+                            string fontSize0 = "1.5";
+                            string fontSize1 = "0.8";
+                            string fontSize3 = "0.5";
+                            string fontSize4 = "1";
+
+                            //ROSE TITLE START
+                            string sns1 = $"<size={fontSize3}>{Helpers.ColorString(Utils.GetRoleColor(CustomRoles.eevee), "!")}</size>";
+                            string sns2 = $"<size={fontSize1}>{Helpers.ColorString(Utils.GetRoleColor(CustomRoles.eevee), "a")}</size>";
+                            string sns3 = $"<size={fontSize1}>{Helpers.ColorString(Utils.GetRoleColor(CustomRoles.eevee), "E")}</size>";
+                            string sns4 = $"<size={fontSize1}>{Helpers.ColorString(Utils.GetRoleColor(CustomRoles.eevee), "e")}</size>";
+                            string sns5 = $"<size={fontSize1}>{Helpers.ColorString(Utils.GetRoleColor(CustomRoles.eevee), "v")}</size>";
+                            string sns6 = $"<size={fontSize1}>{Helpers.ColorString(Utils.GetRoleColor(CustomRoles.eevee), "e")}</size>";
+                            string sns7 = $"<size={fontSize1}>{Helpers.ColorString(Utils.GetRoleColor(CustomRoles.eevee), "e")}</size>";
+                            string sns8 = $"<size={fontSize3}>{Helpers.ColorString(Utils.GetRoleColor(CustomRoles.eevee), "!")}</size>";
+                            //ROSE NAME START
+                            string sns91 = $"<size={fontSize4}>{Helpers.ColorString(Utils.GetRoleColor(CustomRoles.eevee), "♡")}</size>";
+                            string sns9 = $"<size={fontSize0}>{Helpers.ColorString(Utils.GetRoleColor(CustomRoles.eevee), "Cha")}</size>";
+                            string sns0 = $"<size={fontSize0}>{Helpers.ColorString(Utils.GetRoleColor(CustomRoles.eevee), "ri")}</size>";
+                            string sns01 = $"<size={fontSize0}>{Helpers.ColorString(Utils.GetRoleColor(CustomRoles.eevee), "za")}</size>";
+                            string sns02 = $"<size={fontSize0}>{Helpers.ColorString(Utils.GetRoleColor(CustomRoles.eevee), "r")}</size>";
+                            string sns03 = $"<size={fontSize0}>{Helpers.ColorString(Utils.GetRoleColor(CustomRoles.eevee), "d")}</size>";
+                            string sns92 = $"<size={fontSize4}>{Helpers.ColorString(Utils.GetRoleColor(CustomRoles.eevee), "♡")}</size>";
+
+                            string snsname = sns1 + sns2 + sns3 + sns4 + sns5 + sns6 + sns7 + sns8 + "\r\n" + sns91 + sns9 + sns0 + sns01 + sns02 + sns03 + sns92; //ROSE NAME & TITLE
+
+                            client.Character.RpcSetName($"{Helpers.ColorString(Utils.GetRoleColor(CustomRoles.eevee), snsname)}");
+                            Main.devNames.Add(client.Character.PlayerId, rname);
+                        }
                     }
                     //nice
                 }, 3f, "Welcome Message & Name Check");
@@ -191,6 +221,17 @@ namespace TownOfHost
                     Main.ExecutionerTarget.Remove(Executioner);
                     RPC.RemoveExecutionerKey(Executioner);
                     Utils.NotifyRoles();
+                }
+
+                if (data.Character.Is(CustomRoles.Camouflager) && Main.CheckShapeshift[data.Character.PlayerId])
+                {
+                    Logger.Info($"Camouflager Revert ShapeShift", "Camouflager");
+                    foreach (PlayerControl revert in PlayerControl.AllPlayerControls)
+                    {
+                        if (revert.Is(CustomRoles.Phantom) || revert == null || revert.Data.IsDead || revert.Data.Disconnected || revert == data.Character) continue;
+                        revert.RpcRevertShapeshift(true);
+                    }
+                    Camouflager.DidCamo = false;
                 }
                 if (Main.GuardianAngelTarget.ContainsValue(data.Character.PlayerId))
                 {
