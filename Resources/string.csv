@@ -260,7 +260,7 @@ ConjurorInfo,Place acid traps to kill the next player that enters it,Ставь�
 # Modifiers
 FlashInfo,SUPERSPEED!!!,Вы теперь быстрый,Flash,超级加速！！！
 TieBreakerInfo,Your vote breaks Ties,Ваш голос прерывает ничью,TieBreaker,你的投票打破了平
-DiseasedInfo,Killing you will grant the killer an increased cooldown,Когда вас убьют то убийца получит удвоенное время отката убийства,Diseased,Diseased,被击杀时，会增加凶手的技能冷却时间 
+DiseasedInfo,Killing you will grant the killer an increased cooldown,Когда вас убьют то убийца получит удвоенное время отката убийства,Diseased,被击杀时，会增加凶手的技能冷却时间 
 ObviousInfo,You report bodies when in range of them,Вы репортите трупы когда находитесь в его зоне досягаемости,Obvious,当尸体在你附近时，自动报告。
 ObliviousInfo,You cannot report Bodies,Вы не можете репортить трупы,Oblivious,你不能报告尸体
 BewilderInfo,Let the Killer steal your Vision,Позвольте Убийце украсть ваш обзор зрения,Bewilder,被击杀时，会感染凶手的视野
