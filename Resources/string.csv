@@ -516,7 +516,7 @@ SA,Hacker Sabotage Amount,Сумма Очков Саботажей,Hacker Sabota
 LaptopPercentages,Use Laptop Percentages Instead Of File,Используйте проценты ноутбука вместо файла,LaptopPercentages,配置面板显示概率非文件
 SheriffCanKillJester,Sheriff Can Kill Jester,Sheriff Может Убить Jester,シェリフがジェスターをキルできる,警长可以执法小丑,警長可以槍死小丑
 SheriffCanKillTerrorist,Sheriff Can Kill Terrorist/CrewPostor,Sheriff Может Убить Terrorist/CrewPostor,シェリフがテロリストをキルできる,警长可以执法恐怖分子/舰长,警長可以槍死恐怖分子
-SheriffCanKillExecutioner,Sheriff Can Kill Executioner,Sheriff Может Убить Executioner,シェリフがエクスキューショナーをキルできる,警长可以执法处刑人,警長可以槍死劊子手
+SheriffCanKillExecutioner,Sheriff Can Kill Executioner/Swapper,Sheriff Может Убить Executioner/Swapper,シェリフがエクスキューショナーをキルできる,警长可以执法处刑人,警長可以槍死劊子手
 SheriffCanKillOpportunist,Sheriff Can Kill Opportunist/Survivor,Sheriff Может Убить Opportunist/Survivor,シェリフがオポチュニストをキルできる,警长可以执法投机者和求生者,警長可以槍死投機主義者
 SheriffCanKillMadmate,Sheriff Can Kill Madmates,Sheriff Может Убить Madmates,シェリフがマッドメイトをキルできる,警长可以执法叛徒,警長可以槍死叛徒
 SheriffCanKillEgoist,Sheriff Can Kill Egoist,Sheriff Может Убить Egoist,シェリフがエゴイストをキルできる,警长可以执法野心家,警長可以槍死利己主義者
