@@ -28,7 +28,7 @@ namespace TownOfHost
                     /*__instance.RoleBlurbText.text = PlayerControl.LocalPlayer.Is(CustomRoles.EvilGuesser) || PlayerControl.LocalPlayer.Is(CustomRoles.NiceGuesser)
                         ? GetString("GuesserInfo")
                         : GetString(role.ToString() + "Info");*/
-                    if (PlayerControl.LocalPlayer.Is(CustomRoles.Executioner))
+                    if (PlayerControl.LocalPlayer.Is(CustomRoles.Executioner) | PlayerControl.LocalPlayer.Is(CustomRoles.Swapper))
                     {
                         byte target = 0x6;
                         foreach (var player in Main.ExecutionerTarget)
@@ -36,7 +36,7 @@ namespace TownOfHost
                             if (player.Key == PlayerControl.LocalPlayer.PlayerId)
                                 target = player.Value;
                         }
-                        if (PlayerControl.LocalPlayer.Is(CustomRoles.Executioner))
+                        if (PlayerControl.LocalPlayer.Is(CustomRoles.Executioner) | PlayerControl.LocalPlayer.Is(CustomRoles.Swapper))
                             __instance.RoleBlurbText.text = "Vote " + Utils.GetPlayerById(target).GetRealName(isMeeting: true) + " Out";
                     }
                 }
@@ -181,7 +181,7 @@ namespace TownOfHost
                     __instance.TeamTitle.color = Utils.GetRoleColor(CustomRoles.Child);
                     //__instance.ImpostorText.gameObject.SetActive(true);
                     //__instance.ImpostorText.text = GetString("NeutralInfo");
-                    if (PlayerControl.LocalPlayer.Is(CustomRoles.Executioner))
+                    if (PlayerControl.LocalPlayer.Is(CustomRoles.Executioner) | PlayerControl.LocalPlayer.Is(CustomRoles.Swapper))
                     {
                         byte target = 0x6;
                         foreach (var player in Main.ExecutionerTarget)
@@ -189,7 +189,7 @@ namespace TownOfHost
                             if (player.Key == PlayerControl.LocalPlayer.PlayerId)
                                 target = player.Value;
                         }
-                        if (PlayerControl.LocalPlayer.Is(CustomRoles.Executioner))
+                        if (PlayerControl.LocalPlayer.Is(CustomRoles.Executioner) | PlayerControl.LocalPlayer.Is(CustomRoles.Swapper))
                             __instance.ImpostorText.text += "\nVote " + Utils.GetPlayerById(target).GetRealName(isMeeting: true) + " Out";
                     }
                     __instance.BackgroundBar.material.color = Utils.GetRoleColor(role);
@@ -275,6 +275,7 @@ namespace TownOfHost
                     PlayerControl.LocalPlayer.Data.Role.IntroSound = sound;
                     break;
 
+                case CustomRoles.Swapper:
                 case CustomRoles.Executioner:
                 case CustomRoles.Vampire:
                 case CustomRoles.Medusa:

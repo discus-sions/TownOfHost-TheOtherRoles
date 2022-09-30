@@ -304,6 +304,11 @@ namespace TownOfHost
         public static CustomOption CrewRolesVetted;
         public static CustomOption PestiAttacksVet;
 
+        // SWOOPER //
+        public static CustomOption SwooperDuration;
+        public static CustomOption SwooperCooldown;
+        public static CustomOption SwooperCanVentInvis;
+
         // SURVIVOR //
         public static CustomOption VestCD;
         public static CustomOption VestDuration;
@@ -483,7 +488,10 @@ namespace TownOfHost
             PlayersForTraitor = CustomOption.Create(2040030, Color.white, "TraitorSpawn", 1, 0, 15, 1, CustomRoleSpawnChances[CustomRoles.CorruptedSheriff]);
             TraitorCanSpawnIfNK = CustomOption.Create(2040031, Color.white, "TraitorCanSpawnIfNK", true, CustomRoleSpawnChances[CustomRoles.CorruptedSheriff]);
             TraitorCanSpawnIfCoven = CustomOption.Create(2040032, Color.white, "TraitorCanSpawnIfCoven", true, CustomRoleSpawnChances[CustomRoles.CorruptedSheriff]);
-            //SetupSingleRoleOptions(2600, CustomRoles.Silencer, 1);
+            //   SetupSingleRoleOptions(2600, CustomRoles.Swooper, 1);
+            //   SwooperDuration = CustomOption.Create(260010, Color.white, "SwooperDuration", 30f, 2.5f, 60f, 2.5f, CustomRoleSpawnChances[CustomRoles.Swooper]);
+            //   SwooperCooldown = CustomOption.Create(260011, Color.white, "SwooperCooldown", 15f, 2.5f, 60f, 2.5f, CustomRoleSpawnChances[CustomRoles.Swooper]);
+            // SwooperCanVentInvis = CustomOption.Create(260012, Color.white, "SwooperCanVentInvis", true, CustomRoleSpawnChances[CustomRoles.Swooper]);
             //SilenceCooldown = CustomOption.Create(2610, Color.white, "SilenceDelay", 30, 2.5f, 180, 2.5f, CustomRoleSpawnChances[CustomRoles.Silencer]);
             //SetupSingleRoleOptions(2700, CustomRoles.CorruptedSheriff, 1);
             //PlayersForTraitor = CustomOption.Create(2710, Color.white, "TraitorSpawn", 1, 0, 15, 1, CustomRoleSpawnChances[CustomRoles.CorruptedSheriff]);

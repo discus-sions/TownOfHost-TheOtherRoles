@@ -636,6 +636,88 @@ namespace TownOfHost
                 );
 
         }
+
+        public static Dictionary<List<byte>, List<byte>> GetPsychicStuff(PlayerControl seer)
+        {
+            Dictionary<List<byte>, List<byte>> Dictionary = new();
+            int numOfPsychicBad = UnityEngine.Random.RandomRange(0, 3);
+            numOfPsychicBad = Mathf.RoundToInt(numOfPsychicBad);
+            if (numOfPsychicBad > 3) // failsafe
+                numOfPsychicBad = 3;
+            List<byte> goodids = new();
+            List<byte> badids = new();
+            Dictionary<byte, bool> isGood = new();
+            if (!seer.Data.IsDead)
+            {
+                List<PlayerControl> badPlayers = new();
+                List<PlayerControl> goodPlayers = new();
+                foreach (var pc in PlayerControl.AllPlayerControls)
+                {
+                    if (pc.Data.IsDead || pc.Data.Disconnected || pc == seer || pc == null) continue;
+                    isGood.Add(pc.PlayerId, true);
+                    var role = pc.GetCustomRole();
+                    if (Options.ExeTargetShowsEvil.GetBool())
+                        if (Main.ExecutionerTarget.ContainsValue(pc.PlayerId))
+                        {
+                            badPlayers.Add(pc);
+                            isGood[pc.PlayerId] = false;
+                            continue;
+                        }
+                    switch (role)
+                    {
+                        case CustomRoles.GuardianAngelTOU:
+                            if (!Options.GAdependsOnTaregtRole.GetBool()) break;
+                            Main.GuardianAngelTarget.TryGetValue(pc.PlayerId, out var protectId);
+                            if (!Utils.GetPlayerById(protectId).GetCustomRole().IsCrewmate())
+                                badPlayers.Add(pc);
+                            break;
+                    }
+                    switch (role.GetRoleType())
+                    {
+                        case RoleType.Crewmate:
+                            if (!Options.CkshowEvil.GetBool()) break;
+                            if (role is CustomRoles.Sheriff or CustomRoles.Veteran or CustomRoles.Child or CustomRoles.Bastion or CustomRoles.Demolitionist or CustomRoles.NiceGuesser) badPlayers.Add(pc);
+                            break;
+                        case RoleType.Impostor:
+                            badPlayers.Add(pc);
+                            isGood[pc.PlayerId] = false;
+                            break;
+                        case RoleType.Neutral:
+                            if (role.IsNeutralKilling()) badPlayers.Add(pc);
+                            if (Options.NBshowEvil.GetBool())
+                                if (role is CustomRoles.Opportunist or CustomRoles.Survivor or CustomRoles.GuardianAngelTOU or CustomRoles.Amnesiac or CustomRoles.SchrodingerCat) badPlayers.Add(pc);
+                            if (Options.NEshowEvil.GetBool())
+                                if (role is CustomRoles.Jester or CustomRoles.Terrorist or CustomRoles.Executioner or CustomRoles.Swapper or CustomRoles.Hacker or CustomRoles.Vulture) badPlayers.Add(pc);
+                            break;
+                        case RoleType.Madmate:
+                            if (!Options.MadmatesAreEvil.GetBool()) break;
+                            badPlayers.Add(pc);
+                            isGood[pc.PlayerId] = false;
+                            break;
+                    }
+                    if (isGood[pc.PlayerId]) goodPlayers.Add(pc);
+                }
+                if (numOfPsychicBad < badPlayers.Count) numOfPsychicBad = badPlayers.Count;
+                int goodPeople = 3 - numOfPsychicBad;
+                for (var i = 0; i < numOfPsychicBad; i++)
+                {
+                    var rando = new System.Random();
+                    var player = badPlayers[rando.Next(0, badPlayers.Count)];
+                    badPlayers.Remove(player);
+                    badids.Add(player.PlayerId);
+                }
+                if (goodPeople != 0)
+                    for (var i = 0; i < goodPeople; i++)
+                    {
+                        var rando = new System.Random();
+                        var player = goodPlayers[rando.Next(0, goodPlayers.Count)];
+                        goodPlayers.Remove(player);
+                        goodids.Add(player.PlayerId);
+                    }
+            }
+            Dictionary.Add(badids, goodids);
+            return Dictionary;
+        }
         public static void CheckTerroristWin(GameData.PlayerInfo Terrorist)
         {
             if (!AmongUsClient.Instance.AmHost) return;
@@ -893,6 +975,13 @@ namespace TownOfHost
                     SelfSuffix = "Gazing: " + ModeLang;
                     SelfSuffix += "\nGaze Ready: " + ReadyLang;
                 }
+                if (seer.Is(CustomRoles.Swooper))
+                {
+                    var ModeLang = Main.IsInvis ? "Yes" : "No";
+                    var ReadyLang = Main.CanGoInvis ? "Yes" : "No";
+                    SelfSuffix = "Swooping: " + ModeLang;
+                    SelfSuffix += "\nSwoop Ready: " + ReadyLang;
+                }
                 if (seer.Is(CustomRoles.TheGlitch))
                 {
                     var ModeLang = Main.IsHackMode ? "Hack" : "Kill";
@@ -1036,6 +1125,7 @@ namespace TownOfHost
                     || Main.SilencedPlayer.Count > 0
                     || seer.Is(CustomRoles.GuardianAngelTOU)
                     || seer.Is(CustomRoles.Executioner)
+                    || seer.Is(CustomRoles.Swapper)
                     || seer.Is(CustomRoles.Doctor) //seerがドクター
                     || seer.Is(CustomRoles.Puppeteer)
                     || seer.Is(CustomRoles.HexMaster)
@@ -1226,86 +1316,13 @@ namespace TownOfHost
 
                         if (seer.Is(CustomRoles.Psychic) && isMeeting)
                         {
-                            int numOfPsychicBad = UnityEngine.Random.RandomRange(0, 3);
-                            numOfPsychicBad = (int)Math.Round(numOfPsychicBad + 0.1);
-                            if (numOfPsychicBad > 3) // failsafe
-                                numOfPsychicBad = 3;
+                            var psychic = GetPsychicStuff(seer);
                             List<byte> goodids = new();
                             List<byte> badids = new();
-                            if (!seer.Data.IsDead)
+                            foreach (var stuff in psychic)
                             {
-                                List<PlayerControl> badPlayers = new();
-                                List<PlayerControl> goodPlayers = new();
-                                foreach (var pc in PlayerControl.AllPlayerControls)
-                                {
-                                    if (pc.Data.IsDead || pc.Data.Disconnected || pc.PlayerId == seer.PlayerId) continue;
-                                    bool isGood = true;
-                                    var role = pc.GetCustomRole();
-                                    if (Options.ExeTargetShowsEvil.GetBool())
-                                        if (Main.ExecutionerTarget.ContainsValue(pc.PlayerId))
-                                        {
-                                            badPlayers.Add(pc);
-                                            isGood = false;
-                                            continue;
-                                        }
-                                    switch (role)
-                                    {
-                                        case CustomRoles.GuardianAngelTOU:
-                                            if (!Options.GAdependsOnTaregtRole.GetBool()) break;
-                                            Main.GuardianAngelTarget.TryGetValue(pc.PlayerId, out var protectId);
-                                            if (!GetPlayerById(protectId).GetCustomRole().IsCrewmate())
-                                                badPlayers.Add(pc);
-                                            break;
-                                    }
-                                    switch (role.GetRoleType())
-                                    {
-                                        case RoleType.Crewmate:
-                                            if (!Options.CkshowEvil.GetBool()) break;
-                                            if (role is CustomRoles.Sheriff or CustomRoles.Veteran or CustomRoles.Child or CustomRoles.Bastion or CustomRoles.Demolitionist or CustomRoles.NiceGuesser) badPlayers.Add(pc);
-                                            break;
-                                        case RoleType.Impostor:
-                                            badPlayers.Add(pc);
-                                            isGood = false;
-                                            break;
-                                        case RoleType.Neutral:
-                                            if (role.IsNeutralKilling()) badPlayers.Add(pc);
-                                            if (Options.NBshowEvil.GetBool())
-                                                if (role is CustomRoles.Opportunist or CustomRoles.Survivor or CustomRoles.GuardianAngelTOU or CustomRoles.Amnesiac or CustomRoles.SchrodingerCat) badPlayers.Add(pc);
-                                            if (Options.NEshowEvil.GetBool())
-                                                if (role is CustomRoles.Jester or CustomRoles.Terrorist or CustomRoles.Executioner or CustomRoles.Hacker or CustomRoles.Vulture) badPlayers.Add(pc);
-                                            break;
-                                        case RoleType.Madmate:
-                                            if (!Options.MadmatesAreEvil.GetBool()) break;
-                                            badPlayers.Add(pc);
-                                            isGood = false;
-                                            break;
-                                    }
-                                    List<byte> badpcids = new();
-                                    foreach (var p in badPlayers)
-                                    {
-                                        badpcids.Add(p.PlayerId);
-                                    }
-                                    if (badids.Contains(pc.PlayerId)) isGood = false;
-                                    if (isGood)
-                                        goodPlayers.Add(pc);
-                                }
-                                if (numOfPsychicBad < badPlayers.Count) numOfPsychicBad = badPlayers.Count;
-                                int goodPeople = 3 - numOfPsychicBad;
-                                for (var i = 0; i < numOfPsychicBad; i++)
-                                {
-                                    var rando = new System.Random();
-                                    var player = badPlayers[rando.Next(0, badPlayers.Count)];
-                                    badPlayers.Remove(player);
-                                    badids.Add(player.PlayerId);
-                                }
-                                if (goodPeople != 0)
-                                    for (var i = 0; i < goodPeople; i++)
-                                    {
-                                        var rando = new System.Random();
-                                        var player = goodPlayers[rando.Next(0, goodPlayers.Count)];
-                                        goodPlayers.Remove(player);
-                                        goodids.Add(player.PlayerId);
-                                    }
+                                goodids = stuff.Value;
+                                badids = stuff.Key;
                             }
                             foreach (var id in goodids)
                             {
@@ -1317,7 +1334,6 @@ namespace TownOfHost
                                 if (target.PlayerId == id)
                                     TargetPlayerName = Helpers.ColorString(GetRoleColor(CustomRoles.Impostor), TargetPlayerName);
                             }
-                            // TargetPlayerName = Helpers.ColorString(GetRoleColor(CustomRoles.Impostor), TargetPlayerName)
                         }
 
                         //ターゲットのプレイヤー名の色を書き換えます。
@@ -1436,7 +1452,7 @@ namespace TownOfHost
                         }
                         if (seer.Is(CustomRoles.YingYanger) && Main.ColliderPlayers.Contains(target))
                         {
-                            TargetPlayerName = Helpers.ColorString(Utils.GetRoleColor(CustomRoles.Target), TargetPlayerName);
+                            TargetPlayerName = Helpers.ColorString(GetRoleColor(CustomRoles.Target), TargetPlayerName);
                         }
 
                         string TargetDeathReason = "";

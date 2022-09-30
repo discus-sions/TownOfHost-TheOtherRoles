@@ -804,6 +804,7 @@ namespace TownOfHost
                         {
                             if (Main.ColliderPlayers.Count != 2)
                             {
+                                if (Main.ColliderPlayers.Contains(target)) return false;
                                 Main.ColliderPlayers.Add(target);
                                 killer.RpcGuardAndKill(target);
                                 return false;
@@ -1632,6 +1633,7 @@ namespace TownOfHost
                         case CustomRoles.Survivor:
                             Main.SurvivorStuff.Add(pc.PlayerId, (0, false, false, false, true));
                             break;
+                        case CustomRoles.Swapper:
                         case CustomRoles.Executioner:
                             List<PlayerControl> targetList = new();
                             rand = new System.Random();
@@ -2242,7 +2244,14 @@ namespace TownOfHost
                                 //RPC.PlaySoundRPC(Main.PuppeteerList[player.PlayerId], Sounds.KillSound);
                                 if (target.Is(CustomRoles.Pestilence))
                                     target.RpcMurderPlayer(player);
+                                else if (player.Is(CustomRoles.Pestilence))
+                                    player.RpcMurderPlayer(target);
+                                else if (target.Is(CustomRoles.Veteran) && Main.VetIsAlerted)
+                                    target.RpcMurderPlayer(player);
+                                else if (player.Is(CustomRoles.Veteran) && Main.VetIsAlerted)
+                                    player.RpcMurderPlayer(target);
                                 else if (player.Is(CustomRoles.Survivor)) { Utils.CheckSurvivorVest(target, player, false); }
+                                else if (target.Is(CustomRoles.Survivor)) { Utils.CheckSurvivorVest(player, target, false); }
                                 else
                                 {
                                     player.RpcMurderPlayer(target);
@@ -3060,8 +3069,65 @@ namespace TownOfHost
                 }
                 if (pc.Is(CustomRoles.Swooper))
                 {
-                    skipCheck = true;
-                    pc?.MyPhysics?.RpcBootFromVent(__instance.Id);
+                    new LateTask(() =>
+                    {
+                        if (!Main.IsInvis && Main.CanGoInvis)
+                        {
+                            skipCheck = true;
+                            pc?.MyPhysics?.RpcBootFromVent(__instance.Id);
+                            var colorid = pc.CurrentOutfit.ColorId;
+                            var visor = pc.CurrentOutfit.VisorId;
+                            var hat = pc.CurrentOutfit.HatId;
+                            var name = pc.GetRealName(true);
+                            var pet = pc.CurrentOutfit.PetId;
+                            pc.RpcSetColor(6);
+                            pc.RpcSetVisor("");
+                            pc.RpcSetHat("");
+                            pc.RpcSetName("");
+                            pc.RpcSetPet("");
+                            // Color color = Color.clear;
+                            //pc.cosmetics.currentBodySprite.BodySprite.color = color;
+                            pc.RpcShapeshift(pc, true);
+                            Main.IsInvis = true;
+                            Main.CanGoInvis = false;
+                            new LateTask(() =>
+                            {
+                                pc?.MyPhysics?.RpcBootFromVent(__instance.Id);
+                                Main.IsInvis = false;
+                                pc.RpcSetColor((byte)colorid);
+                                pc.cosmetics.currentBodySprite.BodySprite.color = Color.white;
+                                pc.RpcSetVisor(visor);
+                                pc.RpcSetHat(hat);
+                                pc.RpcSetName(name);
+                                pc.RpcSetPet(pet);
+                                pc.RpcRevertShapeshift(true);
+                                new LateTask(() =>
+                                {
+                                    Main.CanGoInvis = true;
+                                },
+                                Options.SwooperCooldown.GetFloat(), "SwooperCooldown");
+                            },
+                            Options.SwooperDuration.GetFloat(), "SwooperDuration");
+                        }
+                        else
+                        {
+                            if (Main.IsInvis)
+                            {
+                                if (!Options.SwooperCanVentInvis.GetBool())
+                                {
+                                    skipCheck = true;
+                                    pc?.MyPhysics?.RpcBootFromVent(__instance.Id);
+                                }
+                            }
+                            else
+                            {
+                                skipCheck = true;
+                                pc?.MyPhysics?.RpcBootFromVent(__instance.Id);
+                            }
+                        }
+                        Utils.NotifyRoles(NoCache: true);
+                    },
+                    0.5f, "SwooperVent");
                 }
                 /* if (pc.Is(CustomRoles.Camouflager))
                  {

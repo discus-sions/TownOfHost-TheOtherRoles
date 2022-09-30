@@ -220,6 +220,14 @@ namespace TownOfHost
                 LowerInfoText.text = stateText;
                 LowerInfoText.enabled = true;
             }
+            else if (player.Is(CustomRoles.Swooper))
+            {
+                var ModeLang = Main.IsInvis ? "Yes" : "No";
+                var ReadyLang = Main.CanGoInvis ? "Yes" : "No";
+                LowerInfoText.text = "Is Swooping: " + ModeLang;
+                LowerInfoText.text += "\nCan Swoop: " + ReadyLang;
+                LowerInfoText.enabled = true;
+            }
             else
             {
                 LowerInfoText.enabled = false;
@@ -240,7 +248,7 @@ namespace TownOfHost
                 {
                     if (player.Is(CustomRoles.Pirate))
                         TaskTextPrefix += Helpers.ColorString(player.GetRoleColor(), $"Successfully plunder {Guesser.PirateGuessAmount.GetInt()} players.");
-                    else if (player.Is(CustomRoles.Executioner))
+                    else if (player.Is(CustomRoles.Executioner) | player.Is(CustomRoles.Swapper))
                     {
                         byte target = 0x6;
                         foreach (var playere in Main.ExecutionerTarget)

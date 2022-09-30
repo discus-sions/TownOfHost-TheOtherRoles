@@ -484,6 +484,9 @@ MadSnitchTasks,MadSnitch Tasks,Задания MadSnitch,マッドスニッチの
 MadGuardianCanSeeWhoTriedToKill,MadGuardian Can See Who Tried To Kill,MadGuardian Видит Кто Пытался Его Убить,マッドガーディアンが自身の殺害未遂者を知ることができる,背叛的守卫可以得知谁试图伤害自己,背叛天使可以看到是誰嘗試殺害自己
 ChildKnown,Child is Known to Everyone,Все игроки знают кто Child,Child is Known to Everyone,所有人都知道谁是小孩
 JesterVent,Jester Can Vent,Jester Может Вентоваться,Jester Can Vent,小丑可以使用管道
+SwooperCanVentInvis,Swooper can Vent Invisible,SwooperCanVentInvis,SwooperCanVentInvis,SwooperCanVentInvis
+SwooperCooldown,Swoop Cooldown,SwooperCooldown,SwooperCooldown,SwooperCooldown,SwooperCooldown
+SwooperDuration,Swoop Duration,SwooperDuration,SwooperDuration,SwooperDuration,SwooperDuration
 CamouflagerCanVent,Camouflager Can Vent,Camouflager Может Вентоваться,CamouflagerCanVent,伪装师可以使用管道,CamouflagerCanVent
 JesterHasImpostorVision,Jester Has Impostor Vision,Jester Имеет Дальность Обзора Предателя,JesterHasImpostorVision,小丑拥有内鬼视野
 MadmateCanFixLightsOut,Madmates Can Fix Lights Out,Madmates Может Чинить Свет,マッドメイト系役職が停電を直すことができる,叛徒职业可以修理配电,叛徒職業的玩家可以修理電燈

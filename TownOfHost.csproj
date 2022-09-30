@@ -4,7 +4,7 @@
     <TargetFramework>netstandard2.1</TargetFramework>
     <GenerateAssemblyFileVersionAttribute>false</GenerateAssemblyFileVersionAttribute>
     <GenerateAssemblyInformationalVersionAttribute>false</GenerateAssemblyInformationalVersionAttribute>
-    <Description>Town Of Host Unofficial</Description>
+    <Description>Town Of Host The Other Roles</Description>
     <Authors>Dicussions</Authors>
     <langVersion>preview</langVersion>
   </PropertyGroup>

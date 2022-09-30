@@ -278,6 +278,56 @@ namespace TownOfHost
             Utils.SendMessage(text, target.PlayerId);
         }
 
+        public static bool hidePlayerName(PlayerControl source, PlayerControl target)
+        {
+            if (Camouflager.DidCamo) return true; // No names are visible
+            else if (target.Is(CustomRoles.Swooper) && Main.IsInvis) return true;
+            else if (source == null || target == null) return true;
+            else if (source == target) return false; // Player sees his own name
+            return true;
+        }
+
+        public static string GetDeathReason(this PlayerControl player) =>
+            PlayerState.isDead[player.PlayerId] ? GetString("DeathReason." + PlayerState.GetDeathReason(player.PlayerId)) : GetString("Alive");
+
+        public static void setDefaultLook(this PlayerControl target)
+        {
+            target.setLook(target.Data.PlayerName, target.Data.DefaultOutfit.ColorId, target.Data.DefaultOutfit.HatId, target.Data.DefaultOutfit.VisorId, target.Data.DefaultOutfit.SkinId, target.Data.DefaultOutfit.PetId);
+        }
+
+        public static void setLook(this PlayerControl target, String playerName, int colorId, string hatId, string visorId, string skinId, string petId)
+        {
+            target.RawSetColor(colorId);
+            target.RawSetVisor(visorId, colorId);
+            target.RawSetHat(hatId, colorId);
+            target.RawSetName(hidePlayerName(PlayerControl.LocalPlayer, target) ? "" : playerName);
+
+            SkinViewData nextSkin = DestroyableSingleton<HatManager>.Instance.GetSkinById(skinId).viewData.viewData;
+            PlayerPhysics playerPhysics = target.MyPhysics;
+            AnimationClip clip = null;
+            var spriteAnim = playerPhysics.myPlayer.cosmetics.skin.animator;
+            var currentPhysicsAnim = playerPhysics.Animator.GetCurrentAnimation();
+            if (currentPhysicsAnim == playerPhysics.CurrentAnimationGroup.RunAnim) clip = nextSkin.RunAnim;
+            else if (currentPhysicsAnim == playerPhysics.CurrentAnimationGroup.SpawnAnim) clip = nextSkin.SpawnAnim;
+            else if (currentPhysicsAnim == playerPhysics.CurrentAnimationGroup.EnterVentAnim) clip = nextSkin.EnterVentAnim;
+            else if (currentPhysicsAnim == playerPhysics.CurrentAnimationGroup.ExitVentAnim) clip = nextSkin.ExitVentAnim;
+            else if (currentPhysicsAnim == playerPhysics.CurrentAnimationGroup.IdleAnim) clip = nextSkin.IdleAnim;
+            else clip = nextSkin.IdleAnim;
+            float progress = playerPhysics.Animator.m_animator.GetCurrentAnimatorStateInfo(0).normalizedTime;
+            playerPhysics.myPlayer.cosmetics.skin.skin = nextSkin;
+            playerPhysics.myPlayer.cosmetics.skin.UpdateMaterial();
+            spriteAnim.Play(clip, 1f);
+            spriteAnim.m_animator.Play("a", 0, progress % 1);
+            spriteAnim.m_animator.Update(0f);
+
+            if (target.cosmetics.currentPet) UnityEngine.Object.Destroy(target.cosmetics.currentPet.gameObject);
+            target.cosmetics.currentPet = UnityEngine.Object.Instantiate<PetBehaviour>(DestroyableSingleton<HatManager>.Instance.GetPetById(petId).viewData.viewData);
+            target.cosmetics.currentPet.transform.position = target.transform.position;
+            target.cosmetics.currentPet.Source = target;
+            target.cosmetics.currentPet.Visible = target.Visible;
+            target.SetPlayerMaterialColors(target.cosmetics.currentPet.rend);
+        }
+
         /*public static void RpcBeKilled(this PlayerControl player, PlayerControl KilledBy = null) {
             if(!AmongUsClient.Instance.AmHost) return;
             byte KilledById;

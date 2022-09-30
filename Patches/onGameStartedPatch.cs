@@ -136,16 +136,20 @@ namespace TownOfHost
             Main.VetAlerts = 0;
             Main.ProtectsSoFar = 0;
             Main.IsProtected = false;
+            Main.IsInvis = false;
+            Main.CanGoInvis = true;
             Main.PlayerColors = new();
             Main.whoKilledWho = new();
             Main.SleuthReported = new();
             //名前の記録
             Main.AllPlayerNames = new();
-            Main.chosenEngiRoles = new();
-            Main.chosenScientistRoles = new();
-            Main.chosenShifterRoles = new();
-            Main.chosenRoles = new();
-            Main.chosenImpRoles = new();
+            Main.chosenEngiRoles = new List<CustomRoles>();
+            Main.chosenScientistRoles = new List<CustomRoles>();
+            Main.chosenShifterRoles = new List<CustomRoles>();
+            Main.chosenRoles = new List<CustomRoles>();
+            Main.chosenImpRoles = new List<CustomRoles>();
+            Main.chosenNK = new List<CustomRoles>();
+            Main.chosenNonNK = new List<CustomRoles>();
 
             if (AmongUsClient.Instance.AmHost)
             {
@@ -330,7 +334,7 @@ namespace TownOfHost
                                         var random = new System.Random();
                                         var role = rolesChosen[rando.Next(0, rolesChosen.Count)];
                                         var player = AllNKPlayers[random.Next(0, AllNKPlayers.Count)];
-                                        if (Main.chosenNK.Contains(role)) continue;
+                                        //if (Main.chosenNK.Contains(role)) continue;
                                         rolesChosen.Remove(role);
                                         AllNKPlayers.Remove(player);
                                         Main.chosenNK.Add(role);
@@ -398,7 +402,7 @@ namespace TownOfHost
                                         var random = new System.Random();
                                         var role = rolesChosenNon[rando.Next(0, rolesChosenNon.Count)];
                                         var player = AllnonNKPlayers[random.Next(0, AllnonNKPlayers.Count)];
-                                        if (Main.chosenNonNK.Contains(role) || Main.chosenEngiRoles.Contains(role)) continue;
+                                        //if (Main.chosenNonNK.Contains(role) || Main.chosenEngiRoles.Contains(role)) continue;
                                         rolesChosenNon.Remove(role);
                                         AllnonNKPlayers.Remove(player);
                                         if (role.IsEngineer())

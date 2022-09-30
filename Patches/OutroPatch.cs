@@ -215,7 +215,7 @@ namespace TownOfHost
                     winner.Add(lp);
                 }
             }
-            if (Main.currentWinner == CustomWinner.Executioner && CustomRoles.Executioner.IsEnable())
+            if (Main.currentWinner == CustomWinner.Executioner | Main.currentWinner == CustomWinner.Swapper && CustomRoles.Executioner.IsEnable() | CustomRoles.Swapper.IsEnable())
             { //Executioner単独勝利
                 winner = new();
                 foreach (var p in PlayerControl.AllPlayerControls)

@@ -249,7 +249,6 @@ namespace TownOfHost
                         var crole = exiledPlayer.GetCustomRole();
                         var coloredRole = Helpers.ColorString(Utils.GetRoleColor(exiledPlayer.GetCustomRole()), $"{role}");
                         var name = "";
-                        //player?.Data?.PlayerName = $"{realName} was The {coloredRole}.<size=0>";
                         int impnum = 0;
                         int covennum = 0;
                         int neutralnum = 0;
@@ -270,9 +269,9 @@ namespace TownOfHost
                         if (crole != CustomRoles.Jester)
                         {
                             name += "\n";
-                            string icomma = covennum + neutralnum != 0 ? "," : "";
-                            string ncomma = covennum + impnum != 0 ? "," : "";
-                            string ccomma = impnum + neutralnum != 0 ? "," : "";
+                            string icomma = covennum + neutralnum != 0 ? ", " : "";
+                            string ncomma = covennum + impnum != 0 ? ", " : "";
+                            string ccomma = impnum + neutralnum != 0 ? ", " : "";
                             //if (impnum != 0)
                             name += $"{impnum} Impostor(s) remain{icomma}";
                             if (neutralnum != 0)
@@ -477,11 +476,12 @@ namespace TownOfHost
                 //Options.EnableGM.GetBool();
             }
             int numOfPsychicBad = UnityEngine.Random.RandomRange(0, 3);
-            numOfPsychicBad = (int)Math.Round(numOfPsychicBad + 0.1);
+            numOfPsychicBad = Mathf.RoundToInt(numOfPsychicBad);
             if (numOfPsychicBad > 3) // failsafe
                 numOfPsychicBad = 3;
             List<byte> goodids = new();
             List<byte> badids = new();
+            Dictionary<byte, bool> isGood = new();
             if (!PlayerControl.LocalPlayer.Data.IsDead)
             {
                 if (PlayerControl.LocalPlayer.Is(CustomRoles.Psychic))
@@ -490,14 +490,14 @@ namespace TownOfHost
                     List<PlayerControl> goodPlayers = new();
                     foreach (var pc in PlayerControl.AllPlayerControls)
                     {
-                        if (pc.Data.IsDead || pc.Data.Disconnected || pc.PlayerId == PlayerControl.LocalPlayer.PlayerId) continue;
-                        bool isGood = true;
+                        if (pc.Data.IsDead || pc.Data.Disconnected || pc.PlayerId == PlayerControl.LocalPlayer.PlayerId || pc == null) continue;
+                        isGood.Add(pc.PlayerId, true);
                         var role = pc.GetCustomRole();
                         if (Options.ExeTargetShowsEvil.GetBool())
                             if (Main.ExecutionerTarget.ContainsValue(pc.PlayerId))
                             {
                                 badPlayers.Add(pc);
-                                isGood = false;
+                                isGood[pc.PlayerId] = false;
                                 continue;
                             }
                         switch (role)
@@ -517,31 +517,29 @@ namespace TownOfHost
                                 break;
                             case RoleType.Impostor:
                                 badPlayers.Add(pc);
-                                isGood = false;
+                                isGood[pc.PlayerId] = false;
                                 break;
                             case RoleType.Neutral:
                                 if (role.IsNeutralKilling()) badPlayers.Add(pc);
                                 if (Options.NBshowEvil.GetBool())
                                     if (role is CustomRoles.Opportunist or CustomRoles.Survivor or CustomRoles.GuardianAngelTOU or CustomRoles.Amnesiac or CustomRoles.SchrodingerCat) badPlayers.Add(pc);
                                 if (Options.NEshowEvil.GetBool())
-                                    if (role is CustomRoles.Jester or CustomRoles.Terrorist or CustomRoles.Executioner or CustomRoles.Hacker or CustomRoles.Vulture) badPlayers.Add(pc);
+                                    if (role is CustomRoles.Jester or CustomRoles.Terrorist or CustomRoles.Executioner or CustomRoles.Swapper or CustomRoles.Hacker or CustomRoles.Vulture) badPlayers.Add(pc);
                                 break;
                             case RoleType.Madmate:
                                 if (!Options.MadmatesAreEvil.GetBool()) break;
                                 badPlayers.Add(pc);
-                                isGood = false;
+                                isGood[pc.PlayerId] = false;
                                 break;
                         }
-                        List<byte> badpcids = new();
-                        foreach (var p in badPlayers)
-                        {
-                            badpcids.Add(p.PlayerId);
-                        }
-                        if (badids.Contains(pc.PlayerId)) isGood = false;
-                        if (isGood)
-                            goodPlayers.Add(pc);
+                        if (isGood[pc.PlayerId]) goodPlayers.Add(pc);
                     }
-                    if (numOfPsychicBad < badPlayers.Count) numOfPsychicBad = badPlayers.Count;
+                    List<byte> badpcids = new();
+                    foreach (var p in badPlayers)
+                    {
+                        badpcids.Add(p.PlayerId);
+                    }
+                    if (numOfPsychicBad > badPlayers.Count) numOfPsychicBad = badPlayers.Count;
                     int goodPeople = 3 - numOfPsychicBad;
                     for (var i = 0; i < numOfPsychicBad; i++)
                     {
@@ -580,8 +578,15 @@ namespace TownOfHost
                     {
                         if (pc == null || pc.Data.Disconnected) continue;
                         pc.RpcSetNameEx(pc.GetRealName(isMeeting: true));
-                        pc.RpcSetNamePrivate(Helpers.ColorString(Utils.GetRoleColor(pc.GetCustomRole()), pc.GetRealName(isMeeting: true)));
                     }
+                    _ = new LateTask(() =>
+                    {
+                        foreach (var pc in PlayerControl.AllPlayerControls)
+                        {
+                            if (pc == null || pc.Data.Disconnected) continue;
+                            pc.RpcSetNamePrivate(Helpers.ColorString(Utils.GetRoleColor(pc.GetCustomRole()), pc.GetRealName(isMeeting: true)), true, pc);
+                        }
+                    }, 3f, "SetName To Chat");
                 }, 3f, "SetName To Chat");
             }
 
@@ -681,7 +686,7 @@ namespace TownOfHost
                         break;
                     case CustomRoles.Doctor:
                         if (target.Data.IsDead) //変更対象が死人
-                            pva.NameText.text += $"({Helpers.ColorString(Utils.GetRoleColor(CustomRoles.Doctor), Utils.GetVitalText(target.PlayerId))})";
+                            pva.NameText.text += $"({Helpers.ColorString(Utils.GetRoleColor(CustomRoles.Doctor), target.GetDeathReason())})";
                         break;
                     case CustomRoles.Arsonist:
                         if (seer.IsDousedPlayer(target)) //seerがtargetに既にオイルを塗っている(完了)
@@ -713,6 +718,7 @@ namespace TownOfHost
                             }
                         }
                         break;
+                    case CustomRoles.Swapper:
                     case CustomRoles.Executioner:
                         if (Main.ExecutionerTarget.TryGetValue(seer.PlayerId, out var targetId) && target.PlayerId == targetId) //targetがValue
                             pva.NameText.text = Helpers.ColorString(Utils.GetRoleColor(CustomRoles.Target), pva.NameText.text);

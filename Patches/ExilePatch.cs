@@ -129,7 +129,10 @@ namespace TownOfHost
                     //RPC送信開始
                     Main.ExeCanChangeRoles = false;
                     MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.EndGame, Hazel.SendOption.Reliable, -1);
-                    writer.Write((byte)CustomWinner.Executioner);
+                    if (executioner.Is(CustomRoles.Executioner))
+                        writer.Write((byte)CustomWinner.Executioner);
+                    else
+                        writer.Write((byte)CustomWinner.Swapper);
                     writer.Write(kvp.Key);
                     AmongUsClient.Instance.FinishRpcImmediately(writer); //終了
 
@@ -151,6 +154,8 @@ namespace TownOfHost
                 Main.SpelledPlayer.RemoveAll(pc => pc == null || pc.Data == null || pc.Data.IsDead || pc.Data.Disconnected);
                 Main.SilencedPlayer.RemoveAll(pc => pc == null || pc.Data == null || pc.Data.IsDead || pc.Data.Disconnected);
                 Main.IsHackMode = false;
+                Main.IsInvis = false;
+                Main.CanGoInvis = false;
                 Main.DoingYingYang = true;
                 foreach (var pc in PlayerControl.AllPlayerControls)
                 {
@@ -163,6 +168,14 @@ namespace TownOfHost
                     {
                         Main.CursedPlayers[pc.PlayerId] = null;
                         Main.isCurseAndKill[pc.PlayerId] = false;
+                    }
+                    if (pc.Is(CustomRoles.Swooper))
+                    {
+                        new LateTask(() =>
+                        {
+                            Main.CanGoInvis = true;
+                        },
+                        Options.SwooperCooldown.GetFloat(), "SwooperCooldown");
                     }
                 }
             }

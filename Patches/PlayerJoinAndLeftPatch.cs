@@ -152,7 +152,7 @@ namespace TownOfHost
                         Main.HasModifier.Remove(lovers.PlayerId);
                         Main.AllPlayerCustomSubRoles[lovers.PlayerId] = CustomRoles.NoSubRoleAssigned;
                     }
-                if (data.Character.Is(CustomRoles.Executioner) && Main.ExecutionerTarget.ContainsKey(data.Character.PlayerId) && Main.ExeCanChangeRoles)
+                if (data.Character.Is(CustomRoles.Executioner) | data.Character.Is(CustomRoles.Swapper) && Main.ExecutionerTarget.ContainsKey(data.Character.PlayerId) && Main.ExeCanChangeRoles)
                 {
                     data.Character.RpcSetCustomRole(Options.CRoleExecutionerChangeRoles[Options.ExecutionerChangeRolesAfterTargetKilled.GetSelection()]);
                     Main.ExecutionerTarget.Remove(data.Character.PlayerId);
@@ -217,11 +217,12 @@ namespace TownOfHost
                         if (x.Value == data.Character.PlayerId)
                             Executioner = x.Key;
                     });
-                    if (!Utils.GetPlayerById(Executioner).Is(CustomRoles.Swapper) {
-                    Utils.GetPlayerById(Executioner).RpcSetCustomRole(Options.CRoleExecutionerChangeRoles[Options.ExecutionerChangeRolesAfterTargetKilled.GetSelection()]);
-                    Main.ExecutionerTarget.Remove(Executioner);
-                    RPC.RemoveExecutionerKey(Executioner);
-                    Utils.NotifyRoles();
+                    if (!Utils.GetPlayerById(Executioner).Is(CustomRoles.Swapper))
+                    {
+                        Utils.GetPlayerById(Executioner).RpcSetCustomRole(Options.CRoleExecutionerChangeRoles[Options.ExecutionerChangeRolesAfterTargetKilled.GetSelection()]);
+                        Main.ExecutionerTarget.Remove(Executioner);
+                        RPC.RemoveExecutionerKey(Executioner);
+                        Utils.NotifyRoles();
                     }
                 }
 

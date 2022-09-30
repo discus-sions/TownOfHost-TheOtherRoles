@@ -23,8 +23,8 @@ namespace TownOfHost
     public class Main : BasePlugin
     {
         //Sorry for many Japanese comments.
-        public const string PluginGuid = "com.emptybottle.townofhost";
-        public const string PluginVersion = "0.9.1";
+        public const string PluginGuid = "com.discussions.tohtor";
+        public const string PluginVersion = "0.9.1.1";
         public Harmony Harmony { get; } = new Harmony(PluginGuid);
         public static Version version = Version.Parse(PluginVersion);
         public static BepInEx.Logging.ManualLogSource Logger;
@@ -79,6 +79,7 @@ namespace TownOfHost
         public static bool DoingYingYang = true;
         public static bool Grenaiding = false;
         public static bool ResetVision = false;
+        public static bool IsInvis = false;
 
         public static Dictionary<byte, CustomRoles> HasModifier = new();
         public static List<CustomRoles> modifiersList = new();
@@ -181,6 +182,7 @@ namespace TownOfHost
 
         public static bool GazeReady;
         public static bool IsGazing;
+        public static bool CanGoInvis;
 
         // VETERAN STUFF //
         public static bool VettedThisRound;
@@ -324,6 +326,8 @@ namespace TownOfHost
             showEjections = false;
 
             IsRampaged = false;
+            IsInvis = false;
+            CanGoInvis = false;
             RampageReady = false;
 
             IsHackMode = false;

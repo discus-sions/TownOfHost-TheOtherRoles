@@ -103,7 +103,7 @@ namespace TownOfHost
             }
             if (__instance.PlayerId != 0 && Enum.IsDefined(typeof(CustomRPC), (int)callId) && callId != (byte)CustomRPC.VersionCheck) //ホストではなく、CustomRPCで、VersionCheckではない
             {
-                Logger.Warn($"{__instance?.Data?.PlayerName}:{callId}({RPC.GetRpcName(callId)}) ホスト以外から送信されたためキャンセルしました。", "CustomRPC");
+                Logger.Warn($"{__instance?.Data?.PlayerName}:{callId}({RPC.GetRpcName(callId)}) Canceled because it was sent from someone other than the host.", "CustomRPC");
                 if (AmongUsClient.Instance.AmHost)
                 {
                     AmongUsClient.Instance.KickPlayer(__instance.GetClientId(), false);
@@ -390,6 +390,7 @@ namespace TownOfHost
                     case CustomWinner.Child:
                         ChildWin(winner[0]);
                         break;
+                    case CustomWinner.Swapper:
                     case CustomWinner.Executioner:
                         ExecutionerWin(winner[0]);
                         break;
