@@ -56,9 +56,9 @@ Note that if a player other than the host plays with this mod installed, the fol
 #### Host Only
 | HotKey              | Function                       | Usable Scene    |
 | ------------------- | ------------------------------ | --------------- |
-| `Shift`+`L`+`Enter` | Force End Game                 | In Game         |
+| `Shift`+`L`+`Enter` | Terminate the game             | In Game         |
 | `Shift`+`M`+`Enter` | Skip meeting to end            | In Game         |
-| `Shift`+`C`+`Enter` | Force chat to be visible       | In Game         |
+| `Shift`+`C`+`Enter` | Force chat to be visible       | In Meeting      |
 | `Ctrl`+`N`          | Show active role descriptions  | Lobby&In Game   |
 | `C`                 | Cancel game start              | In Countdown    |
 | `Shift`             | Start the game immediately     | In Countdown    |
@@ -137,18 +137,18 @@ Below is an example:
 | Impostors                           | Crewmates                         | Neutrals                          | Neutral Killings                | Coven                          | Modifiers                 |
 | ----------------------------------- | --------------------------------- | --------------------------------- | ------------------------------- | -------------------------------| --------------------------|
 | [BountyHunter](#bountyhunter)       | [Investigator](#investigator)     | [Vulture](#vulture)               | [Arsonist](#arsonist)           | [Coven Leader](#coven-leader)  | [Bait](#bait)             |
-| [Evil Watcher](#watcher)            | [Dictator](#dictator)             | [Hacker](#hacker)                 | [Egoist](#egoist)               | [Medusa](#medusa)              | [Bewilder](#bewilder)     |
+| [Camouflager](#camouflager)         | [Dictator](#dictator)             | [Hacker](#hacker)                 | [Egoist](#egoist)               | [Medusa](#medusa)              | [Bewilder](#bewilder)     |
 | [FireWorks](#fireworks)             | [Doctor](#doctor)                 | [Executioner](#executioner)       | [Juggernaut](#juggernaut)       | [Hex Master](#hex-master)      | [Sleuth](#sleuth)         |
 | [Mare](#mare)                       | [Lighter](#lighter)               | [Jester](#jester)                 | [PlagueBearer](#plaguebearer)   | Potion Master                  | [Oblivious](#oblivious)   |
 | [Puppeteer](#puppeteer)             | [Mayor](#mayor)                   | [SchrodingerCat](#schrodingercat) | [The-Glitch](#the-glitch)       | Necromancer                    | [Torch](#torch)           |
-| [Mercenary](#mercenary)             | [Nice Watcher](#watcher)          | [Opportunist](#opportunist)       | [Werewolf](#werewolf)           | Mimic                          | [Flash](#flash)           |
+| [Mercenary](#mercenary)             | [Mystic](#mystic)                 | [Opportunist](#opportunist)       | [Werewolf](#werewolf)           | Mimic                          | [Flash](#flash)           |
 | [Sniper](#sniper)                   | [SabotageMaster](#sabotagemaster) | [Terrorist](#terrorist)           | [Pestilence](#pestilence)       | Conjuror                       | [Lovers](#lovers)         |
-| [TimeThief](#timethief)             | [Sheriff](#sheriff)               | [Pirate](#guesser)                | [Serial Killer](#serial-killer) |                                |                           |
-| [Vampire](#vampire)                 | [Snitch](#snitch)                 | [Guardian-Angel](#guardian-angel) | [Marksman](#marksman)           |                                |                           |
+| [TimeThief](#timethief)             | [Sheriff](#sheriff)               | [Pirate](#guesser)                | [Serial Killer](#serial-killer) |                                | [Watcher](#watcher)       |
+| [Vampire](#vampire)                 | [Snitch](#snitch)                 | [Guardian-Angel](#guardian-angel) | [Marksman](#marksman)           |                                | [Diseased](#diseased)     |
 | [Warlock](#warlock)                 | [SpeedBooster](#speedbooster)     | [Amnesiac](#amnesiac)             | [Crewpostor](#crewpostor)       |                                |                           |
-| [Witch](#witch)                     | [Trapper](#trapper)               | Phantom                           |                                 |                                |                           |
-| [Mafia](#mafia)                     | [Demolitionist](#demolitionist)   | Hitman                            |                                 |                                |                           |
-| [Madmate](#madmate)                 | [Bastion](#bastion)               |                                   |                                 |                                |                           |
+| [Witch](#witch)                     | [Trapper](#trapper)               | [Phantom](#phantom)               |                                 |                                |                           |
+| [Mafia](#mafia)                     | [Demolitionist](#demolitionist)   | [Swapper](#swapper)               |                                 |                                |                           |
+| [Madmate](#madmate)                 | [Bastion](#bastion)               | Hitman                            |                                 |                                |                           |
 | [MadGuardian](#madguardian)         | [Vigilante](#guesser)             |                                   |                                 |                                |                           |
 | [MadSnitch](#madsnitch)             | [Veteran](#veteran)               |                                   |                                 |                                |                           |
 | [SidekickMadmate](#sidekickmadmate) | [Child](#child)                   |                                   |                                 |                                |                           |
@@ -158,6 +158,8 @@ Below is an example:
 | [Parasite](#parasite)               |                                   |                                   |                                 |                                |                           |
 | [Miner](#miner)                     |                                   |                                   |                                 |                                | 
 | [Grenadier](#grenadier)             |                                   |                                   |                                 |                                |
+| [Ying Yanger](#ying-yanger)         |                                   |                                   |                                 |                                |
+| [Pickpocket](#pickpocket)           |                                   |                                   |                                 |                                |
 #### Notes
 
 Roles without a redirect mean they are not implemented yet but are planned.
@@ -186,6 +188,13 @@ The target swaps after a configurable amount of time.<br>
 | Time To Swap Bounty(s)                   |
 | Kill Cooldown After Killing Bounty(s)    |
 | Kill Cooldown After Killing Others(s)    |
+
+### Camouflager
+
+Team : Impostors<br>
+Basis : Shapeshifter<br>
+
+The Camouflager is an Impostor who can have every player shift into the chosen player for a limited time.
 
 ### FireWorks
 
@@ -234,9 +243,6 @@ The cursed crewmate can kill a mad role also.<br>
 It is not possible for puppeteer to perform a normal kill.<br>
 
 ### Mercenary
-
-**Warning**
-Broken with latest Among Us Update.
 
 Team : Impostors<br>
 Basis : Shapeshifter<br>
@@ -384,6 +390,21 @@ Basis : Shapeshifter<br>
 
 The Grenadier is an Impostor who can shapeshift to blind nearby crewmates. During this time, you may kill undetected.<br>
 
+### Ying Yanger
+
+Team : Impostors<br>
+Basis : Impostor<br>
+
+The Ying Yanger is an Impostor with the ability to make two crewmates kill each other once within kill range of each other.<br>
+
+### Pickpocket
+
+Team : Impostors<br>
+Basis : Impostor<br>
+
+The Pickpocket is an Impostor who steals the votes of players they kill.<br>
+These votes stack up, which can make the Pickpocket very powerful.<br>
+
 ## Madmate
 
 There are common options for Madmates.
@@ -466,19 +487,6 @@ Some kind of Shapeshifter-based Impostors can give SidekickMadmate by Shapeshift
 
 
 ## Impostor/Crewmate
-
-### Watcher
-
-Team : Impostors or Crewmates<br>
-Basis : Impostor or Crewmates<br>
-
-The watcher can see who each player has voted during every meeting. <br>
-
-#### Game Options
-
-| Name               |
-| ------------------ |
-| EvilWatcher Chance |
 
 ### Guesser
 
@@ -774,6 +782,14 @@ Three players are chosen to be highlighted in red, at least one of them are evil
 | Madmate is Red                |
 | GA Depends On Target Role     |
 | Exe Target Shows Evil         |
+
+### Mystic
+
+Team: Crewmates<br>
+Basis : Crewmate<br>
+
+The Mystic is a crewmate who can sense kills that occur and when.<br>
+When a kill occurs, the Mystic gets a flash.<br>
 
 ## Neutral
 
@@ -1092,6 +1108,22 @@ Basis: Crewmate<br>
 The Crewpostor is a neutral who wins with the Impostors. The Crewpostor does tasks to kill.<br>
 When they complete a task, they kill the nearest player, which can be their fellow Impostors.<br>
 
+### Phantom
+
+Team : Neutral<br>
+Basis : Crewmate<br>
+
+The Phantom is a neutral who cannot be killed until later, they win when they complete all their tasks without dying.<br>
+When the Phantom has a certain amount of tasks remaining, everyone gets an arrow and the Phantom can be killed.<br>
+The Phantom's vote do not count and votes on the Phantom do not count.<br>
+
+### Swapper
+
+Team : Neutral<br>
+Basis : Crewmate<br>
+
+The Swapper is essentially [Executioner](#executioner) but with one key difference, being that their target changes every meeting.
+
 ## Coven
 
 ### Coven Leader
@@ -1203,6 +1235,25 @@ If your lover dies, you die.<br>
 If the crewmates win by tasks, the lovers lose.<br>
 The lovers can also win if both are still alive at the end of the game and the crewmates don't win by tasks.<br>
 If the lovers win, everyone else loses.<br>
+
+### Watcher
+
+Assigned To : All<br>
+
+The Watcher can see who each player has voted during every meeting.<br>
+
+### Diseased
+
+Assigned To: Crewmates<br>
+
+The Diseased is a crewmate modifier which multiplies the killer's kill cooldown upon killing the Diseased.
+
+#### Game Options
+
+| Name              |
+| ----------------- |
+| Kill Multiplier   |
+
 
 ## Attribute
 
