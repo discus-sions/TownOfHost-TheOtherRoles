@@ -7,12 +7,12 @@ This mod is not affiliated with Among Us or Innersloth LLC, Town Of Host, and th
 I sometimes host this mod myself on Public Lobbies under several names such as **Whited**, **TOH-TOR**, and **TOH GOOD**.
 I constantly update this mod and test it with randoms.
 
-DISCORD SERVER: https://discord.gg/ha6XBCCHAN 
+DISCORD SERVER: https://discord.gg/ha6XBCCHAN --- Recommended after Innersloth introduced randomized lobby names
 
 ## Releases
 
 AmongUs Version: **2022.7.12**<br>
-Semi-Support for: **2022.8.24**<br>
+Semi-Support for: **2022.8.24**, **2022.9.20**<br>
 **Latest Version: [Here](https://github.com/music-discussion/TownOfHost-TheOtherRoles/releases/latest)**
 
 Old Versions: [Here](https://github.com/music-discussion/TownOfHost-TheOtherRoles/releases)
@@ -148,7 +148,7 @@ Below is an example:
 | [Warlock](#warlock)                 | [SpeedBooster](#speedbooster)     | [Amnesiac](#amnesiac)             | [Crewpostor](#crewpostor)       |                                |                           |
 | [Witch](#witch)                     | [Trapper](#trapper)               | [Phantom](#phantom)               |                                 |                                |                           |
 | [Mafia](#mafia)                     | [Demolitionist](#demolitionist)   | [Swapper](#swapper)               |                                 |                                |                           |
-| [Madmate](#madmate)                 | [Bastion](#bastion)               | Hitman                            |                                 |                                |                           |
+| [Madmate](#madmate)                 | [Bastion](#bastion)               | [Hitman](#hitman)                 |                                 |                                |                           |
 | [MadGuardian](#madguardian)         | [Vigilante](#guesser)             |                                   |                                 |                                |                           |
 | [MadSnitch](#madsnitch)             | [Veteran](#veteran)               |                                   |                                 |                                |                           |
 | [SidekickMadmate](#sidekickmadmate) | [Child](#child)                   |                                   |                                 |                                |                           |
@@ -160,6 +160,8 @@ Below is an example:
 | [Grenadier](#grenadier)             |                                   |                                   |                                 |                                |
 | [Ying Yanger](#ying-yanger)         |                                   |                                   |                                 |                                |
 | [Pickpocket](#pickpocket)           |                                   |                                   |                                 |                                |
+| [Cleaner](#cleaner)                 |                                   |                                   |                                 |                                |
+| [Freezer](#freezer)                 |                                   |                                   |                                 |                                |
 #### Notes
 
 Roles without a redirect mean they are not implemented yet but are planned.
@@ -404,6 +406,21 @@ Basis : Impostor<br>
 
 The Pickpocket is an Impostor who steals the votes of players they kill.<br>
 These votes stack up, which can make the Pickpocket very powerful.<br>
+
+### Cleaner
+
+Team : Impostors<br>
+Basis : Impostor<br>
+
+The Cleaner is an Impostor who can use their report button to clean bodies, making them unreportable.<br>
+Players with the mod will not see the cleaned body.<br>
+
+### Freezer
+
+Team : Impostors<br>
+Basis : Shapeshifter<br>
+
+The Freezer is an Impostor who can shapeshift into a player to freeze them in place for a set amount of time.<br>
 
 ## Madmate
 
@@ -949,8 +966,12 @@ If their target wins, so does the Guardian Angel.<br>
 Team : Neutral<br>
 Basis : Impostor<br>
 
-The Amnesiac can report a body to take its role.<br>
-After reporting, they go on and win with that team.<br>
+The Amnesiac reports a body to join the body's team.<br>
+
+If reporting a crewmate body, Amnesiac becomes [Sheriff](#sheriff).<br>
+If reporting an Impostor body, Amnesiac becomes [Traitor](#traitor).<br>
+If reporting a non killing neutral body, Amnesiac becomes [Opportunist](#opportunist).<br>
+If reporting a neutral killer, Amnesiac becomes that neutral killer.<br>
 
 
 ### Egoist
@@ -1071,6 +1092,7 @@ Create and idea by Mek<br>
 
 Team : Neutral<br>
 Basis : Crewmate<br>
+Victory Conditions : Fix enough sabotages<br>
 
 The Hacker's goal is to reach a certain number of points<br>
 They reach these points by sabotages.<br>
@@ -1104,6 +1126,7 @@ Create and idea by Crewpostor<br>
 
 Team : Neutral<br>
 Basis: Crewmate<br>
+Victory Conditions : Same as Impostors<br>
 
 The Crewpostor is a neutral who wins with the Impostors. The Crewpostor does tasks to kill.<br>
 When they complete a task, they kill the nearest player, which can be their fellow Impostors.<br>
@@ -1112,6 +1135,7 @@ When they complete a task, they kill the nearest player, which can be their fell
 
 Team : Neutral<br>
 Basis : Crewmate<br>
+Victory Conditions : Complete all your tasks without getting killed<br>
 
 The Phantom is a neutral who cannot be killed until later, they win when they complete all their tasks without dying.<br>
 When the Phantom has a certain amount of tasks remaining, everyone gets an arrow and the Phantom can be killed.<br>
@@ -1121,8 +1145,19 @@ The Phantom's vote do not count and votes on the Phantom do not count.<br>
 
 Team : Neutral<br>
 Basis : Crewmate<br>
+Victory Conditions : Vote your target out<br>
 
-The Swapper is essentially [Executioner](#executioner) but with one key difference, being that their target changes every meeting.
+The Swapper is essentially [Executioner](#executioner) but with one key difference, being that their target changes every meeting.<br>
+
+### Hitman
+
+Team : Neutral<br>
+Basis : Impostor<br>
+Victory Conditions : Survive to the end<br>
+
+The Hitman is a neutral benign role with the ability to kill.<br>
+Hitman can win with anyone and does not count as a killer.<br>
+Optionally, Hitman can also win with roles like Jester and Executioner.<br>
 
 ## Coven
 
