@@ -882,7 +882,7 @@ namespace TownOfHost
                                 if (target.GetCustomRole().IsCoven()) continue;
                                 if (target.Is(CustomRoles.Phantom)) continue;
                                 if (Main.ExecutionerTarget.ContainsValue(target.PlayerId)) continue;
-                                if (target.Is(CustomRoles.GM) || target == null || target.Data.IsDead || target.Data.Disconnected) continue;
+                               // if (target.Is(CustomRoles.GM) || target == null || target.Data.IsDead || target.Data.Disconnected) continue;
 
                                 targetList.Add(target);
                             }
