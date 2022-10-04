@@ -147,7 +147,7 @@ namespace TownOfHost
                 if (CustomRolesHelper.IsCoven(p.GetCustomRole())) hasTasks = false;
                 if (cRoleFound)
                 {
-                    if (cRole == CustomRoles.GM) hasTasks = false;
+                    //if (cRole == CustomRoles.GM) hasTasks = false;
                     if (cRole == CustomRoles.Jester) hasTasks = false;
                     if (cRole == CustomRoles.MadGuardian && ForRecompute) hasTasks = false;
                     if (cRole == CustomRoles.MadSnitch && ForRecompute) hasTasks = false;
@@ -1308,8 +1308,8 @@ namespace TownOfHost
                             else
                                 TargetRoleText = $"\r\n{Helpers.ColorString(target.GetRoleColor(), target.GetRoleName())}{TargetTaskText}";
 
-                        if (target.Is(CustomRoles.GM))
-                            TargetRoleText = $"<size={fontSize}>{Helpers.ColorString(target.GetRoleColor(), target.GetRoleName())}</size>\r\n";
+                        // if (target.Is(CustomRoles.GM))
+                            // TargetRoleText = $"<size={fontSize}>{Helpers.ColorString(target.GetRoleColor(), target.GetRoleName())}</size>\r\n";
 
                         //RealNameを取得 なければ現在の名前をRealNamesに書き込む
                         string TargetPlayerName = target.GetRealName(isMeeting);

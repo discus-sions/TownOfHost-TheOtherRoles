@@ -101,7 +101,7 @@ namespace TownOfHost
         };
 
         // 各役職の詳細設定
-        public static CustomOption EnableGM;
+        //public static CustomOption EnableGM;
         public static CustomOption EnableLastImpostor;
         public static CustomOption LastImpostorKillCooldown;
         public static float DefaultKillCooldown = PlayerControl.GameOptions.KillCooldown;
