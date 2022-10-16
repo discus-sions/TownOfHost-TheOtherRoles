@@ -584,7 +584,7 @@ SheriffCanKillJackal,Sheriff Can Kill Serial Killer,Sheriff Может Убит�
 SheriffCanKillJShrodingerCat,Sheriff Can Kill Serial KillerSide ShrodingerCat,Sheriff Может Убить Serial Killer Сторону ShrodingerCat,シェリフがジャッカル陣営のシュレディンガーの猫をキルできる,警长可以执法豺狼阵营的薛定谔的猫,警長可以槍死豺狼方的薛定諤的貓
 SheriffCanKillCrewmatesAsIt,Sheriff Can Kill Crewmates As It,Sheriff Может Убивать Членов Экипажа,シェリフがそのままクルーをキルできる,警长执法船员时会同归于尽,警長走火時會讓嘗試槍的玩家同歸於盡
 SheriffShotLimit,Sheriff Shot Limit,Лимит Выстрелов Sheriff,シェリフのキル可能回数,警长最大执法次数,警長最大子彈數量
-KillFlashDuration,Kill Flash Duration(s),Длительность Вспышки Убийсва,キルフラッシュの長さ(秒),击杀闪烁持续时间
+KillFlashDuration,Kill Flash Duration(s),Длительность Вспышки Убийсва,キルフラッシュの長さ(秒),击杀闪烁持续时间(秒)
 SheriffCanKillJug,Sheriff Can Kill Juggernaut/Marksman/BloodKnight,Sheriff Может Убить Juggernaut,シェリフのキル可能回数,警长可以执法欲望杀手/神射手/嗜血骑士
 DoctorTaskCompletedBatteryCharge,Doctor Battery Duration,Длительность Батарейки Doctor,ドクターがタスクを終わらせたときにセットされるバイタルの秒数,医生电池持续时间,醫生完成任務充電秒數
 SnitchEnableTargetArrow,Snitch Can See Target Arrow,Может Видеть Стрелку Цели,ターゲットを示す矢印が見える,告密者可以看到目标箭头,告密者完成任務後可以看到目標的箭頭
