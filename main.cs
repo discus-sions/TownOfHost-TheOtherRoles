@@ -24,7 +24,7 @@ namespace TownOfHost
     {
         //Sorry for many Japanese comments.
         public const string PluginGuid = "com.discussions.tohtor";
-        public const string PluginVersion = "0.9.1.1";
+        public const string PluginVersion = "0.9.3";
         public Harmony Harmony { get; } = new Harmony(PluginGuid);
         public static Version version = Version.Parse(PluginVersion);
         public static BepInEx.Logging.ManualLogSource Logger;
@@ -57,6 +57,8 @@ namespace TownOfHost
         public static Dictionary<(byte, byte), string> LastNotifyNames;
         public static Dictionary<byte, CustomRoles> AllPlayerCustomRoles;
         public static Dictionary<byte, CustomRoles> AllPlayerCustomSubRoles;
+        public static Dictionary<byte, CustomRoles> LastPlayerCustomRoles;
+        public static Dictionary<byte, CustomRoles> LastPlayerCustomSubRoles;
         public static Dictionary<byte, Color32> PlayerColors = new();
         public static Dictionary<byte, PlayerState.DeathReason> AfterMeetingDeathPlayers = new();
         public static Dictionary<CustomRoles, string> roleColors;
@@ -94,6 +96,8 @@ namespace TownOfHost
         public static Dictionary<byte, bool> KillOrSpell = new();
         public static Dictionary<byte, bool> KillOrSilence = new();
         public static Dictionary<byte, bool> isCurseAndKill = new();
+        public static Dictionary<byte, bool> RemoveChat = new();
+        public static Dictionary<byte, bool> HasTarget = new();
         public static Dictionary<(byte, byte), bool> isDoused = new();
         public static List<byte> dousedIDs = new();
         public static Dictionary<(byte, byte), bool> isHexed = new();
@@ -103,6 +107,7 @@ namespace TownOfHost
         public static Dictionary<byte, byte> GuardianAngelTarget = new(); //Key : GA, Value : target
         public static Dictionary<byte, byte> PuppeteerList = new(); // Key: targetId, Value: PuppeteerId
         public static Dictionary<byte, byte> WitchedList = new(); // Key: targetId, Value: WitchId
+        public static Dictionary<byte, byte> CurrentTarget = new(); //Key : Player, Value : Target
         public static Dictionary<byte, byte> SpeedBoostTarget = new();
         public static Dictionary<byte, int> MayorUsedButtonCount = new();
         public static Dictionary<byte, int> HackerFixedSaboCount = new();
@@ -116,6 +121,7 @@ namespace TownOfHost
         public static bool witchMeeting;
         public static bool isCursed;
         public static List<byte> firstKill = new();
+        public static Dictionary<byte, List<byte>> knownGhosts = new();
         public static Dictionary<byte, (int, bool, bool, bool, bool)> SurvivorStuff = new(); // KEY - player ID, Item1 - NumberOfVests, Item2 - IsVesting, Item3 - HasVested, Item4 - VestedThisRound, Item5 - RoundOneVest
         public static List<byte> unreportableBodies = new();
         public static List<PlayerControl> SilencedPlayer = new();
@@ -145,12 +151,15 @@ namespace TownOfHost
         public static string nickName = "";
         public static bool introDestroyed = false;
         public static bool bkProtected = false;
+        public static bool devIsHost = false;
         public static int DiscussionTime;
         public static int VotingTime;
         public static int JugKillAmounts;
         public static int AteBodies;
         public static byte currentDousingTarget;
+        public static byte currentFreezingTarget;
         public static int VetAlerts;
+        public static int TransportsLeft;
         public static bool IsRoundOne;
 
         //plague info.
@@ -199,6 +208,7 @@ namespace TownOfHost
         public static int ProtectsSoFar;
         public static bool IsProtected;
         public static bool IsRoundOneGA;
+        public static bool MareHasRedName;
 
         // NEUTRALS //
         public static bool IsRampaged;
@@ -218,6 +228,7 @@ namespace TownOfHost
         public static List<CustomRoles> chosenEngiRoles = new();
         public static List<CustomRoles> chosenScientistRoles = new();
         public static List<CustomRoles> chosenShifterRoles = new();
+        public static List<byte> rolesRevealedNextMeeting = new();
 
 
         public static int MarksmanKills = 0;
@@ -238,6 +249,15 @@ namespace TownOfHost
         public static Sprite SeerSprite;
         public static Sprite SheriffSprite;
         public static Sprite VestSprite;
+        public static Sprite CleanSprite;
+        public static Sprite TransportSprite;
+        public static Sprite FlashSprite;
+        public static Sprite PoisonedSprite;
+        public static Sprite MediumSprite;
+        public static Sprite BlackmailSprite;
+        public static Sprite MinerSprite;
+        public static Sprite TargetSprite;
+        public static Sprite AssassinateSprite;
         public override void Load()
         {
             Instance = this;
@@ -264,15 +284,20 @@ namespace TownOfHost
 
             AllPlayerCustomRoles = new Dictionary<byte, CustomRoles>();
             AllPlayerCustomSubRoles = new Dictionary<byte, CustomRoles>();
+            LastPlayerCustomRoles = new Dictionary<byte, CustomRoles>();
+            LastPlayerCustomSubRoles = new Dictionary<byte, CustomRoles>();
             CustomWinTrigger = false;
             BitPlayers = new Dictionary<byte, (byte, float)>();
             SurvivorStuff = new Dictionary<byte, (int, bool, bool, bool, bool)>();
             WarlockTimer = new Dictionary<byte, float>();
             CursedPlayers = new Dictionary<byte, PlayerControl>();
+            RemoveChat = new Dictionary<byte, bool>();
             SpelledPlayer = new List<PlayerControl>();
             Impostors = new List<PlayerControl>();
+            rolesRevealedNextMeeting = new List<byte>();
             SilencedPlayer = new List<PlayerControl>();
             ColliderPlayers = new List<PlayerControl>();
+            HasTarget = new Dictionary<byte, bool>();
             isDoused = new Dictionary<(byte, byte), bool>();
             isHexed = new Dictionary<(byte, byte), bool>();
             isInfected = new Dictionary<(byte, byte), bool>();
@@ -283,18 +308,22 @@ namespace TownOfHost
             MayorUsedButtonCount = new Dictionary<byte, int>();
             HackerFixedSaboCount = new Dictionary<byte, int>();
             LastEnteredVent = new Dictionary<byte, Vent>();
+            knownGhosts = new Dictionary<byte, List<byte>>();
             LastEnteredVentLocation = new Dictionary<byte, Vector2>();
+            CurrentTarget = new Dictionary<byte, byte>();
             HasModifier = new Dictionary<byte, CustomRoles>();
             // /DeadPlayersThisRound = new List<byte>();
             LoversPlayers = new List<PlayerControl>();
             dousedIDs = new List<byte>();
             //firstKill = new Dictionary<byte, (PlayerControl, float)>();
-            winnerList = new();
+            winnerList = new List<byte>();
             VisibleTasksCount = false;
             MercCanSuicide = true;
+            devIsHost = false;
             ExeCanChangeRoles = true;
             MessagesToSend = new List<(string, byte)>();
             currentDousingTarget = 255;
+            currentFreezingTarget = 255;
             currentInfectingTarget = 255;
             JugKillAmounts = 0;
             AteBodies = 0;
@@ -304,12 +333,14 @@ namespace TownOfHost
             ProtectedThisRound = false;
             HasProtected = false;
             VetAlerts = 0;
+            TransportsLeft = 0;
             ProtectsSoFar = 0;
             IsProtected = false;
             ResetVision = false;
             Grenaiding = false;
             DoingYingYang = true;
             VettedThisRound = false;
+            MareHasRedName = false;
             WitchProtected = false;
             HexMasterOn = false;
             PotionMasterOn = false;
@@ -351,6 +382,15 @@ namespace TownOfHost
             SeerSprite = Helpers.LoadSpriteFromResourcesTOR("TownOfHost.Resources.Seer.png", 100f);
             SheriffSprite = Helpers.LoadSpriteFromResourcesTOR("TownOfHost.Resources.Sheriff.png", 100f);
             VestSprite = Helpers.LoadSpriteFromResourcesTOR("TownOfHost.Resources.Vest.png", 100f);
+            CleanSprite = Helpers.LoadSpriteFromResourcesTOR("TownOfHost.Resources.Janitor.png", 100f);
+            TransportSprite = Helpers.LoadSpriteFromResourcesTOR("TownOfHost.Resources.Transport.png", 100f);
+            FlashSprite = Helpers.LoadSpriteFromResourcesTOR("TownOfHost.Resources.Flash.png", 100f);
+            PoisonedSprite = Helpers.LoadSpriteFromResourcesTOR("TownOfHost.Resources.Poisoned.png", 100f);
+            BlackmailSprite = Helpers.LoadSpriteFromResourcesTOR("TownOfHost.Resources.Blackmail.png", 100f);
+            MediumSprite = Helpers.LoadSpriteFromResourcesTOR("TownOfHost.Resources.Meditate.png", 100f);
+            MinerSprite = Helpers.LoadSpriteFromResourcesTOR("TownOfHost.Resources.Mine.png", 100f);
+            TargetSprite = Helpers.LoadSpriteFromResourcesTOR("TownOfHost.Resources.NinjaMarkButton.png", 100f);
+            AssassinateSprite = Helpers.LoadSpriteFromResourcesTOR("TownOfHost.Resources.NinjaAssassinateButton.png", 100f);
 
             // OTHER//
 
@@ -388,17 +428,10 @@ namespace TownOfHost
                     { CustomRoles.GuardianAngel, "#ffffff"},
                     {CustomRoles.Target, "#000000"},
                     { CustomRoles.CorruptedSheriff, "#ff0000"},
-                    //インポスター、シェイプシフター
-                    //特殊インポスター役職
-                    //マッドメイト系役職
-                        //後で追加
-                    //両陣営可能役職
                     { CustomRoles.Watcher, "#800080"},
-                    { CustomRoles.Guesser, "#ffff00"},
                     { CustomRoles.NiceGuesser, "#E4E085"},
                     { CustomRoles.Pirate, "#EDC240"},
                     //特殊クルー役職
-                    { CustomRoles.NiceWatcher, "#800080"}, //ウォッチャーの派生
                     { CustomRoles.Bait, "#00B3B3"},
                     { CustomRoles.SabotageMaster, "#0000ff"},
                     { CustomRoles.Snitch, "#b8fb4f"},
@@ -406,6 +439,11 @@ namespace TownOfHost
                     { CustomRoles.Sheriff, "#f8cd46"},
                     { CustomRoles.Investigator, "#ffca81"},
                     { CustomRoles.Lighter, "#eee5be"},
+                    //{ CustomRoles.Bodyguard, "#7FFF00"},
+                    //{ CustomRoles.Oracle, "#0042FF"},
+                    { CustomRoles.Bodyguard, "#5d5d5d"},
+                    { CustomRoles.Oracle, "#c88dd0"},
+                    { CustomRoles.Medic, "#006600"},
                     { CustomRoles.SpeedBooster, "#00ffff"},
                     { CustomRoles.Mystic, "#4D99E6"},
                     { CustomRoles.Swapper, "#66E666"},
@@ -415,6 +453,8 @@ namespace TownOfHost
                     { CustomRoles.Trapper, "#5a8fd0"},
                     { CustomRoles.Dictator, "#df9b00"},
                     { CustomRoles.Sleuth, "#803333"},
+                    { CustomRoles.Crusader, "#c65c39"},
+                    { CustomRoles.Escort, "#ffb9eb"},
                     { CustomRoles.PlagueBearer, "#E6FFB3"},
                     { CustomRoles.Pestilence, "#393939"},
                     { CustomRoles.Vulture, "#a36727"},
@@ -438,7 +478,7 @@ namespace TownOfHost
                     { CustomRoles.Juggernaut, "#670038"},
                     { CustomRoles.JSchrodingerCat, "#00b4eb"},
                     { CustomRoles.Phantom, "#662962"},
-                    { CustomRoles.Hitman, "#704FA8"},
+                    { CustomRoles.Hitman, "#ce1924"},
                     //HideAndSeek
                     { CustomRoles.HASFox, "#e478ff"},
                     { CustomRoles.BloodKnight, "#630000"},
@@ -447,7 +487,6 @@ namespace TownOfHost
                     { CustomRoles.Janitor, "#c67051"},
                     { CustomRoles.Supporter, "#00b4eb"},
                     // GM
-                    { CustomRoles.GM, "#ff5b70"},
                     //サブ役職
                     { CustomRoles.NoSubRoleAssigned, "#ffffff"},
                     { CustomRoles.Lovers, "#FF66CC"},
@@ -569,7 +608,6 @@ namespace TownOfHost
         Target,
         //Impostor
         BountyHunter,
-        EvilWatcher,
         VoteStealer,
         FireWorks,
         Mafia,
@@ -577,18 +615,22 @@ namespace TownOfHost
         //ShapeMaster,
         Sniper,
         Vampire,
+        Vampress,
         Witch,
         Warlock,
         Mare,
         Miner,
         YingYanger,
         Grenadier,
+        Disperser,
         Puppeteer,
         TimeThief,
         Silencer,
         Ninja,
         Swooper,
         Camouflager,
+        Freezer,
+        Cleaner,
         EvilGuesser,
         LastImpostor,
         //Madmate
@@ -599,31 +641,28 @@ namespace TownOfHost
         CorruptedSheriff,
         SKMadmate,
         Parasite,
-        MSchrodingerCat,//インポスター陣営のシュレディンガーの猫
-                        //両陣営
-        Guesser,
-        // Watcher,
-        //Crewmate(Vanilla)
+        MSchrodingerCat,
+        // VANILLA
         Engineer,
         GuardianAngel,
         Scientist,
         //Crewmate
-        //Bait,
-        //Sleuth,
         Alturist,
-        //Bewilder,
         Lighter,
         Medium,
         Demolitionist,
         Bastion,
         NiceGuesser,
-        Hacker,
+        Escort,
+        Crusader,
         Psychic,
         Mystic,
         Swapper,
         Mayor,
-        NiceWatcher,
         SabotageMaster,
+        Oracle,
+        Medic,
+        Bodyguard,
         Sheriff,
         Investigator,
         Snitch,
@@ -633,10 +672,9 @@ namespace TownOfHost
         Dictator,
         Doctor,
         Child,
-        //Sleuth,
         Veteran,
-        CSchrodingerCat,//クルー陣営のシュレディンガーの猫
-                        //Neutral
+        CSchrodingerCat,
+        //Neutral
         Arsonist,
         Egoist,
         PlagueBearer,
@@ -646,10 +684,10 @@ namespace TownOfHost
         Werewolf,
         Marksman,
         GuardianAngelTOU,
-        Supporter,
-        EgoSchrodingerCat,//エゴイスト陣営のシュレディンガーの猫
+        EgoSchrodingerCat,
         Jester,
         Amnesiac,
+        Hacker,
         BloodKnight,
         Hitman,
         Phantom,
@@ -657,17 +695,16 @@ namespace TownOfHost
         Juggernaut,
         Opportunist,
         Survivor,
-        SchrodingerCat,//第三陣営のシュレディンガーの猫
+        SchrodingerCat,
         Terrorist,
         Executioner,
         Jackal,
         Sidekick,
-        JSchrodingerCat,//ジャッカル陣営のシュレディンガーの猫
-                        //HideAndSeek
+        JSchrodingerCat,
+        //HideAndSeek
         HASFox,
         HASTroll,
         //GM
-        GM,
         //coven
         Coven,
         Poisoner,
@@ -680,12 +717,9 @@ namespace TownOfHost
         Conjuror,
 
         // NEW GAMEMODE ROLES //
-
-        TeamRed,
-        TeamBlue,
-        TeamGreen,
         Painter,
         Janitor,
+        Supporter,
 
         // RANDOM ROLE HELPERS //
         LoversWin,
@@ -759,7 +793,8 @@ namespace TownOfHost
         SchrodingerCat = CustomRoles.SchrodingerCat,
         Executioner = CustomRoles.Executioner,
         HASFox = CustomRoles.HASFox,
-        GuardianAngelTOU = CustomRoles.GuardianAngelTOU
+        GuardianAngelTOU = CustomRoles.GuardianAngelTOU,
+        Hitman = CustomRoles.Hitman
     }
     /*public enum CustomRoles : byte
     {
@@ -772,7 +807,8 @@ namespace TownOfHost
         None = 0,
         TOH,
         Streaming,
-        Recording
+        Recording,
+        Dev
     }
     public enum VersionTypes
     {

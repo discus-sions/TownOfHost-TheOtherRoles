@@ -61,11 +61,7 @@ namespace TownOfHost
                     exiled.Object.RpcSetName(Main.LastVotedPlayer);
                 }
                 var role = exiled.GetCustomRole();
-                Main.DeadPlayersThisRound.Add(exiled.PlayerId);
-                /*if (Main.RealOptionsData.ConfirmImpostor)
-                {
-                    exiled.PlayerName = exiled.GetNameWithRole();
-                }*/
+                // Main.DeadPlayersThisRound.Add(exiled.PlayerId);
                 if (role == CustomRoles.Jester && AmongUsClient.Instance.AmHost)
                 {
                     MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.EndGame, Hazel.SendOption.Reliable, -1);
@@ -123,10 +119,9 @@ namespace TownOfHost
             {
                 var executioner = Utils.GetPlayerById(kvp.Key);
                 if (executioner == null) continue;
-                if (executioner.Data.IsDead || executioner.Data.Disconnected) continue; //Keyが死んでいたらor切断していたらこのforeach内の処理を全部スキップ
+                if (executioner.Data.IsDead || executioner.Data.Disconnected) continue;
                 if (kvp.Value == exiled.PlayerId && AmongUsClient.Instance.AmHost && !DecidedWinner)
                 {
-                    //RPC送信開始
                     Main.ExeCanChangeRoles = false;
                     MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.EndGame, Hazel.SendOption.Reliable, -1);
                     if (executioner.Is(CustomRoles.Executioner))
@@ -134,9 +129,12 @@ namespace TownOfHost
                     else
                         writer.Write((byte)CustomWinner.Swapper);
                     writer.Write(kvp.Key);
-                    AmongUsClient.Instance.FinishRpcImmediately(writer); //終了
+                    AmongUsClient.Instance.FinishRpcImmediately(writer);
 
-                    RPC.ExecutionerWin(kvp.Key);
+                    if (executioner.Is(CustomRoles.Executioner))
+                        RPC.ExecutionerWin(kvp.Key);
+                    else
+                        RPC.SwapperWin(kvp.Key);
                 }
             }
             if (exiled.Object.Is(CustomRoles.TimeThief))
@@ -152,7 +150,7 @@ namespace TownOfHost
                 if (AmongUsClient.Instance.AmHost && Main.IsFixedCooldown)
                     Main.RefixCooldownDelay = Options.DefaultKillCooldown - 3f;
                 Main.SpelledPlayer.RemoveAll(pc => pc == null || pc.Data == null || pc.Data.IsDead || pc.Data.Disconnected);
-                Main.SilencedPlayer.RemoveAll(pc => pc == null || pc.Data == null || pc.Data.IsDead || pc.Data.Disconnected);
+                Main.SilencedPlayer.Clear();
                 Main.IsHackMode = false;
                 Main.IsInvis = false;
                 Main.CanGoInvis = false;
@@ -185,6 +183,7 @@ namespace TownOfHost
                 PlayerControl swapper = null;
                 foreach (var pc in PlayerControl.AllPlayerControls)
                 {
+                    if (pc == null || pc.Data.IsDead || pc.Data.Disconnected) continue;
                     if (pc.Is(CustomRoles.Swapper)) swapper = pc;
                 }
                 if (swapper != null)
@@ -199,7 +198,7 @@ namespace TownOfHost
                         if (target.GetCustomRole().IsCoven()) continue;
                         if (target.Is(CustomRoles.Phantom)) continue;
                         if (Main.ExecutionerTarget.ContainsValue(target.PlayerId)) continue;
-                        if (target.Is(CustomRoles.GM) || target == null || target.Data.IsDead || target.Data.Disconnected) continue;
+                        if (target == null || target.Data.IsDead || target.Data.Disconnected) continue;
 
                         targetList.Add(target);
                     }
@@ -213,18 +212,9 @@ namespace TownOfHost
                     Main.ExecutionerTarget.Add(swapper.PlayerId, Target.PlayerId);
                     RPC.SendExecutionerTarget(swapper.PlayerId, Target.PlayerId);
                     Logger.Info($"{swapper.GetNameWithRole()}:{Target.GetNameWithRole()}", "Swapper");
+                    Utils.NotifyRoles(false, swapper);
                 }
             }
-            /*Main.AfterMeetingDeathPlayers.Do(x =>
-            {
-                var player = Utils.GetPlayerById(x.Key);
-                Logger.Info($"{player.GetNameWithRole()}を{x.Value}で死亡させました", "AfterMeetingDeath");
-                PlayerState.SetDeathReason(x.Key, x.Value);
-                PlayerState.SetDead(x.Key);
-                player?.RpcExileV2();
-                if (player.Is(CustomRoles.TimeThief) && x.Value == PlayerState.DeathReason.LoversSuicide)
-                    player?.ResetVotingTime();
-            });*/
             FallFromLadder.Reset();
             Utils.CountAliveImpostors();
             Utils.AfterMeetingTasks();
@@ -248,7 +238,6 @@ namespace TownOfHost
                     }
                 }, 0.5f, "Restore IsDead Task");
                 Main.IsRampaged = false;
-                Main.RampageReady = false;
                 Main.IsRoundOne = false;
                 Main.IsRoundOneGA = false;
                 Main.IsGazing = false;
@@ -256,13 +245,16 @@ namespace TownOfHost
                 Main.bkProtected = false;
                 new LateTask(() =>
                 {
+                    Main.MareHasRedName = true;
+                }, Mare.RedNameCooldownAfterMeeting.GetFloat(), "Mare Red Name Cooldown (After Meeting)");
+                new LateTask(() =>
+                {
                     Main.RampageReady = true;
                 }, Options.RampageCD.GetFloat(), "Werewolf Rampage Cooldown (After Meeting)");
                 new LateTask(() =>
-                    {
-                        Main.GazeReady = true;
-                    }, Options.StoneCD.GetFloat(), "Gaze Cooldown");
-                //Guesser.OpenGuesserMeeting();
+                {
+                    Main.GazeReady = true;
+                }, Options.StoneCD.GetFloat(), "Gaze Cooldown");
                 foreach (var x in Main.AfterMeetingDeathPlayers)
                 {
                     var player = Utils.GetPlayerById(x.Key);
@@ -277,6 +269,7 @@ namespace TownOfHost
                 Main.AfterMeetingDeathPlayers.Clear();
                 Main.DeadPlayersThisRound.Clear();
                 Main.MercCanSuicide = true;
+                Main.rolesRevealedNextMeeting.Clear();
                 if (Options.SheriffCorrupted.GetBool())
                 {
                     if (!Sheriff.csheriff)
@@ -298,8 +291,10 @@ namespace TownOfHost
                                         numNKalive++;
                                     if (pc.GetCustomRole().IsCoven() && !Options.TraitorCanSpawnIfCoven.GetBool())
                                         numCovenAlive++;
-                                    if (pc.Is(CustomRoles.Sheriff) || pc.Is(CustomRoles.Investigator))
+                                    if (pc.Is(CustomRoles.Sheriff) || pc.Is(CustomRoles.Investigator) || pc.Is(CustomRoles.Hitman))
                                         couldBeTraitors.Add(pc);
+                                    if (pc.Is(CustomRoles.Sheriff) || pc.Is(CustomRoles.Investigator) || pc.Is(CustomRoles.Hitman))
+                                        couldBeTraitorsid.Add(pc.PlayerId);
                                     if (pc.GetCustomRole().IsImpostor())
                                         numImpsAlive++;
                                 }
@@ -325,13 +320,12 @@ namespace TownOfHost
                         //foreach (var pva in __instance.playerStates)
                         if (IsAlive >= Options.PlayersForTraitor.GetFloat() && Sheriff.seer != null)
                         {
-                            if (numCovenAlive == 0 && numNKalive == 0 && numCovenAlive == 0 && numImpsAlive == 0)
+                            if (numCovenAlive == 0 && numNKalive == 0 && numCovenAlive == 0 && numImpsAlive - 1 <= 0)
                             {
                                 Sheriff.seer.RpcSetCustomRole(CustomRoles.CorruptedSheriff);
                                 Sheriff.seer.CustomSyncSettings();
                                 Sheriff.csheriff = true;
-                                if (Sheriff.seer.IsModClient())
-                                    RoleManager.Instance.SetRole(Sheriff.seer, RoleTypes.Impostor);
+                                RPC.SetTraitor(Sheriff.seer.PlayerId);
                             }
                         }
                     }

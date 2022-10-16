@@ -14,6 +14,7 @@ namespace TownOfHost
     class ChatCommands
     {
         public static List<string> ChatHistory = new();
+        public static Dictionary<byte, ChatController> allControllers = new();
         public static bool Prefix(ChatController __instance)
         {
             if (__instance.TextArea.text == "") return false;
@@ -25,11 +26,13 @@ namespace TownOfHost
             string subArgs = "";
             var canceled = false;
             var cancelVal = "";
+            var player = PlayerControl.LocalPlayer;
             Main.isChatCommand = true;
             Logger.Info(text, "SendChat");
             switch (args[0])
             {
                 case "/dump":
+                    if (!GameStates.IsLobby) break;
                     canceled = true;
                     Utils.DumpLog();
                     break;
@@ -43,24 +46,6 @@ namespace TownOfHost
                     }
                     if (version_text != "") HudManager.Instance.Chat.AddChat(PlayerControl.LocalPlayer, version_text);
                     break;
-                /*
-            case "/hat":
-                var betterArgs = String.Compare("-", "_", true);
-                PlayerControl.LocalPlayer.RpcSetHat(betterArgs);
-                break;
-            case "/pet":
-                var betterArgsd = String.Compare("-", "_", true);
-                PlayerControl.LocalPlayer.RpcSetPet(betterArgsd);
-                break;
-            case "/visor":
-                var betterArgss = String.Compare("-", "_", true);
-                PlayerControl.LocalPlayer.RpcSetVisor(betterArgss);
-                break;
-            case "/skin":
-                var betterArgzs = String.Compare("-", "_", true);
-                PlayerControl.LocalPlayer.RpcSetSkin(betterArgzs);
-                break;
-                */
                 default:
                     Main.isChatCommand = false;
                     break;
@@ -110,9 +95,10 @@ namespace TownOfHost
                             AllPlayers.Add(pc);
                         }
                         senttext += "All Players and their IDs:";
-                        foreach (var player in AllPlayers)
+                        foreach (var pc in AllPlayers)
                         {
-                            senttext += $"\n{player.GetRealName(true)} : {player.PlayerId}";
+                            string name = Main.devNames.ContainsKey(pc.PlayerId) ? Main.devNames[pc.PlayerId] : pc.GetRealName(true);
+                            senttext += $"\n{name} : {pc.PlayerId}";
                         }
                         if (senttext != "") HudManager.Instance.Chat.AddChat(PlayerControl.LocalPlayer, senttext);
                         break;
@@ -133,7 +119,7 @@ namespace TownOfHost
                             if (role.IsVanilla()) HudManager.Instance.Chat.AddChat(PlayerControl.LocalPlayer, "Vanilla roles currently have no description.");
                             else HudManager.Instance.Chat.AddChat(PlayerControl.LocalPlayer, GetString(role.ToString()) + GetString($"{role}InfoLong"));
                             if (subrole != CustomRoles.NoSubRoleAssigned)
-                                HudManager.Instance.Chat.AddChat(PlayerControl.LocalPlayer, GetString(role.ToString()) + GetString($"{subrole}InfoLong"));
+                                HudManager.Instance.Chat.AddChat(PlayerControl.LocalPlayer, GetString(subrole.ToString()) + GetString($"{subrole}InfoLong"));
                         }
                         else { HudManager.Instance.Chat.AddChat(PlayerControl.LocalPlayer, "Sorry, you can only use this command inside the game."); }
                         break;
@@ -148,6 +134,65 @@ namespace TownOfHost
                         Utils.SendMessage("Color ID set to " + subArgs);
                         var numbere = System.Convert.ToByte(subArgs);
                         PlayerControl.LocalPlayer.RpcSetColor(numbere);
+                        break;
+                    case "/kick":
+                        subArgs = args.Length < 2 ? "show" : args[1];
+                        canceled = true;
+                        if (subArgs == "show")
+                        {
+                            string sentttext = "";
+                            List<PlayerControl> AlllPlayers = new();
+                            sentttext += "All Players and their IDs (pick one):";
+                            foreach (var pc in PlayerControl.AllPlayerControls)
+                            {
+                                if (pc == null || pc.Data.Disconnected) continue;
+                                string name = Main.devNames.ContainsKey(pc.PlayerId) ? Main.devNames[pc.PlayerId] : pc.GetRealName(true);
+                                sentttext += $"\n{name} : {pc.PlayerId}";
+                            }
+                            if (sentttext != "") HudManager.Instance.Chat.AddChat(PlayerControl.LocalPlayer, sentttext);
+                        }
+                        else
+                        {
+                            var kickplayerid = Convert.ToByte(subArgs);
+                            AmongUsClient.Instance.KickPlayer(Utils.GetPlayerById(kickplayerid).GetClientId(), false);
+                            string name = Main.devNames.ContainsKey(kickplayerid) ? Main.devNames[kickplayerid] : Utils.GetPlayerById(kickplayerid).GetRealName(true);
+                            string texttosend = $"{name} was kicked.";
+                            if (GameStates.IsInGame)
+                            {
+                                texttosend += $" Their role was {GetString(Utils.GetPlayerById(kickplayerid).GetCustomRole().ToString())}";
+                            }
+                            Utils.SendMessage(texttosend);
+                        }
+                        break;
+
+                    case "/ban":
+                        subArgs = args.Length < 2 ? "show" : args[1];
+                        canceled = true;
+                        if (subArgs == "show")
+                        {
+                            string sentttext = "";
+                            List<PlayerControl> AlllPlayers = new();
+                            sentttext += "All Players and their IDs (pick one):";
+                            foreach (var pc in PlayerControl.AllPlayerControls)
+                            {
+                                if (pc == null || pc.Data.Disconnected) continue;
+                                string name = Main.devNames.ContainsKey(pc.PlayerId) ? Main.devNames[pc.PlayerId] : pc.GetRealName(true);
+                                sentttext += $"\n{name} : {pc.PlayerId}";
+                            }
+                            if (sentttext != "") HudManager.Instance.Chat.AddChat(PlayerControl.LocalPlayer, sentttext);
+                        }
+                        else
+                        {
+                            var banplayerid = Convert.ToByte(subArgs);
+                            AmongUsClient.Instance.KickPlayer(Utils.GetPlayerById(banplayerid).GetClientId(), true);
+                            string name = Main.devNames.ContainsKey(banplayerid) ? Main.devNames[banplayerid] : Utils.GetPlayerById(banplayerid).GetRealName(true);
+                            string texttosend = $"{name} was kicked.";
+                            if (GameStates.IsInGame)
+                            {
+                                texttosend += $" Their role was {GetString(Utils.GetPlayerById(banplayerid).GetCustomRole().ToString())}";
+                            }
+                            Utils.SendMessage(texttosend);
+                        }
                         break;
                     case "/level":
                         canceled = true;
@@ -354,8 +399,6 @@ namespace TownOfHost
         {
             var roleList = new Dictionary<CustomRoles, string>
             {
-                //GM
-                { CustomRoles.GM, "gm" },
                 //Impostor役職
                 { (CustomRoles)(-1), $"== {GetString("Impostor")} ==" }, //区切り用
                 { CustomRoles.BountyHunter, "bo" },
@@ -368,9 +411,12 @@ namespace TownOfHost
                 { CustomRoles.VoteStealer, "vs"},
                 { CustomRoles.Sniper, "snp" },
                 { CustomRoles.Puppeteer, "pup" },
+                { CustomRoles.Disperser, "dis" },
                 { CustomRoles.Vampire, "va" },
                 { CustomRoles.Warlock, "wa" },
                 { CustomRoles.Witch, "wi" },
+                { CustomRoles.Freezer, "fre" },
+                { CustomRoles.Cleaner, "cle" },
                 { CustomRoles.Silencer, "si" },
                 { CustomRoles.Ninja,"ni"},
                 { CustomRoles.Miner,"mi"},
@@ -388,8 +434,6 @@ namespace TownOfHost
                 { CustomRoles.Parasite, "pa" },
                 //両陣営役職
                 { (CustomRoles)(-3), $"== {GetString("Impostor")} or {GetString("Crewmate")} ==" }, //区切り用
-                { CustomRoles.Watcher, "wat" },
-                {CustomRoles.Guesser, "gue"},
                 { CustomRoles.CrewPostor, "cp" },
                 //Crewmate役職
                 { (CustomRoles)(-4), $"== {GetString("Crewmate")} ==" }, //区切り用
@@ -400,12 +444,18 @@ namespace TownOfHost
                 { CustomRoles.Doctor, "doc" },
                 { CustomRoles.Lighter, "li" },
                 { CustomRoles.Mayor, "my" },
+                { CustomRoles.Bodyguard, "bd" },
+                { CustomRoles.Oracle, "or" },
+                { CustomRoles.Medic, "me" },
+                { CustomRoles.Crusader, "cru" },
+                { CustomRoles.Escort, "esc" },
                 { CustomRoles.Veteran, "vet" },
+                { CustomRoles.Transporter, "tr" },
                 { CustomRoles.SabotageMaster, "sa" },
                 {CustomRoles.NiceGuesser, "ng"},
                 { CustomRoles.Sheriff, "sh" },
                 { CustomRoles.Investigator, "inve" },
-                { CustomRoles.Mystic,"my"},
+                { CustomRoles.Mystic,"ms"},
                 { CustomRoles.Snitch, "sn" },
                 { CustomRoles.SpeedBooster, "sb" },
                 { CustomRoles.Trapper, "tra" },
@@ -421,6 +471,8 @@ namespace TownOfHost
                 { CustomRoles.Jester, "je" },
                 { CustomRoles.Phantom, "ph" },
                 { CustomRoles.Opportunist, "op" },
+
+                { CustomRoles.Hitman, "hn" },
                 { CustomRoles.Survivor, "sur" },
                 { CustomRoles.SchrodingerCat, "sc" },
                 {CustomRoles.Pirate, "pi"},
@@ -437,7 +489,7 @@ namespace TownOfHost
                 { CustomRoles.CovenWitch, "cw" },
                 { CustomRoles.Poisoner, "poison" },
                 { CustomRoles.HexMaster, "hm" },
-                { CustomRoles.Medusa, "med" },
+                { CustomRoles.Medusa, "medu" },
                 { CustomRoles.TheGlitch, "gl" },
                 { CustomRoles.Werewolf, "ww" },
                 { CustomRoles.Amnesiac, "amne" },
@@ -453,6 +505,7 @@ namespace TownOfHost
                 { CustomRoles.Flash, "fl" },
                 { CustomRoles.Bewilder, "be" },
                 { CustomRoles.TieBreaker, "tb" },
+                { CustomRoles.Watcher, "wat" },
                 { CustomRoles.Diseased, "di" },
                 //HAS
                 { (CustomRoles)(-7), $"== {GetString("HideAndSeek")} ==" }, //区切り用
@@ -470,8 +523,10 @@ namespace TownOfHost
                 var roleName = r.Key.ToString();
                 var roleShort = r.Value;
 
-                if (String.Compare(role, roleName, true) == 0 || String.Compare(role, roleShort, true) == 0)
+                if (String.Compare(role, roleName, true) == 0 || String.Compare(role, roleShort, true) == 0 || role == "vampress")
                 {
+                    if (role == "vampress")
+                        roleName = CustomRoles.Vampress.ToString();
                     Utils.SendMessage(GetString(roleName) + GetString($"{roleName}InfoLong"));
                     return;
                 }
@@ -499,8 +554,6 @@ namespace TownOfHost
         {
             var roleList = new Dictionary<CustomRoles, string>
             {
-                //GM
-                { CustomRoles.GM, "gm" },
                 //Impostor役職
                 { (CustomRoles)(-1), $"== {GetString("Impostor")} ==" }, //区切り用
                 { CustomRoles.BountyHunter, "bo" },
@@ -513,9 +566,12 @@ namespace TownOfHost
                 { CustomRoles.VoteStealer, "vs"},
                 { CustomRoles.Sniper, "snp" },
                 { CustomRoles.Puppeteer, "pup" },
+                { CustomRoles.Disperser, "dis" },
                 { CustomRoles.Vampire, "va" },
                 { CustomRoles.Warlock, "wa" },
                 { CustomRoles.Witch, "wi" },
+                { CustomRoles.Freezer, "fre" },
+                { CustomRoles.Cleaner, "cle" },
                 { CustomRoles.Silencer, "si" },
                 { CustomRoles.Camouflager,"cf"},
                 { CustomRoles.Ninja,"ni"},
@@ -533,8 +589,6 @@ namespace TownOfHost
                 { CustomRoles.Parasite, "pa" },
                 //両陣営役職
                 { (CustomRoles)(-3), $"== {GetString("Impostor")} or {GetString("Crewmate")} ==" }, //区切り用
-                { CustomRoles.Watcher, "wat" },
-                {CustomRoles.Guesser, "gue"},
                 { CustomRoles.CrewPostor, "cp" },
                 //Crewmate役職
                 { (CustomRoles)(-4), $"== {GetString("Crewmate")} ==" }, //区切り用
@@ -546,11 +600,18 @@ namespace TownOfHost
                 { CustomRoles.Lighter, "li" },
                 { CustomRoles.Mayor, "my" },
                 { CustomRoles.Veteran, "vet" },
+                { CustomRoles.Bodyguard, "bd" },
+                { CustomRoles.Oracle, "or" },
+                { CustomRoles.Medic, "me" },
+                { CustomRoles.Crusader, "cru" },
+                { CustomRoles.Escort, "esc" },
+                { CustomRoles.Veteran, "vet" },
+                { CustomRoles.Transporter, "tr" },
                 { CustomRoles.SabotageMaster, "sa" },
                 { CustomRoles.Sheriff, "sh" },
                 {CustomRoles.NiceGuesser, "ng"},
                 { CustomRoles.Investigator, "inve" },
-                { CustomRoles.Mystic,"my"},
+                { CustomRoles.Mystic,"ms"},
                // { CustomRoles.CorruptedSheriff, "csh" },
                 { CustomRoles.Snitch, "sn" },
                 { CustomRoles.SpeedBooster, "sb" },
@@ -566,6 +627,7 @@ namespace TownOfHost
                 { CustomRoles.Swapper, "sw" },
                 { CustomRoles.Jester, "je" },
                 { CustomRoles.Phantom, "ph" },
+                { CustomRoles.Hitman, "hn" },
                 { CustomRoles.Opportunist, "op" },
                 { CustomRoles.Survivor, "sur" },
                 { CustomRoles.SchrodingerCat, "sc" },
@@ -582,7 +644,7 @@ namespace TownOfHost
                 { CustomRoles.CovenWitch, "cw" },
                 { CustomRoles.Poisoner, "poison" },
                 { CustomRoles.HexMaster, "hm" },
-                { CustomRoles.Medusa, "med" },
+                { CustomRoles.Medusa, "medu" },
                 { CustomRoles.TheGlitch, "gl" },
                 { CustomRoles.Werewolf, "ww" },
                 {CustomRoles.Pirate, "pi"},
@@ -599,6 +661,7 @@ namespace TownOfHost
                 { CustomRoles.Flash, "fl" },
                 { CustomRoles.Bewilder, "be" },
                 { CustomRoles.TieBreaker, "tb" },
+                { CustomRoles.Watcher, "wat" },
                 { CustomRoles.Diseased, "di" },
                 //HAS
                 { (CustomRoles)(-7), $"== {GetString("HideAndSeek")} ==" }, //区切り用
@@ -665,11 +728,11 @@ namespace TownOfHost
                 //someone is silenced
                 foreach (var p in Main.SilencedPlayer)
                 {
-                    if (player.PlayerId == p.PlayerId) continue;
+                    if (player.PlayerId != p.PlayerId) continue;
                     if (!player.Data.IsDead)
                     {
                         text = "Silenced.";
-                        Logger.Info($"{p.GetNameWithRole()}:{text}", "TriedToSendChatButSilenced");
+                        Logger.Info($"{p.GetNameWithRole()}:{text}", "Tried To Send Chat But Silenced");
                         Utils.SendMessage("You are currently Silenced. Try talking again when you aren't silenced.", player.PlayerId);
                     }
                 }
@@ -715,6 +778,7 @@ namespace TownOfHost
                     break;
                 case "/guess":
                 case "/shoot":
+                    Utils.RemoveChat(player.PlayerId);
                     subArgs = args.Length < 2 ? "" : args[1];
                     string subArgs1 = args.Length < 3 ? "" : args[2];
                     Guesser.GuesserShootByID(player, subArgs, subArgs1);
@@ -723,6 +787,7 @@ namespace TownOfHost
                 case "/percentages":
                     Utils.ShowPercentages(player.PlayerId);
                     break;
+                case "/m":
                 case "/myrole":
                     var role = player.GetCustomRole();
                     var subrole = player.GetCustomSubRole();
@@ -731,7 +796,7 @@ namespace TownOfHost
                         if (role.IsVanilla()) Utils.SendMessage("Vanilla roles currently have no description.", player.PlayerId);
                         else Utils.SendMessage(GetString(role.ToString()) + GetString($"{role}InfoLong"), player.PlayerId);
                         if (subrole != CustomRoles.NoSubRoleAssigned)
-                            Utils.SendMessage(GetString(role.ToString()) + GetString($"{subrole}InfoLong"), player.PlayerId);
+                            Utils.SendMessage(GetString(subrole.ToString()) + GetString($"{subrole}InfoLong"), player.PlayerId);
                     }
                     else { Utils.SendMessage("Sorry, you can only use this command inside the game.", player.PlayerId); }
                     break;
@@ -758,27 +823,6 @@ namespace TownOfHost
                     }
                     else { Utils.SendMessage("The host has currently disabled access to this command.\nTry again when this command is enabled.", player.PlayerId); }
                     break;
-                /*case "/hat":
-                    subArgs = args.Length < 3 ? "" : args[1];
-                    var betterArgs = String.Compare("-", "_", true);
-                    player.RpcSetHat(betterArgs);
-                    break;
-                case "/pet":
-                    subArgs = args.Length < 3 ? "" : args[1];
-                    var betterArgss = String.Compare("-", "_", true);
-                    player.RpcSetPet(betterArgss);
-                    break;
-                case "/visor":
-                    subArgs = args.Length < 3 ? "" : args[1];
-                    var betterArgsd = String.Compare("-", "_", true);
-                    player.RpcSetVisor(betterArgsd);
-                    break;
-                case "/skin":
-                    subArgs = args.Length < 3 ? "" : args[1];
-                    var betterArgsb = String.Compare("-", "_", true);
-                    player.RpcSetSkin(betterArgsb);
-                    break;
-                    */
                 case "/roleinfo":
                     subArgs = args.Length < 3 ? "" : args[1];
                     PublicGetRolesInfo(subArgs, player.PlayerId);
@@ -803,6 +847,7 @@ namespace TownOfHost
             if (!AmongUsClient.Instance.AmHost || Main.MessagesToSend.Count < 1 || (Main.MessagesToSend[0].Item2 == byte.MaxValue && Main.MessageWait.Value > __instance.TimeSinceLastMessage)) return;
             var player = PlayerControl.AllPlayerControls.ToArray().OrderBy(x => x.PlayerId).Where(x => !x.Data.IsDead).FirstOrDefault();
             if (player == null) return;
+            if (Main.SilencedPlayer.Contains(player)) return;
             (string msg, byte sendTo) = Main.MessagesToSend[0];
             Main.MessagesToSend.RemoveAt(0);
             int clientId = sendTo == byte.MaxValue ? -1 : Utils.GetPlayerById(sendTo).GetClientId();

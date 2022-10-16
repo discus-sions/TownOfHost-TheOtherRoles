@@ -33,6 +33,7 @@ namespace TownOfHost
         private static CustomOption SheriffCanKillCoven;
         private static CustomOption CanKillGlitch;
         private static CustomOption CanKillWerewolf;
+        private static CustomOption CanKillHitman;
         //public static CustomOption TraitorCanSpawnIfNK;
         //public static CustomOption TraitorCanSpawnIfCoven;
 
@@ -60,6 +61,7 @@ namespace TownOfHost
             CanKillWerewolf = CustomOption.Create(Id + 26, Color.white, "SCKWW", true, Options.CustomRoleSpawnChances[CustomRoles.Sheriff]);
             CanKillCrewmatesAsIt = CustomOption.Create(Id + 27, Color.white, "SheriffCanKillCrewmatesAsIt", false, Options.CustomRoleSpawnChances[CustomRoles.Sheriff]);
             ShotLimitOpt = CustomOption.Create(Id + 28, Color.white, "SheriffShotLimit", 99, -1, 15, 1, Options.CustomRoleSpawnChances[CustomRoles.Sheriff]);
+            CanKillHitman = CustomOption.Create(Id + 29, Color.white, "SheriffCanKillHitman", true, Options.CustomRoleSpawnChances[CustomRoles.Sheriff]);
             /*SheriffCorrupted = CustomOption.Create(Id + 29, Color.white, "TurnCorrupt", false, Options.CustomRoleSpawnChances[CustomRoles.Sheriff]);
             PlayersForTraitor = CustomOption.Create(Id + 30, Color.white, "TraitorSpawn", 1, 0, 15, 1, SheriffCorrupted);
             TraitorCanSpawnIfNK = CustomOption.Create(Id + 31, Color.white, "TraitorCanSpawnIfNK", true, SheriffCorrupted);
@@ -147,7 +149,7 @@ namespace TownOfHost
         public static void SwitchToCorrupt(PlayerControl killer, PlayerControl target)
         {
             if (!csheriff)
-                if (target.CurrentlyLastImpostor())
+                if (target.GetCustomRole().IsImpostor())
                 {
                     //bool LocalPlayerKnowsImpostor = false;
                     if (Options.SheriffCorrupted.GetBool())
@@ -172,9 +174,9 @@ namespace TownOfHost
                                             numNKalive++;
                                         if (pc.GetCustomRole().IsCoven() && !Options.TraitorCanSpawnIfCoven.GetBool())
                                             numCovenAlive++;
-                                        if (pc.Is(CustomRoles.Sheriff) || pc.Is(CustomRoles.Investigator))
+                                        if (pc.Is(CustomRoles.Sheriff) || pc.Is(CustomRoles.Investigator) || pc.Is(CustomRoles.Hitman))
                                             couldBeTraitors.Add(pc);
-                                        if (pc.Is(CustomRoles.Sheriff) || pc.Is(CustomRoles.Investigator))
+                                        if (pc.Is(CustomRoles.Sheriff) || pc.Is(CustomRoles.Investigator) || pc.Is(CustomRoles.Hitman))
                                             couldBeTraitorsid.Add(pc.PlayerId);
                                         if (pc.GetCustomRole().IsImpostor())
                                             numImpsAlive++;
@@ -206,8 +208,7 @@ namespace TownOfHost
                                     seer.RpcSetCustomRole(CustomRoles.CorruptedSheriff);
                                     seer.CustomSyncSettings();
                                     csheriff = true;
-                                    if (seer.IsModClient())
-                                        RoleManager.Instance.SetRole(seer, RoleTypes.Impostor);
+                                    RPC.SetTraitor(seer.PlayerId);
                                 }
                             }
                         }
@@ -236,6 +237,7 @@ namespace TownOfHost
                 CustomRoles.PlagueBearer => CanKillPlagueBearer.GetBool(),
                 CustomRoles.Juggernaut => CanKillJug.GetBool(),
                 CustomRoles.Marksman => CanKillJug.GetBool(),
+                CustomRoles.Hitman => CanKillHitman.GetBool(),
                 CustomRoles.BloodKnight => CanKillJug.GetBool(),
                 CustomRoles.Vulture => CanKillVulture.GetBool(),
                 CustomRoles.TheGlitch => CanKillGlitch.GetBool(),

@@ -1,6 +1,8 @@
 using HarmonyLib;
 using Hazel;
 using System.Collections.Generic;
+using System.Linq;
+using UnityEngine;
 
 namespace TownOfHost
 {
@@ -31,15 +33,12 @@ namespace TownOfHost
                     {
                         if (CheckAndEndGameForHideAndSeek(__instance, statistics)) return false;
                         if (CheckAndEndGameForTroll(__instance)) return false;
-
-                        if (!Options.NoGameEnd.GetBool())
-                            if (CheckAndEndGameForTaskWin(__instance)) return false;
+                        if (CheckAndEndGameForTaskWin(__instance)) return false;
                     }
                     else
                     {
                         if (CheckAndEndGameForPainterWin(__instance, statistics)) return false;
-                        if (!CustomRoles.Supporter.IsEnable())
-                            if (CheckAndEndGameForTaskWin(__instance)) return false;
+                        if (CheckAndEndGameForTaskWin(__instance)) return false;
                     }
                 }
                 else if (Options.CurrentGameMode() == CustomGameMode.ColorWars)
@@ -53,14 +52,14 @@ namespace TownOfHost
                 else
                 {
                     //if (CheckAndEndGameForPirateWin(__instance, statistics)) return false;
-                    if (!Options.NoGameEnd.GetBool())
-                        if (CheckAndEndGameForTaskWin(__instance)) return false;
+                    if (CheckAndEndGameForTaskWin(__instance)) return false;
                     if (CheckAndEndGameForLoversWin(__instance, statistics)) return false;
                     if (CheckAndEndGameForSabotageWin(__instance)) return false;
                     if (CheckAndEndGameForEveryoneDied(__instance, statistics)) return false;
                     if (CheckAndEndGameForImpostorWin(__instance, statistics)) return false;
                     if (CheckAndEndGameForJackalWin(__instance, statistics)) return false;
                     if (CheckAndEndGameForMarksman(__instance, statistics)) return false;
+                    if (CheckAndEndGameForKnighthWin(__instance, statistics)) return false;
                     if (CheckAndEndGameForVultureWin(__instance, statistics)) return false;
                     if (CheckAndEndGameForPestiWin(__instance, statistics)) return false;
                     if (CheckAndEndGameForCrewmateWin(__instance, statistics)) return false;
@@ -108,6 +107,7 @@ namespace TownOfHost
 
         private static bool CheckAndEndGameForTaskWin(ShipStatus __instance)
         {
+            if (Options.DisableTaskWin.GetBool()) return false;
             if (GameData.Instance.TotalTasks <= GameData.Instance.CompletedTasks)
             {
                 __instance.enabled = false;
@@ -219,10 +219,13 @@ namespace TownOfHost
         }
         private static bool CheckAndEndGameForLoversWin(ShipStatus __instance, PlayerStatistics statistics)
         {
-            if (1 >= statistics.TotalAlive - statistics.NumberOfLovers)
+            var leftover = statistics.TotalAlive - statistics.NumberOfLovers;
+            if (leftover == 1 | leftover == 0)
             {
-                if (statistics.TotalAlive - statistics.NumberOfLovers <= 1) return false;
-                if (Main.LoversPlayers.Count != 2) return false;
+                if (Main.isLoversDead) return false;
+                //var dead = Main.LoversPlayers.ToArray().All(p => !p.Data.IsDead);
+                //if (dead) return false;
+                if (Main.LoversPlayers.Count <= 0) return false;
                 __instance.enabled = false;
                 var endReason = TempData.LastDeathReason switch
                 {
@@ -699,8 +702,8 @@ namespace TownOfHost
             foreach (var pc in PlayerControl.AllPlayerControls)
             {
                 var LoseImpostorRole = Main.AliveImpostorCount == 0 ? pc.Is(RoleType.Impostor) : pc.Is(CustomRoles.Egoist);
-                if (pc.Is(CustomRoles.Sheriff) || pc.Is(CustomRoles.Investigator) || pc.Is(CustomRoles.Janitor) ||
-                    (!(Main.currentWinner == CustomWinner.Arsonist) && pc.Is(CustomRoles.Arsonist)) || (Main.currentWinner != CustomWinner.Vulture && pc.Is(CustomRoles.Vulture)) || (Main.currentWinner != CustomWinner.Painter && pc.Is(CustomRoles.Painter)) || (Main.currentWinner != CustomWinner.Marksman && pc.Is(CustomRoles.Marksman)) || (Main.currentWinner != CustomWinner.Pirate && pc.Is(CustomRoles.Pirate)) ||
+                if (pc.Is(CustomRoles.Sheriff) || pc.Is(CustomRoles.Investigator) || pc.Is(CustomRoles.Janitor) || pc.Is(CustomRoles.Escort) || pc.Is(CustomRoles.Crusader) ||
+                    (!(Main.currentWinner == CustomWinner.Arsonist) && pc.Is(CustomRoles.Arsonist)) || (Main.currentWinner == CustomWinner.Lovers && !Main.LoversPlayers.Contains(pc)) || (pc.Is(CustomRoles.Hitman) && pc.Data.IsDead) || (Main.currentWinner != CustomWinner.Vulture && pc.Is(CustomRoles.Vulture)) || (Main.currentWinner != CustomWinner.Painter && pc.Is(CustomRoles.Painter)) || (Main.currentWinner != CustomWinner.Marksman && pc.Is(CustomRoles.Marksman)) || (Main.currentWinner != CustomWinner.Pirate && pc.Is(CustomRoles.Pirate)) ||
                     (Main.currentWinner != CustomWinner.Jackal && pc.Is(CustomRoles.Jackal)) || (Main.currentWinner != CustomWinner.BloodKnight && pc.Is(CustomRoles.BloodKnight)) || (Main.currentWinner != CustomWinner.Pestilence && pc.Is(CustomRoles.Pestilence)) || (Main.currentWinner != CustomWinner.Coven && pc.GetRoleType() == RoleType.Coven) ||
                     LoseImpostorRole || (Main.currentWinner != CustomWinner.Werewolf && pc.Is(CustomRoles.Werewolf)) || (Main.currentWinner != CustomWinner.TheGlitch && pc.Is(CustomRoles.TheGlitch)))
                 {
@@ -799,8 +802,6 @@ namespace TownOfHost
                                 if (role is not CustomRoles.HASFox and not CustomRoles.HASTroll) numTotalAlive++;
                             }
 
-                            //PlayerControl player = Utils.GetPlayerById(playerInfo.PlayerId);
-
                             if (playerInfo.Role.TeamType == RoleTeamTypes.Impostor &&
                             (playerInfo.GetCustomRole() != CustomRoles.Sheriff || playerInfo.GetCustomRole() != CustomRoles.Arsonist ||
                             playerInfo.GetCustomRole() != CustomRoles.PlagueBearer || playerInfo.GetCustomRole() != CustomRoles.TheGlitch ||
@@ -829,7 +830,7 @@ namespace TownOfHost
                             else if (playerInfo.GetCustomRole() == CustomRoles.Arsonist) arsonists++;
                             else if (playerInfo.GetCustomRole() == CustomRoles.Marksman) marksman++;
 
-                            if (playerInfo.Object.GetCustomSubRole() == CustomRoles.LoversRecode) lovers++;
+                            if (playerInfo.GetCustomSubRole() == CustomRoles.LoversRecode) lovers++;
                         }
                     }
                 }

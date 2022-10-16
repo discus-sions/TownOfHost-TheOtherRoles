@@ -10,16 +10,16 @@ namespace TownOfHost
         public static void Prefix()
         {
             if (AmongUsClient.Instance.AmHost && SaveManager.ChatModeType == InnerNet.QuickChatModes.QuickChatOnly)
-                SaveManager.ChatModeType = InnerNet.QuickChatModes.FreeChatOrQuickChat; //コマンドを打つためにホストのみ常時フリーチャット開放
+                SaveManager.ChatModeType = InnerNet.QuickChatModes.FreeChatOrQuickChat;
         }
         public static void Postfix(ChatController __instance)
         {
             if (!__instance.TextArea.hasFocus) return;
-            if ((Input.GetKey(KeyCode.LeftControl) || Input.GetKey(KeyCode.RightControl)) && Input.GetKeyDown(KeyCode.C))
+            if (Input.GetKey(KeyCode.LeftControl) | Input.GetKey(KeyCode.RightControl) && Input.GetKeyDown(KeyCode.C))
                 ClipboardHelper.PutClipboardString(__instance.TextArea.text);
-            if ((Input.GetKey(KeyCode.LeftControl) || Input.GetKey(KeyCode.RightControl)) && Input.GetKeyDown(KeyCode.V))
+            if (Input.GetKey(KeyCode.LeftControl) | Input.GetKey(KeyCode.RightControl) && Input.GetKeyDown(KeyCode.V))
                 __instance.TextArea.SetText(__instance.TextArea.text + GUIUtility.systemCopyBuffer);
-            if ((Input.GetKey(KeyCode.LeftControl) || Input.GetKey(KeyCode.RightControl)) && Input.GetKeyDown(KeyCode.X))
+            if (Input.GetKey(KeyCode.LeftControl) | Input.GetKey(KeyCode.RightControl) && Input.GetKeyDown(KeyCode.X))
             {
                 ClipboardHelper.PutClipboardString(__instance.TextArea.text);
                 __instance.TextArea.SetText("");

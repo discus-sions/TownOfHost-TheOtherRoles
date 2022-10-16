@@ -23,7 +23,8 @@ namespace TownOfHost
             };
             //ゲームモードの表示
             text += $"{Options.GameMode.GetName()}: {Options.GameMode.GetString()}\n\n";
-            if (Options.HideGameSettings.GetBool() && !AmongUsClient.Instance.AmHost)
+            bool skip = false;
+            if (skip)
             {
                 text += $"<color=#ff0000>{GetString("Message.HideGameSettings")}</color>";
             }
@@ -146,8 +147,9 @@ namespace TownOfHost
                 nameAndValue(Options.CamoComms);
                 nameAndValue(Options.Customise);
                 nameAndValue(Options.RolesLikeToU);
+                nameAndValue(Options.DisableTaskWin);
                 nameAndValue(Options.GhostCanSeeOtherRoles);
-                nameAndValue(Options.HideGameSettings);
+                nameAndValue(Options.GhostCanSeeOtherVotes);
             }
             //1ページにつき35行までにする処理
             List<string> tmp = new(text.Split("\n\n"));

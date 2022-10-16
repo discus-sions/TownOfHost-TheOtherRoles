@@ -9,13 +9,13 @@ namespace TownOfHost
                 CustomRoles.Shapeshifter or
                 CustomRoles.BountyHunter or
                 CustomRoles.Vampire or
+                CustomRoles.Vampress or
                 CustomRoles.Witch or
                 CustomRoles.Silencer or
                 CustomRoles.Warlock or
                 CustomRoles.SerialKiller or
                 CustomRoles.Mare or
                 CustomRoles.Puppeteer or
-                CustomRoles.EvilWatcher or
                 CustomRoles.TimeThief or
                 CustomRoles.Mafia or
                 CustomRoles.FireWorks or
@@ -25,9 +25,12 @@ namespace TownOfHost
                 CustomRoles.VoteStealer or
                 CustomRoles.YingYanger or
                 CustomRoles.Grenadier or
+                CustomRoles.Freezer or
+                CustomRoles.Cleaner or
                 CustomRoles.Miner or
                 CustomRoles.Ninja or
                 CustomRoles.CorruptedSheriff or
+                CustomRoles.Disperser or
                 CustomRoles.EvilGuesser or
                 CustomRoles.LastImpostor;
         }
@@ -55,6 +58,7 @@ namespace TownOfHost
                 CustomRoles.Arsonist or
                 CustomRoles.Egoist or
                 CustomRoles.EgoSchrodingerCat or
+                CustomRoles.Hitman or
                 CustomRoles.CrewPostor or
                 CustomRoles.Marksman or
                 CustomRoles.Pirate or
@@ -139,6 +143,7 @@ namespace TownOfHost
                 CustomRoles.TheGlitch or
                 CustomRoles.Marksman or
                 CustomRoles.Werewolf or
+                CustomRoles.Pirate or
                 CustomRoles.BloodKnight or
                 CustomRoles.Juggernaut;
         }
@@ -269,8 +274,18 @@ namespace TownOfHost
             return
                 role is CustomRoles.Sheriff or
                 CustomRoles.Investigator or
+                CustomRoles.Parasite or
+                CustomRoles.Escort or
+                CustomRoles.Hitman or
                 CustomRoles.Jackal or
+                CustomRoles.Crusader or
                 CustomRoles.Sidekick;
+        }
+        public static bool CanRoleBlock(this CustomRoles role)
+        {
+            return
+                role is CustomRoles.TheGlitch or
+                CustomRoles.Escort;
         }
         public static void SetCount(this CustomRoles role, int num) => Options.SetRoleCount(role, num);
         public static int GetCount(this CustomRoles role)
@@ -327,7 +342,10 @@ namespace TownOfHost
                 CustomRoles.Sniper or
                 CustomRoles.Parasite or
                 CustomRoles.Egoist or
+                CustomRoles.Disperser or
+                CustomRoles.Freezer or
                 CustomRoles.Camouflager or
+                CustomRoles.Vampress or
                 CustomRoles.Grenadier or
                 CustomRoles.Miner or
                 CustomRoles.Ninja or
@@ -339,6 +357,7 @@ namespace TownOfHost
             if (Options.VultureCanVent.GetBool() && role == CustomRoles.Vulture) return true;
             if (Options.MadSnitchCanVent.GetBool() && role == CustomRoles.MadSnitch) return true;
             if (Options.MayorHasPortableButton.GetBool() && role == CustomRoles.Mayor) return true;
+            if (Options.MediumArrow.GetBool() && role == CustomRoles.Medium) return true;
             return
                 role is CustomRoles.Veteran or
                 CustomRoles.Engineer or

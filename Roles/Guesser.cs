@@ -10,15 +10,11 @@ namespace TownOfHost
 {
     public static class Guesser
     {
-        static readonly int Id = 3010000;
-        static CustomOption EvilGuesserChance;
-        static CustomOption NeutralGuesserChance;
-        static CustomOption ConfirmedEvilGuesser;
+        static readonly int Id = 23424;
         static CustomOption CanShootAsNormalCrewmate;
         static CustomOption GuesserCanKillCount;
         static CustomOption CanKillMultipleTimes;
         public static CustomOption PirateGuessAmount;
-        static CustomOption PirateMisguessAmount;
         static List<byte> playerIdList = new();
         static Dictionary<byte, int> GuesserShootLimit;
         public static Dictionary<byte, bool> isEvilGuesserExiled;
@@ -87,7 +83,6 @@ namespace TownOfHost
         }
         public static void SetRoleToGuesser(PlayerControl player)//ゲッサーをイビルとナイスに振り分ける
         {
-            if (!player.Is(CustomRoles.Guesser)) return;
             if (IsEvilGuesser[player.PlayerId]) Main.AllPlayerCustomRoles[player.PlayerId] = CustomRoles.EvilGuesser;
             else if (IsNeutralGuesser[player.PlayerId]) Main.AllPlayerCustomRoles[player.PlayerId] = CustomRoles.Pirate;
             else Main.AllPlayerCustomRoles[player.PlayerId] = CustomRoles.NiceGuesser;
@@ -111,7 +106,7 @@ namespace TownOfHost
                     //if (target.Data.IsDead) return;
                     var r = GetGuessingType(killer.GetCustomRole(), targetrolenum);
                     if (target.Data.IsDead) return;
-                    if (target.GetCustomRole() == r)//当たっていた場合
+                    if (target.GetCustomRole() == r | target.GetCustomSubRole() == r)//当たっていた場合
                     {
                         if (killer.Is(CustomRoles.Pirate))
                             PirateGuess[killer.PlayerId]++;
@@ -179,81 +174,100 @@ namespace TownOfHost
             }
             return CustomRoles.Amnesiac;
         }
+        public static bool CanGuess(this PlayerControl pc)
+        {
+            if (GameStates.IsLobby || !AmongUsClient.Instance.IsGameStarted) return false;
+            switch (pc.GetRoleType())
+            {
+                case RoleType.Coven:
+                    if (pc.Is(CustomRoles.Mimic) | !Main.HasNecronomicon) break;
+                    return true;
+            }
+            switch (pc.GetCustomRole())
+            {
+                case CustomRoles.EvilGuesser:
+                case CustomRoles.NiceGuesser:
+                case CustomRoles.Pirate:
+                    return true;
+                default:
+                    return false;
+            }
+        }
         public static void GuesserShootByID(PlayerControl killer, string playerId, string targetrolenum)//ゲッサーが撃てるかどうかのチェック
         {
-            if (GameStates.IsLobby) return;
-            if ((!killer.Is(CustomRoles.NiceGuesser) && !killer.Is(CustomRoles.EvilGuesser) && !killer.Is(CustomRoles.Pirate)) || killer.Data.IsDead || !AmongUsClient.Instance.IsGameStarted) if (killer.GetCustomRole().IsCoven() && !Main.HasNecronomicon && !killer.Is(CustomRoles.Mimic)) return;
+            if (!killer.CanGuess()) return;
             if (killer.Is(CustomRoles.Pirate) && !canGuess) return;
-            if (killer.Data.IsDead) return;
             //死んでるやつとゲッサーじゃないやつ、ゲームが始まってない場合は引き返す
             if (killer.Is(CustomRoles.NiceGuesser) && IsEvilGuesserMeeting) return;//イビルゲッサー会議の最中はナイスゲッサーは打つな
             if (!CanKillMultipleTimes.GetBool() && IsSkillUsed[killer.PlayerId] && !IsEvilGuesserMeeting) if (!killer.Is(CustomRoles.Pirate)) return;
+            SetRoleAndNumber();
             if (playerId == "show")
             {
                 SendShootChoices(killer.PlayerId);
                 SendShootID(killer.PlayerId);
                 return;
             }
-            foreach (var target in PlayerControl.AllPlayerControls)
-            {
-                if (playerId == $"{target.PlayerId}" && GuesserShootLimit[killer.PlayerId] != 0)//targetnameが人の名前で弾数が０じゃないなら続行
+            if (!killer.Data.IsDead)
+                foreach (var target in PlayerControl.AllPlayerControls)
                 {
-                    var r = GetShootChoices(killer.GetCustomRole(), targetrolenum);
-                    if (target.Data.IsDead) return;
-                    if (target.GetCustomRole() == r)//当たっていた場合
+                    if (playerId == $"{target.PlayerId}" && GuesserShootLimit[killer.PlayerId] != 0)//targetnameが人の名前で弾数が０じゃないなら続行
                     {
-                        if (killer.Is(CustomRoles.Pirate))
+                        var r = GetShootChoices(killer.GetCustomRole(), targetrolenum);
+                        if (target.Data.IsDead) return;
+                        if (target.GetCustomRole() == r | target.GetCustomSubRole() == r)//当たっていた場合
                         {
-                            PirateGuess[killer.PlayerId]++;
-                            MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.SetPirateProgress, Hazel.SendOption.Reliable, -1);
-                            writer.Write(killer.PlayerId);
-                            writer.Write(PirateGuess[killer.PlayerId]);
-                            AmongUsClient.Instance.FinishRpcImmediately(writer);
-                        }
-                        if (!killer.Is(CustomRoles.Pirate))
-                            if ((target.GetCustomRole() == CustomRoles.Crewmate && !CanShootAsNormalCrewmate.GetBool()) || (target.GetCustomRole() == CustomRoles.Egoist && killer.Is(CustomRoles.EvilGuesser))) return;
-                        //クルー打ちが許可されていない場合とイビルゲッサーがエゴイストを打とうとしている場合はここで帰る
-                        GuesserShootLimit[killer.PlayerId]--;
-                        IsSkillUsed[killer.PlayerId] = true;
-                        PlayerState.SetDeathReason(target.PlayerId, PlayerState.DeathReason.Kill);
-                        target.RpcGuesserMurderPlayer(0f);//専用の殺し方
-                        if (PirateGuess[killer.PlayerId] == PirateGuessAmount.GetInt())
-                        {
-                            // pirate wins.
-                            var endReason = TempData.LastDeathReason switch
+                            if (killer.Is(CustomRoles.Pirate))
                             {
-                                DeathReason.Exile => GameOverReason.ImpostorByVote,
-                                DeathReason.Kill => GameOverReason.ImpostorByKill,
-                                _ => GameOverReason.ImpostorByVote,
-                            };
-                            Main.WonPirateID = killer.PlayerId;
-                            MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.EndGame, Hazel.SendOption.Reliable, -1);
-                            writer.Write((byte)CustomWinner.Pirate);
-                            writer.Write(killer.PlayerId);
-                            AmongUsClient.Instance.FinishRpcImmediately(writer);
-                            RPC.PirateWin(killer.PlayerId);
-                            PirateEndGame(endReason, false);
+                                PirateGuess[killer.PlayerId]++;
+                                MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.SetPirateProgress, Hazel.SendOption.Reliable, -1);
+                                writer.Write(killer.PlayerId);
+                                writer.Write(PirateGuess[killer.PlayerId]);
+                                AmongUsClient.Instance.FinishRpcImmediately(writer);
+                            }
+                            if (!killer.Is(CustomRoles.Pirate))
+                                if ((target.GetCustomRole() == CustomRoles.Crewmate && !CanShootAsNormalCrewmate.GetBool()) || (target.GetCustomRole() == CustomRoles.Egoist && killer.Is(CustomRoles.EvilGuesser))) return;
+                            //クルー打ちが許可されていない場合とイビルゲッサーがエゴイストを打とうとしている場合はここで帰る
+                            GuesserShootLimit[killer.PlayerId]--;
+                            IsSkillUsed[killer.PlayerId] = true;
+                            PlayerState.SetDeathReason(target.PlayerId, PlayerState.DeathReason.Kill);
+                            target.RpcGuesserMurderPlayer(0f);//専用の殺し方
+                            if (PirateGuess[killer.PlayerId] == PirateGuessAmount.GetInt())
+                            {
+                                // pirate wins.
+                                var endReason = TempData.LastDeathReason switch
+                                {
+                                    DeathReason.Exile => GameOverReason.ImpostorByVote,
+                                    DeathReason.Kill => GameOverReason.ImpostorByKill,
+                                    _ => GameOverReason.ImpostorByVote,
+                                };
+                                Main.WonPirateID = killer.PlayerId;
+                                MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.EndGame, Hazel.SendOption.Reliable, -1);
+                                writer.Write((byte)CustomWinner.Pirate);
+                                writer.Write(killer.PlayerId);
+                                AmongUsClient.Instance.FinishRpcImmediately(writer);
+                                RPC.PirateWin(killer.PlayerId);
+                                PirateEndGame(endReason, false);
+                            }
+                            return;
                         }
-                        return;
-                    }
-                    if (target.GetCustomRole() != r)//外していた場合
-                    {
-                        if (!killer.Is(CustomRoles.Pirate))
+                        if (target.GetCustomRole() != r)//外していた場合
                         {
-                            PlayerState.SetDeathReason(target.PlayerId, PlayerState.DeathReason.Misfire);
-                            killer.RpcGuesserMurderPlayer(0f);
+                            if (!killer.Is(CustomRoles.Pirate))
+                            {
+                                PlayerState.SetDeathReason(target.PlayerId, PlayerState.DeathReason.Misfire);
+                                killer.RpcGuesserMurderPlayer(0f);
+                            }
+                            else { canGuess = false; Utils.SendMessage("You missguessed as Pirate. Because of this, instead of dying, your guessing powers have been removed for the rest of the meeting,.", killer.PlayerId); }
+                            if (IsEvilGuesserMeeting)
+                            {
+                                IsEvilGuesserMeeting = false;
+                                isEvilGuesserExiled[killer.PlayerId] = false;
+                                MeetingHud.Instance.RpcClose();
+                            }
+                            return;
                         }
-                        else { canGuess = false; Utils.SendMessage("You missguessed as Pirate. Because of this, instead of dying, your guessing powers have been removed for the rest of the meeting,.", killer.PlayerId); }
-                        if (IsEvilGuesserMeeting)
-                        {
-                            IsEvilGuesserMeeting = false;
-                            isEvilGuesserExiled[killer.PlayerId] = false;
-                            MeetingHud.Instance.RpcClose();
-                        }
-                        return;
                     }
                 }
-            }
         }
         public static CustomRoles GetShootChoices(CustomRoles role, string targetrolenum)
         {
@@ -321,16 +335,9 @@ namespace TownOfHost
             }
             Utils.SendMessage(text, PlayerId);
         }
-        public static void RpcGuesserMurderPlayer(this PlayerControl pc, float delay = 0f)//ゲッサー用の殺し方
+        public static void RpcClientGuess(this PlayerControl pc)
         {
-            string text = "";
-            text += string.Format(GetString("KilledByGuesser"), pc.name);
-            Main.unreportableBodies.Add(pc.PlayerId);
-            Utils.SendMessage(text, byte.MaxValue);
-            // DEATH STUFF //
             var amOwner = pc.AmOwner;
-            pc.Data.IsDead = true;
-            PlayerState.SetDead(pc.PlayerId);
             var meetingHud = MeetingHud.Instance;
             var hudManager = DestroyableSingleton<HudManager>.Instance;
             SoundManager.Instance.PlaySound(pc.KillSfx, false, 0.8f);
@@ -338,7 +345,7 @@ namespace TownOfHost
             if (amOwner)
             {
                 hudManager.ShadowQuad.gameObject.SetActive(false);
-                //pc.nameText().GetComponent<MeshRenderer>().material.SetInt("_Mask", 0);
+                pc.nameText().GetComponent<MeshRenderer>().material.SetInt("_Mask", 0);
                 pc.RpcSetScanner(false);
                 ImportantTextTask importantTextTask = new GameObject("_Player").AddComponent<ImportantTextTask>();
                 importantTextTask.transform.SetParent(AmongUsClient.Instance.transform, false);
@@ -347,7 +354,7 @@ namespace TownOfHost
             PlayerVoteArea voteArea = MeetingHud.Instance.playerStates.First(
                 x => x.TargetPlayerId == pc.PlayerId
             );
-            pc.Die(DeathReason.Kill);
+            //pc.Die(DeathReason.Kill);
             if (voteArea == null) return;
             if (voteArea.DidVote) voteArea.UnsetVote();
             voteArea.AmDead = true;
@@ -364,19 +371,73 @@ namespace TownOfHost
                 meetingHud.ClearVote();
             }
         }
+        public static void RpcGuesserMurderPlayer(this PlayerControl pc, float delay = 0f)//ゲッサー用の殺し方
+        {
+            string text = "";
+            text += string.Format(GetString("KilledByGuesser"), pc.name);
+            Main.unreportableBodies.Add(pc.PlayerId);
+            Utils.SendMessage(text, byte.MaxValue);
+            // DEATH STUFF //
+            var amOwner = pc.AmOwner;
+            pc.Data.IsDead = true;
+            pc.RpcExileV2();
+            //PlayerState.SetDeathReason(pc.PlayerId, PlayerState.DeathReason.Execution);
+            PlayerState.SetDead(pc.PlayerId);
+            var meetingHud = MeetingHud.Instance;
+            var hudManager = DestroyableSingleton<HudManager>.Instance;
+            SoundManager.Instance.PlaySound(pc.KillSfx, false, 0.8f);
+            hudManager.KillOverlay.ShowKillAnimation(pc.Data, pc.Data);
+            if (amOwner)
+            {
+                hudManager.ShadowQuad.gameObject.SetActive(false);
+                pc.nameText().GetComponent<MeshRenderer>().material.SetInt("_Mask", 0);
+                pc.RpcSetScanner(false);
+                ImportantTextTask importantTextTask = new GameObject("_Player").AddComponent<ImportantTextTask>();
+                importantTextTask.transform.SetParent(AmongUsClient.Instance.transform, false);
+                meetingHud.SetForegroundForDead();
+            }
+            PlayerVoteArea voteArea = MeetingHud.Instance.playerStates.First(
+                x => x.TargetPlayerId == pc.PlayerId
+            );
+            if (voteArea == null) return;
+            if (voteArea.DidVote) voteArea.UnsetVote();
+            voteArea.AmDead = true;
+            voteArea.Overlay.gameObject.SetActive(true);
+            voteArea.Overlay.color = Color.white;
+            voteArea.XMark.gameObject.SetActive(true);
+            voteArea.XMark.transform.localScale = Vector3.one;
+            foreach (var playerVoteArea in meetingHud.playerStates)
+            {
+                if (playerVoteArea.VotedFor != pc.PlayerId) continue;
+                playerVoteArea.UnsetVote();
+                var voteAreaPlayer = Utils.GetPlayerById(playerVoteArea.TargetPlayerId);
+                if (!voteAreaPlayer.AmOwner) continue;
+                meetingHud.ClearVote();
+            }
+            MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.AssassinKill, Hazel.SendOption.Reliable, -1);
+            writer.Write(pc.PlayerId);
+            AmongUsClient.Instance.FinishRpcImmediately(writer);
+        }
         public static void SetRoleAndNumber()//役職を番号で管理
         {
             List<CustomRoles> vigiList = new();
             List<CustomRoles> pirateList = new();
             List<CustomRoles> assassinList = new();
             List<CustomRoles> covenList = new();
+            List<CustomRoles> revealed = new();
             var i = 1;
             var ie = 1;
             var iee = 1;
             var c = 1;
+            foreach (var id in Main.rolesRevealedNextMeeting)
+            {
+                revealed.Add(Utils.GetPlayerById(id).GetCustomRole());
+            }
             foreach (CustomRoles role in Enum.GetValues(typeof(CustomRoles)))
             {
-                if (!role.IsEnable()) continue;
+                if (!role.IsEnable() | revealed.Contains(role)) continue;
+                if (role == CustomRoles.Phantom) continue;
+                if (role == CustomRoles.Child && Options.ChildKnown.GetBool()) continue;
                 if (role.IsModifier())
                 {
                     if (!role.IsCrewModifier() && role != CustomRoles.LoversRecode) continue;
@@ -386,10 +447,10 @@ namespace TownOfHost
                 if (!role.IsCrewmate()) vigiList.Add(role);
                 if (!role.IsCoven()) covenList.Add(role);
             }
-            vigiList = vigiList.OrderBy(a => Guid.NewGuid()).ToList();//会議画面で見たときに役職と順番が一緒で、役バレしたのでシャッフル
-            assassinList = assassinList.OrderBy(a => Guid.NewGuid()).ToList();//会議画面で見たときに役職と順番が一緒で、役バレしたのでシャッフル
-            pirateList = pirateList.OrderBy(a => Guid.NewGuid()).ToList();//会議画面で見たときに役職と順番が一緒で、役バレしたのでシャッフル
-            covenList = covenList.OrderBy(a => Guid.NewGuid()).ToList();//会議画面で見たときに役職と順番が一緒で、役バレしたのでシャッフル
+            vigiList = vigiList.OrderBy(a => Guid.NewGuid()).ToList();
+            assassinList = assassinList.OrderBy(a => Guid.NewGuid()).ToList();
+            pirateList = pirateList.OrderBy(a => Guid.NewGuid()).ToList();
+            covenList = covenList.OrderBy(a => Guid.NewGuid()).ToList();
             foreach (var ro in vigiList)
             {
                 RoleAndNumber.Add(i, ro);

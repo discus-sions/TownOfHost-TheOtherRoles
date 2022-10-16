@@ -102,19 +102,19 @@ namespace TownOfHost
                 foreach (PlayerControl target in PlayerControl.AllPlayerControls)
                     target.RpcRevertShapeshift(true);
             }*/
-            if (player.Is(CustomRoles.Sheriff) || player.Is(CustomRoles.Investigator) || player.Is(CustomRoles.Parasite) || player.Is(CustomRoles.Marksman) || player.Is(CustomRoles.BloodKnight) || player.Is(CustomRoles.Arsonist) || player.Is(CustomRoles.Werewolf) || player.Is(CustomRoles.TheGlitch) || player.GetRoleType() == RoleType.Coven || player.Is(CustomRoles.PlagueBearer) || player.Is(CustomRoles.Pestilence) || player.Is(CustomRoles.Juggernaut) || ((player.Is(CustomRoles.Jackal) || player.Is(CustomRoles.Sidekick)) && !Options.JackalCanUseSabotage.GetBool()) || Main.Grenaiding)
+            if (player.Is(CustomRoles.Sheriff) || player.Is(CustomRoles.Investigator) || player.Is(CustomRoles.Escort) || player.Is(CustomRoles.Crusader) || player.Is(CustomRoles.Parasite) || player.Is(CustomRoles.Marksman) || player.Is(CustomRoles.BloodKnight) || player.Is(CustomRoles.Arsonist) || player.Is(CustomRoles.Werewolf) || player.Is(CustomRoles.TheGlitch) || player.GetRoleType() == RoleType.Coven || player.Is(CustomRoles.PlagueBearer) || player.Is(CustomRoles.Pestilence) || player.Is(CustomRoles.Juggernaut) || ((player.Is(CustomRoles.Jackal) || player.Is(CustomRoles.Sidekick)) && !Options.JackalCanUseSabotage.GetBool()) || Main.Grenaiding)
             {
                 if (systemType == SystemTypes.Sabotage && AmongUsClient.Instance.GameMode != GameModes.FreePlay) return false; //シェリフにサボタージュをさせない ただしフリープレイは例外
             }
             else
             {
-                if (CustomRoles.TheGlitch.IsEnable())
+                if (CustomRoles.TheGlitch.IsEnable() | CustomRoles.Escort.IsEnable())
                 {
                     List<byte> hackedPlayers = new();
                     foreach (var cp in Main.CursedPlayers)
                     {
                         if (cp.Value == null) continue;
-                        if (Utils.GetPlayerById(cp.Key).Is(CustomRoles.TheGlitch))
+                        if (Utils.GetPlayerById(cp.Key).GetCustomRole().CanRoleBlock())
                         {
                             hackedPlayers.Add(cp.Value.PlayerId);
                         }
@@ -124,6 +124,14 @@ namespace TownOfHost
                         return false;
                     }
                 }
+            }
+            if (systemType == SystemTypes.Sabotage)
+            {
+                Main.MareHasRedName = false;
+                new LateTask(() =>
+                {
+                    Main.MareHasRedName = true;
+                }, Mare.RedNameCooldownAfterLights.GetFloat(), "Mare Red Name Cooldown (After Lights)");
             }
             return true;
         }
@@ -214,6 +222,19 @@ namespace TownOfHost
             Logger.CurrentMethod();
 
             //ホストの役職初期設定はここで行うべき？
+        }
+    }
+    [HarmonyPatch(typeof(ShipStatus), nameof(ShipStatus.CheckTaskCompletion))]
+    class CheckTaskCompletionPatch
+    {
+        public static bool Prefix(ref bool __result)
+        {
+            if (Options.DisableTaskWin.GetBool())
+            {
+                __result = false;
+                return false;
+            }
+            return true;
         }
     }
 }

@@ -105,10 +105,9 @@ namespace TownOfHost
             {
                 canUse = true;
             }
-            //            Logger.Info($" CanUseKillButton:{canUse}", "Sniper");
             return canUse;
         }
-        public static void ShapeShiftCheck(PlayerControl pc, bool shapeshifting)
+        public static void ShapeShiftCheck(PlayerControl pc, bool shapeshifting, PlayerControl targete)
         {
             if (bulletCount[pc.PlayerId] <= 0) return;
             if (PlayerState.isDead[pc.PlayerId]) return;
@@ -139,6 +138,7 @@ namespace TownOfHost
                 var snipeBasePos = snipeBasePosition[pc.PlayerId];
                 var snipePos = pc.transform.position;
                 var dir = (snipePos - snipeBasePos).normalized;
+                bool killed = false;
 
                 foreach (var target in PlayerControl.AllPlayerControls)
                 {
@@ -231,6 +231,6 @@ namespace TownOfHost
             }
             return "";
         }
-        public static string OverrideShapeText(byte id) => GetString(bulletCount[id] <= 0 ? "DefaultShapeshiftText" : "SniperSnipeButtonText");
+        public static string OverrideShapeText(byte id) => GetString(bulletCount[id] <= 0 ? "DefaultShapeshiftText" : Main.CheckShapeshift[id] ? "SniperAimButtonText" : "SniperSnipeButtonText");
     }
 }

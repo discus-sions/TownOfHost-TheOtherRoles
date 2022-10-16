@@ -19,7 +19,6 @@ namespace TownOfHost
             if (!Options.LadderDeath.GetBool()) return;
             var sourcepos = source.transform.position;
             var targetpos = source.Destination.transform.position;
-            //降りているのかを検知
             if (sourcepos.y > targetpos.y)
             {
                 int chance = UnityEngine.Random.Range(1, 10);

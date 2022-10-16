@@ -330,7 +330,6 @@ namespace TownOfHost
                     {
                         necromancer.RpcMurderPlayer(target);
                         break;
-                        break;
                     }
                     else if (Main.SilencedPlayer.Count <= 0)
                     {

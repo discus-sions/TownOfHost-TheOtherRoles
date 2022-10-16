@@ -117,7 +117,7 @@ namespace TownOfHost
             return null;
 
             /* Usage example:
-            AudioClip exampleClip = Helpers.loadAudioClipFromResources("TheOtherRoles.Resources.exampleClip.raw");
+            AudioClip exampleClip = Helpers.loadAudioClipFromResources("TownOfHosy.Resources.exampleClip.raw");
             if (Constants.ShouldPlaySfx()) SoundManager.Instance.PlaySound(exampleClip, false, 0.8f);
             */
         }

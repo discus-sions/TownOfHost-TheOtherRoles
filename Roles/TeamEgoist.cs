@@ -21,8 +21,7 @@ namespace TownOfHost
                 {
                     var teamEgo = Utils.GetPlayerById(id);
                     if (teamEgo == null) continue;
-                    if (teamEgo.Is(CustomRoles.LoversRecode)) continue; //リア充は無視
-                    else if ((teamEgo.Is(CustomRoles.Egoist) && !PlayerState.isDead[id]) ||
+                    if ((teamEgo.Is(CustomRoles.Egoist) && !PlayerState.isDead[id]) ||
                         teamEgo.Is(CustomRoles.EgoSchrodingerCat))
                     {
                         winner.Add(teamEgo);

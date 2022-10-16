@@ -1,4 +1,10 @@
 using HarmonyLib;
+using System.Collections.Generic;
+using System.Linq;
+using Hazel;
+using UnityEngine;
+using System;
+using InnerNet;
 
 namespace TownOfHost
 {
@@ -16,7 +22,11 @@ namespace TownOfHost
             if (__instance.Role.Role == RoleTypes.Engineer)
             {
                 __instance.TitleText.color = Utils.GetRoleColor(CustomRoles.Engineer);
-                if (CustomRoles.Madmate.IsEnable() || CustomRoles.Terrorist.IsEnable() || CustomRoles.Veteran.IsEnable() || CustomRoles.Bastion.IsEnable()) forced = true;
+                foreach (CustomRoles role in Enum.GetValues(typeof(CustomRoles)))
+                {
+                    if (role.IsEnable() && role.IsEngineer() && !forced)
+                        forced = true;
+                }
             }
             if (__instance.Role.Role == RoleTypes.GuardianAngel)
             {
@@ -25,7 +35,11 @@ namespace TownOfHost
             if (__instance.Role.Role == RoleTypes.Shapeshifter)
             {
                 __instance.TitleText.color = Utils.GetRoleColor(CustomRoles.Shapeshifter);
-                if (CustomRoles.SerialKiller.IsEnable() || CustomRoles.Grenadier.IsEnable() || CustomRoles.Warlock.IsEnable() || CustomRoles.Camouflager.IsEnable() || CustomRoles.Miner.IsEnable() || CustomRoles.Ninja.IsEnable() || CustomRoles.TheGlitch.IsEnable() || CustomRoles.BountyHunter.IsEnable()/* || CustomRoles.ShapeMaster.IsEnable()*/) forced = true;
+                foreach (CustomRoles role in Enum.GetValues(typeof(CustomRoles)))
+                {
+                    if (role.IsEnable() && role.IsShapeShifter() && !forced)
+                        forced = true;
+                }
             }
 
             if (forced)

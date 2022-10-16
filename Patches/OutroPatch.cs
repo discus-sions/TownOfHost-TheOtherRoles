@@ -266,7 +266,7 @@ namespace TownOfHost
             foreach (var pc in PlayerControl.AllPlayerControls)
             {
                 if (Main.currentWinner == CustomWinner.None) break;
-                if (pc.Is(CustomRoles.Opportunist) && !pc.Data.IsDead && Main.currentWinner != CustomWinner.Draw && Main.currentWinner != CustomWinner.Terrorist && Main.currentWinner != CustomWinner.Child)
+                if (pc.Is(CustomRoles.Opportunist) && !pc.Data.IsDead && Main.currentWinner != CustomWinner.Draw && Main.currentWinner != CustomWinner.Terrorist && Main.currentWinner != CustomWinner.Child && Main.currentWinner != CustomWinner.Jester && Main.currentWinner != CustomWinner.Executioner && Main.currentWinner != CustomWinner.Swapper)
                 {
                     winner.Add(pc);
                     Main.additionalwinners.Add(AdditionalWinners.Opportunist);
@@ -299,28 +299,28 @@ namespace TownOfHost
                 if (Main.currentWinner == CustomWinner.None) break;
                 if (pc.Is(CustomRoles.GuardianAngelTOU))
                 {
-                    /*PlayerControl protecting = Utils.GetPlayerById(Main.GuardianAngelTarget[pc.PlayerId]);
-                    foreach (var p in winner)
-                    {
-                        if (p == protecting) continue;
-                        winner.Add(pc);
-                        Main.additionalwinners.Add(AdditionalWinners.GuardianAngelTOU);
-                    }*/
                     foreach (var protect in Main.GuardianAngelTarget)
                     {
                         if (winnerIDs.Contains(protect.Value))
                         {
-                            //if (p == protecting) continue;
                             winner.Add(pc);
                             Main.additionalwinners.Add(AdditionalWinners.GuardianAngelTOU);
                         }
-                        // }
                     }
                 }
-                if (pc.Is(CustomRoles.Survivor) && !pc.Data.IsDead && Main.currentWinner != CustomWinner.Draw && Main.currentWinner != CustomWinner.Terrorist && Main.currentWinner != CustomWinner.Child && Main.currentWinner != CustomWinner.Jester && Main.currentWinner != CustomWinner.Executioner)
+                if (pc.Is(CustomRoles.Survivor) && !pc.Data.IsDead && Main.currentWinner != CustomWinner.Draw && Main.currentWinner != CustomWinner.Terrorist && Main.currentWinner != CustomWinner.Child && Main.currentWinner != CustomWinner.Jester && Main.currentWinner != CustomWinner.Executioner && Main.currentWinner != CustomWinner.Swapper)
                 {
                     winner.Add(pc);
                     Main.additionalwinners.Add(AdditionalWinners.Survivor);
+                }
+                if (pc.Is(CustomRoles.Hitman) && !pc.Data.IsDead && Main.currentWinner != CustomWinner.Draw && Main.currentWinner != CustomWinner.Terrorist && Main.currentWinner != CustomWinner.Child)
+                {
+                    if (Main.currentWinner == CustomWinner.Jester && !Options.HitmanCanWinWithExeJes.GetBool()) continue;
+                    if (Main.currentWinner == CustomWinner.Executioner && !Options.HitmanCanWinWithExeJes.GetBool()) continue;
+                    if (Main.currentWinner == CustomWinner.Swapper && !Options.HitmanCanWinWithExeJes.GetBool()) continue;
+                    if (Main.currentWinner == CustomWinner.Lovers && !Options.HitmanCanWinWithExeJes.GetBool()) continue;
+                    winner.Add(pc);
+                    Main.additionalwinners.Add(AdditionalWinners.Hitman);
                 }
             }
 
@@ -363,7 +363,7 @@ namespace TownOfHost
                     }
                 }
             }
-            Main.winnerList = new();
+            Main.winnerList = new List<byte>();
             foreach (var pc in winner)
             {
                 TempData.winners.Add(new WinningPlayerData(pc.Data));
@@ -373,6 +373,8 @@ namespace TownOfHost
             BountyHunter.ChangeTimer = new();
             Main.BitPlayers = new Dictionary<byte, (byte, float)>();
             Main.isDoused = new Dictionary<(byte, byte), bool>();
+            Main.SilencedPlayer.Clear();
+            Main.SilencedPlayer = new List<PlayerControl>();
 
             NameColorManager.Instance.RpcReset();
             Main.VisibleTasksCount = false;
@@ -391,9 +393,9 @@ namespace TownOfHost
         public static void Postfix(EndGameManager __instance)
         {
             if (!Main.playerVersion.ContainsKey(0)) return;
-            //#######################################
-            //          ==勝利陣営表示==
-            //#######################################
+
+            Main.LastPlayerCustomRoles = new(Main.AllPlayerCustomRoles);
+            Main.LastPlayerCustomSubRoles = new(Main.AllPlayerCustomSubRoles);
 
             GameObject bonusText = UnityEngine.Object.Instantiate(__instance.WinText.gameObject);
             bonusText.transform.position = new Vector3(__instance.WinText.transform.position.x, __instance.WinText.transform.position.y - 0.5f, __instance.WinText.transform.position.z);
@@ -421,11 +423,9 @@ namespace TownOfHost
                 case CustomWinner.Crewmate:
                     CustomWinnerColor = Utils.GetRoleColorCode(CustomRoles.Engineer);
                     break;
-                //特殊勝利
                 case CustomWinner.Terrorist:
                     __instance.Foreground.material.color = Color.red;
                     break;
-                //引き分け処理
                 case CustomWinner.Draw:
                     __instance.WinText.text = GetString("ForceEnd");
                     __instance.WinText.color = Color.white;
@@ -433,7 +433,6 @@ namespace TownOfHost
                     textRenderer.text = GetString("ForceEndText");
                     textRenderer.color = Color.gray;
                     break;
-                //全滅
                 case CustomWinner.None:
                     __instance.WinText.text = "";
                     __instance.WinText.color = Color.black;
@@ -454,28 +453,36 @@ namespace TownOfHost
             }
             LastWinsText = textRenderer.text.RemoveHtmlTags();
 
-            ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-            //#######################################
-            //           ==最終結果表示==
-            //#######################################
-
             var position = Camera.main.ViewportToWorldPoint(new Vector3(0f, 1f, Camera.main.nearClipPlane));
             GameObject roleSummary = UnityEngine.Object.Instantiate(__instance.WinText.gameObject);
             roleSummary.transform.position = new Vector3(__instance.Navigation.ExitButton.transform.position.x + 0.1f, position.y - 0.1f, -14f);
             roleSummary.transform.localScale = new Vector3(1f, 1f, 1f);
 
             string roleSummaryText = $"{GetString("RoleSummaryText")}";
-            Dictionary<byte, CustomRoles> cloneRoles = new(Main.AllPlayerCustomRoles);
-            foreach (var id in Main.winnerList)
+            foreach (var key in Main.AllPlayerCustomRoles)
             {
-                roleSummaryText += $"\n<color={CustomWinnerColor}>★</color> " + Utils.SummaryTexts(id, disableColor: false);
-                cloneRoles.Remove(id);
-            }
-            foreach (var kvp in cloneRoles)
-            {
-                var id = kvp.Key;
-                roleSummaryText += $"\n　 " + Utils.SummaryTexts(id, disableColor: false);
+                try
+                {
+                    var pc = Utils.GetPlayerById(key.Key);
+                    roleSummaryText += $"\n{Main.AllPlayerSkin[key.Key].Item6} - ";
+                    roleSummaryText += $"{Helpers.ColorString(Utils.GetRoleColor(key.Value), Utils.GetRoleName(key.Value))}";
+                    var cSubRoleFound = Main.AllPlayerCustomSubRoles.TryGetValue(key.Key, out var cSubRole);
+                    if (cSubRoleFound)
+                        if (cSubRole != CustomRoles.NoSubRoleAssigned)
+                            roleSummaryText += $"{Helpers.ColorString(Color.white, " (")} {Helpers.ColorString(Utils.GetRoleColor(cSubRole), Utils.GetRoleName(cSubRole))} {Helpers.ColorString(Color.white, ")")}";
+                    var deathReasonFound = PlayerState.deathReasons.TryGetValue(key.Key, out var deathReason);
+                    if (deathReasonFound && deathReason != PlayerState.DeathReason.etc)
+                        roleSummaryText += $" | {GetString("DeathReason." + deathReason.ToString())}";
+                }
+                catch
+                {
+                    Logger.Error("Error loading last roles.", "Outro Patch (non-winner)");
+                    var deathReasonFound = PlayerState.deathReasons.TryGetValue(key.Key, out var deathReason);
+                    string more = "";
+                    if (deathReasonFound)
+                        more = deathReason.ToString();
+                    roleSummaryText += $"\nError getting some of this player's info. {more}";
+                }
             }
             TMPro.TMP_Text roleSummaryTextMesh = roleSummary.GetComponent<TMPro.TMP_Text>();
             roleSummaryTextMesh.alignment = TMPro.TextAlignmentOptions.TopLeft;
@@ -488,10 +495,6 @@ namespace TownOfHost
             var roleSummaryTextMeshRectTransform = roleSummaryTextMesh.GetComponent<RectTransform>();
             roleSummaryTextMeshRectTransform.anchoredPosition = new Vector2(position.x + 3.5f, position.y - 0.1f);
             roleSummaryTextMesh.text = roleSummaryText;
-
-            ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-            //Utils.ApplySuffix();
         }
     }
 }

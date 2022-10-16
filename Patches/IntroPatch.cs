@@ -2,6 +2,7 @@ using System;
 using System.Linq;
 using System.Threading.Tasks;
 using HarmonyLib;
+using TMPro;
 using UnityEngine;
 using static TownOfHost.Translator;
 
@@ -21,13 +22,8 @@ namespace TownOfHost
                     __instance.RoleText.text = Utils.GetRoleName(role);
                     __instance.RoleText.color = Utils.GetRoleColor(role);
                     __instance.RoleBlurbText.color = Utils.GetRoleColor(role);
+                    __instance.RoleBlurbText.text = GetString(role.ToString() + "Info");
 
-                    __instance.RoleBlurbText.text = PlayerControl.LocalPlayer.Is(CustomRoles.EvilWatcher) || PlayerControl.LocalPlayer.Is(CustomRoles.NiceWatcher)
-                        ? GetString("WatcherInfo")
-                        : GetString(role.ToString() + "Info");
-                    /*__instance.RoleBlurbText.text = PlayerControl.LocalPlayer.Is(CustomRoles.EvilGuesser) || PlayerControl.LocalPlayer.Is(CustomRoles.NiceGuesser)
-                        ? GetString("GuesserInfo")
-                        : GetString(role.ToString() + "Info");*/
                     if (PlayerControl.LocalPlayer.Is(CustomRoles.Executioner) | PlayerControl.LocalPlayer.Is(CustomRoles.Swapper))
                     {
                         byte target = 0x6;
@@ -57,7 +53,7 @@ namespace TownOfHost
                     }
                 }
 
-                __instance.RoleText.text += Utils.GetShowLastSubRolesText(PlayerControl.LocalPlayer.PlayerId);
+                __instance.RoleText.text += Utils.SubRoleIntro(PlayerControl.LocalPlayer.PlayerId);
 
             }, 0.01f, "Override Role Text");
 
@@ -120,16 +116,15 @@ namespace TownOfHost
     {
         public static void Prefix(IntroCutscene __instance, ref Il2CppSystem.Collections.Generic.List<PlayerControl> teamToDisplay)
         {
+            // We add LocalPlayer first so they appear in center. (if we added them not first, the placement would be dependent on player id)
             if (PlayerControl.LocalPlayer.Is(RoleType.Neutral))
             {
-                //ぼっち役職
                 var soloTeam = new Il2CppSystem.Collections.Generic.List<PlayerControl>();
                 soloTeam.Add(PlayerControl.LocalPlayer);
                 teamToDisplay = soloTeam;
             }
             if (PlayerControl.LocalPlayer.Is(RoleType.Coven))
             {
-                //ぼっち役職
                 var covenTeam = new Il2CppSystem.Collections.Generic.List<PlayerControl>();
                 covenTeam.Add(PlayerControl.LocalPlayer);
                 foreach (var ar in PlayerControl.AllPlayerControls)
@@ -141,7 +136,6 @@ namespace TownOfHost
             }
             if (PlayerControl.LocalPlayer.GetCustomRole().IsJackalTeam())
             {
-                //ぼっち役職
                 var jackalTeam = new Il2CppSystem.Collections.Generic.List<PlayerControl>();
                 jackalTeam.Add(PlayerControl.LocalPlayer);
                 foreach (var ar in PlayerControl.AllPlayerControls)
@@ -157,9 +151,7 @@ namespace TownOfHost
                 gaTeam.Add(PlayerControl.LocalPlayer);
                 foreach (var protect in Main.GuardianAngelTarget)
                 {
-                    //PlayerControl ga = Utils.GetPlayerById(protect.Key);
                     PlayerControl protecting = Utils.GetPlayerById(protect.Value);
-                    // if (ga == PlayerControl.LocalPlayer) continue;
                     gaTeam.Add(protecting);
                 }
                 teamToDisplay = gaTeam;
@@ -172,15 +164,13 @@ namespace TownOfHost
             CustomRoles role = PlayerControl.LocalPlayer.GetCustomRole();
             CustomRoles modifier = PlayerControl.LocalPlayer.GetCustomSubRole();
             RoleType roleType = role.GetRoleType();
+            TextMeshPro ModifierText = null;
 
             switch (roleType)
             {
                 case RoleType.Neutral:
                     __instance.TeamTitle.text = "NEUTRAL";
-                    //__instance.TeamTitle.color = Utils.GetRoleColor(role);
                     __instance.TeamTitle.color = Utils.GetRoleColor(CustomRoles.Child);
-                    //__instance.ImpostorText.gameObject.SetActive(true);
-                    //__instance.ImpostorText.text = GetString("NeutralInfo");
                     if (PlayerControl.LocalPlayer.Is(CustomRoles.Executioner) | PlayerControl.LocalPlayer.Is(CustomRoles.Swapper))
                     {
                         byte target = 0x6;
@@ -203,7 +193,6 @@ namespace TownOfHost
                     PlayerControl.LocalPlayer.Data.Role.IntroSound = GetIntroSound(RoleTypes.Impostor);
                     break;
                 case RoleType.Crewmate:
-                    //__instance.TeamTitle.color = Utils.GetRoleColor(role);
                     __instance.BackgroundBar.material.color = Utils.GetRoleColor(role);
                     break;
                 case RoleType.Coven:
@@ -214,23 +203,39 @@ namespace TownOfHost
                     __instance.BackgroundBar.material.color = Utils.GetRoleColor(CustomRoles.Coven);
                     break;
             }
-            switch (modifier)
+            try
             {
-                default:
-                    if (modifier == CustomRoles.NoSubRoleAssigned) break;
-                    break;
+                switch (modifier)
+                {
+                    case CustomRoles.LoversRecode:
+                        string name = "";
+                        foreach (var lp in Main.LoversPlayers)
+                        {
+                            if (lp.PlayerId == PlayerControl.LocalPlayer.PlayerId) continue;
+                            name = lp.GetRealName(true);
+                        }
+                        ModifierText.text = $"<size=3>Modifier: You are in love with {name}.</size>";
+                        ModifierText.color = Utils.GetRoleColor(modifier);
+                        ModifierText.transform.position =
+                            __instance.transform.position - new Vector3(0f, 1.6f, 0f);
+                        ModifierText.gameObject.SetActive(true);
+                        break;
+                    default:
+                        if (modifier == CustomRoles.NoSubRoleAssigned) break;
+                        ModifierText.text = "<size=4>Modifier: " + GetString(modifier.ToString()) + "</size>";
+                        ModifierText.color = Utils.GetRoleColor(modifier);
+                        ModifierText.transform.position =
+                            __instance.transform.position - new Vector3(0f, 1.6f, 0f);
+                        ModifierText.gameObject.SetActive(true);
+                        break;
+                }
+            }
+            catch
+            {
+                Logger.Error("Error loading modifier text.", "Intro Cutscene Text");
             }
             switch (role)
             {
-                case CustomRoles.CrewPostor:
-                    __instance.TeamTitle.text = "NEUTRAL";
-                    __instance.TeamTitle.color = Utils.GetRoleColor(CustomRoles.Child);
-                    //__instance.ImpostorText.gameObject.SetActive(true);
-                    //__instance.ImpostorText.text = GetString("NeutralInfo");
-                    __instance.BackgroundBar.material.color = Utils.GetRoleColor(role);
-                    //StartFadeIntro(__instance, Color.black, Color.black);
-                    PlayerControl.LocalPlayer.Data.Role.IntroSound = GetIntroSound(RoleTypes.Impostor);
-                    break;
                 case CustomRoles.Painter:
                     __instance.TeamTitle.text = "SPLATOON";
                     __instance.TeamTitle.color = Utils.GetRoleColor(CustomRoles.Painter);
@@ -274,16 +279,23 @@ namespace TownOfHost
                     .MinigamePrefab.OpenSound;
                     PlayerControl.LocalPlayer.Data.Role.IntroSound = sound;
                     break;
+                case CustomRoles.CrewPostor:
+                case CustomRoles.Snitch:
+                case CustomRoles.MadSnitch:
+                    PlayerControl.LocalPlayer.Data.Role.IntroSound = DestroyableSingleton<HudManager>.Instance.TaskCompleteSound;
+                    break;
 
                 case CustomRoles.Swapper:
                 case CustomRoles.Executioner:
-                case CustomRoles.Vampire:
+                //case CustomRoles.Vampire:
                 case CustomRoles.Medusa:
                 case CustomRoles.HexMaster:
                 case CustomRoles.CovenWitch:
                 case CustomRoles.Conjuror:
+                case CustomRoles.Parasite:
                 case CustomRoles.Coven:
                 case CustomRoles.Silencer:
+                case CustomRoles.Vampress:
                     PlayerControl.LocalPlayer.Data.Role.IntroSound = GetIntroSound(RoleTypes.Shapeshifter);
                     break;
 
@@ -291,19 +303,19 @@ namespace TownOfHost
                     PlayerControl.LocalPlayer.Data.Role.IntroSound = ShipStatus.Instance.SabotageSound;
                     break;
 
+                case CustomRoles.Veteran:
                 case CustomRoles.Sheriff:
                     PlayerControl.LocalPlayer.Data.Role.IntroSound = PlayerControl.LocalPlayer.KillSfx;
+                    // PlayerControl.LocalPlayer.Data.Role.IntroSound = Helpers.loadAudioClipFromResources("TownOfHosy.Resources.KillMusic.raw");
                     break;
                 case CustomRoles.Investigator:
                 case CustomRoles.Bastion:
                 case CustomRoles.Arsonist:
-                case CustomRoles.Veteran:
                 case CustomRoles.Jester:
                 case CustomRoles.GuardianAngelTOU:
                 case CustomRoles.Survivor:
                 case CustomRoles.Vulture:
                 case CustomRoles.Werewolf:
-                case CustomRoles.Mayor:
                 case CustomRoles.PlagueBearer:
                     PlayerControl.LocalPlayer.Data.Role.IntroSound = GetIntroSound(RoleTypes.Crewmate);
                     break;
@@ -317,17 +329,15 @@ namespace TownOfHost
                 case CustomRoles.Pestilence:
                 case CustomRoles.Sidekick:
                 case CustomRoles.Juggernaut:
+                case CustomRoles.Madmate:
+                case CustomRoles.MadGuardian:
                 case CustomRoles.SchrodingerCat:
                     PlayerControl.LocalPlayer.Data.Role.IntroSound = GetIntroSound(RoleTypes.Impostor);
                     break;
-
-                // case CustomRoles.GM:
-                   // __instance.TeamTitle.text = Utils.GetRoleName(role);
-                   // __instance.TeamTitle.color = Utils.GetRoleColor(role);
-                   // __instance.BackgroundBar.material.color = Utils.GetRoleColor(role);
-                   // __instance.ImpostorText.gameObject.SetActive(false);
-                   // break;
-
+                case CustomRoles.Mayor:
+                case CustomRoles.Dictator:
+                    PlayerControl.LocalPlayer.Data.Role.IntroSound = HudManager.Instance.Chat.MessageSound;
+                    break;
             }
 
             if (Input.GetKey(KeyCode.RightShift))
@@ -376,9 +386,9 @@ namespace TownOfHost
     {
         public static bool Prefix(IntroCutscene __instance, ref Il2CppSystem.Collections.Generic.List<PlayerControl> yourTeam)
         {
-            if (PlayerControl.LocalPlayer.Is(CustomRoles.Sheriff) || PlayerControl.LocalPlayer.Is(CustomRoles.Investigator) || PlayerControl.LocalPlayer.Is(CustomRoles.Janitor))
+            if (PlayerControl.LocalPlayer.Is(CustomRoles.Sheriff) || PlayerControl.LocalPlayer.Is(CustomRoles.Investigator) || PlayerControl.LocalPlayer.Is(CustomRoles.Janitor) || PlayerControl.LocalPlayer.Is(CustomRoles.Escort) || PlayerControl.LocalPlayer.Is(CustomRoles.Crusader))
             {
-                //シェリフの場合はキャンセルしてBeginCrewmateに繋ぐ
+                // Begin Crewmate anyways
                 yourTeam = new Il2CppSystem.Collections.Generic.List<PlayerControl>();
                 yourTeam.Add(PlayerControl.LocalPlayer);
                 foreach (var pc in PlayerControl.AllPlayerControls)
@@ -410,7 +420,6 @@ namespace TownOfHost
                     pc.RpcSetRole(RoleTypes.Shapeshifter);
                     pc.RpcResetAbilityCooldown();
                 }
-               // if (PlayerControl.LocalPlayer.Is(CustomRoles.GM)) PlayerControl.LocalPlayer.RpcExile();
             }
             Logger.Info("OnDestroy", "IntroCutscene");
         }

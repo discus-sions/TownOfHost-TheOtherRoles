@@ -244,7 +244,7 @@ namespace TownOfHost
         }
         public static void RpcResetAbilityCooldown(this PlayerControl target)
         {
-            if (!AmongUsClient.Instance.AmHost) return; //ホスト以外が実行しても何も起こさない
+            if (!AmongUsClient.Instance.AmHost) return;
             Logger.Info($"アビリティクールダウンのリセット:{target.name}({target.PlayerId})", "RpcResetAbilityCooldown");
             if (PlayerControl.LocalPlayer == target)
             {
@@ -253,15 +253,11 @@ namespace TownOfHost
             }
             else
             {
-                //targetがホスト以外だった場合
                 MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(target.NetId, (byte)RpcCalls.ProtectPlayer, SendOption.None, target.GetClientId());
                 writer.Write(0); //writer.WriteNetObject(null); と同じ
                 writer.Write(0);
                 AmongUsClient.Instance.FinishRpcImmediately(writer);
             }
-            /*  nullにバリアを張ろうとすると、アビリティーのクールダウンがリセットされてからnull参照で中断されます。
-                ホストに対しての場合、RPCを介さず直接クールダウンを書き換えています。
-                万が一他クライアントへの影響があった場合を考慮して、Desyncを使っています。*/
         }
         public static byte GetRoleCount(this Dictionary<CustomRoles, byte> dic, CustomRoles role)
         {
@@ -288,7 +284,7 @@ namespace TownOfHost
         }
 
         public static string GetDeathReason(this PlayerControl player) =>
-            PlayerState.isDead[player.PlayerId] ? GetString("DeathReason." + PlayerState.GetDeathReason(player.PlayerId)) : GetString("Alive");
+            PlayerState.isDead[player.PlayerId] | player.Data.IsDead ? GetString("DeathReason." + PlayerState.GetDeathReason(player.PlayerId)) : GetString("Alive");
 
         public static void setDefaultLook(this PlayerControl target)
         {
@@ -353,6 +349,7 @@ namespace TownOfHost
 
             var clientId = player.GetClientId();
             var opt = Main.RealOptionsData.DeepCopy();
+            opt.BlackOut(PlayerState.IsBlackOut[player.PlayerId]);
 
             CustomRoles role = player.GetCustomRole();
             RoleType roleType = role.GetRoleType();
@@ -388,8 +385,15 @@ namespace TownOfHost
                 //     opt.RoleOptions.ShapeshifterDuration = Options.ShapeMasterShapeshiftDuration.GetFloat();
                 //     break;
                 case CustomRoles.Bastion:
-                    opt.RoleOptions.EngineerCooldown = 9999;
+                    opt.RoleOptions.EngineerCooldown = 25;
                     opt.RoleOptions.EngineerInVentMaxTime = 1;
+                    break;
+                case CustomRoles.Transporter:
+                    opt.RoleOptions.EngineerInVentMaxTime = 1;
+                    if (Main.TransportsLeft != 0)
+                        opt.RoleOptions.EngineerCooldown = Options.TransportCooldown.GetFloat();
+                    else
+                        opt.RoleOptions.EngineerCooldown = 99999;
                     break;
                 case CustomRoles.Warlock:
                     opt.RoleOptions.ShapeshifterCooldown = Main.isCursed ? 1f : Options.DefaultKillCooldown;
@@ -400,16 +404,13 @@ namespace TownOfHost
                 case CustomRoles.BountyHunter:
                     BountyHunter.ApplyGameOptions(opt);
                     break;
-                case CustomRoles.EvilWatcher:
-                case CustomRoles.NiceWatcher:
-                    if (opt.AnonymousVotes)
-                        opt.AnonymousVotes = false;
-                    break;
                 case CustomRoles.Sheriff:
                 case CustomRoles.Investigator:
                 case CustomRoles.Janitor:
                 case CustomRoles.Arsonist:
                 case CustomRoles.Amnesiac:
+                case CustomRoles.Crusader:
+                case CustomRoles.Escort:
                     opt.SetVision(player, false);
                     break;
                 case CustomRoles.PlagueBearer:
@@ -426,6 +427,10 @@ namespace TownOfHost
                         if (Utils.IsActive(SystemTypes.Electrical) && Options.LighterTaskCompletedDisableLightOut.GetBool())
                             opt.CrewLightMod *= 5;
                     }
+                    break;
+                case CustomRoles.Medium:
+                    opt.RoleOptions.EngineerCooldown = Options.MediumCooldown.GetFloat();
+                    opt.RoleOptions.EngineerInVentMaxTime = 0.5f;
                     break;
                 case CustomRoles.BloodKnight:
                 case CustomRoles.EgoSchrodingerCat:
@@ -444,12 +449,19 @@ namespace TownOfHost
                     if (Options.JuggerCanVent.GetBool())
                         goto InfinityVent;
                     break;
+                case CustomRoles.Freezer:
+                    opt.RoleOptions.ShapeshifterCooldown = Options.FreezerCooldown.GetFloat();
+                    opt.RoleOptions.ShapeshifterDuration = Options.FreezerDuration.GetFloat();
+                    break;
+                case CustomRoles.Disperser:
+                    opt.RoleOptions.ShapeshifterCooldown = Options.DisperseCooldown.GetFloat();
+                    opt.RoleOptions.ShapeshifterDuration = 1;
+                    break;
                 case CustomRoles.Vulture:
                     opt.SetVision(player, Options.VultureHasImpostorVision.GetBool());
                     if (Options.VultureCanVent.GetBool())
                         goto InfinityVent;
                     break;
-                //case CustomRoles.WereW
                 case CustomRoles.Mayor:
                     opt.RoleOptions.EngineerCooldown =
                         Main.MayorUsedButtonCount.TryGetValue(player.PlayerId, out var count) && count < Options.MayorNumOfUseButton.GetInt()
@@ -530,6 +542,9 @@ namespace TownOfHost
                     opt.RoleOptions.ShapeshifterCooldown = Options.FlashCooldown.GetFloat();
                     opt.RoleOptions.ShapeshifterDuration = Options.FlashDuration.GetFloat();
                     break;
+                case CustomRoles.Hitman:
+                    opt.SetVision(player, Options.HitmanHasImpVision.GetBool());
+                    break;
                 case CustomRoles.Werewolf:
                     if (!Main.IsRampaged)
                         opt.SetVision(player, false);
@@ -576,8 +591,6 @@ namespace TownOfHost
                     else opt.CrewLightMod = Options.BewilderVision.GetFloat();
                     break;
                 case CustomRoles.Watcher:
-                case CustomRoles.EvilWatcher:
-                case CustomRoles.NiceWatcher:
                     if (opt.AnonymousVotes)
                         opt.AnonymousVotes = false;
                     break;
@@ -825,6 +838,9 @@ namespace TownOfHost
                 CustomRoles.PlagueBearer => true,
                 CustomRoles.Pestilence => true,
                 CustomRoles.Juggernaut => true,
+                CustomRoles.Hitman => true,
+                CustomRoles.Escort => true,
+                CustomRoles.Crusader => true,
                 CustomRoles.Werewolf => true,
                 CustomRoles.TheGlitch => true,
                 CustomRoles.Medusa => true,
@@ -859,8 +875,7 @@ namespace TownOfHost
         }
         public static bool LastImpostor(this PlayerControl pc)
         {
-            return pc.GetCustomRole().IsImpostor() &&
-                //  Options.CurrentGameMode()!= CustomGameMode.HideAndSeek &&
+            return pc.GetCustomRole().IsImpostor() | pc.Is(CustomRoles.Egoist) &&
                 Main.AllImpostorCount <= 1;
         }
         public static bool IsDousedPlayer(this PlayerControl arsonist, PlayerControl target)
@@ -940,11 +955,20 @@ namespace TownOfHost
                 case CustomRoles.Marksman:
                     Main.AllPlayerKillCooldown[player.PlayerId] = Options.MarksmanKillCooldown.GetFloat();
                     break;
+                case CustomRoles.Hitman:
+                    Main.AllPlayerKillCooldown[player.PlayerId] = Options.HitmanKillCooldown.GetFloat();
+                    break;
                 case CustomRoles.Juggernaut:
                     float DecreasedAmount = Main.JugKillAmounts * Options.JuggerDecrease.GetFloat();
                     Main.AllPlayerKillCooldown[player.PlayerId] = Options.JuggerKillCooldown.GetFloat() - DecreasedAmount;
-                    if (Main.AllPlayerKillCooldown[player.PlayerId] < 1)
-                        Main.AllPlayerKillCooldown[player.PlayerId] = 1;
+                    // if (Main.AllPlayerKillCooldown[player.PlayerId] < 0)
+                    //     Main.AllPlayerKillCooldown[player.PlayerId] = 0;
+                    break;
+                case CustomRoles.Escort:
+                    Main.AllPlayerKillCooldown[player.PlayerId] = Options.EscortCooldown.GetFloat();
+                    break;
+                case CustomRoles.Crusader:
+                    Main.AllPlayerKillCooldown[player.PlayerId] = Options.CrusadeCooldown.GetFloat();
                     break;
                 case CustomRoles.TheGlitch:
                     if (Main.IsHackMode)
@@ -1037,6 +1061,68 @@ namespace TownOfHost
                 killer.CustomSyncSettings();
                 RPC.PlaySoundRPC(killer.PlayerId, Sounds.TaskComplete);
             }, Options.TrapperBlockMoveTime.GetFloat(), "Trapper BlockMove");
+        }
+        public static void KillFlash(this PlayerControl player)
+        {
+            //キルフラッシュ(ブラックアウト+リアクターフラッシュ)の処理
+            bool ReactorCheck = false; //リアクターフラッシュの確認
+            if (PlayerControl.GameOptions.MapId == 2) ReactorCheck = Utils.IsActive(SystemTypes.Laboratory);
+            else ReactorCheck = Utils.IsActive(SystemTypes.Reactor);
+
+            var Duration = Options.KillFlashDuration.GetFloat();
+            if (ReactorCheck) Duration += 0.2f; //リアクター中はブラックアウトを長くする
+
+            //実行
+            PlayerState.IsBlackOut[player.PlayerId] = true; //ブラックアウト
+            if (player.PlayerId == 0)
+            {
+                Utils.FlashColor(new(1f, 0f, 0f, 0.5f));
+                if (Constants.ShouldPlaySfx()) RPC.PlaySound(player.PlayerId, Sounds.KillSound);
+            }
+            else if (!ReactorCheck) player.ReactorFlash(0f); //リアクターフラッシュ
+            CustomSyncSettings(player);
+            new LateTask(() =>
+            {
+                PlayerState.IsBlackOut[player.PlayerId] = false; //ブラックアウト解除
+                CustomSyncSettings(player);
+            }, Options.KillFlashDuration.GetFloat(), "RemoveKillFlash");
+        }
+        public static void ReactorFlash(this PlayerControl pc, float delay = 0f)
+        {
+            if (pc == null) return;
+            int clientId = pc.GetClientId();
+            // Logger.Info($"{pc}", "ReactorFlash");
+            byte reactorId = 3;
+            if (PlayerControl.GameOptions.MapId == 2) reactorId = 21;
+            float FlashDuration = Options.KillFlashDuration.GetFloat();
+
+            new LateTask(() =>
+            {
+                MessageWriter SabotageWriter = AmongUsClient.Instance.StartRpcImmediately(ShipStatus.Instance.NetId, (byte)RpcCalls.RepairSystem, SendOption.Reliable, clientId);
+                SabotageWriter.Write(reactorId);
+                MessageExtensions.WriteNetObject(SabotageWriter, pc);
+                SabotageWriter.Write((byte)128);
+                AmongUsClient.Instance.FinishRpcImmediately(SabotageWriter);
+            }, 0f + delay, "Reactor Desync");
+
+            new LateTask(() =>
+            {
+                MessageWriter SabotageFixWriter = AmongUsClient.Instance.StartRpcImmediately(ShipStatus.Instance.NetId, (byte)RpcCalls.RepairSystem, SendOption.Reliable, clientId);
+                SabotageFixWriter.Write(reactorId);
+                MessageExtensions.WriteNetObject(SabotageFixWriter, pc);
+                SabotageFixWriter.Write((byte)16);
+                AmongUsClient.Instance.FinishRpcImmediately(SabotageFixWriter);
+            }, FlashDuration + delay, "Fix Desync Reactor");
+
+            if (PlayerControl.GameOptions.MapId == 4) //Airship用
+                new LateTask(() =>
+                {
+                    MessageWriter SabotageFixWriter = AmongUsClient.Instance.StartRpcImmediately(ShipStatus.Instance.NetId, (byte)RpcCalls.RepairSystem, SendOption.Reliable, clientId);
+                    SabotageFixWriter.Write(reactorId);
+                    MessageExtensions.WriteNetObject(SabotageFixWriter, pc);
+                    SabotageFixWriter.Write((byte)17);
+                    AmongUsClient.Instance.FinishRpcImmediately(SabotageFixWriter);
+                }, FlashDuration + delay, "Fix Desync Reactor 2");
         }
         public static void DemoKilled(this PlayerControl killer, PlayerControl target)
         {
@@ -1316,13 +1402,40 @@ namespace TownOfHost
                 CustomRoles.Sidekick or
                 CustomRoles.PlagueBearer or
                 CustomRoles.Juggernaut or
+                CustomRoles.Arsonist or
                 CustomRoles.Pestilence or
+                CustomRoles.Pirate or
+                CustomRoles.Marksman or
                 CustomRoles.BloodKnight or
                 CustomRoles.CorruptedSheriff or
                 CustomRoles.TheGlitch or
                 CustomRoles.Werewolf;
         }
 
+        public static bool IsDesyncRole(this PlayerControl player)
+        {
+            if (player.GetCustomRole().IsCoven()) return true;
+            return
+                player.GetCustomRole() is
+                CustomRoles.Egoist or
+                CustomRoles.Jackal or
+                CustomRoles.Sidekick or
+                CustomRoles.PlagueBearer or
+                CustomRoles.Juggernaut or
+                CustomRoles.Sheriff or
+                CustomRoles.CorruptedSheriff or
+                CustomRoles.Investigator or
+                CustomRoles.Parasite or
+                CustomRoles.Janitor or
+                CustomRoles.Painter or
+                CustomRoles.Arsonist or
+                CustomRoles.Pestilence or
+                CustomRoles.Pirate or
+                CustomRoles.BloodKnight or
+                CustomRoles.CorruptedSheriff or
+                CustomRoles.TheGlitch or
+                CustomRoles.Werewolf;
+        }
         //汎用
         public static bool Is(this PlayerControl target, CustomRoles role) =>
             role > CustomRoles.NoSubRoleAssigned ? target.GetCustomSubRole() == role : target.GetCustomRole() == role;

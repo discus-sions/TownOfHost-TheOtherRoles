@@ -52,6 +52,10 @@ namespace TownOfHost
         SendSurvivorInfo,
         SetInfectedPlayer,
         SetHexedPlayer,
+        SetTransportNumber,
+        RpcMurderPlayer,
+        AssassinKill,
+        SetTraitor
     }
     public enum Sounds
     {
@@ -75,25 +79,6 @@ namespace TownOfHost
                     break;
                 case RpcCalls.SendChat:
                     var text = subReader.ReadString();
-                    /*if (Main.SilencedPlayer.Count != 0)
-                    {
-                        //someone is silenced
-                        foreach (var player in Main.SilencedPlayer)
-                        {
-                            if (player == __instance) continue;
-                            text = "Silenced.";
-                            Logger.Info($"{__instance.GetNameWithRole()}:{text}", "TriedToSendChatButSilenced");
-                            if (!player.Data.IsDead)
-                            {
-                                Utils.SendMessage("You are currently Silenced. Try talking again when you aren't silenced.", __instance.PlayerId);
-                            }
-                        }
-                    }
-                    else
-                    {
-                        Logger.Info($"{__instance.GetNameWithRole()}:{text}", "SendChat");
-                        ChatCommands.OnReceiveChat(__instance, text);
-                    }*/
                     ChatCommands.OnReceiveChat(__instance, text);
                     break;
                 case RpcCalls.StartMeeting:
@@ -101,7 +86,7 @@ namespace TownOfHost
                     Logger.Info($"{__instance.GetNameWithRole()} => {p?.GetNameWithRole() ?? "null"}", "StartMeeting");
                     break;
             }
-            if (__instance.PlayerId != 0 && Enum.IsDefined(typeof(CustomRPC), (int)callId) && callId != (byte)CustomRPC.VersionCheck) //ホストではなく、CustomRPCで、VersionCheckではない
+            if (__instance.PlayerId != 0 && Enum.IsDefined(typeof(CustomRPC), (int)callId) && callId != (byte)CustomRPC.VersionCheck && callId != (byte)CustomRPC.RpcMurderPlayer)
             {
                 Logger.Warn($"{__instance?.Data?.PlayerName}:{callId}({RPC.GetRpcName(callId)}) Canceled because it was sent from someone other than the host.", "CustomRPC");
                 if (AmongUsClient.Instance.AmHost)
@@ -109,6 +94,7 @@ namespace TownOfHost
                     AmongUsClient.Instance.KickPlayer(__instance.GetClientId(), false);
                     Logger.Warn($"不正なRPCを受信したため{__instance?.Data?.PlayerName}をキックしました。", "Kick");
                     Logger.SendInGame(string.Format(GetString("Warning.InvalidRpc"), __instance?.Data?.PlayerName));
+                    Logger.SendInGame($"Invalid RPC Sent: {RPC.GetRpcName(callId)}");
                 }
                 return false;
             }
@@ -126,6 +112,12 @@ namespace TownOfHost
                         string version = reader.ReadString();
                         string tag = reader.ReadString();
                         Main.playerVersion[__instance.PlayerId] = new PlayerVersion(version, tag);
+                        if (tag != $"{ThisAssembly.Git.Commit}({ThisAssembly.Git.Branch})")
+                        {
+                            AmongUsClient.Instance.KickPlayer(__instance.GetClientId(), false);
+                            Logger.Warn($"{__instance?.Data?.PlayerName} had a different version than host. So they got kicked.", "Kick");
+                            Logger.SendInGame("Kicked for having a different version than host.");
+                        }
                     }
                     catch
                     {
@@ -304,6 +296,28 @@ namespace TownOfHost
                     stuff.Item1++;
                     Main.SurvivorStuff[survivor] = stuff;
                     break;
+                case CustomRPC.SetTransportNumber: // DONE
+                    int trans = reader.ReadInt32();
+                    Main.TransportsLeft = trans;
+                    break;
+                case CustomRPC.RpcMurderPlayer:
+                    Logger.Info($"{__instance?.Data?.PlayerName} has used a dev command to force kill.", "Dev KIll");
+                    if (AmongUsClient.Instance.AmHost)
+                    {
+                        var killer = Utils.GetPlayerById(reader.ReadByte());
+                        Logger.SendInGame($"{killer?.Data?.PlayerName} has used a dev command to force kill.");
+                    }
+                    break;
+                case CustomRPC.AssassinKill:
+                    Utils.GetPlayerById(reader.ReadByte()).RpcClientGuess();
+                    break;
+                case CustomRPC.SetTraitor:
+                    if (PlayerControl.LocalPlayer.PlayerId == reader.ReadByte())
+                    {
+                        var localPlayer = PlayerControl.LocalPlayer;
+                        RoleManager.Instance.SetRole(localPlayer, RoleTypes.Impostor);
+                    }
+                    break;
             }
         }
     }
@@ -391,6 +405,8 @@ namespace TownOfHost
                         ChildWin(winner[0]);
                         break;
                     case CustomWinner.Swapper:
+                        SwapperWin(winner[0]);
+                        break;
                     case CustomWinner.Executioner:
                         ExecutionerWin(winner[0]);
                         break;
@@ -491,6 +507,12 @@ namespace TownOfHost
             Main.currentWinner = CustomWinner.Executioner;
             CustomWinTrigger(executionerID);
         }
+        public static void SwapperWin(byte swapperID)
+        {
+            Main.WonExecutionerID = swapperID;
+            Main.currentWinner = CustomWinner.Swapper;
+            CustomWinTrigger(swapperID);
+        }
         public static void HackerWin(byte hackerID)
         {
             Main.WonHackerID = hackerID;
@@ -581,12 +603,6 @@ namespace TownOfHost
         {
             Main.currentWinner = CustomWinner.BloodKnight;
             CustomWinTrigger(0);
-            if (AmongUsClient.Instance.AmHost)
-            {
-                ShipStatus.Instance.enabled = false;
-                Main.currentWinner = CustomWinner.BloodKnight;
-                ShipStatus.RpcEndGame(GameOverReason.ImpostorByKill, false);
-            }
         }
         public static void PirateWin(byte hackerID)
         {
@@ -670,6 +686,21 @@ namespace TownOfHost
                     break;
             }
             HudManager.Instance.SetHudActive(true);
+        }
+
+        public static void SetTraitor(byte playerid)
+        {
+            if (PlayerControl.LocalPlayer.PlayerId == playerid)
+            {
+                var localPlayer = PlayerControl.LocalPlayer;
+                RoleManager.Instance.SetRole(localPlayer, RoleTypes.Impostor);
+            }
+            else
+            {
+                MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.SetTraitor, Hazel.SendOption.Reliable, -1);
+                writer.Write(playerid);
+                AmongUsClient.Instance.FinishRpcImmediately(writer);
+            }
         }
         public static void AddNameColorData(byte seerId, byte targetId, string color)
         {

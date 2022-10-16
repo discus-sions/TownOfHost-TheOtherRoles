@@ -113,6 +113,8 @@ namespace TownOfHost
                 CustomRoles.Child => ChildIsRed.GetBool(),
                 CustomRoles.Sheriff => CrewKillingRed.GetBool(),
                 CustomRoles.Demolitionist => CrewKillingRed.GetBool(),
+                CustomRoles.Bodyguard => CrewKillingRed.GetBool(),
+                CustomRoles.Crusader => CrewKillingRed.GetBool(),
                 CustomRoles.Bastion => CrewKillingRed.GetBool(),
                 CustomRoles.Veteran => CrewKillingRed.GetBool(),
                 // COVEN //
