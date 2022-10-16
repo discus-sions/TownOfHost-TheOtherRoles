@@ -24,7 +24,7 @@ namespace TownOfHost
     {
         //Sorry for many Japanese comments.
         public const string PluginGuid = "com.discussions.tohtor";
-        public const string PluginVersion = "0.9.3";
+        public const string PluginVersion = "0.9.3.1";
         public Harmony Harmony { get; } = new Harmony(PluginGuid);
         public static Version version = Version.Parse(PluginVersion);
         public static BepInEx.Logging.ManualLogSource Logger;

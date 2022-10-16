@@ -5,7 +5,7 @@
     <GenerateAssemblyFileVersionAttribute>false</GenerateAssemblyFileVersionAttribute>
     <GenerateAssemblyInformationalVersionAttribute>false</GenerateAssemblyInformationalVersionAttribute>
     <Description>Town Of Host The Other Roles</Description>
-    <Authors>Dicussions</Authors>
+    <Authors>Discussions</Authors>
     <langVersion>preview</langVersion>
   </PropertyGroup>
 
