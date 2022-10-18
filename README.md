@@ -367,7 +367,8 @@ Team : Impostors<br>
 Basis : Impostor<br>
 
 The Silencer's first kill attempt will silence the crewmate inside the next meeting.<br>
-After the Silence, the Silencer is a regular Impostor.<br>
+After the Silence, the Silencer is a regular Impostor until the next meeting.<br>
+After the next meeting, the process restarts and they can silence again.<br>
   
 ### Traitor
 
