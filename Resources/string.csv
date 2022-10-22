@@ -300,6 +300,14 @@ SupporterInfo,Do tasks to win against Painters,Выполняйте задани
 # GM
 GMInfo,You're the Game Master,Вы Мастер Игры,ゲームマスターだ,你是管理员，在旁边看戏吧,當吃瓜群眾在一旁看戲吧
 
+# Default Role info
+Crewmateinfo,Do your tasks and get the impostors out.,Do your tasks and get the impostors out.,Do your tasks and get the impostors out.,完成你的任务并找出内鬼
+Engineerinfo,Use the Vents to Catch Killers in the Act,Use the Vents to Catch Killers in the Act,Use the Vents to Catch Killers in the Act,使用通风管道抓住内鬼
+Scientistinfo,Use Vitals to Catch Self Reports,Use Vitals to Catch Self Reports,Use Vitals to Catch Self Reports,通过生命检测仪抓住内鬼
+Impostorinfo,Sabotage and leave none standing.,Sabotage and leave none standing,Sabotage and leave none standing,通过破坏和击杀船员获得胜利
+Shapeshifterinfo,Shift to confuse the crew of who's who.,Shift to confuse the crew of who's who,Shift to confuse the crew of who's who,使用变形能力迷惑别人
+GuardianAngelinfo,Protect your fellow remaining crew.,Protect your fellow remaining crew,Protect your fellow remaining crew,保护剩下的同伴
+
 ## 役職説明ロング
 
 # 特殊インポスター役職

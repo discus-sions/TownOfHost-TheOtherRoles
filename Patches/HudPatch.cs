@@ -293,7 +293,7 @@ namespace TownOfHost
 
             if (!player.GetCustomRole().IsVanilla())
             {
-                TaskTextPrefix = Helpers.ColorString(player.GetRoleColor(), $"Role: {player.GetRoleName()}\r\n");
+                TaskTextPrefix = Helpers.ColorString(player.GetRoleColor(), GetString("Roles") + $": {player.GetRoleName()}\r\n");
                 if (player.Is(CustomRoles.Mafia))
                     TaskTextPrefix += Helpers.ColorString(player.GetRoleColor(), GetString(player.CanUseKillButton() ? "AfterMafiaInfo" : "BeforeMafiaInfo"));
                 else
@@ -320,28 +320,28 @@ namespace TownOfHost
                 switch (player.GetCustomRole())
                 {
                     case CustomRoles.Crewmate:
-                        TaskTextPrefix = Helpers.ColorString(player.GetRoleColor(), $"Role: {player.GetRoleName()}\r\n");
-                        TaskTextPrefix += Helpers.ColorString(player.GetRoleColor(), "Do your tasks and get the impostors out.");
+                        TaskTextPrefix = Helpers.ColorString(player.GetRoleColor(), GetString("Roles") + $": {player.GetRoleName()}\r\n");
+                        TaskTextPrefix += Helpers.ColorString(player.GetRoleColor(), GetString("Crewmateinfo"));
                         break;
                     case CustomRoles.Engineer:
-                        TaskTextPrefix = Helpers.ColorString(player.GetRoleColor(), $"Role: {player.GetRoleName()}\r\n");
-                        TaskTextPrefix += Helpers.ColorString(player.GetRoleColor(), "Use the Vents to Catch Killers in the Act");
+                        TaskTextPrefix = Helpers.ColorString(player.GetRoleColor(), GetString("Roles") + $": {player.GetRoleName()}\r\n");
+                        TaskTextPrefix += Helpers.ColorString(player.GetRoleColor(), GetString("Engineerinfo"));
                         break;
                     case CustomRoles.Scientist:
-                        TaskTextPrefix = Helpers.ColorString(player.GetRoleColor(), $"Role: {player.GetRoleName()}\r\n");
-                        TaskTextPrefix += Helpers.ColorString(player.GetRoleColor(), "Use Vitals to Catch Self Reports");
+                        TaskTextPrefix = Helpers.ColorString(player.GetRoleColor(), GetString("Roles") + $": {player.GetRoleName()}\r\n");
+                        TaskTextPrefix += Helpers.ColorString(player.GetRoleColor(), GetString("Scientistinfo"));
                         break;
                     case CustomRoles.Impostor:
-                        TaskTextPrefix = Helpers.ColorString(player.GetRoleColor(), $"Role: {player.GetRoleName()}\r\n");
-                        TaskTextPrefix += Helpers.ColorString(player.GetRoleColor(), "Sabotage and leave none standing.");
+                        TaskTextPrefix = Helpers.ColorString(player.GetRoleColor(), GetString("Roles") + $": {player.GetRoleName()}\r\n");
+                        TaskTextPrefix += Helpers.ColorString(player.GetRoleColor(), GetString("Impostorinfo"));
                         break;
                     case CustomRoles.Shapeshifter:
-                        TaskTextPrefix = Helpers.ColorString(player.GetRoleColor(), $"Role: {player.GetRoleName()}\r\n");
-                        TaskTextPrefix += Helpers.ColorString(player.GetRoleColor(), "Shift to confuse the crew of who's who.");
+                        TaskTextPrefix = Helpers.ColorString(player.GetRoleColor(), GetString("Roles") + $": {player.GetRoleName()}\r\n");
+                        TaskTextPrefix += Helpers.ColorString(player.GetRoleColor(), GetString("Shapeshifterinfo"));
                         break;
                     case CustomRoles.GuardianAngel:
-                        TaskTextPrefix = Helpers.ColorString(player.GetRoleColor(), $"Role: {player.GetRoleName()}\r\n");
-                        TaskTextPrefix += Helpers.ColorString(player.GetRoleColor(), "Protect your fellow remaining crew.");
+                        TaskTextPrefix = Helpers.ColorString(player.GetRoleColor(), GetString("Roles") + $": {player.GetRoleName()}\r\n");
+                        TaskTextPrefix += Helpers.ColorString(player.GetRoleColor(), GetString("GuardianAngelinfo"));
                         break;
                 }
                 TaskTextPrefix += "</color>\r\n";
