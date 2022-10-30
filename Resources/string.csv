@@ -290,6 +290,9 @@ BewilderInfo,Let the Killer steal your Vision,Позвольте Убийце у
 TorchInfo,Lights do not affect your Vision,Вы игнорируете саботаж света,Torch,熄灯不会破坏你的视野
 NoSubRoleAssignedInfo,"You currently have no modifier. This is due a bug or your lover leaving.","В настоящее время у вас нет модификатора. Это связано с ошибкой или уходом вашего любовника.","You currently have no modifier. This is due a bug or your lover leaving.","你没有附加职业，这个问题可能是你的恋人退出了游戏。"
 
+# Lover
+LoverInfo,You are in love with{name},You are in love with{name},You are in love with{name},你和{name}恋爱了
+
 # HideAndSeek
 HASFoxInfo,Stay alive,Останьтесь в живых,とにかく生き残りましょう,活下去吧！活到最后你就成为了赢家！,活到最後就是屬於你和贏家的一片天
 HASTrollInfo,Get killed,Быть убитым,自爆しよう,轰！你为了同伴牺牲了！,"讓狼人砍你 偷襲!"
@@ -857,6 +860,7 @@ WitchModeKill,Kill,Убить,キル,击杀,殺人
 WitchModeSpell,Spell,Заклинать,スペル,下咒,下咒
 BountyCurrentTarget,Current Target,Текущая Цель,現在のターゲット,当前目标,目標
 Roles,Roles,Роли,役職,职业,職業
+Modifier,Modifier,Modifier,Modifier,附加职业,Modifier
 Percentages,Percentages,Проценты,役職,概率,職業
 Settings,Settings,Настройки,設定,设定,設定
 Attributes,Attributes,Атрибуты,属性,属性,屬性

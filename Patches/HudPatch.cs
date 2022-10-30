@@ -355,9 +355,9 @@ namespace TownOfHost
                     if (modifier.Value == player.PlayerId)
                         role = modifier.Key;
                 }*/
-                TaskTextPrefix += Helpers.ColorString(Utils.GetRoleColor(player.GetCustomSubRole()), $"Modifier: {player.GetSubRoleName()}\r\n");
+                TaskTextPrefix += Helpers.ColorString(Utils.GetRoleColor(player.GetCustomSubRole()), GetString("Modifier") + $": {player.GetSubRoleName()}\r\n");
                 if (player.GetCustomSubRole() != CustomRoles.LoversRecode)
-                    TaskTextPrefix += Helpers.ColorString(Utils.GetRoleColor(player.GetCustomSubRole()), $"{GetString(player.GetSubRoleName() + "Info")}\r\n");
+                    TaskTextPrefix += Helpers.ColorString(Utils.GetRoleColor(player.GetCustomSubRole()), GetString(player.GetCustomSubRole() + "Info"));
                 else
                 {
                     string name = "";
@@ -366,8 +366,9 @@ namespace TownOfHost
                         if (lp.PlayerId == player.PlayerId) continue;
                         name = lp.GetRealName(true);
                     }
-                    TaskTextPrefix += Helpers.ColorString(Utils.GetRoleColor(player.GetCustomSubRole()), $"You are in love with {name}.\r\n");
+                    TaskTextPrefix += Helpers.ColorString(Utils.GetRoleColor(player.GetCustomSubRole()), GetString("LoverInfo"));
                 }
+                TaskTextPrefix += "</color>\r\n";
             }
             if (!Utils.HasTasks(player.Data, false) && !player.GetCustomRole().IsImpostor())
                 TaskTextPrefix += FakeTasksText;
