@@ -1,4 +1,4 @@
-﻿using BepInEx;
+using BepInEx;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -522,6 +522,17 @@ namespace TownOfHost
                     { CustomRoles.sns8, "#E763F9"},
                     { CustomRoles.rosecolor, "#FFD6EC"},
                     { CustomRoles.eevee, "#FF8D1C"},
+
+                    //TEXT COLORS Candy
+                    { CustomRoles.psh1, "#EF807F"},
+                    { CustomRoles.psh2, "#F3969C"},
+                    { CustomRoles.psh3, "#F7ABB8"},
+                    { CustomRoles.psh4, "#FBC1D5"},
+                    { CustomRoles.psh5, "#FBC6E9"},
+                    { CustomRoles.psh6, "#F6B6E0"},
+                    { CustomRoles.psh7, "#F4AEDC"},
+                    { CustomRoles.psh8, "#F1A6D7"},
+                    { CustomRoles.psh9, "#EC96CE"},
                 };
                 foreach (var role in Enum.GetValues(typeof(CustomRoles)).Cast<CustomRoles>())
                 {
@@ -753,6 +764,16 @@ namespace TownOfHost
         sns8,
         rosecolor,
         eevee
+        //CUSTOM COLORS Candy
+        psh1,
+        psh2,
+        psh3,
+        psh4,
+        psh5,
+        psh6,
+        psh7,
+        psh8,
+        psh9,
     }
     //WinData
     public enum CustomWinner
