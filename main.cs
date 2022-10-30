@@ -763,7 +763,7 @@ namespace TownOfHost
         sns7,
         sns8,
         rosecolor,
-        eevee
+        eevee,
         //CUSTOM COLORS Candy
         psh1,
         psh2,
