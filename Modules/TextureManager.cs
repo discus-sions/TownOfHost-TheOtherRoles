@@ -1,7 +1,10 @@
 using System;
 using System.IO;
-using UnhollowerBaseLib;
+using Il2CppInterop;
 using UnityEngine;
+using BepInEx.Unity.IL2CPP;
+using Il2CppInterop.Runtime.InteropTypes.Arrays;
+using Il2CppInterop.Runtime;
 
 namespace TownOfHost
 {

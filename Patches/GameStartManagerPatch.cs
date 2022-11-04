@@ -1,5 +1,6 @@
 using HarmonyLib;
 using InnerNet;
+using AmongUs.Data;
 using UnityEngine;
 
 namespace TownOfHost
@@ -40,8 +41,8 @@ namespace TownOfHost
                         : $"<color={Main.modColor}>{Main.HideName.Value}</color>";
 
                 // Make Public Button
-                bool NameIncludeMod = SaveManager.PlayerName.ToLower().Contains("mod");
-                bool NameIncludeTOR = SaveManager.PlayerName.ToUpper().Contains("TOR");
+                bool NameIncludeMod = DataManager.Player.Customization.Name.ToLower().Contains("mod");
+                bool NameIncludeTOR = DataManager.Player.Customization.Name.ToUpper().Contains("TOR");
                 if (ModUpdater.isBroken || ModUpdater.hasUpdate || (NameIncludeMod && !NameIncludeTOR))
                 {
                     __instance.MakePublicButton.color = Palette.DisabledClear;
@@ -62,7 +63,7 @@ namespace TownOfHost
             public static void Prefix(GameStartManager __instance)
             {
                 // Lobby code
-                if (SaveManager.StreamerMode)
+                if (DataManager.Settings.Gameplay.StreamerMode)
                 {
                     __instance.GameRoomNameCode.color = new(255, 255, 255, 0);
                     GameStartManagerStartPatch.HideName.enabled = true;
@@ -87,6 +88,8 @@ namespace TownOfHost
                 int seconds = (int)timer % 60;
                 string suffix = $" ({minutes:00}:{seconds:00})";
                 if (timer <= 60) suffix = Helpers.ColorString(Color.red, suffix);
+                if (timer is 60 or 30 or 15 or 10 or 5 or 4 or 3 or 2 or 1)
+                    SoundManager.Instance.PlaySound(PlayerControl.LocalPlayer.KillSfx, false, 0.8f);
 
                 __instance.PlayerCounter.text = currentText + suffix;
                 __instance.PlayerCounter.autoSizeTextContainer = true;
@@ -109,6 +112,12 @@ namespace TownOfHost
             Options.DefaultKillCooldown = PlayerControl.GameOptions.KillCooldown;
             Main.LastKillCooldown.Value = PlayerControl.GameOptions.KillCooldown;
             PlayerControl.GameOptions.KillCooldown = 0.1f;
+            foreach (var pc in PlayerControl.AllPlayerControls)
+            {
+                if (pc == null || pc.Data.Disconnected) continue;
+                if (pc.CurrentOutfit.ColorId > 17)
+                    pc.RpcSetColor(17);
+            }
             Main.RealOptionsData = PlayerControl.GameOptions.DeepCopy();
             PlayerControl.LocalPlayer.RpcSyncSettings(Main.RealOptionsData);
         }

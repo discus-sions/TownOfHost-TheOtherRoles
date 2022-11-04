@@ -49,6 +49,16 @@ namespace TownOfHost
         {
             taskState[player.PlayerId].Init(player);
         }
+        public static int GetDeadPeopleAmount()
+        {
+            int amount = 0;
+            foreach (var key in isDead)
+            {
+                if (key.Value)
+                    amount++;
+            }
+            return amount;
+        }
         public static void UpdateTask(PlayerControl player)
         {
             taskState[player.PlayerId].Update(player);

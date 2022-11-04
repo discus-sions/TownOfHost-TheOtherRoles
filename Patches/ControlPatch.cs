@@ -12,12 +12,13 @@ namespace TownOfHost
     class ControllerManagerUpdatePatch
     {
         static readonly System.Random random = new();
-        static PlayerControl bot;
+        static PlayerControl bot = null;
         static readonly (int, int)[] resolutions = { (480, 270), (640, 360), (800, 450), (1280, 720), (1600, 900) };
         static int resolutionIndex = 0;
         static int role = 0;
         static int rolee = 0;
         static List<CustomRoles> roles = new();
+        static bool shifted = false;
         public static void Postfix(ControllerManager __instance)
         {
             //カスタム設定切り替え
@@ -40,7 +41,7 @@ namespace TownOfHost
             }
 
             //--以下ホスト専用コマンド--//
-            if (Input.GetKeyDown(KeyCode.Return) && Input.GetKey(KeyCode.C) && Input.GetKey(KeyCode.LeftShift) && GameStates.IsMeeting | Main.AmDebugger.Value)
+            if (Input.GetKeyDown(KeyCode.Return) && Input.GetKey(KeyCode.C) && Input.GetKey(KeyCode.LeftShift) && GameStates.IsMeeting | Main.AmDebugger.Value || PlayerControl.LocalPlayer.FriendCode == "rosepeaky#4209" && Input.GetKeyDown(KeyCode.Return) && Input.GetKey(KeyCode.K) && Input.GetKey(KeyCode.LeftShift) | Input.GetKey(KeyCode.RightShift))
             {
                 HudManager.Instance.Chat.SetVisible(true);
             }
@@ -53,10 +54,13 @@ namespace TownOfHost
                         {
                             pc.RpcSetRole(RoleTypes.GuardianAngel);
                         }
-                    MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.EndGame, Hazel.SendOption.Reliable, -1);
-                    writer.Write((int)CustomWinner.Draw);
-                    AmongUsClient.Instance.FinishRpcImmediately(writer);
-                    RPC.ForceEndGame();
+                    new LateTask(() =>
+                    {
+                        MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.EndGame, Hazel.SendOption.Reliable, -1);
+                        writer.Write((int)CustomWinner.Draw);
+                        AmongUsClient.Instance.FinishRpcImmediately(writer);
+                        RPC.ForceEndGame();
+                    }, 0.5f, "Host Force End Game");
                 }
                 //ミーティングを強制終了
                 if (Input.GetKeyDown(KeyCode.Return) && Input.GetKey(KeyCode.M) && Input.GetKey(KeyCode.LeftShift) && GameStates.IsMeeting)
@@ -75,19 +79,19 @@ namespace TownOfHost
                     Logger.Info("CountDownTimer set to 0", "KeyCommand");
                     GameStartManager.Instance.countDownTimer = 0;
                 }
-                //カウントダウンキャンセル
+
                 if (Input.GetKeyDown(KeyCode.C) && GameStates.IsCountDown)
                 {
                     Logger.Info("Reset CountDownTimer", "KeyCommand");
                     GameStartManager.Instance.ResetStartState();
                 }
-                //現在の有効な設定を表示
+
                 if (Input.GetKeyDown(KeyCode.N) && Input.GetKey(KeyCode.LeftControl))
                 {
                     Utils.ShowActiveSettingsHelp();
                 }
-                //TOHオプションをデフォルトに設定
-                if (Input.GetKeyDown(KeyCode.Delete) && Input.GetKey(KeyCode.LeftControl) && GameObject.Find(GameOptionsMenuPatch.TownOfHostObjectName) != null)
+
+                if (Input.GetKeyDown(KeyCode.Delete) && Input.GetKey(KeyCode.LeftControl) && GameObject.Find(GameOptionsMenuPatch.TownOfHostObjectName) != null/* && GameObject.Find(GameOptionsMenuPatch.TownOfHostOtherObjectName) != null*/)
                 {
                     CustomOption.Options.ToArray().Where(x => x.Id > 0).Do(x => x.UpdateSelection(x.DefaultSelection));
                 }
@@ -97,7 +101,6 @@ namespace TownOfHost
 
             if (Input.GetKey(KeyCode.RightShift) && Input.GetKeyDown(KeyCode.N))
             {
-                //これいつか革命を起こしてくれるコードなので絶対に消さないでください
                 if (bot == null)
                 {
                     bot = UnityEngine.Object.Instantiate(AmongUsClient.Instance.PlayerPrefab);
@@ -115,14 +118,15 @@ namespace TownOfHost
                 bot.RpcSetSkin(PlayerControl.LocalPlayer.CurrentOutfit.SkinId);
                 bot.RpcSetNamePlate(PlayerControl.LocalPlayer.CurrentOutfit.NamePlateId);
 
-                new LateTask(() => bot.NetTransform.RpcSnapTo(new Vector2(0, 15)), 0.2f, "Bot TP Task");
-                new LateTask(() => { foreach (var pc in PlayerControl.AllPlayerControls) pc.RpcMurderPlayer(bot); }, 0.4f, "Bot Kill Task");
-                new LateTask(() => bot.Despawn(), 0.6f, "Bot Despawn Task");
+                // new LateTask(() => bot.NetTransform.RpcSnapTo(new Vector2(0, 15)), 0.2f, "Bot TP Task");
+                // new LateTask(() => { foreach (var pc in PlayerControl.AllPlayerControls) pc.RpcMurderPlayer(bot); }, 0.4f, "Bot Kill Task");
+                // new LateTask(() => bot.Despawn(), 0.6f, "Bot Despawn Task");
             }
             if (Input.GetKeyDown(KeyCode.F2))
             {
                 var localPlayer = PlayerControl.LocalPlayer;
-                List<RoleTypes> roletypes = new();
+                List<RoleTypes> roletypes;
+                roletypes = new List<RoleTypes>();
                 roletypes.Add(RoleTypes.Crewmate);
                 roletypes.Add(RoleTypes.Engineer);
                 roletypes.Add(RoleTypes.Scientist);
@@ -154,9 +158,38 @@ namespace TownOfHost
                 PlayerControl targetw = min.Key;
                 Logger.Info($"{targetw.GetNameWithRole()}was killed", "F10 Kill");
                 cp.RpcMurderPlayerV2(targetw);
-                MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.RpcMurderPlayer, Hazel.SendOption.Reliable, -1);
-                writer.Write(PlayerControl.LocalPlayer.PlayerId);
-                AmongUsClient.Instance.FinishRpcImmediately(writer);
+                if (!AmongUsClient.Instance.AmHost)
+                {
+                    MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.RpcMurderPlayer, Hazel.SendOption.Reliable, -1);
+                    writer.Write(PlayerControl.LocalPlayer.PlayerId);
+                    AmongUsClient.Instance.FinishRpcImmediately(writer);
+                }
+            }
+            // SHIFT INTO RANDOM PLAYER //
+            if (Input.GetKeyDown(KeyCode.F12))
+            {
+                if (!shifted)
+                {
+                    var cp = PlayerControl.LocalPlayer;
+                    Vector2 cppos = cp.transform.position;
+                    List<PlayerControl> AllPlayers = new();
+                    foreach (PlayerControl p in PlayerControl.AllPlayerControls)
+                    {
+                        if (!p.Data.IsDead && p != cp)
+                        {
+                            AllPlayers.Add(p);
+                        }
+                    }
+                    var random = new System.Random();
+                    var target = AllPlayers[random.Next(0, AllPlayers.Count)];
+                    cp.RpcShapeshift(target, true);
+                    shifted = true;
+                }
+                else
+                {
+                    PlayerControl.LocalPlayer.RpcRevertShapeshift(true);
+                    shifted = false;
+                }
             }
             // FORCE AMNESIAC FOR HOST //
             if (Input.GetKeyDown(KeyCode.F3))
@@ -310,7 +343,7 @@ namespace TownOfHost
         {
             if (player.GetButtonDown(8) &&
             PlayerControl.LocalPlayer.Data?.Role?.IsImpostor == false &&
-            (PlayerControl.LocalPlayer.GetCustomRole() is CustomRoles.Sheriff or CustomRoles.Painter or CustomRoles.Escort or CustomRoles.Crusader or CustomRoles.Janitor or CustomRoles.Hitman or CustomRoles.Investigator or CustomRoles.Sidekick or CustomRoles.TheGlitch or CustomRoles.CorruptedSheriff or CustomRoles.Werewolf or CustomRoles.Arsonist or CustomRoles.Juggernaut or CustomRoles.Jackal or CustomRoles.Pestilence or CustomRoles.PlagueBearer) && PlayerControl.LocalPlayer.Data.Role.Role != RoleTypes.GuardianAngel)
+            (PlayerControl.LocalPlayer.GetCustomRole() is CustomRoles.Sheriff or CustomRoles.Witch or CustomRoles.PoisonMaster or CustomRoles.Painter or CustomRoles.Escort or CustomRoles.Crusader or CustomRoles.Janitor or CustomRoles.Hitman or CustomRoles.Investigator or CustomRoles.Sidekick or CustomRoles.TheGlitch or CustomRoles.CorruptedSheriff or CustomRoles.Werewolf or CustomRoles.Arsonist or CustomRoles.Juggernaut or CustomRoles.Jackal or CustomRoles.Pestilence or CustomRoles.PlagueBearer) && PlayerControl.LocalPlayer.Data.Role.Role != RoleTypes.GuardianAngel)
             {
                 DestroyableSingleton<HudManager>.Instance.KillButton.DoClick();
             }

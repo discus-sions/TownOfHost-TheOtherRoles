@@ -15,11 +15,11 @@ namespace TownOfHost
 
         public static void SetupCustomOption()
         {
-            Options.SetupRoleOptions(Id, CustomRoles.Mare);
-            SpeedInLightsOut = CustomOption.Create(Id + 10, Color.white, "MareSpeedInLightsOut", 2f, 0.25f, 3f, 0.25f, Options.CustomRoleSpawnChances[CustomRoles.Mare]);
-            KillCooldownInLightsOut = CustomOption.Create(Id + 11, Color.white, "MareKillCooldownInLightsOut", 15f, 2.5f, 180f, 2.5f, Options.CustomRoleSpawnChances[CustomRoles.Mare]);
-            RedNameCooldownAfterLights = CustomOption.Create(Id + 12, Color.white, "RedNameCooldownAfterLights", 5f, 0, 30f, 2.5f, Options.CustomRoleSpawnChances[CustomRoles.Mare]);
-            RedNameCooldownAfterMeeting = CustomOption.Create(Id + 13, Color.white, "RedNameCooldownAfterMeeting", 15f, 0, 60f, 2.5f, Options.CustomRoleSpawnChances[CustomRoles.Mare]);
+            Options.SetupRoleOptions(Id, CustomRoles.Mare, AmongUsExtensions.OptionType.Impostor);
+            SpeedInLightsOut = CustomOption.Create(Id + 10, Color.white, "MareSpeedInLightsOut", AmongUsExtensions.OptionType.Impostor, 2f, 0.25f, 3f, 0.25f, Options.CustomRoleSpawnChances[CustomRoles.Mare]);
+            KillCooldownInLightsOut = CustomOption.Create(Id + 11, Color.white, "MareKillCooldownInLightsOut", AmongUsExtensions.OptionType.Impostor, 15f, 2.5f, 180f, 2.5f, Options.CustomRoleSpawnChances[CustomRoles.Mare]);
+            RedNameCooldownAfterLights = CustomOption.Create(Id + 12, Color.white, "RedNameCooldownAfterLights", AmongUsExtensions.OptionType.Impostor, 5f, 0, 30f, 2.5f, Options.CustomRoleSpawnChances[CustomRoles.Mare]);
+            RedNameCooldownAfterMeeting = CustomOption.Create(Id + 13, Color.white, "RedNameCooldownAfterMeeting", AmongUsExtensions.OptionType.Impostor, 15f, 0, 60f, 2.5f, Options.CustomRoleSpawnChances[CustomRoles.Mare]);
         }
         public static void Init()
         {

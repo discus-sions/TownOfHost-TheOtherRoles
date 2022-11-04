@@ -2,6 +2,7 @@ using HarmonyLib;
 using UnityEngine;
 using System.Globalization;
 using static TownOfHost.Translator;
+using AmongUs.Data;
 
 namespace TownOfHost
 {
@@ -10,7 +11,7 @@ namespace TownOfHost
     {
         public static bool Prefix(GameStartManager __instance)
         {
-            bool NameIncludeTOH = SaveManager.PlayerName.ToUpper().Contains("TOR");
+            bool NameIncludeTOH = DataManager.Player.Customization.Name.ToUpper().Contains("TOR");
             if (ModUpdater.isBroken || ModUpdater.hasUpdate || !NameIncludeTOH)
             {
                 var message = GetString("NameIncludeTOH");

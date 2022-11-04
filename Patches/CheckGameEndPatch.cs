@@ -809,7 +809,8 @@ namespace TownOfHost
                             playerInfo.GetCustomRole() != CustomRoles.Juggernaut || playerInfo.GetCustomRole() != CustomRoles.Werewolf ||
                             !playerInfo.GetCustomRole().IsCoven() || playerInfo.GetCustomRole() != CustomRoles.Investigator
                             || playerInfo.GetCustomRole() != CustomRoles.BloodKnight || playerInfo.GetCustomRole() != CustomRoles.Sidekick
-                            || playerInfo.GetCustomRole() != CustomRoles.Marksman))
+                            || playerInfo.GetCustomRole() != CustomRoles.Marksman || playerInfo.GetCustomRole() != CustomRoles.Escort
+                            || playerInfo.GetCustomRole() != CustomRoles.Crusader || playerInfo.GetCustomRole() != CustomRoles.Hitman))
                             {
                                 numImpostorsAlive++;
                             }

@@ -17,7 +17,8 @@ namespace TownOfHost
     {
         public static int CheckPercentage(string str = "", byte playerId = 0xff, bool noErr = false, CustomRoles role = CustomRoles.Amnesiac)
         {
-            if (!Options.LaptopPercentages.GetBool())
+            bool checkLaptop = true;
+            if (!checkLaptop)
             {
                 if (!File.Exists("percentage.txt"))
                 {

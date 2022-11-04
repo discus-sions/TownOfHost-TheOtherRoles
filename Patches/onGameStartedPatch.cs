@@ -13,214 +13,232 @@ namespace TownOfHost
     {
         public static void Postfix(AmongUsClient __instance)
         {
-            //注:この時点では役職は設定されていません。
-            PlayerState.Init();
-
-            Main.currentWinner = CustomWinner.Default;
-            Main.CustomWinTrigger = false;
-            Main.AllPlayerCustomRoles = new Dictionary<byte, CustomRoles>();
-            Main.AllPlayerCustomSubRoles = new Dictionary<byte, CustomRoles>();
-            Main.LastPlayerCustomRoles = new Dictionary<byte, CustomRoles>();
-            Main.LastPlayerCustomSubRoles = new Dictionary<byte, CustomRoles>();
-            Main.AllPlayerKillCooldown = new Dictionary<byte, float>();
-            Main.AllPlayerSpeed = new Dictionary<byte, float>();
-            Main.BitPlayers = new Dictionary<byte, (byte, float)>();
-            Main.WarlockTimer = new Dictionary<byte, float>();
-            Main.isDoused = new Dictionary<(byte, byte), bool>();
-            Main.SurvivorStuff = new Dictionary<byte, (int, bool, bool, bool, bool)>();
-            Main.isHexed = new Dictionary<(byte, byte), bool>();
-            Main.ArsonistTimer = new Dictionary<byte, (PlayerControl, float)>();
-            Main.isInfected = new Dictionary<(byte, byte), bool>();
-            Main.PlagueBearerTimer = new Dictionary<byte, (PlayerControl, float)>();
-            Main.CursedPlayers = new Dictionary<byte, PlayerControl>();
-            Main.isCurseAndKill = new Dictionary<byte, bool>();
-            Main.AirshipMeetingTimer = new Dictionary<byte, float>();
-            Main.ExecutionerTarget = new Dictionary<byte, byte>();
-            Main.GuardianAngelTarget = new Dictionary<byte, byte>();
-            Main.SKMadmateNowCount = 0;
-            Main.HexesThisRound = 0;
-            Main.isCursed = false;
-            Main.PuppeteerList = new Dictionary<byte, byte>();
-            Main.WitchedList = new Dictionary<byte, byte>();
-
-            Main.AfterMeetingDeathPlayers = new();
-            Main.ResetCamPlayerList = new();
-
-            Main.chosenEngiRoles = new List<CustomRoles>();
-            Main.chosenScientistRoles = new List<CustomRoles>();
-            Main.chosenShifterRoles = new List<CustomRoles>();
-            Main.chosenRoles = new List<CustomRoles>();
-            Main.chosenImpRoles = new List<CustomRoles>();
-            Main.chosenNK = new List<CustomRoles>();
-            Main.chosenNonNK = new List<CustomRoles>();
-
-            Main.SpelledPlayer = new List<PlayerControl>();
-            Main.witchMeeting = false;
-            Main.firstKill = new List<byte>();
-            Main.knownGhosts = new Dictionary<byte, List<byte>>();
-            Main.unreportableBodies = new List<byte>();
-            Main.dousedIDs = new List<byte>();
-            Main.isSilenced = false;
-            Main.ExeCanChangeRoles = true;
-            Main.MercCanSuicide = true;
-            Main.SilencedPlayer = new List<PlayerControl>();
-            Main.DeadPlayersThisRound = new List<byte>();
-            Main.CheckShapeshift = new Dictionary<byte, bool>();
-            Main.SpeedBoostTarget = new Dictionary<byte, byte>();
-            Main.MayorUsedButtonCount = new Dictionary<byte, int>();
-            Main.HackerFixedSaboCount = new Dictionary<byte, int>();
-            Main.LastEnteredVent = new Dictionary<byte, Vent>();
-            Main.LastEnteredVentLocation = new Dictionary<byte, Vector2>();
-            Main.HasModifier = new Dictionary<byte, CustomRoles>();
-            Main.KilledBewilder = new List<byte>();
-            Main.AllPlayerSkin = new();
-            Main.KilledDemo = new List<byte>();
-            Main.targetArrows = new();
-            Main.KilledDiseased = new List<byte>();
-            Main.JugKillAmounts = 0;
-            Main.AteBodies = 0;
-            Main.TeamJuggernautAlive = false;
-            Main.TeamPestiAlive = false;
-            Main.Grenaiding = false;
-            Main.ResetVision = false;
-            Main.CamoComms = false;
-            Main.JackalDied = false;
-            Main.PhantomAlert = false;
-            Main.PhantomCanBeKilled = false;
-
-            Main.LoversPlayers = new List<PlayerControl>();
-            Main.ColliderPlayers = new List<PlayerControl>();
-            Main.isLoversDead = false;
-
-            ////////////// COVEN INFO //////////////    
-            Main.TeamCovenAlive = 3;
-            Main.CovenMeetings = 0;
-            Main.HasNecronomicon = false;
-            Main.HexMasterOn = false;
-            Main.PotionMasterOn = false;
-            Main.VampireDitchesOn = false;
-            Main.MedusaOn = false;
-            Main.MimicOn = false;
-            Main.NecromancerOn = false;
-            Main.ConjurorOn = false;
-            Main.ChoseWitch = false;
-            Main.DoingYingYang = true;
-            Main.WitchProtected = false;
-            ////////////// COVEN INFO //////////////    
-
-            Options.UsedButtonCount = 0;
-            Main.showEjections = PlayerControl.GameOptions.ConfirmImpostor;
-            Main.RealOptionsData = PlayerControl.GameOptions.DeepCopy();
-
-            Main.introDestroyed = false;
-            Main.VettedThisRound = false;
-            Main.VetIsAlerted = false;
-            Main.IsRoundOne = true;
-            Main.IsRoundOneGA = true;
-            Main.MarksmanKills = 0;
-            Main.GAprotects = 0;
-            Main.ProtectedThisRound = false;
-            Main.CurrentTarget = new Dictionary<byte, byte>();
-            Main.HasProtected = false;
-
-            Main.IsGazing = false;
-            Main.MareHasRedName = false;
-            Main.GazeReady = true;
-
-            Main.IsRampaged = false;
-            Main.RampageReady = true;
-            Main.Impostors = new();
-            Main.lastAmountOfTasks = new();
-            Main.AllImpostorCount = 0;
-            Main.HasTarget = new Dictionary<byte, bool>();
-            Main.IsHackMode = false;
-            Main.bkProtected = false;
-            Main.bombedVents = new List<int>();
-            if (CustomRoles.Transporter.IsEnable())
-                Main.TransportsLeft = Options.NumOfTransports.GetInt();
-
-            Main.WonFFATeam = 255;
-            Main.DiscussionTime = Main.RealOptionsData.DiscussionTime;
-            Main.VotingTime = Main.RealOptionsData.VotingTime;
-
-            NameColorManager.Instance.RpcReset();
-            Main.LastNotifyNames = new();
-
-            Main.currentDousingTarget = 255;
-            Main.currentFreezingTarget = 255;
-            Main.VetAlerts = 0;
-            Main.ProtectsSoFar = 0;
-            Main.rolesRevealedNextMeeting = new List<byte>();
-            Main.IsProtected = false;
-            Main.IsInvis = false;
-            Main.CanGoInvis = true;
-            Main.PlayerColors = new();
-            Main.whoKilledWho = new Dictionary<PlayerControl, PlayerControl>();
-            Main.SleuthReported = new();
-            //名前の記録
-            Main.AllPlayerNames = new();
-
-            if (AmongUsClient.Instance.AmHost)
+            try
             {
-                foreach (var pc in PlayerControl.AllPlayerControls)
+                PlayerState.Init();
+
+                Main.currentWinner = CustomWinner.Default;
+                Main.CustomWinTrigger = false;
+                Main.AllPlayerCustomRoles = new Dictionary<byte, CustomRoles>();
+                Main.AllPlayerCustomSubRoles = new Dictionary<byte, CustomRoles>();
+                Main.LastPlayerCustomRoles = new Dictionary<byte, CustomRoles>();
+                Main.LastPlayerCustomSubRoles = new Dictionary<byte, CustomRoles>();
+                Main.AllPlayerKillCooldown = new Dictionary<byte, float>();
+                Main.AllPlayerSpeed = new Dictionary<byte, float>();
+                Main.BitPlayers = new Dictionary<byte, (byte, float)>();
+                Main.WarlockTimer = new Dictionary<byte, float>();
+                Main.isDoused = new Dictionary<(byte, byte), bool>();
+                Main.SurvivorStuff = new Dictionary<byte, (int, bool, bool, bool, bool)>();
+                Main.isHexed = new Dictionary<(byte, byte), bool>();
+                Main.ArsonistTimer = new Dictionary<byte, (PlayerControl, float)>();
+                Main.isInfected = new Dictionary<(byte, byte), bool>();
+                Main.PlagueBearerTimer = new Dictionary<byte, (PlayerControl, float)>();
+                Main.CursedPlayers = new Dictionary<byte, PlayerControl>();
+                Main.isCurseAndKill = new Dictionary<byte, bool>();
+                Main.AirshipMeetingTimer = new Dictionary<byte, float>();
+                Main.ExecutionerTarget = new Dictionary<byte, byte>();
+                Main.GuardianAngelTarget = new Dictionary<byte, byte>();
+                Main.SKMadmateNowCount = 0;
+                Main.WitchesThisRound = 0;
+                Main.HexesThisRound = 0;
+                Main.isCursed = false;
+                Main.PuppeteerList = new Dictionary<byte, byte>();
+                Main.WitchedList = new Dictionary<byte, byte>();
+                Main.LastWinner = "None";
+                Main.WitchList = new Dictionary<byte, byte>();
+
+                Main.AfterMeetingDeathPlayers = new();
+                Main.ResetCamPlayerList = new();
+
+                Main.chosenEngiRoles = new List<CustomRoles>();
+                Main.chosenScientistRoles = new List<CustomRoles>();
+                Main.chosenShifterRoles = new List<CustomRoles>();
+                Main.chosenRoles = new List<CustomRoles>();
+                Main.chosenImpRoles = new List<CustomRoles>();
+                Main.chosenNK = new List<CustomRoles>();
+                Main.chosenNonNK = new List<CustomRoles>();
+
+                Main.SpelledPlayer = new List<PlayerControl>();
+                Main.witchMeeting = false;
+                Main.firstKill = new List<byte>();
+                Main.knownGhosts = new Dictionary<byte, List<byte>>();
+                Main.unreportableBodies = new List<byte>();
+                Main.dousedIDs = new List<byte>();
+                Main.isSilenced = false;
+                Main.ExeCanChangeRoles = true;
+                Main.MercCanSuicide = true;
+                Main.SilencedPlayer = new List<PlayerControl>();
+                Main.DeadPlayersThisRound = new List<byte>();
+                Main.CheckShapeshift = new Dictionary<byte, bool>();
+                Main.SpeedBoostTarget = new Dictionary<byte, byte>();
+                Main.MayorUsedButtonCount = new Dictionary<byte, int>();
+                Main.HackerFixedSaboCount = new Dictionary<byte, int>();
+                Main.LastEnteredVent = new Dictionary<byte, Vent>();
+                Main.LastEnteredVentLocation = new Dictionary<byte, Vector2>();
+                Main.HasModifier = new Dictionary<byte, CustomRoles>();
+                Main.KilledBewilder = new List<byte>();
+                Main.AllPlayerSkin = new();
+                Main.KilledDemo = new List<byte>();
+                Main.targetArrows = new();
+                Main.KilledDiseased = new List<byte>();
+                Main.JugKillAmounts = 0;
+                Main.AteBodies = 0;
+                Main.TeamJuggernautAlive = false;
+                Main.TeamPestiAlive = false;
+                Main.Grenaiding = false;
+                Main.ResetVision = false;
+                Main.CamoComms = false;
+                Main.JackalDied = false;
+                Main.PhantomAlert = false;
+                Main.PhantomCanBeKilled = false;
+
+                Main.LoversPlayers = new List<PlayerControl>();
+                Main.ColliderPlayers = new List<PlayerControl>();
+                Main.isLoversDead = false;
+
+                ////////////// COVEN INFO //////////////    
+                Main.TeamCovenAlive = 3;
+                Main.CovenMeetings = 0;
+                Main.HasNecronomicon = false;
+                Main.HexMasterOn = false;
+                Main.PotionMasterOn = false;
+                Main.VampireDitchesOn = false;
+                Main.MedusaOn = false;
+                Main.MimicOn = false;
+                Main.NecromancerOn = false;
+                Main.ConjurorOn = false;
+                Main.ChoseWitch = false;
+                Main.DoingYingYang = true;
+                Main.WitchProtected = false;
+                ////////////// COVEN INFO //////////////    
+
+                Options.UsedButtonCount = 0;
+                Main.showEjections = PlayerControl.GameOptions.ConfirmImpostor;
+                PlayerControl.GameOptions.ConfirmImpostor = false;
+                Main.RealOptionsData = PlayerControl.GameOptions.DeepCopy();
+
+                Main.introDestroyed = false;
+                Main.VettedThisRound = false;
+                Main.VetIsAlerted = false;
+                Main.IsRoundOne = true;
+                Main.IsRoundOneGA = true;
+                Main.MarksmanKills = 0;
+                Main.GAprotects = 0;
+                Main.ProtectedThisRound = false;
+                Main.CurrentTarget = new Dictionary<byte, byte>();
+                Main.HasProtected = false;
+
+                Main.IsGazing = false;
+                Main.MareHasRedName = false;
+                Main.FirstMeetingOccurded = false;
+                Main.GazeReady = true;
+
+                Main.IsRampaged = false;
+                Main.RampageReady = true;
+                Main.Impostors = new();
+                Main.lastAmountOfTasks = new();
+                Main.AllImpostorCount = 0;
+                Main.HasTarget = new Dictionary<byte, bool>();
+                Main.IsHackMode = false;
+                Main.bkProtected = false;
+                Main.CleanerCanClean = new Dictionary<byte, bool>();
+                Main.bombedVents = new List<int>();
+                if (CustomRoles.Transporter.IsEnable())
+                    Main.TransportsLeft = Options.NumOfTransports.GetInt();
+
+                Main.WonFFATeam = 255;
+                Main.DiscussionTime = Main.RealOptionsData.DiscussionTime;
+                Main.VotingTime = Main.RealOptionsData.VotingTime;
+
+                NameColorManager.Instance.RpcReset();
+                Main.LastNotifyNames = new();
+
+                Main.currentDousingTarget = 255;
+                Main.currentFreezingTarget = 255;
+                Main.VetAlerts = 0;
+                Main.ProtectsSoFar = 0;
+                Main.rolesRevealedNextMeeting = new List<byte>();
+                Main.IsProtected = false;
+                Main.IsInvis = false;
+                Main.CanGoInvis = true;
+                Main.PlayerColors = new();
+                Main.whoKilledWho = new Dictionary<byte, PlayerControl>();
+                Main.SleuthReported = new();
+                //名前の記録
+                Main.AllPlayerNames = new();
+
+                if (AmongUsClient.Instance.AmHost)
                 {
-                    if (Main.devNames.ContainsKey(pc.PlayerId))
+                    foreach (var pc in PlayerControl.AllPlayerControls)
                     {
-                        //pc.name = Main.devNames[pc.PlayerId];
-                        //pc.Data.PlayerName = Main.devNames[pc.PlayerId];
-                        pc.RpcSetName(Main.devNames[pc.PlayerId]);
+                        if (Main.devNames.ContainsKey(pc.PlayerId))
+                        {
+                            //pc.name = Main.devNames[pc.PlayerId];
+                            //pc.Data.PlayerName = Main.devNames[pc.PlayerId];
+                            pc.RpcSetName(Main.devNames[pc.PlayerId]);
+                        }
                     }
                 }
-            }
 
-            foreach (var target in PlayerControl.AllPlayerControls)
-            {
-                foreach (var seer in PlayerControl.AllPlayerControls)
+                foreach (var target in PlayerControl.AllPlayerControls)
                 {
-                    var pair = (target.PlayerId, seer.PlayerId);
-                    Main.LastNotifyNames[pair] = target.name;
+                    foreach (var seer in PlayerControl.AllPlayerControls)
+                    {
+                        var pair = (target.PlayerId, seer.PlayerId);
+                        Main.LastNotifyNames[pair] = target.name;
+                    }
                 }
-            }
-            foreach (var pc in PlayerControl.AllPlayerControls)
-            {
-                if (AmongUsClient.Instance.AmHost && Options.ColorNameMode.GetBool()) pc.RpcSetName(Palette.GetColorName(pc.Data.DefaultOutfit.ColorId));
-                Main.AllPlayerNames[pc.PlayerId] = pc?.Data?.PlayerName;
+                foreach (var pc in PlayerControl.AllPlayerControls)
+                {
+                    if (AmongUsClient.Instance.AmHost && Options.ColorNameMode.GetBool()) pc.RpcSetName(Palette.GetColorName(pc.Data.DefaultOutfit.ColorId));
+                    Main.AllPlayerNames[pc.PlayerId] = pc?.Data?.PlayerName;
 
-                Main.PlayerColors[pc.PlayerId] = Palette.PlayerColors[pc.Data.DefaultOutfit.ColorId];
-                Main.AllPlayerSpeed[pc.PlayerId] = Main.RealOptionsData.PlayerSpeedMod; //移動速度をデフォルトの移動速度に変更
-                pc.cosmetics.nameText.text = pc.name;
-            }
-            Main.VisibleTasksCount = true;
-            if (__instance.AmHost)
-            {
+                    Main.PlayerColors[pc.PlayerId] = Palette.PlayerColors[pc.Data.DefaultOutfit.ColorId];
+                    Main.AllPlayerSpeed[pc.PlayerId] = Main.RealOptionsData.PlayerSpeedMod; //移動速度をデフォルトの移動速度に変更
+                    pc.cosmetics.nameText.text = pc.name;
+                }
+                Main.VisibleTasksCount = true;
                 SaveSkin();
-                RPC.SyncCustomSettingsRPC();
-                Main.RefixCooldownDelay = 0;
-                if (Options.CurrentGameMode() == CustomGameMode.HideAndSeek)
+                if (__instance.AmHost)
                 {
-                    Options.HideAndSeekKillDelayTimer = Options.KillDelay.GetFloat();
+                    RPC.SyncCustomSettingsRPC();
+                    Main.RefixCooldownDelay = 0;
+                    if (Options.CurrentGameMode() == CustomGameMode.HideAndSeek)
+                    {
+                        Options.HideAndSeekKillDelayTimer = Options.KillDelay.GetFloat();
+                    }
+                    if (Options.IsStandardHAS)
+                    {
+                        Options.HideAndSeekKillDelayTimer = Options.StandardHASWaitingTime.GetFloat();
+                    }
                 }
-                if (Options.IsStandardHAS)
-                {
-                    Options.HideAndSeekKillDelayTimer = Options.StandardHASWaitingTime.GetFloat();
-                }
+                Main.devNames = new Dictionary<byte, string>();
+                FallFromLadder.Reset();
+                BountyHunter.Init();
+                SerialKiller.Init();
+                FireWorks.Init();
+                Sniper.Init();
+                TimeThief.Init();
+                Mare.Init();
+                Egoist.Init();
+                Sheriff.Init();
+                Investigator.Init();
+                Camouflager.Init();
+                Ninja.Init();
+                Necromancer.Init();
+                Guesser.Init();
+                AntiBlackout.Reset();
             }
-            Main.devNames = new Dictionary<byte, string>();
-            FallFromLadder.Reset();
-            BountyHunter.Init();
-            SerialKiller.Init();
-            FireWorks.Init();
-            Sniper.Init();
-            TimeThief.Init();
-            Mare.Init();
-            Egoist.Init();
-            Sheriff.Init();
-            Investigator.Init();
-            Camouflager.Init();
-            Ninja.Init();
-            Necromancer.Init();
-            Guesser.Init();
-            AntiBlackout.Reset();
+            catch
+            {
+                Logger.Error("Error encountered while resetting player info. Game has force ended to prevent black screen.", "Reset Vars");
+                if (!AmongUsClient.Instance.AmHost) return;
+                Utils.SendMessage("Error encountered while resetting player info. Game has force ended to prevent black screen.");
+                MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.EndGame, Hazel.SendOption.Reliable, -1);
+                writer.Write((int)CustomWinner.Draw);
+                AmongUsClient.Instance.FinishRpcImmediately(writer);
+                RPC.ForceEndGame();
+            }
         }
         private static void SaveSkin()
         {
@@ -270,6 +288,7 @@ namespace TownOfHost
                             // GIVE PLAYERS ROLE //
 
                             int numofNks = 0;
+                            bool hunterSpawn = false;
                             int numofNonNks = 0;
 
                             if (Options.MaxNK.GetInt() != 0)
@@ -322,6 +341,9 @@ namespace TownOfHost
                                 if (RoleGoingInList(CustomRoles.Werewolf))
                                     rolesChosen.Add(CustomRoles.Werewolf);
 
+                                if (RoleGoingInList(CustomRoles.NeutWitch))
+                                    rolesChosen.Add(CustomRoles.NeutWitch);
+
                                 if (RoleGoingInList(CustomRoles.BloodKnight))
                                     rolesChosen.Add(CustomRoles.BloodKnight);
 
@@ -330,6 +352,9 @@ namespace TownOfHost
 
                                 if (RoleGoingInList(CustomRoles.CrewPostor))
                                     rolesChosen.Add(CustomRoles.CrewPostor);
+
+                                if (RoleGoingInList(CustomRoles.PoisonMaster))
+                                    rolesChosen.Add(CustomRoles.PoisonMaster);
 
                                 if (RoleGoingInList(CustomRoles.Pirate))
                                     rolesChosen.Add(CustomRoles.Pirate);
@@ -345,11 +370,11 @@ namespace TownOfHost
                                             var random = new System.Random();
                                             var role = rolesChosen[rando.Next(0, rolesChosen.Count)];
                                             var player = AllNKPlayers[random.Next(0, AllNKPlayers.Count)];
-                                            //if (Main.chosenNK.Contains(role)) continue;
                                             rolesChosen.Remove(role);
                                             AllNKPlayers.Remove(player);
                                             Main.chosenNK.Add(role);
                                             List<PlayerControl> urself = new();
+                                            if (role is CustomRoles.Jackal) hunterSpawn = true;
                                             urself.Add(player);
                                             if (role.IsShapeShifter())
                                             {
@@ -468,6 +493,7 @@ namespace TownOfHost
                                     }
                                     else if (role.IsMadmate() && role.IsEnable())
                                     {
+                                        // role is madmate. madmate has a random chance of replacing //
                                         for (var i = 0; i < role.GetCount(); i++)
                                         {
                                             if (RoleGoingInList(role))
@@ -521,7 +547,7 @@ namespace TownOfHost
                                             Main.chosenDesyncRoles.Add(role);
                                         else if (role.IsEngineer())
                                             Main.chosenEngiRoles.Add(role);
-                                        else if (role == CustomRoles.Doctor)
+                                        else if (role is CustomRoles.Doctor or CustomRoles.Physicist)
                                             Main.chosenScientistRoles.Add(role);
                                         else
                                             Main.chosenRoles.Add(role);
@@ -543,7 +569,7 @@ namespace TownOfHost
 
                             if (RoleGoingInList(CustomRoles.Coven))
                                 ForceAssignRole(CustomRoles.Coven, AllPlayers, sender, Count: 3, BaseRole: RoleTypes.Impostor);
-                            if (Main.chosenNK.Contains(CustomRoles.Jackal))
+                            if (hunterSpawn)
                                 if (Options.JackalHasSidekick.GetBool())
                                     ForceAssignRole(CustomRoles.Sidekick, AllPlayers, sender, Count: 1, BaseRole: RoleTypes.Impostor);
 
@@ -595,7 +621,9 @@ namespace TownOfHost
         public static void Postfix()
         {
             if (!AmongUsClient.Instance.AmHost) return;
-            RpcSetRoleReplacer.Release(); //保存していたSetRoleRpcを一気に書く
+            // try
+            // {
+            RpcSetRoleReplacer.Release();
             RpcSetRoleReplacer.sender.SendMessage();
 
             //Utils.ApplySuffix();
@@ -612,8 +640,8 @@ namespace TownOfHost
 
             foreach (var pc in PlayerControl.AllPlayerControls)
             {
-                pc.Data.IsDead = false; //プレイヤーの死を解除する
-                if (Main.AllPlayerCustomRoles.ContainsKey(pc.PlayerId)) continue; //既にカスタム役職が割り当てられていればスキップ
+                pc.Data.IsDead = false;
+                if (Main.AllPlayerCustomRoles.ContainsKey(pc.PlayerId)) continue;
                 switch (pc.Data.Role.Role)
                 {
                     case RoleTypes.Crewmate:
@@ -801,10 +829,6 @@ namespace TownOfHost
                 //RPCによる同期
                 foreach (var pc in PlayerControl.AllPlayerControls)
                 {
-                    /*if (pc.Is(CustomRoles.Watcher) && Options.IsEvilWatcher)
-                        Main.AllPlayerCustomRoles[pc.PlayerId] = CustomRoles.EvilWatcher;
-                    if (pc.Is(CustomRoles.Watcher) && !Options.IsEvilWatcher)
-                        Main.AllPlayerCustomRoles[pc.PlayerId] = CustomRoles.NiceWatcher;*/
                     if (pc.Is(CustomRoles.PlagueBearer) && Options.InfectionSkip.GetBool())
                     {
                         Main.AllPlayerCustomRoles[pc.PlayerId] = CustomRoles.Pestilence;
@@ -870,6 +894,7 @@ namespace TownOfHost
                             break;
                         case CustomRoles.TheGlitch:
                         case CustomRoles.Warlock:
+                        case CustomRoles.Consort:
                         case CustomRoles.Escort:
                             Main.CursedPlayers.Add(pc.PlayerId, null);
                             Main.isCurseAndKill.Add(pc.PlayerId, false);
@@ -910,6 +935,13 @@ namespace TownOfHost
                             break;
                         case CustomRoles.Survivor:
                             Main.SurvivorStuff.Add(pc.PlayerId, (0, false, false, false, true));
+                            break;
+                        case CustomRoles.Cleaner:
+                            Main.CleanerCanClean.Add(pc.PlayerId, true);
+                            MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.RpcSetCleanerClean, Hazel.SendOption.Reliable, -1);
+                            writer.Write(pc.PlayerId);
+                            writer.Write(true);
+                            AmongUsClient.Instance.FinishRpcImmediately(writer);
                             break;
                         case CustomRoles.Swapper:
                         case CustomRoles.Executioner:
@@ -1029,11 +1061,20 @@ namespace TownOfHost
                 roleOpt.SetRoleRate(RoleTypes.Shapeshifter, ShapeshifterNum, roleOpt.GetChancePerGame(RoleTypes.Shapeshifter));
             }
 
-            // ResetCamが必要なプレイヤーのリストにクラス化が済んでいない役職のプレイヤーを追加
             Main.ResetCamPlayerList.AddRange(PlayerControl.AllPlayerControls.ToArray().Where(p => p.IsDesyncRole()).Select(p => p.PlayerId));
             Utils.CountAliveImpostors();
             Utils.CustomSyncAllSettings();
             SetColorPatch.IsAntiGlitchDisabled = false;
+            /*}
+            catch
+            {
+                Logger.Error("Error encountered while assigning roles. Game has force ended to prevent black screen.", "Assign Roles");
+                Utils.SendMessage("Error encountered while assigning roles. Game has force ended to prevent black screen.");
+                MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.EndGame, Hazel.SendOption.Reliable, -1);
+                writer.Write((int)CustomWinner.Draw);
+                AmongUsClient.Instance.FinishRpcImmediately(writer);
+                RPC.ForceEndGame();
+            }*/
         }
         private static void AssignDesyncRole(CustomRoles role, List<PlayerControl> AllPlayers, CustomRpcSender sender, RoleTypes BaseRole, RoleTypes hostBaseRole = RoleTypes.Crewmate, int Count = -1)
         {
@@ -1054,8 +1095,7 @@ namespace TownOfHost
                 var player = AllPlayers[rand.Next(0, AllPlayers.Count)];
                 AllPlayers.Remove(player);
                 Main.AllPlayerCustomRoles[player.PlayerId] = role;
-                //ここからDesyncが始まる
-                if (!player.IsModClient() || hostBaseRole == RoleTypes.Shapeshifter)
+                if (!player.IsModClient() || hostBaseRole == RoleTypes.Shapeshifter || role is CustomRoles.Hitman or CustomRoles.Crusader or CustomRoles.Escort or CustomRoles.NeutWitch)
                 {
                     int playerCID = player.GetClientId();
                     sender.RpcSetRole(player, BaseRole, playerCID);
@@ -1073,8 +1113,7 @@ namespace TownOfHost
                 }
                 else
                 {
-                    //ホストは別の役職にする
-                    player.SetRole(hostBaseRole); //ホスト視点用
+                    player.SetRole(hostBaseRole);
                     sender.RpcSetRole(player, hostBaseRole);
                 }
                 player.Data.IsDead = true;
@@ -1211,6 +1250,8 @@ namespace TownOfHost
             SetColorPatch.IsAntiGlitchDisabled = true;
             for (var i = 0; i < count; i++)
             {
+                if (Options.CheckRoleTwiceBeforeAdd.GetBool())
+                    if (!RoleGoingInList(role)) return null;
                 /*  float RoleRate = role.GetChance();
                   bool IsChosen = UnityEngine.Random.Range(1, 100) < RoleRate;
                   if (IsChosen || Options.CurrentGameMode() == CustomGameMode.HideAndSeek)
@@ -1262,21 +1303,6 @@ namespace TownOfHost
             return isRole;
         }
 
-        private static void RoleAddedToList(CustomRoles role, bool IsImpostor = false)
-        {
-            switch (IsImpostor)
-            {
-                case false:
-                    if (RoleGoingInList(role))
-                        Main.chosenRoles.Add(role);
-                    break;
-                case true:
-                    if (RoleGoingInList(role))
-                        Main.chosenImpRoles.Add(role);
-                    break;
-            }
-        }
-
         private static void AssignLoversRoles(int RawCount = -1)
         {
             var allPlayers = new List<PlayerControl>();
@@ -1309,6 +1335,12 @@ namespace TownOfHost
         {
             if (!role.IsEnable()) return;
             var allPlayers = new List<PlayerControl>();
+            if (role is CustomRoles.Flash)
+            {
+                bool Escalation = UnityEngine.Random.RandomRange(1, 100) <= 10;
+                if (Escalation)
+                    role = CustomRoles.Escalation;
+            }
             foreach (var player in PlayerControl.AllPlayerControls)
             {
                 if (Main.AllPlayerCustomRoles[player.PlayerId] == CustomRoles.LoversRecode) continue;
@@ -1319,13 +1351,15 @@ namespace TownOfHost
                     switch (role)
                     {
                         case CustomRoles.Sleuth:
+                            if (player.GetCustomRole() is CustomRoles.Medium or CustomRoles.Amnesiac or CustomRoles.Vulture or CustomRoles.Cleaner) continue;
+                            break;
                         case CustomRoles.TieBreaker:
                             break;
                         case CustomRoles.Oblivious:
                             if (player.GetCustomRole() is CustomRoles.Medium or CustomRoles.Amnesiac or CustomRoles.Vulture or CustomRoles.Cleaner) continue;
                             break;
                         case CustomRoles.Flash:
-                            if (player.Is(CustomRoles.SpeedBooster)) continue;
+                            if (player.GetCustomRole() is CustomRoles.SpeedBooster or CustomRoles.Mare) continue;
                             break;
                         case CustomRoles.Bait:
                             if (player.Is(CustomRoles.Trapper)) continue;
@@ -1343,19 +1377,16 @@ namespace TownOfHost
                 }
                 allPlayers.Add(player);
             }
-            var loversRole = role;
             var rand = new System.Random();
-            var count = Math.Clamp(RawCount, 0, allPlayers.Count);
-            if (RawCount == -1) count = Math.Clamp(loversRole.GetCount(), 0, allPlayers.Count);
-            if (count <= 0) return;
+            var count = 1;
 
             for (var i = 0; i < count; i++)
             {
                 var player = allPlayers[rand.Next(0, allPlayers.Count)];
                 Main.HasModifier.Add(player.PlayerId, role);
                 allPlayers.Remove(player);
-                Main.AllPlayerCustomSubRoles[player.PlayerId] = loversRole;
-                Logger.Info("役職設定:" + player?.Data?.PlayerName + " = " + player.GetCustomRole().ToString() + " + " + loversRole.ToString(), "AssignCrewModifier");
+                Main.AllPlayerCustomSubRoles[player.PlayerId] = role;
+                Logger.Info("役職設定:" + player?.Data?.PlayerName + " = " + player.GetCustomRole().ToString() + " + " + role.ToString(), "AssignCrewModifier");
             }
         }
 

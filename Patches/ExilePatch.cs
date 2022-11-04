@@ -2,6 +2,7 @@ using System;
 using HarmonyLib;
 using System.Collections.Generic;
 using Hazel;
+using AmongUs.Data;
 
 namespace TownOfHost
 {
@@ -81,6 +82,15 @@ namespace TownOfHost
                     Utils.ChildWin(exiled);
                     DecidedWinner = true;
                 }
+                if (role == CustomRoles.Oracle && AmongUsClient.Instance.AmHost)
+                {
+                    if (Main.CurrentTarget[exiled.PlayerId] != 255)
+                    {
+                        Main.rolesRevealedNextMeeting.Add(Main.CurrentTarget[exiled.PlayerId]);
+                        RPC.RpcAddOracleTarget(Main.CurrentTarget[exiled.PlayerId]);
+                    }
+                    Main.CurrentTarget.Remove(exiled.PlayerId);
+                }
                 if (role == CustomRoles.Jackal && AmongUsClient.Instance.AmHost)
                 {
                     Main.JackalDied = true;
@@ -157,7 +167,7 @@ namespace TownOfHost
                 Main.DoingYingYang = true;
                 foreach (var pc in PlayerControl.AllPlayerControls)
                 {
-                    pc.ResetKillCooldown();
+                    pc.ResetKillCooldown(meeting: true);
                     if (Options.MayorHasPortableButton.GetBool() && pc.Is(CustomRoles.Mayor))
                         pc.RpcResetAbilityCooldown();
                     if (pc.Is(CustomRoles.Veteran))
@@ -242,6 +252,7 @@ namespace TownOfHost
                 Main.IsRoundOneGA = false;
                 Main.IsGazing = false;
                 Main.GazeReady = false;
+                Main.WitchesThisRound = 0;
                 Main.bkProtected = false;
                 new LateTask(() =>
                 {
@@ -269,7 +280,11 @@ namespace TownOfHost
                 Main.AfterMeetingDeathPlayers.Clear();
                 Main.DeadPlayersThisRound.Clear();
                 Main.MercCanSuicide = true;
-                Main.rolesRevealedNextMeeting.Clear();
+                if (Main.rolesRevealedNextMeeting.Count != 0)
+                {
+                    Main.rolesRevealedNextMeeting.Clear();
+                    RPC.RpcClearOracleTargets();
+                }
                 if (Options.SheriffCorrupted.GetBool())
                 {
                     if (!Sheriff.csheriff)
@@ -331,7 +346,9 @@ namespace TownOfHost
                     }
                 }
             }
+            SoundManager.Instance.ChangeMusicVolume(DataManager.Settings.Audio.MusicVolume);
             Logger.Info("タスクフェイズ開始", "Phase");
+            HudManager.Instance.Chat.SetVisible(false);
         }
     }
 }

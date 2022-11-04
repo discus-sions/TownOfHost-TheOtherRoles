@@ -1,5 +1,6 @@
 using HarmonyLib;
 using UnityEngine;
+using AmongUs.Data;
 
 namespace TownOfHost
 {
@@ -9,8 +10,8 @@ namespace TownOfHost
         public static int CurrentHistorySelection = -1;
         public static void Prefix()
         {
-            if (AmongUsClient.Instance.AmHost && SaveManager.ChatModeType == InnerNet.QuickChatModes.QuickChatOnly)
-                SaveManager.ChatModeType = InnerNet.QuickChatModes.FreeChatOrQuickChat;
+            if (AmongUsClient.Instance.AmHost && DataManager.Settings.multiplayer.ChatMode == InnerNet.QuickChatModes.QuickChatOnly)
+                DataManager.Settings.multiplayer.ChatMode = InnerNet.QuickChatModes.FreeChatOrQuickChat;
         }
         public static void Postfix(ChatController __instance)
         {

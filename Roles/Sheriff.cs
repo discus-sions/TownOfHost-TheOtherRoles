@@ -41,27 +41,27 @@ namespace TownOfHost
         public static Dictionary<byte, float> CurrentKillCooldown = new();
         public static void SetupCustomOption()
         {
-            Options.SetupRoleOptions(Id, CustomRoles.Sheriff);
-            KillCooldown = CustomOption.Create(Id + 10, Color.white, "SheriffKillCooldown", 30, 0, 990, 1, Options.CustomRoleSpawnChances[CustomRoles.Sheriff]);
-            CanKillArsonist = CustomOption.Create(Id + 11, Color.white, "SheriffCanKillArsonist", true, Options.CustomRoleSpawnChances[CustomRoles.Sheriff]);
-            CanKillMadmate = CustomOption.Create(Id + 12, Color.white, "SheriffCanKillMadmate", true, Options.CustomRoleSpawnChances[CustomRoles.Sheriff]);
-            CanKillJester = CustomOption.Create(Id + 13, Color.white, "SheriffCanKillJester", true, Options.CustomRoleSpawnChances[CustomRoles.Sheriff]);
-            CanKillTerrorist = CustomOption.Create(Id + 14, Color.white, "SheriffCanKillTerrorist", true, Options.CustomRoleSpawnChances[CustomRoles.Sheriff]);
-            CanKillOpportunist = CustomOption.Create(Id + 15, Color.white, "SheriffCanKillOpportunist", true, Options.CustomRoleSpawnChances[CustomRoles.Sheriff]);
-            CanKillEgoist = CustomOption.Create(Id + 16, Color.white, "SheriffCanKillEgoist", true, Options.CustomRoleSpawnChances[CustomRoles.Sheriff]);
-            CanKillEgoShrodingerCat = CustomOption.Create(Id + 17, Color.white, "SheriffCanKillEgoShrodingerCat", true, Options.CustomRoleSpawnChances[CustomRoles.Sheriff]);
-            CanKillExecutioner = CustomOption.Create(Id + 18, Color.white, "SheriffCanKillExecutioner", true, Options.CustomRoleSpawnChances[CustomRoles.Sheriff]);
-            CanKillJackal = CustomOption.Create(Id + 19, Color.white, "SheriffCanKillJackal", true, Options.CustomRoleSpawnChances[CustomRoles.Sheriff]);
-            CanKillJShrodingerCat = CustomOption.Create(Id + 20, Color.white, "SheriffCanKillJShrodingerCat", true, Options.CustomRoleSpawnChances[CustomRoles.Sheriff]);
-            CanKillPlagueBearer = CustomOption.Create(Id + 21, Color.white, "SheriffCanKillPB", true, Options.CustomRoleSpawnChances[CustomRoles.Sheriff]);
-            CanKillJug = CustomOption.Create(Id + 22, Color.white, "SheriffCanKillJug", true, Options.CustomRoleSpawnChances[CustomRoles.Sheriff]);
-            SheriffCanKillCoven = CustomOption.Create(Id + 23, Color.white, "SheriffCanKillCoven", true, Options.CustomRoleSpawnChances[CustomRoles.Sheriff]);
-            CanKillVulture = CustomOption.Create(Id + 24, Color.white, "SheriffCanKillVulture", true, Options.CustomRoleSpawnChances[CustomRoles.Sheriff]);
-            CanKillGlitch = CustomOption.Create(Id + 25, Color.white, "SCKTG", true, Options.CustomRoleSpawnChances[CustomRoles.Sheriff]);
-            CanKillWerewolf = CustomOption.Create(Id + 26, Color.white, "SCKWW", true, Options.CustomRoleSpawnChances[CustomRoles.Sheriff]);
-            CanKillCrewmatesAsIt = CustomOption.Create(Id + 27, Color.white, "SheriffCanKillCrewmatesAsIt", false, Options.CustomRoleSpawnChances[CustomRoles.Sheriff]);
-            ShotLimitOpt = CustomOption.Create(Id + 28, Color.white, "SheriffShotLimit", 99, -1, 15, 1, Options.CustomRoleSpawnChances[CustomRoles.Sheriff]);
-            CanKillHitman = CustomOption.Create(Id + 29, Color.white, "SheriffCanKillHitman", true, Options.CustomRoleSpawnChances[CustomRoles.Sheriff]);
+            Options.SetupRoleOptions(Id, CustomRoles.Sheriff, AmongUsExtensions.OptionType.Crewmate);
+            KillCooldown = CustomOption.Create(Id + 10, Color.white, "SheriffKillCooldown", AmongUsExtensions.OptionType.Crewmate, 30, 0, 990, 1, Options.CustomRoleSpawnChances[CustomRoles.Sheriff]);
+            CanKillArsonist = CustomOption.Create(Id + 11, Color.white, "SheriffCanKillArsonist", AmongUsExtensions.OptionType.Crewmate, true, Options.CustomRoleSpawnChances[CustomRoles.Sheriff]);
+            CanKillMadmate = CustomOption.Create(Id + 12, Color.white, "SheriffCanKillMadmate", AmongUsExtensions.OptionType.Crewmate, true, Options.CustomRoleSpawnChances[CustomRoles.Sheriff]);
+            CanKillJester = CustomOption.Create(Id + 13, Color.white, "SheriffCanKillJester", AmongUsExtensions.OptionType.Crewmate, true, Options.CustomRoleSpawnChances[CustomRoles.Sheriff]);
+            CanKillTerrorist = CustomOption.Create(Id + 14, Color.white, "SheriffCanKillTerrorist", AmongUsExtensions.OptionType.Crewmate, true, Options.CustomRoleSpawnChances[CustomRoles.Sheriff]);
+            CanKillOpportunist = CustomOption.Create(Id + 15, Color.white, "SheriffCanKillOpportunist", AmongUsExtensions.OptionType.Crewmate, true, Options.CustomRoleSpawnChances[CustomRoles.Sheriff]);
+            CanKillEgoist = CustomOption.Create(Id + 16, Color.white, "SheriffCanKillEgoist", AmongUsExtensions.OptionType.Crewmate, true, Options.CustomRoleSpawnChances[CustomRoles.Sheriff]);
+            CanKillEgoShrodingerCat = CustomOption.Create(Id + 17, Color.white, "SheriffCanKillEgoShrodingerCat", AmongUsExtensions.OptionType.Crewmate, true, Options.CustomRoleSpawnChances[CustomRoles.Sheriff]);
+            CanKillExecutioner = CustomOption.Create(Id + 18, Color.white, "SheriffCanKillExecutioner", AmongUsExtensions.OptionType.Crewmate, true, Options.CustomRoleSpawnChances[CustomRoles.Sheriff]);
+            CanKillJackal = CustomOption.Create(Id + 19, Color.white, "SheriffCanKillJackal", AmongUsExtensions.OptionType.Crewmate, true, Options.CustomRoleSpawnChances[CustomRoles.Sheriff]);
+            CanKillJShrodingerCat = CustomOption.Create(Id + 20, Color.white, "SheriffCanKillJShrodingerCat", AmongUsExtensions.OptionType.Crewmate, true, Options.CustomRoleSpawnChances[CustomRoles.Sheriff]);
+            CanKillPlagueBearer = CustomOption.Create(Id + 21, Color.white, "SheriffCanKillPB", AmongUsExtensions.OptionType.Crewmate, true, Options.CustomRoleSpawnChances[CustomRoles.Sheriff]);
+            CanKillJug = CustomOption.Create(Id + 22, Color.white, "SheriffCanKillJug", AmongUsExtensions.OptionType.Crewmate, true, Options.CustomRoleSpawnChances[CustomRoles.Sheriff]);
+            SheriffCanKillCoven = CustomOption.Create(Id + 23, Color.white, "SheriffCanKillCoven", AmongUsExtensions.OptionType.Crewmate, true, Options.CustomRoleSpawnChances[CustomRoles.Sheriff]);
+            CanKillVulture = CustomOption.Create(Id + 24, Color.white, "SheriffCanKillVulture", AmongUsExtensions.OptionType.Crewmate, true, Options.CustomRoleSpawnChances[CustomRoles.Sheriff]);
+            CanKillGlitch = CustomOption.Create(Id + 25, Color.white, "SCKTG", AmongUsExtensions.OptionType.Crewmate, true, Options.CustomRoleSpawnChances[CustomRoles.Sheriff]);
+            CanKillWerewolf = CustomOption.Create(Id + 26, Color.white, "SCKWW", AmongUsExtensions.OptionType.Crewmate, true, Options.CustomRoleSpawnChances[CustomRoles.Sheriff]);
+            CanKillCrewmatesAsIt = CustomOption.Create(Id + 27, Color.white, "SheriffCanKillCrewmatesAsIt", AmongUsExtensions.OptionType.Crewmate, false, Options.CustomRoleSpawnChances[CustomRoles.Sheriff]);
+            ShotLimitOpt = CustomOption.Create(Id + 28, Color.white, "SheriffShotLimit", AmongUsExtensions.OptionType.Crewmate, 99, -1, 15, 1, Options.CustomRoleSpawnChances[CustomRoles.Sheriff]);
+            CanKillHitman = CustomOption.Create(Id + 29, Color.white, "SheriffCanKillHitman", AmongUsExtensions.OptionType.Crewmate, true, Options.CustomRoleSpawnChances[CustomRoles.Sheriff]);
             /*SheriffCorrupted = CustomOption.Create(Id + 29, Color.white, "TurnCorrupt", false, Options.CustomRoleSpawnChances[CustomRoles.Sheriff]);
             PlayersForTraitor = CustomOption.Create(Id + 30, Color.white, "TraitorSpawn", 1, 0, 15, 1, SheriffCorrupted);
             TraitorCanSpawnIfNK = CustomOption.Create(Id + 31, Color.white, "TraitorCanSpawnIfNK", true, SheriffCorrupted);
@@ -255,6 +255,7 @@ namespace TownOfHost
                 CustomRoles.Conjuror => SheriffCanKillCoven.GetBool(),
                 // AFTER COVEN //
                 CustomRoles.SchrodingerCat => true,
+                CustomRoles.Phantom => true,
                 CustomRoles.Hacker => true,
                 _ => cRole.GetRoleType() switch
                 {

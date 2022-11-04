@@ -9,6 +9,7 @@ namespace TownOfHost
     public class CustomOption
     {
         public static readonly List<CustomOption> Options = new();
+        public static readonly Dictionary<AmongUsExtensions.OptionType, List<CustomOption>> OptionGroupedByType = new();
         public static int Preset = 0;
 
         public int Id;
@@ -24,6 +25,7 @@ namespace TownOfHost
         public OptionBehaviour OptionBehaviour;
         public CustomOption Parent;
         public List<CustomOption> Children;
+        public AmongUsExtensions.OptionType type;
         public bool isHeader;
         public bool isHidden;
         private bool isHiddenOnDisplay;
@@ -47,24 +49,19 @@ namespace TownOfHost
         {
             if (isHidden) return true;
 
-            /*  自身に設定されたGameModeが All or 引数gameMode 以外なら非表示
-                GameMode:Standard    & gameMode:Standard != 0
-                GameMode:HideAndSeek & gameMode:Standard == 0
-                GameMode:All         & gameMode:Standard != 0
-            */
-            /*if (gameMode == CustomGameMode.Standard)
-                return true;
-            else if (gameMode == CustomGameMode.HideAndSeek)
-                return true;
-            else if (gameMode == CustomGameMode.ColorWars)
-                return true;
-            else if (gameMode == CustomGameMode.Splatoon)
-                return true;
-            else if (gameMode == CustomGameMode.FFA)
-                return true;
-            else
-                return false;*/
             return (int)(gameMode & GameMode) == 0;
+        }
+        public bool HiddenOnWrongType(AmongUsExtensions.OptionType currentType)
+        {
+            switch (currentType)
+            {
+                case AmongUsExtensions.OptionType.GameOption:
+                    if (type == currentType) return false;
+                    return true;
+                default:
+                    if (type != AmongUsExtensions.OptionType.GameOption) return false;
+                    return true;
+            }
         }
 
         public bool IsHiddenOnDisplay(CustomGameMode gameMode)
@@ -80,6 +77,7 @@ namespace TownOfHost
         public CustomOption(int id,
             Color color,
             string name,
+            AmongUsExtensions.OptionType Type,
             System.Object[] selections,
             System.Object defaultValue,
             CustomOption parent,
@@ -91,6 +89,7 @@ namespace TownOfHost
             Id = id;
             Color = color;
             Name = name;
+            type = Type;
             Selections = selections;
             var index = Array.IndexOf(selections, defaultValue);
             DefaultSelection = index >= 0 ? index : 0;
@@ -123,6 +122,7 @@ namespace TownOfHost
         public static CustomOption Create(int id,
             Color color,
             string name,
+            AmongUsExtensions.OptionType type,
             string[] selections,
             string defaultValue,
             CustomOption parent = null,
@@ -131,12 +131,13 @@ namespace TownOfHost
             string format = "",
             Dictionary<string, string> replacementDic = null)
         {
-            return new CustomOption(id, color, name, selections, defaultValue, parent, isHeader, isHidden, format, replacementDic);
+            return new CustomOption(id, color, name, type, selections, defaultValue, parent, isHeader, isHidden, format, replacementDic);
         }
 
         public static CustomOption Create(int id,
             Color color,
             string name,
+            AmongUsExtensions.OptionType type,
             float defaultValue,
             float min,
             float max,
@@ -153,12 +154,13 @@ namespace TownOfHost
                 selections.Add(s);
             }
 
-            return new CustomOption(id, color, name, selections.Cast<object>().ToArray(), defaultValue, parent, isHeader, isHidden, format, replacementDic);
+            return new CustomOption(id, color, name, type, selections.Cast<object>().ToArray(), defaultValue, parent, isHeader, isHidden, format, replacementDic);
         }
 
         public static CustomOption Create(int id,
             Color color,
             string name,
+            AmongUsExtensions.OptionType type,
             bool defaultValue,
             CustomOption parent = null,
             bool isHeader = false,
@@ -166,10 +168,10 @@ namespace TownOfHost
             string format = "",
             Dictionary<string, string> replacementDic = null)
         {
-            return new CustomOption(id, color, name, new string[] { "ColoredOff", "ColoredOn" }, defaultValue ? "ColoredOn" : "ColoredOff", parent, isHeader, isHidden, format, replacementDic);
+            return new CustomOption(id, color, name, type, new string[] { "ColoredOff", "ColoredOn" }, defaultValue ? "ColoredOn" : "ColoredOff", parent, isHeader, isHidden, format, replacementDic);
         }
 
-        public static CustomOption Create(string name, float defaultValue, float min, float max, float step)
+        public static CustomOption Create(string name, AmongUsExtensions.OptionType type, float defaultValue, float min, float max, float step)
         {
             return new CustomOption();
         }

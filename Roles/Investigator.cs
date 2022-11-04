@@ -26,17 +26,17 @@ namespace TownOfHost
         public static Dictionary<byte, float> CurrentKillCooldown = new();
         public static void SetupCustomOption()
         {
-            Options.SetupSingleRoleOptions(Id, CustomRoles.Investigator, 1);
-            KillCooldown = CustomOption.Create(Id + 10, Color.white, "SeerCooldown", 45, 1, 990, 1, Options.CustomRoleSpawnChances[CustomRoles.Investigator]);
-            NBareRed = CustomOption.Create(Id + 11, Color.white, "NBareRed", false, Options.CustomRoleSpawnChances[CustomRoles.Investigator]);
-            NKareRed = CustomOption.Create(Id + 12, Color.white, "NKareRed", true, Options.CustomRoleSpawnChances[CustomRoles.Investigator]);
-            NEareRed = CustomOption.Create(Id + 13, Color.white, "NEareRed", true, Options.CustomRoleSpawnChances[CustomRoles.Investigator]);
-            CrewKillingRed = CustomOption.Create(Id + 14, Color.white, "CrewKillingRed", true, Options.CustomRoleSpawnChances[CustomRoles.Investigator]);
-            CovenIsPurple = CustomOption.Create(Id + 15, Color.white, "CovenIsPurple", true, Options.CustomRoleSpawnChances[CustomRoles.Investigator]);
-            ChildIsRed = CustomOption.Create(Id + 15, Color.white, "ChildIsRed", true, Options.CustomRoleSpawnChances[CustomRoles.Investigator]);
-            TerroIsRed = CustomOption.Create(Id + 16, Color.white, "TerroIsRed", true, Options.CustomRoleSpawnChances[CustomRoles.Investigator]);
-            CSheriffSwitches = CustomOption.Create(Id + 17, Color.white, "CSheriffSwitches", true, Options.CustomRoleSpawnChances[CustomRoles.Investigator]);
-            MadMateIsRed = CustomOption.Create(Id + 18, Color.white, "MadMateIsRed", true, Options.CustomRoleSpawnChances[CustomRoles.Investigator]);
+            Options.SetupSingleRoleOptions(Id, CustomRoles.Investigator, 1, AmongUsExtensions.OptionType.Crewmate);
+            KillCooldown = CustomOption.Create(Id + 10, Color.white, "SeerCooldown", AmongUsExtensions.OptionType.Crewmate, 45, 1, 990, 1, Options.CustomRoleSpawnChances[CustomRoles.Investigator]);
+            NBareRed = CustomOption.Create(Id + 11, Color.white, "NBareRed", AmongUsExtensions.OptionType.Crewmate, false, Options.CustomRoleSpawnChances[CustomRoles.Investigator]);
+            NKareRed = CustomOption.Create(Id + 12, Color.white, "NKareRed", AmongUsExtensions.OptionType.Crewmate, true, Options.CustomRoleSpawnChances[CustomRoles.Investigator]);
+            NEareRed = CustomOption.Create(Id + 13, Color.white, "NEareRed", AmongUsExtensions.OptionType.Crewmate, true, Options.CustomRoleSpawnChances[CustomRoles.Investigator]);
+            CrewKillingRed = CustomOption.Create(Id + 14, Color.white, "CrewKillingRed", AmongUsExtensions.OptionType.Crewmate, true, Options.CustomRoleSpawnChances[CustomRoles.Investigator]);
+            CovenIsPurple = CustomOption.Create(Id + 15, Color.white, "CovenIsPurple", AmongUsExtensions.OptionType.Crewmate, true, Options.CustomRoleSpawnChances[CustomRoles.Investigator]);
+            ChildIsRed = CustomOption.Create(Id + 15, Color.white, "ChildIsRed", AmongUsExtensions.OptionType.Crewmate, true, Options.CustomRoleSpawnChances[CustomRoles.Investigator]);
+            TerroIsRed = CustomOption.Create(Id + 16, Color.white, "TerroIsRed", AmongUsExtensions.OptionType.Crewmate, true, Options.CustomRoleSpawnChances[CustomRoles.Investigator]);
+            CSheriffSwitches = CustomOption.Create(Id + 17, Color.white, "CSheriffSwitches", AmongUsExtensions.OptionType.Crewmate, true, Options.CustomRoleSpawnChances[CustomRoles.Investigator]);
+            MadMateIsRed = CustomOption.Create(Id + 18, Color.white, "MadMateIsRed", AmongUsExtensions.OptionType.Crewmate, true, Options.CustomRoleSpawnChances[CustomRoles.Investigator]);
         }
         public static void Init()
         {
