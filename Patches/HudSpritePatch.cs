@@ -23,6 +23,7 @@ namespace TownOfHost
                 case CustomRoles.TheGlitch:
                 case CustomRoles.Arsonist:
                 case CustomRoles.Sheriff:
+                case CustomRoles.PoisonMaster:
                 case CustomRoles.Vampire:
                 case CustomRoles.Poisoner:
                 case CustomRoles.Pestilence:
@@ -77,6 +78,7 @@ namespace TownOfHost
                     break;
                 case CustomRoles.Vampire:
                 case CustomRoles.Poisoner:
+                case CustomRoles.PoisonMaster:
                     __instance.KillButton.transform.Find("Text_TMP").gameObject.SetActive(false);
                     bool poisoned = false;
                     foreach (var pair in Main.BitPlayers)
@@ -178,106 +180,107 @@ namespace TownOfHost
             }
         }
     }
-    [HarmonyPatch(typeof(HudManager), nameof(HudManager.Update))]
-    public class AbilityButtonSprite
-    {
-        private static Sprite Alert => Main.AlertSprite;
-        private static Sprite Protect => Main.ProtectSprite;
-        private static Sprite Vest => Main.VestSprite;
-        private static Sprite Mimic => Main.MimicSprite;
-        private static Sprite Transport => Main.TransportSprite;
-        private static Sprite Flash => Main.FlashSprite;
-        private static Sprite Medium => Main.MediumSprite;
-        private static Sprite Miner => Main.MinerSprite;
-        private static Sprite Assassinate => Main.AssassinateSprite;
-        private static Sprite Ability;
-        private static bool HasCustomButton(CustomRoles role)
-        {
-            switch (role)
-            {
-                case CustomRoles.TheGlitch:
-                case CustomRoles.GuardianAngelTOU:
-                case CustomRoles.Survivor:
-                case CustomRoles.Veteran:
-                case CustomRoles.Miner:
-                case CustomRoles.Medium:
-                case CustomRoles.Grenadier:
-                case CustomRoles.Ninja:
-                case CustomRoles.Transporter:
-                    return true;
-                default:
-                    return false;
-            }
-        }
-        public static void Postfix(HudManager __instance)
-        {
-            if (!Ability) Ability = __instance.AbilityButton.graphic.sprite;
-            if (!Main.ButtonImages.Value)
-            {
-                __instance.AbilityButton.transform.Find("Text_TMP").gameObject.SetActive(true);
-                __instance.AbilityButton.graphic.sprite = Ability;
-                return;
-            }
-            if (!HasCustomButton(PlayerControl.LocalPlayer.GetCustomRole()))
-            {
-                __instance.AbilityButton.transform.Find("Text_TMP").gameObject.SetActive(true);
-                __instance.AbilityButton.graphic.sprite = Ability;
-                return;
-            }
+    /* [HarmonyPatch(typeof(HudManager), nameof(HudManager.Update))]
+     public class AbilityButtonSprite
+     {
+         private static Sprite Alert => Main.AlertSprite;
+         private static Sprite Protect => Main.ProtectSprite;
+         private static Sprite Vest => Main.VestSprite;
+         private static Sprite Mimic => Main.MimicSprite;
+         private static Sprite Transport => Main.TransportSprite;
+         private static Sprite Flash => Main.FlashSprite;
+         private static Sprite Medium => Main.MediumSprite;
+         private static Sprite Miner => Main.MinerSprite;
+         private static Sprite Assassinate => Main.AssassinateSprite;
+         private static Sprite Ability;
+         private static bool HasCustomButton(CustomRoles role)
+         {
+             switch (role)
+             {
+                 case CustomRoles.TheGlitch:
+                 case CustomRoles.GuardianAngelTOU:
+                 case CustomRoles.Survivor:
+                 case CustomRoles.Veteran:
+                 case CustomRoles.Miner:
+                 case CustomRoles.Medium:
+                 case CustomRoles.Grenadier:
+                 case CustomRoles.Ninja:
+                 case CustomRoles.Transporter:
+                     return true;
+                 default:
+                     return false;
+             }
+         }
+         public static void Postfix(HudManager __instance)
+         {
+             if (__instance.AbilityButton == null || __instance.AbilityButton.gameObject == null || __instance.AbilityButton.IsNullOrDestroyed() || __instance.AbilityButton.gameObject.IsNullOrDestroyed()) return;
+             if (!Ability) Ability = __instance.AbilityButton.graphic.sprite;
+             if (!Main.ButtonImages.Value)
+             {
+                 __instance.AbilityButton.transform.Find("Text_TMP").gameObject.SetActive(true);
+                 __instance.AbilityButton.graphic.sprite = Ability;
+                 return;
+             }
+             if (!HasCustomButton(PlayerControl.LocalPlayer.GetCustomRole()))
+             {
+                 __instance.AbilityButton.transform.Find("Text_TMP").gameObject.SetActive(true);
+                 __instance.AbilityButton.graphic.sprite = Ability;
+                 return;
+             }
 
-            switch (PlayerControl.LocalPlayer.GetCustomRole())
-            {
-                case CustomRoles.TheGlitch:
-                    __instance.AbilityButton.transform.Find("Text_TMP").gameObject.SetActive(false);
-                    __instance.AbilityButton.graphic.sprite = Mimic;
-                    break;
-                case CustomRoles.GuardianAngelTOU:
-                    __instance.AbilityButton.transform.Find("Text_TMP").gameObject.SetActive(false);
-                    __instance.AbilityButton.graphic.sprite = Protect;
-                    break;
-                case CustomRoles.Survivor:
-                    __instance.AbilityButton.transform.Find("Text_TMP").gameObject.SetActive(false);
-                    __instance.AbilityButton.graphic.sprite = Vest;
-                    break;
-                case CustomRoles.Ninja:
-                    if (Ninja.NinjaKillTarget.Count != 0)
-                    {
-                        __instance.AbilityButton.transform.Find("Text_TMP").gameObject.SetActive(false);
-                        __instance.AbilityButton.graphic.sprite = Assassinate;
-                    }
-                    else
-                    {
-                        __instance.AbilityButton.transform.Find("Text_TMP").gameObject.SetActive(true);
-                        __instance.AbilityButton.graphic.sprite = Ability;
-                    }
-                    break;
-                case CustomRoles.Veteran:
-                    __instance.AbilityButton.transform.Find("Text_TMP").gameObject.SetActive(false);
-                    __instance.AbilityButton.graphic.sprite = Alert;
-                    break;
-                case CustomRoles.Miner:
-                    __instance.AbilityButton.transform.Find("Text_TMP").gameObject.SetActive(false);
-                    __instance.AbilityButton.graphic.sprite = Miner;
-                    break;
-                case CustomRoles.Medium:
-                    __instance.AbilityButton.transform.Find("Text_TMP").gameObject.SetActive(false);
-                    __instance.AbilityButton.graphic.sprite = Medium;
-                    break;
-                case CustomRoles.Grenadier:
-                    __instance.AbilityButton.transform.Find("Text_TMP").gameObject.SetActive(false);
-                    __instance.AbilityButton.graphic.sprite = Flash;
-                    break;
-                case CustomRoles.Transporter:
-                    __instance.AbilityButton.transform.Find("Text_TMP").gameObject.SetActive(false);
-                    __instance.AbilityButton.graphic.sprite = Transport;
-                    break;
-                default:
-                    __instance.AbilityButton.transform.Find("Text_TMP").gameObject.SetActive(true);
-                    __instance.AbilityButton.graphic.sprite = Ability;
-                    break;
-            }
-        }
-    }
+             switch (PlayerControl.LocalPlayer.GetCustomRole())
+             {
+                 case CustomRoles.TheGlitch:
+                     __instance.AbilityButton.transform.Find("Text_TMP").gameObject.SetActive(false);
+                     __instance.AbilityButton.graphic.sprite = Mimic;
+                     break;
+                 case CustomRoles.GuardianAngelTOU:
+                     __instance.AbilityButton.transform.Find("Text_TMP").gameObject.SetActive(false);
+                     __instance.AbilityButton.graphic.sprite = Protect;
+                     break;
+                 case CustomRoles.Survivor:
+                     __instance.AbilityButton.transform.Find("Text_TMP").gameObject.SetActive(false);
+                     __instance.AbilityButton.graphic.sprite = Vest;
+                     break;
+                 case CustomRoles.Ninja:
+                     if (Ninja.NinjaKillTarget.Count != 0)
+                     {
+                         __instance.AbilityButton.transform.Find("Text_TMP").gameObject.SetActive(false);
+                         __instance.AbilityButton.graphic.sprite = Assassinate;
+                     }
+                     else
+                     {
+                         __instance.AbilityButton.transform.Find("Text_TMP").gameObject.SetActive(true);
+                         __instance.AbilityButton.graphic.sprite = Ability;
+                     }
+                     break;
+                 case CustomRoles.Veteran:
+                     __instance.AbilityButton.transform.Find("Text_TMP").gameObject.SetActive(false);
+                     __instance.AbilityButton.graphic.sprite = Alert;
+                     break;
+                 case CustomRoles.Miner:
+                     __instance.AbilityButton.transform.Find("Text_TMP").gameObject.SetActive(false);
+                     __instance.AbilityButton.graphic.sprite = Miner;
+                     break;
+                 case CustomRoles.Medium:
+                     __instance.AbilityButton.transform.Find("Text_TMP").gameObject.SetActive(false);
+                     __instance.AbilityButton.graphic.sprite = Medium;
+                     break;
+                 case CustomRoles.Grenadier:
+                     __instance.AbilityButton.transform.Find("Text_TMP").gameObject.SetActive(false);
+                     __instance.AbilityButton.graphic.sprite = Flash;
+                     break;
+                 case CustomRoles.Transporter:
+                     __instance.AbilityButton.transform.Find("Text_TMP").gameObject.SetActive(false);
+                     __instance.AbilityButton.graphic.sprite = Transport;
+                     break;
+                 default:
+                     __instance.AbilityButton.transform.Find("Text_TMP").gameObject.SetActive(true);
+                     __instance.AbilityButton.graphic.sprite = Ability;
+                     break;
+             }
+         }
+     }*/
     [HarmonyPatch(typeof(HudManager), nameof(HudManager.Update))]
     public class VentButtonSprite
     {

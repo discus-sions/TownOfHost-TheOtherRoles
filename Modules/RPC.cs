@@ -55,12 +55,17 @@ namespace TownOfHost
         SetTransportNumber,
         RpcMurderPlayer,
         AssassinKill,
-        SetTraitor
+        SetTraitor,
+        RpcAddOracleTarget,
+        RpcClearOracleTargets,
+        SetNumOfWitchesRemaining,
+        RpcSetCleanerClean
     }
     public enum Sounds
     {
         KillSound,
-        TaskComplete
+        TaskComplete,
+        Sabotage
     }
     [HarmonyPatch(typeof(PlayerControl), nameof(PlayerControl.HandleRpc))]
     class RPCHandlerPatch
@@ -318,6 +323,20 @@ namespace TownOfHost
                         RoleManager.Instance.SetRole(localPlayer, RoleTypes.Impostor);
                     }
                     break;
+                case CustomRPC.RpcAddOracleTarget:
+                    Main.rolesRevealedNextMeeting.Add(reader.ReadByte());
+                    break;
+                case CustomRPC.RpcClearOracleTargets:
+                    Main.rolesRevealedNextMeeting.Clear();
+                    break;
+                case CustomRPC.SetNumOfWitchesRemaining:
+                    Main.WitchesThisRound = reader.ReadInt32();
+                    break;
+                case CustomRPC.RpcSetCleanerClean:
+                    var cleaner = reader.ReadByte();
+                    var canClean = reader.ReadBoolean();
+                    Main.CleanerCanClean[cleaner] = canClean;
+                    break;
             }
         }
     }
@@ -330,7 +349,6 @@ namespace TownOfHost
             MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, 80, Hazel.SendOption.Reliable, -1);
             foreach (var co in CustomOption.Options)
             {
-                //すべてのカスタムオプションについてインデックス値で送信
                 writer.Write(co.GetSelection());
             }
             AmongUsClient.Instance.FinishRpcImmediately(writer);
@@ -342,6 +360,18 @@ namespace TownOfHost
             MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.PlaySound, Hazel.SendOption.Reliable, -1);
             writer.Write(PlayerID);
             writer.Write((byte)sound);
+            AmongUsClient.Instance.FinishRpcImmediately(writer);
+        }
+        // Main.rolesRevealedNextMeeting
+        public static void RpcAddOracleTarget(byte playerid)
+        {
+            MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.RpcAddOracleTarget, Hazel.SendOption.Reliable, -1);
+            writer.Write(playerid);
+            AmongUsClient.Instance.FinishRpcImmediately(writer);
+        }
+        public static void RpcClearOracleTargets()
+        {
+            MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.RpcClearOracleTargets, Hazel.SendOption.Reliable, -1);
             AmongUsClient.Instance.FinishRpcImmediately(writer);
         }
         public static void RpcSetRole(PlayerControl targetPlayer, PlayerControl sendTo, RoleTypes role)
@@ -656,6 +686,9 @@ namespace TownOfHost
                         break;
                     case Sounds.TaskComplete:
                         SoundManager.Instance.PlaySound(DestroyableSingleton<HudManager>.Instance.TaskCompleteSound, false, 0.8f);
+                        break;
+                    case Sounds.Sabotage:
+                        SoundManager.Instance.PlaySound(ShipStatus.Instance.SabotageSound, false, 0.8f);
                         break;
                 }
             }

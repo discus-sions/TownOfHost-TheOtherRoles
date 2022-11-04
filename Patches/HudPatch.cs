@@ -2,8 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using HarmonyLib;
-using UnhollowerBaseLib;
+using Il2CppInterop;
 using UnityEngine;
+using Il2CppInterop.Runtime.InteropTypes.Arrays;
 using static TownOfHost.Translator;
 
 namespace TownOfHost
@@ -94,6 +95,9 @@ namespace TownOfHost
                 case CustomRoles.Crusader:
                     __instance.KillButton.OverrideText("CRUSADE");
                     break;
+                case CustomRoles.NeutWitch:
+                    __instance.KillButton.OverrideText("WITCH");
+                    break;
                 case CustomRoles.Sniper:
                     __instance.AbilityButton.OverrideText(Sniper.OverrideShapeText(player.PlayerId));
                     break;
@@ -181,6 +185,7 @@ namespace TownOfHost
                     __instance.KillButton.OverrideText($"{GetString("KillButtonText")}");
                     break;
                 case CustomRoles.Poisoner:
+                case CustomRoles.PoisonMaster:
                     __instance.KillButton.OverrideText($"{GetString("PoisonButtonText")}");
                     break;
                 case CustomRoles.BountyHunter:
@@ -188,6 +193,8 @@ namespace TownOfHost
                     break;
                 case CustomRoles.Veteran:
                     __instance.AbilityButton.OverrideText($"ALERT");
+                    var color = Utils.GetRoleColor(PlayerControl.LocalPlayer.GetCustomRole());
+                    __instance.AbilityButton.buttonLabelText.color = color;
                     break;
                 case CustomRoles.Bastion:
                     __instance.AbilityButton.OverrideText($"BOMB");
@@ -280,6 +287,12 @@ namespace TownOfHost
                 var ReadyLang = Main.CanGoInvis ? "Yes" : "No";
                 LowerInfoText.text = "Is Swooping: " + ModeLang;
                 LowerInfoText.text += "\nCan Swoop: " + ReadyLang;
+                LowerInfoText.enabled = true;
+            }
+            else if (player.Is(CustomRoles.Cleaner))
+            {
+                var ModeLang = Main.CleanerCanClean[player.PlayerId] ? "Yes" : "No";
+                LowerInfoText.text = "Cleaner Can Clean: " + ModeLang;
                 LowerInfoText.enabled = true;
             }
             else
@@ -583,6 +596,8 @@ namespace TownOfHost
             switch (player.GetCustomRole())
             {
                 case CustomRoles.Sheriff:
+                case CustomRoles.PoisonMaster:
+                case CustomRoles.NeutWitch:
                 case CustomRoles.Investigator:
                 case CustomRoles.Arsonist:
                     if (player.Data.Role.Role != RoleTypes.GuardianAngel)

@@ -1,13 +1,15 @@
 using System;
 using System.Reflection;
-using UnhollowerBaseLib;
+using Il2CppInterop;
 using UnityEngine;
 using System.Collections.Generic;
 using System.Collections;
 using System.IO;
 using System.Linq;
 using HarmonyLib;
+using Il2CppInterop.Runtime.InteropTypes.Arrays;
 using Hazel;
+using Il2CppInterop.Runtime;
 
 namespace TownOfHost
 {

@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using HarmonyLib;
 using Newtonsoft.Json.Linq;
 using Twitch;
+using AmongUs.Data;
 using UnityEngine;
 using UnityEngine.UI;
 using static TownOfHost.Translator;
@@ -21,7 +22,7 @@ namespace TownOfHost
         public static GameObject updateButton;
         private static void Prefix(MainMenuManager __instance)
         {
-            /*SaveManager.CensorChat = false;
+            /*DataManager.Settings.multiplayer.CensorChat = false;
             ModUpdater.LaunchUpdater();
             if (template == null) template = GameObject.Find("ExitGameButton");
             if (template == null) return;

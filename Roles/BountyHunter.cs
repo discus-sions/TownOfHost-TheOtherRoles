@@ -19,10 +19,10 @@ namespace TownOfHost
 
         public static void SetupCustomOption()
         {
-            Options.SetupRoleOptions(Id, CustomRoles.BountyHunter);
-            TargetChangeTime = CustomOption.Create(Id + 10, Color.white, "BountyTargetChangeTime", 60f, 10f, 900f, 2.5f, Options.CustomRoleSpawnChances[CustomRoles.BountyHunter]);
-            SuccessKillCooldown = CustomOption.Create(Id + 11, Color.white, "BountySuccessKillCooldown", 2.5f, 0f, 180f, 2.5f, Options.CustomRoleSpawnChances[CustomRoles.BountyHunter]);
-            FailureKillCooldown = CustomOption.Create(Id + 12, Color.white, "BountyFailureKillCooldown", 50f, 0f, 180f, 2.5f, Options.CustomRoleSpawnChances[CustomRoles.BountyHunter]);
+            Options.SetupRoleOptions(Id, CustomRoles.BountyHunter, AmongUsExtensions.OptionType.Impostor);
+            TargetChangeTime = CustomOption.Create(Id + 10, Color.white, "BountyTargetChangeTime", AmongUsExtensions.OptionType.Impostor, 60f, 10f, 900f, 2.5f, Options.CustomRoleSpawnChances[CustomRoles.BountyHunter]);
+            SuccessKillCooldown = CustomOption.Create(Id + 11, Color.white, "BountySuccessKillCooldown", AmongUsExtensions.OptionType.Impostor, 2.5f, 0f, 180f, 2.5f, Options.CustomRoleSpawnChances[CustomRoles.BountyHunter]);
+            FailureKillCooldown = CustomOption.Create(Id + 12, Color.white, "BountyFailureKillCooldown", AmongUsExtensions.OptionType.Impostor, 50f, 0f, 180f, 2.5f, Options.CustomRoleSpawnChances[CustomRoles.BountyHunter]);
         }
         public static void Init()
         {

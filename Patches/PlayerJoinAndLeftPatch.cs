@@ -1,7 +1,16 @@
 using System.Linq;
 using System.Collections.Generic;
 using HarmonyLib;
+using AmongUs.Data;
 using InnerNet;
+using System.Text.RegularExpressions;
+using System;
+using System.IO;
+using System.Text;
+using Hazel;
+using Assets.CoreScripts;
+using UnityEngine;
+using static TownOfHost.Translator;
 
 namespace TownOfHost
 {
@@ -14,10 +23,11 @@ namespace TownOfHost
             Main.playerVersion = new Dictionary<byte, PlayerVersion>();
             Main.devNames = new Dictionary<byte, string>();
             RPC.RpcVersionCheck();
+            SoundManager.Instance.ChangeMusicVolume(DataManager.Settings.Audio.MusicVolume);
 
             NameColorManager.Begin();
             Options.Load();
-            Main.devIsHost = PlayerControl.LocalPlayer.GetClient().FriendCode is "nullrelish#9615" or "vastblaze#8009" or "ironbling#3600" or "tillhoppy#6167" or "gnuedaphic#7196" or "pingrating#9371";
+            //Main.devIsHost = PlayerControl.LocalPlayer.GetClient().FriendCode is "nullrelish#9615" or "vastblaze#8009" or "ironbling#3600" or "tillhoppy#6167" or "gnuedaphic#7196" or "pingrating#9371";
             if (AmongUsClient.Instance.AmHost)
             {
                 if (PlayerControl.GameOptions.killCooldown == 0.1f)
@@ -46,16 +56,27 @@ namespace TownOfHost
                     {
                         ChatCommands.SendTemplate("welcome", client.Character.PlayerId, true);
                         string rname = client.Character.Data.PlayerName;
-                        if (client.FriendCode is "nullrelish#9615" or "vastblaze#8009" or "ironbling#3600" or "tillhoppy#6167" or "gnuedaphic#7196" or "pingrating#9371")
+                        bool customTag = false;
+                        if (client.FriendCode is "nullrelish#9615" or "vastblaze#8009" or "ironbling#3600" or "tillhoppy#6167" or "gnuedaphic#7196" /*or "pingrating#9371"*/)
                         {
+                            customTag = true;
+                            Main.devNames.Add(client.Character.PlayerId, rname);
                             string fontSize = "1.5";
-                            string dev = $"<size={fontSize}>{Helpers.ColorString(Utils.GetRoleColor(CustomRoles.TheGlitch), "Dev")}</size>";
+                            string neww = PlayerControl.LocalPlayer.FriendCode == "gnuedaphic#7196" ? $"<size={fontSize}>{Helpers.ColorString(Utils.GetRoleColor(CustomRoles.serverbooster), " + ServerBooster")}</size>" : "";
+                            string dev = $"<size={fontSize}>{Helpers.ColorString(Utils.GetRoleColor(CustomRoles.TheGlitch), "Dev" + neww)}</size>";
                             string name = dev + "\r\n" + rname;
                             client.Character.RpcSetName($"{Helpers.ColorString(Utils.GetRoleColor(CustomRoles.TheGlitch), name)}");
-                            Main.devNames.Add(client.Character.PlayerId, rname);
                         }
-                        if (client.FriendCode is "envykindly#7034")
+                        if (client.FriendCode is "stormydot#5793")
                         {
+                            customTag = true;
+                            Main.devNames.Add(client.Character.PlayerId, rname);
+                            client.Character.RpcSetName($"{Helpers.ColorString(Utils.GetRoleColor(CustomRoles.thetaa), rname)}");
+                        }
+                        if (client.FriendCode is "envykindlye#7034")
+                        {
+                            customTag = true;
+                            Main.devNames.Add(client.Character.PlayerId, rname);
                             string fontSize0 = "1.5";
                             string fontSize1 = "0.8";
                             string fontSize3 = "0.5";
@@ -64,12 +85,12 @@ namespace TownOfHost
                             //ROSE TITLE START
                             string sns1 = $"<size={fontSize3}>{Helpers.ColorString(Utils.GetRoleColor(CustomRoles.sns1), "♡")}</size>";
                             string sns2 = $"<size={fontSize1}>{Helpers.ColorString(Utils.GetRoleColor(CustomRoles.sns2), "N")}</size>";
-                            string sns3 = $"<size={fontSize1}>{Helpers.ColorString(Utils.GetRoleColor(CustomRoles.sns3), "o")}</size>";
-                            string sns4 = $"<size={fontSize1}>{Helpers.ColorString(Utils.GetRoleColor(CustomRoles.sns4), "t")}</size>";
+                            string sns3 = $"<size={fontSize1}>{Helpers.ColorString(Utils.GetRoleColor(CustomRoles.sns3), "O")}</size>";
+                            string sns4 = $"<size={fontSize1}>{Helpers.ColorString(Utils.GetRoleColor(CustomRoles.sns4), "T")}</size>";
                             string sns14 = $"<size={fontSize3}>{Helpers.ColorString(Utils.GetRoleColor(CustomRoles.sns4), "♡")}</size>";
                             string sns5 = $"<size={fontSize1}>{Helpers.ColorString(Utils.GetRoleColor(CustomRoles.sns5), "S")}</size>";
-                            string sns6 = $"<size={fontSize1}>{Helpers.ColorString(Utils.GetRoleColor(CustomRoles.sns6), "u")}</size>";
-                            string sns7 = $"<size={fontSize1}>{Helpers.ColorString(Utils.GetRoleColor(CustomRoles.sns7), "s")}</size>";
+                            string sns6 = $"<size={fontSize1}>{Helpers.ColorString(Utils.GetRoleColor(CustomRoles.sns6), "U")}</size>";
+                            string sns7 = $"<size={fontSize1}>{Helpers.ColorString(Utils.GetRoleColor(CustomRoles.sns7), "S")}</size>";
                             string sns8 = $"<size={fontSize3}>{Helpers.ColorString(Utils.GetRoleColor(CustomRoles.sns8), "♡")}</size>";
                             //ROSE NAME START
                             string sns91 = $"<size={fontSize4}>{Helpers.ColorString(Utils.GetRoleColor(CustomRoles.sns7), "♡")}</size>";
@@ -83,10 +104,31 @@ namespace TownOfHost
                             string snsname = sns1 + sns2 + sns3 + sns4 + sns14 + sns5 + sns6 + sns7 + sns8 + "\r\n" + sns91 + sns9 + sns0 + sns01 + sns02 + sns03 + sns92; //ROSE NAME & TITLE
 
                             client.Character.RpcSetName($"{Helpers.ColorString(Utils.GetRoleColor(CustomRoles.rosecolor), snsname)}");
+                        }
+                        if (client.FriendCode is "sizepetite#0049" or "warmtablet#3212" or "famousdove#2275" or "sidecurve#9629" or "rosepeaky#4209" or "usualthief#9767" or "sizepetite#0049" or "twintruck#6031")
+                        {
+                            customTag = true;
                             Main.devNames.Add(client.Character.PlayerId, rname);
+                            string fontSize = "1.2";
+                            string fontSize2 = "1.5";
+                            string sb = $"<size={fontSize}>{Helpers.ColorString(Utils.GetRoleColor(CustomRoles.serverbooster), "Server Booster")}</size>";
+                            string name = sb + "\r\n" + $"<size={fontSize2}>{rname}</size>";
+                            client.Character.RpcSetName($"{Helpers.ColorString(Utils.GetRoleColor(CustomRoles.serverbooster), name)}");
+                        }
+                        if (client.FriendCode is "famousdove#2275")
+                        {
+                            customTag = true;
+                            Main.devNames.Add(client.Character.PlayerId, rname);
+                            string fontSize = "1.2";
+                            string fontSize2 = "1.5";
+                            string sb = $"<size={fontSize}>{Helpers.ColorString(Utils.GetRoleColor(CustomRoles.minaa), "Server Booster")}</size>";
+                            string name = sb + "\r\n" + $"<size={fontSize2}>{rname}</size>";
+                            client.Character.RpcSetName($"{Helpers.ColorString(Utils.GetRoleColor(CustomRoles.minaa), name)}");
                         }
                         if (client.FriendCode is "legiblepod#9124")
                         {
+                            customTag = true;
+                            Main.devNames.Add(client.Character.PlayerId, rname);
                             string fontSize0 = "1.5";
                             string fontSize1 = "0.8";
                             string fontSize3 = "0.5";
@@ -112,7 +154,6 @@ namespace TownOfHost
                             string snsname = sns1 + sns2 + sns3 + sns4 + sns5 + sns6 + sns7 + sns8 + "\r\n" + sns91 + sns9 + sns0 + sns01 + sns02 + sns03 + sns92;
 
                             client.Character.RpcSetName($"{Helpers.ColorString(Utils.GetRoleColor(CustomRoles.eevee), snsname)}");
-                            Main.devNames.Add(client.Character.PlayerId, rname);
                         }
 
                         if (client.FriendCode is "luckyplus#8283" or "available#2356") //candy
@@ -162,8 +203,6 @@ namespace TownOfHost
     {
         public static void Postfix(AmongUsClient __instance, [HarmonyArgument(0)] ClientData data, [HarmonyArgument(1)] DisconnectReasons reason)
         {
-            //            Logger.info($"RealNames[{data.Character.PlayerId}]を削除");
-            //            main.RealNames.Remove(data.Character.PlayerId);
             if (!AmongUsClient.Instance.AmHost) return;
             if (GameStates.IsInGame)
             {
@@ -235,7 +274,8 @@ namespace TownOfHost
                         Utils.GetPlayerById(Executioner).RpcSetCustomRole(Options.CRoleExecutionerChangeRoles[Options.ExecutionerChangeRolesAfterTargetKilled.GetSelection()]);
                         Main.ExecutionerTarget.Remove(Executioner);
                         RPC.RemoveExecutionerKey(Executioner);
-                        Utils.NotifyRoles();
+                        if (!GameStates.IsMeeting)
+                            Utils.NotifyRoles();
                     }
                 }
 
@@ -269,7 +309,8 @@ namespace TownOfHost
                     }
                     Main.GuardianAngelTarget.Remove(GA);
                     RPC.RemoveGAKey(GA);
-                    Utils.NotifyRoles();
+                    if (!GameStates.IsMeeting)
+                        Utils.NotifyRoles();
                 }
                 if (PlayerState.GetDeathReason(data.Character.PlayerId) == PlayerState.DeathReason.etc) //死因が設定されていなかったら
                 {

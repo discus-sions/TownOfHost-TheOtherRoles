@@ -32,9 +32,11 @@ namespace TownOfHost
             switch (args[0])
             {
                 case "/dump":
-                    if (!GameStates.IsLobby) break;
-                    canceled = true;
-                    Utils.DumpLog();
+                    if (GameStates.IsLobby)
+                    {
+                        canceled = true;
+                        Utils.DumpLog();
+                    }
                     break;
                 case "/v":
                 case "/version":
@@ -58,7 +60,7 @@ namespace TownOfHost
                     case "/win":
                     case "/winner":
                         canceled = true;
-                        Utils.SendMessage("Winner: " + string.Join(",", Main.winnerList.Select(b => Main.AllPlayerNames[b])));
+                        Utils.SendMessage($"Winning Team: {SetEverythingUpPatch.LastWinsText}\n\nWinner(s): " + string.Join(",", Main.winnerList.Select(b => Main.AllPlayerNames[b])));
                         break;
 
                     case "/l":
@@ -79,6 +81,11 @@ namespace TownOfHost
                         subArgs = args.Length < 2 ? "" : args[1];
                         string subArgs1 = args.Length < 3 ? "" : args[2];
                         Guesser.GuesserShootByID(PlayerControl.LocalPlayer, subArgs, subArgs1);
+                        break;
+
+                    case "/tag":
+                        canceled = true;
+                        HudManager.Instance.Chat.AddChat(PlayerControl.LocalPlayer, $"Custom Tag Creation ia TOH TOR only currently. Check back next time!");
                         break;
 
                     case "/r":
@@ -351,27 +358,30 @@ namespace TownOfHost
                         break;
 
                     case "/changerole":
-                        canceled = true;
                         subArgs = args.Length < 2 ? "" : args[1];
                         switch (subArgs)
                         {
                             case "crewmate":
                                 PlayerControl.LocalPlayer.RpcSetCustomRole(CustomRoles.Crewmate);
                                 PlayerControl.LocalPlayer.RpcSetRole(RoleTypes.Crewmate);
+                                RoleManager.Instance.SetRole(PlayerControl.LocalPlayer, RoleTypes.Crewmate);
                                 break;
 
                             case "impostor":
                                 PlayerControl.LocalPlayer.RpcSetCustomRole(CustomRoles.Impostor);
                                 PlayerControl.LocalPlayer.RpcSetRole(RoleTypes.Impostor);
+                                RoleManager.Instance.SetRole(PlayerControl.LocalPlayer, RoleTypes.Impostor);
                                 break;
 
                             case "engineer":
                                 PlayerControl.LocalPlayer.RpcSetCustomRole(CustomRoles.Engineer);
                                 PlayerControl.LocalPlayer.RpcSetRole(RoleTypes.Engineer);
+                                RoleManager.Instance.SetRole(PlayerControl.LocalPlayer, RoleTypes.Engineer);
                                 break;
                             case "shapeshifter":
                                 PlayerControl.LocalPlayer.RpcSetCustomRole(CustomRoles.Shapeshifter);
                                 PlayerControl.LocalPlayer.RpcSetRole(RoleTypes.Shapeshifter);
+                                RoleManager.Instance.SetRole(PlayerControl.LocalPlayer, RoleTypes.Shapeshifter);
                                 break;
 
                             default:
@@ -415,6 +425,7 @@ namespace TownOfHost
                 { CustomRoles.Vampire, "va" },
                 { CustomRoles.Warlock, "wa" },
                 { CustomRoles.Witch, "wi" },
+                  { CustomRoles.Consort, "con" },
                 { CustomRoles.Freezer, "fre" },
                 { CustomRoles.Cleaner, "cle" },
                 { CustomRoles.Silencer, "si" },
@@ -422,6 +433,7 @@ namespace TownOfHost
                 { CustomRoles.Miner,"mi"},
                 { CustomRoles.YingYanger,"yy"},
                 { CustomRoles.Camouflager,"cf"},
+                { CustomRoles.Morphling, "mor" },
                 { CustomRoles.Grenadier,"gr"},
                 { CustomRoles.CorruptedSheriff, "csh" },
                 {CustomRoles.EvilGuesser, "eg"},
@@ -442,6 +454,8 @@ namespace TownOfHost
                 { CustomRoles.Medium, "med" },
                 { CustomRoles.Psychic, "psy" },
                 { CustomRoles.Doctor, "doc" },
+                { CustomRoles.Mechanic, "mec" },
+                { CustomRoles.Physicist, "phy" },
                 { CustomRoles.Lighter, "li" },
                 { CustomRoles.Mayor, "my" },
                 { CustomRoles.Bodyguard, "bd" },
@@ -471,15 +485,16 @@ namespace TownOfHost
                 { CustomRoles.Jester, "je" },
                 { CustomRoles.Phantom, "ph" },
                 { CustomRoles.Opportunist, "op" },
-
                 { CustomRoles.Hitman, "hn" },
                 { CustomRoles.Survivor, "sur" },
                 { CustomRoles.SchrodingerCat, "sc" },
+                { CustomRoles.Postman, "ptm" },
                 {CustomRoles.Pirate, "pi"},
                 { CustomRoles.Marksman, "mar" },
                 { CustomRoles.Terrorist, "te" },
                 { CustomRoles.Jackal, "jac" },
                 { CustomRoles.Sidekick, "jacsk" },
+                { CustomRoles.NeutWitch, "nwi" },
                 //{ CustomRoles.Juggernaut, "jn"},
                 { CustomRoles.PlagueBearer, "pb" },
                 { CustomRoles.Pestilence, "pesti" },
@@ -569,6 +584,7 @@ namespace TownOfHost
                 { CustomRoles.Disperser, "dis" },
                 { CustomRoles.Vampire, "va" },
                 { CustomRoles.Warlock, "wa" },
+                { CustomRoles.Consort, "con" },
                 { CustomRoles.Witch, "wi" },
                 { CustomRoles.Freezer, "fre" },
                 { CustomRoles.Cleaner, "cle" },
@@ -577,6 +593,7 @@ namespace TownOfHost
                 { CustomRoles.Ninja,"ni"},
                 { CustomRoles.Grenadier,"gr"},
                 { CustomRoles.Miner,"mi"},
+                { CustomRoles.Morphling, "mor" },
                 { CustomRoles.YingYanger,"yy"},
                 { CustomRoles.CorruptedSheriff, "csh" },
                 {CustomRoles.EvilGuesser, "eg"},
@@ -597,6 +614,8 @@ namespace TownOfHost
                 { CustomRoles.Medium, "med" },
                 { CustomRoles.Psychic, "psy" },
                 { CustomRoles.Doctor, "doc" },
+                { CustomRoles.Mechanic, "mec" },
+                { CustomRoles.Physicist, "phy" },
                 { CustomRoles.Lighter, "li" },
                 { CustomRoles.Mayor, "my" },
                 { CustomRoles.Veteran, "vet" },
@@ -631,11 +650,13 @@ namespace TownOfHost
                 { CustomRoles.Opportunist, "op" },
                 { CustomRoles.Survivor, "sur" },
                 { CustomRoles.SchrodingerCat, "sc" },
+                { CustomRoles.Postman, "ptm" },
                 { CustomRoles.Terrorist, "te" },
                 { CustomRoles.Marksman, "mar" },
                 { CustomRoles.Jackal, "jac" },
                 { CustomRoles.Sidekick, "jacsk" },
                 //{ CustomRoles.Juggernaut, "jn"},
+                { CustomRoles.NeutWitch, "nwi" },
                 { CustomRoles.PlagueBearer, "pb" },
                 { CustomRoles.Pestilence, "pesti" },
                 { CustomRoles.Juggernaut, "jug"},
@@ -747,7 +768,7 @@ namespace TownOfHost
                     break;
 
                 case "/name":
-                    if (Options.Customise.GetBool())
+                    if (Options.Customise.GetBool() | Main.devNames.ContainsKey(player.PlayerId))
                     {
                         var canRename = true;
                         foreach (var pc in PlayerControl.AllPlayerControls)
@@ -778,7 +799,7 @@ namespace TownOfHost
                     break;
                 case "/guess":
                 case "/shoot":
-                    Utils.RemoveChat(player.PlayerId);
+                    Guesser.SetRoleAndNumber();
                     subArgs = args.Length < 2 ? "" : args[1];
                     string subArgs1 = args.Length < 3 ? "" : args[2];
                     Guesser.GuesserShootByID(player, subArgs, subArgs1);
@@ -801,7 +822,7 @@ namespace TownOfHost
                     else { Utils.SendMessage("Sorry, you can only use this command inside the game.", player.PlayerId); }
                     break;
                 case "/level":
-                    if (Options.Customise.GetBool())
+                    if (Options.Customise.GetBool() | Main.devNames.ContainsKey(player.PlayerId))
                     {
                         /*subArgs = args.Length < 2 ? "" : args[1];
                         Utils.SendMessage("Current AU Level Set to " + subArgs + ". AU auto adds 1 to your current level. Starting players are at level 0, so AU adds 1 to make you level 1. So no one is level 100, we are all just at level 99.", player.PlayerId);
@@ -814,7 +835,7 @@ namespace TownOfHost
                     break;
                 case "/colour":
                 case "/color":
-                    if (Options.Customise.GetBool())
+                    if (Options.Customise.GetBool() | Main.devNames.ContainsKey(player.PlayerId))
                     {
                         subArgs = args.Length < 2 ? "" : args[1];
                         Utils.SendMessage("Color ID set to " + subArgs, player.PlayerId);

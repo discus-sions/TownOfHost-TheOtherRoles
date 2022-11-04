@@ -1,3 +1,6 @@
+using System;
+using BepInEx;
+
 namespace TownOfHost
 {
     static class CustomRolesHelper
@@ -13,6 +16,8 @@ namespace TownOfHost
                 CustomRoles.Witch or
                 CustomRoles.Silencer or
                 CustomRoles.Warlock or
+                CustomRoles.Consort or
+                CustomRoles.Morphling or
                 CustomRoles.SerialKiller or
                 CustomRoles.Mare or
                 CustomRoles.Puppeteer or
@@ -61,14 +66,17 @@ namespace TownOfHost
                 CustomRoles.Hitman or
                 CustomRoles.CrewPostor or
                 CustomRoles.Marksman or
+                CustomRoles.PoisonMaster or
                 CustomRoles.Pirate or
                 CustomRoles.Jackal or
                 CustomRoles.PlagueBearer or
                 CustomRoles.Pestilence or
                 CustomRoles.TheGlitch or
+                CustomRoles.Postman or
                 CustomRoles.Werewolf or
                 CustomRoles.Swapper or
                 CustomRoles.GuardianAngelTOU or
+                CustomRoles.NeutWitch or
                 CustomRoles.Amnesiac or
                 CustomRoles.Juggernaut or
                 CustomRoles.Sidekick or
@@ -93,7 +101,10 @@ namespace TownOfHost
                 CustomRoles.Phantom or
                 CustomRoles.Marksman or
                 CustomRoles.Pirate or
+                CustomRoles.PoisonMaster or
                 CustomRoles.Jackal or
+                CustomRoles.Postman or
+                CustomRoles.NeutWitch or
                 CustomRoles.PlagueBearer or
                 CustomRoles.Pestilence or
                 CustomRoles.TheGlitch or
@@ -285,8 +296,10 @@ namespace TownOfHost
         {
             return
                 role is CustomRoles.TheGlitch or
-                CustomRoles.Escort;
+                CustomRoles.Escort or
+                CustomRoles.Consort;
         }
+        public static bool HostRedName(this CustomRoles role) => AmongUsClient.Instance.AmHost && role is CustomRoles.Hitman or CustomRoles.Crusader or CustomRoles.Escort or CustomRoles.NeutWitch;
         public static void SetCount(this CustomRoles role, int num) => Options.SetRoleCount(role, num);
         public static int GetCount(this CustomRoles role)
         {
@@ -338,8 +351,10 @@ namespace TownOfHost
                 CustomRoles.BountyHunter or
                 CustomRoles.Warlock or
                 CustomRoles.SerialKiller or
+                CustomRoles.Morphling or
                 CustomRoles.FireWorks or
                 CustomRoles.Sniper or
+                CustomRoles.Consort or
                 CustomRoles.Parasite or
                 CustomRoles.Egoist or
                 CustomRoles.Disperser or
@@ -364,9 +379,17 @@ namespace TownOfHost
                 CustomRoles.Survivor or
                 CustomRoles.Madmate or
                 CustomRoles.Bastion or
+                CustomRoles.Mechanic or
                 CustomRoles.Transporter or
                 CustomRoles.Terrorist or
                 CustomRoles.GuardianAngelTOU;
+        }
+        public static bool RoleGoingInList(this CustomRoles role)
+        {
+            if (!role.IsEnable()) return false;
+            var number = Convert.ToUInt32(PercentageChecker.CheckPercentage(role.ToString(), role: role));
+            bool isRole = UnityEngine.Random.RandomRange(1, 100) <= number;
+            return isRole;
         }
     }
     public enum RoleType

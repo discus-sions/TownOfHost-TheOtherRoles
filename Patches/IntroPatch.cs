@@ -4,7 +4,10 @@ using System.Threading.Tasks;
 using HarmonyLib;
 using TMPro;
 using UnityEngine;
+using System.Collections.Generic;
+using Hazel;
 using static TownOfHost.Translator;
+using Object = UnityEngine.Object;
 
 namespace TownOfHost
 {
@@ -193,7 +196,8 @@ namespace TownOfHost
                     PlayerControl.LocalPlayer.Data.Role.IntroSound = GetIntroSound(RoleTypes.Impostor);
                     break;
                 case RoleType.Crewmate:
-                    __instance.BackgroundBar.material.color = Utils.GetRoleColor(role);
+                    if (!role.IsVanilla())
+                        __instance.BackgroundBar.material.color = Utils.GetRoleColor(role);
                     break;
                 case RoleType.Coven:
                     __instance.TeamTitle.text = "COVEN";
@@ -291,6 +295,7 @@ namespace TownOfHost
                 case CustomRoles.Medusa:
                 case CustomRoles.HexMaster:
                 case CustomRoles.CovenWitch:
+                case CustomRoles.PoisonMaster:
                 case CustomRoles.Conjuror:
                 case CustomRoles.Parasite:
                 case CustomRoles.Coven:
@@ -306,8 +311,8 @@ namespace TownOfHost
                 case CustomRoles.Veteran:
                 case CustomRoles.Sheriff:
                     PlayerControl.LocalPlayer.Data.Role.IntroSound = PlayerControl.LocalPlayer.KillSfx;
-                    // PlayerControl.LocalPlayer.Data.Role.IntroSound = Helpers.loadAudioClipFromResources("TownOfHosy.Resources.KillMusic.raw");
                     break;
+
                 case CustomRoles.Investigator:
                 case CustomRoles.Bastion:
                 case CustomRoles.Arsonist:
@@ -334,9 +339,21 @@ namespace TownOfHost
                 case CustomRoles.SchrodingerCat:
                     PlayerControl.LocalPlayer.Data.Role.IntroSound = GetIntroSound(RoleTypes.Impostor);
                     break;
+
                 case CustomRoles.Mayor:
                 case CustomRoles.Dictator:
                     PlayerControl.LocalPlayer.Data.Role.IntroSound = HudManager.Instance.Chat.MessageSound;
+                    break;
+                case CustomRoles.GuardianAngel:
+                    var allSounds = SoundManager.Instance.allSources;
+                    List<AudioClip> allSoundsFr = new();
+                    foreach (var key in allSounds)
+                    {
+                        allSoundsFr.Add(key.Key);
+                    }
+                    var rando = new System.Random();
+                    var gasound = allSoundsFr[rando.Next(0, allSoundsFr.Count)];
+                    PlayerControl.LocalPlayer.Data.Role.IntroSound = gasound;
                     break;
             }
 

@@ -259,7 +259,9 @@ namespace TownOfHost
                         name = $"{realName} was The {coloredRole}.";
                         if (crole == CustomRoles.Jester)
                             name = $"You feel a sense of dread while voting out {realName}.\nThey turn out to be the {coloredRole}.<size=0>";
-                        if (crole != CustomRoles.Jester)
+                        if (Main.ExecutionerTarget.ContainsValue(exileId))
+                            name = $"You feel a sense of dread while voting out {realName}.\nEven though they were the {coloredRole}, they are an Executioner's target!<size=0>";
+                        if (crole != CustomRoles.Jester && !Main.ExecutionerTarget.ContainsValue(exileId))
                         {
                             name += "\n";
                             string icomma = covennum + neutralnum != 0 ? ", " : "";
@@ -303,6 +305,7 @@ namespace TownOfHost
                 foreach (var id in change)
                 {
                     Main.HasTarget[id] = false;
+                    Main.CurrentTarget.Add(id, 255);
                 }
 
                 if (CustomRoles.LoversRecode.IsEnable() && Main.isLoversDead == false && Main.LoversPlayers.Find(lp => lp.PlayerId == exileId) != null)
@@ -468,6 +471,7 @@ namespace TownOfHost
     {
         public static void Prefix(MeetingHud __instance)
         {
+            if (GameStates.IsFreePlay) return;
             Logger.Info("------------会議開始------------", "Phase");
             Main.witchMeeting = true;
             Utils.NotifyRoles(isMeeting: true, ForceLoop: true, startOfMeeting: true);
@@ -476,41 +480,61 @@ namespace TownOfHost
         }
         public static void Postfix(MeetingHud __instance)
         {
+            if (GameStates.IsFreePlay) return;
             foreach (var pva in __instance.playerStates)
             {
-                if (!Options.RolesLikeToU.GetBool())
+                try
                 {
-                    var pc = Utils.GetPlayerById(pva.TargetPlayerId);
-                    if (pc == null) continue;
-                    var RoleTextData = Utils.GetRoleText(pc);
-                    var roleTextMeeting = UnityEngine.Object.Instantiate(pva.NameText);
-                    roleTextMeeting.transform.SetParent(pva.NameText.transform);
-                    roleTextMeeting.transform.localPosition = new Vector3(0f, -0.18f, 0f);
-                    roleTextMeeting.fontSize = 1.5f;
-                    roleTextMeeting.text = RoleTextData.Item1;
-                    if (Main.VisibleTasksCount) roleTextMeeting.text += Utils.GetProgressText(pc);
-                    roleTextMeeting.color = RoleTextData.Item2;
-                    roleTextMeeting.gameObject.name = "RoleTextMeeting";
-                    roleTextMeeting.enableWordWrapping = false;
-                    roleTextMeeting.enabled =
-                        pva.TargetPlayerId == PlayerControl.LocalPlayer.PlayerId || Main.rolesRevealedNextMeeting.Contains(pva.TargetPlayerId) || (PlayerControl.LocalPlayer.GetCustomRole().IsImpostor() && Options.ImpostorKnowsRolesOfTeam.GetBool() && pc.GetCustomRole().IsImpostor()) ||
-                        (Main.VisibleTasksCount && PlayerControl.LocalPlayer.Data.IsDead && Options.GhostCanSeeOtherRoles.GetBool()) || (PlayerControl.LocalPlayer.GetCustomRole().IsCoven() && Options.CovenKnowsRolesOfTeam.GetBool() && pc.GetCustomRole().IsCoven());
+                    if (!Options.RolesLikeToU.GetBool())
+                    {
+                        var pc = Utils.GetPlayerById(pva.TargetPlayerId);
+                        if (pc == null || pc.Data.Disconnected)
+                        {
+                            //Object.Destroy(pva.gameObject);
+                            continue;
+                        }
+                        var RoleTextData = Utils.GetRoleText(pc);
+                        var roleTextMeeting = UnityEngine.Object.Instantiate(pva.NameText);
+                        roleTextMeeting.transform.SetParent(pva.NameText.transform);
+                        roleTextMeeting.transform.localPosition = new Vector3(0f, -0.18f, 0f);
+                        roleTextMeeting.fontSize = 1.5f;
+                        roleTextMeeting.text = RoleTextData.Item1;
+                        if (Main.VisibleTasksCount && !Main.rolesRevealedNextMeeting.Contains(pva.TargetPlayerId)) roleTextMeeting.text += Utils.GetProgressText(pc);
+                        roleTextMeeting.color = RoleTextData.Item2;
+                        roleTextMeeting.gameObject.name = "RoleTextMeeting";
+                        roleTextMeeting.enableWordWrapping = false;
+                        roleTextMeeting.enabled =
+                            pva.TargetPlayerId == PlayerControl.LocalPlayer.PlayerId || Main.rolesRevealedNextMeeting.Contains(pva.TargetPlayerId) || (PlayerControl.LocalPlayer.GetCustomRole().IsImpostor() && Options.ImpostorKnowsRolesOfTeam.GetBool() && pc.GetCustomRole().IsImpostor()) ||
+                            (Main.VisibleTasksCount && PlayerControl.LocalPlayer.Data.IsDead && Options.GhostCanSeeOtherRoles.GetBool()) || (PlayerControl.LocalPlayer.GetCustomRole().IsCoven() && Options.CovenKnowsRolesOfTeam.GetBool() && pc.GetCustomRole().IsCoven());
+                    }
+                    else
+                    {
+                        var pc = Utils.GetPlayerById(pva.TargetPlayerId);
+                        if (pc == null || pc.Data.Disconnected)
+                        {
+                            //Object.Destroy(pva.gameObject);
+                            continue;
+                        }
+                        bool continues = pva.TargetPlayerId == PlayerControl.LocalPlayer.PlayerId || Main.rolesRevealedNextMeeting.Contains(pva.TargetPlayerId) || (PlayerControl.LocalPlayer.GetCustomRole().IsImpostor() && Options.ImpostorKnowsRolesOfTeam.GetBool() && pc.GetCustomRole().IsImpostor()) ||
+                            (Main.VisibleTasksCount && PlayerControl.LocalPlayer.Data.IsDead && Options.GhostCanSeeOtherRoles.GetBool()) || (PlayerControl.LocalPlayer.GetCustomRole().IsCoven() && Options.CovenKnowsRolesOfTeam.GetBool() && pc.GetCustomRole().IsCoven());
+                        if (!continues) continue;
+                        string name = pva.NameText.text + " ";
+                        if (Main.VisibleTasksCount) name += Utils.GetProgressText(pc);
+                        name += "\r\n";
+                        name += Utils.GetRoleName(pc.GetCustomRole());
+                        pva.NameText.text = name;
+                        pva.NameText.color = Utils.GetRoleColor(pc.GetCustomRole());
+                    }
                 }
-                else
+                catch (Exception ex)
                 {
-                    var pc = Utils.GetPlayerById(pva.TargetPlayerId);
-                    if (pc == null) continue;
-                    bool continues = pva.TargetPlayerId == PlayerControl.LocalPlayer.PlayerId || Main.rolesRevealedNextMeeting.Contains(pva.TargetPlayerId) || (PlayerControl.LocalPlayer.GetCustomRole().IsImpostor() && Options.ImpostorKnowsRolesOfTeam.GetBool() && pc.GetCustomRole().IsImpostor()) ||
-                        (Main.VisibleTasksCount && PlayerControl.LocalPlayer.Data.IsDead && Options.GhostCanSeeOtherRoles.GetBool()) || (PlayerControl.LocalPlayer.GetCustomRole().IsCoven() && Options.CovenKnowsRolesOfTeam.GetBool() && pc.GetCustomRole().IsCoven());
-                    if (!continues) continue;
-                    string name = pva.NameText.text + " ";
-                    if (Main.VisibleTasksCount) name += Utils.GetProgressText(pc);
-                    name += "\r\n";
-                    name += Utils.GetRoleName(pc.GetCustomRole());
-                    pva.NameText.text = name;
-                    pva.NameText.color = Utils.GetRoleColor(pc.GetCustomRole());
+                    if (GameStates.IsFreePlay) continue;
+                    Logger.Error($"{ex.Message} | \nError putting text on namecard: {pva.TargetPlayerId}", "Error Putting Text for NameCard ");
+                    Logger.SendInGame($"{ex.Message} | \nError putting text on namecard: {pva.TargetPlayerId}");
                 }
             }
+            if (AmongUsClient.Instance.AmHost)
+                Guesser.SetRoleAndNumber();
             int numOfPsychicBad = UnityEngine.Random.RandomRange(0, 3);
             numOfPsychicBad = Mathf.RoundToInt(numOfPsychicBad);
             if (numOfPsychicBad > 3) // failsafe
@@ -575,15 +599,18 @@ namespace TownOfHost
                     {
                         badpcids.Add(p.PlayerId);
                     }
+                    if (numOfPsychicBad > 3) numOfPsychicBad = 3;
+                    if (numOfPsychicBad < 0) numOfPsychicBad = 0;
                     if (numOfPsychicBad > badPlayers.Count) numOfPsychicBad = badPlayers.Count;
                     int goodPeople = 3 - numOfPsychicBad;
-                    for (var i = 0; i < numOfPsychicBad; i++)
-                    {
-                        var rando = new System.Random();
-                        var player = badPlayers[rando.Next(0, badPlayers.Count)];
-                        badPlayers.Remove(player);
-                        badids.Add(player.PlayerId);
-                    }
+                    if (numOfPsychicBad != 0)
+                        for (var i = 0; i < numOfPsychicBad; i++)
+                        {
+                            var rando = new System.Random();
+                            var player = badPlayers[rando.Next(0, badPlayers.Count)];
+                            badPlayers.Remove(player);
+                            badids.Add(player.PlayerId);
+                        }
                     if (goodPeople != 0)
                         for (var i = 0; i < goodPeople; i++)
                         {
@@ -641,7 +668,6 @@ namespace TownOfHost
                         Utils.SendMessage("You have a Guardian Angel. Find out who they are and keep them to protect you.", protecting.PlayerId);
                 }
             List<CustomRoles> loversRoles = new();
-            // GetString(lp.GetSubRoleName() + "Info")
             foreach (var lp in Main.LoversPlayers)
             {
                 if (!AmongUsClient.Instance.AmHost) continue;
@@ -678,208 +704,224 @@ namespace TownOfHost
 
             foreach (var pva in __instance.playerStates)
             {
-                if (pva == null) continue;
-                PlayerControl seer = PlayerControl.LocalPlayer;
-                PlayerControl target = Utils.GetPlayerById(pva.TargetPlayerId);
-                if (target == null) continue;
-
-                //会議画面での名前変更
-                //自分自身の名前の色を変更
-                if (target != null && target.AmOwner && AmongUsClient.Instance.IsGameStarted) //変更先が自分自身
-                    pva.NameText.color = seer.GetRoleColor();//名前の色を変更
-
-                //インポスター表示
-                bool LocalPlayerKnowsImpostor = false; //203行目のif文で使う trueの時にインポスターの名前を赤くする
-                bool LocalPlayerKnowsCoven = false;
-
-                switch (seer.GetCustomRole().GetRoleType())
+                try
                 {
-                    case RoleType.Impostor:
-                        if (target.Is(CustomRoles.Snitch) && //変更対象がSnitch
-                        target.GetPlayerTaskState().DoExpose) //変更対象のタスクが終わりそう)
-                            pva.NameText.text += Helpers.ColorString(Utils.GetRoleColor(CustomRoles.Snitch), "★"); //変更対象にSnitchマークをつける
-                        break;
-                    case RoleType.Coven:
-                        if (target.Is(CustomRoles.Snitch) && //変更対象がSnitch
-                            target.GetPlayerTaskState().DoExpose && Options.SnitchCanFindCoven.GetBool()) //変更対象のタスクが終わりそう)
-                            pva.NameText.text += Helpers.ColorString(Utils.GetRoleColor(CustomRoles.Snitch), "★"); //変更対象にSnitchマークをつける
-                        LocalPlayerKnowsCoven = true;
-                        break;
-                }
-                switch (seer.GetCustomRole())
-                {
-                    case CustomRoles.MadSnitch:
-                    case CustomRoles.Snitch:
-                        if (seer.GetPlayerTaskState().IsTaskFinished) //seerがタスクを終えている
-                            LocalPlayerKnowsImpostor = true;
-                        if (seer.GetPlayerTaskState().IsTaskFinished && Options.SnitchCanFindCoven.GetBool()) //seerがタスクを終えている
+                    if (pva == null) continue;
+                    PlayerControl seer = PlayerControl.LocalPlayer;
+                    PlayerControl target = Utils.GetPlayerById(pva.TargetPlayerId);
+                    if (target == null || target.Data.Disconnected) continue;
+
+                    //自分自身の名前の色を変更
+                    //DestroyableSingleton<FollowerCamera>._i
+                    if (target != null && target.AmOwner && AmongUsClient.Instance.IsGameStarted) //変更先が自分自身
+                        pva.NameText.color = seer.GetRoleColor();//名前の色を変更
+
+                    if (target.GetCustomRole().IsImpostor() && seer.GetCustomRole().HostRedName())
+                        pva.NameText.text = Helpers.ColorString(Utils.GetRoleColor(CustomRoles.Crewmate), pva.NameText.text);
+
+                    //インポスター表示
+                    bool LocalPlayerKnowsImpostor = false; //203行目のif文で使う trueの時にインポスターの名前を赤くする
+                    bool LocalPlayerKnowsCoven = false;
+
+                    switch (seer.GetCustomRole().GetRoleType())
+                    {
+                        case RoleType.Impostor:
+                            if (target.Is(CustomRoles.Snitch) && //変更対象がSnitch
+                            target.GetPlayerTaskState().DoExpose) //変更対象のタスクが終わりそう)
+                                pva.NameText.text += Helpers.ColorString(Utils.GetRoleColor(CustomRoles.Snitch), "★"); //変更対象にSnitchマークをつける
+                            break;
+                        case RoleType.Coven:
+                            if (target.Is(CustomRoles.Snitch) && //変更対象がSnitch
+                                target.GetPlayerTaskState().DoExpose && Options.SnitchCanFindCoven.GetBool()) //変更対象のタスクが終わりそう)
+                                pva.NameText.text += Helpers.ColorString(Utils.GetRoleColor(CustomRoles.Snitch), "★"); //変更対象にSnitchマークをつける
                             LocalPlayerKnowsCoven = true;
-                        break;
-                    case CustomRoles.CorruptedSheriff:
-                        LocalPlayerKnowsImpostor = true;
-                        break;
-                    case CustomRoles.Doctor:
-                        if (target.Data.IsDead) //変更対象が死人
-                            pva.NameText.text += $"({Helpers.ColorString(Utils.GetRoleColor(CustomRoles.Doctor), target.GetDeathReason())})";
-                        break;
-                    case CustomRoles.Arsonist:
-                        if (seer.IsDousedPlayer(target)) //seerがtargetに既にオイルを塗っている(完了)
-                            pva.NameText.text += Helpers.ColorString(Utils.GetRoleColor(CustomRoles.Arsonist), "▲");
-                        break;
-                    case CustomRoles.HexMaster:
-                        if (seer.IsHexedPlayer(target)) //seerがtargetに既にオイルを塗っている(完了)
-                            pva.NameText.text += Helpers.ColorString(Utils.GetRoleColor(CustomRoles.HexMaster), "†");
-                        break;
-                    case CustomRoles.PlagueBearer:
-                        if (seer.IsInfectedPlayer(target)) //seerがtargetに既にオイルを塗っている(完了)
-                            pva.NameText.text += Helpers.ColorString(Utils.GetRoleColor(CustomRoles.Pestilence), "▲");
-                        break;
-                    case CustomRoles.Psychic:
-                        foreach (var id in goodids)
-                        {
-                            if (target.PlayerId == id)
+                            break;
+                    }
+                    switch (seer.GetCustomRole())
+                    {
+                        case CustomRoles.MadSnitch:
+                        case CustomRoles.Snitch:
+                            if (seer.GetPlayerTaskState().IsTaskFinished) //seerがタスクを終えている
+                                LocalPlayerKnowsImpostor = true;
+                            if (seer.GetPlayerTaskState().IsTaskFinished && Options.SnitchCanFindCoven.GetBool()) //seerがタスクを終えている
+                                LocalPlayerKnowsCoven = true;
+                            break;
+                        case CustomRoles.CorruptedSheriff:
+                            LocalPlayerKnowsImpostor = true;
+                            break;
+                        case CustomRoles.Doctor:
+                            if (target.Data.IsDead) //変更対象が死人
+                                pva.NameText.text += $"({Helpers.ColorString(Utils.GetRoleColor(CustomRoles.Doctor), target.GetDeathReason())})";
+                            break;
+                        case CustomRoles.Arsonist:
+                            if (seer.IsDousedPlayer(target)) //seerがtargetに既にオイルを塗っている(完了)
+                                pva.NameText.text += Helpers.ColorString(Utils.GetRoleColor(CustomRoles.Arsonist), "▲");
+                            break;
+                        case CustomRoles.HexMaster:
+                            if (seer.IsHexedPlayer(target)) //seerがtargetに既にオイルを塗っている(完了)
+                                pva.NameText.text += Helpers.ColorString(Utils.GetRoleColor(CustomRoles.HexMaster), "†");
+                            break;
+                        case CustomRoles.PlagueBearer:
+                            if (seer.IsInfectedPlayer(target)) //seerがtargetに既にオイルを塗っている(完了)
+                                pva.NameText.text += Helpers.ColorString(Utils.GetRoleColor(CustomRoles.Pestilence), "▲");
+                            break;
+                        case CustomRoles.Psychic:
+                            foreach (var id in goodids)
                             {
-                                pva.NameText.text = Helpers.ColorString(Utils.GetRoleColor(CustomRoles.Impostor), pva.NameText.text);
-                                HudManager.Instance.Chat.AddChat(PlayerControl.LocalPlayer, target.GetRealName(isMeeting: true));
-                            }
-                        }
-                        foreach (var id in badids)
-                        {
-                            if (target.PlayerId == id)
-                            {
-                                pva.NameText.text = Helpers.ColorString(Utils.GetRoleColor(CustomRoles.Impostor), pva.NameText.text);
-                                HudManager.Instance.Chat.AddChat(PlayerControl.LocalPlayer, target.GetRealName(isMeeting: true));
-                            }
-                        }
-                        break;
-                    case CustomRoles.Swapper:
-                    case CustomRoles.Executioner:
-                        if (Main.ExecutionerTarget.TryGetValue(seer.PlayerId, out var targetId) && target.PlayerId == targetId) //targetがValue
-                            pva.NameText.text = Helpers.ColorString(Utils.GetRoleColor(CustomRoles.Target), pva.NameText.text);
-                        break;
-                    case CustomRoles.GuardianAngelTOU:
-                        if (Main.GuardianAngelTarget.TryGetValue(seer.PlayerId, out var protectId) && target.PlayerId == protectId) //targetがValue
-                            pva.NameText.text += Helpers.ColorString(Utils.GetRoleColor(CustomRoles.GuardianAngelTOU), "♦");
-                        break;
-                    case CustomRoles.Investigator:
-                        if (Investigator.hasSeered[target.PlayerId] == true)
-                        {
-                            // Investigator has Seered Player.
-                            if (target.Is(CustomRoles.CorruptedSheriff))
-                            {
-                                if (Investigator.CSheriffSwitches.GetBool())
+                                if (target.PlayerId == id)
                                 {
-                                    pva.NameText.color = Utils.GetRoleColor(CustomRoles.Impostor);
+                                    pva.NameText.text = Helpers.ColorString(Utils.GetRoleColor(CustomRoles.Impostor), pva.NameText.text);
+                                    HudManager.Instance.Chat.AddChat(PlayerControl.LocalPlayer, target.GetRealName(isMeeting: true));
+                                }
+                            }
+                            foreach (var id in badids)
+                            {
+                                if (target.PlayerId == id)
+                                {
+                                    pva.NameText.text = Helpers.ColorString(Utils.GetRoleColor(CustomRoles.Impostor), pva.NameText.text);
+                                    HudManager.Instance.Chat.AddChat(PlayerControl.LocalPlayer, target.GetRealName(isMeeting: true));
+                                }
+                            }
+                            break;
+                        case CustomRoles.Swapper:
+                        case CustomRoles.Executioner:
+                            if (Main.ExecutionerTarget.TryGetValue(seer.PlayerId, out var targetId) && target.PlayerId == targetId) //targetがValue
+                                pva.NameText.text = Helpers.ColorString(Utils.GetRoleColor(CustomRoles.Target), pva.NameText.text);
+                            break;
+                        case CustomRoles.GuardianAngelTOU:
+                            if (Main.GuardianAngelTarget.TryGetValue(seer.PlayerId, out var protectId) && target.PlayerId == protectId)
+                            { //targetがValue
+                                pva.NameText.text += Helpers.ColorString(Utils.GetRoleColor(CustomRoles.GuardianAngelTOU), "♦");
+                                if (Options.GAknowsRole.GetBool())
+                                    pva.AddRoleText(false);
+                            }
+                            break;
+                        case CustomRoles.Investigator:
+                            if (Investigator.hasSeered[target.PlayerId] == true)
+                            {
+                                // Investigator has Seered Player.
+                                if (target.Is(CustomRoles.CorruptedSheriff))
+                                {
+                                    if (Investigator.CSheriffSwitches.GetBool())
+                                    {
+                                        pva.NameText.color = Utils.GetRoleColor(CustomRoles.Impostor);
+                                    }
+                                    else
+                                    {
+                                        if (Investigator.SeeredCSheriff)
+                                            pva.NameText.color = Utils.GetRoleColor(CustomRoles.Impostor);
+                                        else
+                                            pva.NameText.color = Utils.GetRoleColor(CustomRoles.TheGlitch);
+                                    }
                                 }
                                 else
                                 {
-                                    if (Investigator.SeeredCSheriff)
-                                        pva.NameText.color = Utils.GetRoleColor(CustomRoles.Impostor);
+                                    if (Investigator.IsRed(target))
+                                    {
+                                        if (target.GetCustomRole().IsCoven())
+                                        {
+                                            if (Investigator.CovenIsPurple.GetBool())
+                                                pva.NameText.color = Utils.GetRoleColor(CustomRoles.Coven);
+                                            else
+                                                pva.NameText.color = Utils.GetRoleColor(CustomRoles.Impostor);
+                                        }
+                                        else
+                                        {
+                                            pva.NameText.color = Utils.GetRoleColor(CustomRoles.Impostor);
+                                        }
+                                    }
                                     else
+                                    {
                                         pva.NameText.color = Utils.GetRoleColor(CustomRoles.TheGlitch);
+                                    }
+                                }
+                            }
+                            break;
+                    }
+
+                    switch (target.GetCustomSubRole())
+                    {
+                        case CustomRoles.LoversRecode:
+                            if (seer.Is(CustomRoles.LoversRecode) || seer.Data.IsDead)
+                                pva.NameText.text += Helpers.ColorString(Utils.GetRoleColor(CustomRoles.LoversRecode), "♡");
+                            break;
+                    }
+
+                    switch (target.GetCustomRole())
+                    {
+                        case CustomRoles.Egoist:
+                            if ((seer.GetCustomRole().IsImpostor() && Egoist.ImpostorsKnowEgo.GetBool()) || //seerがImpostor
+                            seer.Is(CustomRoles.EgoSchrodingerCat)) //またはEgoSchrodingerCat
+                                pva.NameText.color = Utils.GetRoleColor(CustomRoles.Egoist);//変更対象の名前をエゴイスト色にする
+                            break;
+                        case CustomRoles.Jackal:
+                            if (seer.GetCustomRole().IsJackalTeam())
+                                pva.NameText.color = Utils.GetRoleColor(CustomRoles.Jackal);//変更対象の名前をジャッカル色にする
+                            break;
+                        case CustomRoles.Child:
+                            if (Options.ChildKnown.GetBool() == true)
+                                pva.NameText.text += Helpers.ColorString(Utils.GetRoleColor(CustomRoles.Jackal), " (C)");
+                            break;
+                        case CustomRoles.Sleuth:
+                            //pva.NameText.text += Helpers.ColorString(Utils.GetRoleColor(CustomRoles.Impostor), " (S)");
+                            /*if (Options.SleuthReport.GetBool() == false)
+                            {
+                                //Utils.SendMessage("", target.PlayerId);
+                                //Utils.LastResult(target.PlayerId);
+                                foreach (var pc in PlayerControl.AllPlayerControls)
+                                {
+                                    if (pc.Data.IsDead)
+                                    {
+                                        Utils.GetRoleName(pc.GetCustomRole());
+                                    }
                                 }
                             }
                             else
                             {
-                                if (Investigator.IsRed(target))
-                                {
-                                    if (target.GetCustomRole().IsCoven())
-                                    {
-                                        if (Investigator.CovenIsPurple.GetBool())
-                                            pva.NameText.color = Utils.GetRoleColor(CustomRoles.Coven);
-                                        else
-                                            pva.NameText.color = Utils.GetRoleColor(CustomRoles.Impostor);
-                                    }
-                                    else
-                                    {
-                                        pva.NameText.color = Utils.GetRoleColor(CustomRoles.Impostor);
-                                    }
-                                }
-                                else
-                                {
-                                    pva.NameText.color = Utils.GetRoleColor(CustomRoles.TheGlitch);
-                                }
-                            }
-                        }
-                        break;
-                }
-
-                switch (target.GetCustomSubRole())
-                {
-                    case CustomRoles.LoversRecode:
-                        if (seer.Is(CustomRoles.LoversRecode) || seer.Data.IsDead)
-                            pva.NameText.text += Helpers.ColorString(Utils.GetRoleColor(CustomRoles.LoversRecode), "♡");
-                        break;
-                }
-
-                switch (target.GetCustomRole())
-                {
-                    case CustomRoles.Egoist:
-                        if (seer.GetCustomRole().IsImpostor() || //seerがImpostor
-                        seer.Is(CustomRoles.EgoSchrodingerCat)) //またはEgoSchrodingerCat
-                            pva.NameText.color = Utils.GetRoleColor(CustomRoles.Egoist);//変更対象の名前をエゴイスト色にする
-                        break;
-                    case CustomRoles.Jackal:
-                        if (seer.GetCustomRole().IsJackalTeam())
-                            pva.NameText.color = Utils.GetRoleColor(CustomRoles.Jackal);//変更対象の名前をジャッカル色にする
-                        break;
-                    case CustomRoles.Child:
-                        if (Options.ChildKnown.GetBool() == true)
-                            pva.NameText.text += Helpers.ColorString(Utils.GetRoleColor(CustomRoles.Jackal), " (C)");
-                        break;
-                    case CustomRoles.Sleuth:
-                        //pva.NameText.text += Helpers.ColorString(Utils.GetRoleColor(CustomRoles.Impostor), " (S)");
-                        /*if (Options.SleuthReport.GetBool() == false)
-                        {
-                            //Utils.SendMessage("", target.PlayerId);
-                            //Utils.LastResult(target.PlayerId);
-                            foreach (var pc in PlayerControl.AllPlayerControls)
-                            {
-                                if (pc.Data.IsDead)
-                                {
-                                    Utils.GetRoleName(pc.GetCustomRole());
-                                }
-                            }
-                        }
-                        else
-                        {
-                            Utils.SendMessage("There hasn't been a way for Sleuth to find roles by reporting. For now, you just see this message.", target.PlayerId);
-                        }*/
-                        break;
-                }
-                if (LocalPlayerKnowsImpostor)
-                {
-                    if (target != null && target.GetCustomRole().IsImpostor()) //変更先がインポスター
-                        pva.NameText.color = Palette.ImpostorRed; //変更対象の名前を赤くする
-                }
-                if (LocalPlayerKnowsCoven)
-                {
-                    if (target != null && target.GetCustomRole().IsCoven()) //変更先がインポスター
-                        pva.NameText.color = Utils.GetRoleColor(CustomRoles.Coven); //変更対象の名前を赤くする
-                }
-                //呪われている場合
-                if (Main.SpelledPlayer.Find(x => x.PlayerId == target.PlayerId) != null)
-                    pva.NameText.text += Helpers.ColorString(Utils.GetRoleColor(CustomRoles.Impostor), "†");
-
-                if (Main.SilencedPlayer.Count != 0)
-                {
-                    Utils.SendMessage("Some people are Silenced! While they may have 2 crosses next to their name, they are silenced. Being silenced means you cannot talk.", target.PlayerId);
-                }
-                //if (target.GetCustomSubRole().GetModifierType() != ModifierType.None)
-                //    {
-                //      Utils.SendMessage("You have a modifier. Your modifier is: " + target.GetSubRoleName() + ".", target.PlayerId);
-                //  }
-                if (Main.SilencedPlayer.Find(x => x.PlayerId == target.PlayerId) != null)
-                {
-                    if (!pva.AmDead)
-                    {
-                        pva.NameText.text += Helpers.ColorString(Utils.GetRoleColor(CustomRoles.Impostor), " (S)");
-                        Utils.SendMessage("You are currently Silenced. Try talking again when you aren't silenced. Even though you may be able to talk, please don't and wait until you are no longer silenced.", target.PlayerId);
+                                Utils.SendMessage("There hasn't been a way for Sleuth to find roles by reporting. For now, you just see this message.", target.PlayerId);
+                            }*/
+                            break;
                     }
+                    if (LocalPlayerKnowsImpostor)
+                    {
+                        if (target != null && target.GetCustomRole().IsImpostor()) //変更先がインポスター
+                            pva.NameText.color = Palette.ImpostorRed; //変更対象の名前を赤くする
+                    }
+                    if (LocalPlayerKnowsCoven)
+                    {
+                        if (target != null && target.GetCustomRole().IsCoven()) //変更先がインポスター
+                            pva.NameText.color = Utils.GetRoleColor(CustomRoles.Coven); //変更対象の名前を赤くする
+                    }
+                    //呪われている場合
+                    if (Main.SpelledPlayer.Find(x => x.PlayerId == target.PlayerId) != null)
+                        pva.NameText.text += Helpers.ColorString(Utils.GetRoleColor(CustomRoles.Impostor), "†");
+
+                    if (Main.SilencedPlayer.Count != 0)
+                    {
+                        Utils.SendMessage("Some people are Silenced! While they may have 2 crosses next to their name, they are silenced. Being silenced means you cannot talk.", target.PlayerId);
+                    }
+                    //if (target.GetCustomSubRole().GetModifierType() != ModifierType.None)
+                    //    {
+                    //      Utils.SendMessage("You have a modifier. Your modifier is: " + target.GetSubRoleName() + ".", target.PlayerId);
+                    //  }
+                    if (Main.SilencedPlayer.Find(x => x.PlayerId == target.PlayerId) != null)
+                    {
+                        if (!pva.AmDead)
+                        {
+                            pva.NameText.text += Helpers.ColorString(Utils.GetRoleColor(CustomRoles.Impostor), " (S)");
+                            Utils.SendMessage("You are currently Silenced. Try talking again when you aren't silenced. Even though you may be able to talk, please don't and wait until you are no longer silenced.", target.PlayerId);
+                        }
+                    }
+
+
+                    //会議画面ではインポスター自身の名前にSnitchマークはつけません。
                 }
-
-
-                //会議画面ではインポスター自身の名前にSnitchマークはつけません。
+                catch (Exception ex)
+                {
+                    if (GameStates.IsFreePlay) continue;
+                    Logger.Error($"{ex.Message} | \nError putting text on namecard (Role Dependent): {pva.TargetPlayerId}", "Error Putting Text for NameCard (Role Dependent)");
+                    Logger.SendInGame($"{ex.Message} | \nError putting text on namecard (Role Dependent): {pva.TargetPlayerId}");
+                }
             }
         }
     }

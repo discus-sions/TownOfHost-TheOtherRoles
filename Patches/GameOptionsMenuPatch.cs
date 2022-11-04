@@ -1,9 +1,10 @@
 using System;
 using System.Linq;
 using HarmonyLib;
-using UnhollowerBaseLib;
+using Il2CppInterop;
 using UnityEngine;
 using Object = UnityEngine.Object;
+using Il2CppInterop.Runtime.InteropTypes.Arrays;
 
 namespace TownOfHost
 {

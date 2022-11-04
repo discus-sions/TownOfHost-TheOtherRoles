@@ -30,13 +30,13 @@ namespace TownOfHost
         public static Dictionary<byte, int> PirateGuess;
         public static void SetupCustomOption()
         {
-            Options.SetupRoleOptions(Id + 21, CustomRoles.EvilGuesser);
-            CanShootAsNormalCrewmate = CustomOption.Create(Id + 30130, Color.white, "CanShootAsNormalCrewmate", true, Options.CustomRoleSpawnChances[CustomRoles.EvilGuesser]);
-            GuesserCanKillCount = CustomOption.Create(Id + 30140, Color.white, "GuesserShootLimit", 1, 1, 15, 1, Options.CustomRoleSpawnChances[CustomRoles.EvilGuesser]);
-            CanKillMultipleTimes = CustomOption.Create(Id + 30150, Color.white, "CanKillMultipleTimes", false, Options.CustomRoleSpawnChances[CustomRoles.EvilGuesser]);
-            Options.SetupRoleOptions(Id + 20, CustomRoles.NiceGuesser);
-            Options.SetupRoleOptions(Id + 51, CustomRoles.Pirate);
-            PirateGuessAmount = CustomOption.Create(Id + 30170, Color.white, "PirateGuessAmount", 3, 1, 10, 1, Options.CustomRoleSpawnChances[CustomRoles.Pirate]);
+            Options.SetupRoleOptions(Id + 21, CustomRoles.EvilGuesser, AmongUsExtensions.OptionType.Impostor);
+            CanShootAsNormalCrewmate = CustomOption.Create(Id + 30130, Color.white, "CanShootAsNormalCrewmate", AmongUsExtensions.OptionType.Impostor, true, Options.CustomRoleSpawnChances[CustomRoles.EvilGuesser]);
+            GuesserCanKillCount = CustomOption.Create(Id + 30140, Color.white, "GuesserShootLimit", AmongUsExtensions.OptionType.Impostor, 1, 1, 15, 1, Options.CustomRoleSpawnChances[CustomRoles.EvilGuesser]);
+            CanKillMultipleTimes = CustomOption.Create(Id + 30150, Color.white, "CanKillMultipleTimes", AmongUsExtensions.OptionType.Impostor, false, Options.CustomRoleSpawnChances[CustomRoles.EvilGuesser]);
+            Options.SetupRoleOptions(Id + 20, CustomRoles.NiceGuesser, AmongUsExtensions.OptionType.Crewmate);
+            Options.SetupRoleOptions(Id + 51, CustomRoles.Pirate, AmongUsExtensions.OptionType.Neutral);
+            PirateGuessAmount = CustomOption.Create(Id + 30170, Color.white, "PirateGuessAmount", AmongUsExtensions.OptionType.Impostor, 3, 1, 10, 1, Options.CustomRoleSpawnChances[CustomRoles.Pirate]);
         }
         /*public static bool SetGuesserTeam(byte PlayerId = byte.MaxValue)//確定イビルゲッサーの人数とは別でイビルゲッサーかナイスゲッサーのどちらかに決める。
         {
@@ -122,7 +122,7 @@ namespace TownOfHost
                         {
                             // pirate wins.
                             MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.EndGame, Hazel.SendOption.Reliable, -1);
-                            writer.Write((byte)CustomWinner.Jester);
+                            writer.Write((byte)CustomWinner.Pirate);
                             writer.Write(killer.PlayerId);
                             AmongUsClient.Instance.FinishRpcImmediately(writer);
                             RPC.PirateWin(killer.PlayerId);
@@ -200,7 +200,6 @@ namespace TownOfHost
             //死んでるやつとゲッサーじゃないやつ、ゲームが始まってない場合は引き返す
             if (killer.Is(CustomRoles.NiceGuesser) && IsEvilGuesserMeeting) return;//イビルゲッサー会議の最中はナイスゲッサーは打つな
             if (!CanKillMultipleTimes.GetBool() && IsSkillUsed[killer.PlayerId] && !IsEvilGuesserMeeting) if (!killer.Is(CustomRoles.Pirate)) return;
-            SetRoleAndNumber();
             if (playerId == "show")
             {
                 SendShootChoices(killer.PlayerId);
@@ -420,6 +419,10 @@ namespace TownOfHost
         }
         public static void SetRoleAndNumber()//役職を番号で管理
         {
+            RoleAndNumber = new();
+            RoleAndNumberPirate = new();
+            RoleAndNumberAss = new();
+            RoleAndNumberCoven = new();
             List<CustomRoles> vigiList = new();
             List<CustomRoles> pirateList = new();
             List<CustomRoles> assassinList = new();

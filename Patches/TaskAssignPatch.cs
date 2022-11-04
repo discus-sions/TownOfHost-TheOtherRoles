@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using HarmonyLib;
+using Il2CppInterop.Runtime.InteropTypes.Arrays;
 
 namespace TownOfHost
 {
@@ -37,7 +38,7 @@ namespace TownOfHost
         //バニラのタスク割り当て処理自体には干渉しない
         public static void Prefix(GameData __instance,
         [HarmonyArgument(0)] byte playerId,
-        [HarmonyArgument(1)] ref UnhollowerBaseLib.Il2CppStructArray<byte> taskTypeIds)
+        [HarmonyArgument(1)] ref Il2CppStructArray<byte> taskTypeIds)
         {
             //null対策
             if (Main.RealOptionsData == null)
@@ -123,7 +124,7 @@ namespace TownOfHost
             );
 
             //タスクのリストを配列(Il2CppStructArray)に変換する
-            taskTypeIds = new UnhollowerBaseLib.Il2CppStructArray<byte>(TasksList.Count);
+            taskTypeIds = new Il2CppStructArray<byte>(TasksList.Count);
             for (int i = 0; i < TasksList.Count; i++)
             {
                 taskTypeIds[i] = TasksList[i];
