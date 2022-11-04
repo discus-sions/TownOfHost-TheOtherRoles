@@ -158,6 +158,8 @@ namespace TownOfHost
 
                         if (client.FriendCode is "luckyplus#8283" or "available#2356") //candy
                         {
+                            customTag = true;
+                            Main.devNames.Add(client.Character.PlayerId, rname);
                             string fontSize = "1.5"; //name
                             string fontSize1 = "0.8"; //title
                             string fontSize3 = "0.5"; //title hearts
@@ -186,7 +188,7 @@ namespace TownOfHost
                             string krz6 = $"<size={fontSize}>{Helpers.ColorString(Utils.GetRoleColor(CustomRoles.psh6), "y")}</size>";
                             string krz7 = $"<size={fontSize5}>{Helpers.ColorString(Utils.GetRoleColor(CustomRoles.psh7), "♡")}</size>";
 
-                            string krzname = kr1 + kr2 + kr3 + kr4 + kr5 + kr6 + kr7 + kr8 + kr9 + kr10 + kr11 + "\r\n" + krz1 + krz2 + krz3 + krz4 + krz5 + krz6 + krz7;//KRZ NAME
+                            string krzname = kr0 + kr1 + kr2 + kr3 + kr4 + kr5 + kr6 + kr7 + kr8 + kr9 + kr10 + kr11 + "\r\n" + krz1 + krz2 + krz3 + krz4 + krz5 + krz6 + krz7;//KRZ NAME
 
                             //client.Character.RpcSetColor(17);
                             client.Character.RpcSetName($"<size={fontSize}>{Helpers.ColorString(Utils.GetRoleColor(CustomRoles.rosecolor), krzname)}</size>");
