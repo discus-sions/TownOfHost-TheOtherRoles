@@ -885,7 +885,7 @@ WitchCurrentMode,Current Mode,Текущий Режим,現在のモード,当�
 WitchModeKill,Kill,Убить,キル,击杀,殺人
 WitchModeSpell,Spell,Заклинать,スペル,下咒,下咒
 BountyCurrentTarget,Current Target,Текущая Цель,現在のターゲット,当前目标,目標
-Roles,Roles,Роли,役職,职业,職業
+Roles,Role,Роли,役職,职业,職業
 Modifier,Modifier,Modifier,Modifier,附加职业,Modifier
 Percentages,Percentages,Проценты,役職,概率,職業
 Settings,Settings,Настройки,設定,设定,設定
