@@ -521,6 +521,8 @@ namespace TownOfHost
             SetupRoleOptions(1600, CustomRoles.Mafia, AmongUsExtensions.OptionType.Impostor);
             //Mare
             Mare.SetupCustomOption();
+            //Mercenary
+            SerialKiller.SetupCustomOption();
             //Miner
             SetupRoleOptions(2008234234, CustomRoles.Miner, AmongUsExtensions.OptionType.Impostor);
             //Morphling
@@ -534,8 +536,7 @@ namespace TownOfHost
             //ShapeMaster
             // SetupRoleOptions(1200, CustomRoles.ShapeMaster);
             // ShapeMasterShapeshiftDuration = CustomOption.Create(1210, Color.white, "ShapeMasterShapeshiftDuration", 10, 1, 1000, 1, CustomRoleSpawnChances[CustomRoles.ShapeMaster]);
-            //SerialKiller
-            SerialKiller.SetupCustomOption();//Silencer
+            //Silencer
             SetupSingleRoleOptions(2609, CustomRoles.Silencer, 1, AmongUsExtensions.OptionType.Impostor);
             SilenceCooldown = CustomOption.Create(2610, Color.white, "SilenceDelay", AmongUsExtensions.OptionType.Impostor, 30, 2.5f, 180, 2.5f, CustomRoleSpawnChances[CustomRoles.Silencer]);
             //Sniper
@@ -643,16 +644,6 @@ namespace TownOfHost
             GlitchRoleBlockCooldown = CustomOption.Create(80510, Color.white, "RBC", AmongUsExtensions.OptionType.Neutral, 20, 2.5f, 180, 2.5f, CustomRoleSpawnChances[CustomRoles.TheGlitch]);
             GlitchKillCooldown = CustomOption.Create(80511, Color.white, "KillCD", AmongUsExtensions.OptionType.Neutral, 30, 2.5f, 180, 2.5f, CustomRoleSpawnChances[CustomRoles.TheGlitch]);
             GlitchCanVent = CustomOption.Create(80512, Color.white, "HPV", AmongUsExtensions.OptionType.Neutral, true, CustomRoleSpawnChances[CustomRoles.TheGlitch]);
-            //Jackal
-            SetupSingleRoleOptions(50900, CustomRoles.Jackal, 1, AmongUsExtensions.OptionType.Neutral);
-            JackalKillCooldown = CustomOption.Create(50910, Color.white, "JackalKillCooldown", AmongUsExtensions.OptionType.Neutral, 30, 2.5f, 180, 2.5f, CustomRoleSpawnChances[CustomRoles.Jackal]);
-            JackalCanVent = CustomOption.Create(50911, Color.white, "JackalCanVent", AmongUsExtensions.OptionType.Neutral, true, CustomRoleSpawnChances[CustomRoles.Jackal]);
-            JackalCanUseSabotage = CustomOption.Create(50912, Color.white, "JackalCanUseSabotage", AmongUsExtensions.OptionType.Neutral, false, CustomRoleSpawnChances[CustomRoles.Jackal]);
-            JackalHasImpostorVision = CustomOption.Create(50913, Color.white, "JackalHasImpostorVision", AmongUsExtensions.OptionType.Neutral, true, CustomRoleSpawnChances[CustomRoles.Jackal]);
-
-            JackalHasSidekick = CustomOption.Create(50914, Color.white, "JackalHasSidekick", AmongUsExtensions.OptionType.Neutral, false, CustomRoleSpawnChances[CustomRoles.Jackal]);
-            SidekickCanKill = CustomOption.Create(50915, Color.white, "SidekickCanKill", AmongUsExtensions.OptionType.Neutral, false, JackalHasSidekick);
-            SidekickGetsPromoted = CustomOption.Create(50916, Color.white, "SidekickGetsPromoted", AmongUsExtensions.OptionType.Neutral, true, JackalHasSidekick);
             //Juggernaut
             SetupSingleRoleOptions(70000, CustomRoles.Juggernaut, 1, AmongUsExtensions.OptionType.Neutral);
             JuggerKillCooldown = CustomOption.Create(60010, Color.white, "JuggerKillCooldown", AmongUsExtensions.OptionType.Neutral, 40, 2.5f, 180, 2.5f, CustomRoleSpawnChances[CustomRoles.Juggernaut]);
@@ -668,6 +659,16 @@ namespace TownOfHost
             PestilKillCooldown = CustomOption.Create(50561, Color.white, "PestiKillCooldown", AmongUsExtensions.OptionType.Neutral, 30, 2.5f, 180, 2.5f, CustomRoleSpawnChances[CustomRoles.PlagueBearer]);
             PestiCanVent = CustomOption.Create(50562, Color.white, "PestiCanVent", AmongUsExtensions.OptionType.Neutral, true, CustomRoleSpawnChances[CustomRoles.PlagueBearer]);
             InfectionSkip = CustomOption.Create(50563, Color.white, "SkipInfect", AmongUsExtensions.OptionType.Neutral, false, CustomRoleSpawnChances[CustomRoles.PlagueBearer]);
+            //Serial Killer Jackal
+            SetupSingleRoleOptions(50900, CustomRoles.Jackal, 1, AmongUsExtensions.OptionType.Neutral);
+            JackalKillCooldown = CustomOption.Create(50910, Color.white, "JackalKillCooldown", AmongUsExtensions.OptionType.Neutral, 30, 2.5f, 180, 2.5f, CustomRoleSpawnChances[CustomRoles.Jackal]);
+            JackalCanVent = CustomOption.Create(50911, Color.white, "JackalCanVent", AmongUsExtensions.OptionType.Neutral, true, CustomRoleSpawnChances[CustomRoles.Jackal]);
+            JackalCanUseSabotage = CustomOption.Create(50912, Color.white, "JackalCanUseSabotage", AmongUsExtensions.OptionType.Neutral, false, CustomRoleSpawnChances[CustomRoles.Jackal]);
+            JackalHasImpostorVision = CustomOption.Create(50913, Color.white, "JackalHasImpostorVision", AmongUsExtensions.OptionType.Neutral, true, CustomRoleSpawnChances[CustomRoles.Jackal]);
+
+            JackalHasSidekick = CustomOption.Create(50914, Color.white, "JackalHasSidekick", AmongUsExtensions.OptionType.Neutral, false, CustomRoleSpawnChances[CustomRoles.Jackal]);
+            SidekickCanKill = CustomOption.Create(50915, Color.white, "SidekickCanKill", AmongUsExtensions.OptionType.Neutral, false, JackalHasSidekick);
+            SidekickGetsPromoted = CustomOption.Create(50916, Color.white, "SidekickGetsPromoted", AmongUsExtensions.OptionType.Neutral, true, JackalHasSidekick);
             //Werewolf
             SetupSingleRoleOptions(90000, CustomRoles.Werewolf, 1, AmongUsExtensions.OptionType.Neutral);
             RampageCD = CustomOption.Create(90010, Color.white, "RCD", AmongUsExtensions.OptionType.Neutral, 30, 2.5f, 180, 2.5f, CustomRoleSpawnChances[CustomRoles.Werewolf]);
