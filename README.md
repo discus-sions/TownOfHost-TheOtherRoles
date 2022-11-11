@@ -676,7 +676,7 @@ Finishing all the tasks boosts the player speed of someone alive.<br>
 | -------------------- |
 | Boosted Player Speed |J
 
-### Trapper
+### Trapster
 
 Created by そうくん<br>
 Original idea by 宿主ランニング<br>
@@ -684,7 +684,7 @@ Original idea by 宿主ランニング<br>
 Team : Crewmates<br>
 Basis : Crewmate<br>
 
-When killed, the trapper will hold the killer in place.<br>
+When killed, the Trapster will hold the killer in place.<br>
 The time held in place on the body is decided by host in settings.<br>
 
 #### Game Options
