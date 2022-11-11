@@ -1068,7 +1068,7 @@ Basis : Engineer<br>
 Victory Conditions : Finish All Tasks, Then Die<br>
 
 The Terrorist are the Neutral Role where they win the game alone if they die with all their tasks completed.<br>
-Any cause of death is acceptable.<br>
+Any cause of death is acceptable except vote.<br>
 If they die before completing their tasks, or if they survive at the game end, they lose.<br>
 
 ### Juggernaut
@@ -1259,18 +1259,16 @@ Due to technical limitations, Flash moves at normal speed for other players and 
 
 ### Lovers
 
-Create and idea by ゆりの<br>
+Created by Discussions<br>
+Idea by TOuR<br>
 
 Assigned To : All<br>
-Victory Conditions : Alive at the end of the game. (other than task completion)<br>
+Victory Conditions : Be Among the Last 3 People Alive<br>
 
-Randomly assigned to two players (regardless of camp).<br>
-This is a third camp in which both players win or die alongside one another.<br>
-If your lover wins, you win.<br>
-If your lover dies, you die.<br>
-If the crewmates win by tasks, the lovers lose.<br>
-The lovers can also win if both are still alive at the end of the game and the crewmates don't win by tasks.<br>
-If the lovers win, everyone else loses.<br>
+Randomly assigned to two players (regardless of team).<br>
+The lovers goal is to keep the other lover alive and be among the last 3 standing.<br>
+The host can choose whether the lovers die together.<br>
+THe host can also choose whether the Lovers know the role of their partner<br>
 
 ### Watcher
 
