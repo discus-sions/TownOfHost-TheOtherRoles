@@ -4,14 +4,11 @@
 
 This mod is not affiliated with Among Us or Innersloth LLC, Town Of Host, and the content contained therein is not endorsed or otherwise sponsored by Innersloth LLC. Portions of the materials contained herein are property of Innersloth LLC. © Innersloth LLC.
 
-I sometimes host this mod myself on Public Lobbies under several names such as **Whited**, **TOH-TOR**, and **TOH GOOD**.
-I constantly update this mod and test it with randoms.
-
 DISCORD SERVER: https://discord.gg/ha6XBCCHAN --- Recommended after Innersloth introduced randomized lobby names
 
 ## Releases
 
-AmongUs Version: **2022.7.12**<br>
+AmongUs Version: **2022.10.25s**<br>
 Semi-Support for: **2022.8.24**, **2022.9.20**<br>
 **Latest Version: [Here](https://github.com/music-discussion/TownOfHost-TheOtherRoles/releases/latest)**
 
