@@ -82,7 +82,7 @@ namespace TownOfHost
                     Utils.ChildWin(exiled);
                     DecidedWinner = true;
                 }
-                if (role == CustomRoles.Oracle && AmongUsClient.Instance.AmHost)
+                if (role is CustomRoles.Oracle or CustomRoles.Bodyguard or CustomRoles.Medic && AmongUsClient.Instance.AmHost)
                 {
                     if (Main.CurrentTarget[exiled.PlayerId] != 255)
                     {
@@ -125,34 +125,35 @@ namespace TownOfHost
                     }
                 }
             }
-            foreach (var kvp in Main.ExecutionerTarget)
-            {
-                var executioner = Utils.GetPlayerById(kvp.Key);
-                if (executioner == null) continue;
-                if (executioner.Data.IsDead || executioner.Data.Disconnected) continue;
-                if (kvp.Value == exiled.PlayerId && AmongUsClient.Instance.AmHost && !DecidedWinner)
+            if (AmongUsClient.Instance.AmHost)
+                foreach (var kvp in Main.ExecutionerTarget)
                 {
-                    Main.ExeCanChangeRoles = false;
-                    MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.EndGame, Hazel.SendOption.Reliable, -1);
-                    if (executioner.Is(CustomRoles.Executioner))
-                        writer.Write((byte)CustomWinner.Executioner);
-                    else
-                        writer.Write((byte)CustomWinner.Swapper);
-                    writer.Write(kvp.Key);
-                    AmongUsClient.Instance.FinishRpcImmediately(writer);
+                    var executioner = Utils.GetPlayerById(kvp.Key);
+                    if (executioner == null || executioner.Data.IsDead || executioner.Data.Disconnected) continue;
+                    if (kvp.Value == exiled.PlayerId && !DecidedWinner)
+                    {
+                        Main.ExeCanChangeRoles = false;
+                        MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.EndGame, Hazel.SendOption.Reliable, -1);
+                        if (executioner.Is(CustomRoles.Executioner))
+                            writer.Write((byte)CustomWinner.Executioner);
+                        else
+                            writer.Write((byte)CustomWinner.Swapper);
+                        writer.Write(kvp.Key);
+                        AmongUsClient.Instance.FinishRpcImmediately(writer);
 
-                    if (executioner.Is(CustomRoles.Executioner))
-                        RPC.ExecutionerWin(kvp.Key);
-                    else
-                        RPC.SwapperWin(kvp.Key);
+                        if (executioner.Is(CustomRoles.Executioner))
+                            RPC.ExecutionerWin(kvp.Key);
+                        else
+                            RPC.SwapperWin(kvp.Key);
+                    }
                 }
-            }
             if (exiled.Object.Is(CustomRoles.TimeThief))
                 exiled.Object.ResetVotingTime();
             if (exiled.Object.Is(CustomRoles.SchrodingerCat) && Options.SchrodingerCatExiledTeamChanges.GetBool())
                 exiled.Object.ExiledSchrodingerCatTeamChange();
 
             Main.VetIsAlerted = false;
+            Manipulator.ResetSabotagedMeeting();
             Main.HexesThisRound = 0;
 
             if (Main.currentWinner != CustomWinner.Terrorist) PlayerState.SetDead(exiled.PlayerId);
@@ -188,41 +189,48 @@ namespace TownOfHost
                 }
             }
 
-            if (!DecidedWinner)
+            if (!DecidedWinner && AmongUsClient.Instance.AmHost)
             {
-                PlayerControl swapper = null;
-                foreach (var pc in PlayerControl.AllPlayerControls)
+                foreach (var kvp in Main.ExecutionerTarget)
                 {
-                    if (pc == null || pc.Data.IsDead || pc.Data.Disconnected) continue;
-                    if (pc.Is(CustomRoles.Swapper)) swapper = pc;
-                }
-                if (swapper != null)
-                {
-                    List<PlayerControl> targetList = new();
-                    var rand = new System.Random();
-                    foreach (var target in PlayerControl.AllPlayerControls)
+                    try
                     {
-                        if (swapper == target) continue;
-                        if (!Options.ExecutionerCanTargetImpostor.GetBool() && target.GetCustomRole().IsImpostor() | target.GetCustomRole().IsMadmate()) continue;
-                        if (target.GetCustomRole().IsNeutral()) continue;
-                        if (target.GetCustomRole().IsCoven()) continue;
-                        if (target.Is(CustomRoles.Phantom)) continue;
-                        if (Main.ExecutionerTarget.ContainsValue(target.PlayerId)) continue;
-                        if (target == null || target.Data.IsDead || target.Data.Disconnected) continue;
+                        var swapper = Utils.GetPlayerById(kvp.Key);
+                        if (swapper == null || swapper.Data.IsDead || swapper.Data.Disconnected) continue;
+                        if (swapper.Is(CustomRoles.Swapper) && !DecidedWinner)
+                        {
+                            List<PlayerControl> targetList = new();
+                            var rand = new System.Random();
+                            foreach (var target in PlayerControl.AllPlayerControls)
+                            {
+                                if (swapper.PlayerId == target.PlayerId) continue;
+                                if (!Options.ExecutionerCanTargetImpostor.GetBool() && target.GetCustomRole().IsImpostor() | target.GetCustomRole().IsMadmate()) continue;
+                                if (target.GetCustomRole().IsNeutral()) continue;
+                                if (target.GetCustomRole().IsCoven()) continue;
+                                if (target.Is(CustomRoles.Phantom)) continue;
+                                if (target.Is(CustomRoles.GM)) continue;
+                                if (Main.ExecutionerTarget.ContainsValue(target.PlayerId)) continue;
+                                if (target == null || target.Data.IsDead || target.Data.Disconnected) continue;
 
-                        targetList.Add(target);
+                                targetList.Add(target);
+                            }
+
+                            var Target = targetList[rand.Next(targetList.Count)];
+                            if (Main.ExecutionerTarget.ContainsKey(swapper.PlayerId))
+                            {
+                                Main.ExecutionerTarget.Remove(swapper.PlayerId);
+                                RPC.RemoveExecutionerKey(swapper.PlayerId);
+                            }
+                            Main.ExecutionerTarget.Add(swapper.PlayerId, Target.PlayerId);
+                            RPC.SendExecutionerTarget(swapper.PlayerId, Target.PlayerId);
+                            Logger.Info($"{swapper.GetNameWithRole()}:{Target.GetNameWithRole()}", "Swapper");
+                            Utils.NotifyRoles(false, swapper);
+                        }
                     }
-
-                    var Target = targetList[rand.Next(targetList.Count)];
-                    if (Main.ExecutionerTarget.ContainsKey(swapper.PlayerId))
+                    catch (Exception ex)
                     {
-                        Main.ExecutionerTarget.Remove(swapper.PlayerId);
-                        RPC.RemoveExecutionerKey(swapper.PlayerId);
+                        Utils.SendMessage("Error occured while changing Swapper Target.\n" + ex);
                     }
-                    Main.ExecutionerTarget.Add(swapper.PlayerId, Target.PlayerId);
-                    RPC.SendExecutionerTarget(swapper.PlayerId, Target.PlayerId);
-                    Logger.Info($"{swapper.GetNameWithRole()}:{Target.GetNameWithRole()}", "Swapper");
-                    Utils.NotifyRoles(false, swapper);
                 }
             }
             FallFromLadder.Reset();
@@ -232,6 +240,8 @@ namespace TownOfHost
             Utils.NotifyRoles();
         }
 
+        // 4 - 1
+
         static void WrapUpFinalizer(GameData.PlayerInfo exiled)
         {
             //WrapUpPostfixで例外が発生しても、この部分だけは確実に実行されます。
@@ -239,6 +249,7 @@ namespace TownOfHost
             {
                 new LateTask(() =>
                 {
+                    exiled = AntiBlackout_LastExiled;
                     AntiBlackout.SendGameData();
                     if (AntiBlackout.OverrideExiledPlayer && // 追放対象が上書きされる状態 (上書きされない状態なら実行不要)
                         exiled != null && //exiledがnullでない
@@ -250,21 +261,59 @@ namespace TownOfHost
                 Main.IsRampaged = false;
                 Main.IsRoundOne = false;
                 Main.IsRoundOneGA = false;
+                Main.unvotablePlayers.Clear();
+                Main.unvotablePlayers = new();
                 Main.IsGazing = false;
                 Main.GazeReady = false;
                 Main.WitchesThisRound = 0;
                 Main.bkProtected = false;
+                Main.VetIsAlerted = false;
+                Main.VetCanAlert = false;
+                MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.SetVetAlertState, Hazel.SendOption.Reliable, -1);
+                writer.Write(Main.VetCanAlert);
+                AmongUsClient.Instance.FinishRpcImmediately(writer);
+                Main.CanTransport = false;
+                MessageWriter writer2 = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.SetTransportState, Hazel.SendOption.Reliable, -1);
+                writer2.Write(Main.CanTransport);
+                AmongUsClient.Instance.FinishRpcImmediately(writer2);
+                if (Options.TosOptions.GetBool() && Options.RoundReview.GetBool())
+                    Main.MessageWait.Value = 1;
                 new LateTask(() =>
                 {
-                    Main.MareHasRedName = true;
+                    if (!GameStates.IsMeeting)
+                        Main.MareHasRedName = true;
                 }, Mare.RedNameCooldownAfterMeeting.GetFloat(), "Mare Red Name Cooldown (After Meeting)");
                 new LateTask(() =>
                 {
-                    Main.RampageReady = true;
+                    if (!GameStates.IsMeeting)
+                        Main.RampageReady = true;
                 }, Options.RampageCD.GetFloat(), "Werewolf Rampage Cooldown (After Meeting)");
                 new LateTask(() =>
                 {
-                    Main.GazeReady = true;
+                    if (!GameStates.IsMeeting)
+                    {
+                        Main.VetCanAlert = true;
+                        MessageWriter writer2 = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.SetVetAlertState, Hazel.SendOption.Reliable, -1);
+                        writer2.Write(Main.VetCanAlert);
+                        AmongUsClient.Instance.FinishRpcImmediately(writer2);
+                        Utils.NotifyRoles();
+                    }
+                }, Options.VetCD.GetFloat(), "Veteran Alert Cooldown (After Meeting)");
+                new LateTask(() =>
+                {
+                    if (!GameStates.IsMeeting)
+                    {
+                        Main.CanTransport = true;
+                        MessageWriter writer2 = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.SetTransportState, Hazel.SendOption.Reliable, -1);
+                        writer2.Write(Main.CanTransport);
+                        AmongUsClient.Instance.FinishRpcImmediately(writer2);
+                        Utils.NotifyRoles();
+                    }
+                }, Options.VetCD.GetFloat(), "Transporter Transport Cooldown (After Meeting)");
+                new LateTask(() =>
+                {
+                    if (!GameStates.IsMeeting)
+                        Main.GazeReady = true;
                 }, Options.StoneCD.GetFloat(), "Gaze Cooldown");
                 foreach (var x in Main.AfterMeetingDeathPlayers)
                 {
@@ -345,10 +394,16 @@ namespace TownOfHost
                         }
                     }
                 }
+                if (Options.TosOptions.GetBool() && Options.GameProgression.GetBool())
+                {
+                    new LateTask(() =>
+                    {
+                        Utils.CallMeeting();
+                    }, 39, "Game Progression Meeting");
+                }
             }
             SoundManager.Instance.ChangeMusicVolume(DataManager.Settings.Audio.MusicVolume);
             Logger.Info("タスクフェイズ開始", "Phase");
-            HudManager.Instance.Chat.SetVisible(false);
         }
     }
 }

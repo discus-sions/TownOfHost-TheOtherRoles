@@ -2,6 +2,8 @@ using System.Collections.Generic;
 using Hazel;
 using UnityEngine;
 using static TownOfHost.Translator;
+using AmongUs.GameOptions;
+using TownOfHost.PrivateExtensions;
 
 namespace TownOfHost
 {
@@ -56,7 +58,7 @@ namespace TownOfHost
             if (target != null) Targets[bountyId] = target;
         }
         //public static void SetKillCooldown(byte id, float amount) => Main.AllPlayerKillCooldown[id] = amount;
-        public static void ApplyGameOptions(GameOptionsData opt) => opt.RoleOptions.ShapeshifterCooldown = TargetChangeTime.GetFloat();
+        public static void ApplyGameOptions(NormalGameOptionsV07 opt) => opt.GetShapeshifterOptions().ShapeshifterCooldown = TargetChangeTime.GetFloat();
 
         public static void OnCheckMurder(PlayerControl killer, PlayerControl target)
         {

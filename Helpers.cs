@@ -10,6 +10,9 @@ using HarmonyLib;
 using Il2CppInterop.Runtime.InteropTypes.Arrays;
 using Hazel;
 using Il2CppInterop.Runtime;
+using System.Threading.Tasks;
+using System.Net;
+using System.Globalization;
 
 namespace TownOfHost
 {
@@ -112,15 +115,16 @@ namespace TownOfHost
                 audioClip.SetData(samples, 0);
                 return audioClip;
             }
-            catch
+            catch (Exception ex)
             {
+                Logger.Error(ex.ToString(), "Error Loading Audio Clip.");
+                Logger.SendInGame($"Error loading audio clip \\/\n{ex}");
                 System.Console.WriteLine("Error loading AudioClip from resources: " + path);
+                return null;
             }
-            return null;
-
             /* Usage example:
             AudioClip exampleClip = Helpers.loadAudioClipFromResources("TownOfHost.Resources.exampleClip.raw");
-            if (Constants.ShouldPlaySfx()) SoundManager.Instance.PlaySound(exampleClip, false, 0.8f);
+            SoundManager.Instance.PlaySound(exampleClip, false, 0.8f);
             */
         }
 

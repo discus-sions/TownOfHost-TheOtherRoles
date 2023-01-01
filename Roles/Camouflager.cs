@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using TownOfHost.PrivateExtensions;
 
 namespace TownOfHost
 {
@@ -12,7 +13,7 @@ namespace TownOfHost
         public static CustomOption CamouflagerCanVent;
         public static void SetupCustomOption()
         {
-            Options.SetupRoleOptions(Id, CustomRoles.Camouflager, AmongUsExtensions.OptionType.Impostor);
+            Options.SetupSingleRoleOptions(Id, CustomRoles.Camouflager, 1, AmongUsExtensions.OptionType.Impostor, locked: true);
             CamouflagerCamouflageCoolDown = CustomOption.Create(Id + 10, Color.white, "CamouflagerCamouflageCoolDown", AmongUsExtensions.OptionType.Impostor, 30f, 2.5f, 60f, 2.5f, Options.CustomRoleSpawnChances[CustomRoles.Camouflager]);
             CamouflagerCamouflageDuration = CustomOption.Create(Id + 11, Color.white, "CamouflagerCamouflageDuration", AmongUsExtensions.OptionType.Impostor, 15f, 2.5f, 60f, 2.5f, Options.CustomRoleSpawnChances[CustomRoles.Camouflager]);
             CamouflagerCanVent = CustomOption.Create(Id + 12, Color.white, "CamouflagerCanVent", AmongUsExtensions.OptionType.Impostor, true, Options.CustomRoleSpawnChances[CustomRoles.Camouflager]);
@@ -31,25 +32,30 @@ namespace TownOfHost
             if (DidCamo)
             {
                 if (shapeshifting) return;
-                if (shifter == null || shifter.Data.IsDead) return;
+                if (shifter == null) return;
+                if (shiftinginto == null) return;
                 Logger.Info($"Camouflager Revert ShapeShift", "Camouflager");
                 foreach (PlayerControl revert in PlayerControl.AllPlayerControls)
                 {
-                    if (revert.Is(CustomRoles.Phantom) || revert == null || revert.Data.IsDead || revert.Data.Disconnected || revert.PlayerId == shifter.PlayerId) continue;
-                    revert.RpcRevertShapeshift(true);
+                    if (revert.Is(CustomRoles.Phantom) || revert == null || revert.Data.Disconnected || revert.PlayerId == shifter.PlayerId) continue;
+                    if (revert.inVent)
+                        revert.MyPhysics.ExitAllVents();
+                    revert.RpcRevertShapeshiftV2(true);
                 }
                 DidCamo = false;
             }
             else if (shapeshifting)
             {
-                if (shifter == null || shifter.Data.IsDead) return;
+                if (shifter == null || shifter.Data.IsDead || shiftinginto == null) return;
                 Logger.Info($"Camouflager ShapeShift", "Camouflager");
                 foreach (PlayerControl target in PlayerControl.AllPlayerControls)
                 {
                     if (target == shifter) continue;
                     if (target == shiftinginto) continue;
                     if (target.Is(CustomRoles.Phantom)) continue;
-                    target.RpcShapeshift(shiftinginto, true);
+                    if (target.inVent)
+                        target.MyPhysics.ExitAllVents();
+                    target.RpcShapeshiftV2(shiftinginto, true);
                 }
                 DidCamo = true;
             }

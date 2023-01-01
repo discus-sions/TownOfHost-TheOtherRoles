@@ -12,6 +12,7 @@ using Il2CppInterop.Runtime;
 using UnityEngine.SceneManagement;
 using System.Net;
 using System.Net.Sockets;
+using AmongUs.GameOptions;
 
 [assembly: AssemblyFileVersionAttribute(TownOfHost.Main.PluginVersion)]
 [assembly: AssemblyInformationalVersionAttribute(TownOfHost.Main.PluginVersion)]
@@ -23,8 +24,13 @@ namespace TownOfHost
     {
         //Sorry for many Japanese comments.
         public const string PluginGuid = "com.discussions.tohtor";
-        public const string PluginVersion = "0.9.3.3";
-        public const string DevVersion = "4";
+        public static readonly string TEMPLATE_FILE_PATH = "./TOR_DATA/template.txt";
+        public static readonly string BANNEDWORDS_FILE_PATH = "./TOR_DATA/bannedwords.txt";
+        public static readonly string BANNEDFRIENDCODES_FILE_PATH = "./TOR_DATA/bannedfriendcodes.txt";
+        public static readonly string DiscordInviteUrl = "https://discord.gg/tohtor";
+        public static readonly bool ShowDiscordButton = true;
+        public const string PluginVersion = "0.9.3.5";
+        public const string DevVersion = "10.1";
         public const string FullDevVersion = $" dev {DevVersion}";
         public Harmony Harmony { get; } = new Harmony(PluginGuid);
         public static Version version = Version.Parse(PluginVersion);
@@ -41,7 +47,7 @@ namespace TownOfHost
         public static ConfigEntry<bool> JapaneseRoleName { get; private set; }
         public static ConfigEntry<bool> AmDebugger { get; private set; }
         public static ConfigEntry<string> ShowPopUpVersion { get; private set; }
-        public static ConfigEntry<int> MessageWait { get; private set; }
+        public static ConfigEntry<float> MessageWait { get; private set; }
         public static ConfigEntry<bool> ButtonImages { get; private set; }
 
         public static LanguageUnit EnglishLang { get; private set; }
@@ -53,7 +59,7 @@ namespace TownOfHost
         public static ConfigEntry<float> LastKillCooldown { get; private set; }
         public static CustomWinner currentWinner;
         public static HashSet<AdditionalWinners> additionalwinners = new();
-        public static GameOptionsData RealOptionsData;
+        public static IGameOptions RealOptionsData;
         public static Dictionary<byte, string> AllPlayerNames;
         public static Dictionary<(byte, byte), string> LastNotifyNames;
         public static Dictionary<byte, CustomRoles> AllPlayerCustomRoles;
@@ -118,6 +124,7 @@ namespace TownOfHost
         public static int AliveImpostorCount;
         public static int AllImpostorCount;
         public static string LastVotedPlayer;
+        public static bool CanTransport;
         public static int HexesThisRound;
         public static int SKMadmateNowCount;
         public static bool witchMeeting;
@@ -127,7 +134,8 @@ namespace TownOfHost
         public static Dictionary<byte, (int, bool, bool, bool, bool)> SurvivorStuff = new(); // KEY - player ID, Item1 - NumberOfVests, Item2 - IsVesting, Item3 - HasVested, Item4 - VestedThisRound, Item5 - RoundOneVest
         public static List<byte> unreportableBodies = new();
         public static List<PlayerControl> SilencedPlayer = new();
-        public static List<PlayerControl> ColliderPlayers = new();
+        public static Dictionary<byte, int> DictatesRemaining = new();
+        public static List<byte> ColliderPlayers = new();
         public static List<byte> KilledBewilder = new();
         public static List<byte> KilledDiseased = new();
         public static List<byte> KilledDemo = new();
@@ -137,7 +145,7 @@ namespace TownOfHost
         public static Dictionary<byte, bool> CheckShapeshift = new();
         public static Dictionary<(byte, byte), string> targetArrows = new();
         public static List<PlayerControl> AllCovenPlayers = new();
-        public static Dictionary<byte, PlayerControl> whoKilledWho = new();
+        public static Dictionary<byte, byte> whoKilledWho = new();
         public static int WonFFATeam;
         public static byte WonTrollID;
         public static byte ExiledJesterID;
@@ -199,6 +207,7 @@ namespace TownOfHost
         // VETERAN STUFF //
         public static bool VettedThisRound;
         public static bool VetIsAlerted;
+        public static bool VetCanAlert;
 
         public static int GAprotects;
 
@@ -233,10 +242,12 @@ namespace TownOfHost
         public static List<CustomRoles> chosenShifterRoles = new();
         public static List<byte> rolesRevealedNextMeeting = new();
         public static Dictionary<byte, bool> CleanerCanClean = new();
-
+        public static List<byte> IsShapeShifted = new();
+        public static Dictionary<byte, int> PickpocketKills = new();
+        public static Dictionary<byte, int> KillCount = new();
 
         public static int MarksmanKills = 0;
-        public static bool FirstMeetingOccurded = false;
+        public static bool FirstMeetingOccured = false;
 
         public static Dictionary<byte, int> lastAmountOfTasks = new(); // PLayerID : Value ---- AMOUNT : KEY
         public static Dictionary<byte, (int, string, string, string, string, string)> AllPlayerSkin = new(); //Key : PlayerId, Value : (1: color, 2: hat, 3: skin, 4:visor, 5: pet)
@@ -267,9 +278,21 @@ namespace TownOfHost
         public static string LastWinner = "None";
 
         public static AmongUsExtensions.OptionType currentType;
+        // 31628
+        public static bool FirstMeetingPassed = false;
+        // ATTACK AND DEFENSE STUFF //
+        public static Dictionary<CustomRoles, AttackEnum> attackValues;
+        public static Dictionary<CustomRoles, DefenseEnum> defenseValues;
+        public static List<byte> unvotablePlayers = new();
+
+        // SPECIAL STUFF
+        public static bool IsChristmas = DateTime.Now.Month == 12 && DateTime.Now.Day is 24 or 25;
+        public static bool IsInitialRelease = DateTime.Now.Month == 8 && DateTime.Now.Day is 18;
+        public static bool NewYears = (DateTime.Now.Month == 12 && DateTime.Now.Day is 31) || (DateTime.Now.Month == 1 && DateTime.Now.Day is 1);
         public override void Load()
         {
             Instance = this;
+            SoundEffectsManager.Load();
 
             TextCursorTimer = 0f;
             TextCursorVisible = true;
@@ -305,14 +328,16 @@ namespace TownOfHost
             Impostors = new List<PlayerControl>();
             rolesRevealedNextMeeting = new List<byte>();
             SilencedPlayer = new List<PlayerControl>();
+            FirstMeetingPassed = false;
             LastWinner = "None";
-            ColliderPlayers = new List<PlayerControl>();
+            ColliderPlayers = new List<byte>();
             WitchesThisRound = 0;
             CleanerCanClean = new Dictionary<byte, bool>();
             HasTarget = new Dictionary<byte, bool>();
             isDoused = new Dictionary<(byte, byte), bool>();
             isHexed = new Dictionary<(byte, byte), bool>();
             isInfected = new Dictionary<(byte, byte), bool>();
+            VetCanAlert = true;
             currentType = AmongUsExtensions.OptionType.None;
             ArsonistTimer = new Dictionary<byte, (PlayerControl, float)>();
             PlagueBearerTimer = new Dictionary<byte, (PlayerControl, float)>();
@@ -331,6 +356,7 @@ namespace TownOfHost
             dousedIDs = new List<byte>();
             //firstKill = new Dictionary<byte, (PlayerControl, float)>();
             winnerList = new List<byte>();
+            unvotablePlayers = new();
             VisibleTasksCount = false;
             MercCanSuicide = true;
             devIsHost = false;
@@ -344,6 +370,9 @@ namespace TownOfHost
             MarksmanKills = 0;
             CovenMeetings = 0;
             GAprotects = 0;
+            CanTransport = true;
+            PickpocketKills = new Dictionary<byte, int>();
+            KillCount = new Dictionary<byte, int>();
             ProtectedThisRound = false;
             HasProtected = false;
             VetAlerts = 0;
@@ -359,9 +388,10 @@ namespace TownOfHost
             HexMasterOn = false;
             PotionMasterOn = false;
             VampireDitchesOn = false;
+            IsShapeShifted = new List<byte>();
             MedusaOn = false;
             MimicOn = false;
-            FirstMeetingOccurded = false;
+            FirstMeetingOccured = false;
             NecromancerOn = false;
             ConjurorOn = false;
             ChoseWitch = false;
@@ -418,9 +448,9 @@ namespace TownOfHost
             IgnoreWinnerCommand = Config.Bind("Other", "IgnoreWinnerCommand", true);
             WebhookURL = Config.Bind("Other", "WebhookURL", "none");
             AmDebugger = Config.Bind("Other", "AmDebugger", true);
-            AmDebugger.Value = true;
+            AmDebugger.Value = false;
             ShowPopUpVersion = Config.Bind("Other", "ShowPopUpVersion", "0");
-            MessageWait = Config.Bind("Other", "MessageWait", 1);
+            MessageWait = Config.Bind("Other", "MessageWait", 1f);
             LastKillCooldown = Config.Bind("Other", "LastKillCooldown", (float)30);
 
             NameColorManager.Begin();
@@ -439,11 +469,12 @@ namespace TownOfHost
                     //バニラ役職
                     {CustomRoles.Crewmate, "#ffffff"},
                     {CustomRoles.Engineer, "#b6f0ff"},
+                    {CustomRoles.CrewmateGhost, "#ffffff"},
                     { CustomRoles.Scientist, "#b6f0ff"},
                     { CustomRoles.Mechanic, "#FFA60A"},
                     { CustomRoles.Physicist, "#b6f0ff"},
                     { CustomRoles.GuardianAngel, "#ffffff"},
-                    {CustomRoles.Target, "#000000"},
+                    { CustomRoles.Target, "#000000"},
                     { CustomRoles.CorruptedSheriff, "#ff0000"},
                     { CustomRoles.Watcher, "#800080"},
                     { CustomRoles.NiceGuesser, "#E4E085"},
@@ -486,6 +517,7 @@ namespace TownOfHost
                     { CustomRoles.Executioner, "#C96600"},
                     { CustomRoles.Opportunist, "#00ff00"},
                     { CustomRoles.Survivor, "#FFE64D"},
+                    { CustomRoles.AgiTater, "#F4A460"},
                     { CustomRoles.PoisonMaster, "#ed2f91"},
                     { CustomRoles.SchrodingerCat, "#696969"},
                     { CustomRoles.Egoist, "#5600ff"},
@@ -506,6 +538,7 @@ namespace TownOfHost
                     { CustomRoles.Janitor, "#c67051"},
                     { CustomRoles.Supporter, "#00b4eb"},
                     // GM
+                    { CustomRoles.GM, "#ff5b70"},
                     //サブ役職
                     { CustomRoles.NoSubRoleAssigned, "#ffffff"},
                     { CustomRoles.Lovers, "#FF66CC"},
@@ -531,23 +564,34 @@ namespace TownOfHost
                     { CustomRoles.Hacker, "#358013"},
                     { CustomRoles.CrewPostor, "#DC6601"},
 
+                    { CustomRoles.CPSchrodingerCat, "#DC6601"},
+                    { CustomRoles.TGSchrodingerCat, "#00FF00"},
+                    { CustomRoles.WWSchrodingerCat, "#A86629"},
+                    { CustomRoles.JugSchrodingerCat, "#670038"},
+                    { CustomRoles.MMSchrodingerCat, "#440101"},
+                    { CustomRoles.PesSchrodingerCat, "#393939"},
+                    { CustomRoles.BKSchrodingerCat, "#630000"},
+
                     // TAGS //
-                    //TEXT COLORS ROSIE
+                   //TEXT COLORS ROSIE
                     { CustomRoles.sns1, "#FFF9DB"},
-                    { CustomRoles.sns2, "#FCECE0"},
-                    { CustomRoles.sns3, "#F9DEE5"},
-                    { CustomRoles.sns4, "#F2C2EE"},
-                    { CustomRoles.sns5, "#F0ABF1"},
-                    { CustomRoles.sns6, "#ED93F4"},
-                    { CustomRoles.sns7, "#EA7BF7"},
-                    { CustomRoles.sns8, "#E763F9"},
+                    { CustomRoles.sns2, "#FBE0E2"},
+                    { CustomRoles.sns3, "#F6C6E8"},
+                    { CustomRoles.sns4, "#F2ADEE"},
+                    { CustomRoles.sns5, "#ED93F4"},
+                    { CustomRoles.sns6, "#DDA1EE"},
+                    { CustomRoles.sns7, "#CCAEE8"},
+                    { CustomRoles.sns8, "#AAC9DB"},
+                    { CustomRoles.sns9, "#88E4CF"},
+                    { CustomRoles.sns10, "#66FFC2"},
                     { CustomRoles.rosecolor, "#FFD6EC"},
                     // MISC //
                     { CustomRoles.eevee, "#FF8D1C"},
-                    {CustomRoles.serverbooster, "#f47fff"},
+                    { CustomRoles.serverbooster, "#f47fff"},
                     { CustomRoles.thetaa, "#9A9AEB"},
                     // SELF//
                     { CustomRoles.minaa, "#C8A2C8"},
+                    { CustomRoles.ess, "#EAC4FB"},
 
                     //TEXT COLORS Candy
                     { CustomRoles.psh1, "#EF807F"},
@@ -559,6 +603,80 @@ namespace TownOfHost
                     { CustomRoles.psh7, "#F4AEDC"},
                     { CustomRoles.psh8, "#F1A6D7"},
                     { CustomRoles.psh9, "#EC96CE"},
+                    //GURGE44
+                    { CustomRoles.gu1, "#FFFF47" },
+                    { CustomRoles.gu2, "#FFEE42" },
+                    { CustomRoles.gu3, "#FFDC3D" },
+                    { CustomRoles.gu4, "#FFCA38" },
+                    { CustomRoles.gu5, "#FFC136" },
+                    { CustomRoles.gu6, "#FFB833" },
+                    { CustomRoles.gu7, "#FF9733" },
+                    { CustomRoles.gu8, "#FF7633" },
+                    { CustomRoles.gu9, "#FF5533" },
+                    { CustomRoles.gu10, "#FF3333" },
+                    //Pineappleman
+                    { CustomRoles.pi1, "#FFFF33" },
+                    { CustomRoles.pi2, "#F3FF33" },
+                    { CustomRoles.pi3, "#E6FF33" },
+                    { CustomRoles.pi4, "#CCFF33" },
+                    { CustomRoles.pi5, "#99FF33" },
+                    { CustomRoles.pi6, "#33FF33" },
+                    { CustomRoles.pi7, "#27E527" },
+                    { CustomRoles.pi8, "#1ACB1A" },
+                    { CustomRoles.pi9, "#0DB10D" },
+                    { CustomRoles.pi10, "#009600" },
+                    //yoclobo
+                    { CustomRoles.yo1, "#FF8674" },
+                    { CustomRoles.yo2, "#FFA588" },
+                    { CustomRoles.yo3, "#FFC39B" },
+                    { CustomRoles.yo4, "#FFE1AF" },
+                    { CustomRoles.yo5, "#FFF0B9" },
+                    { CustomRoles.yo6, "#FFFFC2" },
+                    { CustomRoles.yo7, "#FFE1AF" },
+                    { CustomRoles.yo8, "#FFC39B" },
+                    { CustomRoles.yo9, "#FFA588" },
+                    { CustomRoles.yo10, "#FF8674" },
+                    //Nicky G
+                    { CustomRoles.ni1, "#CC0000" },
+                    { CustomRoles.ni2, "#B30000" },
+                    { CustomRoles.ni3, "#990000" },
+                    { CustomRoles.ni4, "#660000" },
+                    { CustomRoles.ni5, "#330000" },
+                    { CustomRoles.ni6, "#1A0000" },
+                    { CustomRoles.ni7, "#000000" },
+                    //Milk
+                    { CustomRoles.ml1, "#FBD5EE" },
+                    { CustomRoles.ml2, "#FAC5E7" },
+                    { CustomRoles.ml3, "#F9B4E0" },
+                    { CustomRoles.ml4, "#F9ACDD" },
+                    { CustomRoles.ml5, "#F8A3D9" },
+                    { CustomRoles.ml6, "#F692D2" },
+                    { CustomRoles.ml7, "#F582CB" },
+                    { CustomRoles.ml8, "#F471C4" },
+                    { CustomRoles.ml9, "#F360BD" },
+                    { CustomRoles.ml10, "#F14FB6" },
+                    //PAIGE
+                    { CustomRoles.pg1, "#FFECE5" },
+                    { CustomRoles.pg2, "#FFDFD3" },
+                    { CustomRoles.pg3, "#FFD1C0" },
+                    { CustomRoles.pg4, "#FFC4AE" },
+                    { CustomRoles.pg5, "#FFB69B" },
+                    { CustomRoles.pg6, "#FFA989" },
+                    { CustomRoles.pg7, "#FF9B76" },
+                    { CustomRoles.pg8, "#FF8D63" },
+                    { CustomRoles.pg9, "#FF865A" },
+                    { CustomRoles.pg10, "#FF7F50" },
+                    // ck
+                    { CustomRoles.cc1, "#FF3636" },
+                    { CustomRoles.cc2, "#FF4636" },
+                    { CustomRoles.cc3, "#FF5536" },
+                    { CustomRoles.cc4, "#FE7335" },
+                    { CustomRoles.cc5, "#FD9135" },
+                    { CustomRoles.cc6, "#FCAF34" },
+                    { CustomRoles.cc7, "#FCC137" },
+                    { CustomRoles.cc8, "#FCD239" },
+                    { CustomRoles.cc9, "#FCE43B" },
+                    { CustomRoles.cc10, "#FCF53D" },
                 };
                 foreach (var role in Enum.GetValues(typeof(CustomRoles)).Cast<CustomRoles>())
                 {
@@ -576,7 +694,204 @@ namespace TownOfHost
                         default:
                             break;
                     }
-                    //switch (role.GetRole)
+                }
+                attackValues = new Dictionary<CustomRoles, AttackEnum>()
+                {
+                    {CustomRoles.Crewmate, AttackEnum.None},
+                    {CustomRoles.Engineer, AttackEnum.None},
+                    { CustomRoles.Scientist, AttackEnum.None},
+                    { CustomRoles.Mechanic, AttackEnum.None},
+                    { CustomRoles.Physicist, AttackEnum.None},
+                    { CustomRoles.GuardianAngel, AttackEnum.None},
+                    { CustomRoles.Target, AttackEnum.None},
+                    { CustomRoles.Watcher, AttackEnum.None},
+                    { CustomRoles.NiceGuesser, AttackEnum.Powerful},
+                    { CustomRoles.Pirate, AttackEnum.Powerful},
+                    { CustomRoles.Bait, AttackEnum.None},
+                    { CustomRoles.SabotageMaster, AttackEnum.None},
+                    { CustomRoles.Snitch, AttackEnum.None},
+                    { CustomRoles.Mayor, AttackEnum.None},
+                    { CustomRoles.Sheriff, AttackEnum.Basic},
+                    { CustomRoles.Investigator, AttackEnum.None},
+                    { CustomRoles.Lighter, AttackEnum.None},
+                    { CustomRoles.Bodyguard, AttackEnum.Powerful},
+                    { CustomRoles.Oracle, AttackEnum.None},
+                    { CustomRoles.Medic, AttackEnum.None},
+                    { CustomRoles.SpeedBooster, AttackEnum.None},
+                    { CustomRoles.Mystic, AttackEnum.None},
+                    { CustomRoles.Swapper, AttackEnum.None},
+                    { CustomRoles.Transporter, AttackEnum.None},
+                    { CustomRoles.Doctor, AttackEnum.None},
+                    { CustomRoles.Child, AttackEnum.Unblockable},
+                    { CustomRoles.Trapper, AttackEnum.None},
+                    { CustomRoles.Dictator, AttackEnum.Unblockable},
+                    { CustomRoles.Sleuth ,AttackEnum.None},
+                    { CustomRoles.Crusader, AttackEnum.Powerful},
+                    { CustomRoles.Escort, AttackEnum.None},
+                    { CustomRoles.PlagueBearer, AttackEnum.None},
+                    { CustomRoles.Pestilence, AttackEnum.Powerful},
+                    { CustomRoles.Vulture, AttackEnum.None},
+                    { CustomRoles.CSchrodingerCat, AttackEnum.None},
+                    { CustomRoles.Medium, AttackEnum.None},
+                    { CustomRoles.Alturist, AttackEnum.None},
+                    { CustomRoles.Psychic, AttackEnum.None},
+                    { CustomRoles.Arsonist, AttackEnum.Powerful},
+                    { CustomRoles.Jester, AttackEnum.None},
+                    { CustomRoles.Terrorist, AttackEnum.Unblockable},
+                    { CustomRoles.Executioner, AttackEnum.None},
+                    { CustomRoles.Opportunist, AttackEnum.None},
+                    { CustomRoles.Survivor, AttackEnum.None},
+                    { CustomRoles.AgiTater, AttackEnum.Powerful},
+                    { CustomRoles.PoisonMaster, AttackEnum.Basic},
+                    { CustomRoles.SchrodingerCat, AttackEnum.None},
+                    { CustomRoles.Egoist, AttackEnum.Basic},
+                    { CustomRoles.EgoSchrodingerCat, AttackEnum.None},
+                    { CustomRoles.Jackal, AttackEnum.Basic},
+                    { CustomRoles.Sidekick, AttackEnum.Basic},
+                    { CustomRoles.Marksman, AttackEnum.Basic},
+                    { CustomRoles.Juggernaut, AttackEnum.Powerful},
+                    { CustomRoles.JSchrodingerCat, AttackEnum.None},
+                    { CustomRoles.Phantom, AttackEnum.None},
+                    { CustomRoles.NeutWitch, AttackEnum.None},
+                    { CustomRoles.Hitman, AttackEnum.Basic},
+                    { CustomRoles.BloodKnight, AttackEnum.Powerful},
+                    { CustomRoles.Veteran, AttackEnum.Powerful},
+                    { CustomRoles.GuardianAngelTOU, AttackEnum.None},
+                    { CustomRoles.TheGlitch, AttackEnum.Basic},
+                    { CustomRoles.Werewolf, AttackEnum.Powerful},
+                    { CustomRoles.Amnesiac, AttackEnum.None},
+                    { CustomRoles.Demolitionist, AttackEnum.Unstoppable},
+                    { CustomRoles.Bastion, AttackEnum.Unstoppable},
+                    { CustomRoles.Hacker, AttackEnum.None},
+                    { CustomRoles.CrewPostor, AttackEnum.Basic},
+                    { CustomRoles.CPSchrodingerCat, AttackEnum.None},
+                    { CustomRoles.TGSchrodingerCat, AttackEnum.None},
+                    { CustomRoles.WWSchrodingerCat, AttackEnum.None},
+                    { CustomRoles.JugSchrodingerCat,AttackEnum.None},
+                    { CustomRoles.MMSchrodingerCat, AttackEnum.None},
+                    { CustomRoles.PesSchrodingerCat, AttackEnum.None},
+                    { CustomRoles.BKSchrodingerCat, AttackEnum.None},
+                };
+                foreach (var role in Enum.GetValues(typeof(CustomRoles)).Cast<CustomRoles>())
+                {
+                    switch (role.GetRoleType())
+                    {
+                        case RoleType.Impostor:
+                            attackValues.Add(role, AttackEnum.Basic);
+                            break;
+                        case RoleType.Madmate:
+                            if (role == CustomRoles.Parasite)
+                                attackValues.Add(role, AttackEnum.Basic);
+                            else
+                                attackValues.Add(role, AttackEnum.None);
+                            break;
+                        case RoleType.Coven:
+                            attackValues.Add(role, AttackEnum.Basic);
+                            break;
+                        default:
+                            if (!attackValues.ContainsKey(role))
+                                attackValues.Add(role, AttackEnum.None);
+                            break;
+                    }
+                }
+                defenseValues = new Dictionary<CustomRoles, DefenseEnum>()
+                {
+                    {CustomRoles.Crewmate, DefenseEnum.None},
+                    {CustomRoles.Engineer, DefenseEnum.None},
+                    { CustomRoles.Scientist, DefenseEnum.None},
+                    { CustomRoles.Mechanic, DefenseEnum.None},
+                    { CustomRoles.Physicist, DefenseEnum.None},
+                    { CustomRoles.GuardianAngel, DefenseEnum.None},
+                    { CustomRoles.Target, DefenseEnum.None},
+                    { CustomRoles.Watcher, DefenseEnum.None},
+                    { CustomRoles.NiceGuesser, DefenseEnum.None},
+                    { CustomRoles.Pirate, DefenseEnum.Basic},
+                    { CustomRoles.Bait, DefenseEnum.None},
+                    { CustomRoles.SabotageMaster, DefenseEnum.None},
+                    { CustomRoles.Snitch, DefenseEnum.None},
+                    { CustomRoles.Mayor, DefenseEnum.None},
+                    { CustomRoles.Sheriff, DefenseEnum.None},
+                    { CustomRoles.Investigator, DefenseEnum.None},
+                    { CustomRoles.Lighter, DefenseEnum.None},
+                    { CustomRoles.Bodyguard, DefenseEnum.Basic},
+                    { CustomRoles.Oracle, DefenseEnum.None},
+                    { CustomRoles.Medic, DefenseEnum.None},
+                    { CustomRoles.SpeedBooster, DefenseEnum.None},
+                    { CustomRoles.Mystic, DefenseEnum.None},
+                    { CustomRoles.Swapper, DefenseEnum.None},
+                    { CustomRoles.Transporter, DefenseEnum.None},
+                    { CustomRoles.Doctor, DefenseEnum.None},
+                    { CustomRoles.Child, DefenseEnum.None},
+                    { CustomRoles.Trapper, DefenseEnum.None},
+                    { CustomRoles.Dictator, DefenseEnum.None},
+                    { CustomRoles.Sleuth ,DefenseEnum.None},
+                    { CustomRoles.Crusader, DefenseEnum.None},
+                    { CustomRoles.Escort, DefenseEnum.None},
+                    { CustomRoles.PlagueBearer, DefenseEnum.None},
+                    { CustomRoles.Pestilence, DefenseEnum.Invincible},
+                    { CustomRoles.Vulture, DefenseEnum.None},
+                    { CustomRoles.CSchrodingerCat, DefenseEnum.None},
+                    { CustomRoles.Medium, DefenseEnum.None},
+                    { CustomRoles.Alturist, DefenseEnum.None},
+                    { CustomRoles.Psychic, DefenseEnum.None},
+                    { CustomRoles.Arsonist, DefenseEnum.Basic},
+                    { CustomRoles.Jester, DefenseEnum.None},
+                    { CustomRoles.Terrorist, DefenseEnum.None},
+                    { CustomRoles.Executioner, DefenseEnum.Basic},
+                    { CustomRoles.Opportunist, DefenseEnum.None},
+                    { CustomRoles.Survivor, DefenseEnum.None},
+                    { CustomRoles.AgiTater, DefenseEnum.Basic},
+                    { CustomRoles.PoisonMaster, DefenseEnum.Basic},
+                    { CustomRoles.SchrodingerCat, DefenseEnum.None},
+                    { CustomRoles.Egoist, DefenseEnum.None},
+                    { CustomRoles.EgoSchrodingerCat, DefenseEnum.None},
+                    { CustomRoles.Jackal, DefenseEnum.Basic},
+                    { CustomRoles.Sidekick, DefenseEnum.Basic},
+                    { CustomRoles.Marksman, DefenseEnum.Basic},
+                    { CustomRoles.Juggernaut, DefenseEnum.Basic},
+                    { CustomRoles.JSchrodingerCat, DefenseEnum.None},
+                    { CustomRoles.Phantom, DefenseEnum.None},
+                    { CustomRoles.NeutWitch, DefenseEnum.None},
+                    { CustomRoles.Hitman, DefenseEnum.None},
+                    { CustomRoles.BloodKnight, DefenseEnum.None},
+                    { CustomRoles.Veteran, DefenseEnum.None},
+                    { CustomRoles.GuardianAngelTOU, DefenseEnum.None},
+                    { CustomRoles.TheGlitch, DefenseEnum.None},
+                    { CustomRoles.Werewolf, DefenseEnum.Basic},
+                    { CustomRoles.Amnesiac, DefenseEnum.None},
+                    { CustomRoles.Demolitionist, DefenseEnum.None},
+                    { CustomRoles.Bastion, DefenseEnum.Basic},
+                    { CustomRoles.Hacker, DefenseEnum.None},
+                    { CustomRoles.CrewPostor, DefenseEnum.None},
+                    { CustomRoles.CPSchrodingerCat, DefenseEnum.None},
+                    { CustomRoles.TGSchrodingerCat, DefenseEnum.None},
+                    { CustomRoles.WWSchrodingerCat, DefenseEnum.None},
+                    { CustomRoles.JugSchrodingerCat,DefenseEnum.None},
+                    { CustomRoles.MMSchrodingerCat, DefenseEnum.None},
+                    { CustomRoles.PesSchrodingerCat, DefenseEnum.None},
+                    { CustomRoles.BKSchrodingerCat, DefenseEnum.None},
+                };
+                foreach (var role in Enum.GetValues(typeof(CustomRoles)).Cast<CustomRoles>())
+                {
+                    switch (role.GetRoleType())
+                    {
+                        case RoleType.Impostor:
+                            defenseValues.Add(role, DefenseEnum.None);
+                            break;
+                        case RoleType.Madmate:
+                            defenseValues.Add(role, DefenseEnum.None);
+                            break;
+                        case RoleType.Coven:
+                            if (role == CustomRoles.CovenWitch)
+                                defenseValues.Add(role, DefenseEnum.Basic);
+                            else
+                                defenseValues.Add(role, DefenseEnum.None);
+                            break;
+                        default:
+                            if (!defenseValues.ContainsKey(role))
+                                defenseValues.Add(role, DefenseEnum.None);
+                            break;
+                    }
                 }
             }
             catch (ArgumentException ex)
@@ -595,16 +910,64 @@ namespace TownOfHost
             TownOfHost.Logger.Info($"{nameof(ThisAssembly.Git.Sha)}: {ThisAssembly.Git.Sha}", "GitVersion");
             TownOfHost.Logger.Info($"{nameof(ThisAssembly.Git.Tag)}: {ThisAssembly.Git.Tag}", "GitVersion");
 
-            if (!File.Exists("template.txt"))
+            if (!File.Exists(TEMPLATE_FILE_PATH))
             {
-                TownOfHost.Logger.Info("Among Us.exeと同じフォルダにtemplate.txtが見つかりませんでした。新規作成します。", "Template");
                 try
                 {
-                    File.WriteAllText(@"template.txt", "test:This is template text.\\nLine breaks are also possible.\ntest:これは定型文です。\\n改行も可能です。");
+                    if (!Directory.Exists(@"TOR_DATA")) Directory.CreateDirectory(@"TOR_DATA");
+                    if (File.Exists(@"./template.txt"))
+                    {
+                        File.Move(@"./template.txt", TEMPLATE_FILE_PATH);
+                    }
+                    else
+                    {
+                        TownOfHost.Logger.Info("No template.txt file found.", "TemplateManager");
+                        File.WriteAllText(TEMPLATE_FILE_PATH, "test:This is template text.\\nLine breaks are also possible.\ntest:これは定型文です。\\n改行も可能です。");
+                    }
                 }
                 catch (Exception ex)
                 {
-                    TownOfHost.Logger.Error(ex.ToString(), "Template");
+                    TownOfHost.Logger.Exception(ex, "TemplateManager");
+                }
+            }
+            if (!File.Exists(BANNEDWORDS_FILE_PATH))
+            {
+                try
+                {
+                    if (!Directory.Exists(@"TOR_DATA")) Directory.CreateDirectory(@"TOR_DATA");
+                    if (File.Exists(@"./bannedwords.txt"))
+                    {
+                        File.Move(@"./bannedwords.txt", BANNEDWORDS_FILE_PATH);
+                    }
+                    else
+                    {
+                        TownOfHost.Logger.Info("No bannedwords.txt file found.", "BannedWordsManager");
+                        File.WriteAllText(BANNEDWORDS_FILE_PATH, $"Enter banned words here. Note, the game will take each message and turn each character into the lowercase version. So no need to include every variation of one word.");
+                    }
+                }
+                catch (Exception ex)
+                {
+                    TownOfHost.Logger.Exception(ex, "TemplateManager");
+                }
+            }
+            if (!File.Exists(BANNEDFRIENDCODES_FILE_PATH))
+            {
+                try
+                {
+                    if (!Directory.Exists(@"TOR_DATA")) Directory.CreateDirectory(@"TOR_DATA");
+                    if (File.Exists(@"./bannedfriendcodes.txt"))
+                    {
+                        File.Move(@"./bannedfriendcodes.txt", BANNEDFRIENDCODES_FILE_PATH);
+                    }
+                    else
+                    {
+                        TownOfHost.Logger.Info("No bannedfriendcodes.txt file found.", "BannedFriendCodesManager");
+                        File.WriteAllText(BANNEDFRIENDCODES_FILE_PATH, $"Please include the part before and after #. Make sure each friend code is on a new line.\nHere are some example friend codes:\nbrassfive#8929\nraggedsofa#2041\nmerryrule#0412\ngnuedaphic#7196\nNOTE: These people were people who were banned from the TOH TOR Server for various reasons. It is recommended to keep these people here.\nNOTE: Devs of the mod are unbannable. Putting their friend codes in this file has no affect.");
+                    }
+                }
+                catch (Exception ex)
+                {
+                    TownOfHost.Logger.Exception(ex, "TemplateManager");
                 }
             }
             /*if (!File.Exists("percentage.txt"))
@@ -631,6 +994,8 @@ namespace TownOfHost
         //Impostor(Vanilla)
         Impostor,
         Shapeshifter,
+        CrewmateGhost,
+        ImpostorGhost,
         Morphling,
         Mechanic,
         Physicist,
@@ -654,6 +1019,12 @@ namespace TownOfHost
         Grenadier,
         Disperser,
         Puppeteer,
+        // EVENT WINNING ROLES
+        IdentityTheft,
+        Manipulator,
+        //    AgiTater,
+        Bomber,
+        // JK NOW //
         TimeThief,
         Silencer,
         Ninja,
@@ -671,7 +1042,14 @@ namespace TownOfHost
         CorruptedSheriff,
         SKMadmate,
         Parasite,
-        MSchrodingerCat,
+        // SPECIAL ROLES //
+        Cultist,
+        Whisperer,
+        Chameleon,
+        GodFather,
+        Mafioso,
+        Framer,
+        Disguiser,
         // VANILLA
         Engineer,
         GuardianAngel,
@@ -703,7 +1081,6 @@ namespace TownOfHost
         Doctor,
         Child,
         Veteran,
-        CSchrodingerCat,
         //Neutral
         Arsonist,
         Egoist,
@@ -716,7 +1093,6 @@ namespace TownOfHost
         NeutWitch,
         Marksman,
         GuardianAngelTOU,
-        EgoSchrodingerCat,
         Jester,
         Amnesiac,
         Hacker,
@@ -728,16 +1104,29 @@ namespace TownOfHost
         Juggernaut,
         Opportunist,
         Survivor,
-        SchrodingerCat,
         Terrorist,
         Executioner,
         Jackal,
+        AgiTater,
         Sidekick,
+        // ALL CAT ROLES //
+        SchrodingerCat,
         JSchrodingerCat,
+        CSchrodingerCat,
+        MSchrodingerCat,
+        EgoSchrodingerCat,
+        BKSchrodingerCat,
+        CPSchrodingerCat,
+        JugSchrodingerCat,
+        MMSchrodingerCat,
+        PesSchrodingerCat,
+        WWSchrodingerCat,
+        TGSchrodingerCat,
         //HideAndSeek
         HASFox,
         HASTroll,
         //GM
+        GM,
         //coven
         Coven,
         Poisoner,
@@ -785,6 +1174,8 @@ namespace TownOfHost
         sns6,
         sns7,
         sns8,
+        sns9,
+        sns10,
         rosecolor,
         // random //
         thetaa,
@@ -792,6 +1183,7 @@ namespace TownOfHost
         serverbooster,
         // SELF //
         minaa,
+        ess,
         // end random //
         psh1,
         psh2,
@@ -802,6 +1194,81 @@ namespace TownOfHost
         psh7,
         psh8,
         psh9,
+
+        //Gurge44
+        gu1,
+        gu2,
+        gu3,
+        gu4,
+        gu5,
+        gu6,
+        gu7,
+        gu8,
+        gu9,
+        gu10,
+        //Pineapple man670
+        pi1,
+        pi2,
+        pi3,
+        pi4,
+        pi5,
+        pi6,
+        pi7,
+        pi8,
+        pi9,
+        pi10,
+        //yoclobo
+        yo1,
+        yo2,
+        yo3,
+        yo4,
+        yo5,
+        yo6,
+        yo7,
+        yo8,
+        yo9,
+        yo10,
+        //Nicky G
+        ni1,
+        ni2,
+        ni3,
+        ni4,
+        ni5,
+        ni6,
+        ni7,
+        //Milk
+        ml1,
+        ml2,
+        ml3,
+        ml4,
+        ml5,
+        ml6,
+        ml7,
+        ml8,
+        ml9,
+        ml10,
+        //Paige
+        pg1,
+        pg2,
+        pg3,
+        pg4,
+        pg5,
+        pg6,
+        pg7,
+        pg8,
+        pg9,
+        pg10,
+        //ck
+        cc1,
+        cc2,
+        cc3,
+        cc4,
+        cc5,
+        cc6,
+        cc7,
+        cc8,
+        cc9,
+        cc10,
     }
     //WinData
     public enum CustomWinner
@@ -832,7 +1299,8 @@ namespace TownOfHost
         BloodKnight = CustomRoles.BloodKnight,
         Pirate = CustomRoles.Pirate,
         Marksman = CustomRoles.Marksman,
-        Painter = CustomRoles.Painter
+        Painter = CustomRoles.Painter,
+        AgiTater = CustomRoles.AgiTater
     }
     public enum AdditionalWinners
     {
@@ -872,5 +1340,22 @@ namespace TownOfHost
         Suicide,
         SelfVote,
         Skip
+    }
+
+    // ATTACK AND DEFENSE
+    public enum AttackEnum
+    {
+        None = 0,
+        Basic,
+        Powerful,
+        Unstoppable,
+        Unblockable
+    }
+    public enum DefenseEnum
+    {
+        None = 0,
+        Basic,
+        Powerful,
+        Invincible
     }
 }

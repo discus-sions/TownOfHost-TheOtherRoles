@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using HarmonyLib;
 using Hazel;
 using static TownOfHost.Translator;
+using AmongUs.GameOptions;
 
 namespace TownOfHost
 {
@@ -59,7 +60,13 @@ namespace TownOfHost
         RpcAddOracleTarget,
         RpcClearOracleTargets,
         SetNumOfWitchesRemaining,
-        RpcSetCleanerClean
+        RpcSetCleanerClean,
+        RpcAddKill,
+        RpcSetPickpocketProgress,
+        RpcPassBomb,
+        SetVetAlertState,
+        SetGlitchState,
+        SetTransportState,
     }
     public enum Sounds
     {
@@ -89,6 +96,9 @@ namespace TownOfHost
                 case RpcCalls.StartMeeting:
                     var p = Utils.GetPlayerById(subReader.ReadByte());
                     Logger.Info($"{__instance.GetNameWithRole()} => {p?.GetNameWithRole() ?? "null"}", "StartMeeting");
+                    break;
+                case RpcCalls.Pet:
+                    Logger.Info($"{__instance.GetNameWithRole()} petted their pet. PREFIX HANDLING PET RPC", "DEBUG");
                     break;
             }
             if (__instance.PlayerId != 0 && Enum.IsDefined(typeof(CustomRPC), (int)callId) && callId != (byte)CustomRPC.VersionCheck && callId != (byte)CustomRPC.RpcMurderPlayer)
@@ -337,6 +347,31 @@ namespace TownOfHost
                     var canClean = reader.ReadBoolean();
                     Main.CleanerCanClean[cleaner] = canClean;
                     break;
+                case CustomRPC.RpcAddKill:
+                    var killere = reader.ReadByte();
+                    if (!Main.KillCount.ContainsKey(killere))
+                        Main.KillCount.Add(killere, 0);
+                    Main.KillCount[killere]++;
+                    break;
+                case CustomRPC.RpcSetPickpocketProgress:
+                    var killeree = reader.ReadByte();
+                    Main.PickpocketKills[killeree] = reader.ReadInt32();
+                    break;
+                case CustomRPC.RpcPassBomb:
+                    var newbomb = reader.ReadByte();
+                    var oldbomb = reader.ReadByte();
+                    AgiTater.CurrentBombedPlayer = newbomb;
+                    AgiTater.LastBombedPlayer = oldbomb;
+                    break;
+                case CustomRPC.SetVetAlertState:
+                    Main.VetCanAlert = reader.ReadBoolean();
+                    break;
+                case CustomRPC.SetGlitchState:
+                    Main.IsHackMode = reader.ReadBoolean();
+                    break;
+                case CustomRPC.SetTransportState:
+                    Main.CanTransport = reader.ReadBoolean();
+                    break;
             }
         }
     }
@@ -470,6 +505,9 @@ namespace TownOfHost
                     case CustomWinner.Werewolf:
                         WolfWin();
                         break;
+                    case CustomWinner.AgiTater:
+                        TaterWin();
+                        break;
                     case CustomWinner.BloodKnight:
                         KnightWin();
                         break;
@@ -526,9 +564,10 @@ namespace TownOfHost
             if (ShipStatus.Instance == null) return;
             if (AmongUsClient.Instance.AmHost)
             {
+
                 ShipStatus.Instance.enabled = false;
                 Main.currentWinner = CustomWinner.Child;
-                ShipStatus.RpcEndGame(GameOverReason.HumansByTask, false);
+                GameManager.Instance.RpcEndGame(GameOverReason.HumansByTask, false);
             }
         }
         public static void ExecutionerWin(byte executionerID)
@@ -556,9 +595,10 @@ namespace TownOfHost
             CustomWinTrigger(ffaID);
             if (AmongUsClient.Instance.AmHost)
             {
+
                 ShipStatus.Instance.enabled = false;
                 Main.currentWinner = CustomWinner.Jackal;
-                ShipStatus.RpcEndGame(GameOverReason.ImpostorByKill, false);
+                GameManager.Instance.RpcEndGame(GameOverReason.ImpostorByKill, false);
             }
         }
         public static void TeamFFAwin(int colorid)
@@ -569,9 +609,10 @@ namespace TownOfHost
             CustomWinTrigger(0);
             if (AmongUsClient.Instance.AmHost)
             {
+
                 ShipStatus.Instance.enabled = false;
                 Main.currentWinner = CustomWinner.Jackal;
-                ShipStatus.RpcEndGame(GameOverReason.ImpostorByKill, false);
+                GameManager.Instance.RpcEndGame(GameOverReason.ImpostorByKill, false);
             }
         }
         public static void ArsonistWin(byte arsonistID)
@@ -588,9 +629,10 @@ namespace TownOfHost
             if (ShipStatus.Instance == null) return;
             if (AmongUsClient.Instance.AmHost)
             {
+
                 ShipStatus.Instance.enabled = false;
                 Main.currentWinner = CustomWinner.Arsonist;
-                ShipStatus.RpcEndGame(GameOverReason.ImpostorByKill, false);
+                GameManager.Instance.RpcEndGame(GameOverReason.ImpostorByKill, false);
             }
         }
         public static void JackalWin()
@@ -627,6 +669,11 @@ namespace TownOfHost
         public static void WolfWin()
         {
             Main.currentWinner = CustomWinner.Werewolf;
+            CustomWinTrigger(0);
+        }
+        public static void TaterWin()
+        {
+            Main.currentWinner = CustomWinner.AgiTater;
             CustomWinTrigger(0);
         }
         public static void KnightWin()
@@ -672,7 +719,7 @@ namespace TownOfHost
             if (AmongUsClient.Instance.AmHost)
             {
                 ShipStatus.Instance.enabled = false;
-                ShipStatus.RpcEndGame(GameOverReason.ImpostorByKill, false);
+                GameManager.Instance.RpcEndGame(GameOverReason.ImpostorByKill, false);
             }
         }
         public static void PlaySound(byte playerID, Sounds sound)

@@ -8,6 +8,8 @@ using System.Collections.Generic;
 using Hazel;
 using static TownOfHost.Translator;
 using Object = UnityEngine.Object;
+using AmongUs.GameOptions;
+using Il2CppInterop.Runtime.InteropTypes;
 
 namespace TownOfHost
 {
@@ -99,7 +101,7 @@ namespace TownOfHost
                 Logger.Info(text, "Info");
             }
             Logger.Info("------------基本設定------------", "Info");
-            var tmp = PlayerControl.GameOptions.ToHudString(GameData.Instance ? GameData.Instance.PlayerCount : 10).Split("\r\n").Skip(1);
+            var tmp = GameOptionsManager.Instance.CurrentGameOptions.ToHudString(GameData.Instance ? GameData.Instance.PlayerCount : 10).Split("\r\n").Skip(1);
             foreach (var t in tmp) Logger.Info(t, "Info");
             Logger.Info("------------詳細設定------------", "Info");
             foreach (var o in CustomOption.Options)
@@ -108,7 +110,6 @@ namespace TownOfHost
             Logger.Info("-------------その他-------------", "Info");
             Logger.Info($"プレイヤー数: {PlayerControl.AllPlayerControls.Count}人", "Info");
             PlayerControl.AllPlayerControls.ToArray().Do(x => PlayerState.InitTask(x));
-
             Utils.NotifyRoles();
 
             GameStates.InGame = true;
@@ -344,6 +345,9 @@ namespace TownOfHost
                 case CustomRoles.Dictator:
                     PlayerControl.LocalPlayer.Data.Role.IntroSound = HudManager.Instance.Chat.MessageSound;
                     break;
+                case CustomRoles.Medium:
+                    PlayerControl.LocalPlayer.Data.Role.IntroSound = PlayerControl.LocalPlayer.MyPhysics.ImpostorDiscoveredSound;
+                    break;
                 case CustomRoles.GuardianAngel:
                     var allSounds = SoundManager.Instance.allSources;
                     List<AudioClip> allSoundsFr = new();
@@ -354,6 +358,12 @@ namespace TownOfHost
                     var rando = new System.Random();
                     var gasound = allSoundsFr[rando.Next(0, allSoundsFr.Count)];
                     PlayerControl.LocalPlayer.Data.Role.IntroSound = gasound;
+                    break;
+                case CustomRoles.GM:
+                    __instance.TeamTitle.text = Utils.GetRoleName(role);
+                    __instance.TeamTitle.color = Utils.GetRoleColor(role);
+                    __instance.BackgroundBar.material.color = Utils.GetRoleColor(role);
+                    __instance.ImpostorText.gameObject.SetActive(false);
                     break;
             }
 
@@ -436,6 +446,18 @@ namespace TownOfHost
                 {
                     pc.RpcSetRole(RoleTypes.Shapeshifter);
                     pc.RpcResetAbilityCooldown();
+                    if (pc.GetCustomRole().PetActivatedAbility())
+                    {
+                        new LateTask(() =>
+                        {
+                            pc.SetPetLocally();
+                        }, 5f, "Give Pet (Pet Activated Ability)");
+                    }
+                }
+                if (PlayerControl.LocalPlayer.Is(CustomRoles.GM))
+                {
+                    PlayerControl.LocalPlayer.RpcExile();
+                    PlayerState.SetDead(PlayerControl.LocalPlayer.PlayerId);
                 }
             }
             Logger.Info("OnDestroy", "IntroCutscene");

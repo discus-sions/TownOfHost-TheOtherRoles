@@ -27,6 +27,7 @@ namespace TownOfHost
         public List<CustomOption> Children;
         public AmongUsExtensions.OptionType type;
         public bool isHeader;
+        public bool Broken;
         public bool isHidden;
         private bool isHiddenOnDisplay;
         public CustomGameMode GameMode;
@@ -36,6 +37,12 @@ namespace TownOfHost
         public CustomOption HiddenOnDisplay(bool hidden)
         {
             isHiddenOnDisplay = hidden;
+            return this;
+        }
+
+        public CustomOption SetBroken(bool broken)
+        {
+            Broken = broken;
             return this;
         }
 
@@ -245,9 +252,18 @@ namespace TownOfHost
 
         public string GetName(bool disableColor = false)
         {
-            return disableColor
-                ? Translator.GetString(Name, ReplacementDictionary)
-                : Helpers.ColorString(Color, Translator.GetString(Name, ReplacementDictionary));
+            if (!Broken)
+            {
+                return disableColor
+                    ? Translator.GetString(Name, ReplacementDictionary)
+                    : Helpers.ColorString(Color, Translator.GetString(Name, ReplacementDictionary));
+            }
+            else
+            {
+                return disableColor
+                    ? Translator.GetString(Name, ReplacementDictionary) + " (Broken)"
+                    : Helpers.ColorString(Color, Translator.GetString(Name, ReplacementDictionary)) + " (Broken)";
+            }
         }
 
         public virtual string GetName_v(bool display = false)

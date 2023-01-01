@@ -5,6 +5,8 @@ using Hazel;
 using UnityEngine;
 using System;
 using InnerNet;
+using Object = UnityEngine.Object;
+using AmongUs.GameOptions;
 
 namespace TownOfHost
 {

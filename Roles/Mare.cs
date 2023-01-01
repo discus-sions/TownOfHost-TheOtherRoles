@@ -1,5 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
+using AmongUs.GameOptions;
+using TownOfHost.PrivateExtensions;
 
 namespace TownOfHost
 {
@@ -32,9 +34,9 @@ namespace TownOfHost
         public static bool IsEnable => playerIdList.Count > 0;
         public static float GetKillCooldown => Utils.IsActive(SystemTypes.Electrical) ? KillCooldownInLightsOut.GetFloat() : Options.DefaultKillCooldown;
         public static void SetKillCooldown(byte id) => Main.AllPlayerKillCooldown[id] = GetKillCooldown;
-        public static void ApplyGameOptions(GameOptionsData opt, byte playerId)
+        public static void ApplyGameOptions(NormalGameOptionsV07 opt, byte playerId)
         {
-            Main.AllPlayerSpeed[playerId] = Main.RealOptionsData.PlayerSpeedMod;
+            Main.AllPlayerSpeed[playerId] = Main.RealOptionsData.AsNormalOptions()!.PlayerSpeedMod;
             if (Utils.IsActive(SystemTypes.Electrical))//もし停電発生した場合
                 Main.AllPlayerSpeed[playerId] = SpeedInLightsOut.GetFloat();//Mareの速度を設定した値にする
         }

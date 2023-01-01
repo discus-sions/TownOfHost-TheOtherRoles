@@ -2,6 +2,8 @@ using System.Collections.Generic;
 using Hazel;
 using UnityEngine;
 using static TownOfHost.Translator;
+using AmongUs.GameOptions;
+using TownOfHost.PrivateExtensions;
 
 namespace TownOfHost
 {
@@ -32,7 +34,7 @@ namespace TownOfHost
         }
         public static bool IsEnable() => playerIdList.Count > 0;
         public static void ApplyKillCooldown(byte id) => Main.AllPlayerKillCooldown[id] = KillCooldown.GetFloat();
-        public static void ApplyGameOptions(GameOptionsData opt) => opt.RoleOptions.ShapeshifterCooldown = TimeLimit.GetFloat();
+        public static void ApplyGameOptions(NormalGameOptionsV07 opt) => opt.GetShapeshifterOptions().ShapeshifterCooldown = TimeLimit.GetFloat();
 
         public static void OnCheckMurder(PlayerControl killer, bool isKilledSchrodingerCat = false)
         {
@@ -63,11 +65,10 @@ namespace TownOfHost
 
             if (GameStates.IsInTask && SuicideTimer.ContainsKey(player.PlayerId))
             {
-                if (!player.IsAlive())
+                if (!player.IsAlive() | player.Data.IsDead)
                     SuicideTimer.Remove(player.PlayerId);
-                else if (SuicideTimer[player.PlayerId] >= TimeLimit.GetFloat())
+                else if (SuicideTimer[player.PlayerId] >= TimeLimit.GetFloat() && !player.Data.IsDead)
                 {
-                    //自爆時間が来たとき
                     PlayerState.SetDeathReason(player.PlayerId, PlayerState.DeathReason.Suicide);//死因：自爆
                     player.RpcMurderPlayerV2(player);//自爆させる
                 }

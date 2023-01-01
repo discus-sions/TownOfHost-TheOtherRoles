@@ -46,8 +46,13 @@ namespace TownOfHost
             private static TMPro.TextMeshPro ErrorText;
             static void Postfix(VersionShower __instance)
             {
-                Main.credentialsText = $"\r\n<color={Main.modColor}>Town Of Host:\r\nThe Other Roles</color>\r\nv{Main.PluginVersion}b" /*+ Main.FullDevVersion*/;
-                Main.versionText = $"\r\nTown Of Host: The Other Roles v{Main.PluginVersion}b" /*+ Main.FullDevVersion*/;
+                Main.credentialsText = $"\r\n<color={Main.modColor}>Town Of Host: The Other Roles</color>\r\n<color={Main.modColor}>v{Main.PluginVersion}b" + (Main.AmDebugger.Value ? Main.FullDevVersion : "") + $"</color>\r\nMod by: Discussions\r\nHelp From: Detective, 단풍잎";
+                Main.versionText = $"\r\nTown Of Host: The Other Roles v{Main.PluginVersion}b" + (Main.AmDebugger.Value ? Main.FullDevVersion : "") + $"\r\nMod by: Discussions\r\nHelp From: Detective, 단풍잎";
+                if (Main.NewYears)
+                {
+                    Main.credentialsText += "\r\nHAPPY NEW YEAR!";
+                    Main.versionText += "\r\nHAPPY NEW YEAR!";
+                }
                 if (ThisAssembly.Git.Branch != "main")
                 {
                     Main.credentialsText += $"\r\n<color={Main.modColor}>{ThisAssembly.Git.Branch}({ThisAssembly.Git.Commit})</color>";

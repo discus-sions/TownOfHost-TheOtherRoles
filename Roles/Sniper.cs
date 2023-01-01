@@ -3,6 +3,7 @@ using System.Linq;
 using Hazel;
 using UnityEngine;
 using static TownOfHost.Translator;
+using TownOfHost.PrivateExtensions;
 
 namespace TownOfHost
 {
@@ -43,6 +44,7 @@ namespace TownOfHost
         }
         public static void Add(byte playerId)
         {
+            Logger.Info($"Added {playerId} to sniper", "DebugLog");
             playerIdList.Add(playerId);
             snipeBasePosition[playerId] = new();
             snipeTarget[playerId] = 0x7F;

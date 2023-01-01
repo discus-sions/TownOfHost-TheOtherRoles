@@ -5,6 +5,7 @@ using InnerNet;
 using UnityEngine;
 using System.Linq;
 
+using AmongUs.GameOptions;
 namespace TownOfHost
 {
     //参考元 : https://github.com/ykundesu/SuperNewRoles/blob/master/SuperNewRoles/Mode/SuperHostRoles/BlockTool.cs
@@ -14,7 +15,7 @@ namespace TownOfHost
         private static int Count = 0;
         public static float UsableDistance()
         {
-            var Map = (MapNames)PlayerControl.GameOptions.MapId;
+            var Map = (MapNames)GameOptionsManager.Instance.currentNormalGameOptions.MapId;
             return Map switch
             {
                 MapNames.Skeld => 1.5f,
@@ -53,7 +54,7 @@ namespace TownOfHost
                                     var AdminDistance = Vector2.Distance(PlayerPos, GetAdminTransform());
                                     IsGuard = AdminDistance <= UsableDistance();
 
-                                    if (!IsGuard && PlayerControl.GameOptions.MapId == 2) //Polus用のアドミンチェック。Polusはアドミンが2つあるから
+                                    if (!IsGuard && GameOptionsManager.Instance.currentNormalGameOptions.MapId == 2) //Polus用のアドミンチェック。Polusはアドミンが2つあるから
                                     {
                                         var SecondaryPolusAdminDistance = Vector2.Distance(PlayerPos, AdminPatch.SecondaryPolusAdminPos);
                                         IsGuard = SecondaryPolusAdminDistance <= UsableDistance();
@@ -116,7 +117,7 @@ namespace TownOfHost
         }
         public static Vector2 GetAdminTransform()
         {
-            var MapName = (MapNames)PlayerControl.GameOptions.MapId;
+            var MapName = (MapNames)GameOptionsManager.Instance.currentNormalGameOptions.MapId;
             return MapName switch
             {
                 MapNames.Skeld => new Vector2(3.48f, -8.624401f),

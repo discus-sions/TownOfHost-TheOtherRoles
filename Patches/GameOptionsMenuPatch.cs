@@ -5,10 +5,12 @@ using Il2CppInterop;
 using UnityEngine;
 using Object = UnityEngine.Object;
 using Il2CppInterop.Runtime.InteropTypes.Arrays;
+using AmongUs.GameOptions;
+using TownOfHost.PrivateExtensions;
 
 namespace TownOfHost
 {
-    [HarmonyPatch(typeof(GameSettingMenu), nameof(GameSettingMenu.InitializeOptions))]
+    [HarmonyPatch(typeof(GameSettingMenu), "InitializeOptions")]
     public static class GameSettingMenuPatch
     {
         public static void Prefix(GameSettingMenu __instance)
@@ -19,7 +21,7 @@ namespace TownOfHost
         }
     }
 
-    [HarmonyPatch(typeof(GameOptionsMenu), nameof(GameOptionsMenu.Start))]
+    [HarmonyPatch(typeof(GameOptionsMenu), "Start")]
     [HarmonyPriority(Priority.First)]
     public static class GameOptionsMenuPatch
     {
@@ -89,7 +91,8 @@ namespace TownOfHost
                 if (button == null) continue;
                 var copiedIndex = i;
                 button.OnClick = new UnityEngine.UI.Button.ButtonClickedEvent();
-                button.OnClick.AddListener((UnityEngine.Events.UnityAction)(() =>
+                //   button.OnClick.AddListener((UnityEngine.Events.UnityAction)(() =>
+                button.OnClick.AddListener((Action)(() =>
                {
                    gameSettingMenu.RegularGameSettings.SetActive(false);
                    gameSettingMenu.RolesSettings.gameObject.SetActive(false);
@@ -145,7 +148,7 @@ namespace TownOfHost
         }
     }
 
-    [HarmonyPatch(typeof(GameOptionsMenu), nameof(GameOptionsMenu.Update))]
+    [HarmonyPatch(typeof(GameOptionsMenu), "Update")]
     public class GameOptionsMenuUpdatePatch
     {
         private static float _timer = 1f;
@@ -221,7 +224,9 @@ namespace TownOfHost
 
             __instance.OnValueChanged = new Action<OptionBehaviour>((o) => { });
             __instance.TitleText.text = option.GetName();
-            __instance.Value = __instance.oldValue = option.Selection;
+            //__instance.Value = __instance.oldValue = option.Selection;
+            __instance.oldValue = option.Selection;
+            __instance.Value = option.Selection;
             __instance.ValueText.text = option.GetString();
 
             return false;
@@ -262,7 +267,7 @@ namespace TownOfHost
             CustomOption.ShareOptionSelections();
         }
     }
-    [HarmonyPatch(typeof(RolesSettingsMenu), nameof(RolesSettingsMenu.Start))]
+    [HarmonyPatch(typeof(RolesSettingsMenu), "Start")]
     public static class RolesSettingsMenuPatch
     {
         public static void Postfix(RolesSettingsMenu __instance)
@@ -283,10 +288,10 @@ namespace TownOfHost
             }
         }
     }
-    [HarmonyPatch(typeof(GameOptionsData), nameof(GameOptionsData.SetRecommendations))]
+    [HarmonyPatch(typeof(NormalGameOptionsV07), nameof(NormalGameOptionsV07.SetRecommendations))]
     public static class SetRecommendationsPatch
     {
-        public static bool Prefix(GameOptionsData __instance, int numPlayers, GameModes modes)
+        public static bool Prefix(NormalGameOptionsV07 __instance, int numPlayers, bool isOnline)
         {
             numPlayers = Mathf.Clamp(numPlayers, 4, 15);
             __instance.PlayerSpeedMod = __instance.MapId == 4 ? 1.25f : 1f; //AirShipなら1.25、それ以外は1
@@ -297,31 +302,32 @@ namespace TownOfHost
             __instance.NumLongTasks = 3;
             __instance.NumShortTasks = 5;
             __instance.NumEmergencyMeetings = 1;
-            if (modes != GameModes.OnlineGame)
+            if (!isOnline)
                 __instance.NumImpostors = GameOptionsData.RecommendedImpostors[numPlayers];
             __instance.KillDistance = 0;
             __instance.DiscussionTime = 0;
             __instance.VotingTime = 150;
-            __instance.isDefaults = true;
+            __instance.IsDefaults = true;
             __instance.ConfirmImpostor = false;
             __instance.VisualTasks = false;
-            __instance.EmergencyCooldown = (int)__instance.killCooldown - 5; //キルクールより5秒短く
-            __instance.RoleOptions.ShapeshifterCooldown = 10f;
-            __instance.RoleOptions.ShapeshifterDuration = 30f;
-            __instance.RoleOptions.ShapeshifterLeaveSkin = false;
-            __instance.RoleOptions.ImpostorsCanSeeProtect = false;
-            __instance.RoleOptions.ScientistCooldown = 15f;
-            __instance.RoleOptions.ScientistBatteryCharge = 5f;
-            __instance.RoleOptions.GuardianAngelCooldown = 60f;
-            __instance.RoleOptions.ProtectionDurationSeconds = 10f;
-            __instance.RoleOptions.EngineerCooldown = 30f;
-            __instance.RoleOptions.EngineerInVentMaxTime = 15f;
+            __instance.EmergencyCooldown = (int)__instance.KillCooldown - 5; //キルクールより5秒短く
+
+            __instance.GetShapeshifterOptions().ShapeshifterCooldown = 10f;
+            __instance.GetShapeshifterOptions().ShapeshifterDuration = 30f;
+            __instance.GetShapeshifterOptions().ShapeshifterLeaveSkin = false;
+            __instance.GetGuardianAngelOptions().ImpostorsCanSeeProtect = false;
+            __instance.GetGuardianAngelOptions().ProtectionDurationSeconds = 10f;
+            __instance.GetGuardianAngelOptions().GuardianAngelCooldown = 60f;
+            __instance.GetScientistOptions().ScientistCooldown = 15f;
+            __instance.GetScientistOptions().ScientistBatteryCharge = 5f;
+            __instance.GetEngineerOptions().EngineerCooldown = 30f;
+            __instance.GetEngineerOptions().EngineerInVentMaxTime = 15f;
             if (Options.CurrentGameMode() == CustomGameMode.HideAndSeek) //HideAndSeek
             {
                 if (Options.FreeForAllOn.GetBool())
                 {
                     __instance.NumImpostors = 1;
-                    __instance.numImpostors = 1;
+                    // __instance.numImpostors = 1;
                 }
                 __instance.PlayerSpeedMod = 1.75f;
                 __instance.CrewLightMod = 5f;

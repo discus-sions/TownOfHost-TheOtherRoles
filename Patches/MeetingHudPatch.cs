@@ -25,8 +25,11 @@ namespace TownOfHost
                     if (pc.Is(CustomRoles.Dictator) && pva.DidVote && pc.PlayerId != pva.VotedFor && pva.VotedFor < 253 && !pc.Data.IsDead && !IsPhantom(pva.VotedFor))
                     {
                         var voteTarget = Utils.GetPlayerById(pva.VotedFor);
-                        if (!Main.AfterMeetingDeathPlayers.ContainsKey(pc.PlayerId))
-                            Main.AfterMeetingDeathPlayers.Add(pc.PlayerId, PlayerState.DeathReason.Suicide);
+                        Main.DictatesRemaining[pc.PlayerId]--;
+                        Utils.SendMessage($"You have {Main.DictatesRemaining[pc.PlayerId]} dictate(s) remaing left.", pc.PlayerId);
+                        if (Main.DictatesRemaining[pc.PlayerId] <= 0)
+                            if (!Main.AfterMeetingDeathPlayers.ContainsKey(pc.PlayerId))
+                                Main.AfterMeetingDeathPlayers.Add(pc.PlayerId, PlayerState.DeathReason.Suicide);
                         __instance.RpcVotingComplete(new MeetingHud.VoterState[]{ new ()
                         {
                             VoterId = pva.TargetPlayerId,
@@ -105,8 +108,13 @@ namespace TownOfHost
                                 skipVote = true;
                                 Main.CurrentTarget[ps.TargetPlayerId] = ps.VotedFor;
                                 Main.HasTarget[ps.TargetPlayerId] = true;
+                                Main.IsShapeShifted.Add(voter.PlayerId); // keeps track of who voted
                                 Utils.SendMessage($"You have locked in your target. Your target is: {Utils.GetPlayerById(Main.CurrentTarget[ps.TargetPlayerId]).GetRealName(true)}", ps.TargetPlayerId);
                             }
+                    }
+                    if (ps.VotedFor != ps.TargetPlayerId && Main.unvotablePlayers.Contains(ps.VotedFor))
+                    {
+                        ps.VotedFor = 253;
                     }
                     var votedFor = Utils.GetPlayerById(ps.VotedFor);
                     if (!voter.Is(CustomRoles.Phantom) && !votedFor.Is(CustomRoles.Phantom) && !skipVote)
@@ -115,20 +123,20 @@ namespace TownOfHost
                             VoterId = ps.TargetPlayerId,
                             VotedForId = ps.VotedFor
                         });
-                    if (IsMayor(ps.TargetPlayerId))
+                    if (IsEvilMayor(ps.TargetPlayerId))
                     {
-                        for (var i2 = 0; i2 < Options.MayorAdditionalVote.GetFloat(); i2++)
+                        for (var i3 = 0; i3 < Main.MayorUsedButtonCount[ps.TargetPlayerId]; i3++)
                         {
                             statesList.Add(new MeetingHud.VoterState()
                             {
-                                VoterId = Options.MayorVotesAppearBlack.GetBool() ? PlayerControl.LocalPlayer.PlayerId : ps.TargetPlayerId,
+                                VoterId = ps.TargetPlayerId,
                                 VotedForId = ps.VotedFor
                             });
                         }
                     }
-                    if (IsEvilMayor(ps.TargetPlayerId))
+                    if (IsMayor(ps.TargetPlayerId) && !Options.MayorVotesAppearBlack.GetBool())
                     {
-                        for (var i2 = 0; i2 < Main.MayorUsedButtonCount[ps.TargetPlayerId]; i2++)
+                        for (var i2 = 0; i2 < Options.MayorAdditionalVote.GetFloat(); i2++)
                         {
                             statesList.Add(new MeetingHud.VoterState()
                             {
@@ -377,6 +385,11 @@ namespace TownOfHost
                     if (CheckForEndVotingPatch.IsEvilMayor(ps.TargetPlayerId)) VoteNum += Main.MayorUsedButtonCount[ps.TargetPlayerId];
                     if (CheckForEndVotingPatch.IsPhantom(ps.VotedFor)) VoteNum = -1;
                     if (CheckForEndVotingPatch.IsPhantom(ps.TargetPlayerId) && !CheckForEndVotingPatch.IsPhantom(ps.VotedFor)) VoteNum = -1;
+                    if (Main.IsShapeShifted.Contains(ps.TargetPlayerId))
+                    {
+                        VoteNum = -1;
+                        Main.IsShapeShifted.Remove(ps.TargetPlayerId);
+                    }
                     // if (VoteNum != 1) Utils.GetPlayerById(ps.TargetPlayerId).SetColor(1);
                     //投票を1追加 キーが定義されていない場合は1で上書きして定義
                     dic[ps.VotedFor] = !dic.TryGetValue(ps.VotedFor, out int num) ? VoteNum : num + VoteNum;
@@ -505,7 +518,7 @@ namespace TownOfHost
                         roleTextMeeting.enableWordWrapping = false;
                         roleTextMeeting.enabled =
                             pva.TargetPlayerId == PlayerControl.LocalPlayer.PlayerId || Main.rolesRevealedNextMeeting.Contains(pva.TargetPlayerId) || (PlayerControl.LocalPlayer.GetCustomRole().IsImpostor() && Options.ImpostorKnowsRolesOfTeam.GetBool() && pc.GetCustomRole().IsImpostor()) ||
-                            (Main.VisibleTasksCount && PlayerControl.LocalPlayer.Data.IsDead && Options.GhostCanSeeOtherRoles.GetBool()) || (PlayerControl.LocalPlayer.GetCustomRole().IsCoven() && Options.CovenKnowsRolesOfTeam.GetBool() && pc.GetCustomRole().IsCoven());
+                            (Main.VisibleTasksCount && PlayerControl.LocalPlayer.Data.IsDead && Options.GhostCanSeeOtherRoles.GetBool()) || (PlayerControl.LocalPlayer.GetCustomRole().IsCoven() && Options.CovenKnowsRolesOfTeam.GetBool() && pc.GetCustomRole().IsCoven()) || (AmongUsClient.Instance.AmHost && PlayerControl.LocalPlayer.Is(CustomRoles.GM)); ;
                     }
                     else
                     {
@@ -516,7 +529,7 @@ namespace TownOfHost
                             continue;
                         }
                         bool continues = pva.TargetPlayerId == PlayerControl.LocalPlayer.PlayerId || Main.rolesRevealedNextMeeting.Contains(pva.TargetPlayerId) || (PlayerControl.LocalPlayer.GetCustomRole().IsImpostor() && Options.ImpostorKnowsRolesOfTeam.GetBool() && pc.GetCustomRole().IsImpostor()) ||
-                            (Main.VisibleTasksCount && PlayerControl.LocalPlayer.Data.IsDead && Options.GhostCanSeeOtherRoles.GetBool()) || (PlayerControl.LocalPlayer.GetCustomRole().IsCoven() && Options.CovenKnowsRolesOfTeam.GetBool() && pc.GetCustomRole().IsCoven());
+                            (Main.VisibleTasksCount && PlayerControl.LocalPlayer.Data.IsDead && Options.GhostCanSeeOtherRoles.GetBool()) || (PlayerControl.LocalPlayer.GetCustomRole().IsCoven() && Options.CovenKnowsRolesOfTeam.GetBool() && pc.GetCustomRole().IsCoven()) || (AmongUsClient.Instance.AmHost && PlayerControl.LocalPlayer.Is(CustomRoles.GM));
                         if (!continues) continue;
                         string name = pva.NameText.text + " ";
                         if (Main.VisibleTasksCount) name += Utils.GetProgressText(pc);
@@ -644,11 +657,24 @@ namespace TownOfHost
                     }
                     _ = new LateTask(() =>
                     {
+                        if (!Main.FirstMeetingPassed)
+                        {
+                            Main.FirstMeetingPassed = true;
+                            var text = "Use this time to check your role by using \"/m!\"";
+                            if (Options.TosOptions.GetBool() && Options.AttackDefenseValues.GetBool())
+                                text += "\n/m is also use to display your attack and defense values!";
+                            Utils.SendMessage(text);
+                        }
                         foreach (var pc in PlayerControl.AllPlayerControls)
                         {
                             if (pc == null || pc.Data.Disconnected) continue;
                             pc.RpcSetNamePrivate(Helpers.ColorString(Utils.GetRoleColor(pc.GetCustomRole()), pc.GetRealName(isMeeting: true)), true, pc);
+                            if (Main.rolesRevealedNextMeeting.Contains(pc.PlayerId))
+                                Utils.SendMessage("Throught the powers of an Oracle, your role has been revealed to everyone!", pc.PlayerId);
                         }
+                        if (Options.TosOptions.GetBool() && Options.RoundReview.GetBool())
+                            Utils.BeginRoundReview();
+                        Main.DeadPlayersThisRound.Clear();
                     }, 3f, "Make Name Colored and Check for Camouflage");
                 }, 3f, "SetName To Chat");
             }

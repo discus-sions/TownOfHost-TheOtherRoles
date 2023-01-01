@@ -135,7 +135,8 @@ namespace TownOfHost
                 default:
                     break;
             }
-            SendRPC(pc.PlayerId);
+            if (AmongUsClient.Instance.AmHost)
+                SendRPC(pc.PlayerId);
             Utils.NotifyRoles();
         }
 
@@ -148,7 +149,8 @@ namespace TownOfHost
             {
                 Logger.Info("爆破準備OK", "FireWorks");
                 state[pc.PlayerId] = FireWorksState.ReadyFire;
-                SendRPC(pc.PlayerId);
+                if (AmongUsClient.Instance.AmHost)
+                    SendRPC(pc.PlayerId);
                 Utils.NotifyRoles();
             }
             switch (state[pc.PlayerId])

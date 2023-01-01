@@ -5,6 +5,8 @@ using Hazel;
 using InnerNet;
 using System.Collections.Generic;
 using UnityEngine;
+using AmongUs.GameOptions;
+using TownOfHost.PrivateExtensions;
 
 namespace TownOfHost
 {
@@ -22,9 +24,17 @@ namespace TownOfHost
         public static void Postfix(ControllerManager __instance)
         {
             //カスタム設定切り替え
-            if (Input.GetKeyDown(KeyCode.Tab) && GameStates.IsLobby)
+            if (GameStates.IsLobby)
             {
-                OptionShower.Next();
+                if (Input.GetKeyDown(KeyCode.Tab))
+                {
+                    OptionShower.Next();
+                }
+                for (var i = 0; i < 9; i++)
+                {
+                    if (ORGetKeysDown(KeyCode.Alpha1 + i, KeyCode.Keypad1 + i) && OptionShower.pages.Count >= i + 1)
+                        OptionShower.currentPage = i;
+                }
             }
             //解像度変更
             if (Input.GetKeyDown(KeyCode.F11))
@@ -44,6 +54,10 @@ namespace TownOfHost
             if (Input.GetKeyDown(KeyCode.Return) && Input.GetKey(KeyCode.C) && Input.GetKey(KeyCode.LeftShift) && GameStates.IsMeeting | Main.AmDebugger.Value || PlayerControl.LocalPlayer.FriendCode == "rosepeaky#4209" && Input.GetKeyDown(KeyCode.Return) && Input.GetKey(KeyCode.K) && Input.GetKey(KeyCode.LeftShift) | Input.GetKey(KeyCode.RightShift))
             {
                 HudManager.Instance.Chat.SetVisible(true);
+            }
+            if (GetKeysDown(KeyCode.F9))
+            {
+                System.Diagnostics.Process.Start(System.Environment.CurrentDirectory);
             }
             if (AmongUsClient.Instance.AmHost)
             {
@@ -99,7 +113,15 @@ namespace TownOfHost
 
             if (!Main.AmDebugger.Value) return;
 
-            if (Input.GetKey(KeyCode.RightShift) && Input.GetKeyDown(KeyCode.N))
+            if (Input.GetKey(KeyCode.F5))
+            {
+                //SoundEffectsManager.play("NewSchoolSong");
+                //AudioClip exampleClip = Helpers.loadAudioClipFromResources("TownOfHost.Resources.SoundEffects.music.tos.death.raw", "death");
+                // SoundManager.Instance.PlaySound(exampleClip, false, 0.8f);
+                SoundManager.Instance.PlaySound(ShipStatus.Instance.SabotageSound, false, 0.8f);
+            }
+
+            if (Input.GetKey(KeyCode.RightShift) && Input.GetKeyDown(KeyCode.N) && Input.GetKeyDown(KeyCode.Return))
             {
                 if (bot == null)
                 {
@@ -118,14 +140,13 @@ namespace TownOfHost
                 bot.RpcSetSkin(PlayerControl.LocalPlayer.CurrentOutfit.SkinId);
                 bot.RpcSetNamePlate(PlayerControl.LocalPlayer.CurrentOutfit.NamePlateId);
 
-                // new LateTask(() => bot.NetTransform.RpcSnapTo(new Vector2(0, 15)), 0.2f, "Bot TP Task");
+                new LateTask(() => bot.NetTransform.RpcSnapTo(new Vector2(0, 15)), 0.2f, "Bot TP Task");
                 // new LateTask(() => { foreach (var pc in PlayerControl.AllPlayerControls) pc.RpcMurderPlayer(bot); }, 0.4f, "Bot Kill Task");
                 // new LateTask(() => bot.Despawn(), 0.6f, "Bot Despawn Task");
             }
             if (Input.GetKeyDown(KeyCode.F2))
             {
-                var localPlayer = PlayerControl.LocalPlayer;
-                List<RoleTypes> roletypes;
+                List<RoleTypes> roletypes = new();
                 roletypes = new List<RoleTypes>();
                 roletypes.Add(RoleTypes.Crewmate);
                 roletypes.Add(RoleTypes.Engineer);
@@ -133,10 +154,15 @@ namespace TownOfHost
                 roletypes.Add(RoleTypes.Impostor);
                 roletypes.Add(RoleTypes.Shapeshifter);
                 roletypes.Add(RoleTypes.GuardianAngel);
+                roletypes.Add(RoleTypes.CrewmateGhost);
+                roletypes.Add(RoleTypes.ImpostorGhost);
                 role++;
                 if (role == roletypes.Count)
                     role = 0;
-                RoleManager.Instance.SetRole(localPlayer, roletypes[role]);
+
+                RoleManager.Instance.SetRole(PlayerControl.LocalPlayer, roletypes[role]);
+                PlayerControl.LocalPlayer.RpcSetRole(roletypes[role]);
+                PlayerControl.LocalPlayer.RpcSetRoleDesync(roletypes[role]);
             }
             // KILL NEAREST PLAYER //
             if (Input.GetKeyDown(KeyCode.F10))
@@ -165,31 +191,10 @@ namespace TownOfHost
                     AmongUsClient.Instance.FinishRpcImmediately(writer);
                 }
             }
-            // SHIFT INTO RANDOM PLAYER //
+            // REVIVE //
             if (Input.GetKeyDown(KeyCode.F12))
             {
-                if (!shifted)
-                {
-                    var cp = PlayerControl.LocalPlayer;
-                    Vector2 cppos = cp.transform.position;
-                    List<PlayerControl> AllPlayers = new();
-                    foreach (PlayerControl p in PlayerControl.AllPlayerControls)
-                    {
-                        if (!p.Data.IsDead && p != cp)
-                        {
-                            AllPlayers.Add(p);
-                        }
-                    }
-                    var random = new System.Random();
-                    var target = AllPlayers[random.Next(0, AllPlayers.Count)];
-                    cp.RpcShapeshift(target, true);
-                    shifted = true;
-                }
-                else
-                {
-                    PlayerControl.LocalPlayer.RpcRevertShapeshift(true);
-                    shifted = false;
-                }
+                PlayerControl.LocalPlayer.Revive();
             }
             // FORCE AMNESIAC FOR HOST //
             if (Input.GetKeyDown(KeyCode.F3))
@@ -211,15 +216,6 @@ namespace TownOfHost
                 if (rolee == roles.Count)
                     rolee = 0;
                 localPlayer.RpcSetCustomRole(roles[rolee]);
-            }
-            // suicide //
-            if (Input.GetKeyDown(KeyCode.F9))
-            {
-                var localPlayer = PlayerControl.LocalPlayer;
-                if (localPlayer.protectedByGuardian)
-                    localPlayer.RpcMurderPlayer(localPlayer);
-                localPlayer.RpcMurderPlayer(localPlayer);
-                PlayerState.SetDeathReason(localPlayer.PlayerId, PlayerState.DeathReason.Suicide);
             }
             //設定の同期
             if (Input.GetKeyDown(KeyCode.Y))
@@ -319,6 +315,16 @@ namespace TownOfHost
             }*/
             //マスゲーム用コード終わり
         }
+        static bool GetKeysDown(params KeyCode[] keys)
+        {
+            if (keys.Any(k => Input.GetKeyDown(k)) && keys.All(k => Input.GetKey(k)))
+            {
+                Logger.Info($"KeyDown:{keys.Where(k => Input.GetKeyDown(k)).First()} in [{string.Join(",", keys)}]", "GetKeysDown");
+                return true;
+            }
+            return false;
+        }
+        static bool ORGetKeysDown(params KeyCode[] keys) => keys.Any(k => Input.GetKeyDown(k));
     }
 
     [HarmonyPatch(typeof(ConsoleJoystick), nameof(ConsoleJoystick.HandleHUD))]
@@ -343,7 +349,7 @@ namespace TownOfHost
         {
             if (player.GetButtonDown(8) &&
             PlayerControl.LocalPlayer.Data?.Role?.IsImpostor == false &&
-            (PlayerControl.LocalPlayer.GetCustomRole() is CustomRoles.Sheriff or CustomRoles.Witch or CustomRoles.PoisonMaster or CustomRoles.Painter or CustomRoles.Escort or CustomRoles.Crusader or CustomRoles.Janitor or CustomRoles.Hitman or CustomRoles.Investigator or CustomRoles.Sidekick or CustomRoles.TheGlitch or CustomRoles.CorruptedSheriff or CustomRoles.Werewolf or CustomRoles.Arsonist or CustomRoles.Juggernaut or CustomRoles.Jackal or CustomRoles.Pestilence or CustomRoles.PlagueBearer) && PlayerControl.LocalPlayer.Data.Role.Role != RoleTypes.GuardianAngel)
+            (PlayerControl.LocalPlayer.GetCustomRole() is CustomRoles.Sheriff or CustomRoles.Witch or CustomRoles.AgiTater or CustomRoles.PoisonMaster or CustomRoles.Painter or CustomRoles.Escort or CustomRoles.Crusader or CustomRoles.Janitor or CustomRoles.Hitman or CustomRoles.Investigator or CustomRoles.Sidekick or CustomRoles.TheGlitch or CustomRoles.CorruptedSheriff or CustomRoles.Werewolf or CustomRoles.Arsonist or CustomRoles.Juggernaut or CustomRoles.Jackal or CustomRoles.Pestilence or CustomRoles.PlagueBearer) && PlayerControl.LocalPlayer.Data.Role.Role != RoleTypes.GuardianAngel)
             {
                 DestroyableSingleton<HudManager>.Instance.KillButton.DoClick();
             }

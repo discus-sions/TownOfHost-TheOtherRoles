@@ -19,7 +19,6 @@ namespace TownOfHost
                 if (ModUpdater.hasUpdate) message = GetString("CanNotJoinPublicRoomNoLatest");
                 Logger.Info(message, "MakePublicPatch");
                 Logger.SendInGame(message);
-                return false;
             }
             return true;
         }

@@ -3,6 +3,7 @@ using System.Linq;
 using HarmonyLib;
 using UnityEngine;
 using static TownOfHost.Translator;
+using TownOfHost.PrivateExtensions;
 
 namespace TownOfHost
 {
@@ -15,13 +16,13 @@ namespace TownOfHost
             GameStates.InGame = false;
 
             Logger.Info("-----------ゲーム終了-----------", "Phase");
-            PlayerControl.GameOptions.killCooldown = Options.DefaultKillCooldown;
+            GameOptionsManager.Instance.currentNormalGameOptions.KillCooldown = Options.DefaultKillCooldown;
             //winnerListリセット
             TempData.winners = new Il2CppSystem.Collections.Generic.List<WinningPlayerData>();
             Main.additionalwinners = new HashSet<AdditionalWinners>();
             var winner = new List<PlayerControl>();
             //勝者リスト作成
-            if (TempData.DidHumansWin(endGameResult.GameOverReason) || endGameResult.GameOverReason.Equals(GameOverReason.HumansByTask) || endGameResult.GameOverReason.Equals(GameOverReason.HumansByVote))
+            if (GameManager.Instance.DidHumansWin(endGameResult.GameOverReason) || endGameResult.GameOverReason.Equals(GameOverReason.HumansByTask) || endGameResult.GameOverReason.Equals(GameOverReason.HumansByVote))
             {
                 if (Main.currentWinner == CustomWinner.Default)
                 {
@@ -34,7 +35,7 @@ namespace TownOfHost
                     if (canWin) winner.Add(p);
                 }
             }
-            if (TempData.DidImpostorsWin(endGameResult.GameOverReason))
+            if (GameManager.Instance.DidImpostorsWin(endGameResult.GameOverReason))
             {
                 int deathAmount = 0;
                 if (Main.currentWinner == CustomWinner.Default)
@@ -42,7 +43,7 @@ namespace TownOfHost
                 foreach (var p in PlayerControl.AllPlayerControls)
                 {
                     //if (p.GetCustomSubRole() == CustomRoles.LoversRecode) continue;
-                    bool canWin = p.Is(RoleType.Impostor) || p.Is(RoleType.Madmate) || p.Is(CustomRoles.CrewPostor) || p.Is(CustomRoles.CorruptedSheriff);
+                    bool canWin = p.Is(RoleType.Impostor) || p.Is(RoleType.Madmate) || p.Is(CustomRoles.CrewPostor) || p.Is(CustomRoles.CPSchrodingerCat) || p.Is(CustomRoles.CorruptedSheriff);
                     if (canWin) winner.Add(p);
                     if (p.Data.IsDead | PlayerState.isDead[p.PlayerId]) deathAmount++;
                 }
@@ -78,7 +79,15 @@ namespace TownOfHost
                 winner.Clear();
                 foreach (var p in PlayerControl.AllPlayerControls)
                 {
-                    if (p.Is(CustomRoles.Werewolf)) winner.Add(p);
+                    if (p.Is(CustomRoles.Werewolf) | p.Is(CustomRoles.BKSchrodingerCat)) winner.Add(p);
+                }
+            }
+            if (Main.currentWinner == CustomWinner.AgiTater)
+            {
+                winner.Clear();
+                foreach (var p in PlayerControl.AllPlayerControls)
+                {
+                    if (p.Is(CustomRoles.AgiTater)) winner.Add(p);
                 }
             }
             if (Main.currentWinner == CustomWinner.Marksman)
@@ -86,7 +95,7 @@ namespace TownOfHost
                 winner.Clear();
                 foreach (var p in PlayerControl.AllPlayerControls)
                 {
-                    if (p.Is(CustomRoles.Marksman)) winner.Add(p);
+                    if (p.Is(CustomRoles.Marksman) | p.Is(CustomRoles.MMSchrodingerCat)) winner.Add(p);
                 }
             }
             if (Main.currentWinner == CustomWinner.Phantom)
@@ -102,7 +111,7 @@ namespace TownOfHost
                 winner.Clear();
                 foreach (var p in PlayerControl.AllPlayerControls)
                 {
-                    if (p.Is(CustomRoles.TheGlitch)) winner.Add(p);
+                    if (p.Is(CustomRoles.TheGlitch) | p.Is(CustomRoles.TGSchrodingerCat)) winner.Add(p);
                 }
             }
             if (Main.currentWinner == CustomWinner.Vulture)
@@ -118,7 +127,7 @@ namespace TownOfHost
                 winner.Clear();
                 foreach (var p in PlayerControl.AllPlayerControls)
                 {
-                    if (p.Is(CustomRoles.BloodKnight)) winner.Add(p);
+                    if (p.Is(CustomRoles.BloodKnight) | p.Is(CustomRoles.BKSchrodingerCat)) winner.Add(p);
                 }
             }
             if (Main.currentWinner == CustomWinner.Pestilence)
@@ -126,7 +135,7 @@ namespace TownOfHost
                 winner.Clear();
                 foreach (var p in PlayerControl.AllPlayerControls)
                 {
-                    if (p.Is(CustomRoles.Pestilence) || p.Is(CustomRoles.PlagueBearer)) winner.Add(p);
+                    if (p.Is(CustomRoles.Pestilence) || p.Is(CustomRoles.PlagueBearer) | p.Is(CustomRoles.PesSchrodingerCat)) winner.Add(p);
                 }
             }
             if (Main.currentWinner == CustomWinner.Pirate && CustomRoles.Pirate.IsEnable())
@@ -145,7 +154,7 @@ namespace TownOfHost
                 winner.Clear();
                 foreach (var p in PlayerControl.AllPlayerControls)
                 {
-                    if (p.Is(CustomRoles.Juggernaut)) winner.Add(p);
+                    if (p.Is(CustomRoles.Juggernaut) | p.Is(CustomRoles.JugSchrodingerCat)) winner.Add(p);
                 }
             }
             if (Main.currentWinner == CustomWinner.Coven)
@@ -342,12 +351,12 @@ namespace TownOfHost
                     if (!hasRole) continue;
                     if (role.GetRoleType() == RoleType.Impostor)
                     {
-                        if (TempData.DidImpostorsWin(endGameResult.GameOverReason))
+                        if (GameManager.Instance.DidImpostorsWin(endGameResult.GameOverReason))
                             winner.Add(pc);
                     }
                     else if (role.GetRoleType() == RoleType.Crewmate)
                     {
-                        if (TempData.DidHumansWin(endGameResult.GameOverReason))
+                        if (GameManager.Instance.DidHumansWin(endGameResult.GameOverReason))
                             winner.Add(pc);
                     }
                     else if (role == CustomRoles.HASTroll && pc.Data.IsDead)
@@ -373,6 +382,7 @@ namespace TownOfHost
             Main.winnerList = new List<byte>();
             foreach (var pc in winner)
             {
+                if (Main.currentWinner is not CustomWinner.Draw && pc.Is(CustomRoles.GM)) continue;
                 TempData.winners.Add(new WinningPlayerData(pc.Data));
                 Main.winnerList.Add(pc.PlayerId);
             }
@@ -393,8 +403,8 @@ namespace TownOfHost
             Main.VisibleTasksCount = false;
             if (AmongUsClient.Instance.AmHost)
             {
-                Main.RealOptionsData.KillCooldown = Options.DefaultKillCooldown;
-                PlayerControl.LocalPlayer.RpcSyncSettings(Main.RealOptionsData);
+                Main.RealOptionsData.AsNormalOptions()!.KillCooldown = Options.DefaultKillCooldown;
+                PlayerControl.LocalPlayer.RpcSyncSettings(Main.RealOptionsData.ToBytes());
             }
         }
     }
@@ -406,6 +416,9 @@ namespace TownOfHost
         public static void Postfix(EndGameManager __instance)
         {
             if (!Main.playerVersion.ContainsKey(0)) return;
+            if (Main.showEjections)
+                GameOptionsManager.Instance.currentNormalGameOptions.ConfirmImpostor = true;
+            GameOptionsManager.Instance.CurrentGameOptions = Main.RealOptionsData;
 
             Main.LastPlayerCustomRoles = new(Main.AllPlayerCustomRoles);
             Main.LastPlayerCustomSubRoles = new(Main.AllPlayerCustomSubRoles);
@@ -429,6 +442,12 @@ namespace TownOfHost
                 {
                     __instance.BackgroundBar.material.color = Utils.GetRoleColor(winnerRole);
                 }
+            }
+            if (AmongUsClient.Instance.AmHost && Main.AllPlayerCustomRoles[0] == CustomRoles.GM)
+            {
+                __instance.WinText.text = "Game Over";
+                __instance.WinText.color = Utils.GetRoleColor(CustomRoles.GM);
+                __instance.BackgroundBar.material.color = Utils.GetRoleColor(CustomRoles.GM);
             }
             switch (Main.currentWinner)
             {
@@ -487,6 +506,9 @@ namespace TownOfHost
                     var deathReasonFound = PlayerState.deathReasons.TryGetValue(key.Key, out var deathReason);
                     if (deathReasonFound && deathReason != PlayerState.DeathReason.etc)
                         roleSummaryText += $" | {GetString("DeathReason." + deathReason.ToString())}";
+                    var killCountFound = Main.KillCount.TryGetValue(key.Key, out var killAmt);
+                    if (killCountFound && killAmt != 0 && key.Value != CustomRoles.VoteStealer)
+                        roleSummaryText += $" [Kill Count: {killAmt}]";
                 }
                 catch
                 {

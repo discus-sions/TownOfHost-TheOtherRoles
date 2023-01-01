@@ -1510,7 +1510,7 @@ Roles from:
 5. [au.libhalt.net](https://au.libhalt.net)<br>
 6. [Foolers Mod](https://github.com/MengTube/Foolers-Mod)<br>
 7. [Town-Of-Us-R](https://github.com/eDonnes124/Town-Of-Us-R)<br>
-8. Mek, My friend on Discord (Bewilder, Bastion, Demolitionist)<br>
+8. Mek - Role Ideas (Bewilder, Bastion, Demolitionist)<br>
 9. Original [Town Of Host](https://github.com/tukasa0001/TownOfHost) (Mod itself plus pull requests for roles such as the guesser roles)
 
 ## Developers
@@ -1518,3 +1518,4 @@ Roles from:
 - [MC-AS-Huier](https://github.com/MC-AS-Huier) - SChinese Translations
 - [Tommy-XL](https://github.com/Tommy-XL) - Rus Translations
 - TheSkullCreeper#0001 - Art Direction
+- 단풍잎/ImaMapleTree - 12.8 Port Help

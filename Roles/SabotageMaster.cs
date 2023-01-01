@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Hazel;
 using UnityEngine;
+using AmongUs.GameOptions;
 
 namespace TownOfHost
 {
@@ -96,8 +97,8 @@ namespace TownOfHost
                     if (!FixesDoors.GetBool()) break;
                     if (DoorsProgressing == true) break;
 
-                    int mapId = PlayerControl.GameOptions.MapId;
-                    if (AmongUsClient.Instance.GameMode == GameModes.FreePlay) mapId = AmongUsClient.Instance.TutorialMapId;
+                    int mapId = GameOptionsManager.Instance.currentNormalGameOptions.MapId;
+                    if (AmongUsClient.Instance.NetworkMode == NetworkModes.FreePlay) mapId = AmongUsClient.Instance.TutorialMapId;
 
                     DoorsProgressing = true;
                     if (mapId == 2)
@@ -169,7 +170,7 @@ namespace TownOfHost
                     if (DoorsProgressing == true) break;
 
                     int mapId = PlayerControl.GameOptions.MapId;
-                    if (AmongUsClient.Instance.GameMode == GameModes.FreePlay) mapId = AmongUsClient.Instance.TutorialMapId;
+                    if (AmongUsClient.Instance.NetworkMode == NetworkModes.FreePlay) mapId = AmongUsClient.Instance.TutorialMapId;
 
                     DoorsProgressing = true;
                     if (mapId == 2)

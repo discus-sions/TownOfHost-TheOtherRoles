@@ -2,6 +2,7 @@ using System;
 using System.Runtime.CompilerServices;
 using System.Collections.Generic;
 using Hazel;
+using AmongUs;
 
 namespace TownOfHost
 {
@@ -14,11 +15,11 @@ namespace TownOfHost
         ///<summary>
         ///インポスターが一人しか存在しない設定かどうか
         ///</summary>
-        public static bool IsSingleImpostor => Main.RealOptionsData != null ? Main.RealOptionsData.NumImpostors == 1 : PlayerControl.GameOptions.NumImpostors == 1;
+        public static bool IsSingleImpostor => Main.RealOptionsData != null ? Main.RealOptionsData.NumImpostors == 1 : GameOptionsManager.Instance.currentNormalGameOptions.NumImpostors == 1;
         ///<summary>
         ///AntiBlackout内の処理が必要であるかどうか
         ///</summary>
-        public static bool IsRequired => Options.NoGameEnd.GetBool() || CustomRoles.Arsonist.IsEnable() || CustomRoles.Marksman.IsEnable() || CustomRoles.TheGlitch.IsEnable() || CustomRoles.Werewolf.IsEnable() || CustomRoles.Jackal.IsEnable() || CustomRoles.PlagueBearer.IsEnable() || CustomRoles.Pestilence.IsEnable() || CustomRoles.Juggernaut.IsEnable() || CustomRoles.Coven.IsEnable() || CustomRoles.BloodKnight.IsEnable();
+        public static bool IsRequired => Options.NoGameEnd.GetBool() || CustomRoles.Arsonist.IsEnable() || CustomRoles.Marksman.IsEnable() || CustomRoles.TheGlitch.IsEnable() || CustomRoles.Werewolf.IsEnable() || CustomRoles.Jackal.IsEnable() || CustomRoles.PlagueBearer.IsEnable() || CustomRoles.Pestilence.IsEnable() || CustomRoles.Juggernaut.IsEnable() || CustomRoles.Coven.IsEnable() || CustomRoles.BloodKnight.IsEnable() || CustomRoles.AgiTater.IsEnable();
         ///<summary>
         ///インポスター以外の人数とインポスターの人数の差
         ///</summary>
@@ -37,7 +38,7 @@ namespace TownOfHost
             }
         }
         public static bool IsCached { get; private set; } = false;
-        private static Dictionary<byte, bool> isDeadCache = new();
+        private static Dictionary<byte, (bool isDead, bool Disconnected)> isDeadCache = new();
 
         public static void SetIsDead(bool doSend = true, [CallerMemberName] string callerMethodName = "")
         {
@@ -51,8 +52,9 @@ namespace TownOfHost
             foreach (var info in GameData.Instance.AllPlayers)
             {
                 if (info == null) continue;
-                isDeadCache[info.PlayerId] = info.IsDead;
+                isDeadCache[info.PlayerId] = (info.IsDead, info.Disconnected);
                 info.IsDead = false;
+                info.Disconnected = false;
             }
             IsCached = true;
             if (doSend) SendGameData();
@@ -63,7 +65,11 @@ namespace TownOfHost
             foreach (var info in GameData.Instance.AllPlayers)
             {
                 if (info == null) continue;
-                if (isDeadCache.TryGetValue(info.PlayerId, out bool val)) info.IsDead = val;
+                if (isDeadCache.TryGetValue(info.PlayerId, out var val))
+                {
+                    info.IsDead = val.isDead;
+                    info.Disconnected = val.Disconnected;
+                }
             }
             isDeadCache.Clear();
             IsCached = false;
@@ -90,6 +96,15 @@ namespace TownOfHost
 
             AmongUsClient.Instance.SendOrDisconnect(writer);
             writer.Recycle();
+        }
+
+        public static void OnDisconnect(GameData.PlayerInfo player)
+        {
+            // 実行条件: クライアントがホストである, IsDeadが上書きされている, playerが切断済み
+            if (!AmongUsClient.Instance.AmHost || !IsCached || !player.Disconnected) return;
+            isDeadCache[player.PlayerId] = (true, true);
+            player.IsDead = player.Disconnected = false;
+            SendGameData();
         }
 
         ///<summary>

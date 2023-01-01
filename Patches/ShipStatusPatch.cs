@@ -4,6 +4,7 @@ using System.Linq;
 using HarmonyLib;
 using Hazel;
 using UnityEngine;
+using static InnerNet.InnerNetClient;
 
 namespace TownOfHost
 {
@@ -52,7 +53,7 @@ namespace TownOfHost
             [HarmonyArgument(2)] byte amount)
         {
             Logger.Msg("SystemType: " + systemType.ToString() + ", PlayerName: " + player.GetNameWithRole() + ", amount: " + amount, "RepairSystem");
-            if (RepairSender.enabled && AmongUsClient.Instance.GameMode != GameModes.OnlineGame)
+            if (RepairSender.enabled && AmongUsClient.Instance.NetworkMode != NetworkModes.OnlineGame)
             {
                 Logger.SendInGame("SystemType: " + systemType.ToString() + ", PlayerName: " + player.GetNameWithRole() + ", amount: " + amount);
             }
@@ -102,9 +103,9 @@ namespace TownOfHost
                 foreach (PlayerControl target in PlayerControl.AllPlayerControls)
                     target.RpcRevertShapeshift(true);
             }*/
-            if (player.Is(CustomRoles.Sheriff) || player.Is(CustomRoles.NeutWitch) || player.Is(CustomRoles.Investigator) || player.Is(CustomRoles.Escort) || player.Is(CustomRoles.Crusader) || player.Is(CustomRoles.Parasite) || player.Is(CustomRoles.Marksman) || player.Is(CustomRoles.BloodKnight) || player.Is(CustomRoles.Arsonist) || player.Is(CustomRoles.Werewolf) || player.Is(CustomRoles.TheGlitch) || player.GetRoleType() == RoleType.Coven || player.Is(CustomRoles.PlagueBearer) || player.Is(CustomRoles.Pestilence) || player.Is(CustomRoles.Juggernaut) || ((player.Is(CustomRoles.Jackal) || player.Is(CustomRoles.Sidekick)) && !Options.JackalCanUseSabotage.GetBool()) || Main.Grenaiding)
+            if (player.Is(CustomRoles.Sheriff) || player.Is(CustomRoles.NeutWitch) || player.Is(CustomRoles.Investigator) || player.Is(CustomRoles.Escort) || player.Is(CustomRoles.Crusader) || player.Is(CustomRoles.Parasite) || player.Is(CustomRoles.Marksman) || player.Is(CustomRoles.BloodKnight) || player.Is(CustomRoles.Arsonist) || player.Is(CustomRoles.Werewolf) || player.Is(CustomRoles.AgiTater) || player.Is(CustomRoles.TheGlitch) || player.GetRoleType() == RoleType.Coven || player.Is(CustomRoles.PlagueBearer) || player.Is(CustomRoles.Pestilence) || player.Is(CustomRoles.Juggernaut) || ((player.Is(CustomRoles.Jackal) || player.Is(CustomRoles.Sidekick)) && !Options.JackalCanUseSabotage.GetBool()) || Main.Grenaiding)
             {
-                if (systemType == SystemTypes.Sabotage && AmongUsClient.Instance.GameMode != GameModes.FreePlay) return false; //シェリフにサボタージュをさせない ただしフリープレイは例外
+                if (systemType == SystemTypes.Sabotage && AmongUsClient.Instance.NetworkMode != NetworkModes.FreePlay) return false; //シェリフにサボタージュをさせない ただしフリープレイは例外
             }
             else
             {
@@ -224,7 +225,7 @@ namespace TownOfHost
             //ホストの役職初期設定はここで行うべき？
         }
     }
-    [HarmonyPatch(typeof(ShipStatus), nameof(ShipStatus.CheckTaskCompletion))]
+    [HarmonyPatch(typeof(GameManager), nameof(GameManager.CheckTaskCompletion))]
     class CheckTaskCompletionPatch
     {
         public static bool Prefix(ref bool __result)
@@ -235,6 +236,14 @@ namespace TownOfHost
                 return false;
             }
             return true;
+        }
+    }
+    [HarmonyPatch(typeof(AirshipStatus), nameof(AirshipStatus.PrespawnStep))]
+    public static class AirshipStatusPrespawnStepPatch
+    {
+        public static bool Prefix()
+        {
+            return !PlayerControl.LocalPlayer.Is(CustomRoles.GM); // GMは湧き画面をスキップ
         }
     }
 }

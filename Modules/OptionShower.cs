@@ -1,6 +1,15 @@
 using System.Collections.Generic;
 using System.Linq;
 using static TownOfHost.Translator;
+using AmongUs.GameOptions;
+using System;
+using System.Threading.Tasks;
+using HarmonyLib;
+using TMPro;
+using UnityEngine;
+using Hazel;
+using Object = UnityEngine.Object;
+using Il2CppInterop.Runtime.InteropTypes;
 
 namespace TownOfHost
 {
@@ -19,7 +28,8 @@ namespace TownOfHost
             pages = new()
             {
                 //1ページに基本ゲーム設定を格納
-                PlayerControl.GameOptions.ToHudString(GameData.Instance ? GameData.Instance.PlayerCount : 10) + "\n\n"
+
+            GameOptionsManager.Instance.CurrentGameOptions.ToHudString(GameData.Instance ? GameData.Instance.PlayerCount : 10) + "\n\n"
             };
             //ゲームモードの表示
             text += $"{Options.GameMode.GetName()}: {Options.GameMode.GetString()}\n\n";
@@ -35,7 +45,7 @@ namespace TownOfHost
                 {
                     //役職一覧
                     text += $"<color={Utils.GetRoleColorCode(CustomRoles.LastImpostor)}>{Utils.GetRoleName(CustomRoles.LastImpostor)}:</color> {Options.EnableLastImpostor.GetString()}\n\n";
-                    //text += $"<color={Utils.GetRoleColorCode(CustomRoles.GM)}>{Utils.GetRoleName(CustomRoles.GM)}:</color> {Options.EnableGM.GetString()}\n";
+                    text += $"<color={Utils.GetRoleColorCode(CustomRoles.GM)}>{Utils.GetRoleName(CustomRoles.GM)}:</color> {Options.EnableGM.GetString()}\n";
                     foreach (var kvp in Options.CustomRoleSpawnChances)
                         if (kvp.Value.GameMode is CustomGameMode.Standard or CustomGameMode.All) //スタンダードか全てのゲームモードで表示する役職
                             text += $"{Helpers.ColorString(Utils.GetRoleColor(kvp.Key), Utils.GetRoleName(kvp.Key))}: {kvp.Value.GetString()}×{kvp.Key.GetCount()}\n";

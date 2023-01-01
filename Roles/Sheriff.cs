@@ -34,6 +34,7 @@ namespace TownOfHost
         private static CustomOption CanKillGlitch;
         private static CustomOption CanKillWerewolf;
         private static CustomOption CanKillHitman;
+        private static CustomOption CanKillAgitater;
         //public static CustomOption TraitorCanSpawnIfNK;
         //public static CustomOption TraitorCanSpawnIfCoven;
 
@@ -62,6 +63,7 @@ namespace TownOfHost
             CanKillCrewmatesAsIt = CustomOption.Create(Id + 27, Color.white, "SheriffCanKillCrewmatesAsIt", AmongUsExtensions.OptionType.Crewmate, false, Options.CustomRoleSpawnChances[CustomRoles.Sheriff]);
             ShotLimitOpt = CustomOption.Create(Id + 28, Color.white, "SheriffShotLimit", AmongUsExtensions.OptionType.Crewmate, 99, -1, 15, 1, Options.CustomRoleSpawnChances[CustomRoles.Sheriff]);
             CanKillHitman = CustomOption.Create(Id + 29, Color.white, "SheriffCanKillHitman", AmongUsExtensions.OptionType.Crewmate, true, Options.CustomRoleSpawnChances[CustomRoles.Sheriff]);
+            CanKillAgitater = CustomOption.Create(Id + 30, Color.white, "SheriffCanKillAgitater", AmongUsExtensions.OptionType.Crewmate, true, Options.CustomRoleSpawnChances[CustomRoles.Sheriff]);
             /*SheriffCorrupted = CustomOption.Create(Id + 29, Color.white, "TurnCorrupt", false, Options.CustomRoleSpawnChances[CustomRoles.Sheriff]);
             PlayersForTraitor = CustomOption.Create(Id + 30, Color.white, "TraitorSpawn", 1, 0, 15, 1, SheriffCorrupted);
             TraitorCanSpawnIfNK = CustomOption.Create(Id + 31, Color.white, "TraitorCanSpawnIfNK", true, SheriffCorrupted);
@@ -242,6 +244,7 @@ namespace TownOfHost
                 CustomRoles.Vulture => CanKillVulture.GetBool(),
                 CustomRoles.TheGlitch => CanKillGlitch.GetBool(),
                 CustomRoles.Werewolf => CanKillWerewolf.GetBool(),
+                CustomRoles.AgiTater => CanKillAgitater.GetBool(),
                 CustomRoles.Pirate => true,
                 // COVEN //
                 CustomRoles.Coven => SheriffCanKillCoven.GetBool(),
@@ -257,6 +260,7 @@ namespace TownOfHost
                 CustomRoles.SchrodingerCat => true,
                 CustomRoles.Phantom => true,
                 CustomRoles.Hacker => true,
+                CustomRoles.NeutWitch => true,
                 _ => cRole.GetRoleType() switch
                 {
                     RoleType.Impostor => true,

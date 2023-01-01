@@ -1,5 +1,6 @@
 using System;
 using BepInEx;
+using AmongUs.GameOptions;
 
 namespace TownOfHost
 {
@@ -20,10 +21,14 @@ namespace TownOfHost
                 CustomRoles.Morphling or
                 CustomRoles.SerialKiller or
                 CustomRoles.Mare or
+                CustomRoles.ImpostorGhost or
                 CustomRoles.Puppeteer or
                 CustomRoles.TimeThief or
                 CustomRoles.Mafia or
                 CustomRoles.FireWorks or
+                CustomRoles.IdentityTheft or
+                CustomRoles.Bomber or
+                CustomRoles.Manipulator or
                 CustomRoles.Sniper or
                 CustomRoles.Swooper or
                 CustomRoles.Camouflager or
@@ -62,6 +67,7 @@ namespace TownOfHost
                 CustomRoles.Executioner or
                 CustomRoles.Arsonist or
                 CustomRoles.Egoist or
+                CustomRoles.AgiTater or
                 CustomRoles.EgoSchrodingerCat or
                 CustomRoles.Hitman or
                 CustomRoles.CrewPostor or
@@ -86,7 +92,14 @@ namespace TownOfHost
                 CustomRoles.BloodKnight or
                 CustomRoles.HASTroll or
                 CustomRoles.Painter or
-                CustomRoles.HASFox;
+                CustomRoles.HASFox or // CAT
+                CustomRoles.BKSchrodingerCat or
+                CustomRoles.CPSchrodingerCat or
+                CustomRoles.JugSchrodingerCat or
+                CustomRoles.MMSchrodingerCat or
+                CustomRoles.PesSchrodingerCat or
+                CustomRoles.WWSchrodingerCat or
+                CustomRoles.TGSchrodingerCat;
         }
         public static bool IsNeutralBad(this CustomRoles role)
         {
@@ -108,6 +121,7 @@ namespace TownOfHost
                 CustomRoles.PlagueBearer or
                 CustomRoles.Pestilence or
                 CustomRoles.TheGlitch or
+                CustomRoles.AgiTater or
                 CustomRoles.Werewolf or
                 CustomRoles.Amnesiac or
                 CustomRoles.Juggernaut or
@@ -116,7 +130,14 @@ namespace TownOfHost
                 CustomRoles.Hacker or
                 CustomRoles.BloodKnight or
                 CustomRoles.HASTroll or
-                CustomRoles.Painter;
+                CustomRoles.Painter or // CAT
+                CustomRoles.BKSchrodingerCat or
+                CustomRoles.CPSchrodingerCat or
+                CustomRoles.JugSchrodingerCat or
+                CustomRoles.MMSchrodingerCat or
+                CustomRoles.PesSchrodingerCat or
+                CustomRoles.WWSchrodingerCat or
+                CustomRoles.TGSchrodingerCat;
         }
         public static bool IsNonNK(this CustomRoles role)
         {
@@ -152,6 +173,7 @@ namespace TownOfHost
                 CustomRoles.CrewPostor or
                 CustomRoles.Sidekick or
                 CustomRoles.TheGlitch or
+                CustomRoles.AgiTater or
                 CustomRoles.Marksman or
                 CustomRoles.Werewolf or
                 CustomRoles.Pirate or
@@ -288,9 +310,24 @@ namespace TownOfHost
                 CustomRoles.Parasite or
                 CustomRoles.Escort or
                 CustomRoles.Hitman or
+                CustomRoles.Escort or
+                CustomRoles.BloodKnight or
+                CustomRoles.Hitman or
                 CustomRoles.Jackal or
                 CustomRoles.Crusader or
-                CustomRoles.Sidekick;
+                CustomRoles.Sidekick or
+                CustomRoles.Arsonist or
+                CustomRoles.Egoist or
+                CustomRoles.Jackal or
+                CustomRoles.PlagueBearer or
+                CustomRoles.Pestilence or
+                CustomRoles.Sidekick or
+                CustomRoles.TheGlitch or
+                CustomRoles.AgiTater or
+                CustomRoles.Marksman or
+                CustomRoles.Werewolf or
+                CustomRoles.BloodKnight or
+                CustomRoles.Juggernaut;
         }
         public static bool CanRoleBlock(this CustomRoles role)
         {
@@ -299,20 +336,20 @@ namespace TownOfHost
                 CustomRoles.Escort or
                 CustomRoles.Consort;
         }
-        public static bool HostRedName(this CustomRoles role) => AmongUsClient.Instance.AmHost && role is CustomRoles.Hitman or CustomRoles.Crusader or CustomRoles.Escort or CustomRoles.NeutWitch;
+        public static bool HostRedName(this CustomRoles role) => /*AmongUsClient.Instance.AmHost && role is CustomRoles.Hitman or CustomRoles.Crusader or CustomRoles.Escort or CustomRoles.NeutWitch;*/ false;
         public static void SetCount(this CustomRoles role, int num) => Options.SetRoleCount(role, num);
         public static int GetCount(this CustomRoles role)
         {
             if (role.IsVanilla())
             {
-                RoleOptionsData roleOpt = PlayerControl.GameOptions.RoleOptions;
+                IRoleOptionsCollection roleOpt = GameOptionsManager.Instance.CurrentGameOptions.RoleOptions;
                 return role switch
                 {
-                    CustomRoles.Engineer => roleOpt.GetNumPerGame(RoleTypes.Engineer),
-                    CustomRoles.Scientist => roleOpt.GetNumPerGame(RoleTypes.Scientist),
-                    CustomRoles.Shapeshifter => roleOpt.GetNumPerGame(RoleTypes.Shapeshifter),
-                    CustomRoles.GuardianAngel => roleOpt.GetNumPerGame(RoleTypes.GuardianAngel),
-                    CustomRoles.Crewmate => roleOpt.GetNumPerGame(RoleTypes.Crewmate),
+                    CustomRoles.Engineer => roleOpt.GetNumPerGame(AmongUs.GameOptions.RoleTypes.Engineer),
+                    CustomRoles.Scientist => roleOpt.GetNumPerGame(AmongUs.GameOptions.RoleTypes.Scientist),
+                    CustomRoles.Shapeshifter => roleOpt.GetNumPerGame(AmongUs.GameOptions.RoleTypes.Shapeshifter),
+                    CustomRoles.GuardianAngel => roleOpt.GetNumPerGame(AmongUs.GameOptions.RoleTypes.GuardianAngel),
+                    CustomRoles.Crewmate => roleOpt.GetNumPerGame(AmongUs.GameOptions.RoleTypes.Crewmate),
                     _ => 0
                 };
             }
@@ -325,14 +362,14 @@ namespace TownOfHost
         {
             if (role.IsVanilla())
             {
-                RoleOptionsData roleOpt = PlayerControl.GameOptions.RoleOptions;
+                AmongUs.GameOptions.RoleOptionsData roleOpt = null;
                 return role switch
                 {
-                    CustomRoles.Engineer => roleOpt.GetChancePerGame(RoleTypes.Engineer),
-                    CustomRoles.Scientist => roleOpt.GetChancePerGame(RoleTypes.Scientist),
-                    CustomRoles.Shapeshifter => roleOpt.GetChancePerGame(RoleTypes.Shapeshifter),
-                    CustomRoles.GuardianAngel => roleOpt.GetChancePerGame(RoleTypes.GuardianAngel),
-                    CustomRoles.Crewmate => roleOpt.GetChancePerGame(RoleTypes.Crewmate),
+                    CustomRoles.Engineer => roleOpt.GetChancePerGame(AmongUs.GameOptions.RoleTypes.Engineer),
+                    CustomRoles.Scientist => roleOpt.GetChancePerGame(AmongUs.GameOptions.RoleTypes.Scientist),
+                    CustomRoles.Shapeshifter => roleOpt.GetChancePerGame(AmongUs.GameOptions.RoleTypes.Shapeshifter),
+                    CustomRoles.GuardianAngel => roleOpt.GetChancePerGame(AmongUs.GameOptions.RoleTypes.GuardianAngel),
+                    CustomRoles.Crewmate => roleOpt.GetChancePerGame(AmongUs.GameOptions.RoleTypes.Crewmate),
                     _ => 0
                 } / 100f;
             }
@@ -362,9 +399,16 @@ namespace TownOfHost
                 CustomRoles.Camouflager or
                 CustomRoles.Vampress or
                 CustomRoles.Grenadier or
-                CustomRoles.Miner or
                 CustomRoles.Ninja or
                 CustomRoles.TheGlitch;
+        }
+        public static bool PetActivatedAbility(this CustomRoles role)
+        {
+            return
+                role is CustomRoles.Veteran or
+                CustomRoles.Miner or
+                CustomRoles.TheGlitch or
+                CustomRoles.Transporter;
         }
         public static bool IsEngineer(this CustomRoles role)
         {
@@ -374,16 +418,33 @@ namespace TownOfHost
             if (Options.MayorHasPortableButton.GetBool() && role == CustomRoles.Mayor) return true;
             if (Options.MediumArrow.GetBool() && role == CustomRoles.Medium) return true;
             return
-                role is CustomRoles.Veteran or
-                CustomRoles.Engineer or
+                role is CustomRoles.Engineer or
                 CustomRoles.Survivor or
                 CustomRoles.Madmate or
                 CustomRoles.Bastion or
                 CustomRoles.Mechanic or
-                CustomRoles.Transporter or
                 CustomRoles.Terrorist or
                 CustomRoles.GuardianAngelTOU;
         }
+        // CAT STUFF //
+        public static bool IsShieldedRole(this CustomRoles role)
+        {
+            return
+             role is CustomRoles.Arsonist or
+             CustomRoles.Investigator or
+             CustomRoles.PlagueBearer or
+             CustomRoles.AgiTater;
+        }
+        public static bool IsGuesser(this CustomRoles role)
+        {
+            if (role.IsCoven() && role != CustomRoles.Mimic)
+                return true;
+            return
+             role is CustomRoles.Pirate or
+             CustomRoles.NiceGuesser or
+             CustomRoles.EvilGuesser;
+        }
+        // MISC //
         public static bool RoleGoingInList(this CustomRoles role)
         {
             if (!role.IsEnable()) return false;

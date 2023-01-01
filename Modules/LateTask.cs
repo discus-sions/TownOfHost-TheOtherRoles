@@ -7,6 +7,7 @@ namespace TownOfHost
         public string name;
         public float timer;
         public Action action;
+        public bool deleteOnMeeting;
         public static List<LateTask> Tasks = new();
         public bool Run(float deltaTime)
         {
@@ -18,11 +19,12 @@ namespace TownOfHost
             }
             return false;
         }
-        public LateTask(Action action, float time, string name = "No Name Task")
+        public LateTask(Action action, float time, string name = "No Name Task", bool deleteOnMeeting = false)
         {
             this.action = action;
             this.timer = time;
             this.name = name;
+            this.deleteOnMeeting = deleteOnMeeting;
             Tasks.Add(this);
             Logger.Info("\"" + name + "\" is created", "LateTask");
         }
@@ -37,6 +39,11 @@ namespace TownOfHost
                     if (task.Run(deltaTime))
                     {
                         Logger.Info($"\"{task.name}\" is finished", "LateTask");
+                        TasksToRemove.Add(task);
+                    }
+                    else if (task.deleteOnMeeting && GameStates.IsMeeting)
+                    {
+                        Logger.Info($"\"{task.name}\" is was deleted because of Meeting.", "LateTask");
                         TasksToRemove.Add(task);
                     }
                 }

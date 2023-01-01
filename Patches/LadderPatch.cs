@@ -3,6 +3,13 @@ using System.Collections.Generic;
 using System.Text;
 using HarmonyLib;
 using UnityEngine;
+using System.Linq;
+using Hazel;
+using InnerNet;
+using static TownOfHost.Translator;
+using AmongUs.GameOptions;
+using static AmongUs.GameOptions.GameOptionsFactory;
+using Il2CppSystem.IO;
 
 namespace TownOfHost
 {
@@ -25,6 +32,7 @@ namespace TownOfHost
                 if (chance <= Chance)
                 {
                     TargetLadderData[player.myPlayer.PlayerId] = targetpos;
+                    // TargetLadderData[player.GetPrivateField<PlayerControl>("myPlayer").PlayerId] = targetpos;
                 }
             }
         }
@@ -41,8 +49,8 @@ namespace TownOfHost
                     new LateTask(() =>
                     {
                         Vector2 targetpos = (Vector2)TargetLadderData[player.PlayerId] + new Vector2(0.1f, 0f);
-                        ushort num = (ushort)(player.NetTransform.XRange.ReverseLerp(targetpos.x) * 65535f);
-                        ushort num2 = (ushort)(player.NetTransform.YRange.ReverseLerp(targetpos.y) * 65535f);
+                        ushort num = (ushort)(NetHelpers.XRange.ReverseLerp(targetpos.x) * 65535f);
+                        ushort num2 = (ushort)(NetHelpers.YRange.ReverseLerp(targetpos.y) * 65535f);
                         CustomRpcSender sender = CustomRpcSender.Create("LadderFallRpc", sendOption: Hazel.SendOption.None);
                         sender.AutoStartRpc(player.NetTransform.NetId, (byte)RpcCalls.SnapTo)
                               .Write(num)
@@ -60,6 +68,7 @@ namespace TownOfHost
                 }
             }
         }
+
     }
     [HarmonyPatch(typeof(PlayerPhysics), nameof(PlayerPhysics.ClimbLadder))]
     class LadderPatch

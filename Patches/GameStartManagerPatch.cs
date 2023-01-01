@@ -2,6 +2,15 @@ using HarmonyLib;
 using InnerNet;
 using AmongUs.Data;
 using UnityEngine;
+using AmongUs.GameOptions;
+using System.Collections.Generic;
+using System;
+using System.Linq;
+using Hazel;
+using static TownOfHost.Translator;
+using static AmongUs.GameOptions.GameOptionsFactory;
+using Il2CppSystem.IO;
+using TownOfHost.PrivateExtensions;
 
 namespace TownOfHost
 {
@@ -35,7 +44,7 @@ namespace TownOfHost
                         Utils.ShowLastResult();
                     }, 5f, "DisplayLastRoles");
                 }
-                HideName = Object.Instantiate(__instance.GameRoomNameCode, __instance.GameRoomNameCode.transform);
+                HideName = UnityEngine.Object.Instantiate(__instance.GameRoomNameCode, __instance.GameRoomNameCode.transform);
                 HideName.text = ColorUtility.TryParseHtmlString(Main.HideColor.Value, out _)
                         ? $"<color={Main.HideColor.Value}>{Main.HideName.Value}</color>"
                         : $"<color={Main.modColor}>{Main.HideName.Value}</color>";
@@ -73,13 +82,13 @@ namespace TownOfHost
                     __instance.GameRoomNameCode.color = new(255, 255, 255, 255);
                     GameStartManagerStartPatch.HideName.enabled = false;
                 }
-                if (!AmongUsClient.Instance.AmHost || !GameData.Instance || AmongUsClient.Instance.GameMode == GameModes.LocalGame) return; // Not host or no instance or LocalGame
+                if (!AmongUsClient.Instance.AmHost || !GameData.Instance || AmongUsClient.Instance.NetworkMode == NetworkModes.LocalGame) return; // Not host or no instance or LocalGame
                 update = GameData.Instance.PlayerCount != __instance.LastPlayerCount;
             }
             public static void Postfix(GameStartManager __instance)
             {
                 // Lobby timer
-                if (!AmongUsClient.Instance.AmHost || !GameData.Instance || AmongUsClient.Instance.GameMode == GameModes.LocalGame) return;
+                if (!AmongUsClient.Instance.AmHost || !GameData.Instance || AmongUsClient.Instance.NetworkMode == NetworkModes.LocalGame) return;
 
                 if (update) currentText = __instance.PlayerCounter.text;
 
@@ -88,8 +97,8 @@ namespace TownOfHost
                 int seconds = (int)timer % 60;
                 string suffix = $" ({minutes:00}:{seconds:00})";
                 if (timer <= 60) suffix = Helpers.ColorString(Color.red, suffix);
-                if (timer is 60 or 30 or 15 or 10 or 5 or 4 or 3 or 2 or 1)
-                    SoundManager.Instance.PlaySound(PlayerControl.LocalPlayer.KillSfx, false, 0.8f);
+                if (minutes == 0 && seconds < 15)
+                    SoundManager.Instance.PlaySound(ShipStatus.Instance.SabotageSound, false, 0.8f);
 
                 __instance.PlayerCounter.text = currentText + suffix;
                 __instance.PlayerCounter.autoSizeTextContainer = true;
@@ -109,17 +118,35 @@ namespace TownOfHost
     {
         public static void Prefix()
         {
-            Options.DefaultKillCooldown = PlayerControl.GameOptions.KillCooldown;
-            Main.LastKillCooldown.Value = PlayerControl.GameOptions.KillCooldown;
-            PlayerControl.GameOptions.KillCooldown = 0.1f;
-            foreach (var pc in PlayerControl.AllPlayerControls)
+            if (GameOptionsManager.Instance.currentGameMode == GameModes.Normal)
             {
-                if (pc == null || pc.Data.Disconnected) continue;
-                if (pc.CurrentOutfit.ColorId > 17)
-                    pc.RpcSetColor(17);
+                Options.DefaultKillCooldown = GameOptionsManager.Instance.CurrentGameOptions.AsNormalOptions()!.KillCooldown;
+                Main.LastKillCooldown.Value = GameOptionsManager.Instance.CurrentGameOptions.AsNormalOptions()!.KillCooldown;
+                GameOptionsManager.Instance.CurrentGameOptions.AsNormalOptions()!.KillCooldown = 0.1f;
+                foreach (var pc in PlayerControl.AllPlayerControls)
+                {
+                    if (pc == null || pc.Data.Disconnected) continue;
+                    if (pc.CurrentOutfit.ColorId > 17)
+                        pc.RpcSetColor(17);
+                }
+                // Main.RealOptionsData.ToBytes()
+                Main.RealOptionsData = GameOptionsManager.Instance.CurrentGameOptions.DeepCopy();
+                PlayerControl.LocalPlayer.RpcSyncSettings(Main.RealOptionsData.ToBytes());
             }
-            Main.RealOptionsData = PlayerControl.GameOptions.DeepCopy();
-            PlayerControl.LocalPlayer.RpcSyncSettings(Main.RealOptionsData);
+            else
+            {
+                Options.DefaultKillCooldown = GameOptionsManager.Instance.CurrentGameOptions.AsHnsOptions()!.KillCooldown;
+                Main.LastKillCooldown.Value = GameOptionsManager.Instance.CurrentGameOptions.AsHnsOptions()!.KillCooldown;
+                // GameOptionsManager.Instance.CurrentGameOptions.AsHnsOptions()!.KillCooldown = 0.1f;
+                foreach (var pc in PlayerControl.AllPlayerControls)
+                {
+                    if (pc == null || pc.Data.Disconnected) continue;
+                    if (pc.CurrentOutfit.ColorId > 17)
+                        pc.RpcSetColor(17);
+                }
+                Main.RealOptionsData = GameOptionsManager.Instance.CurrentGameOptions.DeepCopy();
+                PlayerControl.LocalPlayer.RpcSyncSettings(Main.RealOptionsData.ToBytes());
+            }
         }
         public static bool Prefix(GameStartRandomMap __instance)
         {
@@ -141,8 +168,7 @@ namespace TownOfHost
 
                 if (RandomMaps.Count <= 0) return true;
                 var MapsId = RandomMaps[rand.Next(RandomMaps.Count)];
-                PlayerControl.GameOptions.MapId = MapsId;
-
+                GameOptionsManager.Instance.CurrentGameOptions.AsNormalOptions()!.MapId = MapsId;
             }
             return continueStart;
         }
@@ -154,17 +180,17 @@ namespace TownOfHost
         {
             if (GameStates.IsCountDown)
             {
-                PlayerControl.GameOptions.KillCooldown = Options.DefaultKillCooldown;
-                PlayerControl.LocalPlayer.RpcSyncSettings(PlayerControl.GameOptions);
+                GameOptionsManager.Instance.CurrentGameOptions.AsNormalOptions()!.KillCooldown = Options.DefaultKillCooldown;
+                PlayerControl.LocalPlayer.RpcSyncSettings(GameOptionsManager.Instance.CurrentGameOptions.ToBytes());
             }
         }
     }
-    [HarmonyPatch(typeof(GameOptionsData), nameof(GameOptionsData.GetAdjustedNumImpostors))]
+    [HarmonyPatch(typeof(LogicOptions), nameof(LogicOptions.GetAdjustedNumImpostors))]
     class UnrestrictedNumImpostorsPatch
     {
         public static bool Prefix(ref int __result)
         {
-            __result = PlayerControl.GameOptions.NumImpostors;
+            __result = GameOptionsManager.Instance.CurrentGameOptions.NumImpostors;
             return false;
         }
     }

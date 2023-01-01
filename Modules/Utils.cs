@@ -8,6 +8,13 @@ using Hazel;
 using UnityEngine;
 using static TownOfHost.Translator;
 using AmongUs.Data;
+using AmongUs.GameOptions;
+using System.Reflection;
+using System.Text.Json;
+using TownOfHost.PrivateExtensions;
+using Assets.CoreScripts;
+using Il2CppSystem.Collections;
+using JetBrains.Annotations;
 
 namespace TownOfHost
 {
@@ -15,7 +22,7 @@ namespace TownOfHost
     {
         public static bool IsActive(SystemTypes type)
         {
-            var SwitchSystem = ShipStatus.Instance.Systems[type].Cast<SwitchSystem>();
+            var SwitchSystem = (SwitchSystem)ShipStatus.Instance.Systems[type].Cast<SwitchSystem>();
             Logger.Info($"SystemTypes:{type}", "SwitchSystem");
             return SwitchSystem != null && SwitchSystem.IsActive;
         }
@@ -32,7 +39,20 @@ namespace TownOfHost
             }
             return returned;
         }
-        public static void SetVision(this GameOptionsData opt, PlayerControl player, bool HasImpVision)
+        public static string ReplaceSpaceWithChar(string text, string replace)
+        {
+            string returned = "";
+            string[] seperate = text.Split(" ");
+            string last = seperate[seperate.Length];
+            foreach (var t in seperate)
+            {
+                returned += t;
+                if (t != last)
+                    returned += replace;
+            }
+            return returned;
+        }
+        public static void SetVision(this NormalGameOptionsV07 opt, PlayerControl player, bool HasImpVision)
         {
             if (HasImpVision)
             {
@@ -51,6 +71,21 @@ namespace TownOfHost
         }
         public static string GetOnOff(bool value) => value ? "ON" : "OFF";
         public static int SetRoleCountToggle(int currentCount) => currentCount > 0 ? 0 : 1;
+        public static bool ContainsStart(this string text)
+        {
+            if (text == "Start") return true;
+            if (text == "start") return true;
+            if (text.Contains("started")) return false;
+            if (text.Contains("starter")) return false;
+            if (text.Contains("Starting")) return false;
+            if (text.Contains("starting")) return false;
+            if (text.Contains("beginner")) return false;
+            if (text.Contains("beginned")) return false;
+            if (text.Contains("start")) return true;
+            if (text.Contains("s t a r t")) return true;
+            if (text.Contains("begin")) return true;
+            return false;
+        }
         public static void SetRoleCountToggle(CustomRoles role)
         {
             int count = Options.GetRoleCount(role);
@@ -74,6 +109,62 @@ namespace TownOfHost
         public static string GetDeathReason(PlayerState.DeathReason status)
         {
             return GetString("DeathReason." + Enum.GetName(typeof(PlayerState.DeathReason), status));
+        }
+        public static AttackEnum GetAttackEnum(CustomRoles role)
+        {
+            if (!Main.attackValues.TryGetValue(role, out var power)) power = AttackEnum.None;
+            var attack = power;
+            return attack;
+        }
+        public static void CallMeeting()
+        {
+            if (!PlayerControl.LocalPlayer.Data.IsDead)
+            {
+                PlayerControl.LocalPlayer.CmdReportDeadBody(null);
+            }
+            else
+            {
+                bool reported = false;
+                foreach (var pc in PlayerControl.AllPlayerControls)
+                {
+                    if (pc == null || pc.Data.IsDead || pc.Data.Disconnected || reported) continue;
+                    if (!reported)
+                        pc.CmdReportDeadBody(null);
+                }
+            }
+        }
+        public static void BeginRoundReview()
+        {
+            SendMessage("NOTE: Any commands ran during this period will have their outputs after the review.");
+            Main.MessageWait.Value = 4;
+            var time = (Main.DeadPlayersThisRound.Count * 20) + 5;
+            foreach (var player in Main.DeadPlayersThisRound)
+            {
+                var pc = GetPlayerById(player);
+                SendMessage($"{pc.GetRealName(true)} died last round."); // NAME
+                try
+                {
+                    SendMessage(pc.GetDeathMessage()); // Actual Death Reason
+                }
+                catch (Exception ex)
+                {
+                    Logger.SendInGame($"Error loading death reason.\n{ex}");
+                    var deathReasonFound = PlayerState.deathReasons.TryGetValue(pc.PlayerId, out var deathReason);
+                    var reason = deathReasonFound ? GetString("DeathReason." + deathReason.ToString()) : "No Death Reason Found";
+                    SendMessage($"We could not determine their role. Their death reason is {reason}");
+                }
+                SendMessage($"We could not find a last will."); // NO LAST WILL
+                if (Main.unreportableBodies.Contains(player)) // DONT DISPLAY ROLE IF CLEANED
+                    SendMessage($"Their role is uninterpertable.");
+                else
+                    SendMessage($"{pc.GetRealName(true)} was a/an {GetRoleName(pc.GetCustomRole())}.");
+            }
+        }
+        public static DefenseEnum GetDefenseEnum(CustomRoles role)
+        {
+            if (!Main.defenseValues.TryGetValue(role, out var power)) power = DefenseEnum.None;
+            var defense = power;
+            return defense;
         }
         public static Color GetRoleColor(CustomRoles role)
         {
@@ -166,7 +257,7 @@ namespace TownOfHost
                 if (CustomRolesHelper.IsCoven(p.GetCustomRole())) hasTasks = false;
                 if (cRoleFound)
                 {
-                    //if (cRole == CustomRoles.GM) hasTasks = false;
+                    if (cRole == CustomRoles.GM) hasTasks = false;
                     if (cRole == CustomRoles.Jester) hasTasks = false;
                     if (cRole == CustomRoles.MadGuardian && ForRecompute) hasTasks = false;
                     if (cRole == CustomRoles.MadSnitch && ForRecompute) hasTasks = false;
@@ -185,6 +276,7 @@ namespace TownOfHost
                     if (cRole == CustomRoles.Impostor) hasTasks = false;
                     if (cRole == CustomRoles.PoisonMaster) hasTasks = false;
                     if (cRole == CustomRoles.Shapeshifter) hasTasks = false;
+                    if (cRole == CustomRoles.AgiTater) hasTasks = false;
                     if (cRole == CustomRoles.Arsonist) hasTasks = false;
                     if (cRole == CustomRoles.Parasite) hasTasks = false;
                     if (cRole == CustomRoles.NeutWitch) hasTasks = false;
@@ -213,6 +305,7 @@ namespace TownOfHost
 
                     if (cRole == CustomRoles.CrewPostor && ForRecompute) hasTasks = false;
                     if (cRole == CustomRoles.CrewPostor && p.IsDead) hasTasks = false;
+                    if (cRole == CustomRoles.Phantom && p.IsDead) hasTasks = false;
                     if (cRole == CustomRoles.Phantom && ForRecompute) hasTasks = false;
 
                     if (cRole == CustomRoles.CovenWitch) hasTasks = false;
@@ -314,7 +407,7 @@ namespace TownOfHost
                     ProgressText = Helpers.ColorString(GetRoleColor(CustomRoles.Hacker), $"({Main.HackerFixedSaboCount[playerId]}/{Options.SaboAmount.GetInt()})");
                     break;
                 default:
-                    if (realRole is CustomRoles.Jackal or CustomRoles.Hitman or CustomRoles.Amnesiac or CustomRoles.Hitman) break;
+                    if (realRole is CustomRoles.Jackal or CustomRoles.Hitman or CustomRoles.Amnesiac or CustomRoles.Hitman or CustomRoles.AgiTater) break;
                     checkTasks = true;
                     break;
             }
@@ -340,7 +433,7 @@ namespace TownOfHost
                                 float dis;
                                 foreach (PlayerControl p in PlayerControl.AllPlayerControls)
                                 {
-                                    if (!p.Data.IsDead && p != cp)
+                                    if (!p.Data.IsDead && p != cp && !p.Is(CustomRoles.CPSchrodingerCat))
                                     {
                                         dis = Vector2.Distance(cppos, p.transform.position);
                                         cpdistance.Add(p, dis);
@@ -352,6 +445,13 @@ namespace TownOfHost
                                 Logger.Info($"{targetw.GetNameWithRole()}was killed", "CrewPostor");
                                 if (targetw.Is(CustomRoles.Pestilence))
                                     targetw.RpcMurderPlayerV2(cp);
+                                else if (targetw.Is(CustomRoles.SchrodingerCat))
+                                {
+                                    targetw.RpcSetCustomRole(CustomRoles.CPSchrodingerCat);
+                                    NameColorManager.Instance.RpcAdd(cp.PlayerId, targetw.PlayerId, $"{GetRoleColorCode(CustomRoles.SchrodingerCat)}");
+                                    NotifyRoles();
+                                    CustomSyncAllSettings();
+                                }
                                 else
                                     cp.RpcMurderPlayerV2(targetw);
                                 cp.RpcGuardAndKill(cp);
@@ -388,7 +488,7 @@ namespace TownOfHost
                                 }
                                 new LateTask(() =>
                                 {
-                                    ShipStatus.RpcEndGame(endReason, false);
+                                    GameManager.Instance.RpcEndGame(endReason, false);
                                 }, 0.5f, "EndGameTaskForPhantom");
                             }
                             if (remaining <= Options.TasksRemainingForPhantomClicked.GetInt() && !Main.PhantomCanBeKilled)
@@ -446,7 +546,7 @@ namespace TownOfHost
                 if (Options.RandomMapsMode.GetBool()) { SendMessage(GetString("RandomMapsModeInfo")); }
                 if (Options.IsStandardHAS) { SendMessage(GetString("StandardHASInfo")); }
                 if (Options.CamoComms.GetBool()) { SendMessage(GetString("CamoCommsInfo")); }
-                // if (Options.EnableGM.GetBool()) { SendMessage(GetRoleName(CustomRoles.GM) + GetString("GMInfoLong")); }
+                if (Options.EnableGM.GetBool()) { SendMessage(GetRoleName(CustomRoles.GM) + GetString("GMInfoLong")); }
                 foreach (var role in Enum.GetValues(typeof(CustomRoles)).Cast<CustomRoles>())
                 {
                     if (role is CustomRoles.HASFox or CustomRoles.HASTroll) continue;
@@ -516,34 +616,51 @@ namespace TownOfHost
                 //Roles look Similar to ToU
                 SendMessage(text, PlayerId);
                 text = GetString("Settings") + ":";
+                /* foreach (var role in Options.CustomRoleCounts)
+                 {
+                     if (!role.Key.IsEnable()) continue;
+                     bool isFirst = true;
+                     foreach (var c in Options.CustomRoleSpawnChances[role.Key].Children)
+                     {
+                         if (isFirst) { isFirst = false; continue; }
+                         text += $"\n{c.GetName(disableColor: true)}:{c.GetString()}";
+
+                         //タスク上書き設定用の処理
+                         if (c.Name == "doOverride" && c.GetBool() == true)
+                         {
+                             foreach (var d in c.Children)
+                             {
+                                 text += $"\n{d.GetName(disableColor: true)}:{d.GetString()}";
+                             }
+                         }
+                         //メイヤーのポータブルボタン使用可能回数
+                         if (c.Name == "MayorHasPortableButton" && c.GetBool() == true)
+                         {
+                             foreach (var d in c.Children)
+                             {
+                                 text += $"\n{d.GetName(disableColor: true)}:{d.GetString()}";
+                             }
+                         }
+                         text = text.RemoveHtmlTags();
+                     }
+                 }*/
                 foreach (var role in Options.CustomRoleCounts)
                 {
                     if (!role.Key.IsEnable()) continue;
-                    bool isFirst = true;
-                    foreach (var c in Options.CustomRoleSpawnChances[role.Key].Children)
-                    {
-                        if (isFirst) { isFirst = false; continue; }
-                        text += $"\n{c.GetName(disableColor: true)}:{c.GetString()}";
-
-                        //タスク上書き設定用の処理
-                        if (c.Name == "doOverride" && c.GetBool() == true)
-                        {
-                            foreach (var d in c.Children)
-                            {
-                                text += $"\n{d.GetName(disableColor: true)}:{d.GetString()}";
-                            }
-                        }
-                        //メイヤーのポータブルボタン使用可能回数
-                        if (c.Name == "MayorHasPortableButton" && c.GetBool() == true)
-                        {
-                            foreach (var d in c.Children)
-                            {
-                                text += $"\n{d.GetName(disableColor: true)}:{d.GetString()}";
-                            }
-                        }
-                        text = text.RemoveHtmlTags();
-                    }
+                    text += $"\n【{GetRoleName(role.Key)}×{role.Key.GetCount()}】\n";
+                    ShowChildrenSettings(Options.CustomRoleSpawnChances[role.Key], ref text);
+                    text = text.RemoveHtmlTags();
                 }
+                foreach (var opt in CustomOption.Options.Where(x => x.Enabled && x.Parent == null && x.Id >= 80000 && !x.IsHidden(Options.CurrentGameMode())))
+                {
+                    if (opt.Name == "KillFlashDuration")
+                        text += $"\n【{opt.GetName(true)}: {opt.GetString()}】\n";
+                    else
+                        text += $"\n【{opt.GetName(true)}】\n";
+                    ShowChildrenSettings(opt, ref text);
+                    text = text.RemoveHtmlTags();
+                }
+                /*
                 if (Options.EnableLastImpostor.GetBool()) text += String.Format("\n{0}:{1}", GetString("LastImpostorKillCooldown"), Options.LastImpostorKillCooldown.GetString());
                 if (Options.DisableDevices.GetBool())
                 {
@@ -552,59 +669,61 @@ namespace TownOfHost
                 if (Options.SyncButtonMode.GetBool()) text += String.Format("\n{0}:{1}", GetString("SyncedButtonCount"), Options.SyncedButtonCount.GetInt());
                 if (Options.SabotageTimeControl.GetBool())
                 {
-                    if (PlayerControl.GameOptions.MapId == 2) text += String.Format("\n{0}:{1}", GetString("PolusReactorTimeLimit"), Options.PolusReactorTimeLimit.GetString());
-                    if (PlayerControl.GameOptions.MapId == 4) text += String.Format("\n{0}:{1}", GetString("AirshipReactorTimeLimit"), Options.AirshipReactorTimeLimit.GetString());
+                    if (GameOptionsManager.Instance.currentNormalGameOptions.MapId == 2) text += String.Format("\n{0}:{1}", GetString("PolusReactorTimeLimit"), Options.PolusReactorTimeLimit.GetString());
+                    if (GameOptionsManager.Instance.currentNormalGameOptions.MapId == 4) text += String.Format("\n{0}:{1}", GetString("AirshipReactorTimeLimit"), Options.AirshipReactorTimeLimit.GetString());
                 }
                 if (Options.VoteMode.GetBool())
                 {
                     if (Options.GetWhenSkipVote() != VoteMode.Default) text += String.Format("\n{0}:{1}", GetString("WhenSkipVote"), Options.WhenSkipVote.GetString());
                     if (Options.GetWhenNonVote() != VoteMode.Default) text += String.Format("\n{0}:{1}", GetString("WhenNonVote"), Options.WhenNonVote.GetString());
                     if ((Options.GetWhenNonVote() == VoteMode.Suicide || Options.GetWhenSkipVote() == VoteMode.Suicide) && CustomRoles.Terrorist.IsEnable()) text += String.Format("\n{0}:{1}", GetString("CanTerroristSuicideWin"), Options.CanTerroristSuicideWin.GetBool());
-                }
+                }*/
                 if (CustomRoles.Engineer.IsEnable() | CustomRoles.Scientist.IsEnable() | CustomRoles.GuardianAngel.IsEnable() | CustomRoles.Shapeshifter.IsEnable())
                 {
                     text += "\n\nVanilla Role Settings:";
+                    // GameOptionsManager.Instance.CurrentGameOptions
                     if (CustomRoles.Engineer.IsEnable())
                     {
-                        text += String.Format("\n{0}:{1}", "Vent Use Cooldown", PlayerControl.GameOptions.RoleOptions.EngineerCooldown);
-                        text += String.Format("\n{0}:{1}", "Max Time In Vents", PlayerControl.GameOptions.RoleOptions.EngineerInVentMaxTime);
+                        text += String.Format("\n{0}:{1}", "Vent Use Cooldown", GameOptionsManager.Instance.currentNormalGameOptions.GetEngineerOptions().EngineerCooldown);
+                        text += String.Format("\n{0}:{1}", "Max Time In Vents", GameOptionsManager.Instance.currentNormalGameOptions.GetEngineerOptions().EngineerInVentMaxTime);
                     }
                     if (CustomRoles.Shapeshifter.IsEnable())
                     {
-                        text += String.Format("\n{0}:{1}", "Shapeshift Cooldown", PlayerControl.GameOptions.RoleOptions.ShapeshifterCooldown);
-                        text += String.Format("\n{0}:{1}", "Shapeshift Duration", PlayerControl.GameOptions.RoleOptions.ShapeshifterDuration);
-                        text += String.Format("\n{0}:{1}", "Leave Shapeshifting Evidence", GetOnOff(PlayerControl.GameOptions.RoleOptions.ShapeshifterLeaveSkin));
+                        text += String.Format("\n{0}:{1}", "Shapeshift Cooldown", GameOptionsManager.Instance.currentNormalGameOptions.GetShapeshifterOptions().ShapeshifterCooldown);
+                        text += String.Format("\n{0}:{1}", "Shapeshift Duration", GameOptionsManager.Instance.currentNormalGameOptions.GetShapeshifterOptions().ShapeshifterDuration);
+                        text += String.Format("\n{0}:{1}", "Leave Shapeshifting Evidence", GetOnOff(GameOptionsManager.Instance.currentNormalGameOptions.GetShapeshifterOptions().ShapeshifterLeaveSkin));
                     }
                     if (CustomRoles.Scientist.IsEnable())
                     {
-                        text += String.Format("\n{0}:{1}", "Vitals Display Cooldown", PlayerControl.GameOptions.RoleOptions.ScientistCooldown);
-                        text += String.Format("\n{0}:{1}", "Battery Charge", PlayerControl.GameOptions.RoleOptions.ScientistBatteryCharge);
+                        text += String.Format("\n{0}:{1}", "Vitals Display Cooldown", GameOptionsManager.Instance.currentNormalGameOptions.GetScientistOptions().ScientistCooldown);
+                        text += String.Format("\n{0}:{1}", "Battery Charge", GameOptionsManager.Instance.currentNormalGameOptions.GetScientistOptions().ScientistBatteryCharge);
                     }
                     if (CustomRoles.GuardianAngel.IsEnable())
                     {
-                        text += String.Format("\n{0}:{1}", "Protect Cooldown", PlayerControl.GameOptions.RoleOptions.GuardianAngelCooldown);
-                        text += String.Format("\n{0}:{1}", "Protection Duration", PlayerControl.GameOptions.RoleOptions.ProtectionDurationSeconds);
-                        text += String.Format("\n{0}:{1}", "Protect Visible to Impostors", GetOnOff(PlayerControl.GameOptions.RoleOptions.ImpostorsCanSeeProtect));
+                        text += String.Format("\n{0}:{1}", "Protect Cooldown", GameOptionsManager.Instance.currentNormalGameOptions.GetGuardianAngelOptions().GuardianAngelCooldown);
+                        text += String.Format("\n{0}:{1}", "Protection Duration", GameOptionsManager.Instance.currentNormalGameOptions.GetGuardianAngelOptions().ProtectionDurationSeconds);
+                        text += String.Format("\n{0}:{1}", "Protect Visible to Impostors", GetOnOff(GameOptionsManager.Instance.currentNormalGameOptions.GetGuardianAngelOptions().ImpostorsCanSeeProtect));
                     }
                 }
                 text += String.Format("\n{0}:{1}", GetString("LadderDeath"), GetOnOff(Options.LadderDeath.GetBool()));
 
             }
-            if (Options.LadderDeath.GetBool())
-            {
-                text += String.Format("\n{0}:{1}", GetString("LadderDeath"), GetOnOff(Options.LadderDeath.GetBool()));
-                text += String.Format("\n{0}:{1}", GetString("LadderDeathChance"), Options.LadderDeathChance.GetString());
-            }
-            if (Options.IsStandardHAS) text += String.Format("\n{0}:{1}", GetString("StandardHAS"), GetOnOff(Options.StandardHAS.GetBool()));
-            if (Options.NoGameEnd.GetBool()) text += String.Format("\n{0}:{1}", GetString("NoGameEnd"), GetOnOff(Options.NoGameEnd.GetBool()));
-            if (Options.DisableTaskWin.GetBool()) text += String.Format("\n{0}:{1}", GetString("DisableTaskWin"), GetOnOff(Options.DisableTaskWin.GetBool()));
+            /* if (Options.LadderDeath.GetBool())
+             {
+                 text += String.Format("\n{0}:{1}", GetString("LadderDeath"), GetOnOff(Options.LadderDeath.GetBool()));
+                 text += String.Format("\n{0}:{1}", GetString("LadderDeathChance"), Options.LadderDeathChance.GetString());
+             }
+             if (Options.IsStandardHAS) text += String.Format("\n{0}:{1}", GetString("StandardHAS"), GetOnOff(Options.StandardHAS.GetBool()));
+             if (Options.NoGameEnd.GetBool()) text += String.Format("\n{0}:{1}", GetString("NoGameEnd"), GetOnOff(Options.NoGameEnd.GetBool()));
+             if (Options.DisableTaskWin.GetBool()) text += String.Format("\n{0}:{1}", GetString("DisableTaskWin"), GetOnOff(Options.DisableTaskWin.GetBool()));
+            */
             SendMessage(text, PlayerId);
         }
         public static void ShowActiveRoles(byte PlayerId = byte.MaxValue)
         {
             var text = GetString("Roles") + ":";
             text += "\nFor Percentages, \nPlease type /percentages.";
-            // text += string.Format("\n{0}:{1}", GetRoleName(CustomRoles.GM), GetOnOff(Options.EnableGM.GetBool()));
+            text += string.Format("\n{0}:{1}", GetRoleName(CustomRoles.GM), GetOnOff(Options.EnableGM.GetBool()));
             foreach (CustomRoles role in Enum.GetValues(typeof(CustomRoles)))
             {
                 if (role is CustomRoles.HASFox or CustomRoles.HASTroll) continue;
@@ -624,9 +743,13 @@ namespace TownOfHost
         }
         public static void BlockCommand(int times, byte PlayerId = byte.MaxValue)
         {
+            var og = Main.MessageWait.Value;
+            Main.MessageWait.Value = 0.25f;
             for (var i = 0; i < times; i++)
             {
                 SendMessage(".\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.", PlayerId);
+                if (i == times | i == times - 1)
+                    Main.MessageWait.Value = og;
             }
             SendMessage("This command has been blocked.", PlayerId);
         }
@@ -684,6 +807,27 @@ namespace TownOfHost
             SendMessage(text, PlayerId);
         }
 
+        public static void ShowChildrenSettings(CustomOption option, ref string text, int deep = 0)
+        {
+            foreach (var opt in option.Children.Select((v, i) => new { Value = v, Index = i + 1 }))
+            {
+                if (opt.Value.Name == "Maximum") continue; //Maximumの項目は飛ばす
+                if (opt.Value.Name == "DisableSkeldDevices" && !Options.IsActiveSkeld) continue;
+                if (opt.Value.Name == "DisableMiraHQDevices" && !Options.IsActiveMiraHQ) continue;
+                if (opt.Value.Name == "DisablePolusDevices" && !Options.IsActivePolus) continue;
+                if (opt.Value.Name == "DisableAirshipDevices" && !Options.IsActiveAirship) continue;
+                if (opt.Value.Name == "PolusReactorTimeLimit" && !Options.IsActivePolus) continue;
+                if (opt.Value.Name == "AirshipReactorTimeLimit" && !Options.IsActiveAirship) continue;
+                if (deep > 0)
+                {
+                    text += string.Concat(Enumerable.Repeat("┃", Mathf.Max(deep - 1, 0)));
+                    text += opt.Index == option.Children.Count ? "┗ " : "┣ ";
+                }
+                text += $"{opt.Value.GetName(true)}: {opt.Value.GetString()}\n";
+                if (opt.Value.Enabled) ShowChildrenSettings(opt.Value, ref text, deep + 1);
+            }
+        }
+
 
         public static string GetShowLastSubRolesText(byte id, bool disableColor = false, bool IntroCutscene = false)
         {
@@ -727,8 +871,8 @@ namespace TownOfHost
         public static Dictionary<List<byte>, List<byte>> GetPsychicStuff(PlayerControl seer)
         {
             Dictionary<List<byte>, List<byte>> Dictionary = new();
-            int numOfPsychicBad = UnityEngine.Random.RandomRange(0, 3);
-            numOfPsychicBad = Mathf.RoundToInt(numOfPsychicBad);
+            int numOfPsychicBad = Mathf.RoundToInt(UnityEngine.Random.RandomRange(0, 3));
+            //numOfPsychicBad = Mathf.RoundToInt(numOfPsychicBad);
             if (numOfPsychicBad > 3) // failsafe
                 numOfPsychicBad = 3;
             List<byte> goodids = new();
@@ -784,7 +928,7 @@ namespace TownOfHost
                     }
                     if (isGood[pc.PlayerId]) goodPlayers.Add(pc);
                 }
-                if (numOfPsychicBad < badPlayers.Count) numOfPsychicBad = badPlayers.Count;
+                if (numOfPsychicBad > badPlayers.Count) numOfPsychicBad = badPlayers.Count;
                 int goodPeople = 3 - numOfPsychicBad;
                 for (var i = 0; i < numOfPsychicBad; i++)
                 {
@@ -944,10 +1088,10 @@ namespace TownOfHost
             }
         }
 
-        public static void BlackOut(this GameOptionsData opt, bool IsBlackOut)
+        public static void BlackOut(this NormalGameOptionsV07 opt, bool IsBlackOut)
         {
-            opt.ImpostorLightMod = Main.RealOptionsData.ImpostorLightMod;
-            opt.CrewLightMod = Main.RealOptionsData.CrewLightMod;
+            opt.ImpostorLightMod = Main.RealOptionsData.AsNormalOptions()!.ImpostorLightMod;
+            opt.CrewLightMod = Main.RealOptionsData.AsNormalOptions()!.CrewLightMod;
             if (IsBlackOut)
             {
                 opt.ImpostorLightMod = 0.0f;
@@ -976,7 +1120,8 @@ namespace TownOfHost
         {
             if (AmongUsClient.Instance.AmHost) nt.SnapTo(location);
             MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(nt.NetId, (byte)RpcCalls.SnapTo, SendOption.None);
-            nt.WriteVector2(location, writer);
+            //nt.WriteVector2(location, writer);
+            NetHelpers.WriteVector2(location, writer);
             writer.Write(nt.lastSequenceId);
             AmongUsClient.Instance.FinishRpcImmediately(writer);
         }
@@ -1129,6 +1274,18 @@ namespace TownOfHost
                     SelfSuffix = "Gazing: " + ModeLang;
                     SelfSuffix += "\nGaze Ready: " + ReadyLang;
                 }
+                if (seer.Is(CustomRoles.Veteran))
+                {
+                    var ModeLang = Main.VetIsAlerted ? "True" : "False";
+                    var ReadyLang = Main.VetCanAlert ? "True" : "False";
+                    SelfSuffix = "Alerted: " + ModeLang;
+                    SelfSuffix += "\nCan Alert: " + ReadyLang;
+                }
+                if (seer.Is(CustomRoles.Transporter))
+                {
+                    var ModeLang = Main.CanTransport ? "Yes" : "No";
+                    SelfSuffix = "Can Transport: " + ModeLang;
+                }
                 if (seer.Is(CustomRoles.Swooper))
                 {
                     var ModeLang = Main.IsInvis ? "Yes" : "No";
@@ -1140,6 +1297,11 @@ namespace TownOfHost
                 {
                     var ModeLang = Main.IsHackMode ? "Hack" : "Kill";
                     SelfSuffix = "Glitch Current Mode: " + ModeLang;
+                }
+                if (seer.Is(CustomRoles.VoteStealer))
+                {
+                    var voteAmt = Options.VoteAmtOnCompletion.GetInt() == 1 ? "Vote" : "Votes";
+                    SelfSuffix = $"Kills until {Options.VoteAmtOnCompletion.GetInt()} {voteAmt}: {Options.KillsForVote.GetInt() - Main.PickpocketKills[seer.PlayerId]}";
                 }
 
                 //他人用の変数定義
@@ -1249,6 +1411,11 @@ namespace TownOfHost
                             }
                         }
                     }
+                }
+
+                if (seer.PlayerId == AgiTater.CurrentBombedPlayer && AgiTater.IsEnable())
+                {
+                    SelfSuffix = Helpers.ColorString(GetRoleColor(CustomRoles.AgiTater), $"<size={fontSize}>Pass the bomb to another player!</size>");
                 }
 
                 //RealNameを取得 なければ現在の名前をRealNamesに書き込む
@@ -1502,8 +1669,8 @@ namespace TownOfHost
                             else
                                 TargetRoleText = $"\r\n{Helpers.ColorString(target.GetRoleColor(), target.GetRoleName())}{TargetTaskText}";
 
-                        // if (target.Is(CustomRoles.GM))
-                        // TargetRoleText = $"<size={fontSize}>{Helpers.ColorString(target.GetRoleColor(), target.GetRoleName())}</size>\r\n";
+                        if (target.Is(CustomRoles.GM))
+                            TargetRoleText = $"<size={fontSize}>{Helpers.ColorString(target.GetRoleColor(), target.GetRoleName())}</size>\r\n";
 
                         //RealNameを取得 なければ現在の名前をRealNamesに書き込む
                         string TargetPlayerName = target.GetRealName(isMeeting);
@@ -1643,7 +1810,7 @@ namespace TownOfHost
                                 }
                             }
                         }
-                        if (seer.Is(CustomRoles.YingYanger) && Main.ColliderPlayers.Contains(target))
+                        if (seer.Is(CustomRoles.YingYanger) && Main.ColliderPlayers.Contains(target.PlayerId))
                         {
                             TargetPlayerName = Helpers.ColorString(GetRoleColor(CustomRoles.Target), TargetPlayerName);
                         }
@@ -1707,7 +1874,7 @@ namespace TownOfHost
                 if (!pc.Data.IsDead)
                     if (role.IsImpostor() || role.IsCoven() || role.IsNeutralKilling() || role == CustomRoles.Investigator)
                         pc.RpcGuardAndKill(pc);
-                if (PlayerControl.GameOptions.MapId != 4) // other than Airship
+                if (GameOptionsManager.Instance.currentNormalGameOptions.MapId != 4) // other than Airship
                     if (pc.Is(CustomRoles.Camouflager))
                     {
                         //main.AirshipMeetingTimer.Add(pc.PlayerId , 0f);
@@ -1888,6 +2055,9 @@ namespace TownOfHost
         public static string SummaryTexts(byte id, bool disableColor = true)
         {
             string summary = $"{Helpers.ColorString(Main.PlayerColors[id], Main.AllPlayerNames[id])}<pos=25%> {Helpers.ColorString(GetRoleColor(Main.LastPlayerCustomRoles[id]), GetRoleName(Main.LastPlayerCustomRoles[id]))}{GetShowLastSubRolesText(id)}</pos><pos=44%> {GetProgressText(id)}</pos><pos=51%> {GetVitalText(id)}</pos>";
+            var killCountFound = Main.KillCount.TryGetValue(id, out var killAmt);
+            if (killCountFound && killAmt != 0)
+                summary += $" [Kill Count: {killAmt}]";
             return disableColor ? summary.RemoveHtmlTags() : Regex.Replace(summary, " ", "");
         }
         public static string RemoveHtmlTags(this string str) => Regex.Replace(str, "<[^>]*?>", "");
