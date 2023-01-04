@@ -70,6 +70,7 @@ namespace TownOfHost
                     writer.Write(exiled.PlayerId);
                     AmongUsClient.Instance.FinishRpcImmediately(writer);
                     RPC.JesterExiled(exiled.PlayerId);
+                    EndGameHelper.AssignWinner(exiled.PlayerId);
                     DecidedWinner = true;
                 }
                 if (role == CustomRoles.Child && AmongUsClient.Instance.AmHost)
@@ -80,6 +81,7 @@ namespace TownOfHost
                     AmongUsClient.Instance.FinishRpcImmediately(writer);
                     //RPC.ChildWin(exiled.PlayerId);
                     Utils.ChildWin(exiled);
+                    EndGameHelper.AssignWinner(exiled.PlayerId);
                     DecidedWinner = true;
                 }
                 if (role is CustomRoles.Oracle or CustomRoles.Bodyguard or CustomRoles.Medic && AmongUsClient.Instance.AmHost)

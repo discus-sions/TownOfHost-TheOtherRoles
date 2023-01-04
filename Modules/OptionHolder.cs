@@ -244,6 +244,7 @@ namespace TownOfHost
         public static CustomOption LadderDeath;
         public static CustomOption LadderDeathChance;
         public static CustomOption GarunteePet;
+        public static CustomOption AccurateWinner;
 
         // 通常モードでかくれんぼ
         public static bool IsStandardHAS => StandardHAS.GetBool() && CurrentGameMode() == CustomGameMode.Standard;
@@ -995,19 +996,22 @@ namespace TownOfHost
             StandardHASWaitingTime = CustomOption.Create(100701, Color.white, "StandardHASWaitingTime", AmongUsExtensions.OptionType.GameOption, 10f, 0f, 180f, 2.5f, StandardHAS)
                 .SetGameMode(CustomGameMode.Standard);
 
+            AccurateWinner = CustomOption.Create(49247323, Color.green, "AccurateWinner", AmongUsExtensions.OptionType.GameOption, false, null, true)
+                .SetGameMode(CustomGameMode.Standard);
+
             MinNK = CustomOption.Create(1007012, Color.white, "MinNK", AmongUsExtensions.OptionType.GameOption, 0, 0, 11, 1, null, true)
                 .SetGameMode(CustomGameMode.Standard);
-            MaxNK = CustomOption.Create(1007013, Color.white, "MaxNK", AmongUsExtensions.OptionType.GameOption, 0, 0, 11, 1, null, true)
+            MaxNK = CustomOption.Create(1007013, Color.white, "MaxNK", AmongUsExtensions.OptionType.GameOption, 0, 0, 11, 1, null, false)
                 .SetGameMode(CustomGameMode.Standard);
             MinNonNK = CustomOption.Create(1007014, Color.white, "MinNonNK", AmongUsExtensions.OptionType.GameOption, 0, 0, 11, 1, null, true)
                 .SetGameMode(CustomGameMode.Standard);
-            MaxNonNK = CustomOption.Create(1007015, Color.white, "MaxNonNK", AmongUsExtensions.OptionType.GameOption, 0, 0, 11, 1, null, true)
+            MaxNonNK = CustomOption.Create(1007015, Color.white, "MaxNonNK", AmongUsExtensions.OptionType.GameOption, 0, 0, 11, 1, null, false)
                 .SetGameMode(CustomGameMode.Standard);
 
             // その他
             CamoComms = CustomOption.Create(100607, Color.white, "CamoComms", AmongUsExtensions.OptionType.GameOption, false, null, true)
                 .SetGameMode(CustomGameMode.All);
-            NoGameEnd = CustomOption.Create(100600, Color.white, "NoGameEnd", AmongUsExtensions.OptionType.GameOption, false, null, true)
+            NoGameEnd = CustomOption.Create(100600, Color.white, "NoGameEnd", AmongUsExtensions.OptionType.GameOption, false, null, false)
                 .SetGameMode(CustomGameMode.All);
             AutoDisplayLastResult = CustomOption.Create(100601, Color.white, "AutoDisplayLastResult", AmongUsExtensions.OptionType.GameOption, false)
                 .SetGameMode(CustomGameMode.All);

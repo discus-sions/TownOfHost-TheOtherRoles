@@ -667,7 +667,8 @@ SheriffCanKillJShrodingerCat,Sheriff Can Kill Serial KillerSide ShrodingerCat,Sh
 SheriffCanKillCrewmatesAsIt,Sheriff Can Kill Crewmates As It,Sheriff Может Убивать Членов Экипажа,シェリフがそのままクルーをキルできる,警长执法船员时会同归于尽,警長走火時會讓嘗試槍的玩家同歸於盡
 SheriffShotLimit,Sheriff Shot Limit,Лимит Выстрелов Sheriff,シェリフのキル可能回数,警长最大执法次数,警長最大子彈數量
 HideCommand,Hide Command,HideCommand,HideCommand,HideCommand,HideCommand
-GarunteePet,Garuntee Pet (makes pet visible to everyone),GarunteePet,GarunteePet,GarunteePet
+GarunteePet,Guarantee Pet (makes pet visible to everyone),GarunteePet,GarunteePet,GarunteePet
+AccurateWinner,Accurate Winner For Clients,AccurateWinner,AccurateWinner,AccurateWinner
 KillFlashDuration,Kill Flash Duration(s),Длительность Вспышки Убийсва,キルフラッシュの長さ(秒),击杀闪烁持续时间(秒)
 SheriffCanKillJug,Sheriff Can Kill Juggernaut/Marksman/BloodKnight,Sheriff Может Убить Juggernaut,シェリフのキル可能回数,警长可以执法欲望杀手/神射手/嗜血骑士
 DoctorTaskCompletedBatteryCharge,Doctor Battery Duration,Длительность Батарейки Doctor,ドクターがタスクを終わらせたときにセットされるバイタルの秒数,医生电池持续时间,醫生完成任務充電秒數

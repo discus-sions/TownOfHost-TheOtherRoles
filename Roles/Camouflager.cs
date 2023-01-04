@@ -13,7 +13,7 @@ namespace TownOfHost
         public static CustomOption CamouflagerCanVent;
         public static void SetupCustomOption()
         {
-            Options.SetupSingleRoleOptions(Id, CustomRoles.Camouflager, 1, AmongUsExtensions.OptionType.Impostor, locked: true);
+            Options.SetupSingleRoleOptions(Id, CustomRoles.Camouflager, 1, AmongUsExtensions.OptionType.Impostor, locked: false);
             CamouflagerCamouflageCoolDown = CustomOption.Create(Id + 10, Color.white, "CamouflagerCamouflageCoolDown", AmongUsExtensions.OptionType.Impostor, 30f, 2.5f, 60f, 2.5f, Options.CustomRoleSpawnChances[CustomRoles.Camouflager]);
             CamouflagerCamouflageDuration = CustomOption.Create(Id + 11, Color.white, "CamouflagerCamouflageDuration", AmongUsExtensions.OptionType.Impostor, 15f, 2.5f, 60f, 2.5f, Options.CustomRoleSpawnChances[CustomRoles.Camouflager]);
             CamouflagerCanVent = CustomOption.Create(Id + 12, Color.white, "CamouflagerCanVent", AmongUsExtensions.OptionType.Impostor, true, Options.CustomRoleSpawnChances[CustomRoles.Camouflager]);

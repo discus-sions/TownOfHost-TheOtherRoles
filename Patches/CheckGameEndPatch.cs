@@ -23,6 +23,7 @@ namespace TownOfHost
             if (CheckAndEndGameForJester(instance)) return false;
             if (CheckAndEndGameForTerrorist(instance)) return false;
             if (CheckAndEndGameForExecutioner(instance)) return false;
+            if (CheckAndEndGameForSwapper(instance)) return false;
             if (CheckAndEndGameForHacker(instance)) return false;
             if (Main.currentWinner == CustomWinner.Default)
             {
@@ -248,11 +249,12 @@ namespace TownOfHost
             }
             return false;
         }
-        public static bool CheckAndEndGameForVultureWin(ShipStatus __instance, PlayerStatistics statistics)
+        private static bool CheckAndEndGameForVultureWin(ShipStatus __instance, PlayerStatistics statistics)
         {
             if (Main.AteBodies == Options.BodiesAmount.GetFloat())
             {
                 //Vulture wins.
+                var people = statistics.TotalAlive;
                 __instance.enabled = false;
                 var endReason = TempData.LastDeathReason switch
                 {
@@ -634,6 +636,16 @@ namespace TownOfHost
             }
             return false;
         }
+        private static bool CheckAndEndGameForSwapper(ShipStatus __instance)
+        {
+            if (Main.currentWinner == CustomWinner.Swapper && Main.CustomWinTrigger)
+            {
+                __instance.enabled = false;
+                ResetRoleAndEndGame(GameOverReason.ImpostorByKill, false);
+                return true;
+            }
+            return false;
+        }
         private static bool CheckAndEndGameForHacker(ShipStatus __instance)
         {
             if (Main.currentWinner == CustomWinner.Hacker && Main.CustomWinTrigger)
@@ -735,11 +747,20 @@ namespace TownOfHost
                 var LoseImpostorRole = Main.AliveImpostorCount == 0 ? pc.Is(RoleType.Impostor) : pc.Is(CustomRoles.Egoist);
                 if (pc.Is(CustomRoles.Sheriff) || pc.Is(CustomRoles.Investigator) || pc.Is(CustomRoles.Janitor) || pc.Is(CustomRoles.Escort) || pc.Is(CustomRoles.Crusader) ||
                     (!(Main.currentWinner == CustomWinner.Arsonist) && pc.Is(CustomRoles.Arsonist)) || (Main.currentWinner == CustomWinner.Lovers && !Main.LoversPlayers.Contains(pc)) || (pc.Is(CustomRoles.Hitman) && pc.Data.IsDead) || (Main.currentWinner != CustomWinner.Vulture && pc.Is(CustomRoles.Vulture)) || (Main.currentWinner != CustomWinner.Painter && pc.Is(CustomRoles.Painter)) || (Main.currentWinner != CustomWinner.Marksman && pc.Is(CustomRoles.Marksman)) || (Main.currentWinner != CustomWinner.Pirate && pc.Is(CustomRoles.Pirate)) ||
-                    (Main.currentWinner != CustomWinner.Jackal && pc.Is(CustomRoles.Jackal)) || (Main.currentWinner != CustomWinner.BloodKnight && pc.Is(CustomRoles.BloodKnight)) || (Main.currentWinner != CustomWinner.Pestilence && pc.Is(CustomRoles.Pestilence)) || (Main.currentWinner != CustomWinner.Coven && pc.GetRoleType() == RoleType.Coven) ||
+                    (Main.currentWinner != CustomWinner.Jackal && pc.Is(CustomRoles.Jackal)) || (Main.currentWinner != CustomWinner.Swapper && pc.Is(CustomRoles.Swapper)) || (Main.currentWinner != CustomWinner.BloodKnight && pc.Is(CustomRoles.BloodKnight)) || (Main.currentWinner != CustomWinner.Pestilence && pc.Is(CustomRoles.Pestilence)) || (Main.currentWinner != CustomWinner.Coven && pc.GetRoleType() == RoleType.Coven) ||
                     LoseImpostorRole || (Main.currentWinner != CustomWinner.Werewolf && pc.Is(CustomRoles.Werewolf)) || (Main.currentWinner != CustomWinner.TheGlitch && pc.Is(CustomRoles.TheGlitch)))
                 {
-                    //  pc.RpcSetRole(RoleTypes.CrewmateGhost);
-                    pc.RpcSetRole(RoleTypes.GuardianAngel);
+                    if (Options.AccurateWinner.GetBool())
+                        pc.RpcSetRole(RoleTypes.CrewmateGhost);
+                    else
+                        pc.RpcSetRole(RoleTypes.GuardianAngel);
+                }
+                else
+                {
+                    if (Options.AccurateWinner.GetBool())
+                        pc.RpcSetRole(RoleTypes.ImpostorGhost);
+                    else
+                        pc.RpcSetRole(RoleTypes.GuardianAngel);
                 }
             }
             new LateTask(() =>
@@ -754,13 +775,17 @@ namespace TownOfHost
             {
                 if (pc.PlayerId != id)
                 {
-                    //  pc.RpcSetRole(RoleTypes.CrewmateGhost);
-                    pc.RpcSetRole(RoleTypes.GuardianAngel);
+                    if (Options.AccurateWinner.GetBool())
+                        pc.RpcSetRole(RoleTypes.CrewmateGhost);
+                    else
+                        pc.RpcSetRole(RoleTypes.GuardianAngel);
                 }
                 else
                 {
-                    //  pc.RpcSetRole(RoleTypes.ImpostorGhost);
-                    pc.RpcSetRole(RoleTypes.GuardianAngel);
+                    if (Options.AccurateWinner.GetBool())
+                        pc.RpcSetRole(RoleTypes.ImpostorGhost);
+                    else
+                        pc.RpcSetRole(RoleTypes.GuardianAngel);
                 }
                 new LateTask(() =>
                 {
@@ -776,13 +801,17 @@ namespace TownOfHost
             {
                 if (pc.CurrentOutfit.ColorId != colorid)
                 {
-                    //  pc.RpcSetRole(RoleTypes.CrewmateGhost);
-                    pc.RpcSetRole(RoleTypes.GuardianAngel);
+                    if (Options.AccurateWinner.GetBool())
+                        pc.RpcSetRole(RoleTypes.CrewmateGhost);
+                    else
+                        pc.RpcSetRole(RoleTypes.GuardianAngel);
                 }
                 else
                 {
-                    //  pc.RpcSetRole(RoleTypes.ImpostorGhost);
-                    pc.RpcSetRole(RoleTypes.GuardianAngel);
+                    if (Options.AccurateWinner.GetBool())
+                        pc.RpcSetRole(RoleTypes.ImpostorGhost);
+                    else
+                        pc.RpcSetRole(RoleTypes.GuardianAngel);
                 }
             }
             new LateTask(() =>
@@ -897,10 +926,37 @@ namespace TownOfHost
                 TeamJuggernautAlive = numJugAlive;
                 TeamGlitchAlive = numGlitchAlive;
                 TeamWolfAlive = numWolfAlive;
+                TeamAgiAlive = numAgiAlive;
                 TeamKnightAlive = bkAlive;
                 TeamArsoAlive = arsonists;
                 TeamMarksAlive = marksman;
                 NumberOfLovers = lovers;
+            }
+        }
+    }
+
+    public static class EndGameHelper
+    {
+        public static void AssignWinner(byte playerid)
+        {
+            if (!Options.AccurateWinner.GetBool()) return;
+            foreach (var pc in PlayerControl.AllPlayerControls)
+            {
+                if (pc.PlayerId == playerid)
+                    pc.RpcSetRole(RoleTypes.ImpostorGhost);
+                else
+                    pc.RpcSetRole(RoleTypes.CrewmateGhost);
+            }
+        }
+        public static void AssignWinner(List<byte> playerIds)
+        {
+            if (!Options.AccurateWinner.GetBool()) return;
+            foreach (var pc in PlayerControl.AllPlayerControls)
+            {
+                if (playerIds.Contains(pc.PlayerId))
+                    pc.RpcSetRole(RoleTypes.ImpostorGhost);
+                else
+                    pc.RpcSetRole(RoleTypes.CrewmateGhost);
             }
         }
     }
