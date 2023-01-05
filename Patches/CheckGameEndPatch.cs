@@ -124,14 +124,16 @@ namespace TownOfHost
 
         private static bool CheckAndEndGameForEveryoneDied(ShipStatus __instance, PlayerStatistics statistics)
         {
-            if (statistics.TotalAlive <= 0 && Main.currentWinner == CustomWinner.Default)
+            if (statistics.TotalAlive <= 0 && Main.currentWinner == CustomWinner.Default && !EndGameHelper.EveryoneDied)
             {
-                __instance.enabled = false;
-                MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.EndGame, Hazel.SendOption.Reliable, -1);
-                writer.Write((int)CustomWinner.None);
-                AmongUsClient.Instance.FinishRpcImmediately(writer);
-                RPC.EveryoneDied();
-                ResetRoleAndEndGame(GameOverReason.ImpostorByKill, false);
+                /*  __instance.enabled = false;
+                  MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.EndGame, Hazel.SendOption.Reliable, -1);
+                  writer.Write((int)CustomWinner.None);
+                  AmongUsClient.Instance.FinishRpcImmediately(writer);
+                  RPC.EveryoneDied();
+                  ResetRoleAndEndGame(GameOverReason.ImpostorByKill, false);*/
+                EndGameHelper.EveryoneDied = true;
+                Logger.SendInGame("Game has detected that everyone is dead.\nIf everyone is dead, please force end the game using SHIFT+L+ENTER.\nThis message will not appear again.");
                 return true;
             }
             return false;
@@ -937,6 +939,7 @@ namespace TownOfHost
 
     public static class EndGameHelper
     {
+        public static bool EveryoneDied = false;
         public static void AssignWinner(byte playerid)
         {
             if (!Options.AccurateWinner.GetBool()) return;

@@ -91,6 +91,7 @@ namespace TownOfHost
                 Main.KilledDemo = new List<byte>();
                 Main.targetArrows = new();
                 Main.KilledDiseased = new List<byte>();
+                EndGameHelper.EveryoneDied = false;
                 Main.VetCanAlert = true;
                 Main.CanTransport = true;
                 Main.JugKillAmounts = 0;
