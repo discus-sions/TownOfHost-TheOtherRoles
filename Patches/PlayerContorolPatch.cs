@@ -1663,9 +1663,9 @@ namespace TownOfHost
             if (Main.ColliderPlayers.Contains(target.PlayerId))
                 Main.ColliderPlayers.Remove(target.PlayerId);
 
-            if (target.Is(CustomRoles.Camouflager) && Main.CheckShapeshift[target.PlayerId])
+            if (target.Is(CustomRoles.Camouflager) && Camouflager.DidCamo)
             {
-                Logger.Info($"Camouflager Revert ShapeShift", "Camouflager");
+                Logger.Info($"Camouflager Revert ShapeShift (Killed Camouflager)", "Camouflager");
                 foreach (PlayerControl revert in PlayerControl.AllPlayerControls)
                 {
                     if (revert.Is(CustomRoles.Phantom) || revert == null || revert.Data.Disconnected || revert == target) continue;

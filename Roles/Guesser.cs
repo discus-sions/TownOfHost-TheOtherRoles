@@ -442,11 +442,11 @@ namespace TownOfHost
                     (Main.currentWinner != CustomWinner.Jackal && pc.Is(CustomRoles.Jackal)) || (Main.currentWinner != CustomWinner.BloodKnight && pc.Is(CustomRoles.BloodKnight)) || (Main.currentWinner != CustomWinner.Pestilence && pc.Is(CustomRoles.Pestilence)) || (Main.currentWinner != CustomWinner.Coven && pc.GetRoleType() == RoleType.Coven) ||
                     LoseImpostorRole || (Main.currentWinner != CustomWinner.Werewolf && pc.Is(CustomRoles.Werewolf)) || (Main.currentWinner != CustomWinner.AgiTater && pc.Is(CustomRoles.AgiTater)) || (Main.currentWinner != CustomWinner.TheGlitch && pc.Is(CustomRoles.TheGlitch)))
                 {
-                    pc.RpcSetRole(RoleTypes.GuardianAngel);
+                    pc.RpcSetRole(RoleTypes.CrewmateGhost);
                 }
                 if (pc.Is(CustomRoles.Pirate))
                 {
-                    pc.RpcSetRole(RoleTypes.GuardianAngel);
+                    pc.RpcSetRole(RoleTypes.ImpostorGhost);
                 }
             }
             new LateTask(() =>

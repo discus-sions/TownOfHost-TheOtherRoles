@@ -482,10 +482,7 @@ namespace TownOfHost
                                 writer.Write((byte)CustomWinner.Phantom);
                                 AmongUsClient.Instance.FinishRpcImmediately(writer);
                                 RPC.PhantomWin(playerId);
-                                foreach (var pc in PlayerControl.AllPlayerControls)
-                                {
-                                    pc.RpcSetRole(RoleTypes.GuardianAngel);
-                                }
+                                EndGameHelper.AssignWinner(playerId);
                                 new LateTask(() =>
                                 {
                                     GameManager.Instance.RpcEndGame(endReason, false);
@@ -984,6 +981,7 @@ namespace TownOfHost
                 writer.Write(Terrorist.PlayerId);
                 AmongUsClient.Instance.FinishRpcImmediately(writer);
                 RPC.TerroristWin(Terrorist.PlayerId);
+                EndGameHelper.AssignWinner(Terrorist.PlayerId);
             }
         }
         public static void ChildWin(GameData.PlayerInfo Child)
@@ -1018,6 +1016,7 @@ namespace TownOfHost
             writer.Write(Child.PlayerId);
             AmongUsClient.Instance.FinishRpcImmediately(writer);
             RPC.ChildWin(Child.PlayerId);
+            EndGameHelper.AssignWinner(Child.PlayerId);
         }
         public static void SendMessage(string text, byte sendTo = byte.MaxValue)
         {
