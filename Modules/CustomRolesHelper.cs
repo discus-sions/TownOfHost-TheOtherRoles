@@ -293,6 +293,7 @@ namespace TownOfHost
                 role is CustomRoles.Bait or
                 CustomRoles.Bewilder or
                 CustomRoles.Flash or
+                CustomRoles.Obvious or
                 CustomRoles.Oblivious or
                 CustomRoles.DoubleShot or
                 CustomRoles.Lovers or
