@@ -165,10 +165,6 @@ namespace TownOfHost
                     if (CustomRolesHelper.IsCoven(p.GetCustomRole())) winner.Add(p);
                 }
             }
-            if (Main.currentWinner == CustomWinner.None)
-            {
-                winner.Clear();
-            }
 
             //廃村時の処理など
             if (endGameResult.GameOverReason == GameOverReason.HumansDisconnect ||
@@ -277,7 +273,6 @@ namespace TownOfHost
             var winnerIDs = new List<byte>();
             foreach (var pc in PlayerControl.AllPlayerControls)
             {
-                if (Main.currentWinner == CustomWinner.None) break;
                 if (pc.Is(CustomRoles.Opportunist) && !pc.Data.IsDead && Main.currentWinner != CustomWinner.Draw && Main.currentWinner != CustomWinner.Terrorist && Main.currentWinner != CustomWinner.Child && Main.currentWinner != CustomWinner.Jester && Main.currentWinner != CustomWinner.Executioner && Main.currentWinner != CustomWinner.Swapper)
                 {
                     winner.Add(pc);
@@ -312,7 +307,7 @@ namespace TownOfHost
 
             foreach (var pc in PlayerControl.AllPlayerControls)
             {
-                if (Main.currentWinner == CustomWinner.None) break;
+                // if (Main.currentWinner == CustomWinner.None) break;
                 if (pc.Is(CustomRoles.GuardianAngelTOU))
                 {
                     foreach (var protect in Main.GuardianAngelTarget)
@@ -342,7 +337,7 @@ namespace TownOfHost
 
             //HideAndSeek専用
             if (Options.CurrentGameMode() == CustomGameMode.HideAndSeek &&
-                Main.currentWinner != CustomWinner.Draw && Main.currentWinner != CustomWinner.None && Main.currentWinner != CustomWinner.Jackal)
+                Main.currentWinner != CustomWinner.Draw && /*Main.currentWinner != CustomWinner.None &&*/ Main.currentWinner != CustomWinner.Jackal)
             {
                 winner = new();
                 foreach (var pc in PlayerControl.AllPlayerControls)
@@ -376,6 +371,17 @@ namespace TownOfHost
                     {
                         winner.Add(pc);
                         Main.additionalwinners.Add(AdditionalWinners.HASFox);
+                    }
+                    if (Options.SpeedrunGamemode.GetBool())
+                    {
+                        if (Main.currentWinner == CustomWinner.Tasker)
+                        {
+                            winner.Clear();
+                            foreach (var p in PlayerControl.AllPlayerControls)
+                            {
+                                if (p.PlayerId == Main.WonFFAid) winner.Add(p);
+                            }
+                        }
                     }
                 }
             }
@@ -465,13 +471,6 @@ namespace TownOfHost
                     textRenderer.text = GetString("ForceEndText");
                     textRenderer.color = Color.gray;
                     break;
-                case CustomWinner.None:
-                    __instance.WinText.text = "";
-                    __instance.WinText.color = Color.black;
-                    __instance.BackgroundBar.material.color = Color.gray;
-                    textRenderer.text = GetString("EveryoneDied");
-                    textRenderer.color = Color.gray;
-                    break;
             }
 
             foreach (var additionalwinners in Main.additionalwinners)
@@ -479,7 +478,7 @@ namespace TownOfHost
                 var addWinnerRole = (CustomRoles)additionalwinners;
                 AdditionalWinnerText += "＆" + Helpers.ColorString(Utils.GetRoleColor(addWinnerRole), Utils.GetRoleName(addWinnerRole));
             }
-            if (Main.currentWinner != CustomWinner.Draw && Main.currentWinner != CustomWinner.None)
+            if (Main.currentWinner != CustomWinner.Draw /*&& Main.currentWinner != CustomWinner.None*/)
             {
                 textRenderer.text = $"<color={CustomWinnerColor}>{CustomWinnerText}{AdditionalWinnerText}{GetString("Win")}</color>";
             }

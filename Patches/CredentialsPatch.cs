@@ -31,6 +31,7 @@ namespace TownOfHost
             if (Options.NoGameEnd.GetBool()) __instance.text.text += $"\r\n" + Helpers.ColorString(Color.red, GetString("NoGameEnd"));
             if (Options.IsStandardHAS) __instance.text.text += $"\r\n" + Helpers.ColorString(Color.yellow, GetString("StandardHAS"));
             if (Options.CurrentGameMode() == CustomGameMode.HideAndSeek) __instance.text.text += $"\r\n" + Helpers.ColorString(Color.red, GetString("HideAndSeek"));
+            if (Options.EnableGM.GetBool()) __instance.text.text += $"\r\n" + Helpers.ColorString(Color.red, $"{GetString("GM")} Is On");
             if (Main.AmDebugger.Value) __instance.text.text += "\r\n" + Helpers.ColorString(Color.green, "debug ();");
             if (AmongUsClient.Instance.GameState == InnerNet.InnerNetClient.GameStates.Started)
                 __instance.gameObject.GetComponent<AspectPosition>().DistanceFromEdge = PlayerControl.LocalPlayer.Data.IsDead ? new Vector3(2.0f, 0.0f, 0f) : new Vector3(1.2f, 0.0f, 0f);

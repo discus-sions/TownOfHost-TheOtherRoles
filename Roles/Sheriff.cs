@@ -35,6 +35,7 @@ namespace TownOfHost
         private static CustomOption CanKillWerewolf;
         private static CustomOption CanKillHitman;
         private static CustomOption CanKillAgitater;
+        public static CustomOption NoDeathPenalty;
         //public static CustomOption TraitorCanSpawnIfNK;
         //public static CustomOption TraitorCanSpawnIfCoven;
 
@@ -60,10 +61,11 @@ namespace TownOfHost
             CanKillVulture = CustomOption.Create(Id + 24, Color.white, "SheriffCanKillVulture", AmongUsExtensions.OptionType.Crewmate, true, Options.CustomRoleSpawnChances[CustomRoles.Sheriff]);
             CanKillGlitch = CustomOption.Create(Id + 25, Color.white, "SCKTG", AmongUsExtensions.OptionType.Crewmate, true, Options.CustomRoleSpawnChances[CustomRoles.Sheriff]);
             CanKillWerewolf = CustomOption.Create(Id + 26, Color.white, "SCKWW", AmongUsExtensions.OptionType.Crewmate, true, Options.CustomRoleSpawnChances[CustomRoles.Sheriff]);
-            CanKillCrewmatesAsIt = CustomOption.Create(Id + 27, Color.white, "SheriffCanKillCrewmatesAsIt", AmongUsExtensions.OptionType.Crewmate, false, Options.CustomRoleSpawnChances[CustomRoles.Sheriff]);
-            ShotLimitOpt = CustomOption.Create(Id + 28, Color.white, "SheriffShotLimit", AmongUsExtensions.OptionType.Crewmate, 99, -1, 15, 1, Options.CustomRoleSpawnChances[CustomRoles.Sheriff]);
             CanKillHitman = CustomOption.Create(Id + 29, Color.white, "SheriffCanKillHitman", AmongUsExtensions.OptionType.Crewmate, true, Options.CustomRoleSpawnChances[CustomRoles.Sheriff]);
             CanKillAgitater = CustomOption.Create(Id + 30, Color.white, "SheriffCanKillAgitater", AmongUsExtensions.OptionType.Crewmate, true, Options.CustomRoleSpawnChances[CustomRoles.Sheriff]);
+            CanKillCrewmatesAsIt = CustomOption.Create(Id + 27, Color.white, "SheriffCanKillCrewmatesAsIt", AmongUsExtensions.OptionType.Crewmate, false, Options.CustomRoleSpawnChances[CustomRoles.Sheriff]);
+            NoDeathPenalty = CustomOption.Create(Id + 31, Color.white, "NoDeathPenalty", AmongUsExtensions.OptionType.Crewmate, false, Options.CustomRoleSpawnChances[CustomRoles.Sheriff]);
+            ShotLimitOpt = CustomOption.Create(Id + 28, Color.white, "SheriffShotLimit", AmongUsExtensions.OptionType.Crewmate, 99, -1, 15, 1, Options.CustomRoleSpawnChances[CustomRoles.Sheriff]);
             /*SheriffCorrupted = CustomOption.Create(Id + 29, Color.white, "TurnCorrupt", false, Options.CustomRoleSpawnChances[CustomRoles.Sheriff]);
             PlayersForTraitor = CustomOption.Create(Id + 30, Color.white, "TraitorSpawn", 1, 0, 15, 1, SheriffCorrupted);
             TraitorCanSpawnIfNK = CustomOption.Create(Id + 31, Color.white, "TraitorCanSpawnIfNK", true, SheriffCorrupted);

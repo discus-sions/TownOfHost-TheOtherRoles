@@ -134,6 +134,12 @@ namespace TownOfHost
                 Main.RealOptionsData = null;
                 Main.RealOptionsData = GameOptionsManager.Instance.CurrentGameOptions.DeepCopy();
 
+                if (AmongUsClient.Instance.AmHost && Options.SpeedrunGamemode.GetBool())
+                {
+                    Main.KillingSpree = new List<byte>();
+                    GameOptionsManager.Instance.CurrentGameOptions.AsNormalOptions()!.NumImpostors = 0;
+                }
+
                 Main.introDestroyed = false;
                 Main.VettedThisRound = false;
                 Main.VetIsAlerted = false;
@@ -633,6 +639,10 @@ namespace TownOfHost
                         }
                         ForceAssignRole(CustomRoles.Jackal, AllPlayers, sender, Count: AllPlayers.Count, BaseRole: RoleTypes.Impostor);
                     }
+                    else if (Options.SpeedrunGamemode.GetBool())
+                    {
+
+                    }
                 }
                 if (sender.CurrentState == CustomRpcSender.State.InRootMessage) sender.EndMessage();
             }
@@ -716,7 +726,17 @@ namespace TownOfHost
             {
                 if (!Options.FreeForAllOn.GetBool())
                 {
-                    if (!Options.SplatoonOn.GetBool())
+                    if (Options.SpeedrunGamemode.GetBool())
+                    {
+                        SetColorPatch.IsAntiGlitchDisabled = true;
+                        AssignCustomRolesFromList(CustomRoles.Tasker, Crewmates, Crewmates.Count);
+                        foreach (var pair in Main.AllPlayerCustomRoles)
+                        {
+                            ExtendedPlayerControl.RpcSetCustomRole(pair.Key, pair.Value);
+                        }
+                        SetColorPatch.IsAntiGlitchDisabled = true;
+                    }
+                    else if (!Options.SplatoonOn.GetBool())
                     {
                         SetColorPatch.IsAntiGlitchDisabled = true;
                         foreach (var pc in PlayerControl.AllPlayerControls)
@@ -842,6 +862,9 @@ namespace TownOfHost
                             AssignCustomRolesFromList(role, Shapeshifters);
                 }
 
+                if (RoleGoingInList(CustomRoles.LoversRecode))
+                    AssignLoversRoles(2);
+
                 if (RoleGoingInList(CustomRoles.Torch))
                     GiveModifier(CustomRoles.Torch);
                 if (RoleGoingInList(CustomRoles.Bait))
@@ -851,8 +874,8 @@ namespace TownOfHost
                 if (RoleGoingInList(CustomRoles.Diseased))
                     GiveModifier(CustomRoles.Diseased);
 
-                if (RoleGoingInList(CustomRoles.LoversRecode))
-                    AssignLoversRoles(2);
+                if (RoleGoingInList(CustomRoles.DoubleShot))
+                    GiveModifier(CustomRoles.DoubleShot);
                 if (RoleGoingInList(CustomRoles.Oblivious))
                     GiveModifier(CustomRoles.Oblivious);
                 if (RoleGoingInList(CustomRoles.Flash))
@@ -1456,6 +1479,9 @@ namespace TownOfHost
                             if (player.Is(CustomRoles.Trapper)) continue;
                             break;
                         case CustomRoles.Bewilder:
+                            break;
+                        case CustomRoles.DoubleShot:
+                            if (player.GetCustomRole() is not CustomRoles.EvilGuesser and not CustomRoles.NiceGuesser) continue;
                             break;
                         case CustomRoles.Torch:
                             if (player.Is(CustomRoles.Lighter)) continue;
