@@ -18,14 +18,19 @@ namespace TownOfHost
         public static bool BombedThisRound = false;
 
         public static CustomOption BombCooldown;
+        public static CustomOption PassCooldown;
+        public static CustomOption ReportBait;
 
         public static byte CurrentBombedPlayer = 255;
         public static byte LastBombedPlayer = 255;
+        public static bool CanPass = true;
 
         public static void SetupCustomOption()
         {
             Options.SetupSingleRoleOptions(Id, CustomRoles.AgiTater, 1, AmongUsExtensions.OptionType.Neutral);
             BombCooldown = CustomOption.Create(Id + 232, Color.white, "BombCooldown", AmongUsExtensions.OptionType.Neutral, 20f, 10f, 60f, 2.5f, Options.CustomRoleSpawnChances[CustomRoles.AgiTater]);
+            PassCooldown = CustomOption.Create(Id + 233, Color.white, "PassCooldown", AmongUsExtensions.OptionType.Neutral, 1f, 0f, 5f, 0.25f, Options.CustomRoleSpawnChances[CustomRoles.AgiTater]);
+            ReportBait = CustomOption.Create(Id + 234, Color.white, "ReportBaitAgi", AmongUsExtensions.OptionType.Neutral, true, Options.CustomRoleSpawnChances[CustomRoles.AgiTater]);
         }
 
         public static bool IsEnable() => playerIdList.Count != 0;
@@ -36,6 +41,7 @@ namespace TownOfHost
             BombedThisRound = false;
             CurrentBombedPlayer = 255;
             LastBombedPlayer = 255;
+            CanPass = true;
         }
 
         public static void Add(PlayerControl agi)
@@ -53,6 +59,8 @@ namespace TownOfHost
 
         public static void PassBomb(PlayerControl player, PlayerControl target)
         {
+            if (PassCooldown.GetFloat() != 0f)
+                CanPass = false;
             if (target.Is(CustomRoles.Pestilence) || (target.Is(CustomRoles.Veteran) && Main.VetIsAlerted))
                 target.RpcMurderPlayer(player);
             else
@@ -64,6 +72,10 @@ namespace TownOfHost
             Utils.NotifyRoles(GameStates.IsMeeting, player);
             Utils.NotifyRoles(GameStates.IsMeeting, target);
             SendRPC(CurrentBombedPlayer, LastBombedPlayer);
+            new LateTask(() =>
+            {
+                CanPass = true;
+            }, PassCooldown.GetFloat(), "Agitater Can Pass");
         }
         public static void SendRPC(byte newbomb, byte oldbomb)
         {

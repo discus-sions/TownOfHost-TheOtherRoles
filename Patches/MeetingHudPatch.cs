@@ -660,7 +660,7 @@ namespace TownOfHost
                         if (!Main.FirstMeetingPassed)
                         {
                             Main.FirstMeetingPassed = true;
-                            var text = "Use this time to check your role by using \"/m!\"";
+                            var text = "Use this time to check your role by using \"/m\"!";
                             if (Options.TosOptions.GetBool() && Options.AttackDefenseValues.GetBool())
                                 text += "\n/m is also use to display your attack and defense values!";
                             Utils.SendMessage(text);

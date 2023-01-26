@@ -293,7 +293,9 @@ namespace TownOfHost
                 role is CustomRoles.Bait or
                 CustomRoles.Bewilder or
                 CustomRoles.Flash or
+                CustomRoles.Obvious or
                 CustomRoles.Oblivious or
+                CustomRoles.DoubleShot or
                 CustomRoles.Lovers or
                 CustomRoles.LoversRecode or
                 CustomRoles.Diseased or
@@ -383,6 +385,8 @@ namespace TownOfHost
         // SPECIFIC ROLE TYPES //
         public static bool IsShapeShifter(this CustomRoles role)
         {
+            if (Options.UseVentButtonInsteadOfPet.GetBool() && role == CustomRoles.TheGlitch) return true;
+            if (Options.UseVentButtonInsteadOfPet.GetBool() && role == CustomRoles.Miner) return true;
             return
                 role is CustomRoles.Shapeshifter or
                 CustomRoles.BountyHunter or
@@ -404,6 +408,8 @@ namespace TownOfHost
         }
         public static bool PetActivatedAbility(this CustomRoles role)
         {
+            if (Options.UseVentButtonInsteadOfPet.GetBool())
+                return false;
             return
                 role is CustomRoles.Veteran or
                 CustomRoles.Miner or
@@ -417,6 +423,9 @@ namespace TownOfHost
             if (Options.MadSnitchCanVent.GetBool() && role == CustomRoles.MadSnitch) return true;
             if (Options.MayorHasPortableButton.GetBool() && role == CustomRoles.Mayor) return true;
             if (Options.MediumArrow.GetBool() && role == CustomRoles.Medium) return true;
+            // VENT INSTEAD OF PET
+            if (Options.UseVentButtonInsteadOfPet.GetBool() && role == CustomRoles.Veteran) return true;
+            if (Options.UseVentButtonInsteadOfPet.GetBool() && role == CustomRoles.Transporter) return true;
             return
                 role is CustomRoles.Engineer or
                 CustomRoles.Survivor or

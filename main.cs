@@ -29,7 +29,7 @@ namespace TownOfHost
         public static readonly string BANNEDFRIENDCODES_FILE_PATH = "./TOR_DATA/bannedfriendcodes.txt";
         public static readonly string DiscordInviteUrl = "https://discord.gg/tohtor";
         public static readonly bool ShowDiscordButton = true;
-        public const string PluginVersion = "0.9.3.6";
+        public const string PluginVersion = "0.9.3.7.1";
         public const string DevVersion = "10.1";
         public const string FullDevVersion = $" dev {DevVersion}";
         public Harmony Harmony { get; } = new Harmony(PluginGuid);
@@ -245,6 +245,7 @@ namespace TownOfHost
         public static List<byte> IsShapeShifted = new();
         public static Dictionary<byte, int> PickpocketKills = new();
         public static Dictionary<byte, int> KillCount = new();
+        public static List<byte> KillingSpree = new();
 
         public static int MarksmanKills = 0;
         public static bool FirstMeetingOccured = false;
@@ -356,6 +357,7 @@ namespace TownOfHost
             dousedIDs = new List<byte>();
             //firstKill = new Dictionary<byte, (PlayerControl, float)>();
             winnerList = new List<byte>();
+            KillingSpree = new List<byte>();
             unvotablePlayers = new();
             VisibleTasksCount = false;
             MercCanSuicide = true;
@@ -537,6 +539,7 @@ namespace TownOfHost
                     { CustomRoles.Painter, "#FF5733"},
                     { CustomRoles.Janitor, "#c67051"},
                     { CustomRoles.Supporter, "#00b4eb"},
+                    { CustomRoles.Tasker, "#2c68dc"},
                     // GM
                     { CustomRoles.GM, "#ff5b70"},
                     //サブ役職
@@ -546,6 +549,7 @@ namespace TownOfHost
                     { CustomRoles.LoversWin, "#FF66CC"},
                     { CustomRoles.Flash, "#FF8080"},
                     { CustomRoles.Oblivious, "#808080"},
+                    { CustomRoles.DoubleShot, "#ff0000"},
                     { CustomRoles.Torch, "#FFFF99"},
                     { CustomRoles.Diseased, "#AAAAAA"},
                     { CustomRoles.TieBreaker, "#99E699"},
@@ -1142,6 +1146,7 @@ namespace TownOfHost
         Painter,
         Janitor,
         Supporter,
+        Tasker,
 
         // RANDOM ROLE HELPERS //
         LoversWin,
@@ -1158,6 +1163,7 @@ namespace TownOfHost
         Sleuth, // DONE
         Watcher, // DONE
         Obvious,
+        DoubleShot,
 
         // CREW MODIFIERS //
         Bewilder, // DONE
@@ -1275,7 +1281,6 @@ namespace TownOfHost
     {
         Draw = -1,
         Default = -2,
-        None = -3,
         Impostor = CustomRoles.Impostor,
         Crewmate = CustomRoles.Crewmate,
         Jester = CustomRoles.Jester,
@@ -1300,7 +1305,8 @@ namespace TownOfHost
         Pirate = CustomRoles.Pirate,
         Marksman = CustomRoles.Marksman,
         Painter = CustomRoles.Painter,
-        AgiTater = CustomRoles.AgiTater
+        AgiTater = CustomRoles.AgiTater,
+        Tasker = CustomRoles.Tasker
     }
     public enum AdditionalWinners
     {

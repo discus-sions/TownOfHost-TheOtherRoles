@@ -33,6 +33,10 @@ namespace TownOfHost
                     {
                         if (CheckAndEndGameForFFAWin(instance, statistics)) return false;
                     }
+                    else if (Options.SpeedrunGamemode.GetBool())
+                    {
+                        if (CheckAndEndGameForTaskerWin(instance, statistics)) return false;
+                    }
                     else if (!Options.SplatoonOn.GetBool())
                     {
                         if (CheckAndEndGameForHideAndSeek(instance, statistics)) return false;
@@ -134,7 +138,7 @@ namespace TownOfHost
                   ResetRoleAndEndGame(GameOverReason.ImpostorByKill, false);*/
                 EndGameHelper.EveryoneDied = true;
                 Logger.SendInGame("Game has detected that everyone is dead.\nIf everyone is dead, please force end the game using SHIFT+L+ENTER.\nThis message will not appear again.");
-                return true;
+                // return true;
             }
             return false;
         }
@@ -388,6 +392,47 @@ namespace TownOfHost
                 RPC.JugWin();
 
                 ResetRoleAndEndGame(endReason, false);
+                return true;
+            }
+            return false;
+        }
+
+        private static bool CheckAndEndGameForTaskerWin(ShipStatus __instance, PlayerStatistics statistics)
+        {
+            if (statistics.TotalAlive <= 1)
+            {
+                __instance.enabled = false;
+                var endReason = TempData.LastDeathReason switch
+                {
+                    DeathReason.Exile => GameOverReason.ImpostorByVote,
+                    DeathReason.Kill => GameOverReason.ImpostorByKill,
+                    _ => GameOverReason.ImpostorByVote,
+                };
+
+                byte liveId = 0xff;
+                int allPlayers = 0;
+                List<byte> deadPlayers = new();
+                foreach (var pc in PlayerControl.AllPlayerControls)
+                {
+                    if (pc.Data.Disconnected) continue;
+                    allPlayers++;
+                    if (pc.Data.IsDead) deadPlayers.Add(pc.PlayerId);
+                }
+                foreach (var pc in PlayerControl.AllPlayerControls)
+                {
+                    if (!deadPlayers.Contains(pc.PlayerId))
+                        liveId = pc.PlayerId;
+                }
+
+
+                MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.EndGame, Hazel.SendOption.Reliable, -1);
+                writer.Write((byte)CustomWinner.Tasker);
+                writer.Write(liveId);
+                AmongUsClient.Instance.FinishRpcImmediately(writer);
+                RPC.TaskerWin(liveId);
+                Main.WonFFAid = liveId;
+
+                ResetRoleAndEndGameFFA(endReason, false, liveId);
                 return true;
             }
             return false;
@@ -770,6 +815,10 @@ namespace TownOfHost
                 GameManager.Instance.RpcEndGame(reason, showAd);
             }, 0.5f, "EndGameTask");
         }
+        public PlayerStatistics GetStatistics()
+        {
+            return new PlayerStatistics();
+        }
         private static void ResetRoleAndEndGameFFA(GameOverReason reason, bool showAd, byte id)
         {
 
@@ -822,7 +871,7 @@ namespace TownOfHost
             }, 0.5f, "EndGameTask");
         }
         //プレイヤー統計
-        internal class PlayerStatistics
+        public class PlayerStatistics
         {
             public int TeamImpostorsAlive { get; set; }
             public int TotalAlive { get; set; }

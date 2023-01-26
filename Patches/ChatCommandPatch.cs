@@ -376,8 +376,13 @@ namespace TownOfHost
                                         Utils.SendMessage(GetString("CamoCommsInfo"));
                                         break;
 
+                                    case "speedrun":
+                                    case "sr":
+                                        Utils.SendMessage(GetString("SpeedrunInfo"));
+                                        break;
+
                                     default:
-                                        Utils.SendMessage($"{GetString("Command.h_args")}:\n hideandseek(has), nogameend(nge), syncbuttonmode(sbm), randommapsmode(rmm)");
+                                        Utils.SendMessage($"{GetString("Command.h_args")}:\n hideandseek(has), nogameend(nge), syncbuttonmode(sbm), randommapsmode(rmm), speedrun(sr)");
                                         break;
                                 }
                                 break;
@@ -615,6 +620,8 @@ namespace TownOfHost
                 { CustomRoles.Sleuth, "sl" },
                 { CustomRoles.Bait, "ba" },
                 { CustomRoles.Oblivious, "obl" },
+                { CustomRoles.DoubleShot, "ds" },
+                { CustomRoles.Obvious, "obv" },
                 { CustomRoles.Torch, "to" },
                 { CustomRoles.Flash, "fl" },
                 { CustomRoles.Bewilder, "be" },
@@ -628,6 +635,7 @@ namespace TownOfHost
                 { CustomRoles.Supporter, "wor" },
                 { CustomRoles.Janitor, "jan" },
                 { CustomRoles.Painter, "pan" },
+                { CustomRoles.Tasker, "tas" },
 
             };
             var msg = "";
@@ -782,6 +790,8 @@ namespace TownOfHost
                 { CustomRoles.Sleuth, "sl" },
                 { CustomRoles.Bait, "ba" },
                 { CustomRoles.Oblivious, "obl" },
+                { CustomRoles.DoubleShot, "ds" },
+                { CustomRoles.Obvious, "obv" },
                 { CustomRoles.Torch, "to" },
                 { CustomRoles.Flash, "fl" },
                 { CustomRoles.Bewilder, "be" },

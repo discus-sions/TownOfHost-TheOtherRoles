@@ -1237,6 +1237,25 @@ namespace TownOfHost
 
                     //==========第三陣営役職==========//
                     case CustomRoles.Arsonist:
+                        if (Options.TOuRArso.GetBool())
+                        {
+                            List<PlayerControl> doused = new List<PlayerControl>();
+                            foreach (var player in PlayerControl.AllPlayerControls)
+                            {
+                                if (player == null ||
+                                    player.Data.IsDead ||
+                                    player.Data.Disconnected ||
+                                    player.Is(CustomRoles.Phantom) ||
+                                    player.Is(CustomRoles.Pestilence) ||
+                                    player.PlayerId == killer.PlayerId
+                                ) continue;
+
+                                if (killer.IsDousedPlayer(player))
+                                    doused.Add(player);
+                            }
+                            if (doused.Count >= Options.MaxDousedAtOnce.GetInt())
+                                return false;
+                        }
                         if (target.Is(CustomRoles.Veteran) && Main.VetIsAlerted)
                         {
                             target.RpcMurderPlayer(killer);
@@ -1305,7 +1324,8 @@ namespace TownOfHost
                         }
                         Sheriff.OnCheckMurder(killer, target, Process: "RemoveShotLimit");
 
-                        if (!Sheriff.OnCheckMurder(killer, target, Process: "Suicide"))
+
+                        if (!Sheriff.OnCheckMurder(killer, target, Process: "Suicide") && !Sheriff.NoDeathPenalty.GetBool())
                             return false;
                         break;
                     case CustomRoles.Investigator:
@@ -1666,14 +1686,14 @@ namespace TownOfHost
             if (target.Is(CustomRoles.Camouflager) && Camouflager.DidCamo)
             {
                 Logger.Info($"Camouflager Revert ShapeShift (Killed Camouflager)", "Camouflager");
+                Camouflager.DidCamo = false;
                 foreach (PlayerControl revert in PlayerControl.AllPlayerControls)
                 {
-                    if (revert.Is(CustomRoles.Phantom) || revert == null || revert.Data.Disconnected || revert == target) continue;
+                    if (revert.Is(CustomRoles.Phantom) || revert == null || revert.Data.Disconnected || revert.PlayerId == target.PlayerId) continue;
                     if (revert.inVent)
                         revert.MyPhysics.ExitAllVents();
                     revert.RpcRevertShapeshiftV2(true);
                 }
-                Camouflager.DidCamo = false;
             }
             foreach (var pc in PlayerControl.AllPlayerControls)
             {
@@ -1749,7 +1769,19 @@ namespace TownOfHost
                             float dis;
                             foreach (PlayerControl p in PlayerControl.AllPlayerControls)
                             {
-                                if (!p.Data.IsDead && p != cp)
+                                if (!Options.WarlockCanKillAlliedPlayers.GetBool())
+                                {
+                                    if (target.GetCustomRole().IsImpostorTeam()) continue;
+                                    if (Main.GuardianAngelTarget.ContainsKey(shapeshifter.PlayerId))
+                                    {
+                                        foreach (var pair in Main.GuardianAngelTarget)
+                                        {
+                                            if (pair.Value == shapeshifter.PlayerId && pair.Key == p.PlayerId)
+                                                continue;
+                                        }
+                                    }
+                                }
+                                if (!p.Data.IsDead && p.PlayerId != cp.PlayerId)
                                 {
                                     dis = Vector2.Distance(cppos, p.transform.position);
                                     cpdistance.Add(p, dis);
@@ -1783,17 +1815,17 @@ namespace TownOfHost
                     }
                 }
             }
-            /*  if (shapeshifter.Is(CustomRoles.Miner) && shapeshifting)
-              {
-                  if (Main.LastEnteredVent.ContainsKey(shapeshifter.PlayerId))
-                  {
-                      int ventId = Main.LastEnteredVent[shapeshifter.PlayerId].Id;
-                      var vent = Main.LastEnteredVent[shapeshifter.PlayerId];
-                      var position = Main.LastEnteredVentLocation[shapeshifter.PlayerId];
-                      Logger.Info($"{shapeshifter.Data.PlayerName}:{position}", "MinerTeleport");
-                      Utils.TP(shapeshifter.NetTransform, new Vector2(position.x, position.y + 0.3636f));
-                  }
-              }*/
+            if (shapeshifter.Is(CustomRoles.Miner) && shapeshifting && Options.UseVentButtonInsteadOfPet.GetBool())
+            {
+                if (Main.LastEnteredVent.ContainsKey(shapeshifter.PlayerId))
+                {
+                    int ventId = Main.LastEnteredVent[shapeshifter.PlayerId].Id;
+                    var vent = Main.LastEnteredVent[shapeshifter.PlayerId];
+                    var position = Main.LastEnteredVentLocation[shapeshifter.PlayerId];
+                    Logger.Info($"{shapeshifter.Data.PlayerName}:{position}", "MinerTeleport");
+                    Utils.TP(shapeshifter.NetTransform, new Vector2(position.x, position.y + 0.3636f));
+                }
+            }
             if (shapeshifter.CanMakeMadmate() && shapeshifting)
             {//変身したとき一番近い人をマッドメイトにする処理
                 Vector2 shapeshifterPosition = shapeshifter.transform.position;//変身者の位置
@@ -1904,6 +1936,26 @@ namespace TownOfHost
                 }
             }
             if (Camouflager.DidCamo) return false;
+            if (AgiTater.IsEnable() && AmongUsClient.Instance.AmHost)
+            {
+                if (AgiTater.CurrentBombedPlayer != 255 && AgiTater.ReportBait.GetBool())
+                {
+                    var bombed = Utils.GetPlayerById(AgiTater.CurrentBombedPlayer);
+                    if (bombed.GetCustomSubRole() is CustomRoles.Bait)
+                    {
+                        bombed.RpcMurderPlayer(bombed);
+                        PlayerState.SetDeathReason(bombed.PlayerId, PlayerState.DeathReason.Bombed);
+                        foreach (var playerid in AgiTater.playerIdList)
+                        {
+                            var pc = Utils.GetPlayerById(playerid);
+                            Logger.Info(bombed?.Data?.PlayerName + "はBaitだった", "MurderPlayer");
+                            new LateTask(() => pc.CmdReportDeadBody(bombed.Data), 0.15f, "Bait Self Report");
+                        }
+                        AgiTater.ResetBomb();
+                        return false;
+                    }
+                }
+            }
             Logger.Info($"{__instance.GetNameWithRole()} => {target?.GetNameWithRole() ?? "null"}", "ReportDeadBody");
             if (target != null)
             {
@@ -2718,7 +2770,20 @@ namespace TownOfHost
                         foreach (var target in PlayerControl.AllPlayerControls)
                         {
                             if (!target.IsAlive()) continue;
-                            if (target.PlayerId != player.PlayerId && !target.GetCustomRole().IsImpostor())
+                            if (!Options.PuppeteerCanKillAlliedPlayers.GetBool())
+                            {
+                                // if (target.Data.IsImpostor()) continue;
+                                if (target.GetCustomRole().IsImpostorTeam()) continue;
+                                if (Main.GuardianAngelTarget.ContainsKey(Main.PuppeteerList[player.PlayerId]))
+                                {
+                                    foreach (var pair in Main.GuardianAngelTarget)
+                                    {
+                                        if (pair.Value == Main.PuppeteerList[player.PlayerId] && pair.Key == target.PlayerId)
+                                            continue;
+                                    }
+                                }
+                            }
+                            if (target.PlayerId != player.PlayerId && !target.Data.IsDead && target.PlayerId != Main.PuppeteerList[player.PlayerId])
                             {
                                 dis = Vector2.Distance(puppeteerPos, target.transform.position);
                                 targetDistance.Add(target.PlayerId, dis);
@@ -2800,7 +2865,7 @@ namespace TownOfHost
                             var target = Utils.GetPlayerById(targetid);
                             if (!target.IsAlive()) continue;
                             if (target == player) continue;
-                            if (target.PlayerId != player.PlayerId && !target.GetCustomRole().IsImpostor())
+                            if (target.PlayerId != player.PlayerId && !target.GetCustomRole().IsImpostor() && !target.Data.IsDead)
                             {
                                 dis = Vector2.Distance(puppeteerPos, target.transform.position);
                                 targetDistance.Add(target.PlayerId, dis);
@@ -2851,7 +2916,7 @@ namespace TownOfHost
                         foreach (var target in PlayerControl.AllPlayerControls)
                         {
                             if (!target.IsAlive()) continue;
-                            if (target.PlayerId != player.PlayerId && !target.GetCustomRole().IsCoven())
+                            if (target.PlayerId != player.PlayerId && !target.GetCustomRole().IsCoven() && !target.Data.IsDead)
                             {
                                 dis = Vector2.Distance(puppeteerPos, target.transform.position);
                                 targetDistance.Add(target.PlayerId, dis);
@@ -2877,7 +2942,61 @@ namespace TownOfHost
                         }
                     }
                 }
-                if (GameStates.IsInTask && AgiTater.CurrentBombedPlayer == player.PlayerId && AgiTater.IsEnable())
+                if (Options.SpeedrunGamemode.GetBool() && Main.KillingSpree.Contains(player.PlayerId))
+                {
+                    if (player.Data.IsDead)
+                    {
+                        Main.KillingSpree.Remove(player.PlayerId);
+                    }
+                    else
+                    {
+                        Vector2 puppeteerPos = player.transform.position;
+                        Dictionary<byte, float> targetDistance = new();
+                        float dis;
+                        foreach (var target in PlayerControl.AllPlayerControls)
+                        {
+                            if (!target.IsAlive()) continue;
+                            if (target.PlayerId != player.PlayerId && !target.Data.IsDead)
+                            {
+                                dis = Vector2.Distance(puppeteerPos, target.transform.position);
+                                targetDistance.Add(target.PlayerId, dis);
+                            }
+                        }
+                        if (targetDistance.Count() != 0)
+                        {
+                            var min = targetDistance.OrderBy(c => c.Value).FirstOrDefault();
+                            PlayerControl target = Utils.GetPlayerById(min.Key);
+                            var KillRange = GameOptionsData.KillDistances[Mathf.Clamp(GameOptionsManager.Instance.currentNormalGameOptions.KillDistance, 0, 2)];
+                            if (min.Value <= KillRange && player.CanMove && target.CanMove)
+                            {
+                                player.RpcMurderPlayer(target);
+                                Utils.CustomSyncAllSettings();
+                                Utils.NotifyRoles();
+                            }
+                        }
+                    }
+                }
+                if (GameStates.IsInTask && player.GetCustomSubRole() is CustomRoles.Obvious && AmongUsClient.Instance.AmHost && player.CanMove)
+                {
+                    Vector2 playerPos = player.transform.position;
+                    Dictionary<DeadBody, float> targetDistance = new();
+                    float dis;
+                    foreach (DeadBody deadBody in GameObject.FindObjectsOfType<DeadBody>())
+                    {
+                        dis = Vector2.Distance(playerPos, deadBody.transform.position);
+                        targetDistance.Add(deadBody, dis);
+                    }
+                    if (targetDistance.Count() != 0)
+                    {
+                        var min = targetDistance.OrderBy(c => c.Value).FirstOrDefault();
+                        PlayerControl target = Utils.GetPlayerById(min.Key.ParentId);
+                        if (min.Value <= player.MaxReportDistance)
+                        {
+                            player.CmdReportDeadBody(target.Data);
+                        }
+                    }
+                }
+                if (GameStates.IsInTask && AgiTater.CurrentBombedPlayer == player.PlayerId && AgiTater.IsEnable() && AgiTater.CanPass)
                 {
                     if (!player.IsAlive())
                     {
@@ -3042,6 +3161,10 @@ namespace TownOfHost
                         {
                             RealName = Helpers.ColorString(target.GetRoleColor(), RealName); //targetの名前を役職色で表示
                         }
+                    }
+                    else if (PlayerControl.LocalPlayer.Is(CustomRoles.Tasker) && PlayerControl.LocalPlayer.GetPlayerTaskState().IsTaskFinished && AmongUsClient.Instance.AmHost)
+                    {
+                        Main.KillingSpree.Add(PlayerControl.LocalPlayer.PlayerId);
                     }
                     else if (seer.GetCustomRole().IsImpostor() && //seerがインポスター
                         target.Is(CustomRoles.Egoist) && Egoist.ImpostorsKnowEgo.GetBool() //targetがエゴイスト
@@ -3737,6 +3860,7 @@ namespace TownOfHost
                     skipCheck = true;
                     pc?.MyPhysics?.RpcBootFromVent(__instance.Id);
                     List<PlayerControl> doused = new();
+                    var statiscs = new CheckGameEndPatch.PlayerStatistics();
                     foreach (var player in PlayerControl.AllPlayerControls)
                     {
                         if (player == null ||
@@ -3750,7 +3874,10 @@ namespace TownOfHost
                         if (pc.IsDousedPlayer(player))
                             doused.Add(player);
                     }
-                    if (doused.Count != 0)
+                    var skip = false;
+                    if (statiscs.TotalAlive < Options.MinDouseToInginite.GetInt())
+                        skip = true;
+                    if (doused.Count != 0 && doused.Count >= Options.MinDouseToInginite.GetInt() | skip)
                     {
                         foreach (var pcd in doused)
                         {
@@ -3824,10 +3951,134 @@ namespace TownOfHost
                         skipCheck = true;
                 }
 
+                if (pc.Is(CustomRoles.TheGlitch))
+                {
+                    pc.MyPhysics.RpcBootFromVent(__instance.Id);
+                    skipCheck = true;
+                    if (Options.UseVentButtonInsteadOfPet.GetBool())
+                    {
+                        Main.IsHackMode = !Main.IsHackMode;
+                        MessageWriter writer2 = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.SetGlitchState, Hazel.SendOption.Reliable, -1);
+                        writer2.Write(Main.IsHackMode);
+                        AmongUsClient.Instance.FinishRpcImmediately(writer2);
+                        Utils.NotifyRoles();
+                    }
+                }
+
                 if (pc.Is(CustomRoles.Jester) && !Options.JesterCanVent.GetBool())
                 {
                     pc.MyPhysics.RpcBootFromVent(__instance.Id);
                     skipCheck = true;
+                }
+                if (pc.Is(CustomRoles.Veteran) && Options.UseVentButtonInsteadOfPet.GetBool())
+                {
+                    skipCheck = true;
+                    if (!Main.VetIsAlerted && Main.VetCanAlert && Main.VetAlerts != Options.NumOfVets.GetInt())
+                    {
+                        pc.VetAlerted();
+                        Utils.NotifyRoles(GameStates.IsMeeting, pc);
+                    }
+                }
+                if (pc.Is(CustomRoles.Transporter) && Options.UseVentButtonInsteadOfPet.GetBool())
+                {
+                    skipCheck = true;
+                    if (Main.TransportsLeft != 0 && Main.CanTransport)
+                    {
+                        Main.CanTransport = false;
+                        PlayerControl TP1 = null;
+                        PlayerControl TP2 = null;
+                        DeadBody Player1Body = null;
+                        DeadBody Player2Body = null;
+                        List<PlayerControl> canTransport = new();
+                        // GET TRANSPORTABLE PLAYERS //
+                        foreach (var pcplayer in PlayerControl.AllPlayerControls)
+                        {
+                            if (pcplayer == null || pcplayer.Data.Disconnected || !pcplayer.CanMove || pcplayer.Data.IsDead) continue;
+                            canTransport.Add(pcplayer);
+                        }
+                        // GET 2 RANDOM PLAYERS //
+                        var rando = new System.Random();
+                        var player = canTransport[rando.Next(0, canTransport.Count)];
+                        TP1 = player;
+                        canTransport.Remove(player);
+                        var random = new System.Random();
+                        var newplayer = canTransport[rando.Next(0, canTransport.Count)];
+                        TP2 = newplayer;
+                        canTransport.Remove(newplayer);
+                        // MAKE SURE THEY AREN'T NULL (PREVENTS CRASHES WITH JUST 1 PLAYER) //
+                        if (TP1 != null && TP2 != null)
+                        {
+                            Main.TransportsLeft--;
+                            // IF PLAYER IS DEAD, WE TRANSPORT BODY INSTEAD //
+                            if (TP1.Data.IsDead)
+                                foreach (DeadBody body in GameObject.FindObjectsOfType<DeadBody>())
+                                    if (body.ParentId == TP1.PlayerId)
+                                        Player1Body = body;
+                            if (TP2.Data.IsDead)
+                                foreach (DeadBody body in GameObject.FindObjectsOfType<DeadBody>())
+                                    if (body.ParentId == TP2.PlayerId)
+                                        Player2Body = body;
+
+                            // EXIT THEM OUT OF VENT //
+                            if (TP1.inVent)
+                                TP1.MyPhysics.ExitAllVents();
+                            if (TP2.inVent)
+                                TP2.MyPhysics.ExitAllVents();
+                            if (Player1Body == null && Player2Body == null)
+                            {
+                                TP1.MyPhysics.ResetMoveState();
+                                TP2.MyPhysics.ResetMoveState();
+                                var TempPosition = TP1.GetTruePosition();
+                                Utils.TP(TP1.NetTransform, new Vector2(TP2.GetTruePosition().x, TP2.GetTruePosition().y + 0.3636f));
+                                Utils.TP(TP2.NetTransform, new Vector2(TempPosition.x, TempPosition.y + 0.3636f));
+                            }
+                            else if (Player1Body != null && Player2Body == null)
+                            {
+                                TP2.MyPhysics.ResetMoveState();
+                                var TempPosition = Player1Body.TruePosition;
+                                Player1Body.transform.position = TP2.GetTruePosition();
+                                Utils.TP(TP2.NetTransform, new Vector2(TempPosition.x, TempPosition.y + 0.3636f));
+                            }
+                            else if (Player1Body == null && Player2Body != null)
+                            {
+                                TP1.MyPhysics.ResetMoveState();
+                                var TempPosition = TP1.GetTruePosition();
+                                Utils.TP(TP1.NetTransform, new Vector2(Player2Body.TruePosition.x, Player2Body.TruePosition.y + 0.3636f));
+                                Player2Body.transform.position = TempPosition;
+                            }
+                            else if (Player1Body != null && Player2Body != null)
+                            {
+                                var TempPosition = Player1Body.TruePosition;
+                                Player1Body.transform.position = Player2Body.TruePosition;
+                                Player2Body.transform.position = TempPosition;
+                            }
+
+                            TP1.moveable = true;
+                            TP2.moveable = true;
+                            TP1.Collider.enabled = true;
+                            TP2.Collider.enabled = true;
+                            TP1.NetTransform.enabled = true;
+                            TP2.NetTransform.enabled = true;
+                            MessageWriter writer3 = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.SetTransportState, Hazel.SendOption.Reliable, -1);
+                            writer3.Write(Main.CanTransport);
+                            AmongUsClient.Instance.FinishRpcImmediately(writer3);
+                            new LateTask(() =>
+                            {
+                                if (!GameStates.IsMeeting)
+                                {
+                                    Main.CanTransport = true;
+                                    MessageWriter writer2 = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.SetTransportState, Hazel.SendOption.Reliable, -1);
+                                    writer2.Write(Main.CanTransport);
+                                    AmongUsClient.Instance.FinishRpcImmediately(writer2);
+                                    Utils.NotifyRoles();
+                                }
+                            }, Options.VetCD.GetFloat(), "Transporter Transport Cooldown (Pet Button)", true);
+                        }
+                    }
+                    MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.SetTransportNumber, Hazel.SendOption.Reliable, -1);
+                    writer.Write(Main.TransportsLeft);
+                    AmongUsClient.Instance.FinishRpcImmediately(writer);
+                    pc.CustomSyncSettings();
                 }
                 if (pc.Is(CustomRoles.Bastion))
                 {
@@ -3907,7 +4158,7 @@ namespace TownOfHost
                 __instance.myPlayer.Is(CustomRoles.Amnesiac) ||
                 __instance.myPlayer.Is(CustomRoles.AgiTater) ||
                 __instance.myPlayer.Is(CustomRoles.PoisonMaster) ||
-                __instance.myPlayer.Is(CustomRoles.TheGlitch) ||
+                __instance.myPlayer.Is(CustomRoles.TheGlitch) && !Options.UseVentButtonInsteadOfPet.GetBool() ||
                 (__instance.myPlayer.Is(CustomRoles.Arsonist) && !Options.TOuRArso.GetBool()) ||
                 __instance.myPlayer.Is(CustomRoles.PlagueBearer) ||
                 (__instance.myPlayer.Is(CustomRoles.Juggernaut) && !Options.JuggerCanVent.GetBool()) ||

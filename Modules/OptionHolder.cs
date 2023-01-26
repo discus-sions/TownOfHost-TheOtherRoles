@@ -139,6 +139,8 @@ namespace TownOfHost
         public static CustomOption ArsonistDouseTime;
         public static CustomOption ArsonistCooldown;
         public static CustomOption TOuRArso;
+        public static CustomOption MinDouseToInginite;
+        public static CustomOption MaxDousedAtOnce;
         public static CustomOption BastionVentsRemoveOnBomb;
 
         public static CustomOption NumOfCoven;
@@ -353,6 +355,8 @@ namespace TownOfHost
         public static CustomOption SaboAmount;
         public static CustomOption DemoSuicideTime;
         public static CustomOption KillFlashDuration;
+        public static CustomOption WarlockCanKillAlliedPlayers;
+        public static CustomOption PuppeteerCanKillAlliedPlayers;
 
         // RANDOM ROLES INFO //
         public static CustomOption MaxNK;
@@ -429,6 +433,9 @@ namespace TownOfHost
         public static CustomOption GuardianAngelVoteImmunity;
         // TOS EXTRA SHIT //
         public static CustomOption KillCooldownResets;
+        // STOP ASKING FOR IT SMH
+        public static CustomOption UseVentButtonInsteadOfPet;
+        public static CustomOption SpeedrunGamemode;
         public static readonly string[] suffixModes =
         {
             "SuffixMode.None",
@@ -532,12 +539,14 @@ namespace TownOfHost
             VampireKillDelay = CustomOption.Create(1310, Color.white, "VampireKillDelay", AmongUsExtensions.OptionType.Impostor, 5, 1, 1000, 1, CustomRoleSpawnChances[CustomRoles.Vampire]);
             VampireBuff = CustomOption.Create(1311, Color.white, "VampBuff", AmongUsExtensions.OptionType.Impostor, true, CustomRoleSpawnChances[CustomRoles.Vampire]);
             SetupRoleOptions(1400, CustomRoles.Warlock, AmongUsExtensions.OptionType.Impostor);
+            WarlockCanKillAlliedPlayers = CustomOption.Create(1410, Color.white, "WarlockCanKillAlliedPlayers", AmongUsExtensions.OptionType.Impostor, true, CustomRoleSpawnChances[CustomRoles.Warlock]);
             SetupRoleOptions(1500, CustomRoles.Witch, AmongUsExtensions.OptionType.Impostor);
             SetupRoleOptions(23473, CustomRoles.Consort, AmongUsExtensions.OptionType.Impostor);
             SetupRoleOptions(1600, CustomRoles.Mafia, AmongUsExtensions.OptionType.Impostor);
             FireWorks.SetupCustomOption();
             Sniper.SetupCustomOption();
             SetupRoleOptions(2000, CustomRoles.Puppeteer, AmongUsExtensions.OptionType.Impostor);
+            PuppeteerCanKillAlliedPlayers = CustomOption.Create(2010, Color.white, "PuppeteerCanKillAlliedPlayers", AmongUsExtensions.OptionType.Impostor, true, CustomRoleSpawnChances[CustomRoles.Puppeteer]);
             SetupSingleRoleOptions(200099, CustomRoles.YingYanger, 1, AmongUsExtensions.OptionType.Impostor);
             YinYangCooldown = CustomOption.Create(1213, Color.white, "YinYangCooldown", AmongUsExtensions.OptionType.Impostor, 15, 2.5f, 180, 2.5f, CustomRoleSpawnChances[CustomRoles.YingYanger]);
             ResetToYinYang = CustomOption.Create(1314, Color.white, "ResetToYinYang", AmongUsExtensions.OptionType.Impostor, true, CustomRoleSpawnChances[CustomRoles.YingYanger]);
@@ -555,7 +564,7 @@ namespace TownOfHost
             SetupRoleOptions(2007424235, CustomRoles.Disperser, AmongUsExtensions.OptionType.Impostor);
             DisperseCooldown = CustomOption.Create(200126, Color.white, "DisperseCooldown", AmongUsExtensions.OptionType.Impostor, 30, 2.5f, 180, 2.5f, CustomRoleSpawnChances[CustomRoles.Disperser]);
             SetupRoleOptions(2007424234, CustomRoles.Cleaner, AmongUsExtensions.OptionType.Impostor);
-            SetupSingleRoleOptions(2010, CustomRoles.Freezer, 1, AmongUsExtensions.OptionType.Impostor);
+            SetupSingleRoleOptions(2011, CustomRoles.Freezer, 1, AmongUsExtensions.OptionType.Impostor);
             FreezerCooldown = CustomOption.Create(200125, Color.white, "FreezerCooldown", AmongUsExtensions.OptionType.Impostor, 20, 2.5f, 180, 2.5f, CustomRoleSpawnChances[CustomRoles.Freezer]);
             FreezerDuration = CustomOption.Create(200135, Color.white, "FreezerDuration", AmongUsExtensions.OptionType.Impostor, 10, 2.5f, 180, 2.5f, CustomRoleSpawnChances[CustomRoles.Freezer]);
             Camouflager.SetupCustomOption();
@@ -682,6 +691,8 @@ namespace TownOfHost
             ArsonistDouseTime = CustomOption.Create(50510, Color.white, "ArsonistDouseTime", AmongUsExtensions.OptionType.Neutral, 3, 0, 10, 1, CustomRoleSpawnChances[CustomRoles.Arsonist]);
             ArsonistCooldown = CustomOption.Create(50511, Color.white, "ArsonistCooldown", AmongUsExtensions.OptionType.Neutral, 10, 5, 100, 1, CustomRoleSpawnChances[CustomRoles.Arsonist]);
             TOuRArso = CustomOption.Create(50512, Color.white, "TourArso", AmongUsExtensions.OptionType.Neutral, false, CustomRoleSpawnChances[CustomRoles.Arsonist]);
+            MinDouseToInginite = CustomOption.Create(50513, Color.white, "MinDouseToInginite", AmongUsExtensions.OptionType.Neutral, 3, 0, 15, 1, TOuRArso);
+            MaxDousedAtOnce = CustomOption.Create(50514, Color.white, "MaxDousedAtOnce", AmongUsExtensions.OptionType.Neutral, 3, 0, 15, 1, TOuRArso);
             SetupSingleRoleOptions(50550, CustomRoles.PlagueBearer, 1, AmongUsExtensions.OptionType.Neutral);
             InfectCooldown = CustomOption.Create(50560, Color.white, "InfectCD", AmongUsExtensions.OptionType.Neutral, 20, 2.5f, 180, 2.5f, CustomRoleSpawnChances[CustomRoles.PlagueBearer]);
             PestilKillCooldown = CustomOption.Create(50561, Color.white, "PestiKillCooldown", AmongUsExtensions.OptionType.Neutral, 30, 2.5f, 180, 2.5f, CustomRoleSpawnChances[CustomRoles.PlagueBearer]);
@@ -815,12 +826,14 @@ namespace TownOfHost
             DiseasedMultiplier = CustomOption.Create(20021, Color.white, "DiseasedMultiplier", AmongUsExtensions.OptionType.Modifier, 2f, 1.5f, 5f, 0.25f, CustomRoleSpawnChances[CustomRoles.Diseased]);
 
             SetupSingleRoleOptions(200025, CustomRoles.Oblivious, 1, AmongUsExtensions.OptionType.Modifier);
+            SetupSingleRoleOptions(200026, CustomRoles.DoubleShot, 1, AmongUsExtensions.OptionType.Modifier);
             SetupSingleRoleOptions(200035, CustomRoles.Flash, 1, AmongUsExtensions.OptionType.Modifier);
             FlashSpeed = CustomOption.Create(200305, Color.white, "SpeedBoosterUpSpeed", AmongUsExtensions.OptionType.Modifier, 2f, 0.25f, 3f, 0.25f, CustomRoleSpawnChances[CustomRoles.Flash]);
             SetupSingleRoleOptions(30100, CustomRoles.Sleuth, 1, AmongUsExtensions.OptionType.Modifier);
             SetupSingleRoleOptions(301859, CustomRoles.TieBreaker, 1, AmongUsExtensions.OptionType.Modifier);
             SetupSingleRoleOptions(30000, CustomRoles.Watcher, 1, AmongUsExtensions.OptionType.Modifier);
             SetupSingleRoleOptions(50300, CustomRoles.LoversRecode, 2, AmongUsExtensions.OptionType.Modifier);
+            SetupSingleRoleOptions(200027, CustomRoles.Obvious, 1, AmongUsExtensions.OptionType.Modifier);
             LoversDieTogether = CustomOption.Create(503005, Color.white, "LoversDieTogether", AmongUsExtensions.OptionType.Modifier, false, CustomRoleSpawnChances[CustomRoles.LoversRecode]);
             LoversKnowRoleOfOtherLover = CustomOption.Create(503005, Color.white, "LoversKnowRoleOfOtherLover", AmongUsExtensions.OptionType.Modifier, true, CustomRoleSpawnChances[CustomRoles.LoversRecode]);
             //EvilWatcherChance = CustomOption.Create(30010, Color.white, "EvilWatcherChance", 0, 0, 100, 10, CustomRoleSpawnChances[CustomRoles.Watcher]);
@@ -852,10 +865,10 @@ namespace TownOfHost
             IgnoreVent = CustomOption.Create(101003, Color.white, "IgnoreVent", AmongUsExtensions.OptionType.GameOption, false)
                 .SetGameMode(CustomGameMode.HideAndSeek);
 
-            FreeForAllOn = CustomOption.Create(1001009, Color.white, "FreeForAllOn", AmongUsExtensions.OptionType.GameOption, false)
+            FreeForAllOn = CustomOption.Create(1001009, Color.white, "FreeForAllOn", AmongUsExtensions.OptionType.GameOption, false, isHeader: true)
                 .SetGameMode(CustomGameMode.HideAndSeek);
 
-            SplatoonOn = CustomOption.Create(1001008, Color.white, "Splatoon", AmongUsExtensions.OptionType.GameOption, false)
+            SplatoonOn = CustomOption.Create(1001008, Color.white, "Splatoon", AmongUsExtensions.OptionType.GameOption, false, isHeader: true)
                 .SetGameMode(CustomGameMode.HideAndSeek);
             SetupRoleOptions(100110, CustomRoles.Supporter, AmongUsExtensions.OptionType.Neutral, CustomGameMode.HideAndSeek);
             SetupRoleOptions(100111, CustomRoles.Janitor, AmongUsExtensions.OptionType.Neutral, CustomGameMode.HideAndSeek);
@@ -864,7 +877,10 @@ namespace TownOfHost
             STIgnoreVent = CustomOption.Create(1001003, Color.white, "CanVent", AmongUsExtensions.OptionType.GameOption, false)
                 .SetGameMode(CustomGameMode.HideAndSeek);
             PaintersHaveImpVision = CustomOption.Create(1001004, Color.white, "PaintersHaveImpVision", AmongUsExtensions.OptionType.GameOption, false)
-            .SetGameMode(CustomGameMode.HideAndSeek);
+                .SetGameMode(CustomGameMode.HideAndSeek);
+
+            SpeedrunGamemode = CustomOption.Create(1001010, Color.white, "SpeedrunGamemode", AmongUsExtensions.OptionType.GameOption, false, isHeader: true)
+                .SetGameMode(CustomGameMode.HideAndSeek);
 
             //#region ColorWars
             /*
@@ -1007,6 +1023,9 @@ namespace TownOfHost
                 .SetGameMode(CustomGameMode.Standard);
             MaxNonNK = CustomOption.Create(1007015, Color.white, "MaxNonNK", AmongUsExtensions.OptionType.GameOption, 0, 0, 11, 1, null, false)
                 .SetGameMode(CustomGameMode.Standard);
+
+            UseVentButtonInsteadOfPet = CustomOption.Create(100608, Color.white, "UseVentButtonInsteadOfPet", AmongUsExtensions.OptionType.GameOption, false, null, true)
+                .SetGameMode(CustomGameMode.All);
 
             // その他
             CamoComms = CustomOption.Create(100607, Color.white, "CamoComms", AmongUsExtensions.OptionType.GameOption, false, null, true)

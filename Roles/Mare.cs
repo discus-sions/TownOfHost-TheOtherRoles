@@ -14,6 +14,8 @@ namespace TownOfHost
         private static CustomOption SpeedInLightsOut;
         public static CustomOption RedNameCooldownAfterLights;
         public static CustomOption RedNameCooldownAfterMeeting;
+        public static CustomOption MareCanKillLightsOn;
+        public static CustomOption AddedKillCooldown;
 
         public static void SetupCustomOption()
         {
@@ -22,6 +24,8 @@ namespace TownOfHost
             KillCooldownInLightsOut = CustomOption.Create(Id + 11, Color.white, "MareKillCooldownInLightsOut", AmongUsExtensions.OptionType.Impostor, 15f, 2.5f, 180f, 2.5f, Options.CustomRoleSpawnChances[CustomRoles.Mare]);
             RedNameCooldownAfterLights = CustomOption.Create(Id + 12, Color.white, "RedNameCooldownAfterLights", AmongUsExtensions.OptionType.Impostor, 5f, 0, 30f, 2.5f, Options.CustomRoleSpawnChances[CustomRoles.Mare]);
             RedNameCooldownAfterMeeting = CustomOption.Create(Id + 13, Color.white, "RedNameCooldownAfterMeeting", AmongUsExtensions.OptionType.Impostor, 15f, 0, 60f, 2.5f, Options.CustomRoleSpawnChances[CustomRoles.Mare]);
+            MareCanKillLightsOn = CustomOption.Create(Id + 14, Color.white, "MareCanKillLightsOn", AmongUsExtensions.OptionType.Impostor, false, Options.CustomRoleSpawnChances[CustomRoles.Mare]);
+            AddedKillCooldown = CustomOption.Create(Id + 15, Color.white, "AddedKillCooldown", AmongUsExtensions.OptionType.Impostor, 10f, 5f, 45f, 2.5f, MareCanKillLightsOn);
         }
         public static void Init()
         {
@@ -32,7 +36,7 @@ namespace TownOfHost
             playerIdList.Add(mare);
         }
         public static bool IsEnable => playerIdList.Count > 0;
-        public static float GetKillCooldown => Utils.IsActive(SystemTypes.Electrical) ? KillCooldownInLightsOut.GetFloat() : Options.DefaultKillCooldown;
+        public static float GetKillCooldown => Utils.IsActive(SystemTypes.Electrical) ? KillCooldownInLightsOut.GetFloat() : MareCanKillLightsOn.GetBool() ? Options.DefaultKillCooldown + AddedKillCooldown.GetFloat() : Options.DefaultKillCooldown;
         public static void SetKillCooldown(byte id) => Main.AllPlayerKillCooldown[id] = GetKillCooldown;
         public static void ApplyGameOptions(NormalGameOptionsV07 opt, byte playerId)
         {

@@ -457,9 +457,9 @@ namespace TownOfHost
                     case CustomWinner.Draw:
                         ForceEndGame();
                         break;
-                    case CustomWinner.None:
-                        EveryoneDied();
-                        break;
+                    // case CustomWinner.None:
+                    //      EveryoneDied();
+                    //    break;
                     case CustomWinner.Jester:
                         JesterExiled(winner[0]);
                         break;
@@ -474,6 +474,9 @@ namespace TownOfHost
                         break;
                     case CustomWinner.Executioner:
                         ExecutionerWin(winner[0]);
+                        break;
+                    case CustomWinner.Tasker:
+                        TaskerWin(winner[0]);
                         break;
                     case CustomWinner.Hacker:
                         HackerWin(winner[0]);
@@ -709,8 +712,14 @@ namespace TownOfHost
         }
         public static void EveryoneDied()
         {
-            Main.currentWinner = CustomWinner.None;
+            //   Main.currentWinner = CustomWinner.None;
             CustomWinTrigger(0);
+        }
+        public static void TaskerWin(byte ffaID)
+        {
+            Main.WonFFAid = ffaID;
+            Main.currentWinner = CustomWinner.Tasker;
+            CustomWinTrigger(ffaID);
         }
         public static void ForceEndGame()
         {

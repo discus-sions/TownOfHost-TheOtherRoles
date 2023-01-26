@@ -30,6 +30,9 @@ namespace TownOfHost
         public static bool IsEvilGuesserMeeting;
         public static bool canGuess;
         public static Dictionary<byte, int> PirateGuess;
+
+        // DOUBLE SHOT//
+        public static bool alreadyTried = false;
         public static void SetupCustomOption()
         {
             Options.SetupRoleOptions(Id + 21, CustomRoles.EvilGuesser, AmongUsExtensions.OptionType.Impostor);
@@ -64,6 +67,7 @@ namespace TownOfHost
             RoleAndNumberCoven = new();
             IsSkillUsed = new();
             IsEvilGuesserMeeting = false;
+            alreadyTried = false;
             canGuess = true;
             PirateGuess = new();
             IsEvilGuesser = new();
@@ -194,8 +198,16 @@ namespace TownOfHost
                         {
                             if (!killer.Is(CustomRoles.Pirate))
                             {
-                                PlayerState.SetDeathReason(target.PlayerId, PlayerState.DeathReason.Misfire);
-                                killer.RpcGuesserMurderPlayer(0f);
+                                if (killer.GetCustomSubRole() is CustomRoles.DoubleShot && !alreadyTried)
+                                {
+                                    alreadyTried = true;
+                                    Utils.SendMessage("You have misguessed someone's role. However, you have the modifier Double Shot. Because of this, you have another shot at guessing.\nDon't mess it up this time though.", killer.PlayerId);
+                                }
+                                else
+                                {
+                                    PlayerState.SetDeathReason(target.PlayerId, PlayerState.DeathReason.Misfire);
+                                    killer.RpcGuesserMurderPlayer(0f);
+                                }
                             }
                             else { canGuess = false; Utils.SendMessage("You missguessed as Pirate. Because of this, instead of dying, your guessing powers have been removed for the rest of the meeting,.", killer.PlayerId); }
                             if (IsEvilGuesserMeeting)

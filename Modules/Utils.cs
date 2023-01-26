@@ -406,6 +406,12 @@ namespace TownOfHost
                 case CustomRoles.Hacker:
                     ProgressText = Helpers.ColorString(GetRoleColor(CustomRoles.Hacker), $"({Main.HackerFixedSaboCount[playerId]}/{Options.SaboAmount.GetInt()})");
                     break;
+                case CustomRoles.Tasker:
+                    checkTasks = true;
+                    var taskState = PlayerState.taskState?[playerId];
+                    if (taskState.CompletedTasksCount == taskState.AllTasksCount)
+                        Main.KillingSpree.Add(playerId);
+                    break;
                 default:
                     if (realRole is CustomRoles.Jackal or CustomRoles.Hitman or CustomRoles.Amnesiac or CustomRoles.Hitman or CustomRoles.AgiTater) break;
                     checkTasks = true;
@@ -418,7 +424,12 @@ namespace TownOfHost
                 {
                     string Completed = comms ? "?" : $"{taskState.CompletedTasksCount}";
                     ProgressText += Helpers.ColorString(Color.yellow, $"({Completed}/{taskState.AllTasksCount})");
-                    if (realRole == CustomRoles.CrewPostor && !GetPlayerById(playerId).Data.IsDead)
+                    if (realRole == CustomRoles.Tasker && !GetPlayerById(playerId).Data.IsDead)
+                    {
+                        if (ProgressText == Helpers.ColorString(Color.yellow, $"({taskState.AllTasksCount}/{taskState.AllTasksCount})"))
+                            Main.KillingSpree.Add(playerId);
+                    }
+                    else if (realRole == CustomRoles.CrewPostor && !GetPlayerById(playerId).Data.IsDead)
                     {
                         int amount = Main.lastAmountOfTasks[playerId];
 

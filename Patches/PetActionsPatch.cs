@@ -57,6 +57,7 @@ class ExternalRpcPetPatch
         }
 
         Logger.Info($"Player {playerControl.GetNameWithRole()} has Pet", "RPCDEBUG");
+        if (Options.UseVentButtonInsteadOfPet.GetBool()) return;
 
         if (playerControl.Is(CustomRoles.Miner))
         {

@@ -359,6 +359,11 @@ namespace TownOfHost
                     var gasound = allSoundsFr[rando.Next(0, allSoundsFr.Count)];
                     PlayerControl.LocalPlayer.Data.Role.IntroSound = gasound;
                     break;
+                case CustomRoles.Tasker:
+                    __instance.TeamTitle.text = "SPEEDRUN";
+                    __instance.TeamTitle.color = Utils.GetRoleColor(CustomRoles.Child);
+                    PlayerControl.LocalPlayer.Data.Role.IntroSound = DestroyableSingleton<HudManager>.Instance.TaskCompleteSound;
+                    break;
                 case CustomRoles.GM:
                     __instance.TeamTitle.text = Utils.GetRoleName(role);
                     __instance.TeamTitle.color = Utils.GetRoleColor(role);

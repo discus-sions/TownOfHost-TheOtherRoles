@@ -442,14 +442,11 @@ namespace TownOfHost
                 //     break;
                 case CustomRoles.Bastion:
                     engineerOptions.EngineerCooldown = 25;
-                    engineerOptions.EngineerInVentMaxTime = 1;
+                    engineerOptions.EngineerInVentMaxTime = 0.1f;
                     break;
                 case CustomRoles.Transporter:
-                    engineerOptions.EngineerInVentMaxTime = 1;
-                    if (Main.TransportsLeft != 0)
-                        engineerOptions.EngineerCooldown = Options.TransportCooldown.GetFloat();
-                    else
-                        engineerOptions.EngineerCooldown = 99999;
+                    engineerOptions.EngineerInVentMaxTime = 0.1f;
+                    engineerOptions.EngineerCooldown = 0.1f;
                     break;
                 case CustomRoles.Warlock:
                     shapeshifterOptions.ShapeshifterCooldown = Main.isCursed ? 1f : Options.DefaultKillCooldown;
@@ -527,7 +524,7 @@ namespace TownOfHost
                     break;
                 case CustomRoles.Veteran:
                     //5 lines of code calculating the next Vet CD.
-                    if (Main.IsRoundOne)
+                    /*if (Main.IsRoundOne)
                     {
                         engineerOptions.EngineerCooldown = 10f;
                         Main.IsRoundOne = false;
@@ -535,8 +532,9 @@ namespace TownOfHost
                     else if (!Main.VettedThisRound)
                         engineerOptions.EngineerCooldown = Options.VetCD.GetFloat();
                     else
-                        engineerOptions.EngineerCooldown = Options.VetCD.GetFloat() + Options.VetDuration.GetFloat();
-                    engineerOptions.EngineerInVentMaxTime = 1;
+                        engineerOptions.EngineerCooldown = Options.VetCD.GetFloat() + Options.VetDuration.GetFloat();*/
+                    engineerOptions.EngineerCooldown = 0.1f;
+                    engineerOptions.EngineerInVentMaxTime = 0.1f;
                     break;
                 case CustomRoles.Survivor:
                     engineerOptions.EngineerInVentMaxTime = 1;
@@ -593,6 +591,10 @@ namespace TownOfHost
                 case CustomRoles.Ninja:
                     shapeshifterOptions.ShapeshifterCooldown = 0.1f;
                     shapeshifterOptions.ShapeshifterDuration = 0f;
+                    break;
+                case CustomRoles.Miner:
+                    shapeshifterOptions.ShapeshifterCooldown = 0.1f;
+                    shapeshifterOptions.ShapeshifterDuration = 1f;
                     break;
                 case CustomRoles.Grenadier:
                     shapeshifterOptions.ShapeshifterCooldown = Options.FlashCooldown.GetFloat();
@@ -928,7 +930,7 @@ namespace TownOfHost
             return pc.GetCustomRole() switch
             {
                 CustomRoles.Mafia => Utils.CanMafiaKill() && canUse,
-                CustomRoles.Mare => Utils.IsActive(SystemTypes.Electrical),
+                CustomRoles.Mare => Utils.IsActive(SystemTypes.Electrical) || Mare.MareCanKillLightsOn.GetBool(),
                 CustomRoles.FireWorks => FireWorks.CanUseKillButton(pc),
                 CustomRoles.Sniper => Sniper.CanUseKillButton(pc),
                 CustomRoles.Sheriff => Sheriff.CanUseKillButton(pc),
