@@ -1,0 +1,4 @@
+tags will go here:
+it will be like
+
+friendCode:typeOfTag
