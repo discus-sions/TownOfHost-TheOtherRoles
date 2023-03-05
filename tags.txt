@@ -1,5 +1,6 @@
 famousdove#2275:static:Server Booster:#C8A2C8
 basketsane#0222:static:Killing:#00008B
+casualclod#9221:static:A Really Bad Joke:#FFBD2E
+puzzlesafe#4815:static:Bluéfôx ツ:#b307b3
 warmtablet#3212:gradient:5b414dece73ebb500c807080cc0e70f1
 snowhoofed#7566:gradient:f971be4dfbbaa192d6347edf80d6b844
-casualclod#9221:static:A Really Bad Joke:#FFBD2E
