@@ -14,10 +14,11 @@ namespace TownOfHost
             bool NameIncludeTOH = DataManager.Player.Customization.Name.ToUpper().Contains("TOR");
             if (ModUpdater.isBroken || ModUpdater.hasUpdate || !NameIncludeTOH)
             {
+                Logger.Info("Game could not be made Public.", "MakePublicPatch (cant make public)");
                 var message = GetString("NameIncludeTOH");
                 if (ModUpdater.isBroken) message = GetString("ModBrokenMessage");
                 if (ModUpdater.hasUpdate) message = GetString("CanNotJoinPublicRoomNoLatest");
-                Logger.Info(message, "MakePublicPatch");
+                Logger.Error(message, "MakePublicPatch (cant make public)");
                 Logger.SendInGame(message);
             }
             return true;
@@ -48,7 +49,7 @@ namespace TownOfHost
     {
         public static void Prefix(SplashManager __instance)
         {
-            if (Main.AmDebugger.Value)
+            if (Main.CachedDevMode)
             {
                 __instance.sceneChanger.AllowFinishLoadingScene();
                 __instance.startedSceneLoad = true;

@@ -21,6 +21,10 @@ namespace TownOfHost
         public static CustomOption PassCooldown;
         public static CustomOption ReportBait;
 
+        public static CustomOption AgiTaterGetsAdvantage;
+        public static CustomOption AgiTaterBombCooldown;
+        public static CustomOption AgiTaterCanBombMoreThanOnce;
+
         public static byte CurrentBombedPlayer = 255;
         public static byte LastBombedPlayer = 255;
         public static bool CanPass = true;
@@ -31,6 +35,9 @@ namespace TownOfHost
             BombCooldown = CustomOption.Create(Id + 232, Color.white, "BombCooldown", AmongUsExtensions.OptionType.Neutral, 20f, 10f, 60f, 2.5f, Options.CustomRoleSpawnChances[CustomRoles.AgiTater]);
             PassCooldown = CustomOption.Create(Id + 233, Color.white, "PassCooldown", AmongUsExtensions.OptionType.Neutral, 1f, 0f, 5f, 0.25f, Options.CustomRoleSpawnChances[CustomRoles.AgiTater]);
             ReportBait = CustomOption.Create(Id + 234, Color.white, "ReportBaitAgi", AmongUsExtensions.OptionType.Neutral, true, Options.CustomRoleSpawnChances[CustomRoles.AgiTater]);
+            AgiTaterGetsAdvantage = CustomOption.Create(Id + 235, Color.white, "AgiTaterGetsAdvantage", AmongUsExtensions.OptionType.Neutral, false, Options.CustomRoleSpawnChances[CustomRoles.AgiTater]);
+            AgiTaterBombCooldown = CustomOption.Create(Id + 236, Color.white, "AgiTaterBombCooldown", AmongUsExtensions.OptionType.Neutral, 30f, 10f, 60f, 2.5f, AgiTaterGetsAdvantage);
+            AgiTaterCanBombMoreThanOnce = CustomOption.Create(Id + 237, Color.white, "AgiTaterCanBombMoreThanOnce", AmongUsExtensions.OptionType.Neutral, false, AgiTaterGetsAdvantage);
         }
 
         public static bool IsEnable() => playerIdList.Count != 0;
@@ -57,8 +64,9 @@ namespace TownOfHost
             SendRPC(255, 255);
         }
 
-        public static void PassBomb(PlayerControl player, PlayerControl target)
+        public static void PassBomb(PlayerControl player, PlayerControl target, bool IsAgitater = false)
         {
+            if (target.Data.IsDead) return;
             if (PassCooldown.GetFloat() != 0f)
                 CanPass = false;
             if (target.Is(CustomRoles.Pestilence) || (target.Is(CustomRoles.Veteran) && Main.VetIsAlerted))
@@ -72,10 +80,60 @@ namespace TownOfHost
             Utils.NotifyRoles(GameStates.IsMeeting, player);
             Utils.NotifyRoles(GameStates.IsMeeting, target);
             SendRPC(CurrentBombedPlayer, LastBombedPlayer);
-            new LateTask(() =>
+            Logger.Msg($"{player.GetNameWithRole()} passed bomb to {target.GetNameWithRole()}", "Agitater Pass");
+            if (AgiTaterGetsAdvantage.GetBool())
             {
-                CanPass = true;
-            }, PassCooldown.GetFloat(), "Agitater Can Pass");
+                if (AgiTaterCanBombMoreThanOnce.GetBool() && IsLastKiller())
+                {
+                    BombedThisRound = false;
+                }
+                if (IsAgitater && IsLastKiller())
+                {
+                    new LateTask(() =>
+                    {
+                        var bombed = Utils.GetPlayerById(CurrentBombedPlayer);
+                        if (!bombed.Is(CustomRoles.Pestilence))
+                        {
+                            if (bombed.Is(CustomRoles.Veteran))
+                            {
+                                if (!Main.VetIsAlerted)
+                                {
+                                    bombed.RpcMurderPlayer(bombed);
+                                    PlayerState.SetDeathReason(bombed.PlayerId, PlayerState.DeathReason.Bombed);
+                                }
+                            }
+                            else
+                            {
+                                if (bombed.GetCustomSubRole() is CustomRoles.Bait && ReportBait.GetBool())
+                                {
+                                    bombed.RpcMurderPlayer(bombed);
+                                    PlayerState.SetDeathReason(bombed.PlayerId, PlayerState.DeathReason.Bombed);
+                                    foreach (var playerid in playerIdList)
+                                    {
+                                        var pc = Utils.GetPlayerById(playerid);
+                                        Logger.Info(bombed?.Data?.PlayerName + "はBaitだった", "MurderPlayer");
+                                        new LateTask(() => pc.CmdReportDeadBody(bombed.Data), 0.15f, "Bait Self Report");
+                                    }
+                                    ResetBomb();
+                                }
+                                else
+                                {
+                                    bombed.RpcMurderPlayer(bombed);
+                                    PlayerState.SetDeathReason(bombed.PlayerId, PlayerState.DeathReason.Bombed);
+                                }
+                            }
+                        }
+                        CurrentBombedPlayer = 255;
+                        LastBombedPlayer = 255;
+                        SendRPC(255, 255);
+                    }, AgiTaterBombCooldown.GetFloat(), "Agitater Last Killer Bomb", true);
+                }
+            }
+            if (PassCooldown.GetFloat() != 0f)
+                new LateTask(() =>
+                {
+                    CanPass = true;
+                }, PassCooldown.GetFloat(), "Agitater Can Pass");
         }
         public static void SendRPC(byte newbomb, byte oldbomb)
         {
@@ -83,6 +141,13 @@ namespace TownOfHost
             writer.Write(newbomb);
             writer.Write(oldbomb);
             AmongUsClient.Instance.FinishRpcImmediately(writer);
+        }
+
+        public static bool IsLastKiller()
+        {
+            CheckGameEndPatch.PlayerStatistics statistics = new CheckGameEndPatch.PlayerStatistics();
+            return statistics.TeamImpostorsAlive <= 0 && statistics.TeamJuggernautAlive <= 0 && statistics.TeamPestiAlive <= 0 && statistics.TeamJackalAlive <= 0
+                && statistics.TeamWolfAlive <= 0 && statistics.TeamCovenAlive <= 0 && statistics.TeamKnightAlive <= 0 && statistics.TeamGlitchAlive <= 0 && statistics.TeamArsoAlive <= 0;
         }
     }
 }

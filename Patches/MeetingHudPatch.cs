@@ -30,6 +30,42 @@ namespace TownOfHost
                         if (Main.DictatesRemaining[pc.PlayerId] <= 0)
                             if (!Main.AfterMeetingDeathPlayers.ContainsKey(pc.PlayerId))
                                 Main.AfterMeetingDeathPlayers.Add(pc.PlayerId, PlayerState.DeathReason.Suicide);
+                        if (voteTarget.GetCustomRole() is CustomRoles.LoversRecode)
+                        {
+                            PlayerControl lover = Main.LoversPlayers.ToArray().Where(pc => pc.PlayerId == voteTarget.PlayerId).FirstOrDefault();
+                            Main.LoversPlayers.Remove(lover);
+                            Main.isLoversDead = true;
+                            if (Options.LoversDieTogether.GetBool())
+                            {
+                                foreach (var lp in Main.LoversPlayers)
+                                {
+                                    if (!lp.Is(CustomRoles.Pestilence))
+                                    {
+                                        if (!Main.AfterMeetingDeathPlayers.ContainsKey(lp.PlayerId))
+                                            Main.AfterMeetingDeathPlayers.Add(lp.PlayerId, PlayerState.DeathReason.LoversSuicide);
+                                    }
+                                    Main.LoversPlayers.Remove(lp);
+                                }
+                            }
+                        }
+                        if (pc.GetCustomRole() is CustomRoles.LoversRecode && Main.DictatesRemaining[pc.PlayerId] <= 0)
+                        {
+                            PlayerControl lover = Main.LoversPlayers.ToArray().Where(pc => pc.PlayerId == pc.PlayerId).FirstOrDefault();
+                            Main.LoversPlayers.Remove(lover);
+                            Main.isLoversDead = true;
+                            if (Options.LoversDieTogether.GetBool())
+                            {
+                                foreach (var lp in Main.LoversPlayers)
+                                {
+                                    if (!lp.Is(CustomRoles.Pestilence))
+                                    {
+                                        if (!Main.AfterMeetingDeathPlayers.ContainsKey(lp.PlayerId))
+                                            Main.AfterMeetingDeathPlayers.Add(lp.PlayerId, PlayerState.DeathReason.LoversSuicide);
+                                    }
+                                    Main.LoversPlayers.Remove(lp);
+                                }
+                            }
+                        }
                         __instance.RpcVotingComplete(new MeetingHud.VoterState[]{ new ()
                         {
                             VoterId = pva.TargetPlayerId,
@@ -237,6 +273,14 @@ namespace TownOfHost
                                 }
                             }
                         }
+                    }
+                }
+                if (!Utils.GetPlayerById(exileId).Is(CustomRoles.Postman))
+                {
+                    Postman.PostmanWins = Postman.DoneDelivering;
+                    if (Postman.PostmanWins)
+                    {
+                        Logger.Info("Postman has won the game!", "Postman");
                     }
                 }
                 var realName = exiledPlayer.Object.GetRealName(isMeeting: true);
@@ -657,6 +701,7 @@ namespace TownOfHost
                     }
                     _ = new LateTask(() =>
                     {
+                        Postman.OnMeeting();
                         if (!Main.FirstMeetingPassed)
                         {
                             Main.FirstMeetingPassed = true;

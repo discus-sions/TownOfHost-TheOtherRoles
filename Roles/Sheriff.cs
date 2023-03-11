@@ -36,15 +36,14 @@ namespace TownOfHost
         private static CustomOption CanKillHitman;
         private static CustomOption CanKillAgitater;
         public static CustomOption NoDeathPenalty;
-        //public static CustomOption TraitorCanSpawnIfNK;
-        //public static CustomOption TraitorCanSpawnIfCoven;
+        public static CustomOption CanKillPostman;
 
         public static Dictionary<byte, float> ShotLimit = new();
         public static Dictionary<byte, float> CurrentKillCooldown = new();
         public static void SetupCustomOption()
         {
             Options.SetupRoleOptions(Id, CustomRoles.Sheriff, AmongUsExtensions.OptionType.Crewmate);
-            KillCooldown = CustomOption.Create(Id + 10, Color.white, "SheriffKillCooldown", AmongUsExtensions.OptionType.Crewmate, 30, 0, 990, 1, Options.CustomRoleSpawnChances[CustomRoles.Sheriff]);
+            KillCooldown = CustomOption.Create(Id + 10, Color.white, "SheriffKillCooldown", AmongUsExtensions.OptionType.Crewmate, 30, 0, 120, 1, Options.CustomRoleSpawnChances[CustomRoles.Sheriff]);
             CanKillArsonist = CustomOption.Create(Id + 11, Color.white, "SheriffCanKillArsonist", AmongUsExtensions.OptionType.Crewmate, true, Options.CustomRoleSpawnChances[CustomRoles.Sheriff]);
             CanKillMadmate = CustomOption.Create(Id + 12, Color.white, "SheriffCanKillMadmate", AmongUsExtensions.OptionType.Crewmate, true, Options.CustomRoleSpawnChances[CustomRoles.Sheriff]);
             CanKillJester = CustomOption.Create(Id + 13, Color.white, "SheriffCanKillJester", AmongUsExtensions.OptionType.Crewmate, true, Options.CustomRoleSpawnChances[CustomRoles.Sheriff]);
@@ -63,13 +62,10 @@ namespace TownOfHost
             CanKillWerewolf = CustomOption.Create(Id + 26, Color.white, "SCKWW", AmongUsExtensions.OptionType.Crewmate, true, Options.CustomRoleSpawnChances[CustomRoles.Sheriff]);
             CanKillHitman = CustomOption.Create(Id + 29, Color.white, "SheriffCanKillHitman", AmongUsExtensions.OptionType.Crewmate, true, Options.CustomRoleSpawnChances[CustomRoles.Sheriff]);
             CanKillAgitater = CustomOption.Create(Id + 30, Color.white, "SheriffCanKillAgitater", AmongUsExtensions.OptionType.Crewmate, true, Options.CustomRoleSpawnChances[CustomRoles.Sheriff]);
+            CanKillPostman = CustomOption.Create(Id + 32, Color.white, "SheriffCanKillPostman", AmongUsExtensions.OptionType.Crewmate, true, Options.CustomRoleSpawnChances[CustomRoles.Sheriff]);
             CanKillCrewmatesAsIt = CustomOption.Create(Id + 27, Color.white, "SheriffCanKillCrewmatesAsIt", AmongUsExtensions.OptionType.Crewmate, false, Options.CustomRoleSpawnChances[CustomRoles.Sheriff]);
             NoDeathPenalty = CustomOption.Create(Id + 31, Color.white, "NoDeathPenalty", AmongUsExtensions.OptionType.Crewmate, false, Options.CustomRoleSpawnChances[CustomRoles.Sheriff]);
-            ShotLimitOpt = CustomOption.Create(Id + 28, Color.white, "SheriffShotLimit", AmongUsExtensions.OptionType.Crewmate, 99, -1, 15, 1, Options.CustomRoleSpawnChances[CustomRoles.Sheriff]);
-            /*SheriffCorrupted = CustomOption.Create(Id + 29, Color.white, "TurnCorrupt", false, Options.CustomRoleSpawnChances[CustomRoles.Sheriff]);
-            PlayersForTraitor = CustomOption.Create(Id + 30, Color.white, "TraitorSpawn", 1, 0, 15, 1, SheriffCorrupted);
-            TraitorCanSpawnIfNK = CustomOption.Create(Id + 31, Color.white, "TraitorCanSpawnIfNK", true, SheriffCorrupted);
-            TraitorCanSpawnIfCoven = CustomOption.Create(Id + 32, Color.white, "TraitorCanSpawnIfCoven", true, SheriffCorrupted);*/
+            ShotLimitOpt = CustomOption.Create(Id + 28, Color.white, "SheriffShotLimit", AmongUsExtensions.OptionType.Crewmate, 15, 0, 15, 1, Options.CustomRoleSpawnChances[CustomRoles.Sheriff]);
         }
         public static void Init()
         {
@@ -78,10 +74,7 @@ namespace TownOfHost
             CurrentKillCooldown = new();
             seer = null;
             var number = System.Convert.ToUInt32(PercentageChecker.CheckPercentage(CustomRoles.CorruptedSheriff.ToString(), role: CustomRoles.CorruptedSheriff));
-            bool role = UnityEngine.Random.Range(1, 100) <= number;
-            csheriff = true;
-            if (role)
-                csheriff = false;
+            csheriff = UnityEngine.Random.Range(1, 100) <= number;
         }
         public static void Add(byte playerId)
         {
@@ -117,7 +110,7 @@ namespace TownOfHost
             if (player.Data.IsDead)
                 return false;
 
-            if (ShotLimit[player.PlayerId] == 0)
+            if (ShotLimit[player.PlayerId] == 0 && ShotLimitOpt.GetInt() != 0)
             {
                 //Logger.info($"{player.GetNameWithRole()} はキル可能回数に達したため、RoleTypeを守護天使に変更しました。", "Sheriff");
                 //player.RpcSetRoleDesync(RoleTypes.GuardianAngel);
@@ -152,10 +145,10 @@ namespace TownOfHost
         }
         public static void SwitchToCorrupt(PlayerControl killer, PlayerControl target)
         {
+            try {
             if (!csheriff)
-                if (target.GetCustomRole().IsImpostor())
+                if ((target.GetCustomRole().IsImpostor() | target.GetCustomRole().IsNeutralKilling() | target.GetCustomRole().IsCoven() | Main.AliveImpostorCount <= 0) && CustomRoles.CorruptedSheriff.IsEnable())
                 {
-                    //bool LocalPlayerKnowsImpostor = false;
                     if (Options.SheriffCorrupted.GetBool())
                     {
                         if (!csheriff)
@@ -167,9 +160,9 @@ namespace TownOfHost
                             List<PlayerControl> couldBeTraitors = new();
                             List<byte> couldBeTraitorsid = new();
                             var rando = new System.Random();
-                            //PlayerControl seer = PlayerControl.LocalPlayer;
                             foreach (var pc in PlayerControl.AllPlayerControls)
                             {
+                                if (pc == null) continue;
                                 if (!pc.Data.Disconnected)
                                     if (!pc.Data.IsDead)
                                     {
@@ -189,6 +182,7 @@ namespace TownOfHost
 
                             foreach (var pc in PlayerControl.AllPlayerControls)
                             {
+                                if (pc == null) continue;
                                 if (!pc.Data.Disconnected)
                                     if (!pc.Data.IsDead)
                                     {
@@ -218,8 +212,17 @@ namespace TownOfHost
                         }
                     }
                 }
+            } catch (Exception e)
+            {
+                Logger.Error($"Error encountered while checking if Sheriff could turn into corrupt.\n{e}", "Sheriff.cs");
+            }
         }
-        public static string GetShotLimit(byte playerId) => Helpers.ColorString(Color.yellow, ShotLimit.TryGetValue(playerId, out var shotLimit) ? $"({shotLimit})" : "Invalid");
+
+        public static string GetShotLimit(byte playerId)
+        {
+            if (ShotLimitOpt.GetInt() == 0) return "";
+            return Helpers.ColorString(Color.yellow, ShotLimit.TryGetValue(playerId, out var shotLimit) ? $"({shotLimit})" : "Invalid");
+        }
         public static bool CanBeKilledBySheriff(this PlayerControl player)
         {
             var cRole = player.GetCustomRole();

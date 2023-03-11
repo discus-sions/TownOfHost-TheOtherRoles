@@ -7,7 +7,6 @@
     <Description>Town Of Host The Other Roles</Description>
     <Authors>Discussions</Authors>
     <langVersion>preview</langVersion>
-    <AmongUs>C:\Program Files\Epic Games\AmongUs</AmongUs>
   </PropertyGroup>
 
   <ItemGroup>
@@ -31,5 +30,6 @@
 
   <PropertyGroup>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <nullable>enable</nullable>
   </PropertyGroup>
 </Project>

@@ -18,7 +18,7 @@ namespace TownOfHost
             Options.SetupRoleOptions(Id, CustomRoles.TimeThief, AmongUsExtensions.OptionType.Impostor);
             KillCooldown = CustomOption.Create(Id + 10, Color.white, "TimeThiefKillCooldown", AmongUsExtensions.OptionType.Impostor, 30f, 2.5f, 180f, 2.5f, Options.CustomRoleSpawnChances[CustomRoles.TimeThief]);
             DecreaseMeetingTime = CustomOption.Create(Id + 11, Color.white, "TimeThiefDecreaseMeetingTime", AmongUsExtensions.OptionType.Impostor, 20, 0, 100, 1, Options.CustomRoleSpawnChances[CustomRoles.TimeThief]);
-            LowerLimitVotingTime = CustomOption.Create(Id + 12, Color.white, "TimeThiefLowerLimitVotingTime", AmongUsExtensions.OptionType.Impostor, 10, 1, 300, 1, Options.CustomRoleSpawnChances[CustomRoles.TimeThief]);
+            LowerLimitVotingTime = CustomOption.Create(Id + 12, Color.white, "TimeThiefLowerLimitVotingTime", AmongUsExtensions.OptionType.Impostor, 10, 1, 180, 1, Options.CustomRoleSpawnChances[CustomRoles.TimeThief]);
             ReturnStolenTimeUponDeath = CustomOption.Create(Id + 13, Color.white, "TimeThiefReturnStolenTimeUponDeath", AmongUsExtensions.OptionType.Impostor, true, Options.CustomRoleSpawnChances[CustomRoles.TimeThief]);
         }
         public static void Init()

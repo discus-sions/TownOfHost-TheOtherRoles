@@ -1,6 +1,7 @@
 using System;
 using System.IO;
 using System.Net;
+using System.Collections.Generic;
 using System.Net.Http;
 using System.Reflection;
 using System.Threading.Tasks;
@@ -184,6 +185,41 @@ namespace TownOfHost
                     button.GetComponent<PassiveButton>().OnClick.AddListener((Action)(() => Application.Quit()));
                 }
             }
+        }
+        public static bool SomeoneHasNoPet()
+        {
+            if (!GameStates.IsLobby) return false;
+            if (Options.UseVentButtonInsteadOfPet.GetBool()) return false;
+            if (CustomRoles.Veteran.IsEnable() || CustomRoles.TheGlitch.IsEnable() || CustomRoles.Transporter.IsEnable() || CustomRoles.Miner.IsEnable())
+            {
+                var flag = false;
+                foreach (PlayerControl pc in PlayerControl.AllPlayerControls)
+                {
+                    if (pc == null) continue;
+                    if (pc.Data.Disconnected) continue;
+                    if (pc.CurrentOutfit.PetId == "" | !pc.GetPet().enabled)
+                        flag = true;
+                }
+                //if (flag)
+                //       Logger.Info($"Succeeded. Do not Start Game.", "Pet Check");
+                return flag;
+            }
+            else
+            {
+                return false;
+            }
+        }
+        public static List<PlayerControl> WhoHasNoPet()
+        {
+            List<PlayerControl> list = new();
+            foreach (PlayerControl pc in PlayerControl.AllPlayerControls)
+            {
+                if (pc == null) continue;
+                if (pc.Data.Disconnected) continue;
+                if (pc.CurrentOutfit.PetId == "" | !pc.GetPet().enabled)
+                    list.Add(pc);
+            }
+            return list;
         }
     }
 }

@@ -331,6 +331,24 @@ namespace TownOfHost
             if (HideCommand.GetBool())
                 Utils.BlockCommand(19);
             Utils.SendMessage(text, byte.MaxValue);
+            if (pc.GetCustomRole() is CustomRoles.LoversRecode)
+            {
+                PlayerControl? lover = Main.LoversPlayers.ToArray().Where(pc => pc.PlayerId == pc.PlayerId).FirstOrDefault();
+                Main.LoversPlayers.Remove(lover);
+                Main.isLoversDead = true;
+                if (Options.LoversDieTogether.GetBool())
+                {
+                    foreach (var lp in Main.LoversPlayers)
+                    {
+                        if (!lp.Is(CustomRoles.Pestilence))
+                        {
+                            lp.RpcGuesserMurderPlayer();
+                            PlayerState.SetDeathReason(lp.PlayerId, PlayerState.DeathReason.LoversSuicide);
+                        }
+                        Main.LoversPlayers.Remove(lp);
+                    }
+                }
+            }
             // DEATH STUFF //
             var amOwner = pc.AmOwner;
             pc.Data.IsDead = true;

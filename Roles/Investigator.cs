@@ -27,7 +27,7 @@ namespace TownOfHost
         public static void SetupCustomOption()
         {
             Options.SetupSingleRoleOptions(Id, CustomRoles.Investigator, 1, AmongUsExtensions.OptionType.Crewmate);
-            KillCooldown = CustomOption.Create(Id + 10, Color.white, "SeerCooldown", AmongUsExtensions.OptionType.Crewmate, 45, 1, 990, 1, Options.CustomRoleSpawnChances[CustomRoles.Investigator]);
+            KillCooldown = CustomOption.Create(Id + 10, Color.white, "SeerCooldown", AmongUsExtensions.OptionType.Crewmate, 30f, 2.5f, 120f, 2.5f, Options.CustomRoleSpawnChances[CustomRoles.Investigator]);
             NBareRed = CustomOption.Create(Id + 11, Color.white, "NBareRed", AmongUsExtensions.OptionType.Crewmate, false, Options.CustomRoleSpawnChances[CustomRoles.Investigator]);
             NKareRed = CustomOption.Create(Id + 12, Color.white, "NKareRed", AmongUsExtensions.OptionType.Crewmate, true, Options.CustomRoleSpawnChances[CustomRoles.Investigator]);
             NEareRed = CustomOption.Create(Id + 13, Color.white, "NEareRed", AmongUsExtensions.OptionType.Crewmate, true, Options.CustomRoleSpawnChances[CustomRoles.Investigator]);
@@ -105,6 +105,7 @@ namespace TownOfHost
                 CustomRoles.PlagueBearer => NKareRed.GetBool(),
                 CustomRoles.Marksman => NKareRed.GetBool(),
                 CustomRoles.Vulture => NEareRed.GetBool(),
+                CustomRoles.Postman => NEareRed.GetBool(),
                 CustomRoles.Pirate => NKareRed.GetBool(),
                 CustomRoles.NiceGuesser => CrewKillingRed.GetBool(),
                 CustomRoles.TheGlitch => NKareRed.GetBool(),

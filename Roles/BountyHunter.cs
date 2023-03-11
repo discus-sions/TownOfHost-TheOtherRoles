@@ -9,6 +9,7 @@ namespace TownOfHost
 {
     public static class BountyHunter
     {
+    
         private static readonly int Id = 1000;
         public static List<byte> playerIdList = new();
 
@@ -22,9 +23,9 @@ namespace TownOfHost
         public static void SetupCustomOption()
         {
             Options.SetupRoleOptions(Id, CustomRoles.BountyHunter, AmongUsExtensions.OptionType.Impostor);
-            TargetChangeTime = CustomOption.Create(Id + 10, Color.white, "BountyTargetChangeTime", AmongUsExtensions.OptionType.Impostor, 60f, 10f, 900f, 2.5f, Options.CustomRoleSpawnChances[CustomRoles.BountyHunter]);
-            SuccessKillCooldown = CustomOption.Create(Id + 11, Color.white, "BountySuccessKillCooldown", AmongUsExtensions.OptionType.Impostor, 2.5f, 0f, 180f, 2.5f, Options.CustomRoleSpawnChances[CustomRoles.BountyHunter]);
-            FailureKillCooldown = CustomOption.Create(Id + 12, Color.white, "BountyFailureKillCooldown", AmongUsExtensions.OptionType.Impostor, 50f, 0f, 180f, 2.5f, Options.CustomRoleSpawnChances[CustomRoles.BountyHunter]);
+            TargetChangeTime = CustomOption.Create(Id + 10, Color.white, "BountyTargetChangeTime", AmongUsExtensions.OptionType.Impostor, 60f, 10f, 180f, 2.5f, Options.CustomRoleSpawnChances[CustomRoles.BountyHunter]);
+            SuccessKillCooldown = CustomOption.Create(Id + 11, Color.white, "BountySuccessKillCooldown", AmongUsExtensions.OptionType.Impostor, 2.5f, 0f, 120f, 2.5f, Options.CustomRoleSpawnChances[CustomRoles.BountyHunter]);
+            FailureKillCooldown = CustomOption.Create(Id + 12, Color.white, "BountyFailureKillCooldown", AmongUsExtensions.OptionType.Impostor, 50f, 0f, 120f, 2.5f, Options.CustomRoleSpawnChances[CustomRoles.BountyHunter]);
         }
         public static void Init()
         {
@@ -154,7 +155,7 @@ namespace TownOfHost
         {
             var target = GetTarget(bounty);
             LowerInfoText.text = target == null ? "null" : $"{GetString("BountyCurrentTarget")}:{GetTarget(bounty).name}";
-            LowerInfoText.enabled = target != null || Main.AmDebugger.Value;
+            LowerInfoText.enabled = target != null || Main.CachedDevMode;
         }
         public static void AfterMeetingTasks()
         {

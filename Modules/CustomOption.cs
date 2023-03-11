@@ -292,7 +292,7 @@ namespace TownOfHost
                     {
                         SwitchPreset(Selection);
                     }
-                    ShareOptionSelections();
+                    RPC.SyncCustomSettingsRPCforOneOption(this);
                 }
             }
         }

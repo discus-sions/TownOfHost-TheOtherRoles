@@ -1,4 +1,4 @@
-﻿using BepInEx;
+using BepInEx;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -29,8 +29,8 @@ namespace TownOfHost
         public static readonly string BANNEDFRIENDCODES_FILE_PATH = "./TOR_DATA/bannedfriendcodes.txt";
         public static readonly string DiscordInviteUrl = "https://discord.gg/tohtor";
         public static readonly bool ShowDiscordButton = true;
-        public const string PluginVersion = "0.9.3.7.1";
-        public const string DevVersion = "10.1";
+        public const string PluginVersion = "0.9.3.8";
+        public const string DevVersion = "9.1";
         public const string FullDevVersion = $" dev {DevVersion}";
         public Harmony Harmony { get; } = new Harmony(PluginGuid);
         public static Version version = Version.Parse(PluginVersion);
@@ -38,6 +38,7 @@ namespace TownOfHost
         public static bool hasArgumentException = false;
         public static string ExceptionMessage;
         public static bool ExceptionMessageIsShown = false;
+        public static bool CachedDevMode = false;
         public static string credentialsText;
         public static string versionText;
         //Client Options
@@ -99,6 +100,7 @@ namespace TownOfHost
         public static Dictionary<byte, PlayerControl> CursedPlayers = new();
         public static List<PlayerControl> SpelledPlayer = new();
         public static List<PlayerControl> Impostors = new();
+        public static List<byte> AliveAtTheEndOfTheRound = new();
         public static List<byte> DeadPlayersThisRound = new();
         public static Dictionary<byte, bool> KillOrSpell = new();
         public static Dictionary<byte, bool> KillOrSilence = new();
@@ -120,6 +122,7 @@ namespace TownOfHost
         public static Dictionary<byte, int> MayorUsedButtonCount = new();
         public static Dictionary<byte, int> HackerFixedSaboCount = new();
         public static Dictionary<byte, Vent> LastEnteredVent = new();
+        public static Dictionary<byte, Vent> CurrentEnterdVent = new();
         public static Dictionary<byte, Vector2> LastEnteredVentLocation = new();
         public static int AliveImpostorCount;
         public static int AllImpostorCount;
@@ -293,7 +296,6 @@ namespace TownOfHost
         public override void Load()
         {
             Instance = this;
-            SoundEffectsManager.Load();
 
             TextCursorTimer = 0f;
             TextCursorVisible = true;
@@ -329,6 +331,7 @@ namespace TownOfHost
             Impostors = new List<PlayerControl>();
             rolesRevealedNextMeeting = new List<byte>();
             SilencedPlayer = new List<PlayerControl>();
+            AliveAtTheEndOfTheRound = new List<byte>();
             FirstMeetingPassed = false;
             LastWinner = "None";
             ColliderPlayers = new List<byte>();
@@ -347,6 +350,7 @@ namespace TownOfHost
             MayorUsedButtonCount = new Dictionary<byte, int>();
             HackerFixedSaboCount = new Dictionary<byte, int>();
             LastEnteredVent = new Dictionary<byte, Vent>();
+            CurrentEnterdVent = new Dictionary<byte, Vent>();
             knownGhosts = new Dictionary<byte, List<byte>>();
             LastEnteredVentLocation = new Dictionary<byte, Vector2>();
             CurrentTarget = new Dictionary<byte, byte>();
@@ -451,12 +455,13 @@ namespace TownOfHost
             WebhookURL = Config.Bind("Other", "WebhookURL", "none");
             AmDebugger = Config.Bind("Other", "AmDebugger", true);
             AmDebugger.Value = false;
+            CachedDevMode = AmDebugger.Value;
             ShowPopUpVersion = Config.Bind("Other", "ShowPopUpVersion", "0");
             MessageWait = Config.Bind("Other", "MessageWait", 1f);
             LastKillCooldown = Config.Bind("Other", "LastKillCooldown", (float)30);
 
             NameColorManager.Begin();
-
+            SoundEffectsManager.Load();
             Translator.Init();
 
             hasArgumentException = false;
@@ -524,6 +529,7 @@ namespace TownOfHost
                     { CustomRoles.SchrodingerCat, "#696969"},
                     { CustomRoles.Egoist, "#5600ff"},
                     { CustomRoles.EgoSchrodingerCat, "#5600ff"},
+                    { CustomRoles.Postman, "#989898"},
                     { CustomRoles.Jackal, "#00b4eb"},
                     { CustomRoles.Sidekick, "#00b4eb"},
                     { CustomRoles.Marksman, "#440101"},
@@ -594,7 +600,6 @@ namespace TownOfHost
                     { CustomRoles.serverbooster, "#f47fff"},
                     { CustomRoles.thetaa, "#9A9AEB"},
                     // SELF//
-                    { CustomRoles.minaa, "#C8A2C8"},
                     { CustomRoles.ess, "#EAC4FB"},
 
                     //TEXT COLORS Candy
@@ -974,18 +979,6 @@ namespace TownOfHost
                     TownOfHost.Logger.Exception(ex, "TemplateManager");
                 }
             }
-            /*if (!File.Exists("percentage.txt"))
-            {
-                TownOfHost.Logger.Info("Could not find percentage.txt in the same folder as Among Us.exe. This will cause roles to not spawn at all. Please redownload the mod.", "Percentage");
-                try
-                {
-                    File.WriteAllText(@"percentage.txt", "Download the correct version at: https://github.com/music-discussion/TownOfHost-TheOtherRoles");
-                }
-                catch (Exception ex)
-                {
-                    TownOfHost.Logger.Error(ex.ToString(), "Percentage");
-                }
-            }*/
 
             Harmony.PatchAll();
         }
@@ -1010,6 +1003,7 @@ namespace TownOfHost
         FireWorks,
         Mafia,
         SerialKiller,
+        Escapist,
         //ShapeMaster,
         Sniper,
         Vampire,
@@ -1026,7 +1020,7 @@ namespace TownOfHost
         // EVENT WINNING ROLES
         IdentityTheft,
         Manipulator,
-        //    AgiTater,
+        AgiTater,
         Bomber,
         // JK NOW //
         TimeThief,
@@ -1111,7 +1105,6 @@ namespace TownOfHost
         Terrorist,
         Executioner,
         Jackal,
-        AgiTater,
         Sidekick,
         // ALL CAT ROLES //
         SchrodingerCat,
@@ -1188,7 +1181,6 @@ namespace TownOfHost
         eevee,
         serverbooster,
         // SELF //
-        minaa,
         ess,
         // end random //
         psh1,
@@ -1306,7 +1298,8 @@ namespace TownOfHost
         Marksman = CustomRoles.Marksman,
         Painter = CustomRoles.Painter,
         AgiTater = CustomRoles.AgiTater,
-        Tasker = CustomRoles.Tasker
+        Tasker = CustomRoles.Tasker,
+        Postman = CustomRoles.Postman
     }
     public enum AdditionalWinners
     {

@@ -18,14 +18,26 @@ namespace TownOfHost
 
         public static void Load()
         {
+            //Logger.Info("SoundEffectsManager. Sound Check 1", "SoundEffectsManager");
             soundEffects = new Dictionary<string, AudioClip>();
             Assembly assembly = Assembly.GetExecutingAssembly();
             string[] resourceNames = assembly.GetManifestResourceNames();
+           //Logger.Info("SoundEffectsManager. Sound Check 2", "SoundEffectsManager");
             foreach (string resourceName in resourceNames)
             {
                 if (resourceName.Contains("TownOfHost.Resources.SoundEffects.") && resourceName.Contains(".raw"))
                 {
+                    Logger.Info($"Found Song! {resourceName}", "SoundEffectsManager");
                     soundEffects.Add(resourceName, Helpers.loadAudioClipFromResources(resourceName));
+                }
+            }
+            foreach(var pair in soundEffects)
+            {
+                Logger.Info($"Pair.Key: {pair.Key.ToString()}", "Pair.Key");
+                Logger.Info($"Pair.Value: {pair.Value.ToString()}", "Pair.Value");
+                if (pair.Value == null)
+                {
+                    Logger.Info($"Pair.Value is equal to null.", "Pair.Value");
                 }
             }
         }
@@ -33,23 +45,51 @@ namespace TownOfHost
         public static AudioClip get(string path)
         {
             // Convenience: As as SoundEffects are stored in the same folder, allow using just the name as well
-            if (!path.Contains(".")) path = "TownOfHost.Resources.SoundEffects." + path + ".raw";
-            AudioClip returnValue;
-            return soundEffects.TryGetValue(path, out returnValue) ? returnValue : null;
+            if (!path.Contains(".")) path = "TownOfHost.Resources.SoundEffects.music." + path + ".raw";
+            Logger.Info($"Song Path: {path}", "SoundEffectsManager");
+            if (soundEffects.TryGetValue(path, out AudioClip returnValue))
+            {
+                if (returnValue == null)
+                {
+                    Logger.Info($"Clip is Equal to null.", "SoundEffectsManager (get function)");
+                    soundEffects[path] = Helpers.loadAudioClipFromResources(path, "exampleClip");
+                    returnValue = soundEffects[path];
+                }
+                return returnValue;
+            }
+            else {
+               Logger.Info($"Clip is Equal to null.", "SoundEffectsManager (get function)");
+               return null;
+            }
         }
 
 
-        public static void play(string path, float volume = 0.8f)
+        public static void play(string path, bool loop = false, float volume = 0.8f)
         {
             AudioClip clipToPlay = get(path);
+            if (clipToPlay == null)
+            {
+                Logger.Info($"Clip is Equal to null.", "SoundEffectsManager (play function)");
+                var newpath = path;
+                if (!newpath.Contains(".")) newpath = "TownOfHost.Resources.SoundEffects.music." + newpath + ".raw";
+                //clipToPlay = Helpers.loadAudioClipFromResources(newpath, "exampleClip");
+            }
             // if (false) clipToPlay = get("exampleClip"); for april fools?
             stop(path);
-            if (Constants.ShouldPlaySfx()) SoundManager.Instance.PlaySound(clipToPlay, false, volume);
+            SoundManager.Instance.PlaySound(clipToPlay, loop, volume);
         }
 
         public static void stop(string path)
         {
-            if (Constants.ShouldPlaySfx()) SoundManager.Instance.StopSound(get(path));
+            AudioClip clipToStop = get(path);
+            if (clipToStop == null)
+            {
+                Logger.Info($"Clip is Equal to null.", "SoundEffectsManager (stop function)");
+                var newpath = path;
+                if (!newpath.Contains(".")) newpath = "TownOfHost.Resources.SoundEffects.music." + newpath + ".raw";
+                //clipToStop = Helpers.loadAudioClipFromResources(newpath, "exampleClip");
+            }
+            SoundManager.Instance.StopSound(clipToStop);
         }
 
         public static void stopAll()

@@ -22,9 +22,10 @@ namespace TownOfHost
         {
             try
             {
+                Logger.Msg("Game Starting. Resetting vars (1/4)", "Load Check (CoStartGame)");
                 PlayerState.Init();
                 SoundEffectsManager.Load();
-
+                Logger.Msg("Game Starting. Resetting vars (2/4)", "Load Check (CoStartGame)");
                 Main.currentWinner = CustomWinner.Default;
                 Main.CustomWinTrigger = false;
                 Main.AllPlayerCustomRoles = new Dictionary<byte, CustomRoles>();
@@ -73,6 +74,7 @@ namespace TownOfHost
                 Main.firstKill = new List<byte>();
                 Main.knownGhosts = new Dictionary<byte, List<byte>>();
                 Main.unreportableBodies = new List<byte>();
+                Main.LastVotedPlayer = "";
                 Main.dousedIDs = new List<byte>();
                 Main.isSilenced = false;
                 Main.ExeCanChangeRoles = true;
@@ -82,9 +84,11 @@ namespace TownOfHost
                 Main.CheckShapeshift = new Dictionary<byte, bool>();
                 Main.SpeedBoostTarget = new Dictionary<byte, byte>();
                 Main.MayorUsedButtonCount = new Dictionary<byte, int>();
+                Main.AliveAtTheEndOfTheRound = new List<byte>();
                 Main.HackerFixedSaboCount = new Dictionary<byte, int>();
                 Main.LastEnteredVent = new Dictionary<byte, Vent>();
                 Main.LastEnteredVentLocation = new Dictionary<byte, Vector2>();
+                Main.CurrentEnterdVent = new Dictionary<byte, Vent>();
                 Main.HasModifier = new Dictionary<byte, CustomRoles>();
                 Main.KilledBewilder = new List<byte>();
                 Main.AllPlayerSkin = new();
@@ -127,6 +131,7 @@ namespace TownOfHost
                 Main.WitchProtected = false;
                 ////////////// COVEN INFO //////////////
                 Main.chosenDesyncRoles = new List<CustomRoles>();
+                Logger.Msg("Game Starting. Resetting vars (3/4)", "Load Check (CoStartGame)");
 
                 Options.UsedButtonCount = 0;
                 Main.showEjections = GameOptionsManager.Instance.CurrentGameOptions.AsNormalOptions()!.ConfirmImpostor;
@@ -166,6 +171,7 @@ namespace TownOfHost
                 Main.bkProtected = false;
                 Main.CleanerCanClean = new Dictionary<byte, bool>();
                 Main.bombedVents = new List<int>();
+                Logger.Msg("Game Starting. Resetting vars (4/4)", "Load Check (CoStartGame)");
                 if (CustomRoles.Transporter.IsEnable())
                     Main.TransportsLeft = Options.NumOfTransports.GetInt();
 
@@ -191,6 +197,7 @@ namespace TownOfHost
                 Main.SleuthReported = new();
                 //名前の記録
                 Main.AllPlayerNames = new();
+                Logger.Msg("Game Starting. Resetting vars (5/6)", "Load Check (CoStartGame)");
 
                 if (AmongUsClient.Instance.AmHost)
                 {
@@ -237,6 +244,7 @@ namespace TownOfHost
                         Options.HideAndSeekKillDelayTimer = Options.StandardHASWaitingTime.GetFloat();
                     }
                 }
+                Logger.Msg("Game Starting. Resetting vars (6/6)", "Load Check (CoStartGame)");
                 Main.devNames = new Dictionary<byte, string>();
                 FallFromLadder.Reset();
                 BountyHunter.Init();
@@ -246,21 +254,25 @@ namespace TownOfHost
                 TimeThief.Init();
                 Mare.Init();
                 Egoist.Init();
+                Bomber.Init();
                 Sheriff.Init();
                 Investigator.Init();
                 Camouflager.Init();
+                Postman.Reset();
                 Ninja.Init();
+                Escapist.Init();
                 Necromancer.Init();
                 Guesser.Init();
                 Manipulator.Reset();
                 AgiTater.Reset();
                 AntiBlackout.Reset();
+                Logger.Msg("Load Check Succeded!", "Load Check (CoStartGame)");
             }
-            catch
+            catch (Exception e)
             {
-                Logger.Error("Error encountered while resetting player info. Game has force ended to prevent black screen.", "Reset Vars");
+                Logger.Error($"Error encountered while resetting player info. Game has force ended to prevent black screen.\nError:\n{e}\n(Report to Dev if Needed + Log File)", "Reset Vars");
                 if (!AmongUsClient.Instance.AmHost) return;
-                Utils.SendMessage("Error encountered while resetting player info. Game has force ended to prevent black screen.");
+                Utils.SendMessage($"Error encountered while resetting player info. Game has force ended to prevent black screen.\nError:\n{e}\n(Report to Dev if Needed + Log File)");
                 MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.EndGame, Hazel.SendOption.Reliable, -1);
                 writer.Write((int)CustomWinner.Draw);
                 AmongUsClient.Instance.FinishRpcImmediately(writer);
@@ -292,6 +304,7 @@ namespace TownOfHost
             {
                 CustomRpcSender sender = CustomRpcSender.Create("SelectRoles Sender", SendOption.Reliable);
                 RpcSetRoleReplacer.StartReplace(sender);
+                Logger.Msg("RoleManager.SelectRoles", "Load Check (Select Roles)");
 
                 //ウォッチャーの陣営抽選
                 //Options.SetWatcherTeam(Options.EvilWatcherChance.GetFloat());
@@ -299,6 +312,7 @@ namespace TownOfHost
                 var rand = new System.Random();
                 if (Options.CurrentGameMode() != CustomGameMode.HideAndSeek)
                 {
+                    Logger.Msg("RoleManager.SelectRoles / Check (1/10)", "Load Check (Select Roles)");
                     List<PlayerControl> AllPlayers = new();
                     List<PlayerControl> AllNKPlayers = new();
                     List<PlayerControl> AllnonNKPlayers = new();
@@ -328,6 +342,8 @@ namespace TownOfHost
                     numofNks = Mathf.RoundToInt(numofNks);
                     numofNonNks = Mathf.RoundToInt(numofNonNks);
 
+                    Logger.Msg("RoleManager.SelectRoles / Check (2/10)", "Load Check (Select Roles)");
+
                     if (Options.MaxNK.GetInt() != 0)
                         for (var i = 0; i < numofNks; i++)
                         {
@@ -344,6 +360,7 @@ namespace TownOfHost
                             AllPlayers.Remove(player);
                             AllnonNKPlayers.Add(player);
                         }
+                    Logger.Msg("RoleManager.SelectRoles / Check (3/10)", "Load Check (Select Roles)");
 
                     // ASSIGN NK ROLES //
                     List<CustomRoles> rolesChosen = new();
@@ -425,6 +442,8 @@ namespace TownOfHost
                                 }
                     }
 
+                    Logger.Msg("RoleManager.SelectRoles / Check (4/10)", "Load Check (Select Roles)");
+
                     // ASSIGN NON-NK ROLES //
                     List<CustomRoles> rolesChosenNon = new();
                     if (Options.MaxNonNK.GetInt() != 0)
@@ -446,6 +465,9 @@ namespace TownOfHost
 
                         if (RoleGoingInList(CustomRoles.Swapper))
                             rolesChosenNon.Add(CustomRoles.Swapper);
+
+                        if (RoleGoingInList(CustomRoles.Postman))
+                            rolesChosenNon.Add(CustomRoles.Postman);
 
                         if (RoleGoingInList(CustomRoles.GuardianAngelTOU))
                             rolesChosenNon.Add(CustomRoles.GuardianAngelTOU);
@@ -491,6 +513,8 @@ namespace TownOfHost
                                         Main.chosenNonNK.Add(role);
                                 }
                     }
+
+                    Logger.Msg("RoleManager.SelectRoles / Check (5/10)", "Load Check (Select Roles)");
 
                     List<CustomRoles> rolesChosenImp = new();
                     List<CustomRoles> chosenCrew = new();
@@ -538,6 +562,8 @@ namespace TownOfHost
                         }
                     }
 
+                    Logger.Msg("RoleManager.SelectRoles / Check (6/10)", "Load Check (Select Roles)");
+
                     var impnum = Main.RealOptionsData.NumImpostors;
                     if (rolesChosenImp.Count != 0)
                     {
@@ -553,7 +579,7 @@ namespace TownOfHost
                                 else if (role is CustomRoles.Vampire)
                                 {
                                     bool vampress = UnityEngine.Random.RandomRange(1, 100) <= 10;
-                                    if (vampress)
+                                    if (vampress && Options.EnableHiddenRoles.GetBool())
                                     {
                                         role = CustomRoles.Vampress;
                                         Main.chosenShifterRoles.Add(CustomRoles.Vampress);
@@ -565,6 +591,8 @@ namespace TownOfHost
                                     Main.chosenImpRoles.Add(role);
                             }
                     }
+
+                    Logger.Msg("RoleManager.SelectRoles / Check (7/10)", "Load Check (Select Roles)");
                     // NOW WE CHOOSE CREW ROLES //
                     if (chosenCrew.Count != 0)
                     {
@@ -587,6 +615,8 @@ namespace TownOfHost
                             }
                     }
 
+                    Logger.Msg("RoleManager.SelectRoles / Check (8/10)", "Load Check (Select Roles)");
+
                     RoleOptionsCollectionV07 roleOpt = GameOptionsManager.Instance.currentNormalGameOptions.roleOptions;
                     int ScientistNum = roleOpt.GetNumPerGame(RoleTypes.Scientist);
                     int AdditionalScientistNum = Main.chosenScientistRoles.Count;
@@ -599,6 +629,8 @@ namespace TownOfHost
                     int ShapeshifterNum = roleOpt.GetNumPerGame(RoleTypes.Shapeshifter);
                     int AdditionalShapeshifterNum = Main.chosenShifterRoles.Count;
                     roleOpt.SetRoleRate(RoleTypes.Shapeshifter, ShapeshifterNum + AdditionalShapeshifterNum, AdditionalShapeshifterNum > 0 ? 100 : roleOpt.GetChancePerGame(RoleTypes.Shapeshifter));
+
+                    Logger.Msg("RoleManager.SelectRoles / Check (9/10)", "Load Check (Select Roles)");
 
                     if (RoleGoingInList(CustomRoles.Coven))
                         ForceAssignRole(CustomRoles.Coven, AllPlayers, sender, Count: CustomRoles.Coven.GetCount(), BaseRole: RoleTypes.Impostor);
@@ -616,6 +648,8 @@ namespace TownOfHost
                         AssignDesyncRole(CustomRoles.Escort, AllPlayers, sender, BaseRole: RoleTypes.Impostor);
                     if (Main.chosenDesyncRoles.Contains(CustomRoles.Crusader))
                         AssignDesyncRole(CustomRoles.Crusader, AllPlayers, sender, BaseRole: RoleTypes.Impostor);
+
+                    Logger.Msg("RoleManager.SelectRoles / Check (10/10)", "Load Check (Select Roles)");
                 }
                 else
                 {
@@ -629,6 +663,7 @@ namespace TownOfHost
                         //AssignDesyncRole(CustomRoles.Supporter, AllPlayers, sender, BaseRole: RoleTypes.Crewmate);
                         AssignDesyncRole(CustomRoles.Janitor, AllPlayers, sender, BaseRole: RoleTypes.Impostor);
                         AssignPainters(CustomRoles.Painter, AllPlayers, sender, BaseRole: RoleTypes.Impostor);
+                        Logger.Msg("Assigned Roles for Splatoon", "Load Check (Select Roles)");
                     }
                     else if (Options.FreeForAllOn.GetBool())
                     {
@@ -638,10 +673,11 @@ namespace TownOfHost
                             AllPlayers.Add(pc);
                         }
                         ForceAssignRole(CustomRoles.Jackal, AllPlayers, sender, Count: AllPlayers.Count, BaseRole: RoleTypes.Impostor);
+                        Logger.Msg("Assigned Roles for FreeForAll", "Load Check (Select Roles)");
                     }
                     else if (Options.SpeedrunGamemode.GetBool())
                     {
-
+                        Logger.Msg("Speedrun GameMode Check", "Load Check (Select Roles)");
                     }
                 }
                 if (sender.CurrentState == CustomRpcSender.State.InRootMessage) sender.EndMessage();
@@ -659,108 +695,123 @@ namespace TownOfHost
         public static void Postfix()
         {
             if (!AmongUsClient.Instance.AmHost) return;
-            // try
-            // {
-            RpcSetRoleReplacer.Release();
-            RpcSetRoleReplacer.sender.SendMessage();
-
-            //Utils.ApplySuffix();
-
-            var rand = new System.Random();
-            Main.KillOrSpell = new Dictionary<byte, bool>();
-
-            List<PlayerControl> Crewmates = new();
-            List<PlayerControl> Impostors = new();
-            List<PlayerControl> Scientists = new();
-            List<PlayerControl> Engineers = new();
-            List<PlayerControl> GuardianAngels = new();
-            List<PlayerControl> Shapeshifters = new();
-            List<PlayerControl> ImpGhosts = new();
-            List<PlayerControl> CrewGhosts = new();
-
-            foreach (var pc in PlayerControl.AllPlayerControls)
+            try
             {
-                pc.Data.IsDead = false;
-                if (Main.AllPlayerCustomRoles.ContainsKey(pc.PlayerId)) continue;
-                switch (pc.Data.Role.Role)
-                {
-                    case RoleTypes.Crewmate:
-                        Crewmates.Add(pc);
-                        Main.AllPlayerCustomRoles.Add(pc.PlayerId, CustomRoles.Crewmate);
-                        break;
-                    case RoleTypes.Impostor:
-                        Impostors.Add(pc);
-                        Main.AllPlayerCustomRoles.Add(pc.PlayerId, CustomRoles.Impostor);
-                        break;
-                    case RoleTypes.Scientist:
-                        Scientists.Add(pc);
-                        Main.AllPlayerCustomRoles.Add(pc.PlayerId, CustomRoles.Scientist);
-                        break;
-                    case RoleTypes.Engineer:
-                        Engineers.Add(pc);
-                        Main.AllPlayerCustomRoles.Add(pc.PlayerId, CustomRoles.Engineer);
-                        break;
-                    case RoleTypes.GuardianAngel:
-                        GuardianAngels.Add(pc);
-                        Main.AllPlayerCustomRoles.Add(pc.PlayerId, CustomRoles.GuardianAngel);
-                        break;
-                    case RoleTypes.Shapeshifter:
-                        Shapeshifters.Add(pc);
-                        Main.AllPlayerCustomRoles.Add(pc.PlayerId, CustomRoles.Shapeshifter);
-                        break;
-                    case RoleTypes.CrewmateGhost:
-                        CrewGhosts.Add(pc);
-                        Main.AllPlayerCustomRoles.Add(pc.PlayerId, CustomRoles.CrewmateGhost);
-                        break;
-                    case RoleTypes.ImpostorGhost:
-                        ImpGhosts.Add(pc);
-                        Main.AllPlayerCustomRoles.Add(pc.PlayerId, CustomRoles.ImpostorGhost);
-                        break;
-                    default:
-                        Logger.SendInGame(string.Format(GetString("Error.InvalidRoleAssignment"), pc?.Data?.PlayerName));
-                        break;
-                }
-            }
+                Logger.Msg("RoleManager.SelectRoles.Postfix Check", "Load Check (Select Roles.Postfix)");
+                RpcSetRoleReplacer.Release();
+                RpcSetRoleReplacer.sender.SendMessage();
 
-            if (Options.CurrentGameMode() == CustomGameMode.HideAndSeek)
-            {
-                if (!Options.FreeForAllOn.GetBool())
+                //Utils.ApplySuffix();
+
+                var rand = new System.Random();
+                Main.KillOrSpell = new Dictionary<byte, bool>();
+
+                List<PlayerControl> Crewmates = new();
+                List<PlayerControl> Impostors = new();
+                List<PlayerControl> Scientists = new();
+                List<PlayerControl> Engineers = new();
+                List<PlayerControl> GuardianAngels = new();
+                List<PlayerControl> Shapeshifters = new();
+                List<PlayerControl> ImpGhosts = new();
+                List<PlayerControl> CrewGhosts = new();
+
+                foreach (var pc in PlayerControl.AllPlayerControls)
                 {
-                    if (Options.SpeedrunGamemode.GetBool())
+                    pc.Data.IsDead = false;
+                    if (Main.AllPlayerCustomRoles.ContainsKey(pc.PlayerId)) continue;
+                    switch (pc.Data.Role.Role)
                     {
-                        SetColorPatch.IsAntiGlitchDisabled = true;
-                        AssignCustomRolesFromList(CustomRoles.Tasker, Crewmates, Crewmates.Count);
-                        foreach (var pair in Main.AllPlayerCustomRoles)
-                        {
-                            ExtendedPlayerControl.RpcSetCustomRole(pair.Key, pair.Value);
-                        }
-                        SetColorPatch.IsAntiGlitchDisabled = true;
+                        case RoleTypes.Crewmate:
+                            Crewmates.Add(pc);
+                            Main.AllPlayerCustomRoles.Add(pc.PlayerId, CustomRoles.Crewmate);
+                            break;
+                        case RoleTypes.Impostor:
+                            Impostors.Add(pc);
+                            Main.AllPlayerCustomRoles.Add(pc.PlayerId, CustomRoles.Impostor);
+                            break;
+                        case RoleTypes.Scientist:
+                            Scientists.Add(pc);
+                            Main.AllPlayerCustomRoles.Add(pc.PlayerId, CustomRoles.Scientist);
+                            break;
+                        case RoleTypes.Engineer:
+                            Engineers.Add(pc);
+                            Main.AllPlayerCustomRoles.Add(pc.PlayerId, CustomRoles.Engineer);
+                            break;
+                        case RoleTypes.GuardianAngel:
+                            GuardianAngels.Add(pc);
+                            Main.AllPlayerCustomRoles.Add(pc.PlayerId, CustomRoles.GuardianAngel);
+                            break;
+                        case RoleTypes.Shapeshifter:
+                            Shapeshifters.Add(pc);
+                            Main.AllPlayerCustomRoles.Add(pc.PlayerId, CustomRoles.Shapeshifter);
+                            break;
+                        case RoleTypes.CrewmateGhost:
+                            CrewGhosts.Add(pc);
+                            Main.AllPlayerCustomRoles.Add(pc.PlayerId, CustomRoles.CrewmateGhost);
+                            break;
+                        case RoleTypes.ImpostorGhost:
+                            ImpGhosts.Add(pc);
+                            Main.AllPlayerCustomRoles.Add(pc.PlayerId, CustomRoles.ImpostorGhost);
+                            break;
+                        default:
+                            Logger.SendInGame(string.Format(GetString("Error.InvalidRoleAssignment"), pc?.Data?.PlayerName));
+                            break;
                     }
-                    else if (!Options.SplatoonOn.GetBool())
-                    {
-                        SetColorPatch.IsAntiGlitchDisabled = true;
-                        foreach (var pc in PlayerControl.AllPlayerControls)
-                        {
-                            if (pc.Is(RoleType.Impostor))
-                                pc.RpcSetColor(0);
-                            else if (pc.Is(RoleType.Crewmate))
-                                pc.RpcSetColor(1);
-                        }
+                }
 
-                        //役職設定処理
-                        AssignCustomRolesFromList(CustomRoles.HASFox, Crewmates);
-                        AssignCustomRolesFromList(CustomRoles.HASTroll, Crewmates);
-                        foreach (var pair in Main.AllPlayerCustomRoles)
+                if (Options.CurrentGameMode() == CustomGameMode.HideAndSeek)
+                {
+                    if (!Options.FreeForAllOn.GetBool())
+                    {
+                        if (Options.SpeedrunGamemode.GetBool())
                         {
-                            //RPCによる同期
-                            ExtendedPlayerControl.RpcSetCustomRole(pair.Key, pair.Value);
+                            SetColorPatch.IsAntiGlitchDisabled = true;
+                            AssignCustomRolesFromList(CustomRoles.Tasker, Crewmates, Crewmates.Count);
+                            foreach (var pair in Main.AllPlayerCustomRoles)
+                            {
+                                ExtendedPlayerControl.RpcSetCustomRole(pair.Key, pair.Value);
+                            }
+                            SetColorPatch.IsAntiGlitchDisabled = true;
                         }
-                        //色設定処理
-                        SetColorPatch.IsAntiGlitchDisabled = true;
+                        else if (!Options.SplatoonOn.GetBool())
+                        {
+                            SetColorPatch.IsAntiGlitchDisabled = true;
+                            foreach (var pc in PlayerControl.AllPlayerControls)
+                            {
+                                if (pc.Is(RoleType.Impostor))
+                                    pc.RpcSetColor(0);
+                                else if (pc.Is(RoleType.Crewmate))
+                                    pc.RpcSetColor(1);
+                            }
+
+                            //役職設定処理
+                            AssignCustomRolesFromList(CustomRoles.HASFox, Crewmates);
+                            AssignCustomRolesFromList(CustomRoles.HASTroll, Crewmates);
+                            foreach (var pair in Main.AllPlayerCustomRoles)
+                            {
+                                //RPCによる同期
+                                ExtendedPlayerControl.RpcSetCustomRole(pair.Key, pair.Value);
+                            }
+                            //色設定処理
+                            SetColorPatch.IsAntiGlitchDisabled = true;
+                        }
+                        else
+                        {
+                            AssignCustomRolesFromList(CustomRoles.Supporter, Crewmates);
+                            foreach (var pair in Main.AllPlayerCustomRoles)
+                            {
+                                //RPCによる同期
+                                ExtendedPlayerControl.RpcSetCustomRole(pair.Key, pair.Value);
+                            }
+                            foreach (var pc in PlayerControl.AllPlayerControls)
+                            {
+                                if (pc.Is(RoleType.Impostor))
+                                    Main.AllPlayerCustomRoles[pc.PlayerId] = CustomRoles.Painter;
+                            }
+                        }
                     }
                     else
                     {
-                        AssignCustomRolesFromList(CustomRoles.Supporter, Crewmates);
                         foreach (var pair in Main.AllPlayerCustomRoles)
                         {
                             //RPCによる同期
@@ -769,398 +820,412 @@ namespace TownOfHost
                         foreach (var pc in PlayerControl.AllPlayerControls)
                         {
                             if (pc.Is(RoleType.Impostor))
-                                Main.AllPlayerCustomRoles[pc.PlayerId] = CustomRoles.Painter;
+                                Main.AllPlayerCustomRoles[pc.PlayerId] = CustomRoles.Jackal;
                         }
                     }
                 }
-                else
+                else if (Options.CurrentGameMode() == CustomGameMode.Splatoon)
+                {
+                    SetColorPatch.IsAntiGlitchDisabled = true;
+
+                    //役職設定処理
+                    AssignCustomRolesFromList(CustomRoles.HASFox, Crewmates);
+                    AssignCustomRolesFromList(CustomRoles.HASTroll, Crewmates);
+                    foreach (var pair in Main.AllPlayerCustomRoles)
+                    {
+                        //RPCによる同期
+                        ExtendedPlayerControl.RpcSetCustomRole(pair.Key, pair.Value);
+                    }
+                    //色設定処理
+                    Utils.CustomSyncAllSettings();
+                    SetColorPatch.IsAntiGlitchDisabled = true;
+                }
+                else if (Options.CurrentGameMode() == CustomGameMode.ColorWars)
+                {
+
+                }
+                else if (Options.CurrentGameMode() == CustomGameMode.FFA)
                 {
                     foreach (var pair in Main.AllPlayerCustomRoles)
                     {
                         //RPCによる同期
                         ExtendedPlayerControl.RpcSetCustomRole(pair.Key, pair.Value);
                     }
+                }
+                else
+                {
+                    Logger.Msg("RoleManager.SelectRoles.Postfix / Check (1/10)", "Load Check (Select Roles.Postfix)");
+                    List<PlayerControl> AllPlayers = new();
                     foreach (var pc in PlayerControl.AllPlayerControls)
                     {
-                        if (pc.Is(RoleType.Impostor))
-                            Main.AllPlayerCustomRoles[pc.PlayerId] = CustomRoles.Jackal;
+                        AllPlayers.Add(pc);
                     }
-                }
-            }
-            else if (Options.CurrentGameMode() == CustomGameMode.Splatoon)
-            {
-                SetColorPatch.IsAntiGlitchDisabled = true;
 
-                //役職設定処理
-                AssignCustomRolesFromList(CustomRoles.HASFox, Crewmates);
-                AssignCustomRolesFromList(CustomRoles.HASTroll, Crewmates);
-                foreach (var pair in Main.AllPlayerCustomRoles)
-                {
-                    //RPCによる同期
-                    ExtendedPlayerControl.RpcSetCustomRole(pair.Key, pair.Value);
-                }
-                //色設定処理
-                Utils.CustomSyncAllSettings();
-                SetColorPatch.IsAntiGlitchDisabled = true;
-            }
-            else if (Options.CurrentGameMode() == CustomGameMode.ColorWars)
-            {
+                    Logger.Msg("RoleManager.SelectRoles.Postfix / Check (2/10)", "Load Check (Select Roles.Postfix)");
 
-            }
-            else if (Options.CurrentGameMode() == CustomGameMode.FFA)
-            {
-                foreach (var pair in Main.AllPlayerCustomRoles)
-                {
-                    //RPCによる同期
-                    ExtendedPlayerControl.RpcSetCustomRole(pair.Key, pair.Value);
-                }
-            }
-            else
-            {
-                List<PlayerControl> AllPlayers = new();
-                foreach (var pc in PlayerControl.AllPlayerControls)
-                {
-                    AllPlayers.Add(pc);
-                }
-
-                foreach (var role in Main.chosenNonNK)
-                {
-                    if (role.IsEngineer())
-                        AssignCustomRolesFromList(role, Engineers);
-                    else
-                        AssignCustomRolesFromList(role, Crewmates);
-                }
-                foreach (var role in Main.chosenRoles)
-                {
-                    if (role.IsEngineer())
-                        AssignCustomRolesFromList(role, Engineers);
-                    else
-                        AssignCustomRolesFromList(role, Crewmates);
-                }
-                foreach (var role in Main.chosenEngiRoles)
-                {
-                    if (role.IsEngineer())
-                        AssignCustomRolesFromList(role, Engineers);
-                    else
-                        AssignCustomRolesFromList(role, Crewmates);
-                }
-                foreach (var role in Main.chosenImpRoles)
-                {
-                    AssignCustomRolesFromList(role, Impostors);
-                }
-                foreach (var role in Main.chosenScientistRoles)
-                {
-                    AssignCustomRolesFromList(role, Scientists);
-                }
-
-                foreach (var role in Main.chosenShifterRoles)
-                {
-                    if (!role.IsNeutral() | role.IsImpostor())
-                        AssignCustomRolesFromList(role, Shapeshifters);
-                    else if (role == CustomRoles.Egoist)
-                        if (Main.RealOptionsData.NumImpostors > 1)
+                    foreach (var role in Main.chosenNonNK)
+                    {
+                        if (role.IsEngineer())
+                            AssignCustomRolesFromList(role, Engineers);
+                        else
+                            AssignCustomRolesFromList(role, Crewmates);
+                    }
+                    Logger.Msg("RoleManager.SelectRoles.Postfix / Check (3/10)", "Load Check (Select Roles.Postfix)");
+                    foreach (var role in Main.chosenRoles)
+                    {
+                        if (role.IsEngineer())
+                            AssignCustomRolesFromList(role, Engineers);
+                        else
+                            AssignCustomRolesFromList(role, Crewmates);
+                    }
+                    Logger.Msg("RoleManager.SelectRoles.Postfix / Check (4/10)", "Load Check (Select Roles.Postfix)");
+                    foreach (var role in Main.chosenEngiRoles)
+                    {
+                        if (role.IsEngineer())
+                            AssignCustomRolesFromList(role, Engineers);
+                        else
+                            AssignCustomRolesFromList(role, Crewmates);
+                    }
+                    Logger.Msg("RoleManager.SelectRoles.Postfix / Check (5/10)", "Load Check (Select Roles.Postfix)");
+                    foreach (var role in Main.chosenImpRoles)
+                    {
+                        AssignCustomRolesFromList(role, Impostors);
+                    }
+                    Logger.Msg("RoleManager.SelectRoles.Postfix / Check (6/10)", "Load Check (Select Roles.Postfix)");
+                    foreach (var role in Main.chosenScientistRoles)
+                    {
+                        AssignCustomRolesFromList(role, Scientists);
+                    }
+                    Logger.Msg("RoleManager.SelectRoles.Postfix / Check (7/10)", "Load Check (Select Roles.Postfix)");
+                    foreach (var role in Main.chosenShifterRoles)
+                    {
+                        if (!role.IsNeutral() | role.IsImpostor())
                             AssignCustomRolesFromList(role, Shapeshifters);
-                }
-
-                if (RoleGoingInList(CustomRoles.LoversRecode))
-                    AssignLoversRoles(2);
-
-                if (RoleGoingInList(CustomRoles.Torch))
-                    GiveModifier(CustomRoles.Torch);
-                if (RoleGoingInList(CustomRoles.Bait))
-                    GiveModifier(CustomRoles.Bait);
-                if (RoleGoingInList(CustomRoles.Bewilder))
-                    GiveModifier(CustomRoles.Bewilder);
-                if (RoleGoingInList(CustomRoles.Diseased))
-                    GiveModifier(CustomRoles.Diseased);
-
-                if (RoleGoingInList(CustomRoles.DoubleShot))
-                    GiveModifier(CustomRoles.DoubleShot);
-                if (RoleGoingInList(CustomRoles.Oblivious))
-                    GiveModifier(CustomRoles.Oblivious);
-                if (RoleGoingInList(CustomRoles.Flash))
-                    GiveModifier(CustomRoles.Flash);
-                if (RoleGoingInList(CustomRoles.Sleuth))
-                    GiveModifier(CustomRoles.Sleuth);
-                if (RoleGoingInList(CustomRoles.TieBreaker))
-                    GiveModifier(CustomRoles.TieBreaker);
-                if (RoleGoingInList(CustomRoles.Watcher))
-                    GiveModifier(CustomRoles.Watcher);
-
-                //RPCによる同期
-                bool jackalExists = false;
-                foreach (var pc in PlayerControl.AllPlayerControls)
-                {
-                    if (pc.Is(CustomRoles.Jackal)) jackalExists = true;
-                    if (pc.Is(CustomRoles.PlagueBearer) && Options.InfectionSkip.GetBool())
-                    {
-                        Main.AllPlayerCustomRoles[pc.PlayerId] = CustomRoles.Pestilence;
-                        Main.TeamPestiAlive = true;
+                        else if (role == CustomRoles.Egoist)
+                            if (Main.RealOptionsData.NumImpostors > 1)
+                                AssignCustomRolesFromList(role, Shapeshifters);
                     }
-                    if (pc.Is(CustomRoles.Vampire) && Options.VampireDitchesOn.GetBool() && !Main.VampireDitchesOn)
-                    {
-                        Main.AllPlayerCustomRoles[pc.PlayerId] = CustomRoles.Coven;
-                        Main.VampireDitchesOn = true;
-                    }
-                }
-                foreach (var pc in PlayerControl.AllPlayerControls)
-                {
-                    if (pc.Is(CustomRoles.Sidekick))
-                        if (!jackalExists)
-                            Main.AllPlayerCustomRoles[pc.PlayerId] = CustomRoles.Jackal;
-                }
+                    Logger.Msg("RoleManager.SelectRoles.Postfix / Check (8/10)", "Load Check (Select Roles.Postfix)");
+                    if (RoleGoingInList(CustomRoles.LoversRecode))
+                        AssignLoversRoles(2);
 
-                if (CustomRoles.Coven.IsEnable())
-                {
-                    List<PlayerControl> AllCovenPlayers = new();
+                    if (RoleGoingInList(CustomRoles.Torch))
+                        GiveModifier(CustomRoles.Torch);
+                    if (RoleGoingInList(CustomRoles.Bait))
+                        GiveModifier(CustomRoles.Bait);
+                    if (RoleGoingInList(CustomRoles.Bewilder))
+                        GiveModifier(CustomRoles.Bewilder);
+                    if (RoleGoingInList(CustomRoles.Diseased))
+                        GiveModifier(CustomRoles.Diseased);
+
+                    if (RoleGoingInList(CustomRoles.DoubleShot))
+                        GiveModifier(CustomRoles.DoubleShot);
+                    if (RoleGoingInList(CustomRoles.Oblivious))
+                        GiveModifier(CustomRoles.Oblivious);
+                    if (RoleGoingInList(CustomRoles.Obvious))
+                        GiveModifier(CustomRoles.Obvious);
+                    if (RoleGoingInList(CustomRoles.Flash))
+                        GiveModifier(CustomRoles.Flash);
+                    if (RoleGoingInList(CustomRoles.Sleuth))
+                        GiveModifier(CustomRoles.Sleuth);
+                    if (RoleGoingInList(CustomRoles.TieBreaker))
+                        GiveModifier(CustomRoles.TieBreaker);
+                    if (RoleGoingInList(CustomRoles.Watcher))
+                        GiveModifier(CustomRoles.Watcher);
+
+                    Logger.Msg("RoleManager.SelectRoles.Postfix / Check (9/10)", "Load Check (Select Roles.Postfix)");
+
+                    //RPCによる同期
+                    bool jackalExists = false;
                     foreach (var pc in PlayerControl.AllPlayerControls)
                     {
-                        if (pc.Is(CustomRoles.Coven))
-                            AllCovenPlayers.Add(pc);
+                        if (pc.Is(CustomRoles.Jackal)) jackalExists = true;
+                        if (pc.Is(CustomRoles.PlagueBearer) && Options.InfectionSkip.GetBool())
+                        {
+                            Main.AllPlayerCustomRoles[pc.PlayerId] = CustomRoles.Pestilence;
+                            Main.TeamPestiAlive = true;
+                        }
+                        if (pc.Is(CustomRoles.Vampire) && Options.VampireDitchesOn.GetBool() && !Main.VampireDitchesOn)
+                        {
+                            Main.AllPlayerCustomRoles[pc.PlayerId] = CustomRoles.Coven;
+                            Main.VampireDitchesOn = true;
+                        }
                     }
-                    CustomRpcSender sender = CustomRpcSender.Create("SelectRoles Sender", SendOption.Reliable);
-                    RpcSetRoleReplacer.StartReplace(sender);
-                    ForceAssignRole(CustomRoles.CovenWitch, AllCovenPlayers, sender, BaseRole: RoleTypes.Impostor, skip: false);
-                    if (Options.HexMasterOn.GetBool())
-                        ForceAssignRole(CustomRoles.HexMaster, AllCovenPlayers, sender, BaseRole: RoleTypes.Impostor, skip: false);
-                    //  if (Options.PotionMasterOn.GetBool())
-                    //      ForceAssignRole(CustomRoles.PotionMaster, AllCovenPlayers, sender, BaseRole: RoleTypes.Impostor, skip: false);
-                    if (Options.VampireDitchesOn.GetBool())
-                        ForceAssignRole(CustomRoles.Poisoner, AllCovenPlayers, sender, BaseRole: RoleTypes.Impostor, skip: false);
-                    if (Options.MedusaOn.GetBool())
-                        ForceAssignRole(CustomRoles.Medusa, AllCovenPlayers, sender, BaseRole: RoleTypes.Impostor, skip: false);
-                    // if (Options.MimicOn.GetBool())
-                    //    ForceAssignRole(CustomRoles.Mimic, AllCovenPlayers, sender, BaseRole: RoleTypes.Impostor, skip: false);
-                    // if (Options.NecromancerOn.GetBool())
-                    //   ForceAssignRole(CustomRoles.Necromancer, AllCovenPlayers, sender, BaseRole: RoleTypes.Impostor, skip: false);
-                }
-                foreach (var pair in Main.AllPlayerCustomRoles)
-                {
-                    ExtendedPlayerControl.RpcSetCustomRole(pair.Key, pair.Value);
-                }
-                foreach (var pair in Main.AllPlayerCustomSubRoles)
-                {
-                    ExtendedPlayerControl.RpcSetCustomRole(pair.Key, pair.Value);
-                }
-
-                HudManager.Instance.SetHudActive(true);
-                Main.KillOrSpell = new Dictionary<byte, bool>();
-                if (Options.CovenMeetings.GetInt() == 0)
-                    Main.HasNecronomicon = true;
-                foreach (var pc in PlayerControl.AllPlayerControls)
-                {
-                    Main.KillCount.Add(pc.PlayerId, 0);
-                    if (pc.Data.Role.Role == RoleTypes.Shapeshifter) Main.CheckShapeshift.Add(pc.PlayerId, false);
-                    switch (pc.GetCustomRole())
+                    foreach (var pc in PlayerControl.AllPlayerControls)
                     {
-                        case CustomRoles.VoteStealer:
-                            Main.MayorUsedButtonCount[pc.PlayerId] = 0;
-                            Main.PickpocketKills.Add(pc.PlayerId, 0);
-                            break;
-                        case CustomRoles.BountyHunter:
-                            BountyHunter.Add(pc);
-                            break;
-                        case CustomRoles.Manipulator:
-                            Manipulator.Add(pc);
-                            break;
-                        case CustomRoles.AgiTater:
-                            AgiTater.Add(pc);
-                            break;
-                        case CustomRoles.SerialKiller:
-                            SerialKiller.Add(pc.PlayerId);
-                            break;
-                        case CustomRoles.Witch:
-                            Main.KillOrSpell.Add(pc.PlayerId, false);
-                            break;
-                        case CustomRoles.TheGlitch:
-                        case CustomRoles.Warlock:
-                        case CustomRoles.Consort:
-                        case CustomRoles.Escort:
-                            Main.CursedPlayers.Add(pc.PlayerId, null);
-                            Main.isCurseAndKill.Add(pc.PlayerId, false);
-                            break;
-                        case CustomRoles.Veteran:
-                            //Main.VetAlerts = Options.NumOfVets.GetInt();
-                            break;
-                        case CustomRoles.FireWorks:
-                            FireWorks.Add(pc.PlayerId);
-                            break;
-                        case CustomRoles.Silencer:
-                            Main.KillOrSilence.Add(pc.PlayerId, false);
-                            break;
-                        case CustomRoles.TimeThief:
-                            TimeThief.Add(pc, pc.PlayerId);
-                            break;
-                        case CustomRoles.Sniper:
-                            Sniper.Add(pc.PlayerId);
-                            break;
-                        case CustomRoles.Mare:
-                            Mare.Add(pc.PlayerId);
-                            break;
-                        case CustomRoles.Ninja:
-                            Ninja.Add(pc.PlayerId);
-                            break;
-                        case CustomRoles.Necromancer:
-                            Necromancer.Add(pc.PlayerId);
-                            break;
-                        case CustomRoles.Arsonist:
-                            foreach (var ar in PlayerControl.AllPlayerControls)
-                                if (!ar.Is(CustomRoles.Phantom))
-                                    Main.isDoused.Add((pc.PlayerId, ar.PlayerId), false);
-                            break;
-                        case CustomRoles.PlagueBearer:
-                            foreach (var ar in PlayerControl.AllPlayerControls)
-                                if (!ar.Is(CustomRoles.Phantom))
-                                    Main.isInfected.Add((pc.PlayerId, ar.PlayerId), false);
-                            break;
-                        case CustomRoles.Survivor:
-                            Main.SurvivorStuff.Add(pc.PlayerId, (0, false, false, false, true));
-                            break;
-                        case CustomRoles.Cleaner:
-                            Main.CleanerCanClean.Add(pc.PlayerId, true);
-                            MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.RpcSetCleanerClean, Hazel.SendOption.Reliable, -1);
-                            writer.Write(pc.PlayerId);
-                            writer.Write(true);
-                            AmongUsClient.Instance.FinishRpcImmediately(writer);
-                            break;
-                        case CustomRoles.Swapper:
-                        case CustomRoles.Executioner:
-                            List<PlayerControl> targetList = new();
-                            rand = new System.Random();
-                            foreach (var target in PlayerControl.AllPlayerControls)
-                            {
-                                if (pc == target) continue;
-                                if (!Options.ExecutionerCanTargetImpostor.GetBool() && target.GetCustomRole().IsImpostor() | target.GetCustomRole().IsMadmate()) continue;
-                                if (target.GetCustomRole().IsNeutral()) continue;
-                                if (target.GetCustomRole().IsCoven()) continue;
-                                if (target.Is(CustomRoles.Phantom)) continue;
-                                if (target.Is(CustomRoles.GM)) continue;
-                                if (Main.ExecutionerTarget.ContainsValue(target.PlayerId)) continue;
-                                if (target == null || target.Data.IsDead || target.Data.Disconnected) continue;
-
-                                targetList.Add(target);
-                            }
-                            var Target = targetList[rand.Next(targetList.Count)];
-                            Main.ExecutionerTarget.Add(pc.PlayerId, Target.PlayerId);
-                            RPC.SendExecutionerTarget(pc.PlayerId, Target.PlayerId);
-                            Logger.Info($"{pc.GetNameWithRole()}:{Target.GetNameWithRole()}", "Executioner/Swapper");
-                            break;
-                        case CustomRoles.GuardianAngelTOU:
-                            List<PlayerControl> protectList = new();
-                            rand = new System.Random();
-                            foreach (var target in PlayerControl.AllPlayerControls)
-                            {
-                                if (pc == target) continue;
-                                if (target.Is(CustomRoles.Phantom)) continue;
-                                if (target.Is(CustomRoles.GM)) continue;
-
-                                protectList.Add(target);
-                            }
-                            var Person = protectList[rand.Next(protectList.Count)];
-                            Main.GuardianAngelTarget.Add(pc.PlayerId, Person.PlayerId);
-                            RPC.SendGATarget(pc.PlayerId, Person.PlayerId);
-                            Logger.Info($"{pc.GetNameWithRole()}:{Person.GetNameWithRole()}", "Guardian Angel");
-                            break;
-                        case CustomRoles.Egoist:
-                            Egoist.Add(pc.PlayerId);
-                            break;
-                        case CustomRoles.IdentityTheft:
-                            Main.CheckShapeshift.Add(pc.PlayerId, false);
-                            break;
-                        case CustomRoles.Dictator:
-                            Main.DictatesRemaining.Add(pc.PlayerId, Options.DictatesUntilSuicde.GetInt());
-                            break;
-                        case CustomRoles.Sheriff:
-                            Sheriff.Add(pc.PlayerId);
-                            break;
-                        case CustomRoles.Mayor:
-                            Main.MayorUsedButtonCount[pc.PlayerId] = 0;
-                            break;
-                        case CustomRoles.Hacker:
-                            Main.HackerFixedSaboCount[pc.PlayerId] = 0;
-                            break;
-                        case CustomRoles.CrewPostor:
-                            Main.lastAmountOfTasks.Add(pc.PlayerId, 0);
-                            break;
-                        case CustomRoles.SabotageMaster:
-                            SabotageMaster.Add(pc.PlayerId);
-                            break;
-                        case CustomRoles.HexMaster:
-                            foreach (var ar in PlayerControl.AllPlayerControls)
-                            {
-                                if (!ar.GetCustomRole().IsCoven())
-                                    if (!ar.Is(CustomRoles.Phantom))
-                                        Main.isHexed.Add((pc.PlayerId, ar.PlayerId), false);
-                            }
-                            break;
-                        case CustomRoles.Medium:
-                            Main.knownGhosts.Add(pc.PlayerId, new List<byte>());
-                            break;
-                        case CustomRoles.Investigator:
-                            Investigator.Add(pc.PlayerId);
-                            foreach (var ar in PlayerControl.AllPlayerControls)
-                            {
-                                Investigator.hasSeered.Add(ar.PlayerId, false);
-                            }
-                            break;
-                        /*case CustomRoles.Sleuth:
-                            foreach (var ar in PlayerControl.AllPlayerControls)
-                            {
-                                Main.SleuthReported.Add(pc.PlayerId, (ar.PlayerId, false));
-                            }
-                            break;*/
-                        case CustomRoles.EvilGuesser:
-                        case CustomRoles.NiceGuesser:
-                            Guesser.Add(pc.PlayerId);
-                            break;
-                        case CustomRoles.Pirate:
-                            Guesser.Add(pc.PlayerId);
-                            Guesser.PirateGuess.Add(pc.PlayerId, 0);
-                            break;
-                        case CustomRoles.Phantom:
-                            Main.lastAmountOfTasks.Add(pc.PlayerId, 0);
-                            break;
-                        case CustomRoles.Medic:
-                        case CustomRoles.Bodyguard:
-                        case CustomRoles.Oracle:
-                        case CustomRoles.Crusader:
-                            Main.CurrentTarget.Add(pc.PlayerId, 255);
-                            Main.HasTarget.Add(pc.PlayerId, false);
-                            break;
+                        if (pc.Is(CustomRoles.Sidekick))
+                            if (!jackalExists)
+                                Main.AllPlayerCustomRoles[pc.PlayerId] = CustomRoles.Jackal;
                     }
-                    pc.ResetKillCooldown();
+
+                    if (CustomRoles.Coven.IsEnable())
+                    {
+                        List<PlayerControl> AllCovenPlayers = new();
+                        foreach (var pc in PlayerControl.AllPlayerControls)
+                        {
+                            if (pc.Is(CustomRoles.Coven))
+                                AllCovenPlayers.Add(pc);
+                        }
+                        CustomRpcSender sender = CustomRpcSender.Create("SelectRoles Sender", SendOption.Reliable);
+                        RpcSetRoleReplacer.StartReplace(sender);
+                        ForceAssignRole(CustomRoles.CovenWitch, AllCovenPlayers, sender, BaseRole: RoleTypes.Impostor, skip: false);
+                        if (Options.HexMasterOn.GetBool())
+                            ForceAssignRole(CustomRoles.HexMaster, AllCovenPlayers, sender, BaseRole: RoleTypes.Impostor, skip: false);
+                        //  if (Options.PotionMasterOn.GetBool())
+                        //      ForceAssignRole(CustomRoles.PotionMaster, AllCovenPlayers, sender, BaseRole: RoleTypes.Impostor, skip: false);
+                        if (Options.VampireDitchesOn.GetBool())
+                            ForceAssignRole(CustomRoles.Poisoner, AllCovenPlayers, sender, BaseRole: RoleTypes.Impostor, skip: false);
+                        if (Options.MedusaOn.GetBool())
+                            ForceAssignRole(CustomRoles.Medusa, AllCovenPlayers, sender, BaseRole: RoleTypes.Impostor, skip: false);
+                        // if (Options.MimicOn.GetBool())
+                        //    ForceAssignRole(CustomRoles.Mimic, AllCovenPlayers, sender, BaseRole: RoleTypes.Impostor, skip: false);
+                        // if (Options.NecromancerOn.GetBool())
+                        //   ForceAssignRole(CustomRoles.Necromancer, AllCovenPlayers, sender, BaseRole: RoleTypes.Impostor, skip: false);
+                    }
+                    Logger.Msg("RoleManager.SelectRoles.Postfix / Check (10/10)", "Load Check (Select Roles.Postfix)");
+                    Logger.Msg("RoleManager.SelectRoles.Postfix Pt. 2 / Check (1/6)", "Load Check (Select Roles.Postfix Pt. 2)");
+                    foreach (var pair in Main.AllPlayerCustomRoles)
+                    {
+                        ExtendedPlayerControl.RpcSetCustomRole(pair.Key, pair.Value);
+                    }
+                    foreach (var pair in Main.AllPlayerCustomSubRoles)
+                    {
+                        ExtendedPlayerControl.RpcSetCustomRole(pair.Key, pair.Value);
+                    }
+                    Logger.Msg("RoleManager.SelectRoles.Postfix Pt. 2 / Check (2/6)", "Load Check (Select Roles.Postfix Pt. 2)");
+
+                    HudManager.Instance.SetHudActive(true);
+                    Main.KillOrSpell = new Dictionary<byte, bool>();
+                    if (Options.CovenMeetings.GetInt() == 0)
+                        Main.HasNecronomicon = true;
+                    foreach (var pc in PlayerControl.AllPlayerControls)
+                    {
+                        Main.KillCount.Add(pc.PlayerId, 0);
+                        if (pc.Data.Role.Role == RoleTypes.Shapeshifter) Main.CheckShapeshift.Add(pc.PlayerId, false);
+                        switch (pc.GetCustomRole())
+                        {
+                            case CustomRoles.VoteStealer:
+                                Main.MayorUsedButtonCount[pc.PlayerId] = 0;
+                                Main.PickpocketKills.Add(pc.PlayerId, 0);
+                                break;
+                            case CustomRoles.BountyHunter:
+                                BountyHunter.Add(pc);
+                                break;
+                            case CustomRoles.Manipulator:
+                                Manipulator.Add(pc);
+                                break;
+                            case CustomRoles.AgiTater:
+                                AgiTater.Add(pc);
+                                break;
+                            case CustomRoles.SerialKiller:
+                                SerialKiller.Add(pc.PlayerId);
+                                break;
+                            case CustomRoles.Escapist:
+                                Escapist.Add(pc);
+                                break;
+                            case CustomRoles.Witch:
+                                Main.KillOrSpell.Add(pc.PlayerId, false);
+                                break;
+                            case CustomRoles.TheGlitch:
+                            case CustomRoles.Warlock:
+                            case CustomRoles.Consort:
+                            case CustomRoles.Escort:
+                                Main.CursedPlayers.Add(pc.PlayerId, null);
+                                Main.isCurseAndKill.Add(pc.PlayerId, false);
+                                break;
+                            case CustomRoles.Veteran:
+                                //Main.VetAlerts = Options.NumOfVets.GetInt();
+                                break;
+                            case CustomRoles.FireWorks:
+                                FireWorks.Add(pc.PlayerId);
+                                break;
+                            case CustomRoles.Silencer:
+                                Main.KillOrSilence.Add(pc.PlayerId, false);
+                                break;
+                            case CustomRoles.TimeThief:
+                                TimeThief.Add(pc, pc.PlayerId);
+                                break;
+                            case CustomRoles.Sniper:
+                                Sniper.Add(pc.PlayerId);
+                                break;
+                            case CustomRoles.Mare:
+                                Mare.Add(pc.PlayerId);
+                                break;
+                            case CustomRoles.Ninja:
+                                Ninja.Add(pc.PlayerId);
+                                break;
+                            case CustomRoles.Bomber:
+                                Bomber.Add(pc);
+                                break;
+                            case CustomRoles.Necromancer:
+                                Necromancer.Add(pc.PlayerId);
+                                break;
+                            case CustomRoles.Arsonist:
+                                foreach (var ar in PlayerControl.AllPlayerControls)
+                                    if (!ar.Is(CustomRoles.Phantom))
+                                        Main.isDoused.Add((pc.PlayerId, ar.PlayerId), false);
+                                break;
+                            case CustomRoles.PlagueBearer:
+                                foreach (var ar in PlayerControl.AllPlayerControls)
+                                    if (!ar.Is(CustomRoles.Phantom))
+                                        Main.isInfected.Add((pc.PlayerId, ar.PlayerId), false);
+                                break;
+                            case CustomRoles.Survivor:
+                                Main.SurvivorStuff.Add(pc.PlayerId, (0, false, false, false, true));
+                                break;
+                            case CustomRoles.Cleaner:
+                                Main.CleanerCanClean.Add(pc.PlayerId, true);
+                                MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.RpcSetCleanerClean, Hazel.SendOption.Reliable, -1);
+                                writer.Write(pc.PlayerId);
+                                writer.Write(true);
+                                AmongUsClient.Instance.FinishRpcImmediately(writer);
+                                break;
+                            case CustomRoles.Swapper:
+                            case CustomRoles.Executioner:
+                                List<PlayerControl> targetList = new();
+                                rand = new System.Random();
+                                foreach (var target in PlayerControl.AllPlayerControls)
+                                {
+                                    if (pc == target) continue;
+                                    if (!Options.ExecutionerCanTargetImpostor.GetBool() && target.GetCustomRole().IsImpostor() | target.GetCustomRole().IsMadmate()) continue;
+                                    if (target.GetCustomRole().IsNeutral()) continue;
+                                    if (target.GetCustomRole().IsCoven()) continue;
+                                    if (target.Is(CustomRoles.Phantom)) continue;
+                                    if (target.Is(CustomRoles.GM)) continue;
+                                    if (Main.ExecutionerTarget.ContainsValue(target.PlayerId)) continue;
+                                    if (target == null || target.Data.IsDead || target.Data.Disconnected) continue;
+
+                                    targetList.Add(target);
+                                }
+                                var Target = targetList[rand.Next(targetList.Count)];
+                                Main.ExecutionerTarget.Add(pc.PlayerId, Target.PlayerId);
+                                RPC.SendExecutionerTarget(pc.PlayerId, Target.PlayerId);
+                                Logger.Info($"{pc.GetNameWithRole()}:{Target.GetNameWithRole()}", "Executioner/Swapper");
+                                break;
+                            case CustomRoles.GuardianAngelTOU:
+                                List<PlayerControl> protectList = new();
+                                rand = new System.Random();
+                                foreach (var target in PlayerControl.AllPlayerControls)
+                                {
+                                    if (pc == target) continue;
+                                    if (target.Is(CustomRoles.Phantom)) continue;
+                                    if (target.Is(CustomRoles.GM)) continue;
+
+                                    protectList.Add(target);
+                                }
+                                var Person = protectList[rand.Next(protectList.Count)];
+                                Main.GuardianAngelTarget.Add(pc.PlayerId, Person.PlayerId);
+                                RPC.SendGATarget(pc.PlayerId, Person.PlayerId);
+                                Logger.Info($"{pc.GetNameWithRole()}:{Person.GetNameWithRole()}", "Guardian Angel");
+                                break;
+                            case CustomRoles.Egoist:
+                                Egoist.Add(pc.PlayerId);
+                                break;
+                            case CustomRoles.IdentityTheft:
+                                Main.CheckShapeshift.Add(pc.PlayerId, false);
+                                break;
+                            case CustomRoles.Dictator:
+                                Main.DictatesRemaining.Add(pc.PlayerId, Options.DictatesUntilSuicde.GetInt());
+                                break;
+                            case CustomRoles.Sheriff:
+                                Sheriff.Add(pc.PlayerId);
+                                break;
+                            case CustomRoles.Mayor:
+                                Main.MayorUsedButtonCount[pc.PlayerId] = 0;
+                                break;
+                            case CustomRoles.Hacker:
+                                Main.HackerFixedSaboCount[pc.PlayerId] = 0;
+                                break;
+                            case CustomRoles.CrewPostor:
+                                Main.lastAmountOfTasks.Add(pc.PlayerId, 0);
+                                break;
+                            case CustomRoles.SabotageMaster:
+                                SabotageMaster.Add(pc.PlayerId);
+                                break;
+                            case CustomRoles.HexMaster:
+                                foreach (var ar in PlayerControl.AllPlayerControls)
+                                {
+                                    if (!ar.GetCustomRole().IsCoven())
+                                        if (!ar.Is(CustomRoles.Phantom))
+                                            Main.isHexed.Add((pc.PlayerId, ar.PlayerId), false);
+                                }
+                                break;
+                            case CustomRoles.Medium:
+                                Main.knownGhosts.Add(pc.PlayerId, new List<byte>());
+                                break;
+                            case CustomRoles.Investigator:
+                                Investigator.Add(pc.PlayerId);
+                                foreach (var ar in PlayerControl.AllPlayerControls)
+                                {
+                                    Investigator.hasSeered.Add(ar.PlayerId, false);
+                                }
+                                break;
+                            case CustomRoles.Postman:
+                                Postman.Add(pc);
+                                foreach (var ar in PlayerControl.AllPlayerControls)
+                                {
+                                    if (ar.PlayerId != pc.PlayerId)
+                                        Postman.hasDelivered.Add(ar.PlayerId, false);
+                                }
+                                break;
+                            /*case CustomRoles.Sleuth:
+                                foreach (var ar in PlayerControl.AllPlayerControls)
+                                {
+                                    Main.SleuthReported.Add(pc.PlayerId, (ar.PlayerId, false));
+                                }
+                                break;*/
+                            case CustomRoles.EvilGuesser:
+                            case CustomRoles.NiceGuesser:
+                                Guesser.Add(pc.PlayerId);
+                                break;
+                            case CustomRoles.Pirate:
+                                Guesser.Add(pc.PlayerId);
+                                Guesser.PirateGuess.Add(pc.PlayerId, 0);
+                                break;
+                            case CustomRoles.Phantom:
+                                Main.lastAmountOfTasks.Add(pc.PlayerId, 0);
+                                break;
+                            case CustomRoles.Medic:
+                            case CustomRoles.Bodyguard:
+                            case CustomRoles.Oracle:
+                            case CustomRoles.Crusader:
+                                Main.CurrentTarget.Add(pc.PlayerId, 255);
+                                Main.HasTarget.Add(pc.PlayerId, false);
+                                break;
+                        }
+                        pc.ResetKillCooldown();
+                    }
+                    if (Guesser.IsEnable()) Guesser.SetRoleAndNumber();
+                    Logger.Msg("RoleManager.SelectRoles.Postfix Pt. 2 / Check (3/6)", "Load Check (Select Roles.Postfix Pt. 2)");
+
+                    //役職の人数を戻す
+                    RoleOptionsCollectionV07 roleOpt = GameOptionsManager.Instance.currentNormalGameOptions.roleOptions;
+                    int ScientistNum = roleOpt.GetNumPerGame(RoleTypes.Scientist);
+                    ScientistNum -= Main.chosenScientistRoles.Count;
+                    roleOpt.SetRoleRate(RoleTypes.Scientist, ScientistNum, roleOpt.GetChancePerGame(RoleTypes.Scientist));
+                    Logger.Msg("RoleManager.SelectRoles.Postfix Pt. 2 / Check (4/6)", "Load Check (Select Roles.Postfix Pt. 2)");
+
+                    int EngineerNum = roleOpt.GetNumPerGame(RoleTypes.Engineer);
+                    EngineerNum -= Main.chosenEngiRoles.Count;
+                    roleOpt.SetRoleRate(RoleTypes.Engineer, EngineerNum, roleOpt.GetChancePerGame(RoleTypes.Engineer));
+                    Logger.Msg("RoleManager.SelectRoles.Postfix Pt. 2 / Check (5/6)", "Load Check (Select Roles.Postfix Pt. 2)");
+
+                    int ShapeshifterNum = roleOpt.GetNumPerGame(RoleTypes.Shapeshifter);
+                    ShapeshifterNum -= Main.chosenShifterRoles.Count;
+                    roleOpt.SetRoleRate(RoleTypes.Shapeshifter, ShapeshifterNum, roleOpt.GetChancePerGame(RoleTypes.Shapeshifter));
+                    Logger.Msg("RoleManager.SelectRoles.Postfix Pt. 2 / Check (6/6)", "Load Check (Select Roles.Postfix Pt. 2)");
                 }
-                if (Guesser.IsEnable()) Guesser.SetRoleAndNumber();
 
-                //役職の人数を戻す
-                RoleOptionsCollectionV07 roleOpt = GameOptionsManager.Instance.currentNormalGameOptions.roleOptions;
-                int ScientistNum = roleOpt.GetNumPerGame(RoleTypes.Scientist);
-                ScientistNum -= Main.chosenScientistRoles.Count;
-                roleOpt.SetRoleRate(RoleTypes.Scientist, ScientistNum, roleOpt.GetChancePerGame(RoleTypes.Scientist));
-
-                int EngineerNum = roleOpt.GetNumPerGame(RoleTypes.Engineer);
-                EngineerNum -= Main.chosenEngiRoles.Count;
-                roleOpt.SetRoleRate(RoleTypes.Engineer, EngineerNum, roleOpt.GetChancePerGame(RoleTypes.Engineer));
-
-                int ShapeshifterNum = roleOpt.GetNumPerGame(RoleTypes.Shapeshifter);
-                ShapeshifterNum -= Main.chosenShifterRoles.Count;
-                roleOpt.SetRoleRate(RoleTypes.Shapeshifter, ShapeshifterNum, roleOpt.GetChancePerGame(RoleTypes.Shapeshifter));
+                Main.ResetCamPlayerList.AddRange(PlayerControl.AllPlayerControls.ToArray().Where(p => p.IsDesyncRole()).Select(p => p.PlayerId));
+                Utils.CountAliveImpostors();
+                Utils.CustomSyncAllSettings();
+                SetColorPatch.IsAntiGlitchDisabled = false;
+                Logger.Msg("RoleManager.SelectRoles.Postfix / CHECK DONE !", "Load Check (Select Roles.Postfix )");
             }
-
-            Main.ResetCamPlayerList.AddRange(PlayerControl.AllPlayerControls.ToArray().Where(p => p.IsDesyncRole()).Select(p => p.PlayerId));
-            Utils.CountAliveImpostors();
-            Utils.CustomSyncAllSettings();
-            SetColorPatch.IsAntiGlitchDisabled = false;
-            /*}
-            catch
+            catch (Exception e)
             {
-                Logger.Error("Error encountered while assigning roles. Game has force ended to prevent black screen.", "Assign Roles");
-                Utils.SendMessage("Error encountered while assigning roles. Game has force ended to prevent black screen.");
-                MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.EndGame, Hazel.SendOption.Reliable, -1);
-                writer.Write((int)CustomWinner.Draw);
-                AmongUsClient.Instance.FinishRpcImmediately(writer);
-                RPC.ForceEndGame();
-            }*/
+                Logger.Error($"Error encountered while assigning roles.\n{e}", "SelectRoles.Postfix");
+            }
         }
         private static void AssignDesyncRole(CustomRoles role, List<PlayerControl> AllPlayers, CustomRpcSender sender, RoleTypes BaseRole, RoleTypes hostBaseRole = RoleTypes.Crewmate, int Count = -1)
         {
@@ -1451,11 +1516,12 @@ namespace TownOfHost
             if (role is CustomRoles.Flash)
             {
                 bool Escalation = UnityEngine.Random.RandomRange(1, 100) <= 10;
-                if (Escalation)
+                if (Escalation && Options.EnableHiddenRoles.GetBool())
                     role = CustomRoles.Escalation;
             }
             foreach (var player in PlayerControl.AllPlayerControls)
             {
+                if (player.Is(CustomRoles.GM)) continue;
                 if (Main.AllPlayerCustomRoles[player.PlayerId] == CustomRoles.LoversRecode) continue;
                 if (Main.HasModifier.ContainsKey(player.PlayerId)) continue;
                 if (player.Is(CustomRoles.Phantom)) continue;
@@ -1472,6 +1538,7 @@ namespace TownOfHost
                         case CustomRoles.Oblivious:
                             if (player.GetCustomRole() is CustomRoles.Medium or CustomRoles.Amnesiac or CustomRoles.Vulture or CustomRoles.Cleaner) continue;
                             break;
+                        case CustomRoles.Escalation:
                         case CustomRoles.Flash:
                             if (player.GetCustomRole() is CustomRoles.SpeedBooster or CustomRoles.Mare) continue;
                             break;
@@ -1497,13 +1564,15 @@ namespace TownOfHost
             var rand = new System.Random();
             var count = 1;
 
+            if (allPlayers.Count <= 0) return;
+
             for (var i = 0; i < count; i++)
             {
                 var player = allPlayers[rand.Next(0, allPlayers.Count)];
                 Main.HasModifier.Add(player.PlayerId, role);
                 allPlayers.Remove(player);
                 Main.AllPlayerCustomSubRoles[player.PlayerId] = role;
-                Logger.Info("役職設定:" + player?.Data?.PlayerName + " = " + player.GetCustomRole().ToString() + " + " + role.ToString(), "AssignCrewModifier");
+                Logger.Info("役職設定:" + player?.Data?.PlayerName + " = " + player.GetCustomRole().ToString() + " + " + role.ToString(), "Assign Modifier");
             }
         }
 

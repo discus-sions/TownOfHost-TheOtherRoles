@@ -36,6 +36,7 @@ namespace TownOfHost
                     else if (Options.SpeedrunGamemode.GetBool())
                     {
                         if (CheckAndEndGameForTaskerWin(instance, statistics)) return false;
+                        if (CheckAndEndGameForHideAndSeek(instance, statistics)) return false;
                     }
                     else if (!Options.SplatoonOn.GetBool())
                     {
@@ -791,6 +792,7 @@ namespace TownOfHost
 
             foreach (var pc in PlayerControl.AllPlayerControls)
             {
+                if (!pc.Data.IsDead) Main.AliveAtTheEndOfTheRound.Add(pc.PlayerId);
                 var LoseImpostorRole = Main.AliveImpostorCount == 0 ? pc.Is(RoleType.Impostor) : pc.Is(CustomRoles.Egoist);
                 if (pc.Is(CustomRoles.Sheriff) || pc.Is(CustomRoles.Investigator) || pc.Is(CustomRoles.Janitor) || pc.Is(CustomRoles.Escort) || pc.Is(CustomRoles.Crusader) ||
                     (!(Main.currentWinner == CustomWinner.Arsonist) && pc.Is(CustomRoles.Arsonist)) || (Main.currentWinner == CustomWinner.Lovers && !Main.LoversPlayers.Contains(pc)) || (pc.Is(CustomRoles.Hitman) && pc.Data.IsDead) || (Main.currentWinner != CustomWinner.Vulture && pc.Is(CustomRoles.Vulture)) || (Main.currentWinner != CustomWinner.Painter && pc.Is(CustomRoles.Painter)) || (Main.currentWinner != CustomWinner.Marksman && pc.Is(CustomRoles.Marksman)) || (Main.currentWinner != CustomWinner.Pirate && pc.Is(CustomRoles.Pirate)) ||
@@ -994,6 +996,7 @@ namespace TownOfHost
             if (!Options.AccurateWinner.GetBool()) return;
             foreach (var pc in PlayerControl.AllPlayerControls)
             {
+                if (!pc.Data.IsDead) Main.AliveAtTheEndOfTheRound.Add(pc.PlayerId);
                 if (pc.PlayerId == playerid)
                     pc.RpcSetRole(RoleTypes.ImpostorGhost);
                 else
@@ -1005,6 +1008,7 @@ namespace TownOfHost
             if (!Options.AccurateWinner.GetBool()) return;
             foreach (var pc in PlayerControl.AllPlayerControls)
             {
+                if (!pc.Data.IsDead) Main.AliveAtTheEndOfTheRound.Add(pc.PlayerId);
                 if (playerIds.Contains(pc.PlayerId))
                     pc.RpcSetRole(RoleTypes.ImpostorGhost);
                 else

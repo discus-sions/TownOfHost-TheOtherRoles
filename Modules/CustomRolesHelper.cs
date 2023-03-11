@@ -14,6 +14,7 @@ namespace TownOfHost
                 CustomRoles.BountyHunter or
                 CustomRoles.Vampire or
                 CustomRoles.Vampress or
+                CustomRoles.Escapist or
                 CustomRoles.Witch or
                 CustomRoles.Silencer or
                 CustomRoles.Warlock or
@@ -104,9 +105,7 @@ namespace TownOfHost
         public static bool IsNeutralBad(this CustomRoles role)
         {
             return
-                role is CustomRoles.Vulture or
-                CustomRoles.Terrorist or
-                //CustomRoles.Executioner or
+                role is
                 CustomRoles.Arsonist or
                 CustomRoles.Egoist or
                 CustomRoles.EgoSchrodingerCat or
@@ -127,7 +126,6 @@ namespace TownOfHost
                 CustomRoles.Juggernaut or
                 CustomRoles.Sidekick or
                 CustomRoles.JSchrodingerCat or
-                CustomRoles.Hacker or
                 CustomRoles.BloodKnight or
                 CustomRoles.HASTroll or
                 CustomRoles.Painter or // CAT
@@ -139,7 +137,7 @@ namespace TownOfHost
                 CustomRoles.WWSchrodingerCat or
                 CustomRoles.TGSchrodingerCat;
         }
-        public static bool IsNonNK(this CustomRoles role)
+        public static bool IsNonNk(this CustomRoles role)
         {
             return
                 role is CustomRoles.Jester or
@@ -272,7 +270,7 @@ namespace TownOfHost
         }
         public static ModifierType GetModifierType(this CustomRoles role)
         {
-            if (role < CustomRoles.NoSubRoleAssigned) return ModifierType.None;
+            if (role < CustomRoles.NoSubRoleAssigned) return ModifierType.RegularRole;
             if (role == CustomRoles.NoSubRoleAssigned) return ModifierType.None;
             if (!role.IsModifier()) return ModifierType.None;
             ModifierType type = ModifierType.Global;
@@ -387,9 +385,11 @@ namespace TownOfHost
         {
             if (Options.UseVentButtonInsteadOfPet.GetBool() && role == CustomRoles.TheGlitch) return true;
             if (Options.UseVentButtonInsteadOfPet.GetBool() && role == CustomRoles.Miner) return true;
+            if (Options.UseVentButtonInsteadOfPet.GetBool() && role == CustomRoles.Escapist) return true;
             return
                 role is CustomRoles.Shapeshifter or
                 CustomRoles.BountyHunter or
+                CustomRoles.Escapist or
                 CustomRoles.Warlock or
                 CustomRoles.SerialKiller or
                 CustomRoles.Morphling or
@@ -413,6 +413,7 @@ namespace TownOfHost
             return
                 role is CustomRoles.Veteran or
                 CustomRoles.Miner or
+                CustomRoles.Escapist or
                 CustomRoles.TheGlitch or
                 CustomRoles.Transporter;
         }
@@ -481,6 +482,7 @@ namespace TownOfHost
     }
     public enum ModifierType
     {
+        RegularRole,
         None,
         Crew,
         Global

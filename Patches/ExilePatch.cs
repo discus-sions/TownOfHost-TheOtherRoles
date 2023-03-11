@@ -93,6 +93,21 @@ namespace TownOfHost
                     }
                     Main.CurrentTarget.Remove(exiled.PlayerId);
                 }
+
+                if (Main.CurrentTarget.ContainsValue(exiled.PlayerId))
+                {
+                    byte Protector = 0x73;
+                    Main.CurrentTarget.Do(x =>
+                    {
+                        if (x.Value == exiled.PlayerId)
+                            Protector = x.Key;
+                    });
+                    if (Protector != 0x73)
+                    {
+                        Main.CurrentTarget.Remove(Protector);
+                        Main.HasTarget[Protector] = false;
+                    }
+                }
                 if (role == CustomRoles.Jackal && AmongUsClient.Instance.AmHost)
                 {
                     Main.JackalDied = true;
@@ -180,14 +195,6 @@ namespace TownOfHost
                         Main.CursedPlayers[pc.PlayerId] = null;
                         Main.isCurseAndKill[pc.PlayerId] = false;
                     }
-                    if (pc.Is(CustomRoles.Swooper))
-                    {
-                        new LateTask(() =>
-                        {
-                            Main.CanGoInvis = true;
-                        },
-                        Options.SwooperCooldown.GetFloat(), "SwooperCooldown");
-                    }
                 }
             }
 
@@ -260,8 +267,52 @@ namespace TownOfHost
                         exiled.Object.RpcExileV2();
                     }
                 }, 0.5f, "Restore IsDead Task");
+                if (Postman.PostmanWins)
+                {
+                    // POSTMAN WINS //
+                    var postman = Postman.GetPostman();
+                    var endReason = TempData.LastDeathReason switch
+                    {
+                        DeathReason.Exile => GameOverReason.ImpostorByVote,
+                        DeathReason.Kill => GameOverReason.ImpostorByKill,
+                        _ => GameOverReason.ImpostorByVote,
+                    };
+                    foreach (PlayerControl player in PlayerControl.AllPlayerControls)
+                    {
+                        if (player == null) continue;
+                        if (player.Data.IsDead || player.Data.Disconnected) continue;
+                        if (!player.Is(CustomRoles.Pestilence) && !player.Is(CustomRoles.Postman))
+                        {
+                            player.RpcMurderPlayer(player);
+                            PlayerState.SetDeathReason(player.PlayerId, PlayerState.DeathReason.Bombed);
+                        }
+                    }
+                    _ = new LateTask(() =>
+                    {
+                        var statistics = new CheckGameEndPatch.PlayerStatistics();
+                        if (statistics.TotalAlive == 1)
+                        {
+                            MessageWriter endgame = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.EndGame, Hazel.SendOption.Reliable, -1);
+                            endgame.Write((byte)CustomWinner.Postman);
+                            endgame.Write((byte)postman.PlayerId);
+                            AmongUsClient.Instance.FinishRpcImmediately(endgame);
+                            RPC.PostmanWins(postman.PlayerId);
+                            EndGameHelper.AssignWinner(postman.PlayerId);
+                            _ = new LateTask(() =>
+                            {
+                                GameManager.Instance.RpcEndGame(endReason, false);
+                            }, 0.5f, "EndGameTaskForPhantom");
+                        }
+                        else
+                        {
+                            Logger.Info("Someone is still alive so Postman did not win.", "Postman Win Error");
+                        }
+                    }, 0.25f, "EndGameTaskForPostman");
+                }
                 Main.IsRampaged = false;
                 Main.IsRoundOne = false;
+                Main.IsInvis = false;
+                Main.CanGoInvis = false;
                 Main.IsRoundOneGA = false;
                 Main.unvotablePlayers.Clear();
                 Main.unvotablePlayers = new();
@@ -290,6 +341,11 @@ namespace TownOfHost
                     if (!GameStates.IsMeeting)
                         Main.RampageReady = true;
                 }, Options.RampageCD.GetFloat(), "Werewolf Rampage Cooldown (After Meeting)");
+                new LateTask(() =>
+                {
+                    Main.CanGoInvis = true;
+                },
+                Options.SwooperCooldown.GetFloat(), "Swooper Cooldown (After Meeting)");
                 new LateTask(() =>
                 {
                     if (!GameStates.IsMeeting)

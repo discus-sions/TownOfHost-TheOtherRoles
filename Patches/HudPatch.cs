@@ -196,6 +196,12 @@ namespace TownOfHost
                 case CustomRoles.BountyHunter:
                     BountyHunter.GetAbilityButtonText(__instance);
                     break;
+                case CustomRoles.Escapist:
+                    if (Options.UseVentButtonInsteadOfPet.GetBool())
+                    {
+                        __instance.AbilityButton.OverrideText(Escapist.GetAbilityButtonText(player));
+                    }
+                    break;
                 case CustomRoles.Veteran:
                     __instance.AbilityButton.OverrideText($"ALERT");
                     var color = Utils.GetRoleColor(PlayerControl.LocalPlayer.GetCustomRole());
@@ -233,7 +239,6 @@ namespace TownOfHost
             if (LowerInfoText == null)
             {
                 LowerInfoText = UnityEngine.Object.Instantiate(__instance.KillButton.buttonLabelText);
-                LowerInfoText.transform.parent = __instance.transform;
                 LowerInfoText.transform.localPosition = new Vector3(0, -2f, 0);
                 LowerInfoText.alignment = TMPro.TextAlignmentOptions.Center;
                 LowerInfoText.overflowMode = TMPro.TextOverflowModes.Overflow;
@@ -241,6 +246,7 @@ namespace TownOfHost
                 LowerInfoText.color = Palette.EnabledColor;
                 LowerInfoText.fontSizeMin = 2.0f;
                 LowerInfoText.fontSizeMax = 2.0f;
+                LowerInfoText.transform.parent = __instance.transform;
             }
             if (player.PlayerId == AgiTater.CurrentBombedPlayer && AgiTater.IsEnable())
             {
@@ -248,11 +254,17 @@ namespace TownOfHost
                 LowerInfoText.enabled = true;
             }
             else if (player.Is(CustomRoles.BountyHunter)) BountyHunter.DisplayTarget(player, LowerInfoText);
+            else if (player.Is(CustomRoles.Postman)) Postman.DisplayTarget(player, LowerInfoText);
             else if (player.Is(CustomRoles.Witch))
             {
                 //魔女用処理
                 var ModeLang = player.IsSpellMode() ? "WitchModeSpell" : "WitchModeKill";
                 LowerInfoText.text = GetString("WitchCurrentMode") + ": " + GetString(ModeLang);
+                LowerInfoText.enabled = true;
+            }
+            else if (player.Is(CustomRoles.Escapist))
+            {
+                LowerInfoText.text = "Current Mode: " + Escapist.GetEscapistState(player);
                 LowerInfoText.enabled = true;
             }
             else if (player.Is(CustomRoles.HexMaster))
@@ -336,7 +348,7 @@ namespace TownOfHost
             if (GameStates.IsInGame)
                 if (!player.GetCustomRole().IsVanilla())
                 {
-                    TaskTextPrefix = Helpers.ColorString(player.GetRoleColor(), GetString("Roles") + $": {player.GetRoleName()}\r\n");
+                    TaskTextPrefix = Helpers.ColorString(player.GetRoleColor(), GetString("Role") + $": {player.GetRoleName()}\r\n");
                     if (player.Is(CustomRoles.Mafia))
                         TaskTextPrefix += Helpers.ColorString(player.GetRoleColor(), GetString(player.CanUseKillButton() ? "AfterMafiaInfo" : "BeforeMafiaInfo"));
                     else
@@ -663,12 +675,18 @@ namespace TownOfHost
             __instance.myRend.material.SetColor("_AddColor", mainTarget ? color : Color.clear);
         }
     }
-    [HarmonyPatch(typeof(HudManager), nameof(HudManager.SetHudActive))]
+    [HarmonyPatch(typeof(HudManager), nameof(HudManager.SetHudActive), new Type[] { typeof(PlayerControl), typeof(RoleBehaviour), typeof(bool) })]
     class SetHudActivePatch
     {
-        public static void Postfix(HudManager __instance, [HarmonyArgument(0)] bool isActive)
+        public static bool IsActive = false;
+        public static void Postfix(HudManager __instance, [HarmonyArgument(2)] bool isActive)
         {
+            IsActive = isActive;
+            if (!isActive) return;
+
             var player = PlayerControl.LocalPlayer;
+            if (player == null) return;
+
             switch (player.GetCustomRole())
             {
                 case CustomRoles.Sheriff:

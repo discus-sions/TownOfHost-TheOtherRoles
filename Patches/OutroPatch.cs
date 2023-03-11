@@ -106,6 +106,14 @@ namespace TownOfHost
                     if (p.PlayerId == Main.WonTrollID) winner.Add(p);
                 }
             }
+            if (Main.currentWinner == CustomWinner.Postman)
+            {
+                winner.Clear();
+                foreach (var p in PlayerControl.AllPlayerControls)
+                {
+                    if (p.PlayerId == Main.WonTrollID) winner.Add(p);
+                }
+            }
             if (Main.currentWinner == CustomWinner.TheGlitch)
             {
                 winner.Clear();
@@ -273,7 +281,7 @@ namespace TownOfHost
             var winnerIDs = new List<byte>();
             foreach (var pc in PlayerControl.AllPlayerControls)
             {
-                if (pc.Is(CustomRoles.Opportunist) && !pc.Data.IsDead && Main.currentWinner != CustomWinner.Draw && Main.currentWinner != CustomWinner.Terrorist && Main.currentWinner != CustomWinner.Child && Main.currentWinner != CustomWinner.Jester && Main.currentWinner != CustomWinner.Executioner && Main.currentWinner != CustomWinner.Swapper)
+                if (pc.Is(CustomRoles.Opportunist) && !pc.Data.IsDead | Main.AliveAtTheEndOfTheRound.Contains(pc.PlayerId) && Main.currentWinner != CustomWinner.Draw && Main.currentWinner != CustomWinner.Terrorist && Main.currentWinner != CustomWinner.Child && Main.currentWinner != CustomWinner.Jester && Main.currentWinner != CustomWinner.Executioner && Main.currentWinner != CustomWinner.Swapper)
                 {
                     winner.Add(pc);
                     Main.additionalwinners.Add(AdditionalWinners.Opportunist);
@@ -319,12 +327,12 @@ namespace TownOfHost
                         }
                     }
                 }
-                if (pc.Is(CustomRoles.Survivor) && !pc.Data.IsDead && Main.currentWinner != CustomWinner.Draw && Main.currentWinner != CustomWinner.Terrorist && Main.currentWinner != CustomWinner.Child && Main.currentWinner != CustomWinner.Jester && Main.currentWinner != CustomWinner.Executioner && Main.currentWinner != CustomWinner.Swapper)
+                if (pc.Is(CustomRoles.Survivor) && !pc.Data.IsDead | Main.AliveAtTheEndOfTheRound.Contains(pc.PlayerId) && Main.currentWinner != CustomWinner.Draw && Main.currentWinner != CustomWinner.Terrorist && Main.currentWinner != CustomWinner.Child && Main.currentWinner != CustomWinner.Jester && Main.currentWinner != CustomWinner.Executioner && Main.currentWinner != CustomWinner.Swapper)
                 {
                     winner.Add(pc);
                     Main.additionalwinners.Add(AdditionalWinners.Survivor);
                 }
-                if (pc.Is(CustomRoles.Hitman) && !pc.Data.IsDead && Main.currentWinner != CustomWinner.Draw && Main.currentWinner != CustomWinner.Terrorist && Main.currentWinner != CustomWinner.Child)
+                if (pc.Is(CustomRoles.Hitman) && !pc.Data.IsDead | Main.AliveAtTheEndOfTheRound.Contains(pc.PlayerId) && Main.currentWinner != CustomWinner.Draw && Main.currentWinner != CustomWinner.Terrorist && Main.currentWinner != CustomWinner.Child)
                 {
                     if (Main.currentWinner == CustomWinner.Jester && !Options.HitmanCanWinWithExeJes.GetBool()) continue;
                     if (Main.currentWinner == CustomWinner.Executioner && !Options.HitmanCanWinWithExeJes.GetBool()) continue;
@@ -396,7 +404,9 @@ namespace TownOfHost
             BountyHunter.ChangeTimer = new();
             Main.BitPlayers = new Dictionary<byte, (byte, float)>();
             Main.isDoused = new Dictionary<(byte, byte), bool>();
+            Main.isInfected = new Dictionary<(byte, byte), bool>();
             Main.SilencedPlayer.Clear();
+            Main.KillingSpree.Clear();
             Main.ColliderPlayers.Clear();
             Main.KilledDemo.Clear();
             Main.PuppeteerList.Clear();

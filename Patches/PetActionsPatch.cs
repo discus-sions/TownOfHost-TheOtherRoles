@@ -70,6 +70,10 @@ class ExternalRpcPetPatch
                 Utils.TP(playerControl.NetTransform, new Vector2(position.x, position.y + 0.3636f));
             }
         }
+        if (playerControl.Is(CustomRoles.Escapist))
+        {
+            Escapist.OnPet(playerControl);
+        }
         if (playerControl.Is(CustomRoles.Veteran))
         {
             if (!Main.VetIsAlerted && Main.VetCanAlert && Main.VetAlerts != Options.NumOfVets.GetInt())

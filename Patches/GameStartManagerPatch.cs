@@ -57,10 +57,6 @@ namespace TownOfHost
                     __instance.MakePublicButton.color = Palette.DisabledClear;
                     __instance.privatePublicText.color = Palette.DisabledClear;
                 }
-                /*if (Options.CurrentGameMode() == CustomGameMode.ColorWars)
-                {
-
-                }*/
             }
         }
 
@@ -118,8 +114,26 @@ namespace TownOfHost
     {
         public static void Prefix()
         {
-            if (GameOptionsManager.Instance.currentGameMode == GameModes.Normal)
+            RPC.SyncCustomSettingsRPC();
+            if (GameOptionsManager.Instance.currentGameMode == GameModes.Normal && Options.CurrentGameMode() == CustomGameMode.Standard)
             {
+                if (ModUpdater.SomeoneHasNoPet())
+                {
+                    var message = GetString("EntireLobbyNeedsPets");
+                    DestroyableSingleton<HudManager>.Instance.Chat.AddChatWarning(message);
+                    Logger.Error($"{message}", "MakePublicPatch (cant make public)");
+                    Logger.SendInGame(message);
+                    List<PlayerControl> list = ModUpdater.WhoHasNoPet();
+                    string senttext = "";
+                    senttext += "All Players with no Pets:";
+                    foreach (PlayerControl pc in list)
+                    {
+                        string name = Main.devNames.ContainsKey(pc.PlayerId) ? Main.devNames[pc.PlayerId] : pc.GetRealName(true);
+                        senttext += $"\n- {name}";
+                    }
+                    DestroyableSingleton<HudManager>.Instance.Chat.AddChatWarning(senttext);
+                    throw new ArgumentException("Someone does not have a pet. This error was thrown instead.");
+                }
                 Options.DefaultKillCooldown = GameOptionsManager.Instance.CurrentGameOptions.AsNormalOptions()!.KillCooldown;
                 Main.LastKillCooldown.Value = GameOptionsManager.Instance.CurrentGameOptions.AsNormalOptions()!.KillCooldown;
                 GameOptionsManager.Instance.CurrentGameOptions.AsNormalOptions()!.KillCooldown = 0.1f;
@@ -129,7 +143,6 @@ namespace TownOfHost
                     if (pc.CurrentOutfit.ColorId > 17)
                         pc.RpcSetColor(17);
                 }
-                // Main.RealOptionsData.ToBytes()
                 Main.RealOptionsData = GameOptionsManager.Instance.CurrentGameOptions.DeepCopy();
                 PlayerControl.LocalPlayer.RpcSyncSettings(Main.RealOptionsData.ToBytes());
             }

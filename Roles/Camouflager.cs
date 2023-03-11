@@ -38,9 +38,14 @@ namespace TownOfHost
                 foreach (PlayerControl revert in PlayerControl.AllPlayerControls)
                 {
                     if (revert.Is(CustomRoles.Phantom) || revert == null || revert.Data.Disconnected || revert.PlayerId == shifter.PlayerId) continue;
+                    if (revert.Data.IsDead)
+                    {
+                        Utils.SendMessage("We were unable to shift you back into your regular self because of the Innersloth AntiCheat. Sorry!", revert.PlayerId);
+                        continue;
+                    }
                     if (revert.inVent)
                         revert.MyPhysics.ExitAllVents();
-                    revert.RpcRevertShapeshiftV2(true);
+                    revert.RpcRevertShapeshift(true);
                 }
                 DidCamo = false;
             }
@@ -53,9 +58,15 @@ namespace TownOfHost
                     if (target == shifter) continue;
                     if (target == shiftinginto) continue;
                     if (target.Is(CustomRoles.Phantom)) continue;
+                    if (target.Data.IsDead)
+                    {
+                        Utils.SendMessage("We were unable to shift you back into your regular self because of the Innersloth AntiCheat. Sorry!", target.PlayerId);
+                        continue;
+                    }
                     if (target.inVent)
                         target.MyPhysics.ExitAllVents();
-                    target.RpcShapeshiftV2(shiftinginto, true);
+
+                    target.RpcShapeshift(shiftinginto, true);
                 }
                 DidCamo = true;
             }

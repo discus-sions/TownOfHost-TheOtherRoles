@@ -39,6 +39,12 @@ namespace TownOfHost
         {
             return playerinfo?.Role?.TeamType == RoleTeamTypes.Impostor;
         }
+        public static T GetRandom<T>(this List<T> list)
+        {
+            System.Random rnd = new();
+            int r = rnd.Next(list.Count);
+            return list[r];
+        }
         public static void AddRoleText(this PlayerVoteArea pva, bool showProgressText)
         {
             if (!Options.RolesLikeToU.GetBool())

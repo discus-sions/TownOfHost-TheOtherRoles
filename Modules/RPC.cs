@@ -67,6 +67,9 @@ namespace TownOfHost
         SetVetAlertState,
         SetGlitchState,
         SetTransportState,
+        SendPostmanInfo,
+        SetEscapistState,
+        SetBomberTargets
     }
     public enum Sounds
     {
@@ -146,9 +149,16 @@ namespace TownOfHost
                     }
                     break;
                 case CustomRPC.SyncCustomSettings:
-                    foreach (var co in CustomOption.Options)
+                    List<CustomOption> list = CustomOption.Options;
+                    var startAmount = reader.ReadInt32();
+                    var lastAmount = reader.ReadInt32();
+                    for (var i = 0; i <= list.Count; i++)
                     {
-                        //すべてのカスタムオプションについてインデックス値で受信
+                        if (i < startAmount || i > lastAmount)
+                            list.Remove(list[i]);
+                    }
+                    foreach (var co in list)
+                    {
                         co.Selection = reader.ReadInt32();
                     }
                     break;
@@ -233,6 +243,15 @@ namespace TownOfHost
                     int count = reader.ReadInt32();
                     for (int i = 0; i < count; i++)
                         Main.LoversPlayers.Add(Utils.GetPlayerById(reader.ReadByte()));
+                    break;
+                case CustomRPC.SendPostmanInfo:
+                    Postman.RecieveRPC(reader);
+                    break;
+                case CustomRPC.SetEscapistState:
+                    Escapist.HandleRpc(reader);
+                    break;
+                case CustomRPC.SetBomberTargets:
+                    Bomber.RecieveRPC(reader);
                     break;
                 case CustomRPC.SetExecutionerTarget:
                     byte executionerId = reader.ReadByte();
@@ -380,9 +399,36 @@ namespace TownOfHost
         //SyncCustomSettingsRPC Sender
         public static void SyncCustomSettingsRPC()
         {
-            if (!AmongUsClient.Instance.AmHost) return;
+            if (!AmongUsClient.Instance.AmHost || PlayerControl.AllPlayerControls.Count <= 1 || (AmongUsClient.Instance.AmHost == false && PlayerControl.LocalPlayer == null)) return;
+            var amount = CustomOption.Options.Count;
+            int divideBy = amount / 5;
+            for (var i = 0; i <= 5; i++)
+            {
+                SyncOptionsBetween(i * divideBy, (i + 1) * divideBy);
+            }
+        }
+        public static void SyncCustomSettingsRPCforOneOption(CustomOption option)
+        {
+            var placement = CustomOption.Options.IndexOf(option);
+            if (placement != -1)
+                SyncOptionsBetween(placement - 1, placement + 1);
+        }
+        static void SyncOptionsBetween(int startAmount, int lastAmount)
+        {
+            if (!AmongUsClient.Instance.AmHost || PlayerControl.AllPlayerControls.Count <= 1 || (AmongUsClient.Instance.AmHost == false && PlayerControl.LocalPlayer == null)) return;
             MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, 80, Hazel.SendOption.Reliable, -1);
-            foreach (var co in CustomOption.Options)
+            writer.Write(startAmount);
+            writer.Write(lastAmount);
+            List<CustomOption> list = new();
+            List<CustomOption> allOptions = CustomOption.Options;
+            for (var i = 0; i <= allOptions.Count; i++)
+            {
+                if (i < startAmount || i > lastAmount) break;
+                if (i > allOptions.Count) break;
+                list.Add(allOptions[i]);
+            }
+
+            foreach (var co in list)
             {
                 writer.Write(co.GetSelection());
             }
@@ -477,6 +523,9 @@ namespace TownOfHost
                         break;
                     case CustomWinner.Tasker:
                         TaskerWin(winner[0]);
+                        break;
+                    case CustomWinner.Postman:
+                        PostmanWins(winner[0]);
                         break;
                     case CustomWinner.Hacker:
                         HackerWin(winner[0]);
@@ -667,6 +716,12 @@ namespace TownOfHost
         {
             Main.WonTrollID = phantomID;
             Main.currentWinner = CustomWinner.Phantom;
+            CustomWinTrigger(0);
+        }
+        public static void PostmanWins(byte postmanID)
+        {
+            Main.WonTrollID = postmanID;
+            Main.currentWinner = CustomWinner.Postman;
             CustomWinTrigger(0);
         }
         public static void WolfWin()
@@ -864,7 +919,7 @@ namespace TownOfHost
         }
         public static void SendRpcLogger(uint targetNetId, byte callId, int targetClientId = -1)
         {
-            if (!Main.AmDebugger.Value) return;
+            if (!Main.CachedDevMode) return;
             string rpcName = GetRpcName(callId);
             string from = targetNetId.ToString();
             string target = targetClientId.ToString();

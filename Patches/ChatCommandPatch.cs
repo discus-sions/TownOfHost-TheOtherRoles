@@ -431,7 +431,7 @@ namespace TownOfHost
 
                     case "/changerole":
                         subArgs = args.Length < 2 ? "" : args[1];
-                        if (!Main.AmDebugger.Value) break;
+                        if (!Main.CachedDevMode) break;
                         switch (subArgs)
                         {
                             case "crewmate":
@@ -522,12 +522,14 @@ namespace TownOfHost
                 { CustomRoles.VoteStealer, "pi"},
                 { CustomRoles.Sniper, "snp" },
                 { CustomRoles.Puppeteer, "pup" },
+                { CustomRoles.Escapist, "esc" },
                 { CustomRoles.Disperser, "dis" },
                 { CustomRoles.Vampire, "va" },
                 { CustomRoles.Warlock, "wa" },
                 { CustomRoles.Witch, "wi" },
                   { CustomRoles.Consort, "con" },
                 { CustomRoles.Freezer, "fre" },
+                { CustomRoles.Bomber, "bb" },
                 { CustomRoles.Cleaner, "cle" },
                 { CustomRoles.Silencer, "si" },
                 { CustomRoles.IdentityTheft, "idth"},
@@ -536,6 +538,7 @@ namespace TownOfHost
                 { CustomRoles.Manipulator, "mani"},
                 { CustomRoles.YingYanger,"yy"},
                 { CustomRoles.Camouflager,"cf"},
+                { CustomRoles.Swooper,"sp"},
                 { CustomRoles.Morphling, "mor" },
                 { CustomRoles.Grenadier,"gr"},
                 { CustomRoles.CorruptedSheriff, "tra" },
@@ -647,11 +650,13 @@ namespace TownOfHost
                 //roleName = roleName.Replace(" ", "-");
                 var roleShort = r.Value;
 
-                if (String.Compare(role, roleName, true) == 0 || String.Compare(role, roleShort, true) == 0 || role == "vampress")
+                if (String.Compare(role, roleName, true) == 0 || String.Compare(role, roleShort, true) == 0 || role == "vampiress" || role == "escalation")
                 {
                     roleName = r.Key.ToString();
-                    if (role == "vampress")
+                    if (role == "vampiress")
                         roleName = CustomRoles.Vampress.ToString();
+                    if (role == "escalation")
+                        roleName = CustomRoles.Escalation.ToString();
                     Utils.SendMessage(GetString(roleName) + GetString($"{roleName}InfoLong"));
                     return;
                 }
@@ -693,15 +698,18 @@ namespace TownOfHost
                 { CustomRoles.VoteStealer, "vs"},
                 { CustomRoles.Sniper, "snp" },
                 { CustomRoles.Puppeteer, "pup" },
+                { CustomRoles.Escapist, "esc" },
                 { CustomRoles.Disperser, "dis" },
                 { CustomRoles.Vampire, "va" },
                 { CustomRoles.Warlock, "wa" },
                 { CustomRoles.Consort, "con" },
                 { CustomRoles.Witch, "wi" },
                 { CustomRoles.Freezer, "fre" },
+                { CustomRoles.Bomber, "bb" },
                 { CustomRoles.Cleaner, "cle" },
                 { CustomRoles.Silencer, "si" },
                 { CustomRoles.Camouflager,"cf"},
+                { CustomRoles.Swooper,"sp"},
                 { CustomRoles.Ninja,"ni"},
                 { CustomRoles.Grenadier,"gr"},
                 { CustomRoles.Miner,"mi"},

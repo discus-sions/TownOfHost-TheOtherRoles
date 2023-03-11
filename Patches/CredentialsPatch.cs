@@ -32,7 +32,7 @@ namespace TownOfHost
             if (Options.IsStandardHAS) __instance.text.text += $"\r\n" + Helpers.ColorString(Color.yellow, GetString("StandardHAS"));
             if (Options.CurrentGameMode() == CustomGameMode.HideAndSeek) __instance.text.text += $"\r\n" + Helpers.ColorString(Color.red, GetString("HideAndSeek"));
             if (Options.EnableGM.GetBool()) __instance.text.text += $"\r\n" + Helpers.ColorString(Color.red, $"{GetString("GM")} Is On");
-            if (Main.AmDebugger.Value) __instance.text.text += "\r\n" + Helpers.ColorString(Color.green, "debug ();");
+            if (Main.CachedDevMode) __instance.text.text += "\r\n" + Helpers.ColorString(Color.green, "DEV MODE");
             if (AmongUsClient.Instance.GameState == InnerNet.InnerNetClient.GameStates.Started)
                 __instance.gameObject.GetComponent<AspectPosition>().DistanceFromEdge = PlayerControl.LocalPlayer.Data.IsDead ? new Vector3(2.0f, 0.0f, 0f) : new Vector3(1.2f, 0.0f, 0f);
             else
@@ -47,8 +47,8 @@ namespace TownOfHost
             private static TMPro.TextMeshPro ErrorText;
             static void Postfix(VersionShower __instance)
             {
-                Main.credentialsText = $"\r\n<color={Main.modColor}>Town Of Host: The Other Roles</color>\r\n<color={Main.modColor}>v{Main.PluginVersion}b" + (Main.AmDebugger.Value ? Main.FullDevVersion : "") + $"</color>\r\nMod by: Discussions\r\nHelp From: Detective, 단풍잎";
-                Main.versionText = $"\r\nTown Of Host: The Other Roles v{Main.PluginVersion}b" + (Main.AmDebugger.Value ? Main.FullDevVersion : "") + $"\r\nMod by: Discussions\r\nHelp From: Detective, 단풍잎";
+                Main.credentialsText = $"\r\n<color={Main.modColor}>Town Of Host: The Other Roles</color>\r\n<color={Main.modColor}>v{Main.PluginVersion}b" + (Main.CachedDevMode ? Main.FullDevVersion : "") + $"</color>\r\nMod by: Discussions\r\nHelp From: Detective, 단풍잎";
+                Main.versionText = $"\r\nTown Of Host: The Other Roles v{Main.PluginVersion}b" + (Main.CachedDevMode ? Main.FullDevVersion : "") + $"\r\nMod by: Discussions\r\nHelp From: Detective, 단풍잎";
                 if (Main.NewYears)
                 {
                     Main.credentialsText += "\r\nHAPPY NEW YEAR!";

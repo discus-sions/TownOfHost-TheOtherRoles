@@ -55,7 +55,7 @@ namespace TownOfHost
             if (escapeCRLF)
                 text = text.Replace("\r", "\\r").Replace("\n", "\\n");
             string log_text = $"[{t}][{tag}]{text}";
-            if (isDetail && Main.AmDebugger.Value)
+            if (isDetail && Main.CachedDevMode)
             {
                 StackFrame stack = new(2);
                 string className = stack.GetMethod().ReflectedType.Name;

@@ -113,6 +113,7 @@ namespace TownOfHost
                 int sampleRate = 48000;
                 AudioClip audioClip = AudioClip.Create(clipName, samples.Length, channels, sampleRate, false);
                 audioClip.SetData(samples, 0);
+                Logger.Info("Got audio clip successfully.", "Helpers.loadAudioClipFromResources");
                 return audioClip;
             }
             catch (Exception ex)

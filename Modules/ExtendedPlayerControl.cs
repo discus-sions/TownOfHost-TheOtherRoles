@@ -445,8 +445,8 @@ namespace TownOfHost
                     engineerOptions.EngineerInVentMaxTime = 0.1f;
                     break;
                 case CustomRoles.Transporter:
-                    engineerOptions.EngineerInVentMaxTime = 0.1f;
-                    engineerOptions.EngineerCooldown = 0.1f;
+                    engineerOptions.EngineerInVentMaxTime = 0.5f;
+                    engineerOptions.EngineerCooldown = Options.TransportCooldown.GetFloat();
                     break;
                 case CustomRoles.Warlock:
                     shapeshifterOptions.ShapeshifterCooldown = Main.isCursed ? 1f : Options.DefaultKillCooldown;
@@ -456,6 +456,12 @@ namespace TownOfHost
                     break;
                 case CustomRoles.BountyHunter:
                     BountyHunter.ApplyGameOptions(options);
+                    break;
+                case CustomRoles.Escapist:
+                    Escapist.ApplyGameOptions(player, options);
+                    break;
+                case CustomRoles.Bomber:
+                    Bomber.ApplyGameOptions(player, options);
                     break;
                 case CustomRoles.Sheriff:
                 case CustomRoles.Investigator:
@@ -533,8 +539,8 @@ namespace TownOfHost
                         engineerOptions.EngineerCooldown = Options.VetCD.GetFloat();
                     else
                         engineerOptions.EngineerCooldown = Options.VetCD.GetFloat() + Options.VetDuration.GetFloat();*/
-                    engineerOptions.EngineerCooldown = 0.1f;
-                    engineerOptions.EngineerInVentMaxTime = 0.1f;
+                    engineerOptions.EngineerCooldown = 5f;
+                    engineerOptions.EngineerInVentMaxTime = 0.5f;
                     break;
                 case CustomRoles.Survivor:
                     engineerOptions.EngineerInVentMaxTime = 1;
@@ -638,7 +644,7 @@ namespace TownOfHost
                 case CustomRoles.Escalation:
                     Main.AllPlayerSpeed[player.PlayerId] = Main.RealOptionsData.AsNormalOptions()!.PlayerSpeedMod;
                     int deadAmount = PlayerState.GetDeadPeopleAmount();
-                    if (deadAmount != 0)
+                    if (deadAmount != 0 && Main.AllPlayerSpeed[player.PlayerId] != deadAmount * 0.25f + 1f)
                     {
                         Main.AllPlayerSpeed[player.PlayerId] *= deadAmount * 0.25f + 1f;
                         Logger.Info($"{player.GetNameWithRole()} has gotten faster! Their speed is now {Main.AllPlayerSpeed[player.PlayerId]}.", "Escalation Speed Update");
@@ -1078,6 +1084,9 @@ namespace TownOfHost
                 case CustomRoles.AgiTater:
                     Main.AllPlayerKillCooldown[player.PlayerId] = AgiTater.BombCooldown.GetFloat();
                     break;
+                case CustomRoles.Bomber:
+                    Main.AllPlayerKillCooldown[player.PlayerId] = Bomber.BombCooldown.GetFloat();
+                    break;
                 case CustomRoles.Juggernaut:
                     float DecreasedAmount = Main.JugKillAmounts * Options.JuggerDecrease.GetFloat();
                     Main.AllPlayerKillCooldown[player.PlayerId] = Options.JuggerKillCooldown.GetFloat() - DecreasedAmount;
@@ -1163,7 +1172,7 @@ namespace TownOfHost
                     Main.AllPlayerKillCooldown[player.PlayerId] = Options.STCD.GetFloat() * 2;
                     break;
             }
-            if (player.IsLastImpostor())
+            if (player.IsLastImpostor() & !player.Is(CustomRoles.Bomber))
                 Main.AllPlayerKillCooldown[player.PlayerId] = Options.LastImpostorKillCooldown.GetFloat();
             if (player.GetCustomRole() is CustomRoles.Vampire or CustomRoles.PlagueBearer or CustomRoles.Arsonist && meeting)
                 Main.AllPlayerKillCooldown[player.PlayerId] /= 2;
@@ -1191,6 +1200,9 @@ namespace TownOfHost
                     break;
                 case CustomRoles.Crusader:
                     KillCooldown = Options.CrusadeCooldown.GetFloat();
+                    break;
+                case CustomRoles.Bomber:
+                    KillCooldown = Bomber.BombCooldown.GetFloat();
                     break;
                 case CustomRoles.TheGlitch:
                     if (Main.IsHackMode)
@@ -1616,7 +1628,7 @@ namespace TownOfHost
                 if (PlayerState.GetDeathReason(pc.PlayerId) == PlayerState.DeathReason.Torched)
                     return "They were incinerated by an Arsonist.";
                 if (PlayerState.GetDeathReason(pc.PlayerId) == PlayerState.DeathReason.Bombed)
-                    return "Theyw ere bombed by the Bastion, AgiTater, or Demolitionist.";
+                    return "They were bombed by an Agitater, Fireworks, Bastion, Demolitionist, Hex Master, Postman, Terrorist, or a Bomber if they didn't kill in time.";
                 if (PlayerState.GetDeathReason(pc.PlayerId) == PlayerState.DeathReason.Suicide | PlayerState.GetDeathReason(pc.PlayerId) == PlayerState.DeathReason.LoversSuicide | Main.whoKilledWho[pc.Data.PlayerId] == pc.PlayerId)
                     return "They apparently committed suicide.";
                 var killer = Utils.GetPlayerById(Main.whoKilledWho[pc.Data.PlayerId]);
@@ -1688,6 +1700,19 @@ namespace TownOfHost
                 Utils.SendMessage("We were unable to shift you back into your regular self because of the Innersloth AntiCheat. Sorry!", shifter.PlayerId);
                 return;
             }
+            if (Main.IsShapeShifted.Contains(shifter.PlayerId))
+            {
+                Utils.SendMessage("We were unable to shift you back into your regular self because of the Innersloth AntiCheat. Sorry!", shifter.PlayerId);
+                return;
+            }
+            if (Main.CheckShapeshift.ContainsKey(shifter.PlayerId))
+            {
+                if (Main.CheckShapeshift[shifter.PlayerId])
+                {
+                    Utils.SendMessage("We were unable to shift you back into your regular self because of the Innersloth AntiCheat. Sorry!", shifter.PlayerId);
+                    return;
+                }
+            }
             shifter.RpcShapeshift(target, shouldAnimate);
         }
         public static void RpcRevertShapeshiftV2(this PlayerControl shifter, bool shouldAnimate = true)
@@ -1698,7 +1723,48 @@ namespace TownOfHost
                 Utils.SendMessage("We were unable to shift you back into your regular self because of the Innersloth AntiCheat. Sorry!", shifter.PlayerId);
                 return;
             }
+            if (Main.IsShapeShifted.Contains(shifter.PlayerId))
+            {
+                Utils.SendMessage("We were unable to shift you back into your regular self because of the Innersloth AntiCheat. Sorry!", shifter.PlayerId);
+                return;
+            }
+            if (Main.CheckShapeshift.ContainsKey(shifter.PlayerId))
+            {
+                if (Main.CheckShapeshift[shifter.PlayerId])
+                {
+                    Utils.SendMessage("We were unable to shift you back into your regular self because of the Innersloth AntiCheat. Sorry!", shifter.PlayerId);
+                    return;
+                }
+            }
             shifter.RpcRevertShapeshift(shouldAnimate);
+        }
+        public static void CheckVentSwap(PlayerControl player)
+        {
+            Vector2? lastLocation = Main.LastEnteredVentLocation.GetValueOrDefault(player.PlayerId);
+            if (lastLocation == null) return;
+            float distance = Vector2.Distance(lastLocation.Value, player.GetTruePosition());
+            if (distance < 1) return;
+            Logger.Error($"Player {player.GetNameWithRole()} swapped vents!", "Vent Swap");
+
+            Vector2 playerPos = player.GetTruePosition();
+            Dictionary<Vent, float> targetDistance = new();
+            float dis;
+            foreach (Vent vent in GameObject.FindObjectsOfType<Vent>())
+            {
+                dis = Vector2.Distance(playerPos, vent.transform.position);
+                targetDistance.Add(vent, dis);
+            }
+            if (targetDistance.Count != 0)
+            {
+                var min = targetDistance.OrderBy(c => c.Value).FirstOrDefault();
+                // gets the closest vent
+                Vent vent = min.Key;
+                if (Main.LastEnteredVent[player.PlayerId].Id != vent.Id)
+                {
+                    // they are at a different Id
+                    Main.CurrentEnterdVent[player.PlayerId] = vent;
+                }
+            }
         }
         public static void NoCheckStartMeeting(this PlayerControl reporter, GameData.PlayerInfo target)
         { /*サボタージュ中でも関係なしに会議を起こせるメソッド

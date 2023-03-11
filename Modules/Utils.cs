@@ -86,6 +86,7 @@ namespace TownOfHost
             if (text.Contains("begin")) return true;
             return false;
         }
+
         public static void SetRoleCountToggle(CustomRoles role)
         {
             int count = Options.GetRoleCount(role);
@@ -269,6 +270,7 @@ namespace TownOfHost
                     if (cRole == CustomRoles.CorruptedSheriff) hasTasks = false;
                     if (cRole == CustomRoles.Investigator) hasTasks = false;
                     if (cRole == CustomRoles.Amnesiac && ForRecompute) hasTasks = false;
+                    if (cRole == CustomRoles.Amnesiac && ForRecompute) hasTasks = false;
                     if (cRole == CustomRoles.Madmate) hasTasks = false;
                     if (cRole == CustomRoles.SKMadmate) hasTasks = false;
                     if (cRole == CustomRoles.Terrorist && ForRecompute) hasTasks = false;
@@ -406,6 +408,10 @@ namespace TownOfHost
                 case CustomRoles.Hacker:
                     ProgressText = Helpers.ColorString(GetRoleColor(CustomRoles.Hacker), $"({Main.HackerFixedSaboCount[playerId]}/{Options.SaboAmount.GetInt()})");
                     break;
+                case CustomRoles.Postman:
+                    ProgressText += $"{Postman.GetProgressText(playerId)}";
+                    checkTasks = true;
+                    break;
                 case CustomRoles.Tasker:
                     checkTasks = true;
                     var taskState = PlayerState.taskState?[playerId];
@@ -428,6 +434,10 @@ namespace TownOfHost
                     {
                         if (ProgressText == Helpers.ColorString(Color.yellow, $"({taskState.AllTasksCount}/{taskState.AllTasksCount})"))
                             Main.KillingSpree.Add(playerId);
+                    }
+                    else if (realRole == CustomRoles.Postman)
+                    {
+                        Postman.OnTaskComplete(playerId, taskState);
                     }
                     else if (realRole == CustomRoles.CrewPostor && !GetPlayerById(playerId).Data.IsDead)
                     {
@@ -491,6 +501,7 @@ namespace TownOfHost
                                 };
                                 MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.EndGame, Hazel.SendOption.Reliable, -1);
                                 writer.Write((byte)CustomWinner.Phantom);
+                                writer.Write(playerId);
                                 AmongUsClient.Instance.FinishRpcImmediately(writer);
                                 RPC.PhantomWin(playerId);
                                 EndGameHelper.AssignWinner(playerId);
@@ -745,6 +756,7 @@ namespace TownOfHost
             foreach (CustomRoles role in Enum.GetValues(typeof(CustomRoles)))
             {
                 // if (role.RoleCannotBeInList()) continue;
+                if (role.IsVanilla()) continue;
                 if (role.IsEnable()) text += string.Format("\n{0}:{1}x{2}", GetRoleName(role), $"{PercentageChecker.CheckPercentage(role.ToString(), PlayerId, role: role)}%", role.GetCount());
             }
             SendMessage(text, PlayerId);
@@ -1209,6 +1221,20 @@ namespace TownOfHost
                     SelfMark += $"<color={GetRoleColorCode(CustomRoles.Snitch)}>★{arrows}</color>";
                 }
 
+                if (!seer.Is(CustomRoles.Phantom) && Main.PhantomAlert)
+                {
+                    var arrows = "";
+                    foreach (var arrow in Main.targetArrows)
+                    {
+                        if (arrow.Key.Item1 == seer.PlayerId && !PlayerState.isDead[arrow.Key.Item2])
+                        {
+                            //自分用の矢印で対象が死んでない時
+                            arrows += arrow.Value;
+                        }
+                    }
+                    SelfMark += $"<color={GetRoleColorCode(CustomRoles.Phantom)}>★{arrows}</color>";
+                }
+
                 if (seer.Is(CustomRoles.Phantom))
                 {
                     if (Main.PhantomAlert) SelfMark += $"<color={GetRoleColorCode(CustomRoles.Phantom)}>★★</color>";
@@ -1250,6 +1276,11 @@ namespace TownOfHost
                 if (seer.Is(CustomRoles.BountyHunter) && BountyHunter.GetTarget(seer) != null)
                 {
                     string BountyTargetName = BountyHunter.GetTarget(seer).GetRealName(isMeeting);
+                    SelfSuffix = $"<size={fontSize}>Target:{BountyTargetName}</size>";
+                }
+                if (seer.Is(CustomRoles.Postman) && Postman.target != null)
+                {
+                    string BountyTargetName = Postman.target.GetRealName(isMeeting);
                     SelfSuffix = $"<size={fontSize}>Target:{BountyTargetName}</size>";
                 }
                 if (seer.Is(CustomRoles.FireWorks))
@@ -1296,6 +1327,18 @@ namespace TownOfHost
                     var ModeLang = Main.CanTransport ? "Yes" : "No";
                     SelfSuffix = "Can Transport: " + ModeLang;
                 }
+                if (seer.Is(CustomRoles.Escapist))
+                {
+                    SelfSuffix = "Current Mode: " + Escapist.GetEscapistState(seer);
+                }
+                if (seer.Is(CustomRoles.Bomber))
+                {
+                    PlayerControl bombedPlayer = Utils.GetPlayerById(Bomber.CurrentBombedPlayer);
+                    if (bombedPlayer != null)
+                    {
+                        SelfSuffix = $"Current Bombed Player: {bombedPlayer.GetRealName(isMeeting)}";
+                    }
+                }
                 if (seer.Is(CustomRoles.Swooper))
                 {
                     var ModeLang = Main.IsInvis ? "Yes" : "No";
@@ -1328,6 +1371,22 @@ namespace TownOfHost
                         if (Options.SnitchCanFindCoven.GetBool())
                             SeerKnowsCoven = true;
                         //ミーティング以外では矢印表示
+                        if (!isMeeting)
+                        {
+                            foreach (var arrow in Main.targetArrows)
+                            {
+                                //自分用の矢印で対象が死んでない時
+                                if (arrow.Key.Item1 == seer.PlayerId && !PlayerState.isDead[arrow.Key.Item2])
+                                    SelfSuffix += arrow.Value;
+                            }
+                        }
+                    }
+                }
+
+                if (seer.Is(CustomRoles.Postman))
+                {
+                    if (Postman.target != null)
+                    {
                         if (!isMeeting)
                         {
                             foreach (var arrow in Main.targetArrows)
@@ -1485,6 +1544,7 @@ namespace TownOfHost
                     || NameColorManager.Instance.GetDataBySeer(seer.PlayerId).Count > 0 //seer視点用の名前色データが一つ以上ある
                     || seer.Is(CustomRoles.Arsonist)
                     || seer.Is(CustomRoles.LoversRecode)
+                    || seer.Is(CustomRoles.Bomber)
                     || Main.SpelledPlayer.Count > 0
                     || Main.SilencedPlayer.Count > 0
                     || seer.Is(CustomRoles.GuardianAngelTOU)
@@ -1495,7 +1555,9 @@ namespace TownOfHost
                     || seer.Is(CustomRoles.NeutWitch)
                     || seer.Is(CustomRoles.HexMaster)
                     || seer.Is(CustomRoles.BountyHunter)
+                    || seer.Is(CustomRoles.Postman)
                     || seer.Is(CustomRoles.Investigator)
+                    || Bomber.CurrentBombedPlayer != 255
                     || Main.rolesRevealedNextMeeting.Count != 0
                     || Main.PhantomAlert
                     // || (IsActive(SystemTypes.Comms) && Options.CamoComms.GetBool())
@@ -1637,6 +1699,36 @@ namespace TownOfHost
                                 TargetMark += $"<color={GetRoleColorCode(CustomRoles.Arsonist)}>△</color>";
                             }
                         }
+
+                        if (Bomber.DoesExist() && seer.GetCustomRole().IsImpostor())
+                        {
+                            if (Bomber.AllImpostorsSeeBombedPlayer.GetBool())
+                            {
+                                if (target.PlayerId == Bomber.CurrentBombedPlayer) //seerがtargetに既にオイルを塗っている(完了)
+                                {
+                                    TargetMark += $"<color={GetRoleColorCode(CustomRoles.Bomber)}>▲</color>";
+                                }
+                                if (target.PlayerId == Bomber.CurrentDouseTarget)
+                                {
+                                    TargetMark += $"<color={GetRoleColorCode(CustomRoles.Bomber)}>△</color>";
+                                }
+                            }
+                            else if (seer.Is(CustomRoles.Bomber))
+                            {
+                                if (target.PlayerId == Bomber.CurrentBombedPlayer)
+                                {
+                                    TargetMark += $"<color={GetRoleColorCode(CustomRoles.Bomber)}>▲</color>";
+                                }
+                                if (
+                                    Bomber.BomberTimer.TryGetValue(seer.PlayerId, out var ar_kvp) &&
+                                    ar_kvp.Item1 == target
+                                )
+                                {
+                                    TargetMark += $"<color={GetRoleColorCode(CustomRoles.Bomber)}>△</color>";
+                                }
+                            }
+                        }
+
                         if (seer.Is(CustomRoles.HexMaster))
                         {
                             if (seer.IsHexedPlayer(target))
@@ -1781,6 +1873,8 @@ namespace TownOfHost
                             var bounty = BountyHunter.GetTarget(seer);
                             if (target == bounty) TargetPlayerName = Helpers.ColorString(Utils.GetRoleColor(CustomRoles.Target), TargetPlayerName);
                         }
+                        if (seer.Is(CustomRoles.Postman) && Postman.target != null)
+                            if (target == Postman.target) TargetPlayerName = Helpers.ColorString(Utils.GetRoleColor(CustomRoles.Target), TargetPlayerName);
                         if (seer.Is(CustomRoles.Investigator))
                         {
                             if (Investigator.hasSeered[target.PlayerId] == true)
