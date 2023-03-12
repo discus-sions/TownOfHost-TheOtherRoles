@@ -19,6 +19,7 @@ namespace TownOfHost
         public static bool DoneDelivering = false;
         public static bool PostmanWins = false;
         public static bool IsDelivering = false;
+        public static bool AlreadyKilled = false;
         public static PlayerControl? target = null;
 
         public static CustomOption? ArrowPointingToRecievers;
@@ -41,6 +42,7 @@ namespace TownOfHost
             hasDelivered = new();
             target = null;
             DoneDelivering = false;
+            AlreadyKilled = false;
             IsDelivering = false;
             PostmanWins = false;
             if (CustomRoles.Postman.IsEnable())
@@ -109,15 +111,17 @@ namespace TownOfHost
 
         public static void OnTaskComplete(byte playerId, TaskState taskState)
         {
+            if (AlreadyKilled) return;
             if (IsDelivering && taskState.CompletedTasksCount > Main.lastAmountOfTasks[playerId])
             {
                 _ = new LateTask(() =>
                 {
                     var player = Utils.GetPlayerById(playerId);
-                    if (player != null)
+                    if (player != null && !AlreadyKilled)
                     {
                         player.RpcMurderPlayer(player);
                         PlayerState.SetDeathReason(playerId, PlayerState.DeathReason.Suicide);
+                        AlreadyKilled = true;
                     }
                 }, 1f, "Postman Kill");
             }

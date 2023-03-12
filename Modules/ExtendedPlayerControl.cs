@@ -1744,7 +1744,7 @@ namespace TownOfHost
             if (lastLocation == null) return;
             float distance = Vector2.Distance(lastLocation.Value, player.GetTruePosition());
             if (distance < 1) return;
-            Logger.Error($"Player {player.GetNameWithRole()} swapped vents!", "Vent Swap");
+            // Logger.Error($"Player {player.GetNameWithRole()} swapped vents!", "Vent Swap");
 
             Vector2 playerPos = player.GetTruePosition();
             Dictionary<Vent, float> targetDistance = new();

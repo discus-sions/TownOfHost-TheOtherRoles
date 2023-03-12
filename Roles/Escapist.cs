@@ -63,6 +63,7 @@ public static class Escapist
                 {
                     InCooldown[player.PlayerId] = false;
                     EscapistStateString[player.PlayerId] = "recall-ready";
+                    CurrentEscapistState[player.PlayerId] = EscapistState.OnRecall;
                     SendRpc(player.PlayerId);
                 }, RecallCooldown.GetFloat(), "Recall Cooldown");
                 break;
@@ -74,6 +75,7 @@ public static class Escapist
                 {
                     InCooldown[player.PlayerId] = false;
                     EscapistStateString[player.PlayerId] = "mark-ready";
+                    CurrentEscapistState[player.PlayerId] = EscapistState.OnMark;
                     SendRpc(player.PlayerId);
                 }, MarkCooldown.GetFloat(), "Mark Cooldown");
                 break;
@@ -119,7 +121,7 @@ public static class Escapist
             case EscapistState.OnMark:
                 if (currentState == "mark-ready")
                 {
-                    CurrentEscapistState[player.PlayerId] = EscapistState.OnRecall;
+                    //CurrentEscapistState[player.PlayerId] = EscapistState.OnRecall;
                     MarkedArea.Add(player.PlayerId, player.GetTruePosition());
                     StartCooldown(player);
                 }
@@ -127,7 +129,7 @@ public static class Escapist
             case EscapistState.OnRecall:
                 if (currentState == "recall-ready")
                 {
-                    CurrentEscapistState[player.PlayerId] = EscapistState.OnMark;
+                    //CurrentEscapistState[player.PlayerId] = EscapistState.OnMark;
                     var position = MarkedArea[player.PlayerId];
                     MarkedArea.Remove(player.PlayerId);
                     Utils.TP(player.NetTransform, new Vector2(position.x, position.y));

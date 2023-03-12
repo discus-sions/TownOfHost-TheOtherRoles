@@ -783,6 +783,8 @@ namespace TownOfHost
             var text = GetString("LastResult") + ":";
             Dictionary<byte, CustomRoles> cloneRoles = new(Main.LastPlayerCustomRoles);
             text += $"\n{SetEverythingUpPatch.LastWinsText}\n";
+            int otherWinners = 0;
+            int otherNonWinners = 0;
             foreach (var id in Main.winnerList)
             {
                 try
@@ -793,7 +795,8 @@ namespace TownOfHost
                 catch
                 {
                     Logger.Error("Error loading last roles for Winner.", "Show Last Result (Winner)");
-                    text += "\n★ Error getting this person's info. (winner)";
+                    //text += "\n★ Error getting this person's info. (winner)";
+                    otherWinners += 1;
                     cloneRoles.Remove(id);
                 }
             }
@@ -807,8 +810,36 @@ namespace TownOfHost
                 catch
                 {
                     Logger.Error("Error loading last roles for a Non-Winner.", "Show Last Result");
-                    text += "\n　 Error getting this person's info. (non-winner)";
+                    //text += "\n　 Error getting this person's info. (non-winner)";
+                    otherNonWinners += 1;
                 }
+            }
+
+            if (otherWinners != 0 || otherNonWinners != 0)
+            {
+                if (otherWinners != 0)
+                {
+                    if (otherWinners == 1)
+                    {
+                        text += "\n★ +1 Other Winner (Error)";
+                    }
+                    else
+                    {
+                        text += $"\n★ +{otherWinners} Other Winners (Error)";
+                    }
+                }
+                if (otherNonWinners != 0)
+                {
+                    if (otherNonWinners == 1)
+                    {
+                        text += "\n　 +1 Other Non-Winner (Error)";
+                    }
+                    else
+                    {
+                        text += $"\n　 +{otherNonWinners} Other Non-Winners (Error)";
+                    }
+                }
+                text += "\n";
             }
             text += "\n　 Last Voted Player: " + Main.LastVotedPlayer;
             SendMessage(text, PlayerId);
@@ -1877,39 +1908,54 @@ namespace TownOfHost
                             if (target == Postman.target) TargetPlayerName = Helpers.ColorString(Utils.GetRoleColor(CustomRoles.Target), TargetPlayerName);
                         if (seer.Is(CustomRoles.Investigator))
                         {
-                            if (Investigator.hasSeered[target.PlayerId] == true)
+                            if (Investigator.hasSeered.ContainsKey((target.PlayerId)))
                             {
-                                // Investigator has Seered Player.
-                                if (target.Is(CustomRoles.CorruptedSheriff))
+                                if (Investigator.hasSeered[target.PlayerId] == true)
                                 {
-                                    if (Investigator.CSheriffSwitches.GetBool())
+                                    // Investigator has Seered Player.
+                                    if (target.Is(CustomRoles.CorruptedSheriff))
                                     {
-                                        TargetPlayerName = Helpers.ColorString(Utils.GetRoleColor(CustomRoles.Impostor), TargetPlayerName);
-                                    }
-                                    else
-                                    {
-                                        if (Investigator.SeeredCSheriff)
-                                            TargetPlayerName = Helpers.ColorString(Utils.GetRoleColor(CustomRoles.Impostor), TargetPlayerName);
-                                        else
-                                            TargetPlayerName = Helpers.ColorString(Utils.GetRoleColor(CustomRoles.TheGlitch), TargetPlayerName);
-                                    }
-                                }
-                                else
-                                {
-                                    if (Investigator.IsRed(target))
-                                    {
-                                        if (target.GetCustomRole().IsCoven())
+                                        if (Investigator.CSheriffSwitches.GetBool())
                                         {
-                                            if (Investigator.CovenIsPurple.GetBool())
-                                                TargetPlayerName = Helpers.ColorString(Utils.GetRoleColor(CustomRoles.Coven), TargetPlayerName); //targetの名前をエゴイスト色で表示
-                                            else
-                                                TargetPlayerName = Helpers.ColorString(Utils.GetRoleColor(CustomRoles.Impostor), TargetPlayerName); //targetの名前をエゴイスト色で表示
+                                            TargetPlayerName =
+                                                Helpers.ColorString(Utils.GetRoleColor(CustomRoles.Impostor),
+                                                    TargetPlayerName);
                                         }
-                                        else TargetPlayerName = Helpers.ColorString(Utils.GetRoleColor(CustomRoles.Impostor), TargetPlayerName);
+                                        else
+                                        {
+                                            if (Investigator.SeeredCSheriff)
+                                                TargetPlayerName = Helpers.ColorString(
+                                                    Utils.GetRoleColor(CustomRoles.Impostor), TargetPlayerName);
+                                            else
+                                                TargetPlayerName = Helpers.ColorString(
+                                                    Utils.GetRoleColor(CustomRoles.TheGlitch), TargetPlayerName);
+                                        }
                                     }
                                     else
                                     {
-                                        TargetPlayerName = Helpers.ColorString(Utils.GetRoleColor(CustomRoles.TheGlitch), TargetPlayerName); //targetの名前をエゴイスト色で表示
+                                        if (Investigator.IsRed(target))
+                                        {
+                                            if (target.GetCustomRole().IsCoven())
+                                            {
+                                                if (Investigator.CovenIsPurple.GetBool())
+                                                    TargetPlayerName =
+                                                        Helpers.ColorString(Utils.GetRoleColor(CustomRoles.Coven),
+                                                            TargetPlayerName); //targetの名前をエゴイスト色で表示
+                                                else
+                                                    TargetPlayerName =
+                                                        Helpers.ColorString(Utils.GetRoleColor(CustomRoles.Impostor),
+                                                            TargetPlayerName); //targetの名前をエゴイスト色で表示
+                                            }
+                                            else
+                                                TargetPlayerName = Helpers.ColorString(
+                                                    Utils.GetRoleColor(CustomRoles.Impostor), TargetPlayerName);
+                                        }
+                                        else
+                                        {
+                                            TargetPlayerName =
+                                                Helpers.ColorString(Utils.GetRoleColor(CustomRoles.TheGlitch),
+                                                    TargetPlayerName); //targetの名前をエゴイスト色で表示
+                                        }
                                     }
                                 }
                             }
@@ -1959,6 +2005,93 @@ namespace TownOfHost
                     else
                         survivor.RpcMurderPlayerV2(survivor);
                 }
+            }
+        }
+
+        public static bool IsProtectedByMedic(PlayerControl player)
+        {
+            if (Main.CurrentTarget.ContainsValue(player.PlayerId))
+            {
+                foreach (var key in Main.CurrentTarget)
+                {
+                    if (key.Value != player.PlayerId) continue;
+                    var protector = Utils.GetPlayerById(key.Key);
+                    switch (player.GetCustomRole())
+                    {
+                        case CustomRoles.Medic:
+                            return true;
+                    }
+                }
+
+                return false;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        public static PlayerControl? GetProtector(PlayerControl player)
+        {
+            if (Main.CurrentTarget.ContainsValue(player.PlayerId))
+            {
+                foreach (var key in Main.CurrentTarget)
+                {
+                    if (key.Value != player.PlayerId) continue;
+                    var protector = Utils.GetPlayerById(key.Key);
+                    return protector;
+                }
+
+                return null;
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        public static bool IsProtectedByCrusader(PlayerControl player)
+        {
+            if (Main.CurrentTarget.ContainsValue(player.PlayerId))
+            {
+                foreach (var key in Main.CurrentTarget)
+                {
+                    if (key.Value != player.PlayerId) continue;
+                    var protector = Utils.GetPlayerById(key.Key);
+                    switch (player.GetCustomRole())
+                    {
+                        case CustomRoles.Crusader:
+                            return true;
+                    }
+                }
+
+                return false;
+            }
+            else
+            {
+                return false;
+            }
+        }
+        public static bool IsProtectedByBodyGuard(PlayerControl player)
+        {
+            if (Main.CurrentTarget.ContainsValue(player.PlayerId))
+            {
+                foreach (var key in Main.CurrentTarget)
+                {
+                    if (key.Value != player.PlayerId) continue;
+                    var protector = Utils.GetPlayerById(key.Key);
+                    switch (player.GetCustomRole())
+                    {
+                        case CustomRoles.Bodyguard:
+                            return true;
+                    }
+                }
+
+                return false;
+            }
+            else
+            {
+                return false;
             }
         }
         public static void CustomSyncAllSettings()

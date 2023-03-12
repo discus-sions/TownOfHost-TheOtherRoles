@@ -46,15 +46,27 @@ namespace TownOfHost
                 }
             }
             //MOD入り用のボタン下テキスト変更
-            switch (player.GetCustomRole())
+
+            if (GameStates.IsLobby)
             {
-                case CustomRoles.TheGlitch:
-                    __instance.AbilityButton.OverrideText("MIMIC");
-                    if (Main.IsHackMode)
-                        __instance.KillButton.OverrideText("HACK");
-                    else
-                        __instance.KillButton.OverrideText($"{GetString("KillButtonText")}");
-                    break;
+                __instance.GameSettings.text = OptionShower.GetText();
+                __instance.GameSettings.fontSizeMin = __instance.GameSettings.fontSizeMax = (TranslationController.Instance.currentLanguage.languageID == SupportedLangs.Japanese || Main.ForceJapanese.Value) ? 1.05f : 1.2f;
+            }
+            //ゲーム中でなければ以下は実行されない
+            if (!AmongUsClient.Instance.IsGameStarted) return;
+
+            //バウンティハンターのターゲットテキスト
+            if (SetHudActivePatch.IsActive && player.IsAlive())
+            {
+                switch (player.GetCustomRole())
+                {
+                    case CustomRoles.TheGlitch:
+                        __instance.AbilityButton.OverrideText("MIMIC");
+                       if (Main.IsHackMode)
+                           __instance.KillButton.OverrideText("HACK");
+                       else
+                           __instance.KillButton.OverrideText($"{GetString("KillButtonText")}");
+                        break;
                 case CustomRoles.CovenWitch:
                     if (!Main.HasNecronomicon)
                         __instance.KillButton.OverrideText($"{GetString("PuppeteerOperateButtonText")}");
@@ -229,120 +241,106 @@ namespace TownOfHost
                     __instance.ReportButton.OverrideText($"REMEMBER");
                     break;
             }
+                if (LowerInfoText == null)
+                {
+                    LowerInfoText = UnityEngine.Object.Instantiate(__instance.KillButton.buttonLabelText);
+                    LowerInfoText.transform.parent = __instance.transform;
+                    LowerInfoText.transform.localPosition = new Vector3(0, -2f, 0);
+                    LowerInfoText.alignment = TMPro.TextAlignmentOptions.Center;
+                    LowerInfoText.overflowMode = TMPro.TextOverflowModes.Overflow;
+                    LowerInfoText.enableWordWrapping = false;
+                    LowerInfoText.color = Palette.EnabledColor;
+                    LowerInfoText.fontSizeMin = 2.0f;
+                    LowerInfoText.fontSizeMax = 2.0f;
+                }
 
-            __instance.GameSettings.text = OptionShower.GetText();
-            __instance.GameSettings.fontSizeMin =
-            __instance.GameSettings.fontSizeMax = (TranslationController.Instance.currentLanguage.languageID == SupportedLangs.Japanese || Main.ForceJapanese.Value) ? 1.05f : 1.2f;
-            //ゲーム中でなければ以下は実行されない
-            if (!AmongUsClient.Instance.IsGameStarted) return;
-            //バウンティハンターのターゲットテキスト
-            if (LowerInfoText == null)
-            {
-                LowerInfoText = UnityEngine.Object.Instantiate(__instance.KillButton.buttonLabelText);
-                LowerInfoText.transform.localPosition = new Vector3(0, -2f, 0);
-                LowerInfoText.alignment = TMPro.TextAlignmentOptions.Center;
-                LowerInfoText.overflowMode = TMPro.TextOverflowModes.Overflow;
-                LowerInfoText.enableWordWrapping = false;
-                LowerInfoText.color = Palette.EnabledColor;
-                LowerInfoText.fontSizeMin = 2.0f;
-                LowerInfoText.fontSizeMax = 2.0f;
-                LowerInfoText.transform.parent = __instance.transform;
-            }
-            if (player.PlayerId == AgiTater.CurrentBombedPlayer && AgiTater.IsEnable())
-            {
-                LowerInfoText.text = "Pass the Bomb to Another Player!";
-                LowerInfoText.enabled = true;
-            }
-            else if (player.Is(CustomRoles.BountyHunter)) BountyHunter.DisplayTarget(player, LowerInfoText);
-            else if (player.Is(CustomRoles.Postman)) Postman.DisplayTarget(player, LowerInfoText);
-            else if (player.Is(CustomRoles.Witch))
-            {
-                //魔女用処理
-                var ModeLang = player.IsSpellMode() ? "WitchModeSpell" : "WitchModeKill";
-                LowerInfoText.text = GetString("WitchCurrentMode") + ": " + GetString(ModeLang);
-                LowerInfoText.enabled = true;
-            }
-            else if (player.Is(CustomRoles.Escapist))
-            {
-                LowerInfoText.text = "Current Mode: " + Escapist.GetEscapistState(player);
-                LowerInfoText.enabled = true;
-            }
-            else if (player.Is(CustomRoles.HexMaster))
-            {
-                //魔女用処理
-                var ModeLang = player.IsHexMode() ? "Hexing" : "Killing";
-                LowerInfoText.text = "Current Mode" + ": " + ModeLang;
-                LowerInfoText.enabled = true;
-            }
-            else if (player.Is(CustomRoles.Werewolf))
-            {
-                var ModeLang = Main.IsRampaged ? "True" : "False";
-                var ReadyLang = Main.RampageReady ? "True" : "False";
-                LowerInfoText.text = "Is Rampaging: " + ModeLang;
-                LowerInfoText.text += "\nRampage Ready: " + ReadyLang;
-                LowerInfoText.enabled = true;
-            }
-            else if (player.Is(CustomRoles.Medusa))
-            {
-                var ModeLang = Main.IsGazing ? "True" : "False";
-                var ReadyLang = Main.GazeReady ? "True" : "False";
-                LowerInfoText.text = "Is Gazing: " + ModeLang;
-                LowerInfoText.text += "\nGazing Ready: " + ReadyLang;
-                LowerInfoText.enabled = true;
-            }
-            else if (player.Is(CustomRoles.Veteran))
-            {
-                var ModeLang = Main.VetIsAlerted ? "True" : "False";
-                var ReadyLang = Main.VetCanAlert ? "True" : "False";
-                LowerInfoText.text = "Alerted: " + ModeLang;
-                LowerInfoText.text += "\nCan Alert: " + ReadyLang;
-                LowerInfoText.enabled = true;
-            }
-            else if (player.Is(CustomRoles.Transporter))
-            {
-                var ReadyLang = Main.CanTransport ? "True" : "False";
-                LowerInfoText.text = "Can Transport: " + ReadyLang;
-                LowerInfoText.enabled = true;
-            }
-            else if (player.Is(CustomRoles.TheGlitch))
-            {
-                var ModeLang = Main.IsHackMode ? "Hack" : "Kill";
-                LowerInfoText.text = "Glitch Current Mode: " + ModeLang;
-                LowerInfoText.enabled = true;
-            }
-            else if (player.Is(CustomRoles.FireWorks))
-            {
-                var stateText = FireWorks.GetStateText(player);
-                LowerInfoText.text = stateText;
-                LowerInfoText.enabled = true;
-            }
-            else if (player.Is(CustomRoles.Swooper))
-            {
-                var ModeLang = Main.IsInvis ? "Yes" : "No";
-                var ReadyLang = Main.CanGoInvis ? "Yes" : "No";
-                LowerInfoText.text = "Is Swooping: " + ModeLang;
-                LowerInfoText.text += "\nCan Swoop: " + ReadyLang;
-                LowerInfoText.enabled = true;
-            }
-            else if (player.Is(CustomRoles.VoteStealer))
-            {
-                var voteAmt = Options.VoteAmtOnCompletion.GetInt() == 1 ? "Vote" : "Votes";
-                LowerInfoText.text = $"Kills until {Options.VoteAmtOnCompletion.GetInt()} {voteAmt}: {Options.KillsForVote.GetInt() - Main.PickpocketKills[player.PlayerId]}";
-                LowerInfoText.enabled = true;
-            }
-            else if (player.Is(CustomRoles.Cleaner))
-            {
-                var ModeLang = Main.CleanerCanClean[player.PlayerId] ? "Yes" : "No";
-                LowerInfoText.text = "Cleaner Can Clean: " + ModeLang;
-                LowerInfoText.enabled = true;
-            }
-            else
-            {
-                LowerInfoText.enabled = false;
-            }
-            if (!AmongUsClient.Instance.IsGameStarted && AmongUsClient.Instance.NetworkMode != NetworkModes.FreePlay)
-            {
-                LowerInfoText.enabled = false;
+                if (player.PlayerId == AgiTater.CurrentBombedPlayer && AgiTater.IsEnable())
+                {
+                    LowerInfoText.text = "Pass the Bomb to Another Player!";
+                    LowerInfoText.enabled = true;
+                }
+                else if (player.Is(CustomRoles.BountyHunter)) BountyHunter.DisplayTarget(player, LowerInfoText);
+                else if (player.Is(CustomRoles.Postman)) Postman.DisplayTarget(player, LowerInfoText);
+                else if (player.Is(CustomRoles.Witch))
+                {
+                    //魔女用処理
+                    var ModeLang = player.IsSpellMode() ? "WitchModeSpell" : "WitchModeKill";
+                    LowerInfoText.text = GetString("WitchCurrentMode") + ": " + GetString(ModeLang);
+                }
+                else if (player.Is(CustomRoles.Escapist))
+                {
+                    LowerInfoText.text = "Current Mode: " + Escapist.GetEscapistState(player);
+                }
+                else if (player.Is(CustomRoles.HexMaster))
+                {
+                    //魔女用処理
+                    var ModeLang = player.IsHexMode() ? "Hexing" : "Killing";
+                    LowerInfoText.text = "Current Mode" + ": " + ModeLang;
+                }
+                else if (player.Is(CustomRoles.Werewolf))
+                {
+                    var ModeLang = Main.IsRampaged ? "True" : "False";
+                    var ReadyLang = Main.RampageReady ? "True" : "False";
+                    LowerInfoText.text = "Is Rampaging: " + ModeLang;
+                    LowerInfoText.text += "\nRampage Ready: " + ReadyLang;
+                }
+                else if (player.Is(CustomRoles.Medusa))
+                {
+                    var ModeLang = Main.IsGazing ? "True" : "False";
+                    var ReadyLang = Main.GazeReady ? "True" : "False";
+                    LowerInfoText.text = "Is Gazing: " + ModeLang;
+                    LowerInfoText.text += "\nGazing Ready: " + ReadyLang;
+                }
+                else if (player.Is(CustomRoles.Veteran))
+                {
+                    var ModeLang = Main.VetIsAlerted ? "True" : "False";
+                    var ReadyLang = Main.VetCanAlert ? "True" : "False";
+                    LowerInfoText.text = "Alerted: " + ModeLang;
+                    LowerInfoText.text += "\nCan Alert: " + ReadyLang;
+                }
+                else if (player.Is(CustomRoles.Transporter))
+                {
+                    var ReadyLang = Main.CanTransport ? "True" : "False";
+                    LowerInfoText.text = "Can Transport: " + ReadyLang;
+                }
+                else if (player.Is(CustomRoles.TheGlitch))
+                {
+                    var ModeLang = Main.IsHackMode ? "Hack" : "Kill";
+                    LowerInfoText.text = "Glitch Current Mode: " + ModeLang;
+                }
+                else if (player.Is(CustomRoles.FireWorks))
+                {
+                    var stateText = FireWorks.GetStateText(player);
+                    LowerInfoText.text = stateText;
+                }
+                else if (player.Is(CustomRoles.Swooper))
+                {
+                    var ModeLang = Main.IsInvis ? "Yes" : "No";
+                    var ReadyLang = Main.CanGoInvis ? "Yes" : "No";
+                    LowerInfoText.text = "Is Swooping: " + ModeLang;
+                    LowerInfoText.text += "\nCan Swoop: " + ReadyLang;
+                }
+                else if (player.Is(CustomRoles.VoteStealer))
+                {
+                    var voteAmt = Options.VoteAmtOnCompletion.GetInt() == 1 ? "Vote" : "Votes";
+                    LowerInfoText.text =
+                        $"Kills until {Options.VoteAmtOnCompletion.GetInt()} {voteAmt}: {Options.KillsForVote.GetInt() - Main.PickpocketKills[player.PlayerId]}";
+                }
+                else if (player.Is(CustomRoles.Cleaner))
+                {
+                    var ModeLang = Main.CleanerCanClean[player.PlayerId] ? "Yes" : "No";
+                    LowerInfoText.text = "Cleaner Can Clean: " + ModeLang;
+                }
+                else
+                {
+                    LowerInfoText.text = "";
+                }
+                LowerInfoText.enabled = LowerInfoText.text != "";
+
+                if (!AmongUsClient.Instance.IsGameStarted && AmongUsClient.Instance.NetworkMode != NetworkModes.FreePlay)
+                {
+                    LowerInfoText.enabled = false;
+                }
             }
 
             if (GameStates.IsInGame)
@@ -428,12 +426,6 @@ namespace TownOfHost
             var cSubRoleFound = Main.AllPlayerCustomSubRoles.TryGetValue(player.PlayerId, out var cSubRole);
             if (cSubRoleFound)
             {
-                /*CustomRoles role = CustomRoles.Amnesiac;
-                foreach (var modifier in Main.HasModifier)
-                {
-                    if (modifier.Value == player.PlayerId)
-                        role = modifier.Key;
-                }*/
                 TaskTextPrefix += Helpers.ColorString(Utils.GetRoleColor(player.GetCustomSubRole()), $"Modifier: {player.GetSubRoleName()}\r\n");
                 if (player.GetCustomSubRole() != CustomRoles.LoversRecode)
                     TaskTextPrefix += Helpers.ColorString(Utils.GetRoleColor(player.GetCustomSubRole()), $"{GetString(player.GetSubRoleName() + "Info")}\r\n");
@@ -681,12 +673,12 @@ namespace TownOfHost
         public static bool IsActive = false;
         public static void Postfix(HudManager __instance, [HarmonyArgument(2)] bool isActive)
         {
+            __instance.ReportButton.ToggleVisible(!GameStates.IsLobby && isActive);
             IsActive = isActive;
             if (!isActive) return;
 
             var player = PlayerControl.LocalPlayer;
             if (player == null) return;
-
             switch (player.GetCustomRole())
             {
                 case CustomRoles.Sheriff:
@@ -843,8 +835,8 @@ namespace TownOfHost
                     __instance.AbilityButton.ToggleVisible(false);
                     break;
             }
-            //__instance.ImpostorVentButton.ToggleVisible(true);
-            if (__instance.KillButton == null) return;
+            //__instance.KillButton.ToggleVisible(player.CanUseKillButton());
+
         }
     }
     [HarmonyPatch(typeof(KillButton), "Start")]

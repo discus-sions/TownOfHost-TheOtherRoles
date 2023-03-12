@@ -675,7 +675,7 @@ name:<color=#C266C7>☆</color><color=#C978D5>E</color><color=#D28DE5>s</color><
                             string[] lineBreaks = OnGameJoinedPatch.Tags.Split("\n");
                             foreach (string line in lineBreaks)
                             {
-                                if (line.Contains(PlayerControl.LocalPlayer.FriendCode))
+                                if (line.Contains(client.Character.FriendCode))
                                 {
                                     string[] typeOfTagArray = line.Split(":");
                                     string typeOfTag = typeOfTagArray[1];

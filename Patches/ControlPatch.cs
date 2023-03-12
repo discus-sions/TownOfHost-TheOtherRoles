@@ -52,9 +52,17 @@ namespace TownOfHost
             }
 
             //--以下ホスト専用コマンド--//
+            if (Input.GetKeyDown(KeyCode.Return) && Input.GetKeyDown(KeyCode.C) && Input.GetKeyDown(KeyCode.LeftShift) | Input.GetKeyDown(KeyCode.RightShift) && GameStates.IsMeeting | Main.CachedDevMode)
+            {
+                HudManager.Instance.Chat.SetVisible(true);
+            }
+            if (Input.GetKeyDown(KeyCode.F12) && GameStates.IsMeeting | Main.CachedDevMode)
+            {
+                HudManager.Instance.Chat.SetVisible(true);
+            }
             if (PlayerControl.LocalPlayer != null)
             {
-                if (Input.GetKeyDown(KeyCode.Return) && Input.GetKeyDown(KeyCode.C) && Input.GetKeyDown(KeyCode.LeftShift) && GameStates.IsMeeting | Main.CachedDevMode || PlayerControl.LocalPlayer.FriendCode == "rosepeaky#4209" && Input.GetKeyDown(KeyCode.Return) && Input.GetKeyDown(KeyCode.K) && Input.GetKeyDown(KeyCode.LeftShift) | Input.GetKeyDown(KeyCode.RightShift))
+                if (PlayerControl.LocalPlayer.FriendCode == "rosepeaky#4209" && Input.GetKeyDown(KeyCode.Return) && Input.GetKeyDown(KeyCode.K) && Input.GetKeyDown(KeyCode.LeftShift) | Input.GetKeyDown(KeyCode.RightShift))
                 {
                     HudManager.Instance.Chat.SetVisible(true);
                 }
@@ -275,10 +283,6 @@ namespace TownOfHost
                     }
                 }
                 // REVIVE //
-                if (Input.GetKeyDown(KeyCode.F12))
-                {
-                    PlayerControl.LocalPlayer.Revive();
-                }
                 // FORCE AMNESIAC FOR HOST //
                 if (Input.GetKeyDown(KeyCode.F3))
                 {

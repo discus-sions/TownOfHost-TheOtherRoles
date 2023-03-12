@@ -340,10 +340,13 @@ namespace TownOfHost
                 {
                     if (!GameStates.IsMeeting)
                         Main.RampageReady = true;
+                    Utils.NotifyRoles();
                 }, Options.RampageCD.GetFloat(), "Werewolf Rampage Cooldown (After Meeting)");
                 new LateTask(() =>
                 {
+                    if (!GameStates.IsMeeting)
                     Main.CanGoInvis = true;
+                    Utils.NotifyRoles();
                 },
                 Options.SwooperCooldown.GetFloat(), "Swooper Cooldown (After Meeting)");
                 new LateTask(() =>

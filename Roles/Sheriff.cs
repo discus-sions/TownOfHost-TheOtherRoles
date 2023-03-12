@@ -110,7 +110,10 @@ namespace TownOfHost
             if (player.Data.IsDead)
                 return false;
 
-            if (ShotLimit[player.PlayerId] == 0 && ShotLimitOpt.GetInt() != 0)
+            if (ShotLimitOpt.GetFloat() == 0)
+                return true;
+
+            if (ShotLimit[player.PlayerId] == 0)
             {
                 //Logger.info($"{player.GetNameWithRole()} はキル可能回数に達したため、RoleTypeを守護天使に変更しました。", "Sheriff");
                 //player.RpcSetRoleDesync(RoleTypes.GuardianAngel);

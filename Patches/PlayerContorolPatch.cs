@@ -421,9 +421,50 @@ namespace TownOfHost
                                     var TempPosition = player.transform.position;
                                     Utils.TP(player.NetTransform, new Vector2(target.GetTruePosition().x, target.GetTruePosition().y + 0.3636f));
                                     Utils.TP(target.NetTransform, new Vector2(TempPosition.x, TempPosition.y + 0.3636f));
-                                    player.RpcMurderPlayer(killer);
-                                    killer.RpcMurderPlayer(player);
-                                    PlayerState.SetDeathReason(player.PlayerId, PlayerState.DeathReason.Suicide);
+                                    if (!Utils.IsProtectedByCrusader(player))
+                                    {
+                                        player.RpcMurderPlayer(killer);
+                                    }
+                                    else
+                                    {
+                                        PlayerControl protector = Utils.GetProtector(player);
+                                        if (protector != null)
+                                        {
+                                            protector.RpcMurderPlayer(killer);
+                                        }
+                                        else
+                                        {
+                                            player.RpcMurderPlayer(killer);
+                                        }
+                                    }
+
+                                    if (!Utils.IsProtectedByMedic(player))
+                                    {
+                                        if (!Utils.IsProtectedByCrusader(player))
+                                        {
+                                            killer.RpcMurderPlayer(player);
+                                        }
+                                    }
+
+                                    if (Utils.IsProtectedByCrusader(player))
+                                    {
+                                        PlayerControl protector = Utils.GetProtector(player);
+                                        if (protector != null)
+                                        {
+                                            Main.CurrentTarget[protector.PlayerId] = 255;
+                                        }
+                                    }
+
+                                    if (player.Data.IsDead)
+                                    {
+                                        PlayerState.SetDeathReason(player.PlayerId, PlayerState.DeathReason.Suicide);
+                                    }
+                                    else
+                                    {
+                                        Main.CurrentTarget[player.PlayerId] = 255;
+                                        Main.HasTarget[player.PlayerId] = false;
+                                    }
+
                                     break;
                                 case CustomRoles.Medic:
                                     returnFalse = true;
@@ -434,6 +475,7 @@ namespace TownOfHost
                                     returnFalse = true;
                                     player.RpcMurderPlayer(killer);
                                     Main.CurrentTarget[player.PlayerId] = 255;
+                                    Main.HasTarget[player.PlayerId] = false;
                                     break;
                             }
                         }
@@ -2694,8 +2736,8 @@ namespace TownOfHost
                 if (GameStates.IsLobby && (ModUpdater.hasUpdate || ModUpdater.isBroken) && AmongUsClient.Instance.IsGamePublic)
                     AmongUsClient.Instance.ChangeGamePublic(false);
 
-                if (GameStates.IsInTask && __instance.inVent)
-                    ExtendedPlayerControl.CheckVentSwap(__instance);
+                //if (GameStates.IsInTask && __instance.inVent)
+                //    ExtendedPlayerControl.CheckVentSwap(__instance);
 
                 if (GameStates.IsInTask && CustomRoles.Vampire.IsEnable())
                 {
@@ -3006,7 +3048,7 @@ namespace TownOfHost
                         }
                     }
                 }
-                if (GameStates.IsInTask && Bomber.DoesExist() && Bomber.CurrentBombedPlayer == player.PlayerId)
+                if (GameStates.IsInTask && Bomber.DoesExist() && Bomber.CurrentBombedPlayer == player.PlayerId && !Bomber.InKillProgress)
                 {
                     if (!player.IsAlive())
                     {
@@ -4303,9 +4345,11 @@ namespace TownOfHost
                     {
                         pc.MyPhysics.RpcBootFromVent(__instance.Id);
                         Main.IsInvis = false;
+                        Utils.NotifyRoles(SpecifySeer: pc);
                         new LateTask(() =>
                         {
                             Main.CanGoInvis = true;
+                            Utils.NotifyRoles(SpecifySeer: pc);
                         },
                         Options.SwooperCooldown.GetFloat(), "SwooperCooldown", true);
                     }
@@ -4571,6 +4615,7 @@ namespace TownOfHost
 
                             Main.IsInvis = true;
                             Main.CanGoInvis = false;
+                            Utils.NotifyRoles(SpecifySeer: __instance.myPlayer);
                             new LateTask(() =>
                             {
                                 __instance?.myPlayer?.MyPhysics?.RpcBootFromVent(id);
@@ -4578,9 +4623,11 @@ namespace TownOfHost
                                 new LateTask(() =>
                                 {
                                     Main.CanGoInvis = true;
+                                    Utils.NotifyRoles(SpecifySeer: __instance.myPlayer);
                                 },
                                 Options.SwooperCooldown.GetFloat(), "SwooperCooldown", true);
                                 Main.IsInvis = false;
+                                Utils.NotifyRoles(SpecifySeer: __instance.myPlayer);
                             },
                             Options.SwooperDuration.GetFloat(), "SwooperDuration", true);
                         }

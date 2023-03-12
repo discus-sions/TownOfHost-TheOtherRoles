@@ -299,15 +299,11 @@ namespace TownOfHost
         public static void Prefix()
         {
             if (!AmongUsClient.Instance.AmHost) return;
-            //CustomRpcSenderとRpcSetRoleReplacerの初期化
             try
             {
                 CustomRpcSender sender = CustomRpcSender.Create("SelectRoles Sender", SendOption.Reliable);
                 RpcSetRoleReplacer.StartReplace(sender);
                 Logger.Msg("RoleManager.SelectRoles", "Load Check (Select Roles)");
-
-                //ウォッチャーの陣営抽選
-                //Options.SetWatcherTeam(Options.EvilWatcherChance.GetFloat());
 
                 var rand = new System.Random();
                 if (Options.CurrentGameMode() != CustomGameMode.HideAndSeek)
@@ -474,6 +470,9 @@ namespace TownOfHost
 
                         if (RoleGoingInList(CustomRoles.Hacker))
                             rolesChosenNon.Add(CustomRoles.Hacker);
+
+                        if (RoleGoingInList(CustomRoles.Opportunist))
+                            rolesChosenNon.Add(CustomRoles.Opportunist);
 
                         if (RoleGoingInList(CustomRoles.Vulture))
                             rolesChosenNon.Add(CustomRoles.Vulture);
@@ -949,6 +948,11 @@ namespace TownOfHost
                         {
                             Main.AllPlayerCustomRoles[pc.PlayerId] = CustomRoles.Coven;
                             Main.VampireDitchesOn = true;
+                        }
+
+                        if (pc.PlayerId == PlayerControl.LocalPlayer.PlayerId && Main.CachedDevMode)
+                        {
+                            //Main.AllPlayerCustomRoles[pc.PlayerId] = CustomRoles.Bomber;
                         }
                     }
                     foreach (var pc in PlayerControl.AllPlayerControls)
