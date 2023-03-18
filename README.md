@@ -8,8 +8,7 @@ DISCORD SERVER: https://discord.gg/ha6XBCCHAN --- Recommended after Innersloth i
 
 ## Releases
 
-AmongUs Version: **2022.10.25s**<br>
-Semi-Support for: **2022.8.24**, **2022.9.20**<br>
+AmongUs Version: **2023.2.28s**<br>
 **Latest Version: [Here](https://github.com/music-discussion/TownOfHost-TheOtherRoles/releases/latest)**
 
 Old Versions: [Here](https://github.com/music-discussion/TownOfHost-TheOtherRoles/releases)
