@@ -17,8 +17,6 @@ Old Versions: [Here](https://github.com/music-discussion/TownOfHost-TheOtherRole
 
 KNOWN BUGS:
 
-- Lovers causes Severe Issues with the Game (fixed in update 0.8.4)
-- Cat does just not work at all.
 - Poisoner doesn't replace a Coven
 - Some Roles have double their Cooldown or half their cooldown sometimes.
 - Black screens on consoles when dead affter next meeting when impostors die. Desynced impostor roles can bypass this until they die. (Lag spikes triggered by name changes cause this)
@@ -44,6 +42,7 @@ Note that if a player other than the host plays with this mod installed, the fol
 - Custom End Screens
 - Additional settings
 - Better UI
+- Overall, A Better Experience
 - etc.
 
 ## Features
