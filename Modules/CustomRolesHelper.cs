@@ -15,6 +15,7 @@ namespace TownOfHost
                 CustomRoles.Vampire or
                 CustomRoles.Vampress or
                 CustomRoles.Escapist or
+                CustomRoles.Creeper or
                 CustomRoles.Witch or
                 CustomRoles.Silencer or
                 CustomRoles.Warlock or
@@ -153,6 +154,15 @@ namespace TownOfHost
                 CustomRoles.JSchrodingerCat or
                 CustomRoles.Hacker;
         }
+        public static bool IsNeutralBenign(this CustomRoles role)
+        {
+            return
+                role is CustomRoles.Opportunist or
+                    CustomRoles.Survivor or
+                    CustomRoles.SchrodingerCat or
+                    CustomRoles.GuardianAngelTOU or
+                    CustomRoles.Amnesiac;
+        }
         public static bool UsesVents(this CustomRoles role)
         {
             return
@@ -225,6 +235,7 @@ namespace TownOfHost
                 CustomRoles.Lovers or
                 CustomRoles.LoversRecode or
                 CustomRoles.Sleuth or
+                CustomRoles.Creeper or
                 CustomRoles.Torch or
                 CustomRoles.Medusa or
                 CustomRoles.Mimic or
@@ -245,7 +256,6 @@ namespace TownOfHost
                 CustomRoles.Janitor or
                 CustomRoles.Painter or
                 CustomRoles.Alturist or
-                //CustomRoles.Miner or
                 CustomRoles.Amnesiac or
                 CustomRoles.CSchrodingerCat or
                 CustomRoles.MSchrodingerCat;
@@ -257,15 +267,6 @@ namespace TownOfHost
             if (role.IsNeutral()) type = RoleType.Neutral;
             if (role.IsMadmate()) type = RoleType.Madmate;
             if (role.IsCoven()) type = RoleType.Coven;
-            return type;
-        }
-        public static RoleTeam GetRoleTeam(this CustomRoles role)
-        {
-            RoleTeam type = RoleTeam.None;
-            if (role.IsImpostor()) type = RoleTeam.Evil;
-            if (role.IsNeutralKilling()) type = RoleTeam.Killing;
-            if (role.IsMadmate()) type = RoleTeam.Benign;
-            if (role.IsCoven()) type = RoleTeam.Killing;
             return type;
         }
         public static ModifierType GetModifierType(this CustomRoles role)
@@ -383,9 +384,6 @@ namespace TownOfHost
         // SPECIFIC ROLE TYPES //
         public static bool IsShapeShifter(this CustomRoles role)
         {
-            if (Options.UseVentButtonInsteadOfPet.GetBool() && role == CustomRoles.TheGlitch) return true;
-            if (Options.UseVentButtonInsteadOfPet.GetBool() && role == CustomRoles.Miner) return true;
-            if (Options.UseVentButtonInsteadOfPet.GetBool() && role == CustomRoles.Escapist) return true;
             return
                 role is CustomRoles.Shapeshifter or
                 CustomRoles.BountyHunter or
@@ -408,8 +406,6 @@ namespace TownOfHost
         }
         public static bool PetActivatedAbility(this CustomRoles role)
         {
-            if (Options.UseVentButtonInsteadOfPet.GetBool())
-                return false;
             return
                 role is CustomRoles.Veteran or
                 CustomRoles.Miner or
@@ -425,8 +421,6 @@ namespace TownOfHost
             if (Options.MayorHasPortableButton.GetBool() && role == CustomRoles.Mayor) return true;
             if (Options.MediumArrow.GetBool() && role == CustomRoles.Medium) return true;
             // VENT INSTEAD OF PET
-            if (Options.UseVentButtonInsteadOfPet.GetBool() && role == CustomRoles.Veteran) return true;
-            if (Options.UseVentButtonInsteadOfPet.GetBool() && role == CustomRoles.Transporter) return true;
             return
                 role is CustomRoles.Engineer or
                 CustomRoles.Survivor or
@@ -447,7 +441,7 @@ namespace TownOfHost
         }
         public static bool IsGuesser(this CustomRoles role)
         {
-            if (role.IsCoven() && role != CustomRoles.Mimic)
+            if (role.IsCoven() && role != CustomRoles.Mimic && Main.HasNecronomicon)
                 return true;
             return
              role is CustomRoles.Pirate or
@@ -461,6 +455,16 @@ namespace TownOfHost
             var number = Convert.ToUInt32(PercentageChecker.CheckPercentage(role.ToString(), role: role));
             bool isRole = UnityEngine.Random.RandomRange(1, 100) <= number;
             return isRole;
+        }
+
+        public static NeutralRoleType GetNeutralRoleType(this CustomRoles role)
+        {
+            NeutralRoleType type = NeutralRoleType.None;
+            if (!role.IsNeutral()) return type;
+            if (role.IsNeutralKilling()) type = NeutralRoleType.Killing;
+            if (role.IsNeutralBad()) type = NeutralRoleType.Evil;
+            if (role.IsNeutralBenign()) type = NeutralRoleType.Benign;
+            return type;
         }
     }
     public enum RoleType
@@ -479,6 +483,14 @@ namespace TownOfHost
         Benign,
         Support,
         Protective
+    }
+
+    public enum NeutralRoleType
+    {
+        None,
+        Benign,
+        Evil,
+        Killing
     }
     public enum ModifierType
     {

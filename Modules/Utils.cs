@@ -15,6 +15,7 @@ using TownOfHost.PrivateExtensions;
 using Assets.CoreScripts;
 using Il2CppSystem.Collections;
 using JetBrains.Annotations;
+using TargetException = Il2CppSystem.Reflection.TargetException;
 
 namespace TownOfHost
 {
@@ -1518,6 +1519,7 @@ namespace TownOfHost
                     SelfSuffix = Helpers.ColorString(GetRoleColor(CustomRoles.AgiTater), $"<size={fontSize}>Pass the bomb to another player!</size>");
                 }
 
+
                 //RealNameを取得 なければ現在の名前をRealNamesに書き込む
                 if (SelfSuffix != "")
                     SelfSuffix = Helpers.ColorString(Utils.GetRoleColor(seer.GetCustomRole()), SelfSuffix);
@@ -1623,7 +1625,7 @@ namespace TownOfHost
                         //名前の後ろに付けるマーカー
                         string TargetMark = "";
                         //呪われている人
-                        if (Main.SpelledPlayer.Find(x => x.PlayerId == target.PlayerId) != null && isMeeting)
+                        if (Main.SpelledPlayer.Find(x => x.PlayerId == target.PlayerId) != null && isMeeting | seer.Data.IsDead)
                             TargetMark += "<color=#ff0000>†</color>";
                         if (Main.SilencedPlayer.Find(x => x.PlayerId == target.PlayerId) != null && isMeeting)
                             TargetMark += "<color=#ff0000> (S)</color>";
@@ -1632,7 +1634,7 @@ namespace TownOfHost
                             TargetMark += $"<color={GetRoleColorCode(CustomRoles.Phantom)}>★</color>";
                         }
                         //タスク完了直前のSnitchにマークを表示
-                        canFindSnitchRole = seer.GetCustomRole().IsImpostor() || //Seerがインポスター
+                        canFindSnitchRole = seer.Data.IsDead || seer.GetCustomRole().IsImpostor() || //Seerがインポスター
                             (Options.SnitchCanFindNeutralKiller.GetBool() && seer.IsNeutralKiller());//or エゴイスト
 
                         if (target.Is(CustomRoles.Snitch) && canFindSnitchRole)
@@ -1731,9 +1733,20 @@ namespace TownOfHost
                             }
                         }
 
-                        if (Bomber.DoesExist() && seer.GetCustomRole().IsImpostor())
+                        if (seer.Data.IsDead && CustomRoles.Arsonist.IsEnable())
                         {
-                            if (Bomber.AllImpostorsSeeBombedPlayer.GetBool())
+                            foreach (var pair in Main.isDoused)
+                            {
+                                if (pair.Key.Item2 == target.PlayerId && pair.Value)
+                                {
+                                    TargetMark += $"<color={GetRoleColorCode(CustomRoles.Arsonist)}>▲</color>";
+                                }
+                            }
+                        }
+
+                        if (Bomber.DoesExist() && seer.GetCustomRole().IsImpostor() | seer.Data.IsDead)
+                        {
+                            if (Bomber.AllImpostorsSeeBombedPlayer.GetBool() | seer.Data.IsDead)
                             {
                                 if (target.PlayerId == Bomber.CurrentBombedPlayer) //seerがtargetに既にオイルを塗っている(完了)
                                 {
@@ -1779,18 +1792,28 @@ namespace TownOfHost
                                 TargetMark += $"<color={GetRoleColorCode(CustomRoles.Pestilence)}>△</color>";
                             }
                         }
-                        if (seer.Is(CustomRoles.Puppeteer) &&
-                        Main.PuppeteerList.ContainsValue(seer.PlayerId) &&
+                        if (seer.Data.IsDead && CustomRoles.PlagueBearer.IsEnable())
+                        {
+                            foreach (var pair in Main.isInfected)
+                            {
+                                if (pair.Key.Item2 == target.PlayerId && pair.Value)
+                                {
+                                    TargetMark += $"<color={GetRoleColorCode(CustomRoles.Pestilence)}>◆</color>";
+                                }
+                            }
+                        }
+                        if (seer.Is(CustomRoles.Puppeteer) | seer.Data.IsDead &&
+                        Main.PuppeteerList.ContainsValue(seer.PlayerId) | seer.Data.IsDead &&
                         Main.PuppeteerList.ContainsKey(target.PlayerId))
                             TargetMark += $"<color={Utils.GetRoleColorCode(CustomRoles.Impostor)}>◆</color>";
 
-                        if (seer.Is(CustomRoles.NeutWitch) &&
-                    Main.WitchList.ContainsValue(seer.PlayerId) &&
+                        if (seer.Is(CustomRoles.NeutWitch) | seer.Data.IsDead &&
+                    Main.WitchList.ContainsValue(seer.PlayerId) | seer.Data.IsDead &&
                     Main.WitchList.ContainsKey(target.PlayerId))
                             TargetMark += $"<color={Utils.GetRoleColorCode(CustomRoles.NeutWitch)}>◆</color>";
 
-                        if (seer.Is(CustomRoles.CovenWitch) &&
-                        Main.WitchedList.ContainsValue(seer.PlayerId) &&
+                        if (seer.Is(CustomRoles.CovenWitch) | seer.Data.IsDead &&
+                        Main.WitchedList.ContainsValue(seer.PlayerId) | seer.Data.IsDead &&
                         Main.WitchedList.ContainsKey(target.PlayerId))
                             TargetMark += $"<color={Utils.GetRoleColorCode(CustomRoles.CovenWitch)}>◆</color>";
 
@@ -1902,10 +1925,28 @@ namespace TownOfHost
                         if (seer.Is(CustomRoles.BountyHunter) && BountyHunter.GetTarget(seer) != null)
                         {
                             var bounty = BountyHunter.GetTarget(seer);
-                            if (target == bounty) TargetPlayerName = Helpers.ColorString(Utils.GetRoleColor(CustomRoles.Target), TargetPlayerName);
+                            if (seer.Data.IsDead)
+                            {
+                                if (target == bounty) TargetMark += $"<color={Utils.GetRoleColorCode(CustomRoles.Target)}>◆</color>";
+                            }
+                            else
+                            {
+                                if (target == bounty) TargetPlayerName = Helpers.ColorString(Utils.GetRoleColor(CustomRoles.Target), TargetPlayerName);
+                            }
                         }
-                        if (seer.Is(CustomRoles.Postman) && Postman.target != null)
-                            if (target == Postman.target) TargetPlayerName = Helpers.ColorString(Utils.GetRoleColor(CustomRoles.Target), TargetPlayerName);
+
+                        if (seer.Is(CustomRoles.Postman) | seer.Data.IsDead && Postman.target != null)
+                        {
+                            if (seer.Data.IsDead)
+                            {
+                                if (target == Postman.target) TargetMark += $"<color={Utils.GetRoleColorCode(CustomRoles.Postman)}>◆</color>";
+                            }
+                            else
+                            {
+                                if (target == Postman.target) TargetPlayerName = Helpers.ColorString(Utils.GetRoleColor(CustomRoles.Target), TargetPlayerName);
+                            }
+                        }
+
                         if (seer.Is(CustomRoles.Investigator))
                         {
                             if (Investigator.hasSeered.ContainsKey((target.PlayerId)))
@@ -1960,7 +2001,7 @@ namespace TownOfHost
                                 }
                             }
                         }
-                        if (seer.Is(CustomRoles.YingYanger) && Main.ColliderPlayers.Contains(target.PlayerId))
+                        if (seer.Is(CustomRoles.YingYanger) | seer.Data.IsDead && Main.ColliderPlayers.Contains(target.PlayerId))
                         {
                             TargetPlayerName = Helpers.ColorString(GetRoleColor(CustomRoles.Target), TargetPlayerName);
                         }
@@ -1975,6 +2016,11 @@ namespace TownOfHost
                             TargetName = $"{TargetRoleText}{TeamText}{TargetPlayerName}{TargetDeathReason}{TargetMark}";
                         else
                             TargetName = $"{TargetPlayerName}{TeamText}{TargetRoleText}{TargetDeathReason}{TargetMark}";
+
+                        if (AgiTater.IsEnable() && seer.Data.IsDead && target.PlayerId == AgiTater.CurrentBombedPlayer && !isMeeting)
+                        {
+                            TargetMark = Helpers.ColorString(GetRoleColor(CustomRoles.AgiTater), $"\n<size={fontSize}>Pass the bomb to another player!</size>");
+                        }
 
                         //適用
                         target.RpcSetNamePrivate(TargetName, true, seer, force: NoCache);

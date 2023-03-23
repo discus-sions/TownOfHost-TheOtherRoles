@@ -161,46 +161,6 @@ public static class Escapist
         }
     }
 
-    public static void OnShapeshift(PlayerControl player, bool shapeshifting)
-    {
-        if (shapeshifting) return;
-        if (!CurrentEscapistState.ContainsKey(player.PlayerId)) return;
-        if (!EscapistStateString.ContainsKey(player.PlayerId)) return;
-
-        string currentState = EscapistStateString[player.PlayerId];
-
-        switch (CurrentEscapistState[player.PlayerId])
-        {
-            case EscapistState.Default:
-                if (currentState == "gameStart")
-                {
-                    CurrentEscapistState[player.PlayerId] = EscapistState.OnMark;
-                    MarkedArea.Add(player.PlayerId, player.GetTruePosition());
-                    StartCooldown(player);
-                }
-                break;
-            case EscapistState.OnMark:
-                if (currentState == "mark-ready")
-                {
-                    CurrentEscapistState[player.PlayerId] = EscapistState.OnRecall;
-                    MarkedArea.Add(player.PlayerId, player.GetTruePosition());
-                    StartCooldown(player);
-                }
-                break;
-            case EscapistState.OnRecall:
-                if (currentState == "recall-ready")
-                {
-                    CurrentEscapistState[player.PlayerId] = EscapistState.OnMark;
-                    var position = MarkedArea[player.PlayerId];
-                    MarkedArea.Remove(player.PlayerId);
-                    Utils.TP(player.NetTransform, new Vector2(position.x, position.y));
-                    StartCooldown(player);
-                }
-                break;
-        }
-        Utils.CustomSyncAllSettings();
-    }
-
     public static bool CanVent() => EscapistCanVent.GetBool();
 
     public static void ApplyGameOptions(PlayerControl player,NormalGameOptionsV07 options)

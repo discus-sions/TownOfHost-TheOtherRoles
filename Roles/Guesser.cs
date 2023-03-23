@@ -11,15 +11,11 @@ namespace TownOfHost
 {
     public static class Guesser
     {
-        static readonly int Id = 23424;
-        static CustomOption CanShootAsNormalCrewmate;
-        static CustomOption GuesserCanKillCount;
-        static CustomOption CanKillMultipleTimes;
-        private static CustomOption HideCommand;
-        public static CustomOption PirateGuessAmount;
+        static readonly int Id = 3428702;
         static List<byte> playerIdList = new();
         static Dictionary<byte, int> GuesserShootLimit;
         public static Dictionary<byte, bool> isEvilGuesserExiled;
+        public static Dictionary<byte, int> GuessesThisRound;
         static Dictionary<int, CustomRoles> RoleAndNumber;
         static Dictionary<int, CustomRoles> RoleAndNumberPirate;
         static Dictionary<int, CustomRoles> RoleAndNumberAss;
@@ -31,18 +27,77 @@ namespace TownOfHost
         public static bool canGuess;
         public static Dictionary<byte, int> PirateGuess;
 
-        // DOUBLE SHOT//
+        // GUESSER OPTIONS //
+
+        // ASSASSIN //
+        public static CustomOption AssKillCount;
+        public static CustomOption AssCanKillMultiplePerMeeting;
+        public static CustomOption AssCanGuessCrewmate;
+        public static CustomOption AssCanGuessNeutralBenign;
+        public static CustomOption AssCanGuessNeutralEvil;
+        public static CustomOption AssCanGuessNeutralKilling;
+        public static CustomOption AssCanGuessCrewModifers;
+        public static CustomOption AssCanGuessLovers;
+        public static CustomOption AssCanGuessAfterVoting;
+        public static CustomOption AssHideCommand;
+        // VIGILANTE //
+        public static CustomOption VigiKillCount;
+        public static CustomOption VigiCanKillMultiplePerMeeting;
+        public static CustomOption VigiCanGuessNeutralBenign;
+        public static CustomOption VigiCanGuessNeutralEvil;
+        public static CustomOption VigiCanGuessNeutralKilling;
+        public static CustomOption VigiCanGuessLovers;
+        public static CustomOption VigiCanGuessAfterVoting;
+        public static CustomOption VigiHideCommand;
+        // PIRATE //
+        public static CustomOption PirateGuessAmount;
+        public static CustomOption PirateCanGuessCrewmate;
+        public static CustomOption PirateCanKillMultiplePerMeeting;
+        public static CustomOption PirateCanGuessNeutralBenign;
+        public static CustomOption PirateCanGuessNeutralEvil;
+        public static CustomOption PirateCanGuessNeutralKilling;
+        public static CustomOption PirateCanGuessCrewModifers;
+        public static CustomOption PirateCanGuessImpostorRoles;
+        public static CustomOption PirateCanGuessLovers;
+        public static CustomOption PirateCanGuessAfterVoting;
+        public static CustomOption PirateHideCommand;
+        // GUESSER OPTIONS //
+
         public static bool alreadyTried = false;
         public static void SetupCustomOption()
         {
-            Options.SetupRoleOptions(Id + 21, CustomRoles.EvilGuesser, AmongUsExtensions.OptionType.Impostor);
-            CanShootAsNormalCrewmate = CustomOption.Create(Id + 30130, Color.white, "CanShootAsNormalCrewmate", AmongUsExtensions.OptionType.Impostor, true, Options.CustomRoleSpawnChances[CustomRoles.EvilGuesser]);
-            GuesserCanKillCount = CustomOption.Create(Id + 30140, Color.white, "GuesserShootLimit", AmongUsExtensions.OptionType.Impostor, 1, 1, 15, 1, Options.CustomRoleSpawnChances[CustomRoles.EvilGuesser]);
-            CanKillMultipleTimes = CustomOption.Create(Id + 30150, Color.white, "CanKillMultipleTimes", AmongUsExtensions.OptionType.Impostor, false, Options.CustomRoleSpawnChances[CustomRoles.EvilGuesser]);
-            HideCommand = CustomOption.Create(Id + 30180, Color.white, "HideCommand", AmongUsExtensions.OptionType.Impostor, true, Options.CustomRoleSpawnChances[CustomRoles.EvilGuesser]);
-            Options.SetupRoleOptions(Id + 20, CustomRoles.NiceGuesser, AmongUsExtensions.OptionType.Crewmate);
-            Options.SetupRoleOptions(Id + 51, CustomRoles.Pirate, AmongUsExtensions.OptionType.Neutral);
-            PirateGuessAmount = CustomOption.Create(Id + 30170, Color.white, "PirateGuessAmount", AmongUsExtensions.OptionType.Impostor, 3, 1, 10, 1, Options.CustomRoleSpawnChances[CustomRoles.Pirate]);
+            Options.SetupRoleOptions(Id + 100, CustomRoles.EvilGuesser, AmongUsExtensions.OptionType.Impostor);
+            AssKillCount = CustomOption.Create(Id + 110, Color.white, "GuesserShootLimit", AmongUsExtensions.OptionType.Impostor, 1, 1, 15, 1, Options.CustomRoleSpawnChances[CustomRoles.EvilGuesser]);
+            AssCanKillMultiplePerMeeting = CustomOption.Create(Id + 111, Color.white, "CanKillMultiplePerMeeting", AmongUsExtensions.OptionType.Impostor, false, Options.CustomRoleSpawnChances[CustomRoles.EvilGuesser]);
+            AssCanGuessCrewmate = CustomOption.Create(Id + 112, Color.white, "CanGuessCrewmate", AmongUsExtensions.OptionType.Impostor, false, Options.CustomRoleSpawnChances[CustomRoles.EvilGuesser]);
+            AssCanGuessNeutralBenign = CustomOption.Create(Id + 113, Color.white, "CanGuessNeutralBenign", AmongUsExtensions.OptionType.Impostor, false, Options.CustomRoleSpawnChances[CustomRoles.EvilGuesser]);
+            AssCanGuessNeutralEvil = CustomOption.Create(Id + 114, Color.white, "CanGuessNeutralEvil", AmongUsExtensions.OptionType.Impostor, false, Options.CustomRoleSpawnChances[CustomRoles.EvilGuesser]);
+            AssCanGuessNeutralKilling = CustomOption.Create(Id + 115, Color.white, "CanGuessNeutralKilling", AmongUsExtensions.OptionType.Impostor, false, Options.CustomRoleSpawnChances[CustomRoles.EvilGuesser]);
+            AssCanGuessCrewModifers = CustomOption.Create(Id + 116, Color.white, "CanGuessCrewModifers", AmongUsExtensions.OptionType.Impostor, false, Options.CustomRoleSpawnChances[CustomRoles.EvilGuesser]);
+            AssCanGuessLovers = CustomOption.Create(Id + 117, Color.white, "CanGuessLovers", AmongUsExtensions.OptionType.Impostor, false, Options.CustomRoleSpawnChances[CustomRoles.EvilGuesser]);
+            AssCanGuessAfterVoting = CustomOption.Create(Id + 118, Color.white, "CanGuessAfterVoting", AmongUsExtensions.OptionType.Impostor, false, Options.CustomRoleSpawnChances[CustomRoles.EvilGuesser]);
+            AssHideCommand = CustomOption.Create(Id + 119, Color.white, "HideCommand", AmongUsExtensions.OptionType.Impostor, false, Options.CustomRoleSpawnChances[CustomRoles.EvilGuesser]);
+            Options.SetupRoleOptions(Id + 200, CustomRoles.NiceGuesser, AmongUsExtensions.OptionType.Crewmate);
+            VigiKillCount = CustomOption.Create(Id + 210, Color.white, "GuesserShootLimit", AmongUsExtensions.OptionType.Impostor, 1, 1, 15, 1, Options.CustomRoleSpawnChances[CustomRoles.NiceGuesser]);
+            VigiCanKillMultiplePerMeeting = CustomOption.Create(Id + 211, Color.white, "CanKillMultiplePerMeeting", AmongUsExtensions.OptionType.Impostor, false, Options.CustomRoleSpawnChances[CustomRoles.NiceGuesser]);
+            VigiCanGuessNeutralBenign = CustomOption.Create(Id + 213, Color.white, "CanGuessNeutralBenign", AmongUsExtensions.OptionType.Impostor, false, Options.CustomRoleSpawnChances[CustomRoles.NiceGuesser]);
+            VigiCanGuessNeutralEvil = CustomOption.Create(Id + 214, Color.white, "CanGuessNeutralEvil", AmongUsExtensions.OptionType.Impostor, false, Options.CustomRoleSpawnChances[CustomRoles.NiceGuesser]);
+            VigiCanGuessNeutralKilling = CustomOption.Create(Id + 215, Color.white, "CanGuessNeutralKilling", AmongUsExtensions.OptionType.Impostor, false, Options.CustomRoleSpawnChances[CustomRoles.NiceGuesser]);
+            VigiCanGuessLovers = CustomOption.Create(Id + 217, Color.white, "CanGuessLovers", AmongUsExtensions.OptionType.Impostor, false, Options.CustomRoleSpawnChances[CustomRoles.NiceGuesser]);
+            VigiCanGuessAfterVoting = CustomOption.Create(Id + 218, Color.white, "CanGuessAfterVoting", AmongUsExtensions.OptionType.Impostor, false, Options.CustomRoleSpawnChances[CustomRoles.NiceGuesser]);
+            VigiHideCommand = CustomOption.Create(Id + 219, Color.white, "HideCommand", AmongUsExtensions.OptionType.Impostor, false, Options.CustomRoleSpawnChances[CustomRoles.NiceGuesser]);
+            Options.SetupRoleOptions(Id + 300, CustomRoles.Pirate, AmongUsExtensions.OptionType.Neutral);
+            PirateGuessAmount = CustomOption.Create(Id + 310, Color.white, "PirateGuessAmount", AmongUsExtensions.OptionType.Neutral, 3, 1, 15, 1, Options.CustomRoleSpawnChances[CustomRoles.Pirate]);
+            PirateCanKillMultiplePerMeeting = CustomOption.Create(Id + 311, Color.white, "CanKillMultiplePerMeeting", AmongUsExtensions.OptionType.Impostor, false, Options.CustomRoleSpawnChances[CustomRoles.Pirate]);
+            PirateCanGuessCrewmate = CustomOption.Create(Id + 312, Color.white, "CanGuessCrewmate", AmongUsExtensions.OptionType.Impostor, false, Options.CustomRoleSpawnChances[CustomRoles.Pirate]);
+            PirateCanGuessImpostorRoles = CustomOption.Create(Id + 320, Color.white, "CanGuessImpostorRoles", AmongUsExtensions.OptionType.Impostor, false, Options.CustomRoleSpawnChances[CustomRoles.Pirate]);
+            PirateCanGuessNeutralBenign = CustomOption.Create(Id + 313, Color.white, "CanGuessNeutralBenign", AmongUsExtensions.OptionType.Impostor, false, Options.CustomRoleSpawnChances[CustomRoles.Pirate]);
+            PirateCanGuessNeutralEvil = CustomOption.Create(Id + 314, Color.white, "CanGuessNeutralEvil", AmongUsExtensions.OptionType.Impostor, false, Options.CustomRoleSpawnChances[CustomRoles.Pirate]);
+            PirateCanGuessNeutralKilling = CustomOption.Create(Id + 315, Color.white, "CanGuessNeutralKilling", AmongUsExtensions.OptionType.Impostor, false, Options.CustomRoleSpawnChances[CustomRoles.Pirate]);
+            PirateCanGuessCrewModifers = CustomOption.Create(Id + 316, Color.white, "CanGuessCrewModifers", AmongUsExtensions.OptionType.Impostor, false, Options.CustomRoleSpawnChances[CustomRoles.Pirate]);
+            PirateCanGuessLovers = CustomOption.Create(Id + 317, Color.white, "CanGuessLovers", AmongUsExtensions.OptionType.Impostor, false, Options.CustomRoleSpawnChances[CustomRoles.Pirate]);
+            PirateCanGuessAfterVoting = CustomOption.Create(Id + 318, Color.white, "CanGuessAfterVoting", AmongUsExtensions.OptionType.Impostor, false, Options.CustomRoleSpawnChances[CustomRoles.Pirate]);
+            PirateHideCommand = CustomOption.Create(Id + 319, Color.white, "HideCommand", AmongUsExtensions.OptionType.Impostor, false, Options.CustomRoleSpawnChances[CustomRoles.Pirate]);
         }
         /*public static bool SetGuesserTeam(byte PlayerId = byte.MaxValue)//確定イビルゲッサーの人数とは別でイビルゲッサーかナイスゲッサーのどちらかに決める。
         {
@@ -66,6 +121,7 @@ namespace TownOfHost
             RoleAndNumberAss = new();
             RoleAndNumberCoven = new();
             IsSkillUsed = new();
+            GuessesThisRound = new();
             IsEvilGuesserMeeting = false;
             alreadyTried = false;
             canGuess = true;
@@ -73,50 +129,47 @@ namespace TownOfHost
             IsEvilGuesser = new();
             IsNeutralGuesser = new();
         }
-        public static void Add(byte PlayerId)
+
+        public static void AssassinAdd(byte PlayerId)
         {
             playerIdList.Add(PlayerId);
-            if (Utils.GetPlayerById(PlayerId).Is(CustomRoles.Pirate))
-                GuesserShootLimit[PlayerId] = 99;
-            else
-                GuesserShootLimit[PlayerId] = GuesserCanKillCount.GetInt();
+            GuesserShootLimit[PlayerId] = AssKillCount.GetInt();
+            GuessesThisRound[PlayerId] = 0;
             isEvilGuesserExiled[PlayerId] = false;
             IsSkillUsed[PlayerId] = false;
             IsEvilGuesserMeeting = false;
         }
+        public static void VigilanteAdd(byte PlayerId)
+        {
+            playerIdList.Add(PlayerId);
+            GuesserShootLimit[PlayerId] = VigiKillCount.GetInt();
+            GuessesThisRound[PlayerId] = 0;
+            isEvilGuesserExiled[PlayerId] = false;
+            IsSkillUsed[PlayerId] = false;
+            IsEvilGuesserMeeting = false;
+        }
+        public static void PirateAdd(byte PlayerId)
+        {
+            playerIdList.Add(PlayerId);
+            GuesserShootLimit[PlayerId] = 99;
+            GuessesThisRound[PlayerId] = 0;
+            PirateGuess[PlayerId] = 0;
+            isEvilGuesserExiled[PlayerId] = false;
+            IsSkillUsed[PlayerId] = false;
+            IsEvilGuesserMeeting = false;
+        }
+
+        public static void OnMeeting()
+        {
+            if (!IsEnable()) return;
+            foreach (byte playerId in playerIdList)
+            {
+                GuessesThisRound[playerId] = 0;
+            }
+        }
         public static bool IsEnable()
         {
             return playerIdList.Count > 0;
-        }
-        public static void SetRoleToGuesser(PlayerControl player)//ゲッサーをイビルとナイスに振り分ける
-        {
-            if (IsEvilGuesser[player.PlayerId]) Main.AllPlayerCustomRoles[player.PlayerId] = CustomRoles.EvilGuesser;
-            else if (IsNeutralGuesser[player.PlayerId]) Main.AllPlayerCustomRoles[player.PlayerId] = CustomRoles.Pirate;
-            else Main.AllPlayerCustomRoles[player.PlayerId] = CustomRoles.NiceGuesser;
-        }
-        public static CustomRoles GetGuessingType(CustomRoles role, string targetrolenum)
-        {
-            switch (role)
-            {
-                case CustomRoles.EvilGuesser:
-                    RoleAndNumberAss.TryGetValue(int.Parse(targetrolenum), out var r);
-                    return r;
-                    break;
-                case CustomRoles.NiceGuesser:
-                    RoleAndNumber.TryGetValue(int.Parse(targetrolenum), out var re);
-                    return re;
-                    break;
-                case CustomRoles.Pirate:
-                    RoleAndNumberPirate.TryGetValue(int.Parse(targetrolenum), out var ree);
-                    return ree;
-                    break;
-            }
-            if (role.IsCoven())
-            {
-                RoleAndNumberCoven.TryGetValue(int.Parse(targetrolenum), out var ree);
-                return ree;
-            }
-            return CustomRoles.Amnesiac;
         }
         public static bool CanGuess(this PlayerControl pc)
         {
@@ -142,10 +195,10 @@ namespace TownOfHost
             if (killer.Data.IsDead) return;
             if (!killer.CanGuess()) return;
             if (killer.Is(CustomRoles.Pirate) && !canGuess) return;
-            if (!CanKillMultipleTimes.GetBool() && IsSkillUsed[killer.PlayerId] && !IsEvilGuesserMeeting) if (!killer.Is(CustomRoles.Pirate)) return;
+            if (!CanGuessMoreThanOnce(killer) && !IsEvilGuesserMeeting) return;
             if (playerId == "show")
             {
-                if (HideCommand.GetBool())
+                if (CanHideCommand(killer.GetCustomRole()))
                     Utils.BlockCommand(19);
                 SendShootChoices(killer.PlayerId);
                 SendShootID(killer.PlayerId);
@@ -168,11 +221,12 @@ namespace TownOfHost
                                 writer.Write(PirateGuess[killer.PlayerId]);
                                 AmongUsClient.Instance.FinishRpcImmediately(writer);
                             }
-                            if (!killer.Is(CustomRoles.Pirate))
-                                if ((target.GetCustomRole() == CustomRoles.Crewmate && !CanShootAsNormalCrewmate.GetBool()) || (target.GetCustomRole() == CustomRoles.Egoist && killer.Is(CustomRoles.EvilGuesser))) return;
+                            if ((target.GetCustomRole() == CustomRoles.Crewmate && !CanShootRegularCrewmate(killer.GetCustomRole())) || (target.GetCustomRole() == CustomRoles.Egoist && killer.Is(CustomRoles.EvilGuesser))) return;
+                            if (!CanGuessAfterVoting(killer)) return;
                             //クルー打ちが許可されていない場合とイビルゲッサーがエゴイストを打とうとしている場合はここで帰る
                             GuesserShootLimit[killer.PlayerId]--;
-                            IsSkillUsed[killer.PlayerId] = true;
+                            GuessesThisRound[killer.PlayerId]++;
+                            Utils.SendMessage("--GUESS CHECKUP--" + (CanGuessMoreThanOnce(killer) ? "" : " (You have used up your guess for this meeting. Guessing from this point onwards in this meeting will not work.)" + $" (You have {GuesserShootLimit[killer.PlayerId]} Guesses Left.)"), killer.PlayerId);
                             PlayerState.SetDeathReason(target.PlayerId, PlayerState.DeathReason.Kill);
                             target.RpcGuesserMurderPlayer(0f);//専用の殺し方
                             if (PirateGuess[killer.PlayerId] == PirateGuessAmount.GetInt())
@@ -247,7 +301,6 @@ namespace TownOfHost
         public static void SendShootChoices(byte PlayerId = byte.MaxValue)//番号と役職をチャットに表示
         {
             string text = "";
-            if (RoleAndNumber.Count() == 0) return;
             var role = Utils.GetPlayerById(PlayerId).GetCustomRole();
             switch (role)
             {
@@ -328,7 +381,7 @@ namespace TownOfHost
             string text = "";
             text += string.Format(GetString("KilledByGuesser"), pc.name);
             Main.unreportableBodies.Add(pc.PlayerId);
-            if (HideCommand.GetBool())
+            if (CanHideCommand(pc.GetCustomRole()))
                 Utils.BlockCommand(19);
             Utils.SendMessage(text, byte.MaxValue);
             if (pc.GetCustomRole() is CustomRoles.LoversRecode)
@@ -390,6 +443,163 @@ namespace TownOfHost
             writer.Write(pc.PlayerId);
             AmongUsClient.Instance.FinishRpcImmediately(writer);
         }
+
+        public static bool RoleAgrees(CustomRoles roleToAgree, CustomRoles team)
+        {
+            switch (team)
+            {
+                case CustomRoles.EvilGuesser:
+                    if (roleToAgree.IsImpostorTeam()) return false;
+                    NeutralRoleType roleTypeAss = roleToAgree.GetNeutralRoleType();
+                    switch (roleTypeAss)
+                    {
+                        case NeutralRoleType.Benign:
+                            return AssCanGuessNeutralBenign.GetBool();
+                        case NeutralRoleType.Evil:
+                            return AssCanGuessNeutralEvil.GetBool();
+                        case NeutralRoleType.Killing:
+                            return AssCanGuessNeutralKilling.GetBool();
+                        case NeutralRoleType.None:
+                            if (roleToAgree == CustomRoles.Crewmate) return AssCanGuessCrewmate.GetBool();
+                            if (roleToAgree.IsCrewmate()) return true;
+                            if (roleToAgree.IsCrewModifier()) return AssCanGuessCrewModifers.GetBool();
+                            if (roleToAgree == CustomRoles.Lovers) return AssCanGuessLovers.GetBool();
+                            break;
+                    }
+                    break;
+                case CustomRoles.NiceGuesser:
+                    if (roleToAgree.IsCrewmate()) return false;
+                    NeutralRoleType roleTypeVigi = roleToAgree.GetNeutralRoleType();
+                    switch (roleTypeVigi)
+                    {
+                        case NeutralRoleType.Benign:
+                            return VigiCanGuessNeutralBenign.GetBool();
+                        case NeutralRoleType.Evil:
+                            return VigiCanGuessNeutralEvil.GetBool();
+                        case NeutralRoleType.Killing:
+                            return VigiCanGuessNeutralKilling.GetBool();
+                        case NeutralRoleType.None:
+                            if (roleToAgree.IsImpostorTeam()) return true;
+                            if (roleToAgree == CustomRoles.Lovers) return VigiCanGuessLovers.GetBool();
+                            break;
+                    }
+                    break;
+                case CustomRoles.Pirate:
+                    NeutralRoleType roleType = roleToAgree.GetNeutralRoleType();
+                    switch (roleType)
+                    {
+                        case NeutralRoleType.Benign:
+                            return PirateCanGuessNeutralBenign.GetBool();
+                        case NeutralRoleType.Evil:
+                            return PirateCanGuessNeutralEvil.GetBool();
+                        case NeutralRoleType.Killing:
+                            return PirateCanGuessNeutralKilling.GetBool();
+                        case NeutralRoleType.None:
+                            if (roleToAgree == CustomRoles.Crewmate) return PirateCanGuessCrewmate.GetBool();
+                            if (roleToAgree.IsCrewmate()) return true;
+                            if (roleToAgree.IsImpostorTeam()) return PirateCanGuessImpostorRoles.GetBool();
+                            if (roleToAgree.IsCrewModifier()) return PirateCanGuessCrewModifers.GetBool();
+                            if (roleToAgree == CustomRoles.Lovers) return PirateCanGuessLovers.GetBool();
+                            break;
+                    }
+                    break;
+            }
+
+            return false;
+        }
+
+        public static bool CanHideCommand(CustomRoles team)
+        {
+            switch (team)
+            {
+                case CustomRoles.EvilGuesser:
+                    return AssHideCommand.GetBool();
+                case CustomRoles.NiceGuesser:
+                    return VigiHideCommand.GetBool();
+                case CustomRoles.Pirate:
+                    return PirateHideCommand.GetBool();
+                default:
+                    return false;
+            }
+        }
+        public static bool CanShootRegularCrewmate(CustomRoles team)
+        {
+            switch (team)
+            {
+                case CustomRoles.EvilGuesser:
+                    return AssCanGuessCrewmate.GetBool();
+                case CustomRoles.NiceGuesser:
+                    return false;
+                case CustomRoles.Pirate:
+                    return PirateCanGuessCrewmate.GetBool();
+                default:
+                    return false;
+            }
+        }
+
+        public static bool CanGuessMoreThanOnce(PlayerControl pc)
+        {
+            CustomRoles team = pc.GetCustomRole();
+            switch (team)
+            {
+                case CustomRoles.EvilGuesser:
+                    return AssCanKillMultiplePerMeeting.GetBool() || GuessesThisRound[pc.PlayerId] < 1;
+                case CustomRoles.NiceGuesser:
+                    return VigiCanKillMultiplePerMeeting.GetBool() || GuessesThisRound[pc.PlayerId] < 1;
+                case CustomRoles.Pirate:
+                    return PirateCanKillMultiplePerMeeting.GetBool() || GuessesThisRound[pc.PlayerId] < 1;
+                default:
+                    return false;
+            }
+        }
+        public static bool CanGuessAfterVoting(PlayerControl pc)
+        {
+            CustomRoles team = pc.GetCustomRole();
+            switch (team)
+            {
+                case CustomRoles.EvilGuesser:
+                    PlayerVoteArea voteArea = MeetingHud.Instance.playerStates.First(
+                        x => x.TargetPlayerId == pc.PlayerId
+                    );
+                    if (voteArea == null) return true;
+                    if (voteArea.VotedFor <= 15)
+                    {
+                        return AssCanGuessAfterVoting.GetBool();
+                    }
+                    else
+                    {
+                        return true;
+                    }
+                case CustomRoles.NiceGuesser:
+                    PlayerVoteArea voteArea1 = MeetingHud.Instance.playerStates.First(
+                        x => x.TargetPlayerId == pc.PlayerId
+                    );
+                    if (voteArea1 == null) return true;
+                    if (voteArea1.VotedFor <= 15)
+                    {
+                        return VigiCanGuessAfterVoting.GetBool();
+                    }
+                    else
+                    {
+                        return true;
+                    }
+                case CustomRoles.Pirate:
+                    PlayerVoteArea voteArea2 = MeetingHud.Instance.playerStates.First(
+                        x => x.TargetPlayerId == pc.PlayerId
+                    );
+                    if (voteArea2 == null) return true;
+                    if (voteArea2.VotedFor <= 15)
+                    {
+                        return PirateCanGuessAfterVoting.GetBool();
+                    }
+                    else
+                    {
+                        return true;
+                    }
+                default:
+                    return false;
+            }
+        }
         public static void SetRoleAndNumber()//役職を番号で管理
         {
             RoleAndNumber = new Dictionary<int, CustomRoles>();
@@ -418,9 +628,9 @@ namespace TownOfHost
                 {
                     if (!role.IsCrewModifier() && role != CustomRoles.LoversRecode) continue;
                 }
-                if (!role.IsImpostorTeam() && role != CustomRoles.Egoist) assassinList.Add(role);
-                if (role != CustomRoles.Pirate) pirateList.Add(role);
-                if (!role.IsCrewmate()) vigiList.Add(role);
+                if (!role.IsImpostorTeam() && role != CustomRoles.Egoist && RoleAgrees(role, CustomRoles.EvilGuesser)) assassinList.Add(role);
+                if (role != CustomRoles.Pirate && RoleAgrees(role, CustomRoles.Pirate)) pirateList.Add(role);
+                if (!role.IsCrewmate() && RoleAgrees(role, CustomRoles.NiceGuesser)) vigiList.Add(role);
                 if (!role.IsCoven()) covenList.Add(role);
             }
             vigiList = vigiList.OrderBy(a => Guid.NewGuid()).ToList();

@@ -292,37 +292,36 @@ namespace TownOfHost
                     }
                     break;
                 case CustomRoles.Phantom:
-                    if (!Main.PhantomCanBeKilled)
+                    if (!Main.PhantomCanBeKilled && !target.Data.IsDead)
                     {
-                        var pc = target;
-                        pc.SetName("");
+                        target.SetName("");
                         var sender = CustomRpcSender.Create(name: "RpcChoosePhantom");
-                        int colorId = pc.CurrentOutfit.ColorId;
-                        pc.SetColor(colorId);
-                        sender.AutoStartRpc(pc.NetId, (byte)RpcCalls.SetColor)
+                        int colorId = target.CurrentOutfit.ColorId;
+                        target.SetColor(colorId);
+                        sender.AutoStartRpc(target.NetId, (byte)RpcCalls.SetColor)
                             .Write(15)
                             .EndRpc();
 
-                        pc.SetHat("", colorId);
-                        sender.AutoStartRpc(pc.NetId, (byte)RpcCalls.SetHatStr)
+                        target.SetHat("", colorId);
+                        sender.AutoStartRpc(target.NetId, (byte)RpcCalls.SetHatStr)
                             .Write("")
                             .EndRpc();
 
-                        pc.SetSkin("", colorId);
-                        sender.AutoStartRpc(pc.NetId, (byte)RpcCalls.SetSkinStr)
+                        target.SetSkin("", colorId);
+                        sender.AutoStartRpc(target.NetId, (byte)RpcCalls.SetSkinStr)
                             .Write("")
                             .EndRpc();
 
-                        pc.SetVisor("", colorId);
-                        sender.AutoStartRpc(pc.NetId, (byte)RpcCalls.SetVisorStr)
+                        target.SetVisor("", colorId);
+                        sender.AutoStartRpc(target.NetId, (byte)RpcCalls.SetVisorStr)
                             .Write("")
                             .EndRpc();
 
-                        pc.SetPet("", colorId);
-                        sender.AutoStartRpc(pc.NetId, (byte)RpcCalls.SetPetStr)
+                        target.SetPet("", colorId);
+                        sender.AutoStartRpc(target.NetId, (byte)RpcCalls.SetPetStr)
                             .Write("")
                             .EndRpc();
-                        pc.RpcShapeshiftV2(pc, true);
+                        target.RpcShapeshift(target, false);
                         return false;
                     }
                     break;
@@ -1919,6 +1918,7 @@ namespace TownOfHost
     {
         public static void Prefix(PlayerControl __instance, [HarmonyArgument(0)] PlayerControl target)
         {
+            if (__instance.Data.IsDead) return;
             Logger.Info($"{__instance?.GetNameWithRole()} => {target?.GetNameWithRole()}", "Shapeshift");
             if (!AmongUsClient.Instance.AmHost) return;
 
@@ -1928,170 +1928,175 @@ namespace TownOfHost
             Main.CheckShapeshift[shapeshifter.PlayerId] = shapeshifting;
             shapeshifter.ResetKillCooldown();
             shapeshifter.CustomSyncSettings();
-            if (shapeshifter.Is(CustomRoles.Warlock))
+            if (Main.CanUseShapeshiftAbilites)
             {
-                if (Main.CursedPlayers[shapeshifter.PlayerId] != null)//呪われた人がいるか確認
+                if (shapeshifter.Is(CustomRoles.Warlock))
                 {
-                    if (shapeshifting && !Main.CursedPlayers[shapeshifter.PlayerId].Data.IsDead)//変身解除の時に反応しない
+                    if (Main.CursedPlayers[shapeshifter.PlayerId] != null) //呪われた人がいるか確認
                     {
-                        try
+                        if (shapeshifting && !Main.CursedPlayers[shapeshifter.PlayerId].Data.IsDead) //変身解除の時に反応しない
                         {
-                            var cp = Main.CursedPlayers[shapeshifter.PlayerId];
-                            Vector2 cppos = cp.transform.position;//呪われた人の位置
-                            Dictionary<PlayerControl, float> cpdistance = new();
-                            float dis;
-                            foreach (PlayerControl p in PlayerControl.AllPlayerControls)
+                            try
                             {
-                                if (!Options.WarlockCanKillAlliedPlayers.GetBool())
+                                var cp = Main.CursedPlayers[shapeshifter.PlayerId];
+                                Vector2 cppos = cp.transform.position; //呪われた人の位置
+                                Dictionary<PlayerControl, float> cpdistance = new();
+                                float dis;
+                                foreach (PlayerControl p in PlayerControl.AllPlayerControls)
                                 {
-                                    if (target.GetCustomRole().IsImpostorTeam()) continue;
-                                    if (Main.GuardianAngelTarget.ContainsKey(shapeshifter.PlayerId))
+                                    if (!Options.WarlockCanKillAlliedPlayers.GetBool())
                                     {
-                                        foreach (var pair in Main.GuardianAngelTarget)
+                                        if (target.GetCustomRole().IsImpostorTeam()) continue;
+                                        if (Main.GuardianAngelTarget.ContainsKey(shapeshifter.PlayerId))
                                         {
-                                            if (pair.Value == shapeshifter.PlayerId && pair.Key == p.PlayerId)
-                                                continue;
+                                            foreach (var pair in Main.GuardianAngelTarget)
+                                            {
+                                                if (pair.Value == shapeshifter.PlayerId && pair.Key == p.PlayerId)
+                                                    continue;
+                                            }
                                         }
                                     }
+
+                                    if (!p.Data.IsDead && p.PlayerId != cp.PlayerId)
+                                    {
+                                        dis = Vector2.Distance(cppos, p.transform.position);
+                                        cpdistance.Add(p, dis);
+                                        Logger.Info($"{p?.Data?.PlayerName}の位置{dis}", "Warlock");
+                                    }
                                 }
-                                if (!p.Data.IsDead && p.PlayerId != cp.PlayerId)
+
+                                var min = cpdistance.OrderBy(c => c.Value).FirstOrDefault(); //一番小さい値を取り出す
+                                PlayerControl targetw = min.Key;
+                                if (targetw != null)
                                 {
-                                    dis = Vector2.Distance(cppos, p.transform.position);
-                                    cpdistance.Add(p, dis);
-                                    Logger.Info($"{p?.Data?.PlayerName}の位置{dis}", "Warlock");
+                                    Logger.Info($"{targetw.GetNameWithRole()}was killed", "Warlock");
+                                    if (targetw.Is(CustomRoles.Warlock) && Main.VetIsAlerted)
+                                        targetw.RpcMurderPlayer(shapeshifter);
+                                    else if (target.Is(CustomRoles.Pestilence))
+                                        targetw.RpcMurderPlayerV2(cp);
+                                    else
+                                    {
+                                        if (targetw.Is(CustomRoles.Survivor))
+                                        {
+                                            Utils.CheckSurvivorVest(targetw, cp, false);
+                                        }
+                                        else
+                                            cp.RpcMurderPlayerV2(targetw); //殺す
+                                    }
+
+                                    if (targetw.Data.IsDead)
+                                    {
+                                        if (Main.KillCount[cp.PlayerId] > 0)
+                                            Main.KillCount[cp.PlayerId] -= 1;
+                                        Main.KillCount[shapeshifter.PlayerId] += 1;
+                                    }
+
+                                    shapeshifter.RpcGuardAndKill(shapeshifter);
+                                    Main.isCurseAndKill[shapeshifter.PlayerId] = false;
+                                    Main.CursedPlayers[shapeshifter.PlayerId] = null;
                                 }
                             }
-                            var min = cpdistance.OrderBy(c => c.Value).FirstOrDefault();//一番小さい値を取り出す
-                            PlayerControl targetw = min.Key;
-                            if (targetw != null)
+                            catch (Exception ex)
                             {
-                            Logger.Info($"{targetw.GetNameWithRole()}was killed", "Warlock");
-                            if (targetw.Is(CustomRoles.Warlock) && Main.VetIsAlerted)
-                                targetw.RpcMurderPlayer(shapeshifter);
-                            else if (target.Is(CustomRoles.Pestilence))
-                                targetw.RpcMurderPlayerV2(cp);
-                            else
-                            {
-                                if (targetw.Is(CustomRoles.Survivor))
-                                {
-                                    Utils.CheckSurvivorVest(targetw, cp, false);
-                                }
-                                else
-                                    cp.RpcMurderPlayerV2(targetw);//殺す
+                                Logger.Error(ex.ToString(), "Warlock Shift Error");
                             }
-                            if (targetw.Data.IsDead)
-                            {
-                                if (Main.KillCount[cp.PlayerId] > 0)
-                                    Main.KillCount[cp.PlayerId] -= 1;
-                                Main.KillCount[shapeshifter.PlayerId] += 1;
-                            }
-                            shapeshifter.RpcGuardAndKill(shapeshifter);
-                            Main.isCurseAndKill[shapeshifter.PlayerId] = false;
-                            Main.CursedPlayers[shapeshifter.PlayerId] = null;
-                            }
-                        }
-                        catch (Exception ex)
-                        {
-                            Logger.Error(ex.ToString(), "Warlock Shift Error");
                         }
                     }
                 }
-            }
-            if (shapeshifter.Is(CustomRoles.Miner) && shapeshifting && Options.UseVentButtonInsteadOfPet.GetBool())
-            {
-                if (Main.LastEnteredVent.ContainsKey(shapeshifter.PlayerId))
+
+                if (shapeshifter.CanMakeMadmate() && shapeshifting)
                 {
-                    int ventId = Main.LastEnteredVent[shapeshifter.PlayerId].Id;
-                    var vent = Main.LastEnteredVent[shapeshifter.PlayerId];
-                    var position = Main.LastEnteredVentLocation[shapeshifter.PlayerId];
-                    Logger.Info($"{shapeshifter.Data.PlayerName}:{position}", "MinerTeleport");
-                    Utils.TP(shapeshifter.NetTransform, new Vector2(position.x, position.y + 0.3636f));
-                }
-            }
-            if (shapeshifter.CanMakeMadmate() && shapeshifting)
-            {//変身したとき一番近い人をマッドメイトにする処理
-                Vector2 shapeshifterPosition = shapeshifter.transform.position;//変身者の位置
-                Dictionary<PlayerControl, float> mpdistance = new();
-                float dis;
-                foreach (PlayerControl p in PlayerControl.AllPlayerControls)
-                {
-                    if (!p.Data.IsDead && p.Data.Role.Role != RoleTypes.Shapeshifter && !p.Is(RoleType.Impostor) && !p.Is(CustomRoles.SKMadmate) && !p.GetCustomRole().IsNeutralKilling() && !p.Is(RoleType.Coven))
+                    //変身したとき一番近い人をマッドメイトにする処理
+                    Vector2 shapeshifterPosition = shapeshifter.transform.position; //変身者の位置
+                    Dictionary<PlayerControl, float> mpdistance = new();
+                    float dis;
+                    foreach (PlayerControl p in PlayerControl.AllPlayerControls)
                     {
-                        dis = Vector2.Distance(shapeshifterPosition, p.transform.position);
-                        mpdistance.Add(p, dis);
+                        if (!p.Data.IsDead && p.Data.Role.Role != RoleTypes.Shapeshifter && !p.Is(RoleType.Impostor) &&
+                            !p.Is(CustomRoles.SKMadmate) && !p.GetCustomRole().IsNeutralKilling() &&
+                            !p.Is(RoleType.Coven))
+                        {
+                            dis = Vector2.Distance(shapeshifterPosition, p.transform.position);
+                            mpdistance.Add(p, dis);
+                        }
+                    }
+
+                    if (mpdistance.Count() != 0)
+                    {
+                        var min = mpdistance.OrderBy(c => c.Value).FirstOrDefault(); //一番値が小さい
+                        PlayerControl targetm = min.Key;
+                        if (Main.ExecutionerTarget.ContainsKey(target.PlayerId))
+                            Main.ExecutionerTarget.Remove(target.PlayerId);
+                        if (Main.GuardianAngelTarget.ContainsKey(target.PlayerId))
+                            Main.GuardianAngelTarget.Remove(target.PlayerId);
+                        if (targetm.Is(CustomRoles.Sheriff))
+                            targetm.RpcSetCustomRole(CustomRoles.CorruptedSheriff);
+                        else if (targetm.Is(CustomRoles.Investigator))
+                            targetm.RpcSetCustomRole(CustomRoles.CorruptedSheriff);
+                        else if (targetm.Is(CustomRoles.Veteran) && Main.VetIsAlerted)
+                            targetm.RpcMurderPlayer(shapeshifter);
+                        else
+                            targetm.RpcSetCustomRole(CustomRoles.SKMadmate);
+                        Logger.Info($"Make SKMadmate:{targetm.name}", "Shapeshift");
+                        Main.SKMadmateNowCount++;
+                        Utils.CustomSyncAllSettings();
+                        Utils.NotifyRoles();
                     }
                 }
-                if (mpdistance.Count() != 0)
-                {
-                    var min = mpdistance.OrderBy(c => c.Value).FirstOrDefault();//一番値が小さい
-                    PlayerControl targetm = min.Key;
-                    if (Main.ExecutionerTarget.ContainsKey(target.PlayerId))
-                        Main.ExecutionerTarget.Remove(target.PlayerId);
-                    if (Main.GuardianAngelTarget.ContainsKey(target.PlayerId))
-                        Main.GuardianAngelTarget.Remove(target.PlayerId);
-                    if (targetm.Is(CustomRoles.Sheriff))
-                        targetm.RpcSetCustomRole(CustomRoles.CorruptedSheriff);
-                    else if (targetm.Is(CustomRoles.Investigator))
-                        targetm.RpcSetCustomRole(CustomRoles.CorruptedSheriff);
-                    else if (targetm.Is(CustomRoles.Veteran) && Main.VetIsAlerted)
-                        targetm.RpcMurderPlayer(shapeshifter);
-                    else
-                        targetm.RpcSetCustomRole(CustomRoles.SKMadmate);
-                    Logger.Info($"Make SKMadmate:{targetm.name}", "Shapeshift");
-                    Main.SKMadmateNowCount++;
-                    Utils.CustomSyncAllSettings();
-                    Utils.NotifyRoles();
-                }
-            }
-            if (shapeshifter.Is(CustomRoles.Freezer))
-            {
-                switch (shapeshifting)
-                {
-                    case false:
-                        if (Main.currentFreezingTarget != 255)
-                        {
-                            var ftarget = Utils.GetPlayerById(Main.currentFreezingTarget);
-                            Logger.Info($"{ftarget.Data.PlayerName} was unfrozen", "Freezer");
-                            Main.AllPlayerSpeed[ftarget.PlayerId] = Main.RealOptionsData.AsNormalOptions()!.PlayerSpeedMod;
-                            ftarget.CustomSyncSettings();
-                            RPC.PlaySoundRPC(ftarget.PlayerId, Sounds.TaskComplete);
-                        }
-                        Main.currentFreezingTarget = 255;
-                        break;
-                    case true:
-                        Main.currentFreezingTarget = target.PlayerId;
-                        var frtarget = Utils.GetPlayerById(Main.currentFreezingTarget);
-                        Logger.Info($"{frtarget.Data.PlayerName} was frozen", "Freezer");
-                        Main.AllPlayerSpeed[frtarget.PlayerId] = 0.00001f;
-                        frtarget.CustomSyncSettings();
-                        break;
-                }
-            }
-            if (shapeshifter.Is(CustomRoles.Grenadier)) Camouflague.Grenade(shapeshifting);
-            if (shapeshifter.Is(CustomRoles.FireWorks)) FireWorks.ShapeShiftState(shapeshifter, shapeshifting);
-            if (shapeshifter.Is(CustomRoles.Sniper)) Sniper.ShapeShiftCheck(shapeshifter, shapeshifting, target);
-            if (shapeshifter.Is(CustomRoles.Ninja) && !shapeshifter.Data.IsDead && Main.MercCanSuicide) Ninja.ShapeShiftCheck(shapeshifter, shapeshifting);
-            if (shapeshifter.Is(CustomRoles.Necromancer)) Necromancer.OnShapeshiftCheck(shapeshifter, shapeshifting);
-            if (shapeshifter.Is(CustomRoles.Disperser) && shapeshifting) Utils.DispersePlayers(shapeshifter);
-            if (shapeshifter.Is(CustomRoles.BountyHunter) && !shapeshifting) BountyHunter.ResetTarget(shapeshifter);
-            if (shapeshifter.Is(CustomRoles.Camouflager))
-            {
-                Camouflager.ShapeShiftState(shapeshifter, shapeshifting, target);
-            }
-            if (shapeshifter.Is(CustomRoles.SerialKiller) && !shapeshifter.Data.IsDead && Main.MercCanSuicide && shapeshifting)
-            {
-                shapeshifter.RpcMurderPlayer(shapeshifter); Sheriff.SwitchToCorrupt(shapeshifter, shapeshifter);
-            }
 
-            if (shapeshifter.Is(CustomRoles.Escapist) && Options.UseVentButtonInsteadOfPet.GetBool()) Escapist.OnShapeshift(shapeshifter, shapeshifting);
-
-            if (!shapeshifting)
-            {
-                new LateTask(() =>
+                if (shapeshifter.Is(CustomRoles.Freezer))
                 {
-                    Utils.NotifyRoles(NoCache: true);
-                },
-                1.2f, "ShapeShiftNotify");
+                    switch (shapeshifting)
+                    {
+                        case false:
+                            if (Main.currentFreezingTarget != 255)
+                            {
+                                var ftarget = Utils.GetPlayerById(Main.currentFreezingTarget);
+                                Logger.Info($"{ftarget.Data.PlayerName} was unfrozen", "Freezer");
+                                Main.AllPlayerSpeed[ftarget.PlayerId] =
+                                    Main.RealOptionsData.AsNormalOptions()!.PlayerSpeedMod;
+                                ftarget.CustomSyncSettings();
+                                RPC.PlaySoundRPC(ftarget.PlayerId, Sounds.TaskComplete);
+                            }
+
+                            Main.currentFreezingTarget = 255;
+                            break;
+                        case true:
+                            Main.currentFreezingTarget = target.PlayerId;
+                            var frtarget = Utils.GetPlayerById(Main.currentFreezingTarget);
+                            Logger.Info($"{frtarget.Data.PlayerName} was frozen", "Freezer");
+                            Main.AllPlayerSpeed[frtarget.PlayerId] = 0.00001f;
+                            frtarget.CustomSyncSettings();
+                            break;
+                    }
+                }
+
+                if (shapeshifter.Is(CustomRoles.Grenadier)) Camouflague.Grenade(shapeshifting);
+                if (shapeshifter.Is(CustomRoles.FireWorks)) FireWorks.ShapeShiftState(shapeshifter, shapeshifting);
+                if (shapeshifter.Is(CustomRoles.Sniper)) Sniper.ShapeShiftCheck(shapeshifter, shapeshifting, target);
+                if (shapeshifter.Is(CustomRoles.Ninja) && !shapeshifter.Data.IsDead && Main.MercCanSuicide)
+                    Ninja.ShapeShiftCheck(shapeshifter, shapeshifting);
+                if (shapeshifter.Is(CustomRoles.Necromancer))
+                    Necromancer.OnShapeshiftCheck(shapeshifter, shapeshifting);
+                if (shapeshifter.Is(CustomRoles.Disperser) && shapeshifting) Utils.DispersePlayers(shapeshifter);
+                if (shapeshifter.Is(CustomRoles.BountyHunter) && !shapeshifting) BountyHunter.ResetTarget(shapeshifter);
+                if (shapeshifter.Is(CustomRoles.Camouflager))
+                {
+                    Camouflager.ShapeShiftState(shapeshifter, shapeshifting, target);
+                }
+
+                if (shapeshifter.Is(CustomRoles.SerialKiller) && !shapeshifter.Data.IsDead && Main.MercCanSuicide &&
+                    shapeshifting)
+                {
+                    shapeshifter.RpcMurderPlayer(shapeshifter);
+                    Sheriff.SwitchToCorrupt(shapeshifter, shapeshifter);
+                }
+
+                if (!shapeshifting)
+                {
+                    new LateTask(() => { Utils.NotifyRoles(NoCache: true); },
+                        1.2f, "ShapeShiftNotify");
+                }
             }
         }
     }
@@ -2692,6 +2697,7 @@ namespace TownOfHost
             Main.MareHasRedName = false;
             Main.MercCanSuicide = false;
             Sniper.OnStartMeeting();
+            Guesser.OnMeeting();
             Main.VetIsAlerted = false;
             Main.IsRampaged = false;
             Main.RampageReady = false;
@@ -4359,14 +4365,6 @@ namespace TownOfHost
                 {
                     pc.MyPhysics.RpcBootFromVent(__instance.Id);
                     skipCheck = true;
-                    if (Options.UseVentButtonInsteadOfPet.GetBool())
-                    {
-                        Main.IsHackMode = !Main.IsHackMode;
-                        MessageWriter writer2 = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.SetGlitchState, Hazel.SendOption.Reliable, -1);
-                        writer2.Write(Main.IsHackMode);
-                        AmongUsClient.Instance.FinishRpcImmediately(writer2);
-                        Utils.NotifyRoles();
-                    }
                 }
 
                 if (pc.Is(CustomRoles.Jester) && !Options.JesterCanVent.GetBool())
@@ -4374,118 +4372,7 @@ namespace TownOfHost
                     pc.MyPhysics.RpcBootFromVent(__instance.Id);
                     skipCheck = true;
                 }
-                if (pc.Is(CustomRoles.Veteran) && Options.UseVentButtonInsteadOfPet.GetBool())
-                {
-                    skipCheck = true;
-                    pc.MyPhysics.RpcBootFromVent(__instance.Id);
-                    if (!Main.VetIsAlerted && Main.VetCanAlert && Main.VetAlerts != Options.NumOfVets.GetInt())
-                    {
-                        pc.VetAlerted();
-                        Utils.NotifyRoles(GameStates.IsMeeting, pc);
-                    }
-                }
-                if (pc.Is(CustomRoles.Transporter) && Options.UseVentButtonInsteadOfPet.GetBool())
-                {
-                    skipCheck = true;
-                    pc.MyPhysics.RpcBootFromVent(__instance.Id);
-                    if (Main.TransportsLeft != 0 && Main.CanTransport)
-                    {
-                        Main.CanTransport = false;
-                        PlayerControl TP1 = null;
-                        PlayerControl TP2 = null;
-                        DeadBody Player1Body = null;
-                        DeadBody Player2Body = null;
-                        List<PlayerControl> canTransport = new();
-                        // GET TRANSPORTABLE PLAYERS //
-                        foreach (var pcplayer in PlayerControl.AllPlayerControls)
-                        {
-                            if (pcplayer == null || pcplayer.Data.Disconnected || !pcplayer.CanMove || pcplayer.Data.IsDead) continue;
-                            canTransport.Add(pcplayer);
-                        }
-                        // GET 2 RANDOM PLAYERS //
-                        var rando = new System.Random();
-                        var player = canTransport[rando.Next(0, canTransport.Count)];
-                        TP1 = player;
-                        canTransport.Remove(player);
-                        var random = new System.Random();
-                        var newplayer = canTransport[rando.Next(0, canTransport.Count)];
-                        TP2 = newplayer;
-                        canTransport.Remove(newplayer);
-                        // MAKE SURE THEY AREN'T NULL (PREVENTS CRASHES WITH JUST 1 PLAYER) //
-                        if (TP1 != null && TP2 != null)
-                        {
-                            Main.TransportsLeft--;
-                            // IF PLAYER IS DEAD, WE TRANSPORT BODY INSTEAD //
-                            if (TP1.Data.IsDead)
-                                foreach (DeadBody body in GameObject.FindObjectsOfType<DeadBody>())
-                                    if (body.ParentId == TP1.PlayerId)
-                                        Player1Body = body;
-                            if (TP2.Data.IsDead)
-                                foreach (DeadBody body in GameObject.FindObjectsOfType<DeadBody>())
-                                    if (body.ParentId == TP2.PlayerId)
-                                        Player2Body = body;
 
-                            // EXIT THEM OUT OF VENT //
-                            if (TP1.inVent)
-                                TP1.MyPhysics.ExitAllVents();
-                            if (TP2.inVent)
-                                TP2.MyPhysics.ExitAllVents();
-                            if (Player1Body == null && Player2Body == null)
-                            {
-                                TP1.MyPhysics.ResetMoveState();
-                                TP2.MyPhysics.ResetMoveState();
-                                var TempPosition = TP1.GetTruePosition();
-                                Utils.TP(TP1.NetTransform, new Vector2(TP2.GetTruePosition().x, TP2.GetTruePosition().y + 0.3636f));
-                                Utils.TP(TP2.NetTransform, new Vector2(TempPosition.x, TempPosition.y + 0.3636f));
-                            }
-                            else if (Player1Body != null && Player2Body == null)
-                            {
-                                TP2.MyPhysics.ResetMoveState();
-                                var TempPosition = Player1Body.TruePosition;
-                                Player1Body.transform.position = TP2.GetTruePosition();
-                                Utils.TP(TP2.NetTransform, new Vector2(TempPosition.x, TempPosition.y + 0.3636f));
-                            }
-                            else if (Player1Body == null && Player2Body != null)
-                            {
-                                TP1.MyPhysics.ResetMoveState();
-                                var TempPosition = TP1.GetTruePosition();
-                                Utils.TP(TP1.NetTransform, new Vector2(Player2Body.TruePosition.x, Player2Body.TruePosition.y + 0.3636f));
-                                Player2Body.transform.position = TempPosition;
-                            }
-                            else if (Player1Body != null && Player2Body != null)
-                            {
-                                var TempPosition = Player1Body.TruePosition;
-                                Player1Body.transform.position = Player2Body.TruePosition;
-                                Player2Body.transform.position = TempPosition;
-                            }
-
-                            TP1.moveable = true;
-                            TP2.moveable = true;
-                            TP1.Collider.enabled = true;
-                            TP2.Collider.enabled = true;
-                            TP1.NetTransform.enabled = true;
-                            TP2.NetTransform.enabled = true;
-                            MessageWriter writer3 = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.SetTransportState, Hazel.SendOption.Reliable, -1);
-                            writer3.Write(Main.CanTransport);
-                            AmongUsClient.Instance.FinishRpcImmediately(writer3);
-                            new LateTask(() =>
-                            {
-                                if (!GameStates.IsMeeting)
-                                {
-                                    Main.CanTransport = true;
-                                    MessageWriter writer2 = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.SetTransportState, Hazel.SendOption.Reliable, -1);
-                                    writer2.Write(Main.CanTransport);
-                                    AmongUsClient.Instance.FinishRpcImmediately(writer2);
-                                    Utils.NotifyRoles();
-                                }
-                            }, Options.TransportCooldown.GetFloat(), "Transporter Transport Cooldown (Pet Button)", true);
-                        }
-                    }
-                    MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.SetTransportNumber, Hazel.SendOption.Reliable, -1);
-                    writer.Write(Main.TransportsLeft);
-                    AmongUsClient.Instance.FinishRpcImmediately(writer);
-                    pc.CustomSyncSettings();
-                }
                 if (pc.Is(CustomRoles.Bastion))
                 {
                     if (Main.bombedVents.Contains(__instance.Id) && !skipCheck)
@@ -4564,7 +4451,7 @@ namespace TownOfHost
                 __instance.myPlayer.Is(CustomRoles.Amnesiac) ||
                 __instance.myPlayer.Is(CustomRoles.AgiTater) ||
                 __instance.myPlayer.Is(CustomRoles.PoisonMaster) ||
-                __instance.myPlayer.Is(CustomRoles.TheGlitch) && !Options.UseVentButtonInsteadOfPet.GetBool() ||
+                __instance.myPlayer.Is(CustomRoles.TheGlitch) ||
                 (__instance.myPlayer.Is(CustomRoles.Arsonist) && !Options.TOuRArso.GetBool()) ||
                 __instance.myPlayer.Is(CustomRoles.PlagueBearer) ||
                 (__instance.myPlayer.Is(CustomRoles.Juggernaut) && !Options.JuggerCanVent.GetBool()) ||

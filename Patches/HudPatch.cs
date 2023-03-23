@@ -208,13 +208,7 @@ namespace TownOfHost
                 case CustomRoles.BountyHunter:
                     BountyHunter.GetAbilityButtonText(__instance);
                     break;
-                case CustomRoles.Escapist:
-                    if (Options.UseVentButtonInsteadOfPet.GetBool())
-                    {
-                        __instance.AbilityButton.OverrideText(Escapist.GetAbilityButtonText(player));
-                    }
-                    break;
-                case CustomRoles.Veteran:
+                    case CustomRoles.Veteran:
                     __instance.AbilityButton.OverrideText($"ALERT");
                     var color = Utils.GetRoleColor(PlayerControl.LocalPlayer.GetCustomRole());
                     __instance.AbilityButton.buttonLabelText.color = color;

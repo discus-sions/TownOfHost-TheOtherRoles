@@ -115,25 +115,8 @@ namespace TownOfHost
         public static void Prefix()
         {
             RPC.SyncCustomSettingsRPC();
-            if (GameOptionsManager.Instance.currentGameMode == GameModes.Normal && Options.CurrentGameMode() == CustomGameMode.Standard)
+            if (GameOptionsManager.Instance.currentGameMode == GameModes.Normal)
             {
-                if (ModUpdater.SomeoneHasNoPet())
-                {
-                    var message = GetString("EntireLobbyNeedsPets");
-                    DestroyableSingleton<HudManager>.Instance.Chat.AddChatWarning(message);
-                    Logger.Error($"{message}", "MakePublicPatch (cant make public)");
-                    Logger.SendInGame(message);
-                    List<PlayerControl> list = ModUpdater.WhoHasNoPet();
-                    string senttext = "";
-                    senttext += "All Players with no Pets:";
-                    foreach (PlayerControl pc in list)
-                    {
-                        string name = Main.devNames.ContainsKey(pc.PlayerId) ? Main.devNames[pc.PlayerId] : pc.GetRealName(true);
-                        senttext += $"\n- {name}";
-                    }
-                    DestroyableSingleton<HudManager>.Instance.Chat.AddChatWarning(senttext);
-                    throw new ArgumentException("Someone does not have a pet. This error was thrown instead.");
-                }
                 Options.DefaultKillCooldown = GameOptionsManager.Instance.CurrentGameOptions.AsNormalOptions()!.KillCooldown;
                 Main.LastKillCooldown.Value = GameOptionsManager.Instance.CurrentGameOptions.AsNormalOptions()!.KillCooldown;
                 GameOptionsManager.Instance.CurrentGameOptions.AsNormalOptions()!.KillCooldown = 0.1f;

@@ -71,6 +71,7 @@ namespace TownOfHost
 
                 Main.SpelledPlayer = new List<PlayerControl>();
                 Main.witchMeeting = false;
+                Main.CanUseShapeshiftAbilites = true;
                 Main.firstKill = new List<byte>();
                 Main.knownGhosts = new Dictionary<byte, List<byte>>();
                 Main.unreportableBodies = new List<byte>();
@@ -586,6 +587,15 @@ namespace TownOfHost
                                     else
                                         Main.chosenImpRoles.Add(role);
                                 }
+                                else if (role is CustomRoles.Bomber)
+                                {
+                                    bool creeperChance = UnityEngine.Random.RandomRange(1, 100) <= 5;
+                                    if (creeperChance && Options.EnableHiddenRoles.GetBool())
+                                    {
+                                        role = CustomRoles.Creeper;
+                                    }
+                                    Main.chosenImpRoles.Add(role);
+                                }
                                 else
                                     Main.chosenImpRoles.Add(role);
                             }
@@ -952,7 +962,7 @@ namespace TownOfHost
 
                         if (pc.PlayerId == PlayerControl.LocalPlayer.PlayerId && Main.CachedDevMode)
                         {
-                            //Main.AllPlayerCustomRoles[pc.PlayerId] = CustomRoles.Bomber;
+                            Main.AllPlayerCustomRoles[pc.PlayerId] = CustomRoles.Creeper;
                         }
                     }
                     foreach (var pc in PlayerControl.AllPlayerControls)
@@ -1179,12 +1189,13 @@ namespace TownOfHost
                                 }
                                 break;*/
                             case CustomRoles.EvilGuesser:
+                                Guesser.AssassinAdd(pc.PlayerId);
+                                break;
                             case CustomRoles.NiceGuesser:
-                                Guesser.Add(pc.PlayerId);
+                                Guesser.VigilanteAdd(pc.PlayerId);
                                 break;
                             case CustomRoles.Pirate:
-                                Guesser.Add(pc.PlayerId);
-                                Guesser.PirateGuess.Add(pc.PlayerId, 0);
+                                Guesser.PirateAdd(pc.PlayerId);
                                 break;
                             case CustomRoles.Phantom:
                                 Main.lastAmountOfTasks.Add(pc.PlayerId, 0);

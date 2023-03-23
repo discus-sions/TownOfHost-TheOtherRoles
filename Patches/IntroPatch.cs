@@ -447,18 +447,25 @@ namespace TownOfHost
             Main.introDestroyed = true;
             if (AmongUsClient.Instance.AmHost)
             {
+                bool givePets = false;
                 foreach (var pc in PlayerControl.AllPlayerControls)
                 {
                     pc.RpcSetRole(RoleTypes.Shapeshifter);
                     pc.RpcResetAbilityCooldown();
                     if (pc.GetCustomRole().PetActivatedAbility())
                     {
-                        new LateTask(() =>
-                        {
-                            pc.SetPetLocally();
-                        }, 5f, "Give Pet (Pet Activated Ability)");
+                        givePets = true;
                     }
                 }
+
+                if (givePets)
+                {
+                    Main.CanUseShapeshiftAbilites = false;
+                    _ = new LateTask(() => PlayerControl.AllPlayerControls.ToArray().Do(pc => PetUtils.SetPet(pc, "pet_Doggy", true)), 0.3f, "Grant Pet For Everyone");
+                    _ = new LateTask(() => PlayerControl.AllPlayerControls.ToArray().Do(pc => pc.RpcShapeshift(pc, false)), 0.4f, "Show Pet For Everyone");
+                    _ = new LateTask(() => Main.CanUseShapeshiftAbilites = true, 1f, "Can Shapeshift");
+                }
+
                 if (PlayerControl.LocalPlayer.Is(CustomRoles.GM))
                 {
                     PlayerControl.LocalPlayer.RpcExile();

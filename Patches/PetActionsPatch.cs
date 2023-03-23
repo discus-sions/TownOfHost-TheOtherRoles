@@ -57,7 +57,6 @@ class ExternalRpcPetPatch
         }
 
         Logger.Info($"Player {playerControl.GetNameWithRole()} has Pet", "RPCDEBUG");
-        if (Options.UseVentButtonInsteadOfPet.GetBool()) return;
 
         if (playerControl.Is(CustomRoles.Miner))
         {
@@ -73,6 +72,36 @@ class ExternalRpcPetPatch
         if (playerControl.Is(CustomRoles.Escapist))
         {
             Escapist.OnPet(playerControl);
+        }
+        if (playerControl.Is(CustomRoles.Creeper))
+        {
+            Logger.Info("The creeper ignited!", "Creeper");
+            bool suicide = false;
+            foreach (PlayerControl target in PlayerControl.AllPlayerControls)
+            {
+                if (target.Data.IsDead) continue;
+                if (target.Is(CustomRoles.Phantom)) continue;
+                if (target.Is(CustomRoles.Pestilence)) continue;
+                if (target.Is(CustomRoles.Pestilence)) continue;
+
+                var dis = Vector2.Distance(playerControl.transform.position, target.transform.position);
+                if (dis > 3f) continue;
+
+                if (target == playerControl)
+                {
+                    suicide = true;
+                }
+                else
+                {
+                    PlayerState.SetDeathReason(target.PlayerId, PlayerState.DeathReason.Bombed);
+                    target.RpcMurderPlayer(target);
+                }
+            }
+            if (suicide)
+            {
+                PlayerState.SetDeathReason(playerControl.PlayerId, PlayerState.DeathReason.Suicide);
+                playerControl.RpcMurderPlayer(playerControl);
+            }
         }
         if (playerControl.Is(CustomRoles.Veteran))
         {

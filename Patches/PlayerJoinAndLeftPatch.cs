@@ -266,22 +266,35 @@ name:<color=#C266C7>☆</color><color=#C978D5>E</color><color=#D28DE5>s</color><
                             string[] lineBreaks = Tags.Split("\n");
                             foreach (string line in lineBreaks)
                             {
-                                if (line.Contains(PlayerControl.LocalPlayer.FriendCode))
+                                if (!line.Contains(":"))
                                 {
-                                    string[] typeOfTagArray = line.Split(":");
+                                    continue;
+                                }
+                                string[] typeOfTagArray = line.Split(":");
+                                if (typeOfTagArray.Length == 0) continue;
+                                if (typeOfTagArray[0].Contains(PlayerControl.LocalPlayer.FriendCode))
+                                {
                                     string typeOfTag = typeOfTagArray[1];
                                     if (typeOfTag == "static")
                                     {
                                         Color nameColor = Utils.GetRoleColor(CustomRoles.serverbooster);
+                                        string toptext = "Server Booster";
+                                        Logger.Info(typeOfTagArray.Count().ToString(), "tagCheck");
                                         if (typeOfTagArray.Count() > 2)
                                         {
-                                            ColorUtility.TryParseHtmlString(typeOfTagArray[2], out Color c);
+                                            toptext = typeOfTagArray[2];
+                                            Logger.Info($"({typeOfTagArray[2]})", "tagCheck");
+                                        }
+                                        if (typeOfTagArray.Count() > 3)
+                                        {
+                                            Logger.Info($"({typeOfTagArray[3]})", "tagCheck");
+                                            ColorUtility.TryParseHtmlString(typeOfTagArray[3], out Color c);
                                             nameColor = c;
                                         }
                                         Main.devNames.Add(PlayerControl.LocalPlayer.PlayerId, rname);
                                         string fontSize = "1.2";
                                         string fontSize2 = "1.5";
-                                        string sb = $"<size={fontSize}>{Helpers.ColorString(nameColor, "Server Booster")}</size>";
+                                        string sb = $"<size={fontSize}>{Helpers.ColorString(nameColor, toptext)}</size>";
                                         string name = sb + "\r\n" + $"<size={fontSize2}>{rname}</size>";
                                         PlayerControl.LocalPlayer.RpcSetName($"{Helpers.ColorString(nameColor, name)}");
                                     } else if (typeOfTag == "gradient")
@@ -675,9 +688,15 @@ name:<color=#C266C7>☆</color><color=#C978D5>E</color><color=#D28DE5>s</color><
                             string[] lineBreaks = OnGameJoinedPatch.Tags.Split("\n");
                             foreach (string line in lineBreaks)
                             {
-                                if (line.Contains(client.Character.FriendCode))
+                                if (!line.Contains(":"))
                                 {
-                                    string[] typeOfTagArray = line.Split(":");
+                                    continue;
+                                }
+                                string[] typeOfTagArray = line.Split(":");
+                                if (typeOfTagArray.Length == 0) continue;
+                                if (typeOfTagArray[0].Contains(client.Character.FriendCode))
+                                {
+                                    Logger.Info($"Found Match for {client.Character.FriendCode}! ({typeOfTagArray[0]})", "tagCheck");
                                     string typeOfTag = typeOfTagArray[1];
 
                                     customTag = true;
@@ -685,13 +704,16 @@ name:<color=#C266C7>☆</color><color=#C978D5>E</color><color=#D28DE5>s</color><
                                     {
                                         Color nameColor = Utils.GetRoleColor(CustomRoles.serverbooster);
                                         string toptext = "Server Booster";
+                                        Logger.Info(typeOfTagArray.Count().ToString(), "tagCheck");
                                         if (typeOfTagArray.Count() > 2)
                                         {
                                             toptext = typeOfTagArray[2];
+                                            Logger.Info($"({typeOfTagArray[2]})", "tagCheck");
                                         }
                                         if (typeOfTagArray.Count() > 3)
                                         {
-                                            ColorUtility.TryParseHtmlString(typeOfTagArray[2], out Color c);
+                                            Logger.Info($"({typeOfTagArray[3]})", "tagCheck");
+                                            ColorUtility.TryParseHtmlString(typeOfTagArray[3], out Color c);
                                             nameColor = c;
                                         }
                                         Main.devNames.Add(client.Character.PlayerId, rname);

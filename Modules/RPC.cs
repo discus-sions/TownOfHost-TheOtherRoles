@@ -149,14 +149,13 @@ namespace TownOfHost
                     }
                     break;
                 case CustomRPC.SyncCustomSettings:
+                    // :hehe: tyvm https://github.com/KARPED1EM/TownOfHostEdited/blob/TOHE/Modules/RPC.cs
                     List<CustomOption> list = CustomOption.Options;
                     var startAmount = reader.ReadInt32();
                     var lastAmount = reader.ReadInt32();
-                    for (var i = 0; i <= list.Count; i++)
-                    {
-                        if (i < startAmount || i > lastAmount)
-                            list.Remove(list[i]);
-                    }
+                    for (var i = startAmount; i < CustomOption.Options.Count && i <= lastAmount; i++)
+                        list.Add(CustomOption.Options[i]);
+                    Logger.Info($"{startAmount}-{lastAmount}:{list.Count}/{CustomOption.Options.Count}", "SyncCustomSettings (Reciever)");
                     foreach (var co in list)
                     {
                         co.Selection = reader.ReadInt32();
@@ -397,37 +396,36 @@ namespace TownOfHost
     static class RPC
     {
         //SyncCustomSettingsRPC Sender
+        // :hehe: tyvm https://github.com/KARPED1EM/TownOfHostEdited/blob/TOHE/Modules/RPC.cs --- they had made some modifications to my code.
         public static void SyncCustomSettingsRPC()
         {
             if (!AmongUsClient.Instance.AmHost || PlayerControl.AllPlayerControls.Count <= 1 || (AmongUsClient.Instance.AmHost == false && PlayerControl.LocalPlayer == null)) return;
             var amount = CustomOption.Options.Count;
-            int divideBy = amount / 5;
-            for (var i = 0; i <= 5; i++)
+            Logger.Info(CustomOption.Options.Count().ToString(), "Options");
+            int divideBy = amount / 11;
+            for (var i = 0; i <= 10; i++)
             {
                 SyncOptionsBetween(i * divideBy, (i + 1) * divideBy);
             }
         }
         public static void SyncCustomSettingsRPCforOneOption(CustomOption option)
         {
-            var placement = CustomOption.Options.IndexOf(option);
+            List<CustomOption> allOptions = new(CustomOption.Options);
+            var placement = allOptions.IndexOf(option);
             if (placement != -1)
-                SyncOptionsBetween(placement - 1, placement + 1);
+                SyncOptionsBetween(placement, placement);
         }
         static void SyncOptionsBetween(int startAmount, int lastAmount)
         {
             if (!AmongUsClient.Instance.AmHost || PlayerControl.AllPlayerControls.Count <= 1 || (AmongUsClient.Instance.AmHost == false && PlayerControl.LocalPlayer == null)) return;
             MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, 80, Hazel.SendOption.Reliable, -1);
+            List<CustomOption> list = new();
             writer.Write(startAmount);
             writer.Write(lastAmount);
-            List<CustomOption> list = new();
-            List<CustomOption> allOptions = CustomOption.Options;
-            for (var i = 0; i <= allOptions.Count; i++)
-            {
-                if (i < startAmount || i > lastAmount) break;
-                if (i > allOptions.Count) break;
-                list.Add(allOptions[i]);
-            }
 
+            for (var i = startAmount; i < CustomOption.Options.Count && i <= lastAmount; i++)
+                list.Add(CustomOption.Options[i]);
+            Logger.Info($"{startAmount}-{lastAmount}:{list.Count}/{CustomOption.Options.Count}", "SyncCustomSettings");
             foreach (var co in list)
             {
                 writer.Write(co.GetSelection());
@@ -442,6 +440,26 @@ namespace TownOfHost
             writer.Write(PlayerID);
             writer.Write((byte)sound);
             AmongUsClient.Instance.FinishRpcImmediately(writer);
+        }
+        public static void SendGameData(int clientId = -1)
+        {
+            MessageWriter writer = MessageWriter.Get(SendOption.Reliable);
+            writer.StartMessage((byte)(clientId == -1 ? 5 : 6)); //0x05 GameData
+            {
+                writer.Write(AmongUsClient.Instance.GameId);
+                if (clientId != -1)
+                    writer.WritePacked(clientId);
+                writer.StartMessage(1); //0x01 Data
+                {
+                    writer.WritePacked(GameData.Instance.NetId);
+                    GameData.Instance.Serialize(writer, true);
+                }
+                writer.EndMessage();
+            }
+            writer.EndMessage();
+
+            AmongUsClient.Instance.SendOrDisconnect(writer);
+            writer.Recycle();
         }
         // Main.rolesRevealedNextMeeting
         public static void RpcAddOracleTarget(byte playerid)

@@ -245,7 +245,6 @@ namespace TownOfHost
         //転落死
         public static CustomOption LadderDeath;
         public static CustomOption LadderDeathChance;
-        public static CustomOption GarunteePet;
         public static CustomOption AccurateWinner;
 
         // 通常モードでかくれんぼ
@@ -433,7 +432,6 @@ namespace TownOfHost
         // TOS EXTRA SHIT //
         public static CustomOption KillCooldownResets;
         // STOP ASKING FOR IT SMH
-        public static CustomOption UseVentButtonInsteadOfPet;
         public static CustomOption EnableHiddenRoles;
         public static CustomOption SpeedrunGamemode;
         public static readonly string[] suffixModes =
@@ -961,8 +959,6 @@ namespace TownOfHost
             // タスク無効化
             Customise = CustomOption.Create(101900, Color.white, "Customise", AmongUsExtensions.OptionType.GameOption, true, null, true)
                 .SetGameMode(CustomGameMode.All);
-            GarunteePet = CustomOption.Create(946204, Color.white, "GarunteePet", AmongUsExtensions.OptionType.GameOption, false, null, true)
-                .SetGameMode(CustomGameMode.All);
             CheckRoleTwiceBeforeAdd = CustomOption.Create(101901, Color.white, "CheckRoleTwiceBeforeAdd", AmongUsExtensions.OptionType.GameOption, false, null, true)
             .SetGameMode(CustomGameMode.All);
             RolesLikeToU = CustomOption.Create(102000, Color.white, "RolesLikeToU", AmongUsExtensions.OptionType.GameOption, false, null, true)
@@ -1027,9 +1023,6 @@ namespace TownOfHost
                 .SetGameMode(CustomGameMode.Standard);
             MaxNonNK = CustomOption.Create(1007015, Color.white, "MaxNonNK", AmongUsExtensions.OptionType.GameOption, 0, 0, 11, 1, null, false)
                 .SetGameMode(CustomGameMode.Standard);
-
-            UseVentButtonInsteadOfPet = CustomOption.Create(100608, Color.white, "UseVentButtonInsteadOfPet", AmongUsExtensions.OptionType.GameOption, false, null, true)
-                .SetGameMode(CustomGameMode.All);
 
             EnableHiddenRoles = CustomOption.Create(100610, Color.yellow, "EnableHiddenRoles", AmongUsExtensions.OptionType.GameOption, true, null, true)
                 .SetGameMode(CustomGameMode.Standard);

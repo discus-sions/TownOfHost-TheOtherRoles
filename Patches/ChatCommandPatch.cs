@@ -650,13 +650,16 @@ namespace TownOfHost
                 //roleName = roleName.Replace(" ", "-");
                 var roleShort = r.Value;
 
-                if (String.Compare(role, roleName, true) == 0 || String.Compare(role, roleShort, true) == 0 || role == "vampiress" || role == "escalation")
+                if (String.Compare(role, roleName, true) == 0 || String.Compare(role, roleShort, true) == 0 ||
+                    role == "vampiress" || role == "escalation" || role == "creeper")
                 {
                     roleName = r.Key.ToString();
                     if (role == "vampiress")
                         roleName = CustomRoles.Vampress.ToString();
                     if (role == "escalation")
                         roleName = CustomRoles.Escalation.ToString();
+                    if (role == "creeper")
+                        roleName = CustomRoles.Creeper.ToString();
                     Utils.SendMessage(GetString(roleName) + GetString($"{roleName}InfoLong"));
                     return;
                 }

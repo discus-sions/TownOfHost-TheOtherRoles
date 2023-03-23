@@ -29,7 +29,7 @@ namespace TownOfHost
         public static readonly string BANNEDFRIENDCODES_FILE_PATH = "./TOR_DATA/bannedfriendcodes.txt";
         public static readonly string DiscordInviteUrl = "https://discord.gg/tohtor";
         public static readonly bool ShowDiscordButton = true;
-        public const string PluginVersion = "0.9.3.9";
+        public const string PluginVersion = "0.9.3.11";
         public const string DevVersion = "1";
         public const string FullDevVersion = $" dev {DevVersion}";
         public Harmony Harmony { get; } = new Harmony(PluginGuid);
@@ -224,6 +224,7 @@ namespace TownOfHost
         public static bool IsProtected;
         public static bool IsRoundOneGA;
         public static bool MareHasRedName;
+        public static bool CanUseShapeshiftAbilites;
 
         // NEUTRALS //
         public static bool IsRampaged;
@@ -365,6 +366,7 @@ namespace TownOfHost
             unvotablePlayers = new();
             VisibleTasksCount = false;
             MercCanSuicide = true;
+            CanUseShapeshiftAbilites = true;
             devIsHost = false;
             ExeCanChangeRoles = true;
             MessagesToSend = new List<(string, byte)>();
@@ -1022,6 +1024,7 @@ namespace TownOfHost
         Manipulator,
         AgiTater,
         Bomber,
+        Creeper,
         // JK NOW //
         TimeThief,
         Silencer,

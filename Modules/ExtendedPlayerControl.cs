@@ -294,22 +294,6 @@ namespace TownOfHost
                 AmongUsClient.Instance.FinishRpcImmediately(writer);
             }
         }
-        public static void SetPetLocally(this PlayerControl pc)
-        {
-            //if (pc.GetPet().enabled) return;
-            if (pc.CurrentOutfit.PetId != "") return;
-            if (Options.GarunteePet.GetBool())
-            {
-                pc.RpcSetPet("pet_clank");
-            }
-            else
-            {
-                int clientId = pc.GetClientId();
-                MessageWriter writer2 = AmongUsClient.Instance.StartRpcImmediately(pc.NetId, (byte)RpcCalls.SetPetStr, SendOption.Reliable, clientId);
-                writer2.Write("pet_clank");
-                AmongUsClient.Instance.FinishRpcImmediately(writer2);
-            }
-        }
         public static byte GetRoleCount(this Dictionary<CustomRoles, byte> dic, CustomRoles role)
         {
             if (!dic.ContainsKey(role))
@@ -320,7 +304,7 @@ namespace TownOfHost
             return dic[role];
         }
 
-        public static void SendDM(this PlayerControl target, string text)
+        public static void SendDm(this PlayerControl target, string text)
         {
             Utils.SendMessage(text, target.PlayerId);
         }
