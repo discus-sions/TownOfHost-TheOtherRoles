@@ -15,7 +15,7 @@ namespace TownOfHost
 {
     public static class CustomTags
     {
-        private static readonly string TEMPLATE_FILE_PATH = "./TOR_DATA/";
+        private static readonly string TEMPLATE_FILE_PATH = "./TOR_DATA/tag";
         public static List<string> ReturnTagInfo(string friendCode)
         {
             List<string> returned = new();
