@@ -669,7 +669,7 @@ namespace TownOfHost
             SetupRoleOptions(20600, CustomRoles.SpeedBooster, AmongUsExtensions.OptionType.Crewmate);
             SpeedBoosterUpSpeed = CustomOption.Create(20610, Color.white, "SpeedBoosterUpSpeed", AmongUsExtensions.OptionType.Crewmate, 2f, 0.25f, 3f, 0.25f, CustomRoleSpawnChances[CustomRoles.SpeedBooster]);
             SetupRoleOptions(20700, CustomRoles.Doctor, AmongUsExtensions.OptionType.Crewmate);
-            DoctorTaskCompletedBatteryCharge = CustomOption.Create(20710, Color.white, "DoctorTaskCompletedBatteryCharge", AmongUsExtensions.OptionType.Crewmate, 5, 0, 10, 1, CustomRoleSpawnChances[CustomRoles.Doctor]);
+            DoctorTaskCompletedBatteryCharge = CustomOption.Create(20710, Color.white, "DoctorTaskCompletedBatteryCharge", AmongUsExtensions.OptionType.Crewmate, 5, 0, 20, 1, CustomRoleSpawnChances[CustomRoles.Doctor]);
             SetupRoleOptions(20800, CustomRoles.Trapper, AmongUsExtensions.OptionType.Crewmate);
             TrapperBlockMoveTime = CustomOption.Create(20810, Color.white, "TrapperBlockMoveTime", AmongUsExtensions.OptionType.Crewmate, 5f, 1f, 60, 1, CustomRoleSpawnChances[CustomRoles.Trapper]);
             SetupRoleOptions(20900, CustomRoles.Dictator, AmongUsExtensions.OptionType.Crewmate);
