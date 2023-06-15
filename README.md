@@ -1,5 +1,7 @@
 # Town Of Host: The Other Roles
 
+To all people reading, this mod has been remade into Project Lotus. With less than 10% of the original code remaining this project area is no longer in use.
+
 ## Regarding this mod
 
 This mod is not affiliated with Among Us or Innersloth LLC, Town Of Host, and the content contained therein is not endorsed or otherwise sponsored by Innersloth LLC. Portions of the materials contained herein are property of Innersloth LLC. © Innersloth LLC.
